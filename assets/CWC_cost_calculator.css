@@ -4,6 +4,7 @@
 
 /* === Section Wrapper === */
 .cwc_cost-calculator {
+  font-size: 16px; /* section anchor — all type below is em relative to this */
   background-color: var(--section-bg);
   color: var(--text-color);
   padding-top: var(--padding-top);
@@ -14,7 +15,7 @@
 .cwc_cost-calculator__container {
   max-width: 900px;
   margin: 0 auto;
-  padding: 0 2rem;
+  padding: 0 32px;
 }
 
 /* === Section Header === */
@@ -24,7 +25,7 @@
 }
 
 .cwc_cost-calculator__eyebrow {
-  font-size: 0.78rem;
+  font-size: 0.78em; /* 12.48px */
   font-weight: 700;
   letter-spacing: 2px;
   text-transform: uppercase;
@@ -38,7 +39,7 @@
 .cwc_cost-calculator__content-heading p {
   font-family: 'Georgia', 'Times New Roman', serif;
   font-weight: 400;
-  font-size: 1.94rem;
+  font-size: 1.94em; /* 31.04px */
   line-height: 1.2;
   margin: 0;
   color: inherit;
@@ -55,7 +56,7 @@
 }
 
 .cwc_cost-calculator__content-subtext p {
-  font-size: 0.97rem;
+  font-size: 0.97em; /* 15.52px */
   line-height: 1.5;
   margin: 0;
   color: var(--muted-color);
@@ -67,7 +68,7 @@
   background: #fffbe6;
   border: 1px dashed #e6c34a;
   border-radius: 5px;
-  font-size: 0.72rem;
+  font-size: 0.72em; /* 11.52px */
   color: #7a5c00;
   font-weight: 700;
   padding: 3px 9px;
@@ -98,12 +99,12 @@
 }
 
 .cwc_cost-calculator__box-title {
-  font-size: 1.03rem;
+  font-size: 1.03em; /* 16.48px */
   font-weight: 800;
 }
 
 .cwc_cost-calculator__box-subtitle {
-  font-size: 0.84rem;
+  font-size: 0.84em; /* 13.44px */
   color: var(--muted-color);
   margin-top: 2px;
 }
@@ -114,21 +115,22 @@
   align-items: center;
   padding: 12px 22px;
   border-bottom: 1px solid var(--border-color);
-  font-size: 0.9375rem;
 }
 
 .cwc_cost-calculator__line-name {
+  font-size: 0.9375em; /* 15px */
   color: var(--text-color);
 }
 
 .cwc_cost-calculator__line-note {
   display: block;
-  font-size: 0.81rem;
+  font-size: 0.864em; /* 12.96px, relative to 15px line-name */
   color: #9a9989;
   margin-top: 1px;
 }
 
 .cwc_cost-calculator__line-price {
+  font-size: 0.9375em; /* 15px */
   font-weight: 700;
   color: var(--muted-color);
   white-space: nowrap;
@@ -141,12 +143,12 @@
   align-items: center;
   padding: 16px 22px;
   background: var(--total-bg);
-  font-size: 1.03rem;
+  font-size: 1.03em; /* 16.48px — feeds the unclassed label span */
   font-weight: 800;
 }
 
 .cwc_cost-calculator__total-value {
-  font-size: 1.28rem;
+  font-size: 1.2427em; /* 20.48px, relative to 16.48px total row */
 }
 
 /* === Win Card === */
@@ -160,7 +162,7 @@
 }
 
 .cwc_cost-calculator__win-eyebrow {
-  font-size: 0.78rem;
+  font-size: 0.78em; /* 12.48px */
   font-weight: 800;
   letter-spacing: 1.5px;
   text-transform: uppercase;
@@ -170,7 +172,7 @@
 
 .cwc_cost-calculator__win-title p {
   font-family: 'Georgia', 'Times New Roman', serif;
-  font-size: 1.53rem;
+  font-size: 1.53em; /* 24.48px */
   line-height: 1.2;
   margin: 0 0 14px;
   color: #ffffff;
@@ -184,19 +186,19 @@
 }
 
 .cwc_cost-calculator__win-price-value {
-  font-size: 2.5rem;
+  font-size: 2.5em; /* 40px */
   font-weight: 900;
   color: var(--win-accent);
   line-height: 1;
 }
 
 .cwc_cost-calculator__win-price-unit {
-  font-size: 0.97rem;
+  font-size: 0.97em; /* 15.52px */
   color: var(--win-muted);
 }
 
 .cwc_cost-calculator__win-sub {
-  font-size: 0.875rem;
+  font-size: 0.875em; /* 14px */
   color: var(--win-muted);
   margin-bottom: 18px;
 }
@@ -209,14 +211,14 @@
 }
 
 .cwc_cost-calculator__win-save-value {
-  font-size: 1.72rem;
+  font-size: 1.72em; /* 27.52px */
   font-weight: 900;
   color: #ffffff;
   line-height: 1;
 }
 
 .cwc_cost-calculator__win-save-label {
-  font-size: 0.84rem;
+  font-size: 0.84em; /* 13.44px */
   color: var(--win-muted);
   margin-top: 4px;
 }
@@ -228,7 +230,7 @@
   color: var(--button-text);
   border-radius: 11px;
   padding: 15px;
-  font-size: 1rem;
+  font-size: 1em; /* 16px */
   font-weight: 800;
   text-align: center;
   text-decoration: none;
@@ -240,7 +242,7 @@
 
 /* === Footnote === */
 .cwc_cost-calculator__footnote {
-  font-size: 0.78rem;
+  font-size: 0.78em; /* 12.48px */
   color: #8b8a7a;
   line-height: 1.6;
   margin-top: 14px;
@@ -252,7 +254,7 @@
    ============================== */
 @media screen and (max-width: 991px) {
   .cwc_cost-calculator__container {
-    padding: 0 1.25rem;
+    padding: 0 20px;
   }
 
   .cwc_cost-calculator__grid {
@@ -269,29 +271,19 @@
    Mobile Responsive
    ============================== */
 @media screen and (max-width: 768px) {
+  /* rescale the whole section from one anchor */
   .cwc_cost-calculator {
+    font-size: 14px;
     padding-top: var(--padding-top-mobile);
     padding-bottom: var(--padding-bottom-mobile);
   }
 
   .cwc_cost-calculator__container {
-    padding: 0 1rem;
-  }
-
-  .cwc_cost-calculator__content-heading h1,
-  .cwc_cost-calculator__content-heading h2,
-  .cwc_cost-calculator__content-heading h3,
-  .cwc_cost-calculator__content-heading p {
-    font-size: 1.44rem;
-  }
-
-  .cwc_cost-calculator__content-subtext p {
-    font-size: 0.9375rem;
+    padding: 0 16px;
   }
 
   .cwc_cost-calculator__line {
     padding: 11px 16px;
-    font-size: 0.84rem;
     flex-wrap: wrap;
   }
 
@@ -309,21 +301,5 @@
 
   .cwc_cost-calculator__win {
     padding: 22px;
-  }
-
-  .cwc_cost-calculator__win-price-value {
-    font-size: 2.125rem;
-  }
-}
-
-/* ==============================
-   Small Mobile
-   ============================== */
-@media screen and (max-width: 480px) {
-  .cwc_cost-calculator__content-heading h1,
-  .cwc_cost-calculator__content-heading h2,
-  .cwc_cost-calculator__content-heading h3,
-  .cwc_cost-calculator__content-heading p {
-    font-size: 1.31rem;
   }
 }

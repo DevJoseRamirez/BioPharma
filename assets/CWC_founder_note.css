@@ -4,6 +4,7 @@
 
 /* === Section Wrapper === */
 .cwc_founder-note {
+  font-size: 16px; /* section anchor — all type below is em relative to this */
   background-color: var(--section-bg);
   color: var(--text-color);
   padding-top: var(--padding-top);
@@ -14,7 +15,7 @@
 .cwc_founder-note__container {
   max-width: 900px;
   margin: 0 auto;
-  padding: 0 2rem;
+  padding: 0 32px;
 }
 
 /* === Placeholder Note === */
@@ -23,7 +24,7 @@
   background: #fffbe6;
   border: 1px dashed #e6c34a;
   border-radius: 5px;
-  font-size: 0.72rem;
+  font-size: 0.72em; /* 11.52px */
   color: #7a5c00;
   font-weight: 700;
   padding: 3px 9px;
@@ -60,20 +61,20 @@
 }
 
 .cwc_founder-note__photo-label {
-  font-size: 0.78rem;
+  font-size: 0.78em; /* 12.48px */
   font-weight: 700;
   color: #a9a897;
   letter-spacing: 0.5px;
 }
 
 .cwc_founder-note__photo-caption {
-  font-size: 0.75rem;
+  font-size: 0.75em; /* 12px */
   color: #b8b7a8;
 }
 
 /* === Body === */
 .cwc_founder-note__eyebrow {
-  font-size: 0.78rem;
+  font-size: 0.78em; /* 12.48px */
   font-weight: 700;
   letter-spacing: 2px;
   text-transform: uppercase;
@@ -91,7 +92,7 @@
 .cwc_founder-note__content-heading p {
   font-family: 'Georgia', 'Times New Roman', serif;
   font-weight: 400;
-  font-size: 1.94rem;
+  font-size: 1.94em; /* 31.04px */
   line-height: 1.2;
   margin: 0;
   color: inherit;
@@ -103,7 +104,7 @@
 }
 
 .cwc_founder-note__note p {
-  font-size: 1.03rem;
+  font-size: 1.03em; /* 16.48px */
   line-height: 1.75;
   color: var(--text-color);
   margin: 0 0 14px;
@@ -122,12 +123,12 @@
 
 .cwc_founder-note__signature-name {
   font-family: 'Georgia', 'Times New Roman', serif;
-  font-size: 1.4rem;
+  font-size: 1.4em; /* 22.4px */
   color: var(--text-color);
 }
 
 .cwc_founder-note__signature-role {
-  font-size: 0.875rem;
+  font-size: 0.875em; /* 14px */
   color: var(--muted-color);
   margin-top: 3px;
 }
@@ -137,7 +138,7 @@
    ============================== */
 @media screen and (max-width: 991px) {
   .cwc_founder-note__container {
-    padding: 0 1.25rem;
+    padding: 0 20px;
   }
 
   .cwc_founder-note__wrapper {
@@ -154,35 +155,14 @@
    Mobile Responsive
    ============================== */
 @media screen and (max-width: 768px) {
+  /* rescale the whole section from one anchor */
   .cwc_founder-note {
+    font-size: 14px;
     padding-top: var(--padding-top-mobile);
     padding-bottom: var(--padding-bottom-mobile);
   }
 
   .cwc_founder-note__container {
-    padding: 0 1rem;
-  }
-
-  .cwc_founder-note__content-heading h1,
-  .cwc_founder-note__content-heading h2,
-  .cwc_founder-note__content-heading h3,
-  .cwc_founder-note__content-heading p {
-    font-size: 1.44rem;
-  }
-
-  .cwc_founder-note__note p {
-    font-size: 0.9375rem;
-  }
-}
-
-/* ==============================
-   Small Mobile
-   ============================== */
-@media screen and (max-width: 480px) {
-  .cwc_founder-note__content-heading h1,
-  .cwc_founder-note__content-heading h2,
-  .cwc_founder-note__content-heading h3,
-  .cwc_founder-note__content-heading p {
-    font-size: 1.31rem;
+    padding: 0 16px;
   }
 }

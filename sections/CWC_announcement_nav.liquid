@@ -1,18 +1,24 @@
 {% style %}
-  #cwc_announcement-nav-{{ section.id }} {
-    --section-bg: {{ section.settings.bg_color | default: '#ffffff' }};
-    --text-color: {{ section.settings.text_color | default: '#5C5842' }};
-    --highlight-color: {{ section.settings.bold_color | default: '#5BA90F' }};
-    --announce-bg: {{ section.settings.announce_bg_color | default: '#44681A' }};
-    --announce-text: {{ section.settings.announce_text_color | default: '#ffffff' }};
-    --announce-highlight: {{ section.settings.announce_bold_color | default: '#A3C781' }};
-    --logo-color: {{ section.settings.logo_color | default: '#2A2611' }};
-    --border-color: {{ section.settings.border_color | default: '#E6E5DC' }};
-    --padding-top: {{ section.settings.padding_top | default: 15 }}px;
-    --padding-bottom: {{ section.settings.padding_bottom | default: 15 }}px;
-    --padding-top-mobile: {{ section.settings.padding_top | default: 15 | times: 0.5 }}px;
-    --padding-bottom-mobile: {{ section.settings.padding_bottom | default: 15 | times: 0.5 }}px;
-  }
+    #cwc_announcement-nav-{{ section.id }} {
+      --section-bg: {{ section.settings.bg_color | default: '#ffffff' }};
+      --text-color: {{ section.settings.text_color | default: '#5C5842' }};
+      --highlight-color: {{ section.settings.bold_color | default: '#5BA90F' }};
+      --announce-bg: {{ section.settings.announce_bg_color | default: '#44681A' }};
+      --announce-text: {{ section.settings.announce_text_color | default: '#ffffff' }};
+      --announce-highlight: {{ section.settings.announce_bold_color | default: '#A3C781' }};
+      --logo-color: {{ section.settings.logo_color | default: '#2A2611' }};
+      --border-color: {{ section.settings.border_color | default: '#E6E5DC' }};
+      --padding-top: {{ section.settings.padding_top | default: 15 }}px;
+      --padding-bottom: {{ section.settings.padding_bottom | default: 15 }}px;
+      --padding-top-mobile: {{ section.settings.padding_top | default: 15 | times: 0.5 }}px;
+      --padding-bottom-mobile: {{ section.settings.padding_bottom | default: 15 | times: 0.5 }}px;
+    }
+
+  .announcement-bar-section,
+  footer,
+    sticky-header {
+      display: none !important;
+    }
 {% endstyle %}
 
 {{ 'CWC_announcement_nav.css' | asset_url | stylesheet_tag }}
@@ -31,7 +37,6 @@
 
   <div class="cwc_announcement-nav__bar">
     <div class="cwc_announcement-nav__container">
-
       {% comment %} Wordmark {% endcomment %}
       <a href="{{ routes.root_url }}" class="cwc_announcement-nav__logo">
         {% if section.settings.logo != blank %}
@@ -114,7 +119,6 @@
           <span></span><span></span><span></span>
         </button>
       </div>
-
     </div>
   </div>
 </section>
@@ -300,13 +304,7 @@
     {
       "name": "Announcement + Nav",
       "category": "CWC Custom",
-      "blocks": [
-        { "type": "link" },
-        { "type": "link" },
-        { "type": "link" },
-        { "type": "link" },
-        { "type": "link" }
-      ]
+      "blocks": [{ "type": "link" }, { "type": "link" }, { "type": "link" }, { "type": "link" }, { "type": "link" }]
     }
   ]
 }

@@ -13,8 +13,9 @@
 {{ 'CWC_sticky_add_to_cart.css' | asset_url | stylesheet_tag }}
 
 {%- liquid
-  assign current_variant = product.selected_or_first_available_variant
-  assign sticky_image = section.settings.image | default: product.featured_image
+  assign sticky_product = section.settings.product | default: product
+  assign current_variant = sticky_product.selected_or_first_available_variant
+  assign sticky_image = section.settings.image | default: sticky_product.featured_image
 -%}
 
 <section
@@ -28,7 +29,7 @@
       {% if sticky_image != blank %}
         <img
           src="{{ sticky_image | image_url: width: 120 }}"
-          alt="{{ product.title | escape }}"
+          alt="{{ sticky_product.title | escape }}"
           width="46"
           height="46"
           loading="lazy"
@@ -38,7 +39,7 @@
 
     <div class="cwc_sticky-add-to-cart__info">
       <div class="cwc_sticky-add-to-cart__name">
-        {{ section.settings.name_override | default: product.title }}
+        {{ section.settings.name_override | default: sticky_product.title | default: 'Product name' }}
       </div>
       {% if section.settings.subline != blank %}
         <div class="cwc_sticky-add-to-cart__subline">{{ section.settings.subline }}</div>
@@ -55,18 +56,20 @@
       <span class="cwc_sticky-add-to-cart__plan-chevron" aria-hidden="true">&#8964;</span>
     </button>
 
-    {% form 'product', product, class: 'cwc_sticky-add-to-cart__form', novalidate: 'novalidate' %}
-      <input type="hidden" name="id" value="{{ current_variant.id }}" data-cwc-variant-input>
-      <input type="hidden" name="quantity" value="1" data-cwc-quantity-input>
-      <input type="hidden" name="selling_plan" value="" data-cwc-plan-input>
+    {%- comment -%}
+      Button markup is captured once, then rendered inside the real product form
+      when a product is set, or a plain div (non-functional preview) when not.
+      A Liquid {% form %} block cannot be split across {% if %} branches.
+    {%- endcomment -%}
+    {%- capture sticky_button -%}
       <button
         type="submit"
         name="add"
         class="cwc_sticky-add-to-cart__button"
-        {% unless current_variant.available %}disabled{% endunless %}
+        {% if sticky_product != blank and current_variant.available == false %}disabled{% endif %}
       >
         <span data-cwc-button-text>
-          {% if current_variant.available %}
+          {% if sticky_product == blank or current_variant.available %}
             {{ section.settings.button_text | default: 'Add to cart' }}
             {%- if section.settings.show_price_in_button -%}
               &nbsp;&mdash; <span data-cwc-button-price>{{ current_variant.price | money }}</span>
@@ -76,7 +79,20 @@
           {% endif %}
         </span>
       </button>
-    {% endform %}
+    {%- endcapture -%}
+
+    {% if sticky_product != blank %}
+      {% form 'product', sticky_product, class: 'cwc_sticky-add-to-cart__form', novalidate: 'novalidate' %}
+        <input type="hidden" name="id" value="{{ current_variant.id }}" data-cwc-variant-input>
+        <input type="hidden" name="quantity" value="1" data-cwc-quantity-input>
+        <input type="hidden" name="selling_plan" value="" data-cwc-plan-input>
+        {{ sticky_button }}
+      {% endform %}
+    {% else %}
+      <div class="cwc_sticky-add-to-cart__form">
+        {{ sticky_button }}
+      </div>
+    {% endif %}
 
   </div>
 </section>
@@ -90,6 +106,12 @@
     {
       "type": "header",
       "content": "Product Info"
+    },
+    {
+      "type": "product",
+      "id": "product",
+      "label": "Product",
+      "info": "The product this bar adds to cart. If left empty, falls back to the template's current product."
     },
     {
       "type": "image_picker",
@@ -155,7 +177,8 @@
     {
       "type": "range",
       "id": "reveal_after",
-      "label": "Reveal After Scroll",
+      "label": "Reveal After Scroll (fallback)",
+      "info": "Only used when the hero buy box isn't on the page. Normally the bar shows once the hero's Add to cart button scrolls out of view.",
       "min": 0,
       "max": 2000,
       "step": 100,

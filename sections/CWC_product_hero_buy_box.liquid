@@ -27,13 +27,14 @@
 {{ 'CWC_product_hero_buy_box.css' | asset_url | stylesheet_tag }}
 
 {%- liquid
-  assign current_variant = product.selected_or_first_available_variant
+  assign hero_product = section.settings.product | default: product
+  assign current_variant = hero_product.selected_or_first_available_variant
   assign gallery_limit = 6
 -%}
 
 {%- capture variant_payload -%}
   [
-  {%- for variant in product.variants -%}
+  {%- for variant in hero_product.variants -%}
     {
       "id": {{ variant.id }},
       "available": {{ variant.available }},
@@ -70,10 +71,10 @@
             <span class="cwc_product-hero-buy-box__gallery-badge">{{ section.settings.badge_text }}</span>
           {% endif %}
 
-          {% if current_variant.image != blank or product.featured_image != blank %}
+          {% if current_variant.image != blank or hero_product.featured_image != blank %}
             <img
-              src="{{ current_variant.image | default: product.featured_image | image_url: width: 900 }}"
-              alt="{{ product.title | escape }}"
+              src="{{ current_variant.image | default: hero_product.featured_image | image_url: width: 900 }}"
+              alt="{{ hero_product.title | escape }}"
               width="900"
               height="900"
               loading="eager"
@@ -86,18 +87,18 @@
           {% endif %}
         </div>
 
-        {% if section.settings.show_thumbnails and product.media.size > 1 %}
+        {% if section.settings.show_thumbnails and hero_product.media.size > 1 %}
           <div class="cwc_product-hero-buy-box__thumbs">
-            {% for media in product.media limit: gallery_limit %}
+            {% for media in hero_product.media limit: gallery_limit %}
               <button
                 type="button"
                 class="cwc_product-hero-buy-box__thumb{% if forloop.first %} cwc_product-hero-buy-box__thumb--active{% endif %}"
                 data-cwc-thumb="{{ media | image_url: width: 900 }}"
-                aria-label="{{ media.alt | default: product.title | escape }}"
+                aria-label="{{ media.alt | default: hero_product.title | escape }}"
               >
                 <img
                   src="{{ media | image_url: width: 180 }}"
-                  alt="{{ media.alt | default: product.title | escape }}"
+                  alt="{{ media.alt | default: hero_product.title | escape }}"
                   width="180"
                   height="180"
                   loading="lazy"
@@ -139,7 +140,7 @@
           </div>
         {% else %}
           <div class="cwc_product-hero-buy-box__content-heading">
-            <p>{{ product.title }}</p>
+            <p>{{ hero_product.title | default: 'Product title' }}</p>
           </div>
         {% endif %}
 
@@ -170,12 +171,12 @@
         {% endif %}
 
         {% comment %} Flavour / variant swatches {% endcomment %}
-        {% if section.settings.show_flavors and product.variants.size > 1 %}
+        {% if section.settings.show_flavors and hero_product.variants.size > 1 %}
           {% if section.settings.flavor_label != blank %}
             <div class="cwc_product-hero-buy-box__label">{{ section.settings.flavor_label }}</div>
           {% endif %}
           <div class="cwc_product-hero-buy-box__flavors">
-            {% for variant in product.variants %}
+            {% for variant in hero_product.variants %}
               <button
                 type="button"
                 class="cwc_product-hero-buy-box__flavor{% if variant.id == current_variant.id %} cwc_product-hero-buy-box__flavor--selected{% endif %}{% unless variant.available %} cwc_product-hero-buy-box__flavor--unavailable{% endunless %}"
@@ -204,11 +205,12 @@
         {% comment %} Supply options + add to cart {% endcomment %}
         {% assign supply_blocks = section.blocks | where: 'type', 'supply' %}
 
-        {% form 'product', product, class: 'cwc_product-hero-buy-box__form', novalidate: 'novalidate' %}
-          <input type="hidden" name="id" value="{{ current_variant.id }}" data-cwc-variant-input>
-          <input type="hidden" name="quantity" value="1" data-cwc-quantity-input>
-          <input type="hidden" name="selling_plan" value="" data-cwc-plan-input>
-
+        {%- comment -%}
+          Buy-flow markup is captured once, then rendered inside the real product
+          form when a product is set, or a plain div (non-functional preview) when not.
+          A Liquid {% form %} block cannot be split across {% if %} branches.
+        {%- endcomment -%}
+        {%- capture buy_flow -%}
           {% if supply_blocks.size > 0 %}
             {% if section.settings.supply_label != blank %}
               <div class="cwc_product-hero-buy-box__label">{{ section.settings.supply_label }}</div>
@@ -298,15 +300,28 @@
             type="submit"
             name="add"
             class="cwc_product-hero-buy-box__cta"
-            {% unless current_variant.available %}disabled{% endunless %}
+            {% if hero_product != blank and current_variant.available == false %}disabled{% endif %}
           >
-            {% if current_variant.available %}
+            {% if hero_product == blank or current_variant.available %}
               {{ section.settings.cta_text | default: 'Add to cart' }} &nbsp;&rarr;
             {% else %}
               {{ section.settings.sold_out_text | default: 'Sold out' }}
             {% endif %}
           </button>
-        {% endform %}
+        {%- endcapture -%}
+
+        {% if hero_product != blank %}
+          {% form 'product', hero_product, class: 'cwc_product-hero-buy-box__form', novalidate: 'novalidate' %}
+            <input type="hidden" name="id" value="{{ current_variant.id }}" data-cwc-variant-input>
+            <input type="hidden" name="quantity" value="1" data-cwc-quantity-input>
+            <input type="hidden" name="selling_plan" value="" data-cwc-plan-input>
+            {{ buy_flow }}
+          {% endform %}
+        {% else %}
+          <div class="cwc_product-hero-buy-box__form">
+            {{ buy_flow }}
+          </div>
+        {% endif %}
 
         {% if section.settings.micro_text != blank %}
           <div class="cwc_product-hero-buy-box__micro">{{ section.settings.micro_text }}</div>
@@ -461,6 +476,16 @@
 {
   "name": "CWC Hero Buy Box",
   "settings": [
+    {
+      "type": "header",
+      "content": "Product"
+    },
+    {
+      "type": "product",
+      "id": "product",
+      "label": "Product",
+      "info": "The product this buy box sells. Drives the gallery, flavors, prices, and add-to-cart. If left empty, falls back to the template's current product."
+    },
     {
       "type": "header",
       "content": "Section Header"

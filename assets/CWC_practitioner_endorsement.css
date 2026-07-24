@@ -4,6 +4,7 @@
 
 /* === Section Wrapper === */
 .cwc_practitioner-endorsement {
+  font-size: 16px; /* section anchor — all type below is em relative to this */
   background-color: var(--section-bg);
   color: var(--text-color);
   padding-top: var(--padding-top);
@@ -14,7 +15,7 @@
 .cwc_practitioner-endorsement__container {
   max-width: 900px;
   margin: 0 auto;
-  padding: 0 2rem;
+  padding: 0 32px;
 }
 
 /* === Section Header === */
@@ -24,7 +25,7 @@
 }
 
 .cwc_practitioner-endorsement__eyebrow {
-  font-size: 0.78rem;
+  font-size: 0.78em; /* 12.48px */
   font-weight: 700;
   letter-spacing: 2px;
   text-transform: uppercase;
@@ -38,7 +39,7 @@
 .cwc_practitioner-endorsement__content-heading p {
   font-family: 'Georgia', 'Times New Roman', serif;
   font-weight: 400;
-  font-size: 1.94rem;
+  font-size: 1.94em; /* 31.04px */
   line-height: 1.2;
   margin: 0;
   color: inherit;
@@ -55,7 +56,7 @@
 }
 
 .cwc_practitioner-endorsement__content-subtext p {
-  font-size: 0.97rem;
+  font-size: 0.97em; /* 15.52px */
   line-height: 1.5;
   margin: 0;
   color: var(--muted-color);
@@ -67,7 +68,7 @@
   background: #fffbe6;
   border: 1px dashed #e6c34a;
   border-radius: 5px;
-  font-size: 0.72rem;
+  font-size: 0.72em; /* 11.52px */
   color: #7a5c00;
   font-weight: 700;
   padding: 3px 9px;
@@ -91,7 +92,7 @@
 }
 
 .cwc_practitioner-endorsement__quote p {
-  font-size: 0.9375rem;
+  font-size: 0.9375em; /* 15px */
   line-height: 1.6;
   color: var(--text-color);
   font-style: italic;
@@ -114,7 +115,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.66rem;
+  font-size: 0.66em; /* 10.56px */
   font-weight: 800;
   color: var(--accent-color);
   overflow: hidden;
@@ -127,12 +128,12 @@
 }
 
 .cwc_practitioner-endorsement__name {
-  font-size: 0.9rem;
+  font-size: 0.9em; /* 14.4px */
   font-weight: 800;
 }
 
 .cwc_practitioner-endorsement__role {
-  font-size: 0.81rem;
+  font-size: 0.81em; /* 12.96px */
   color: var(--muted-color);
   line-height: 1.35;
 }
@@ -154,13 +155,13 @@
 }
 
 .cwc_practitioner-endorsement__stat-value {
-  font-size: 1.66rem;
+  font-size: 1.66em; /* 26.56px */
   font-weight: 900;
   color: var(--accent-color);
 }
 
 .cwc_practitioner-endorsement__stat-label {
-  font-size: 0.81rem;
+  font-size: 0.81em; /* 12.96px */
   color: var(--muted-color);
   margin-top: 4px;
   line-height: 1.4;
@@ -171,7 +172,7 @@
    ============================== */
 @media screen and (max-width: 991px) {
   .cwc_practitioner-endorsement__container {
-    padding: 0 1.25rem;
+    padding: 0 20px;
   }
 
   .cwc_practitioner-endorsement__grid {
@@ -183,24 +184,15 @@
    Mobile Responsive
    ============================== */
 @media screen and (max-width: 768px) {
+  /* rescale the whole section from one anchor */
   .cwc_practitioner-endorsement {
+    font-size: 14px;
     padding-top: var(--padding-top-mobile);
     padding-bottom: var(--padding-bottom-mobile);
   }
 
   .cwc_practitioner-endorsement__container {
-    padding: 0 1rem;
-  }
-
-  .cwc_practitioner-endorsement__content-heading h1,
-  .cwc_practitioner-endorsement__content-heading h2,
-  .cwc_practitioner-endorsement__content-heading h3,
-  .cwc_practitioner-endorsement__content-heading p {
-    font-size: 1.44rem;
-  }
-
-  .cwc_practitioner-endorsement__content-subtext p {
-    font-size: 0.9375rem;
+    padding: 0 16px;
   }
 
   .cwc_practitioner-endorsement__bar {
@@ -218,13 +210,6 @@
    Small Mobile
    ============================== */
 @media screen and (max-width: 480px) {
-  .cwc_practitioner-endorsement__content-heading h1,
-  .cwc_practitioner-endorsement__content-heading h2,
-  .cwc_practitioner-endorsement__content-heading h3,
-  .cwc_practitioner-endorsement__content-heading p {
-    font-size: 1.31rem;
-  }
-
   .cwc_practitioner-endorsement__stat {
     flex: 1 1 100%;
   }

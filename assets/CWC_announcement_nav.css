@@ -4,9 +4,12 @@
 
 /* === Section Wrapper === */
 .cwc_announcement-nav {
+  font-size: 16px;
+  /* section anchor — all type below is em relative to this */
   background-color: var(--section-bg);
   color: var(--text-color);
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+
 }
 
 .cwc_announcement-nav--sticky {
@@ -18,11 +21,11 @@
 .cwc_announcement-nav__container {
   max-width: 1300px;
   margin: 0 auto;
-  padding: 0 2rem;
+  padding: 0 32px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 1.5rem;
+  gap: 24px;
 }
 
 /* === Announcement Strip === */
@@ -30,11 +33,14 @@
   background-color: var(--announce-bg);
   color: var(--announce-text);
   text-align: center;
-  padding: 0.625rem 1rem;
+  padding: 10px 16px;
+  /* testing */
+  background: linear-gradient(90deg, #44681A 0%, #87CE34 100%);
 }
 
 .cwc_announcement-nav__announce-inner p {
-  font-size: 0.875rem;
+  font-size: 0.875em;
+  /* 14px */
   letter-spacing: 0.2px;
   line-height: 1.4;
   margin: 0;
@@ -75,7 +81,8 @@
 }
 
 .cwc_announcement-nav__logo-text {
-  font-size: 1.4rem;
+  font-size: 1.4em;
+  /* 22.4px */
   font-weight: 800;
   letter-spacing: -0.3px;
   color: var(--logo-color);
@@ -94,11 +101,12 @@
 .cwc_announcement-nav__links {
   display: flex;
   align-items: center;
-  gap: 1.625rem;
+  gap: 26px;
 }
 
 .cwc_announcement-nav__link {
-  font-size: 0.9375rem;
+  font-size: 0.9375em;
+  /* 15px */
   font-weight: 600;
   color: var(--text-color);
   text-decoration: none;
@@ -113,7 +121,7 @@
 .cwc_announcement-nav__utility {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: 12px;
   flex-shrink: 0;
 }
 
@@ -167,7 +175,7 @@
    ============================== */
 @media screen and (max-width: 991px) {
   .cwc_announcement-nav__container {
-    padding: 0 1.25rem;
+    padding: 0 20px;
   }
 
   .cwc_announcement-nav__toggle {
@@ -185,7 +193,7 @@
     gap: 0;
     background-color: var(--section-bg);
     border-bottom: 1px solid var(--border-color);
-    padding: 0.5rem 1.25rem 1rem;
+    padding: 8px 20px 16px;
     z-index: 21;
   }
 
@@ -195,7 +203,7 @@
 
   .cwc_announcement-nav__link {
     width: 100%;
-    padding: 0.75rem 0;
+    padding: 12px 0;
     border-bottom: 1px solid var(--border-color);
   }
 
@@ -208,28 +216,26 @@
    Mobile Responsive
    ============================== */
 @media screen and (max-width: 768px) {
+
+  /* rescale the whole section from one anchor */
+  .cwc_announcement-nav {
+    font-size: 14px;
+  }
+
   .cwc_announcement-nav__bar {
     padding-top: var(--padding-top-mobile);
     padding-bottom: var(--padding-bottom-mobile);
   }
 
   .cwc_announcement-nav__container {
-    padding: 0 1rem;
+    padding: 0 16px;
   }
 
   .cwc_announcement-nav__announce {
-    padding: 0.5625rem 0.75rem;
-  }
-
-  .cwc_announcement-nav__announce-inner p {
-    font-size: 0.72rem;
-  }
-
-  .cwc_announcement-nav__logo-text {
-    font-size: 1.25rem;
+    padding: 9px 12px;
   }
 
   .cwc_announcement-nav__links {
-    padding: 0.5rem 1rem 1rem;
+    padding: 8px 16px 16px;
   }
 }

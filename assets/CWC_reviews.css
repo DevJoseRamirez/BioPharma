@@ -4,6 +4,7 @@
 
 /* === Section Wrapper === */
 .cwc_reviews {
+  font-size: 16px; /* section anchor — all type below is em relative to this */
   background-color: var(--section-bg);
   color: var(--text-color);
   padding-top: var(--padding-top);
@@ -14,7 +15,7 @@
 .cwc_reviews__container {
   max-width: 900px;
   margin: 0 auto;
-  padding: 0 2rem;
+  padding: 0 32px;
 }
 
 /* === Aggregate Head === */
@@ -26,19 +27,19 @@
 }
 
 .cwc_reviews__average {
-  font-size: 2.25rem;
+  font-size: 2.25em; /* 36px */
   font-weight: 900;
   line-height: 1;
 }
 
 .cwc_reviews__stars {
   color: var(--star-color);
-  font-size: 0.97rem;
+  font-size: 0.97em; /* 15.52px */
   letter-spacing: 1px;
 }
 
 .cwc_reviews__count {
-  font-size: 0.875rem;
+  font-size: 0.875em; /* 14px */
   color: var(--muted-color);
 }
 
@@ -61,7 +62,7 @@
 }
 
 .cwc_reviews__quote p {
-  font-size: 0.9375rem;
+  font-size: 0.9375em; /* 15px */
   line-height: 1.6;
   margin: 0;
   font-style: italic;
@@ -69,7 +70,7 @@
 }
 
 .cwc_reviews__author {
-  font-size: 0.81rem;
+  font-size: 0.81em; /* 12.96px */
   color: var(--muted-color);
   font-weight: 600;
 }
@@ -78,7 +79,7 @@
   display: inline-block;
   background: var(--badge-bg);
   color: var(--badge-color);
-  font-size: 0.66rem;
+  font-size: 0.8148em; /* 10.56px, relative to 12.96px author */
   font-weight: 700;
   padding: 2px 7px;
   border-radius: 10px;
@@ -87,7 +88,7 @@
 
 /* === Footnote === */
 .cwc_reviews__footnote {
-  font-size: 0.78rem;
+  font-size: 0.78em; /* 12.48px */
   color: #8b8a7a;
   text-align: center;
   margin-top: 14px;
@@ -98,7 +99,7 @@
    ============================== */
 @media screen and (max-width: 991px) {
   .cwc_reviews__container {
-    padding: 0 1.25rem;
+    padding: 0 20px;
   }
 
   .cwc_reviews__cards {
@@ -110,12 +111,13 @@
    Mobile Responsive
    ============================== */
 @media screen and (max-width: 768px) {
+  /* no per-element mobile type overrides existed here — type is unchanged on mobile */
   .cwc_reviews {
     padding-top: var(--padding-top-mobile);
     padding-bottom: var(--padding-bottom-mobile);
   }
 
   .cwc_reviews__container {
-    padding: 0 1rem;
+    padding: 0 16px;
   }
 }

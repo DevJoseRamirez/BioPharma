@@ -4,6 +4,7 @@
 
 /* === Section Wrapper === */
 .cwc_absorption-pod {
+  font-size: 16px; /* section anchor — all type below is em relative to this */
   background-color: var(--section-bg);
   color: var(--text-color);
   padding-top: var(--padding-top);
@@ -14,7 +15,7 @@
 .cwc_absorption-pod__container {
   max-width: 1300px;
   margin: 0 auto;
-  padding: 0 2rem;
+  padding: 0 32px;
 }
 
 .cwc_absorption-pod__wrapper {
@@ -22,13 +23,13 @@
   margin: 0 auto;
   display: grid;
   grid-template-columns: 1.15fr 1fr;
-  gap: 2.25rem;
+  gap: 36px;
   align-items: center;
 }
 
 /* === Content === */
 .cwc_absorption-pod__eyebrow {
-  font-size: 0.78rem;
+  font-size: 0.78em; /* 12.48px */
   font-weight: 700;
   letter-spacing: 2px;
   text-transform: uppercase;
@@ -42,7 +43,7 @@
 .cwc_absorption-pod__content-heading p {
   font-family: 'Georgia', 'Times New Roman', serif;
   font-weight: 400;
-  font-size: 1.94rem;
+  font-size: 1.94em; /* 31.04px */
   line-height: 1.2;
   margin: 0;
   color: var(--heading-color);
@@ -54,7 +55,7 @@
 }
 
 .cwc_absorption-pod__body p {
-  font-size: 0.97rem;
+  font-size: 0.97em; /* 15.52px */
   color: var(--text-color);
   line-height: 1.65;
   margin: 10px 0 0;
@@ -69,7 +70,7 @@
 }
 
 .cwc_absorption-pod__enzyme {
-  font-size: 0.81rem;
+  font-size: 0.81em; /* 12.96px */
   font-weight: 600;
   color: #eaf3df;
   background: rgba(255, 255, 255, 0.1);
@@ -89,14 +90,14 @@
 }
 
 .cwc_absorption-pod__stat-value {
-  font-size: 2.875rem;
+  font-size: 2.875em; /* 46px */
   font-weight: 900;
   color: var(--stat-color);
   line-height: 1;
 }
 
 .cwc_absorption-pod__stat-text {
-  font-size: 0.9rem;
+  font-size: 0.9em; /* 14.4px */
   color: var(--text-color);
   line-height: 1.55;
 }
@@ -106,12 +107,12 @@
    ============================== */
 @media screen and (max-width: 991px) {
   .cwc_absorption-pod__container {
-    padding: 0 1.25rem;
+    padding: 0 20px;
   }
 
   .cwc_absorption-pod__wrapper {
     grid-template-columns: 1fr;
-    gap: 1.5rem;
+    gap: 24px;
   }
 }
 
@@ -119,31 +120,14 @@
    Mobile Responsive
    ============================== */
 @media screen and (max-width: 768px) {
+  /* rescale the whole section from one anchor */
   .cwc_absorption-pod {
+    font-size: 14px;
     padding-top: var(--padding-top-mobile);
     padding-bottom: var(--padding-bottom-mobile);
   }
 
   .cwc_absorption-pod__container {
-    padding: 0 1rem;
-  }
-
-  .cwc_absorption-pod__content-heading h1,
-  .cwc_absorption-pod__content-heading h2,
-  .cwc_absorption-pod__content-heading h3,
-  .cwc_absorption-pod__content-heading p {
-    font-size: 1.44rem;
-  }
-}
-
-/* ==============================
-   Small Mobile
-   ============================== */
-@media screen and (max-width: 480px) {
-  .cwc_absorption-pod__content-heading h1,
-  .cwc_absorption-pod__content-heading h2,
-  .cwc_absorption-pod__content-heading h3,
-  .cwc_absorption-pod__content-heading p {
-    font-size: 1.31rem;
+    padding: 0 16px;
   }
 }
