@@ -21,4 +21,10 @@ node_modules/
 
 
 # Rails credentials key
-config/master.key
+config/master.key# --- Section build pipeline (local tooling) ---
+CLAUDE.md
+_conventions/
+_sections-queue/
+_reference-components/
+.claude/
+.shopify/

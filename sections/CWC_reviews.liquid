@@ -1,0 +1,217 @@
+{% style %}
+  #cwc_reviews-{{ section.id }} {
+    --section-bg: {{ section.settings.bg_color | default: '#F4F3EE' }};
+    --text-color: {{ section.settings.text_color | default: '#2A2611' }};
+    --highlight-color: {{ section.settings.bold_color | default: '#5BA90F' }};
+    --muted-color: {{ section.settings.muted_color | default: '#5C5842' }};
+    --border-color: {{ section.settings.border_color | default: '#E6E5DC' }};
+    --card-bg: {{ section.settings.card_bg_color | default: '#ffffff' }};
+    --star-color: {{ section.settings.star_color | default: '#E8A317' }};
+    --badge-bg: {{ section.settings.badge_bg_color | default: '#F2F8EA' }};
+    --badge-color: {{ section.settings.badge_color | default: '#44681A' }};
+    --padding-top: {{ section.settings.padding_top | default: 50 }}px;
+    --padding-bottom: {{ section.settings.padding_bottom | default: 50 }}px;
+    --padding-top-mobile: {{ section.settings.padding_top | default: 50 | times: 0.5 }}px;
+    --padding-bottom-mobile: {{ section.settings.padding_bottom | default: 50 | times: 0.5 }}px;
+  }
+{% endstyle %}
+
+{{ 'CWC_reviews.css' | asset_url | stylesheet_tag }}
+
+<section id="cwc_reviews-{{ section.id }}" class="cwc_reviews">
+  <div class="cwc_reviews__container">
+
+    <div class="cwc_reviews__head">
+      {% if section.settings.average != blank %}
+        <span class="cwc_reviews__average">{{ section.settings.average }}</span>
+      {% endif %}
+      <div>
+        <span class="cwc_reviews__stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+        {% if section.settings.count_text != blank %}
+          <div class="cwc_reviews__count">{{ section.settings.count_text }}</div>
+        {% endif %}
+      </div>
+    </div>
+
+    {% if section.blocks.size > 0 %}
+      <div class="cwc_reviews__cards">
+        {% for block in section.blocks %}
+          {% case block.type %}
+            {% when 'review' %}
+              <div class="cwc_reviews__card" {{ block.shopify_attributes }}>
+                <span class="cwc_reviews__stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+                {% if block.settings.quote != blank %}
+                  <div class="cwc_reviews__quote cwc-rte">{{ block.settings.quote }}</div>
+                {% endif %}
+                <div class="cwc_reviews__author">
+                  {{ block.settings.author | default: 'Verified Buyer' }}
+                  {% if block.settings.date != blank %}
+                    <span class="cwc_reviews__date">{{ block.settings.date }}</span>
+                  {% endif %}
+                </div>
+              </div>
+          {% endcase %}
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    {% if section.settings.footnote != blank %}
+      <div class="cwc_reviews__footnote">{{ section.settings.footnote }}</div>
+    {% endif %}
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "CWC Reviews",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Aggregate"
+    },
+    {
+      "type": "text",
+      "id": "average",
+      "label": "Average Rating",
+      "default": "4.4"
+    },
+    {
+      "type": "text",
+      "id": "count_text",
+      "label": "Count Text",
+      "default": "410 verified reviews"
+    },
+    {
+      "type": "text",
+      "id": "footnote",
+      "label": "Footnote",
+      "default": "Based on analysis of 410 verified reviews"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#F4F3EE"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#2A2611"
+    },
+    {
+      "type": "color",
+      "id": "bold_color",
+      "label": "Heading Bold Color",
+      "default": "#5BA90F"
+    },
+    {
+      "type": "color",
+      "id": "muted_color",
+      "label": "Muted Text Color",
+      "default": "#5C5842"
+    },
+    {
+      "type": "color",
+      "id": "star_color",
+      "label": "Star Color",
+      "default": "#E8A317"
+    },
+    {
+      "type": "header",
+      "content": "Card Colors"
+    },
+    {
+      "type": "color",
+      "id": "card_bg_color",
+      "label": "Card Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Border Color",
+      "default": "#E6E5DC"
+    },
+    {
+      "type": "color",
+      "id": "badge_bg_color",
+      "label": "Date Badge Background",
+      "default": "#F2F8EA"
+    },
+    {
+      "type": "color",
+      "id": "badge_color",
+      "label": "Date Badge Text",
+      "default": "#44681A"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 50
+    }
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Review",
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "quote",
+          "label": "Quote",
+          "default": "<p>\"I have taken NanoGreens for years after my naturopathic doctor suggested it. I feel so much better when I use it.\"</p>"
+        },
+        {
+          "type": "text",
+          "id": "author",
+          "label": "Author",
+          "default": "Verified Buyer"
+        },
+        {
+          "type": "text",
+          "id": "date",
+          "label": "Date",
+          "default": "06/09/26"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 9,
+  "presets": [
+    {
+      "name": "Reviews",
+      "category": "CWC Custom",
+      "blocks": [
+        { "type": "review" },
+        { "type": "review" },
+        { "type": "review" }
+      ]
+    }
+  ]
+}
+{% endschema %}

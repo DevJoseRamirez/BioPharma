@@ -1,0 +1,329 @@
+/* ==============================
+   CWC Cost Calculator
+   ============================== */
+
+/* === Section Wrapper === */
+.cwc_cost-calculator {
+  background-color: var(--section-bg);
+  color: var(--text-color);
+  padding-top: var(--padding-top);
+  padding-bottom: var(--padding-bottom);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+}
+
+.cwc_cost-calculator__container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+/* === Section Header === */
+.cwc_cost-calculator__content {
+  text-align: center;
+  width: 100%;
+}
+
+.cwc_cost-calculator__eyebrow {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--eyebrow-color);
+  margin-bottom: 8px;
+}
+
+.cwc_cost-calculator__content-heading h1,
+.cwc_cost-calculator__content-heading h2,
+.cwc_cost-calculator__content-heading h3,
+.cwc_cost-calculator__content-heading p {
+  font-family: 'Georgia', 'Times New Roman', serif;
+  font-weight: 400;
+  font-size: 1.94rem;
+  line-height: 1.2;
+  margin: 0;
+  color: inherit;
+}
+
+.cwc_cost-calculator__content-heading > * strong {
+  color: var(--highlight-color);
+  font-weight: 400;
+}
+
+.cwc_cost-calculator__content-subtext {
+  max-width: 700px;
+  margin: 8px auto 0;
+}
+
+.cwc_cost-calculator__content-subtext p {
+  font-size: 0.97rem;
+  line-height: 1.5;
+  margin: 0;
+  color: var(--muted-color);
+}
+
+/* === Placeholder Note === */
+.cwc_cost-calculator__placeholder-note {
+  display: inline-block;
+  background: #fffbe6;
+  border: 1px dashed #e6c34a;
+  border-radius: 5px;
+  font-size: 0.72rem;
+  color: #7a5c00;
+  font-weight: 700;
+  padding: 3px 9px;
+  letter-spacing: 0.3px;
+  margin-top: 18px;
+}
+
+/* === Grid === */
+.cwc_cost-calculator__grid {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 26px;
+  margin-top: 20px;
+  align-items: start;
+}
+
+/* === Buying Separately Box === */
+.cwc_cost-calculator__box {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.cwc_cost-calculator__box-head {
+  padding: 18px 22px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.cwc_cost-calculator__box-title {
+  font-size: 1.03rem;
+  font-weight: 800;
+}
+
+.cwc_cost-calculator__box-subtitle {
+  font-size: 0.84rem;
+  color: var(--muted-color);
+  margin-top: 2px;
+}
+
+.cwc_cost-calculator__line {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 22px;
+  border-bottom: 1px solid var(--border-color);
+  font-size: 0.9375rem;
+}
+
+.cwc_cost-calculator__line-name {
+  color: var(--text-color);
+}
+
+.cwc_cost-calculator__line-note {
+  display: block;
+  font-size: 0.81rem;
+  color: #9a9989;
+  margin-top: 1px;
+}
+
+.cwc_cost-calculator__line-price {
+  font-weight: 700;
+  color: var(--muted-color);
+  white-space: nowrap;
+  padding-left: 16px;
+}
+
+.cwc_cost-calculator__total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 22px;
+  background: var(--total-bg);
+  font-size: 1.03rem;
+  font-weight: 800;
+}
+
+.cwc_cost-calculator__total-value {
+  font-size: 1.28rem;
+}
+
+/* === Win Card === */
+.cwc_cost-calculator__win {
+  background: var(--win-bg);
+  color: #ffffff;
+  border-radius: 16px;
+  padding: 26px;
+  position: sticky;
+  top: 90px;
+}
+
+.cwc_cost-calculator__win-eyebrow {
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--win-accent);
+  margin-bottom: 10px;
+}
+
+.cwc_cost-calculator__win-title p {
+  font-family: 'Georgia', 'Times New Roman', serif;
+  font-size: 1.53rem;
+  line-height: 1.2;
+  margin: 0 0 14px;
+  color: #ffffff;
+}
+
+.cwc_cost-calculator__win-price {
+  display: flex;
+  align-items: baseline;
+  gap: 9px;
+  margin-bottom: 4px;
+}
+
+.cwc_cost-calculator__win-price-value {
+  font-size: 2.5rem;
+  font-weight: 900;
+  color: var(--win-accent);
+  line-height: 1;
+}
+
+.cwc_cost-calculator__win-price-unit {
+  font-size: 0.97rem;
+  color: var(--win-muted);
+}
+
+.cwc_cost-calculator__win-sub {
+  font-size: 0.875rem;
+  color: var(--win-muted);
+  margin-bottom: 18px;
+}
+
+.cwc_cost-calculator__win-save {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 11px;
+  padding: 15px;
+  margin-bottom: 18px;
+}
+
+.cwc_cost-calculator__win-save-value {
+  font-size: 1.72rem;
+  font-weight: 900;
+  color: #ffffff;
+  line-height: 1;
+}
+
+.cwc_cost-calculator__win-save-label {
+  font-size: 0.84rem;
+  color: var(--win-muted);
+  margin-top: 4px;
+}
+
+.cwc_cost-calculator__win-button {
+  display: block;
+  width: 100%;
+  background: var(--button-bg);
+  color: var(--button-text);
+  border-radius: 11px;
+  padding: 15px;
+  font-size: 1rem;
+  font-weight: 800;
+  text-align: center;
+  text-decoration: none;
+}
+
+.cwc_cost-calculator__win-button:hover {
+  filter: brightness(0.92);
+}
+
+/* === Footnote === */
+.cwc_cost-calculator__footnote {
+  font-size: 0.78rem;
+  color: #8b8a7a;
+  line-height: 1.6;
+  margin-top: 14px;
+  font-style: italic;
+}
+
+/* ==============================
+   Tablet Responsive
+   ============================== */
+@media screen and (max-width: 991px) {
+  .cwc_cost-calculator__container {
+    padding: 0 1.25rem;
+  }
+
+  .cwc_cost-calculator__grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .cwc_cost-calculator__win {
+    position: static;
+  }
+}
+
+/* ==============================
+   Mobile Responsive
+   ============================== */
+@media screen and (max-width: 768px) {
+  .cwc_cost-calculator {
+    padding-top: var(--padding-top-mobile);
+    padding-bottom: var(--padding-bottom-mobile);
+  }
+
+  .cwc_cost-calculator__container {
+    padding: 0 1rem;
+  }
+
+  .cwc_cost-calculator__content-heading h1,
+  .cwc_cost-calculator__content-heading h2,
+  .cwc_cost-calculator__content-heading h3,
+  .cwc_cost-calculator__content-heading p {
+    font-size: 1.44rem;
+  }
+
+  .cwc_cost-calculator__content-subtext p {
+    font-size: 0.9375rem;
+  }
+
+  .cwc_cost-calculator__line {
+    padding: 11px 16px;
+    font-size: 0.84rem;
+    flex-wrap: wrap;
+  }
+
+  .cwc_cost-calculator__line-price {
+    padding-left: 0;
+  }
+
+  .cwc_cost-calculator__total {
+    padding: 14px 16px;
+  }
+
+  .cwc_cost-calculator__box-head {
+    padding: 16px;
+  }
+
+  .cwc_cost-calculator__win {
+    padding: 22px;
+  }
+
+  .cwc_cost-calculator__win-price-value {
+    font-size: 2.125rem;
+  }
+}
+
+/* ==============================
+   Small Mobile
+   ============================== */
+@media screen and (max-width: 480px) {
+  .cwc_cost-calculator__content-heading h1,
+  .cwc_cost-calculator__content-heading h2,
+  .cwc_cost-calculator__content-heading h3,
+  .cwc_cost-calculator__content-heading p {
+    font-size: 1.31rem;
+  }
+}

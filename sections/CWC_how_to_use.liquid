@@ -1,0 +1,255 @@
+{% style %}
+  #cwc_how-to-use-{{ section.id }} {
+    --section-bg: {{ section.settings.bg_color | default: '#ffffff' }};
+    --text-color: {{ section.settings.text_color | default: '#2A2611' }};
+    --highlight-color: {{ section.settings.bold_color | default: '#5BA90F' }};
+    --muted-color: {{ section.settings.muted_color | default: '#5C5842' }};
+    --deep-color: {{ section.settings.deep_color | default: '#44681A' }};
+    --border-color: {{ section.settings.border_color | default: '#E6E5DC' }};
+    --card-bg: {{ section.settings.card_bg_color | default: '#ffffff' }};
+    --step-bg: {{ section.settings.step_bg_color | default: '#5BA90F' }};
+    --eyebrow-color: {{ section.settings.eyebrow_color | default: '#5BA90F' }};
+    --tips-accent: {{ section.settings.tips_accent_color | default: '#78AD49' }};
+    --padding-top: {{ section.settings.padding_top | default: 50 }}px;
+    --padding-bottom: {{ section.settings.padding_bottom | default: 50 }}px;
+    --padding-top-mobile: {{ section.settings.padding_top | default: 50 | times: 0.5 }}px;
+    --padding-bottom-mobile: {{ section.settings.padding_bottom | default: 50 | times: 0.5 }}px;
+  }
+{% endstyle %}
+
+{{ 'CWC_how_to_use.css' | asset_url | stylesheet_tag }}
+
+<section id="cwc_how-to-use-{{ section.id }}" class="cwc_how-to-use">
+  <div class="cwc_how-to-use__container">
+
+    <div class="cwc_how-to-use__content">
+      {% if section.settings.eyebrow != blank %}
+        <div class="cwc_how-to-use__eyebrow">{{ section.settings.eyebrow }}</div>
+      {% endif %}
+
+      {% if section.settings.heading != blank %}
+        <div class="cwc_how-to-use__content-heading cwc-rte">
+          {{ section.settings.heading }}
+        </div>
+      {% endif %}
+
+      {% if section.settings.subtext != blank %}
+        <div class="cwc_how-to-use__content-subtext cwc-rte">
+          {{ section.settings.subtext }}
+        </div>
+      {% endif %}
+    </div>
+
+    {% assign step_blocks = section.blocks | where: 'type', 'step' %}
+    {% if step_blocks.size > 0 %}
+      <div class="cwc_how-to-use__steps">
+        {% for block in step_blocks %}
+          <div class="cwc_how-to-use__step" {{ block.shopify_attributes }}>
+            <div class="cwc_how-to-use__step-number">{{ forloop.index }}</div>
+            {% if block.settings.title != blank %}
+              <div class="cwc_how-to-use__step-title">{{ block.settings.title }}</div>
+            {% endif %}
+            {% if block.settings.text != blank %}
+              <div class="cwc_how-to-use__step-text cwc-rte">{{ block.settings.text }}</div>
+            {% endif %}
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    {% assign tip_blocks = section.blocks | where: 'type', 'tip' %}
+    {% if tip_blocks.size > 0 %}
+      <div class="cwc_how-to-use__tips">
+        {% if section.settings.tips_heading != blank %}
+          <div class="cwc_how-to-use__tips-heading">{{ section.settings.tips_heading }}</div>
+        {% endif %}
+        <ul class="cwc_how-to-use__tips-list">
+          {% for block in tip_blocks %}
+            {% if block.settings.text != blank %}
+              <li class="cwc_how-to-use__tip" {{ block.shopify_attributes }}>{{ block.settings.text }}</li>
+            {% endif %}
+          {% endfor %}
+        </ul>
+      </div>
+    {% endif %}
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "CWC How To Use",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Header"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Ten seconds, every morning"
+    },
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "<p>How to <strong>use it</strong></p>"
+    },
+    {
+      "type": "richtext",
+      "id": "subtext",
+      "label": "Section Subtext",
+      "default": "<p>One scoop, cold water, shake. That's the whole routine.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Pro Tips"
+    },
+    {
+      "type": "text",
+      "id": "tips_heading",
+      "label": "Pro Tips Heading",
+      "default": "Pro tips"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#2A2611"
+    },
+    {
+      "type": "color",
+      "id": "bold_color",
+      "label": "Heading Bold Color",
+      "default": "#5BA90F"
+    },
+    {
+      "type": "color",
+      "id": "muted_color",
+      "label": "Muted Text Color",
+      "default": "#5C5842"
+    },
+    {
+      "type": "color",
+      "id": "deep_color",
+      "label": "Deep Accent Color",
+      "default": "#44681A"
+    },
+    {
+      "type": "color",
+      "id": "eyebrow_color",
+      "label": "Eyebrow Color",
+      "default": "#5BA90F"
+    },
+    {
+      "type": "header",
+      "content": "Card Colors"
+    },
+    {
+      "type": "color",
+      "id": "card_bg_color",
+      "label": "Card Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "step_bg_color",
+      "label": "Step Number Background",
+      "default": "#5BA90F"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Border Color",
+      "default": "#E6E5DC"
+    },
+    {
+      "type": "color",
+      "id": "tips_accent_color",
+      "label": "Pro Tips Accent Border",
+      "default": "#78AD49"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 50
+    }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Step",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Add one scoop"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text",
+          "default": "<p>One 12g scoop into 6–16 oz of cold water. Cold matters — it mixes cleaner and tastes better.</p>"
+        }
+      ]
+    },
+    {
+      "type": "tip",
+      "name": "Pro Tip",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Tip",
+          "default": "Always use cold water — never hot"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 16,
+  "presets": [
+    {
+      "name": "How To Use",
+      "category": "CWC Custom",
+      "blocks": [
+        { "type": "step" },
+        { "type": "step" },
+        { "type": "step" },
+        { "type": "tip" },
+        { "type": "tip" }
+      ]
+    }
+  ]
+}
+{% endschema %}

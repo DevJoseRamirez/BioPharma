@@ -1,0 +1,325 @@
+{% style %}
+  #cwc_comparison-table-{{ section.id }} {
+    --section-bg: {{ section.settings.bg_color | default: '#ffffff' }};
+    --text-color: {{ section.settings.text_color | default: '#2A2611' }};
+    --highlight-color: {{ section.settings.bold_color | default: '#5BA90F' }};
+    --muted-color: {{ section.settings.muted_color | default: '#5C5842' }};
+    --border-color: {{ section.settings.border_color | default: '#E6E5DC' }};
+    --eyebrow-color: {{ section.settings.eyebrow_color | default: '#5BA90F' }};
+    --us-bg: {{ section.settings.us_bg_color | default: '#5BA90F' }};
+    --us-cell-bg: {{ section.settings.us_cell_bg_color | default: '#F6FBF0' }};
+    --check-color: {{ section.settings.check_color | default: '#5BA90F' }};
+    --cross-color: {{ section.settings.cross_color | default: '#cfcec0' }};
+    --them-color: {{ section.settings.them_color | default: '#aaa997' }};
+    --padding-top: {{ section.settings.padding_top | default: 50 }}px;
+    --padding-bottom: {{ section.settings.padding_bottom | default: 50 }}px;
+    --padding-top-mobile: {{ section.settings.padding_top | default: 50 | times: 0.5 }}px;
+    --padding-bottom-mobile: {{ section.settings.padding_bottom | default: 50 | times: 0.5 }}px;
+  }
+{% endstyle %}
+
+{{ 'CWC_comparison_table.css' | asset_url | stylesheet_tag }}
+
+<section id="cwc_comparison-table-{{ section.id }}" class="cwc_comparison-table">
+  <div class="cwc_comparison-table__container">
+
+    <div class="cwc_comparison-table__content">
+      {% if section.settings.eyebrow != blank %}
+        <div class="cwc_comparison-table__eyebrow">{{ section.settings.eyebrow }}</div>
+      {% endif %}
+
+      {% if section.settings.heading != blank %}
+        <div class="cwc_comparison-table__content-heading cwc-rte">
+          {{ section.settings.heading }}
+        </div>
+      {% endif %}
+    </div>
+
+    <div class="cwc_comparison-table__wrap">
+      <table class="cwc_comparison-table__table">
+        <thead>
+          <tr>
+            <th class="cwc_comparison-table__th cwc_comparison-table__th--feature"></th>
+            <th class="cwc_comparison-table__th cwc_comparison-table__th--us">{{ section.settings.col_us_label }}</th>
+            {% if section.settings.col_a_label != blank %}
+              <th class="cwc_comparison-table__th cwc_comparison-table__th--them">{{ section.settings.col_a_label }}</th>
+            {% endif %}
+            {% if section.settings.col_b_label != blank %}
+              <th class="cwc_comparison-table__th cwc_comparison-table__th--them">{{ section.settings.col_b_label }}</th>
+            {% endif %}
+          </tr>
+        </thead>
+        <tbody>
+          {% for block in section.blocks %}
+            {% case block.type %}
+              {% when 'row' %}
+                <tr {{ block.shopify_attributes }}>
+                  <td class="cwc_comparison-table__cell cwc_comparison-table__cell--feature">{{ block.settings.feature }}</td>
+
+                  <td class="cwc_comparison-table__cell cwc_comparison-table__cell--us">
+                    {% case block.settings.us_type %}
+                      {% when 'check' %}<span class="cwc_comparison-table__check" aria-hidden="true">&#10003;</span>
+                      {% when 'cross' %}<span class="cwc_comparison-table__cross" aria-hidden="true">&#10005;</span>
+                      {% else %}{{ block.settings.us_text }}
+                    {% endcase %}
+                  </td>
+
+                  {% if section.settings.col_a_label != blank %}
+                    <td class="cwc_comparison-table__cell">
+                      {% case block.settings.a_type %}
+                        {% when 'check' %}<span class="cwc_comparison-table__check" aria-hidden="true">&#10003;</span>
+                        {% when 'cross' %}<span class="cwc_comparison-table__cross" aria-hidden="true">&#10005;</span>
+                        {% else %}{{ block.settings.a_text }}
+                      {% endcase %}
+                    </td>
+                  {% endif %}
+
+                  {% if section.settings.col_b_label != blank %}
+                    <td class="cwc_comparison-table__cell">
+                      {% case block.settings.b_type %}
+                        {% when 'check' %}<span class="cwc_comparison-table__check" aria-hidden="true">&#10003;</span>
+                        {% when 'cross' %}<span class="cwc_comparison-table__cross" aria-hidden="true">&#10005;</span>
+                        {% else %}{{ block.settings.b_text }}
+                      {% endcase %}
+                    </td>
+                  {% endif %}
+                </tr>
+            {% endcase %}
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "CWC Comparison Table",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Header"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "The honest comparison"
+    },
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "<p>Not all \"greens\" are the <strong>same</strong></p>"
+    },
+    {
+      "type": "header",
+      "content": "Columns"
+    },
+    {
+      "type": "text",
+      "id": "col_us_label",
+      "label": "Our Column Label",
+      "default": "NanoGreens"
+    },
+    {
+      "type": "text",
+      "id": "col_a_label",
+      "label": "Competitor A Label",
+      "info": "Leave empty to hide this column.",
+      "default": "$25 greens powder"
+    },
+    {
+      "type": "text",
+      "id": "col_b_label",
+      "label": "Competitor B Label",
+      "info": "Leave empty to hide this column.",
+      "default": "Synthetic multivitamin"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#2A2611"
+    },
+    {
+      "type": "color",
+      "id": "bold_color",
+      "label": "Heading Bold Color",
+      "default": "#5BA90F"
+    },
+    {
+      "type": "color",
+      "id": "muted_color",
+      "label": "Muted Text Color",
+      "default": "#5C5842"
+    },
+    {
+      "type": "color",
+      "id": "eyebrow_color",
+      "label": "Eyebrow Color",
+      "default": "#5BA90F"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Border Color",
+      "default": "#E6E5DC"
+    },
+    {
+      "type": "color",
+      "id": "us_bg_color",
+      "label": "Our Column Header Background",
+      "default": "#5BA90F"
+    },
+    {
+      "type": "color",
+      "id": "us_cell_bg_color",
+      "label": "Our Column Cell Tint",
+      "default": "#F6FBF0"
+    },
+    {
+      "type": "color",
+      "id": "check_color",
+      "label": "Check Mark Color",
+      "default": "#5BA90F"
+    },
+    {
+      "type": "color",
+      "id": "cross_color",
+      "label": "Cross Mark Color",
+      "default": "#cfcec0"
+    },
+    {
+      "type": "color",
+      "id": "them_color",
+      "label": "Competitor Header Color",
+      "default": "#aaa997"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 50
+    }
+  ],
+  "blocks": [
+    {
+      "type": "row",
+      "name": "Comparison Row",
+      "settings": [
+        {
+          "type": "text",
+          "id": "feature",
+          "label": "Feature",
+          "default": "Whole food, not filler grass"
+        },
+        {
+          "type": "header",
+          "content": "Our Column"
+        },
+        {
+          "type": "select",
+          "id": "us_type",
+          "label": "Cell Type",
+          "options": [
+            { "value": "check", "label": "Check" },
+            { "value": "cross", "label": "Cross" },
+            { "value": "text", "label": "Text" }
+          ],
+          "default": "check"
+        },
+        {
+          "type": "text",
+          "id": "us_text",
+          "label": "Cell Text",
+          "info": "Used when cell type is Text."
+        },
+        {
+          "type": "header",
+          "content": "Competitor A"
+        },
+        {
+          "type": "select",
+          "id": "a_type",
+          "label": "Cell Type",
+          "options": [
+            { "value": "check", "label": "Check" },
+            { "value": "cross", "label": "Cross" },
+            { "value": "text", "label": "Text" }
+          ],
+          "default": "cross"
+        },
+        {
+          "type": "text",
+          "id": "a_text",
+          "label": "Cell Text",
+          "info": "Used when cell type is Text."
+        },
+        {
+          "type": "header",
+          "content": "Competitor B"
+        },
+        {
+          "type": "select",
+          "id": "b_type",
+          "label": "Cell Type",
+          "options": [
+            { "value": "check", "label": "Check" },
+            { "value": "cross", "label": "Cross" },
+            { "value": "text", "label": "Text" }
+          ],
+          "default": "cross"
+        },
+        {
+          "type": "text",
+          "id": "b_text",
+          "label": "Cell Text",
+          "info": "Used when cell type is Text."
+        }
+      ]
+    }
+  ],
+  "max_blocks": 12,
+  "presets": [
+    {
+      "name": "Comparison Table",
+      "category": "CWC Custom",
+      "blocks": [
+        { "type": "row" },
+        { "type": "row" },
+        { "type": "row" }
+      ]
+    }
+  ]
+}
+{% endschema %}

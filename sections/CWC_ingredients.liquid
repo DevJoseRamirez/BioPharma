@@ -1,0 +1,219 @@
+{% style %}
+  #cwc_ingredients-{{ section.id }} {
+    --section-bg: {{ section.settings.bg_color | default: '#F4F3EE' }};
+    --text-color: {{ section.settings.text_color | default: '#2A2611' }};
+    --highlight-color: {{ section.settings.bold_color | default: '#5BA90F' }};
+    --muted-color: {{ section.settings.muted_color | default: '#5C5842' }};
+    --border-color: {{ section.settings.border_color | default: '#E6E5DC' }};
+    --eyebrow-color: {{ section.settings.eyebrow_color | default: '#5BA90F' }};
+    --icon-bg: {{ section.settings.icon_bg_color | default: '#F2F8EA' }};
+    --icon-border: {{ section.settings.icon_border_color | default: '#A3C781' }};
+    --padding-top: {{ section.settings.padding_top | default: 50 }}px;
+    --padding-bottom: {{ section.settings.padding_bottom | default: 50 }}px;
+    --padding-top-mobile: {{ section.settings.padding_top | default: 50 | times: 0.5 }}px;
+    --padding-bottom-mobile: {{ section.settings.padding_bottom | default: 50 | times: 0.5 }}px;
+  }
+{% endstyle %}
+
+{{ 'CWC_ingredients.css' | asset_url | stylesheet_tag }}
+
+<section id="cwc_ingredients-{{ section.id }}" class="cwc_ingredients">
+  <div class="cwc_ingredients__container">
+
+    <div class="cwc_ingredients__content">
+      {% if section.settings.eyebrow != blank %}
+        <div class="cwc_ingredients__eyebrow">{{ section.settings.eyebrow }}</div>
+      {% endif %}
+
+      {% if section.settings.heading != blank %}
+        <div class="cwc_ingredients__content-heading cwc-rte">
+          {{ section.settings.heading }}
+        </div>
+      {% endif %}
+    </div>
+
+    {% if section.blocks.size > 0 %}
+      <div class="cwc_ingredients__list">
+        {% for block in section.blocks %}
+          {% case block.type %}
+            {% when 'ingredient' %}
+              <div class="cwc_ingredients__item" {{ block.shopify_attributes }}>
+                <span class="cwc_ingredients__item-icon">
+                  {% if block.settings.icon != blank %}
+                    <img
+                      src="{{ block.settings.icon | image_url: width: 80 }}"
+                      alt="{{ block.settings.name | escape }}"
+                      width="80"
+                      height="80"
+                      loading="lazy"
+                    >
+                  {% endif %}
+                </span>
+                <div class="cwc_ingredients__item-body">
+                  {% if block.settings.name != blank %}
+                    <div class="cwc_ingredients__item-title">
+                      {{ block.settings.name }}
+                      {% if block.settings.dosage != blank %}
+                        <span class="cwc_ingredients__item-dosage">· {{ block.settings.dosage }}</span>
+                      {% endif %}
+                    </div>
+                  {% endif %}
+                  {% if block.settings.text != blank %}
+                    <div class="cwc_ingredients__item-text cwc-rte">{{ block.settings.text }}</div>
+                  {% endif %}
+                </div>
+              </div>
+          {% endcase %}
+        {% endfor %}
+      </div>
+    {% endif %}
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "CWC Ingredients",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Header"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "What's inside"
+    },
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "<p>The ingredients doing the <strong>work</strong></p>"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#F4F3EE"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#2A2611"
+    },
+    {
+      "type": "color",
+      "id": "bold_color",
+      "label": "Heading Bold Color",
+      "default": "#5BA90F"
+    },
+    {
+      "type": "color",
+      "id": "muted_color",
+      "label": "Muted Text Color",
+      "default": "#5C5842"
+    },
+    {
+      "type": "color",
+      "id": "eyebrow_color",
+      "label": "Eyebrow Color",
+      "default": "#5BA90F"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Border Color",
+      "default": "#E6E5DC"
+    },
+    {
+      "type": "header",
+      "content": "Icon Colors"
+    },
+    {
+      "type": "color",
+      "id": "icon_bg_color",
+      "label": "Icon Background",
+      "default": "#F2F8EA"
+    },
+    {
+      "type": "color",
+      "id": "icon_border_color",
+      "label": "Icon Border",
+      "default": "#A3C781"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 50
+    }
+  ],
+  "blocks": [
+    {
+      "type": "ingredient",
+      "name": "Ingredient",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Icon Image"
+        },
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Name",
+          "default": "Milk Thistle"
+        },
+        {
+          "type": "text",
+          "id": "dosage",
+          "label": "Dosage",
+          "default": "50mg"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Description",
+          "default": "<p>Standardized to 20% silymarin, with silybin. Helps neutralize free radicals.</p>"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 12,
+  "presets": [
+    {
+      "name": "Ingredients",
+      "category": "CWC Custom",
+      "blocks": [
+        { "type": "ingredient" },
+        { "type": "ingredient" },
+        { "type": "ingredient" }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,211 @@
+/* ==============================
+   CWC How To Use
+   ============================== */
+
+/* === Section Wrapper === */
+.cwc_how-to-use {
+  background-color: var(--section-bg);
+  color: var(--text-color);
+  padding-top: var(--padding-top);
+  padding-bottom: var(--padding-bottom);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+}
+
+.cwc_how-to-use__container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+/* === Section Header === */
+.cwc_how-to-use__content {
+  text-align: center;
+  width: 100%;
+}
+
+.cwc_how-to-use__eyebrow {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--eyebrow-color);
+  margin-bottom: 8px;
+}
+
+.cwc_how-to-use__content-heading h1,
+.cwc_how-to-use__content-heading h2,
+.cwc_how-to-use__content-heading h3,
+.cwc_how-to-use__content-heading p {
+  font-family: 'Georgia', 'Times New Roman', serif;
+  font-weight: 400;
+  font-size: 1.94rem;
+  line-height: 1.2;
+  margin: 0;
+  color: inherit;
+}
+
+.cwc_how-to-use__content-heading > * strong {
+  color: var(--highlight-color);
+  font-weight: 400;
+}
+
+.cwc_how-to-use__content-subtext {
+  max-width: 700px;
+  margin: 8px auto 0;
+}
+
+.cwc_how-to-use__content-subtext p {
+  font-size: 0.97rem;
+  line-height: 1.5;
+  margin: 0;
+  color: var(--muted-color);
+}
+
+/* === Steps === */
+.cwc_how-to-use__steps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.cwc_how-to-use__step {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 14px;
+  padding: 24px;
+  position: relative;
+}
+
+.cwc_how-to-use__step-number {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--step-bg);
+  color: #ffffff;
+  font-size: 1.03rem;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 14px;
+}
+
+.cwc_how-to-use__step-title {
+  font-size: 1.03rem;
+  font-weight: 800;
+  margin-bottom: 6px;
+}
+
+.cwc_how-to-use__step-text p {
+  font-size: 0.9rem;
+  color: var(--muted-color);
+  line-height: 1.55;
+  margin: 0;
+}
+
+.cwc_how-to-use__step-text strong {
+  color: var(--text-color);
+}
+
+/* === Pro Tips === */
+.cwc_how-to-use__tips {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-left: 3px solid var(--tips-accent);
+  border-radius: 12px;
+  padding: 20px 24px;
+  margin-top: 16px;
+}
+
+.cwc_how-to-use__tips-heading {
+  font-size: 0.84rem;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--deep-color);
+  margin-bottom: 11px;
+}
+
+.cwc_how-to-use__tips-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px 24px;
+}
+
+.cwc_how-to-use__tip {
+  font-size: 0.9rem;
+  color: var(--muted-color);
+  padding-left: 1.1rem;
+  position: relative;
+  line-height: 1.45;
+}
+
+.cwc_how-to-use__tip::before {
+  content: '+';
+  position: absolute;
+  left: 0;
+  color: var(--highlight-color);
+  font-weight: 800;
+}
+
+/* ==============================
+   Tablet Responsive
+   ============================== */
+@media screen and (max-width: 991px) {
+  .cwc_how-to-use__container {
+    padding: 0 1.25rem;
+  }
+
+  .cwc_how-to-use__steps {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ==============================
+   Mobile Responsive
+   ============================== */
+@media screen and (max-width: 768px) {
+  .cwc_how-to-use {
+    padding-top: var(--padding-top-mobile);
+    padding-bottom: var(--padding-bottom-mobile);
+  }
+
+  .cwc_how-to-use__container {
+    padding: 0 1rem;
+  }
+
+  .cwc_how-to-use__content-heading h1,
+  .cwc_how-to-use__content-heading h2,
+  .cwc_how-to-use__content-heading h3,
+  .cwc_how-to-use__content-heading p {
+    font-size: 1.44rem;
+  }
+
+  .cwc_how-to-use__content-subtext p {
+    font-size: 0.9375rem;
+  }
+
+  .cwc_how-to-use__tips-list {
+    grid-template-columns: 1fr;
+  }
+
+  .cwc_how-to-use__tips {
+    padding: 18px;
+  }
+}
+
+/* ==============================
+   Small Mobile
+   ============================== */
+@media screen and (max-width: 480px) {
+  .cwc_how-to-use__content-heading h1,
+  .cwc_how-to-use__content-heading h2,
+  .cwc_how-to-use__content-heading h3,
+  .cwc_how-to-use__content-heading p {
+    font-size: 1.31rem;
+  }
+}

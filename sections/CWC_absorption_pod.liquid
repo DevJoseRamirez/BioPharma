@@ -1,0 +1,205 @@
+{% style %}
+  #cwc_absorption-pod-{{ section.id }} {
+    --section-bg: {{ section.settings.bg_color | default: '#44681A' }};
+    --text-color: {{ section.settings.text_color | default: '#d9e7c9' }};
+    --highlight-color: {{ section.settings.bold_color | default: '#A3C781' }};
+    --heading-color: {{ section.settings.heading_color | default: '#ffffff' }};
+    --eyebrow-color: {{ section.settings.eyebrow_color | default: '#A3C781' }};
+    --stat-color: {{ section.settings.stat_color | default: '#A3C781' }};
+    --padding-top: {{ section.settings.padding_top | default: 50 }}px;
+    --padding-bottom: {{ section.settings.padding_bottom | default: 50 }}px;
+    --padding-top-mobile: {{ section.settings.padding_top | default: 50 | times: 0.5 }}px;
+    --padding-bottom-mobile: {{ section.settings.padding_bottom | default: 50 | times: 0.5 }}px;
+  }
+{% endstyle %}
+
+{{ 'CWC_absorption_pod.css' | asset_url | stylesheet_tag }}
+
+<section id="cwc_absorption-pod-{{ section.id }}" class="cwc_absorption-pod">
+  <div class="cwc_absorption-pod__container">
+    <div class="cwc_absorption-pod__wrapper">
+
+      <div class="cwc_absorption-pod__content">
+        {% if section.settings.eyebrow != blank %}
+          <div class="cwc_absorption-pod__eyebrow">{{ section.settings.eyebrow }}</div>
+        {% endif %}
+
+        {% if section.settings.heading != blank %}
+          <div class="cwc_absorption-pod__content-heading cwc-rte">
+            {{ section.settings.heading }}
+          </div>
+        {% endif %}
+
+        {% if section.settings.body != blank %}
+          <div class="cwc_absorption-pod__body cwc-rte">
+            {{ section.settings.body }}
+          </div>
+        {% endif %}
+
+        {% if section.blocks.size > 0 %}
+          <div class="cwc_absorption-pod__enzymes">
+            {% for block in section.blocks %}
+              {% case block.type %}
+                {% when 'enzyme' %}
+                  {% if block.settings.label != blank %}
+                    <span class="cwc_absorption-pod__enzyme" {{ block.shopify_attributes }}>
+                      {{ block.settings.label }}
+                    </span>
+                  {% endif %}
+              {% endcase %}
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+
+      {% if section.settings.stat_value != blank or section.settings.stat_text != blank %}
+        <div class="cwc_absorption-pod__stat">
+          {% if section.settings.stat_value != blank %}
+            <span class="cwc_absorption-pod__stat-value">{{ section.settings.stat_value }}</span>
+          {% endif %}
+          {% if section.settings.stat_text != blank %}
+            <span class="cwc_absorption-pod__stat-text">{{ section.settings.stat_text }}</span>
+          {% endif %}
+        </div>
+      {% endif %}
+
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "CWC Absorption Pod",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Header"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "You are what you absorb"
+    },
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "<p>Most greens powders skip the enzymes. <strong>We don't.</strong></p>"
+    },
+    {
+      "type": "richtext",
+      "id": "body",
+      "label": "Body Text",
+      "default": "<p>Cheap greens are mostly filler grass your body passes straight through. NanoGreens includes a 9-enzyme blend (Item 32000B) specifically so your body takes in what you're drinking, not passes it through.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Stat Card"
+    },
+    {
+      "type": "text",
+      "id": "stat_value",
+      "label": "Stat Value",
+      "default": "10"
+    },
+    {
+      "type": "text",
+      "id": "stat_text",
+      "label": "Stat Text",
+      "default": "servings of vegetables & fruit — the antioxidant equivalent in a single scoop."
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#44681A"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#d9e7c9"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "bold_color",
+      "label": "Heading Bold Color",
+      "default": "#A3C781"
+    },
+    {
+      "type": "color",
+      "id": "eyebrow_color",
+      "label": "Eyebrow Color",
+      "default": "#A3C781"
+    },
+    {
+      "type": "color",
+      "id": "stat_color",
+      "label": "Stat Number Color",
+      "default": "#A3C781"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 50
+    }
+  ],
+  "blocks": [
+    {
+      "type": "enzyme",
+      "name": "Enzyme Tag",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Protease"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 16,
+  "presets": [
+    {
+      "name": "Absorption Pod",
+      "category": "CWC Custom",
+      "blocks": [
+        { "type": "enzyme" },
+        { "type": "enzyme" },
+        { "type": "enzyme" },
+        { "type": "enzyme" }
+      ]
+    }
+  ]
+}
+{% endschema %}

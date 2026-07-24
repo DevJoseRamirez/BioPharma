@@ -1,0 +1,219 @@
+{% style %}
+  #cwc_sticky-add-to-cart-{{ section.id }} {
+    --section-bg: {{ section.settings.bg_color | default: '#ffffff' }};
+    --text-color: {{ section.settings.text_color | default: '#2A2611' }};
+    --highlight-color: {{ section.settings.bold_color | default: '#5BA90F' }};
+    --muted-color: {{ section.settings.muted_color | default: '#5C5842' }};
+    --border-color: {{ section.settings.border_color | default: '#E6E5DC' }};
+    --button-bg: {{ section.settings.button_bg_color | default: '#5BA90F' }};
+    --button-text: {{ section.settings.button_text_color | default: '#ffffff' }};
+  }
+{% endstyle %}
+
+{{ 'CWC_sticky_add_to_cart.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign current_variant = product.selected_or_first_available_variant
+  assign sticky_image = section.settings.image | default: product.featured_image
+-%}
+
+<section
+  id="cwc_sticky-add-to-cart-{{ section.id }}"
+  class="cwc_sticky-add-to-cart"
+  data-cwc-reveal-after="{{ section.settings.reveal_after | default: 600 }}"
+>
+  <div class="cwc_sticky-add-to-cart__bar">
+
+    <div class="cwc_sticky-add-to-cart__thumb">
+      {% if sticky_image != blank %}
+        <img
+          src="{{ sticky_image | image_url: width: 120 }}"
+          alt="{{ product.title | escape }}"
+          width="46"
+          height="46"
+          loading="lazy"
+        >
+      {% endif %}
+    </div>
+
+    <div class="cwc_sticky-add-to-cart__info">
+      <div class="cwc_sticky-add-to-cart__name">
+        {{ section.settings.name_override | default: product.title }}
+      </div>
+      {% if section.settings.subline != blank %}
+        <div class="cwc_sticky-add-to-cart__subline">{{ section.settings.subline }}</div>
+      {% endif %}
+    </div>
+
+    <button type="button" class="cwc_sticky-add-to-cart__plan" data-cwc-plan-chip>
+      <span class="cwc_sticky-add-to-cart__plan-label" data-cwc-plan-label>
+        {{ section.settings.plan_label | default: 'Choose your supply' }}
+      </span>
+      {% if section.settings.plan_sub != blank %}
+        <span class="cwc_sticky-add-to-cart__plan-sub" data-cwc-plan-sub>{{ section.settings.plan_sub }}</span>
+      {% endif %}
+      <span class="cwc_sticky-add-to-cart__plan-chevron" aria-hidden="true">&#8964;</span>
+    </button>
+
+    {% form 'product', product, class: 'cwc_sticky-add-to-cart__form', novalidate: 'novalidate' %}
+      <input type="hidden" name="id" value="{{ current_variant.id }}" data-cwc-variant-input>
+      <input type="hidden" name="quantity" value="1" data-cwc-quantity-input>
+      <input type="hidden" name="selling_plan" value="" data-cwc-plan-input>
+      <button
+        type="submit"
+        name="add"
+        class="cwc_sticky-add-to-cart__button"
+        {% unless current_variant.available %}disabled{% endunless %}
+      >
+        <span data-cwc-button-text>
+          {% if current_variant.available %}
+            {{ section.settings.button_text | default: 'Add to cart' }}
+            {%- if section.settings.show_price_in_button -%}
+              &nbsp;&mdash; <span data-cwc-button-price>{{ current_variant.price | money }}</span>
+            {%- endif -%}
+          {% else %}
+            {{ section.settings.sold_out_text | default: 'Sold out' }}
+          {% endif %}
+        </span>
+      </button>
+    {% endform %}
+
+  </div>
+</section>
+
+{{ 'CWC_sticky_add_to_cart.js' | asset_url | script_tag }}
+
+{% schema %}
+{
+  "name": "CWC Sticky Add To Cart",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Product Info"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Thumbnail Override",
+      "info": "Defaults to the product's featured image."
+    },
+    {
+      "type": "text",
+      "id": "name_override",
+      "label": "Product Name Override",
+      "info": "Leave empty to use the product title.",
+      "default": "NanoGreens10 (Green Apple)"
+    },
+    {
+      "type": "text",
+      "id": "subline",
+      "label": "Subline",
+      "default": "Free shipping · 30-day guarantee"
+    },
+    {
+      "type": "header",
+      "content": "Plan Chip"
+    },
+    {
+      "type": "text",
+      "id": "plan_label",
+      "label": "Plan Label",
+      "default": "90-Day Supply (Save 25%)"
+    },
+    {
+      "type": "text",
+      "id": "plan_sub",
+      "label": "Plan Subtext",
+      "default": "$1.87 USD / serving"
+    },
+    {
+      "type": "header",
+      "content": "Add To Cart"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text",
+      "default": "Add to cart"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_price_in_button",
+      "label": "Show Price In Button",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "sold_out_text",
+      "label": "Sold Out Text",
+      "default": "Sold out"
+    },
+    {
+      "type": "header",
+      "content": "Behavior"
+    },
+    {
+      "type": "range",
+      "id": "reveal_after",
+      "label": "Reveal After Scroll",
+      "min": 0,
+      "max": 2000,
+      "step": 100,
+      "unit": "px",
+      "default": 600
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#2A2611"
+    },
+    {
+      "type": "color",
+      "id": "bold_color",
+      "label": "Accent Color",
+      "default": "#5BA90F"
+    },
+    {
+      "type": "color",
+      "id": "muted_color",
+      "label": "Muted Text Color",
+      "default": "#5C5842"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Border Color",
+      "default": "#E6E5DC"
+    },
+    {
+      "type": "color",
+      "id": "button_bg_color",
+      "label": "Button Background Color",
+      "default": "#5BA90F"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button Text Color",
+      "default": "#ffffff"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Sticky Add To Cart",
+      "category": "CWC Custom"
+    }
+  ]
+}
+{% endschema %}

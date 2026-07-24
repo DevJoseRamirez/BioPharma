@@ -1,0 +1,196 @@
+{% style %}
+  #cwc_bottom-cta-{{ section.id }} {
+    --section-bg: {{ section.settings.bg_color | default: '#44681A' }};
+    --text-color: {{ section.settings.text_color | default: '#d9e7c9' }};
+    --highlight-color: {{ section.settings.bold_color | default: '#A3C781' }};
+    --heading-color: {{ section.settings.heading_color | default: '#ffffff' }};
+    --button-bg: {{ section.settings.button_bg_color | default: '#5BA90F' }};
+    --button-text: {{ section.settings.button_text_color | default: '#ffffff' }};
+    --micro-color: {{ section.settings.micro_color | default: '#c9dab6' }};
+    --disclaimer-bg: {{ section.settings.disclaimer_bg_color | default: '#ffffff' }};
+    --disclaimer-color: {{ section.settings.disclaimer_color | default: '#8b8a7a' }};
+    --padding-top: {{ section.settings.padding_top | default: 55 }}px;
+    --padding-bottom: {{ section.settings.padding_bottom | default: 55 }}px;
+    --padding-top-mobile: {{ section.settings.padding_top | default: 55 | times: 0.5 }}px;
+    --padding-bottom-mobile: {{ section.settings.padding_bottom | default: 55 | times: 0.5 }}px;
+  }
+{% endstyle %}
+
+{{ 'CWC_bottom_cta.css' | asset_url | stylesheet_tag }}
+
+<section id="cwc_bottom-cta-{{ section.id }}" class="cwc_bottom-cta">
+  <div class="cwc_bottom-cta__band">
+    <div class="cwc_bottom-cta__container">
+
+      {% if section.settings.heading != blank %}
+        <div class="cwc_bottom-cta__content-heading cwc-rte">
+          {{ section.settings.heading }}
+        </div>
+      {% endif %}
+
+      {% if section.settings.subtext != blank %}
+        <div class="cwc_bottom-cta__content-subtext cwc-rte">
+          {{ section.settings.subtext }}
+        </div>
+      {% endif %}
+
+      {% if section.settings.cta_text != blank %}
+        <a href="{{ section.settings.cta_link | default: '#' }}" class="cwc_bottom-cta__button">
+          {{ section.settings.cta_text }}
+        </a>
+      {% endif %}
+
+      {% if section.settings.micro_text != blank %}
+        <div class="cwc_bottom-cta__micro">{{ section.settings.micro_text }}</div>
+      {% endif %}
+
+    </div>
+  </div>
+
+  {% if section.settings.disclaimer != blank %}
+    <div class="cwc_bottom-cta__disclaimer">
+      <div class="cwc_bottom-cta__disclaimer-inner cwc-rte">
+        {{ section.settings.disclaimer }}
+      </div>
+    </div>
+  {% endif %}
+</section>
+
+{% schema %}
+{
+  "name": "CWC Bottom CTA",
+  "settings": [
+    {
+      "type": "header",
+      "content": "CTA Band"
+    },
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "<p>Ready to <strong>start?</strong></p>"
+    },
+    {
+      "type": "richtext",
+      "id": "subtext",
+      "label": "Subtext",
+      "default": "<p>Join thousands who make NanoGreens part of their morning.</p>"
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "Button Text",
+      "default": "Start my 90-day supply  →"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "Button Link"
+    },
+    {
+      "type": "text",
+      "id": "micro_text",
+      "label": "Reassurance Line",
+      "default": "$168.64 · 3 tubs · $1.87/serving · free shipping · cancel anytime"
+    },
+    {
+      "type": "header",
+      "content": "Disclaimer"
+    },
+    {
+      "type": "richtext",
+      "id": "disclaimer",
+      "label": "Disclaimer Text",
+      "default": "<p>*These statements have not been evaluated by the Food and Drug Administration. This product is not intended to diagnose, treat, cure or prevent any disease.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Band Background Color",
+      "default": "#44681A"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#d9e7c9"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "bold_color",
+      "label": "Heading Bold Color",
+      "default": "#A3C781"
+    },
+    {
+      "type": "color",
+      "id": "micro_color",
+      "label": "Reassurance Line Color",
+      "default": "#c9dab6"
+    },
+    {
+      "type": "color",
+      "id": "button_bg_color",
+      "label": "Button Background Color",
+      "default": "#5BA90F"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "disclaimer_bg_color",
+      "label": "Disclaimer Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "disclaimer_color",
+      "label": "Disclaimer Text Color",
+      "default": "#8b8a7a"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 55
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 55
+    }
+  ],
+  "presets": [
+    {
+      "name": "Bottom CTA",
+      "category": "CWC Custom"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,255 @@
+{% style %}
+  #cwc_whole-body-support-{{ section.id }} {
+    --section-bg: {{ section.settings.bg_color | default: '#ffffff' }};
+    --text-color: {{ section.settings.text_color | default: '#2A2611' }};
+    --highlight-color: {{ section.settings.bold_color | default: '#5BA90F' }};
+    --muted-color: {{ section.settings.muted_color | default: '#5C5842' }};
+    --border-color: {{ section.settings.border_color | default: '#E6E5DC' }};
+    --card-bg: {{ section.settings.card_bg_color | default: '#ffffff' }};
+    --eyebrow-color: {{ section.settings.eyebrow_color | default: '#5BA90F' }};
+    --icon-bg: {{ section.settings.icon_bg_color | default: '#F2F8EA' }};
+    --icon-border: {{ section.settings.icon_border_color | default: '#A3C781' }};
+    --accent-bg: {{ section.settings.accent_bg_color | default: '#EEF1F9' }};
+    --accent-border: {{ section.settings.accent_border_color | default: '#A3B8E2' }};
+    --padding-top: {{ section.settings.padding_top | default: 50 }}px;
+    --padding-bottom: {{ section.settings.padding_bottom | default: 50 }}px;
+    --padding-top-mobile: {{ section.settings.padding_top | default: 50 | times: 0.5 }}px;
+    --padding-bottom-mobile: {{ section.settings.padding_bottom | default: 50 | times: 0.5 }}px;
+  }
+{% endstyle %}
+
+{{ 'CWC_whole_body_support.css' | asset_url | stylesheet_tag }}
+
+<section id="cwc_whole-body-support-{{ section.id }}" class="cwc_whole-body-support">
+  <div class="cwc_whole-body-support__container">
+
+    <div class="cwc_whole-body-support__content">
+      {% if section.settings.eyebrow != blank %}
+        <div class="cwc_whole-body-support__eyebrow">{{ section.settings.eyebrow }}</div>
+      {% endif %}
+
+      {% if section.settings.heading != blank %}
+        <div class="cwc_whole-body-support__content-heading cwc-rte">
+          {{ section.settings.heading }}
+        </div>
+      {% endif %}
+
+      {% if section.settings.subtext != blank %}
+        <div class="cwc_whole-body-support__content-subtext cwc-rte">
+          {{ section.settings.subtext }}
+        </div>
+      {% endif %}
+    </div>
+
+    {% if section.blocks.size > 0 %}
+      <div class="cwc_whole-body-support__grid">
+        {% for block in section.blocks %}
+          {% case block.type %}
+            {% when 'benefit' %}
+              <div
+                class="cwc_whole-body-support__card{% if block.settings.tone == 'accent' %} cwc_whole-body-support__card--accent{% endif %}"
+                {{ block.shopify_attributes }}
+              >
+                <div class="cwc_whole-body-support__card-icon">
+                  {% if block.settings.icon != blank %}
+                    <img
+                      src="{{ block.settings.icon | image_url: width: 80 }}"
+                      alt="{{ block.settings.title | escape }}"
+                      width="80"
+                      height="80"
+                      loading="lazy"
+                    >
+                  {% endif %}
+                </div>
+                {% if block.settings.title != blank %}
+                  <div class="cwc_whole-body-support__card-title">{{ block.settings.title }}</div>
+                {% endif %}
+                {% if block.settings.text != blank %}
+                  <div class="cwc_whole-body-support__card-text cwc-rte">{{ block.settings.text }}</div>
+                {% endif %}
+              </div>
+          {% endcase %}
+        {% endfor %}
+      </div>
+    {% endif %}
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "CWC Whole Body Support",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Header"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "One scoop, every morning"
+    },
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "<p>What NanoGreens <strong>supports</strong></p>"
+    },
+    {
+      "type": "richtext",
+      "id": "subtext",
+      "label": "Section Subtext",
+      "default": "<p>Six areas of daily wellness, from one 12g scoop.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#2A2611"
+    },
+    {
+      "type": "color",
+      "id": "bold_color",
+      "label": "Heading Bold Color",
+      "default": "#5BA90F"
+    },
+    {
+      "type": "color",
+      "id": "muted_color",
+      "label": "Muted Text Color",
+      "default": "#5C5842"
+    },
+    {
+      "type": "color",
+      "id": "eyebrow_color",
+      "label": "Eyebrow Color",
+      "default": "#5BA90F"
+    },
+    {
+      "type": "header",
+      "content": "Card Colors"
+    },
+    {
+      "type": "color",
+      "id": "card_bg_color",
+      "label": "Card Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Border Color",
+      "default": "#E6E5DC"
+    },
+    {
+      "type": "color",
+      "id": "icon_bg_color",
+      "label": "Icon Background (Green)",
+      "default": "#F2F8EA"
+    },
+    {
+      "type": "color",
+      "id": "icon_border_color",
+      "label": "Icon Border (Green)",
+      "default": "#A3C781"
+    },
+    {
+      "type": "color",
+      "id": "accent_bg_color",
+      "label": "Icon Background (Blue)",
+      "default": "#EEF1F9"
+    },
+    {
+      "type": "color",
+      "id": "accent_border_color",
+      "label": "Icon Border (Blue)",
+      "default": "#A3B8E2"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 50
+    }
+  ],
+  "blocks": [
+    {
+      "type": "benefit",
+      "name": "Benefit Card",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Icon Image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Natural energy"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text",
+          "default": "<p>Sustained energy without stimulants — customers call it \"liquid energy,\" no coffee crash.</p>"
+        },
+        {
+          "type": "select",
+          "id": "tone",
+          "label": "Icon Tone",
+          "options": [
+            { "value": "tint", "label": "Green" },
+            { "value": "accent", "label": "Blue" }
+          ],
+          "default": "tint"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 9,
+  "presets": [
+    {
+      "name": "Whole Body Support",
+      "category": "CWC Custom",
+      "blocks": [
+        { "type": "benefit" },
+        { "type": "benefit" },
+        { "type": "benefit" },
+        { "type": "benefit" },
+        { "type": "benefit" },
+        { "type": "benefit" }
+      ]
+    }
+  ]
+}
+{% endschema %}

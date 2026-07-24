@@ -1,0 +1,409 @@
+{% style %}
+  #cwc_cost-calculator-{{ section.id }} {
+    --section-bg: {{ section.settings.bg_color | default: '#F4F3EE' }};
+    --text-color: {{ section.settings.text_color | default: '#2A2611' }};
+    --highlight-color: {{ section.settings.bold_color | default: '#5BA90F' }};
+    --muted-color: {{ section.settings.muted_color | default: '#5C5842' }};
+    --border-color: {{ section.settings.border_color | default: '#E6E5DC' }};
+    --card-bg: {{ section.settings.card_bg_color | default: '#ffffff' }};
+    --total-bg: {{ section.settings.total_bg_color | default: '#FAF9F4' }};
+    --win-bg: {{ section.settings.win_bg_color | default: '#44681A' }};
+    --win-accent: {{ section.settings.win_accent_color | default: '#A3C781' }};
+    --win-muted: {{ section.settings.win_muted_color | default: '#cfe0bd' }};
+    --eyebrow-color: {{ section.settings.eyebrow_color | default: '#5BA90F' }};
+    --button-bg: {{ section.settings.button_bg_color | default: '#5BA90F' }};
+    --button-text: {{ section.settings.button_text_color | default: '#ffffff' }};
+    --padding-top: {{ section.settings.padding_top | default: 50 }}px;
+    --padding-bottom: {{ section.settings.padding_bottom | default: 50 }}px;
+    --padding-top-mobile: {{ section.settings.padding_top | default: 50 | times: 0.5 }}px;
+    --padding-bottom-mobile: {{ section.settings.padding_bottom | default: 50 | times: 0.5 }}px;
+  }
+{% endstyle %}
+
+{{ 'CWC_cost_calculator.css' | asset_url | stylesheet_tag }}
+
+<section id="cwc_cost-calculator-{{ section.id }}" class="cwc_cost-calculator">
+  <div class="cwc_cost-calculator__container">
+
+    <div class="cwc_cost-calculator__content">
+      {% if section.settings.eyebrow != blank %}
+        <div class="cwc_cost-calculator__eyebrow">{{ section.settings.eyebrow }}</div>
+      {% endif %}
+
+      {% if section.settings.heading != blank %}
+        <div class="cwc_cost-calculator__content-heading cwc-rte">
+          {{ section.settings.heading }}
+        </div>
+      {% endif %}
+
+      {% if section.settings.subtext != blank %}
+        <div class="cwc_cost-calculator__content-subtext cwc-rte">
+          {{ section.settings.subtext }}
+        </div>
+      {% endif %}
+    </div>
+
+    {% if section.settings.placeholder_note != blank %}
+      <div class="cwc_cost-calculator__placeholder-note">{{ section.settings.placeholder_note }}</div>
+    {% endif %}
+
+    <div class="cwc_cost-calculator__grid">
+      {% comment %} Buying separately {% endcomment %}
+      <div class="cwc_cost-calculator__box">
+        <div class="cwc_cost-calculator__box-head">
+          {% if section.settings.box_title != blank %}
+            <div class="cwc_cost-calculator__box-title">{{ section.settings.box_title }}</div>
+          {% endif %}
+          {% if section.settings.box_subtitle != blank %}
+            <div class="cwc_cost-calculator__box-subtitle">{{ section.settings.box_subtitle }}</div>
+          {% endif %}
+        </div>
+
+        {% for block in section.blocks %}
+          {% case block.type %}
+            {% when 'line' %}
+              <div class="cwc_cost-calculator__line" {{ block.shopify_attributes }}>
+                <span class="cwc_cost-calculator__line-name">
+                  {{ block.settings.name }}
+                  {% if block.settings.note != blank %}
+                    <span class="cwc_cost-calculator__line-note">{{ block.settings.note }}</span>
+                  {% endif %}
+                </span>
+                {% if block.settings.price != blank %}
+                  <span class="cwc_cost-calculator__line-price">{{ block.settings.price }}</span>
+                {% endif %}
+              </div>
+          {% endcase %}
+        {% endfor %}
+
+        {% if section.settings.total_label != blank %}
+          <div class="cwc_cost-calculator__total">
+            <span>{{ section.settings.total_label }}</span>
+            <span class="cwc_cost-calculator__total-value">{{ section.settings.total_value }}</span>
+          </div>
+        {% endif %}
+      </div>
+
+      {% comment %} Win card {% endcomment %}
+      <div class="cwc_cost-calculator__win">
+        {% if section.settings.win_eyebrow != blank %}
+          <div class="cwc_cost-calculator__win-eyebrow">{{ section.settings.win_eyebrow }}</div>
+        {% endif %}
+        {% if section.settings.win_title != blank %}
+          <div class="cwc_cost-calculator__win-title cwc-rte">{{ section.settings.win_title }}</div>
+        {% endif %}
+
+        <div class="cwc_cost-calculator__win-price">
+          {% if section.settings.win_price != blank %}
+            <span class="cwc_cost-calculator__win-price-value">{{ section.settings.win_price }}</span>
+          {% endif %}
+          {% if section.settings.win_price_unit != blank %}
+            <span class="cwc_cost-calculator__win-price-unit">{{ section.settings.win_price_unit }}</span>
+          {% endif %}
+        </div>
+
+        {% if section.settings.win_price_sub != blank %}
+          <div class="cwc_cost-calculator__win-sub">{{ section.settings.win_price_sub }}</div>
+        {% endif %}
+
+        {% if section.settings.win_save_value != blank %}
+          <div class="cwc_cost-calculator__win-save">
+            <div class="cwc_cost-calculator__win-save-value">{{ section.settings.win_save_value }}</div>
+            {% if section.settings.win_save_label != blank %}
+              <div class="cwc_cost-calculator__win-save-label">{{ section.settings.win_save_label }}</div>
+            {% endif %}
+          </div>
+        {% endif %}
+
+        {% if section.settings.win_cta_text != blank %}
+          <a href="{{ section.settings.win_cta_link | default: '#' }}" class="cwc_cost-calculator__win-button">
+            {{ section.settings.win_cta_text }}
+          </a>
+        {% endif %}
+      </div>
+    </div>
+
+    {% if section.settings.footnote != blank %}
+      <div class="cwc_cost-calculator__footnote">{{ section.settings.footnote }}</div>
+    {% endif %}
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "CWC Cost Calculator",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Header"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "The real cost of doing it yourself"
+    },
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "<p>One scoop replaces <strong>five separate supplements</strong></p>"
+    },
+    {
+      "type": "richtext",
+      "id": "subtext",
+      "label": "Section Subtext",
+      "default": "<p>NanoGreens isn't just a greens powder. Here's what it would cost to buy each part on its own.</p>"
+    },
+    {
+      "type": "text",
+      "id": "placeholder_note",
+      "label": "Placeholder Note",
+      "info": "Yellow warning banner. Leave empty to hide.",
+      "default": "PLACEHOLDER PRICING — verify competitor retail before publishing"
+    },
+    {
+      "type": "header",
+      "content": "Buying Separately Box"
+    },
+    {
+      "type": "text",
+      "id": "box_title",
+      "label": "Box Title",
+      "default": "Buying it separately"
+    },
+    {
+      "type": "text",
+      "id": "box_subtitle",
+      "label": "Box Subtitle",
+      "default": "Five products, five subscriptions, five things to remember"
+    },
+    {
+      "type": "text",
+      "id": "total_label",
+      "label": "Total Label",
+      "default": "Total, bought separately"
+    },
+    {
+      "type": "text",
+      "id": "total_value",
+      "label": "Total Value",
+      "default": "$133 / mo"
+    },
+    {
+      "type": "header",
+      "content": "Win Card"
+    },
+    {
+      "type": "text",
+      "id": "win_eyebrow",
+      "label": "Eyebrow",
+      "default": "All of it, in one scoop"
+    },
+    {
+      "type": "richtext",
+      "id": "win_title",
+      "label": "Title",
+      "default": "<p>NanoGreens 90-day supply</p>"
+    },
+    {
+      "type": "text",
+      "id": "win_price",
+      "label": "Price",
+      "default": "$56"
+    },
+    {
+      "type": "text",
+      "id": "win_price_unit",
+      "label": "Price Unit",
+      "default": "/ month"
+    },
+    {
+      "type": "text",
+      "id": "win_price_sub",
+      "label": "Price Subtext",
+      "default": "$168.64 billed every 90 days · $1.87 per serving"
+    },
+    {
+      "type": "text",
+      "id": "win_save_value",
+      "label": "Savings Value",
+      "default": "$921 / year"
+    },
+    {
+      "type": "text",
+      "id": "win_save_label",
+      "label": "Savings Label",
+      "default": "saved versus buying the five separately"
+    },
+    {
+      "type": "text",
+      "id": "win_cta_text",
+      "label": "Button Text",
+      "default": "Start my 90-day supply →"
+    },
+    {
+      "type": "url",
+      "id": "win_cta_link",
+      "label": "Button Link"
+    },
+    {
+      "type": "text",
+      "id": "footnote",
+      "label": "Footnote",
+      "default": "We built this because we know you're going to check the math. Comparison prices are based on average retail cost of standalone supplements at comparable dosages. NanoGreens price reflects the 90-day subscription rate ($168.64 billed every 90 days). Individual formulations vary."
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#F4F3EE"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#2A2611"
+    },
+    {
+      "type": "color",
+      "id": "bold_color",
+      "label": "Heading Bold Color",
+      "default": "#5BA90F"
+    },
+    {
+      "type": "color",
+      "id": "muted_color",
+      "label": "Muted Text Color",
+      "default": "#5C5842"
+    },
+    {
+      "type": "color",
+      "id": "eyebrow_color",
+      "label": "Eyebrow Color",
+      "default": "#5BA90F"
+    },
+    {
+      "type": "header",
+      "content": "Card Colors"
+    },
+    {
+      "type": "color",
+      "id": "card_bg_color",
+      "label": "Card Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "total_bg_color",
+      "label": "Total Row Background",
+      "default": "#FAF9F4"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Border Color",
+      "default": "#E6E5DC"
+    },
+    {
+      "type": "color",
+      "id": "win_bg_color",
+      "label": "Win Card Background",
+      "default": "#44681A"
+    },
+    {
+      "type": "color",
+      "id": "win_accent_color",
+      "label": "Win Card Accent",
+      "default": "#A3C781"
+    },
+    {
+      "type": "color",
+      "id": "win_muted_color",
+      "label": "Win Card Muted Text",
+      "default": "#cfe0bd"
+    },
+    {
+      "type": "color",
+      "id": "button_bg_color",
+      "label": "Button Background Color",
+      "default": "#5BA90F"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 50
+    }
+  ],
+  "blocks": [
+    {
+      "type": "line",
+      "name": "Cost Line",
+      "settings": [
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Name",
+          "default": "Organic greens powder"
+        },
+        {
+          "type": "text",
+          "id": "note",
+          "label": "Note",
+          "default": "Barley grass, spirulina, chlorella — 2,400mg blend"
+        },
+        {
+          "type": "text",
+          "id": "price",
+          "label": "Price",
+          "default": "$35"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 12,
+  "presets": [
+    {
+      "name": "Cost Calculator",
+      "category": "CWC Custom",
+      "blocks": [
+        { "type": "line" },
+        { "type": "line" },
+        { "type": "line" },
+        { "type": "line" },
+        { "type": "line" }
+      ]
+    }
+  ]
+}
+{% endschema %}

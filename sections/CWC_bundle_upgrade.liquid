@@ -1,0 +1,430 @@
+{% style %}
+  #cwc_bundle-upgrade-{{ section.id }} {
+    --section-bg: {{ section.settings.bg_color | default: '#F4F3EE' }};
+    --text-color: {{ section.settings.text_color | default: '#2A2611' }};
+    --highlight-color: {{ section.settings.bold_color | default: '#5BA90F' }};
+    --card-bg: {{ section.settings.card_bg_color | default: '#ffffff' }};
+    --card-highlight-bg: {{ section.settings.card_highlight_bg_color | default: '#FAFDF6' }};
+    --muted-color: {{ section.settings.muted_color | default: '#5C5842' }};
+    --deep-color: {{ section.settings.deep_color | default: '#44681A' }};
+    --border-color: {{ section.settings.border_color | default: '#E6E5DC' }};
+    --button-bg: {{ section.settings.button_bg_color | default: '#5BA90F' }};
+    --button-text: {{ section.settings.button_text_color | default: '#ffffff' }};
+    --eyebrow-color: {{ section.settings.eyebrow_color | default: '#5BA90F' }};
+    --padding-top: {{ section.settings.padding_top | default: 60 }}px;
+    --padding-bottom: {{ section.settings.padding_bottom | default: 60 }}px;
+    --padding-top-mobile: {{ section.settings.padding_top | default: 60 | times: 0.5 }}px;
+    --padding-bottom-mobile: {{ section.settings.padding_bottom | default: 60 | times: 0.5 }}px;
+  }
+{% endstyle %}
+
+{{ 'CWC_bundle_upgrade.css' | asset_url | stylesheet_tag }}
+
+<section id="cwc_bundle-upgrade-{{ section.id }}" class="cwc_bundle-upgrade">
+  <div class="cwc_bundle-upgrade__container">
+    <div class="cwc_bundle-upgrade__inner">
+
+      {% comment %} Section Header {% endcomment %}
+      <div class="cwc_bundle-upgrade__content">
+        {% if section.settings.eyebrow != blank %}
+          <div class="cwc_bundle-upgrade__eyebrow">{{ section.settings.eyebrow }}</div>
+        {% endif %}
+
+        {% if section.settings.heading != blank %}
+          <div class="cwc_bundle-upgrade__content-heading cwc-rte">
+            {{ section.settings.heading }}
+          </div>
+        {% endif %}
+
+        {% if section.settings.subtext != blank %}
+          <div class="cwc_bundle-upgrade__content-subtext cwc-rte">
+            {{ section.settings.subtext }}
+          </div>
+        {% endif %}
+      </div>
+
+      {% comment %} Stack comparison {% endcomment %}
+      {% if section.blocks.size > 0 %}
+        <div class="cwc_bundle-upgrade__stack">
+          {% for block in section.blocks %}
+            {% case block.type %}
+              {% when 'column' %}
+                <div
+                  class="cwc_bundle-upgrade__column{% if block.settings.highlighted %} cwc_bundle-upgrade__column--highlighted{% endif %}"
+                  {{ block.shopify_attributes }}
+                >
+                  {% if block.settings.ribbon_text != blank %}
+                    <span class="cwc_bundle-upgrade__ribbon">{{ block.settings.ribbon_text }}</span>
+                  {% endif %}
+
+                  {% if block.settings.tag != blank %}
+                    <div class="cwc_bundle-upgrade__tag">{{ block.settings.tag }}</div>
+                  {% endif %}
+
+                  <div class="cwc_bundle-upgrade__products">
+                    {% if block.settings.image != blank %}
+                      <img
+                        src="{{ block.settings.image | image_url: width: 400 }}"
+                        alt="{{ block.settings.name | escape }}"
+                        width="200"
+                        height="224"
+                        loading="lazy"
+                      >
+                    {% else %}
+                      <span class="cwc_bundle-upgrade__product-placeholder">Add image</span>
+                    {% endif %}
+
+                    {% if block.settings.ghost_labels != blank %}
+                      {% assign ghosts = block.settings.ghost_labels | split: ',' %}
+                      {% for ghost in ghosts limit: 4 %}
+                        <span class="cwc_bundle-upgrade__ghost"><span>{{ ghost | strip }}</span></span>
+                      {% endfor %}
+                    {% endif %}
+                  </div>
+
+                  {% if block.settings.name != blank %}
+                    <div class="cwc_bundle-upgrade__name">{{ block.settings.name }}</div>
+                  {% endif %}
+
+                  <div class="cwc_bundle-upgrade__price">
+                    {% if block.settings.price != blank %}
+                      <span class="cwc_bundle-upgrade__price-now">{{ block.settings.price }}</span>
+                    {% endif %}
+                    {% if block.settings.compare_price != blank %}
+                      <span class="cwc_bundle-upgrade__price-was">{{ block.settings.compare_price }}</span>
+                    {% endif %}
+                  </div>
+
+                  {% if block.settings.per_text != blank %}
+                    <div class="cwc_bundle-upgrade__per">{{ block.settings.per_text }}</div>
+                  {% endif %}
+
+                  {% if block.settings.features_included != blank %}
+                    <div class="cwc_bundle-upgrade__features cwc-rte">
+                      {{ block.settings.features_included }}
+                    </div>
+                  {% endif %}
+
+                  {% if block.settings.features_excluded != blank %}
+                    <div class="cwc_bundle-upgrade__features cwc_bundle-upgrade__features--excluded cwc-rte">
+                      {{ block.settings.features_excluded }}
+                    </div>
+                  {% endif %}
+                </div>
+            {% endcase %}
+          {% endfor %}
+
+          {% if section.settings.cost_left_label != blank or section.settings.cost_right_label != blank %}
+            <div class="cwc_bundle-upgrade__costs">
+              <div class="cwc_bundle-upgrade__cost">
+                {{ section.settings.cost_left_label }}
+                <b>{{ section.settings.cost_left_value }}</b>
+              </div>
+              <div class="cwc_bundle-upgrade__cost">
+                {{ section.settings.cost_right_label }}
+                <b>{{ section.settings.cost_right_value }}</b>
+              </div>
+            </div>
+          {% endif %}
+
+          <div class="cwc_bundle-upgrade__actions">
+            {% if section.settings.cta_text != blank %}
+              <a href="{{ section.settings.cta_link | default: '#' }}" class="cwc_bundle-upgrade__button">
+                {{ section.settings.cta_text }}
+              </a>
+            {% endif %}
+
+            {% if section.settings.decline_text != blank %}
+              <a href="{{ section.settings.decline_link | default: '#' }}" class="cwc_bundle-upgrade__decline">
+                {{ section.settings.decline_text }}
+              </a>
+            {% endif %}
+          </div>
+        </div>
+      {% else %}
+        <div class="cwc_bundle-upgrade__empty">
+          <p>Add columns to display the bundle comparison.</p>
+        </div>
+      {% endif %}
+
+      {% if section.settings.note != blank %}
+        <div class="cwc_bundle-upgrade__note">{{ section.settings.note }}</div>
+      {% endif %}
+
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "CWC Bundle Upgrade",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Header"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Complete the system"
+    },
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "<p>Upgrade to <strong>CORE4</strong></p>"
+    },
+    {
+      "type": "richtext",
+      "id": "subtext",
+      "label": "Section Subtext",
+      "default": "<p>Most customers already mix NanoGreens with our protein and omegas. CORE4 is all four, at a bundle price.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Cost Row"
+    },
+    {
+      "type": "text",
+      "id": "cost_left_label",
+      "label": "Left Label",
+      "default": "Greens only"
+    },
+    {
+      "type": "text",
+      "id": "cost_left_value",
+      "label": "Left Value",
+      "default": "$2.13 / day"
+    },
+    {
+      "type": "text",
+      "id": "cost_right_label",
+      "label": "Right Label",
+      "default": "Complete system"
+    },
+    {
+      "type": "text",
+      "id": "cost_right_value",
+      "label": "Right Value",
+      "default": "$7.19 / day"
+    },
+    {
+      "type": "header",
+      "content": "Actions"
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "Upgrade Button Text",
+      "default": "Upgrade to CORE4  +$152.11"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "Upgrade Button Link"
+    },
+    {
+      "type": "text",
+      "id": "decline_text",
+      "label": "Decline Text",
+      "default": "No thanks — just NanoGreens for now"
+    },
+    {
+      "type": "url",
+      "id": "decline_link",
+      "label": "Decline Link"
+    },
+    {
+      "type": "text",
+      "id": "note",
+      "label": "Footnote",
+      "default": "Assumption to confirm: CORE4 priced as a 30-day supply of all four products, compared like-for-like against the 30-day greens option."
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#F4F3EE"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#2A2611"
+    },
+    {
+      "type": "color",
+      "id": "bold_color",
+      "label": "Heading Bold Color",
+      "default": "#5BA90F"
+    },
+    {
+      "type": "color",
+      "id": "muted_color",
+      "label": "Muted Text Color",
+      "default": "#5C5842"
+    },
+    {
+      "type": "color",
+      "id": "deep_color",
+      "label": "Deep Accent Color",
+      "default": "#44681A"
+    },
+    {
+      "type": "color",
+      "id": "eyebrow_color",
+      "label": "Eyebrow Color",
+      "default": "#5BA90F"
+    },
+    {
+      "type": "header",
+      "content": "Card Colors"
+    },
+    {
+      "type": "color",
+      "id": "card_bg_color",
+      "label": "Card Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "card_highlight_bg_color",
+      "label": "Highlighted Column Background",
+      "default": "#FAFDF6"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Border Color",
+      "default": "#E6E5DC"
+    },
+    {
+      "type": "color",
+      "id": "button_bg_color",
+      "label": "Button Background Color",
+      "default": "#5BA90F"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 60
+    }
+  ],
+  "blocks": [
+    {
+      "type": "column",
+      "name": "Comparison Column",
+      "settings": [
+        {
+          "type": "text",
+          "id": "tag",
+          "label": "Column Tag",
+          "default": "Greens only"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Column Product Image"
+        },
+        {
+          "type": "text",
+          "id": "ghost_labels",
+          "label": "Extra Product Labels",
+          "info": "Comma separated. Renders outline bottles beside the image."
+        },
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Name",
+          "default": "NanoGreens"
+        },
+        {
+          "type": "text",
+          "id": "price",
+          "label": "Price",
+          "default": "$63.71"
+        },
+        {
+          "type": "text",
+          "id": "compare_price",
+          "label": "Compare-At Price",
+          "default": "$74.95"
+        },
+        {
+          "type": "text",
+          "id": "per_text",
+          "label": "Per-Unit Line",
+          "default": "30-day supply · $2.13 / serving"
+        },
+        {
+          "type": "richtext",
+          "id": "features_included",
+          "label": "Included Features",
+          "info": "One per line — each renders with a check mark.",
+          "default": "<p>55 organic ingredients, 30 servings</p><p>9-enzyme blend for absorption</p><p>Antioxidant &amp; immune support</p>"
+        },
+        {
+          "type": "richtext",
+          "id": "features_excluded",
+          "label": "Excluded Features",
+          "info": "One per line — each renders dimmed with a cross.",
+          "default": "<p>No protein for recovery</p><p>No omega-3 support</p>"
+        },
+        {
+          "type": "checkbox",
+          "id": "highlighted",
+          "label": "Highlight This Column",
+          "default": false
+        },
+        {
+          "type": "text",
+          "id": "ribbon_text",
+          "label": "Corner Ribbon",
+          "info": "Leave empty for no ribbon."
+        }
+      ]
+    }
+  ],
+  "max_blocks": 2,
+  "presets": [
+    {
+      "name": "Bundle Upgrade",
+      "category": "CWC Custom",
+      "blocks": [
+        { "type": "column" },
+        { "type": "column" }
+      ]
+    }
+  ]
+}
+{% endschema %}
