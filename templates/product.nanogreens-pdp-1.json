@@ -944,7 +944,7 @@
           "settings": {
             "question": "How do I take it?",
             "answer": "<p>Mix 1 scoop (12g) with 6–16 oz of cold water. Shake, stir, or blend. Best first thing in the morning. Also mixes well into smoothies, unsweetened almond milk, or coconut milk. For children under 12, use ½ scoop. 30 servings per container.</p>",
-            "open": false
+            "open": true
           }
         },
         "faq_gluten": {
@@ -1015,7 +1015,7 @@
         "faq_subscription"
       ],
       "settings": {
-        "heading": "<p>Common <strong>questions</strong></p>",
+        "heading": "<p>FAQs</p>",
         "padding_top": 50,
         "padding_bottom": 50
       }

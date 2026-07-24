@@ -1,48 +1,103 @@
 {% style %}
   #cwc_faq-{{ section.id }} {
     --section-bg: {{ section.settings.bg_color | default: '#ffffff' }};
-    --text-color: {{ section.settings.text_color | default: '#2A2611' }};
-    --highlight-color: {{ section.settings.bold_color | default: '#5BA90F' }};
-    --muted-color: {{ section.settings.muted_color | default: '#5C5842' }};
-    --border-color: {{ section.settings.border_color | default: '#E6E5DC' }};
-    --padding-top: {{ section.settings.padding_top | default: 50 }}px;
-    --padding-bottom: {{ section.settings.padding_bottom | default: 50 }}px;
-    --padding-top-mobile: {{ section.settings.padding_top | default: 50 | times: 0.5 }}px;
-    --padding-bottom-mobile: {{ section.settings.padding_bottom | default: 50 | times: 0.5 }}px;
+    --panel-bg: {{ section.settings.panel_bg_color | default: '#44681A' }};
+    --panel-text: {{ section.settings.panel_text_color | default: '#ffffff' }};
+    --highlight-color: {{ section.settings.bold_color | default: '#A3C781' }};
+    --answer-color: {{ section.settings.answer_color | default: '#dbe6cd' }};
+    --divider-color: {{ section.settings.divider_color | default: 'rgba(255,255,255,0.22)' }};
+    --sign-color: {{ section.settings.sign_color | default: '#ffffff' }};
+    --button-bg: {{ section.settings.button_bg_color | default: '#31501A' }};
+    --button-text: {{ section.settings.button_text_color | default: '#ffffff' }};
+    --padding-top: {{ section.settings.padding_top | default: 0 }}px;
+    --padding-bottom: {{ section.settings.padding_bottom | default: 0 }}px;
+    --padding-top-mobile: {{ section.settings.padding_top | default: 0 | times: 0.5 }}px;
+    --padding-bottom-mobile: {{ section.settings.padding_bottom | default: 0 | times: 0.5 }}px;
   }
 {% endstyle %}
 
 {{ 'CWC_faq.css' | asset_url | stylesheet_tag }}
 
-<section id="cwc_faq-{{ section.id }}" class="cwc_faq">
-  <div class="cwc_faq__container">
+<section
+  id="cwc_faq-{{ section.id }}"
+  class="cwc_faq{% if section.settings.image_position == 'left' %} cwc_faq--reverse{% endif %}"
+>
+  <div class="cwc_faq__wrapper">
 
-    <div class="cwc_faq__content">
-      {% if section.settings.heading != blank %}
-        <div class="cwc_faq__content-heading cwc-rte">
-          {{ section.settings.heading }}
+    {% comment %} Content panel {% endcomment %}
+    <div class="cwc_faq__panel">
+      <div class="cwc_faq__panel-inner">
+
+        {% if section.settings.heading != blank %}
+          <div class="cwc_faq__content-heading cwc-rte">
+            {{ section.settings.heading }}
+          </div>
+        {% endif %}
+
+        {% if section.blocks.size > 0 %}
+          <div class="cwc_faq__list">
+            {% for block in section.blocks %}
+              {% case block.type %}
+                {% when 'faq' %}
+                  <details
+                    class="cwc_faq__item"
+                    {% if block.settings.open %}open{% endif %}
+                    {{ block.shopify_attributes }}
+                  >
+                    <summary class="cwc_faq__question">
+                      <span class="cwc_faq__question-text">{{ block.settings.question }}</span>
+                      <span class="cwc_faq__sign" aria-hidden="true"></span>
+                    </summary>
+                    {% if block.settings.answer != blank %}
+                      <div class="cwc_faq__answer cwc-rte">{{ block.settings.answer }}</div>
+                    {% endif %}
+                  </details>
+              {% endcase %}
+            {% endfor %}
+          </div>
+        {% endif %}
+
+        {% if section.settings.button_label != blank %}
+          <a href="{{ section.settings.button_link | default: '#' }}" class="cwc_faq__button">
+            {{ section.settings.button_label }}
+          </a>
+        {% endif %}
+
+      </div>
+    </div>
+
+    {% comment %} Media {% endcomment %}
+    <div class="cwc_faq__media">
+      {% if section.settings.image != blank %}
+        {% if section.settings.image_mobile != blank %}
+          <picture>
+            <source
+              media="(max-width: 767px)"
+              srcset="{{ section.settings.image_mobile | image_url: width: 900 }}"
+            >
+            <img
+              src="{{ section.settings.image | image_url: width: 1400 }}"
+              alt="{{ section.settings.image_alt | default: 'NanoGreens' | escape }}"
+              loading="lazy"
+              width="1400"
+              height="1400"
+            >
+          </picture>
+        {% else %}
+          <img
+            src="{{ section.settings.image | image_url: width: 1400 }}"
+            alt="{{ section.settings.image_alt | default: 'NanoGreens' | escape }}"
+            loading="lazy"
+            width="1400"
+            height="1400"
+          >
+        {% endif %}
+      {% else %}
+        <div class="cwc_faq__placeholder">
+          <span>Add image</span>
         </div>
       {% endif %}
     </div>
-
-    {% if section.blocks.size > 0 %}
-      <div class="cwc_faq__list">
-        {% for block in section.blocks %}
-          {% case block.type %}
-            {% when 'faq' %}
-              <details class="cwc_faq__item"{% if block.settings.open %} open{% endif %} {{ block.shopify_attributes }}>
-                <summary class="cwc_faq__question">
-                  {{ block.settings.question }}
-                  <span class="cwc_faq__chevron" aria-hidden="true">&#8964;</span>
-                </summary>
-                {% if block.settings.answer != blank %}
-                  <div class="cwc_faq__answer cwc-rte">{{ block.settings.answer }}</div>
-                {% endif %}
-              </details>
-          {% endcase %}
-        {% endfor %}
-      </div>
-    {% endif %}
 
   </div>
 </section>
@@ -59,7 +114,57 @@
       "type": "richtext",
       "id": "heading",
       "label": "Section Heading",
-      "default": "<p>Common <strong>questions</strong></p>"
+      "default": "<p>FAQs</p>"
+    },
+    {
+      "type": "header",
+      "content": "Button"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button Text",
+      "default": "Explore all FAQs"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button Link"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "Image Position",
+      "options": [
+        { "value": "right", "label": "Right" },
+        { "value": "left", "label": "Left" }
+      ],
+      "default": "right"
+    },
+    {
+      "type": "header",
+      "content": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_mobile",
+      "label": "Mobile Image",
+      "info": "Optional. Falls back to the main image."
+    },
+    {
+      "type": "text",
+      "id": "image_alt",
+      "label": "Image Alt Text",
+      "default": "NanoGreens"
     },
     {
       "type": "header",
@@ -68,32 +173,56 @@
     {
       "type": "color",
       "id": "bg_color",
-      "label": "Background Color",
+      "label": "Section Background Color",
       "default": "#ffffff"
     },
     {
       "type": "color",
-      "id": "text_color",
-      "label": "Text Color",
-      "default": "#2A2611"
+      "id": "panel_bg_color",
+      "label": "Panel Background Color",
+      "default": "#44681A"
+    },
+    {
+      "type": "color",
+      "id": "panel_text_color",
+      "label": "Panel Text Color",
+      "default": "#ffffff"
     },
     {
       "type": "color",
       "id": "bold_color",
       "label": "Heading Bold Color",
-      "default": "#5BA90F"
+      "default": "#A3C781"
     },
     {
       "type": "color",
-      "id": "muted_color",
-      "label": "Muted Text Color",
-      "default": "#5C5842"
+      "id": "answer_color",
+      "label": "Answer Text Color",
+      "default": "#dbe6cd"
     },
     {
       "type": "color",
-      "id": "border_color",
-      "label": "Border Color",
-      "default": "#E6E5DC"
+      "id": "divider_color",
+      "label": "Divider Color",
+      "default": "#6a8348"
+    },
+    {
+      "type": "color",
+      "id": "sign_color",
+      "label": "Toggle Sign Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "button_bg_color",
+      "label": "Button Background Color",
+      "default": "#31501A"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button Text Color",
+      "default": "#ffffff"
     },
     {
       "type": "header",
@@ -107,7 +236,7 @@
       "max": 120,
       "step": 5,
       "unit": "px",
-      "default": 50
+      "default": 0
     },
     {
       "type": "range",
@@ -117,7 +246,7 @@
       "max": 120,
       "step": 5,
       "unit": "px",
-      "default": 50
+      "default": 0
     }
   ],
   "blocks": [
