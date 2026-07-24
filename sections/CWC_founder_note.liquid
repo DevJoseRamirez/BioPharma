@@ -17,11 +17,6 @@
 
 <section id="cwc_founder-note-{{ section.id }}" class="cwc_founder-note">
   <div class="cwc_founder-note__container">
-
-    {% if section.settings.placeholder_note != blank %}
-      <div class="cwc_founder-note__placeholder-note">{{ section.settings.placeholder_note }}</div>
-    {% endif %}
-
     <div class="cwc_founder-note__wrapper">
       <div class="cwc_founder-note__photo">
         {% if section.settings.photo != blank %}
@@ -33,7 +28,9 @@
             loading="lazy"
           >
         {% else %}
-          <span class="cwc_founder-note__photo-label">{{ section.settings.photo_placeholder | default: 'FOUNDER PHOTO' }}</span>
+          <span class="cwc_founder-note__photo-label">
+            {{- section.settings.photo_placeholder | default: 'FOUNDER PHOTO' -}}
+          </span>
           {% if section.settings.photo_caption != blank %}
             <span class="cwc_founder-note__photo-caption">{{ section.settings.photo_caption }}</span>
           {% endif %}
@@ -69,7 +66,6 @@
         {% endif %}
       </div>
     </div>
-
   </div>
 </section>
 
@@ -77,13 +73,6 @@
 {
   "name": "CWC Founder Note",
   "settings": [
-    {
-      "type": "text",
-      "id": "placeholder_note",
-      "label": "Placeholder Note",
-      "info": "Yellow warning banner. Leave empty to hide.",
-      "default": "PLACEHOLDER COPY — to be replaced with Rick's own words"
-    },
     {
       "type": "header",
       "content": "Photo"

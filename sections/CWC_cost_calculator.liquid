@@ -43,9 +43,6 @@
       {% endif %}
     </div>
 
-    {% if section.settings.placeholder_note != blank %}
-      <div class="cwc_cost-calculator__placeholder-note">{{ section.settings.placeholder_note }}</div>
-    {% endif %}
 
     <div class="cwc_cost-calculator__grid">
       {% comment %} Buying separately {% endcomment %}
@@ -155,13 +152,6 @@
       "id": "subtext",
       "label": "Section Subtext",
       "default": "<p>NanoGreens isn't just a greens powder. Here's what it would cost to buy each part on its own.</p>"
-    },
-    {
-      "type": "text",
-      "id": "placeholder_note",
-      "label": "Placeholder Note",
-      "info": "Yellow warning banner. Leave empty to hide.",
-      "default": "PLACEHOLDER PRICING — verify competitor retail before publishing"
     },
     {
       "type": "header",

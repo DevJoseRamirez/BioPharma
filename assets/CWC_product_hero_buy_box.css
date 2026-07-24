@@ -173,7 +173,7 @@
   /* 14px */
   color: var(--deep-color);
   font-weight: 600;
-  text-decoration: underline;
+  /* text-decoration: underline; */
 }
 
 .cwc_product-hero-buy-box__eyebrow {
@@ -734,6 +734,8 @@
   /* 14.4px */
   font-weight: 800;
   color: var(--text-color);
+  /* testing */
+  line-height: normal;
 }
 
 .cwc_product-hero-buy-box__stat-description {

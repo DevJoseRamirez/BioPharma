@@ -40,9 +40,7 @@
       {% endif %}
     </div>
 
-    {% if section.settings.placeholder_note != blank %}
-      <div class="cwc_practitioner-endorsement__placeholder-note">{{ section.settings.placeholder_note }}</div>
-    {% endif %}
+ 
 
     {% assign practitioner_blocks = section.blocks | where: 'type', 'practitioner' %}
     {% if practitioner_blocks.size > 0 %}
@@ -124,13 +122,6 @@
       "id": "subtext",
       "label": "Section Subtext",
       "default": "<p>NanoGreens was distributed through clinics for years before it was ever sold online. Many still stock it.</p>"
-    },
-    {
-      "type": "text",
-      "id": "placeholder_note",
-      "label": "Placeholder Note",
-      "info": "Yellow warning banner. Leave empty to hide.",
-      "default": "PLACEHOLDER — replace with real, consented practitioner quotes & credentials"
     },
     {
       "type": "header",

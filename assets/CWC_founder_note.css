@@ -20,20 +20,7 @@
   padding: 0 32px;
 }
 
-/* === Placeholder Note === */
-.cwc_founder-note__placeholder-note {
-  display: inline-block;
-  background: #fffbe6;
-  border: 1px dashed #e6c34a;
-  border-radius: 5px;
-  font-size: 0.72em;
-  /* 11.52px */
-  color: #7a5c00;
-  font-weight: 700;
-  padding: 3px 9px;
-  letter-spacing: 0.3px;
-  margin-bottom: 14px;
-}
+
 
 /* === Wrapper === */
 .cwc_founder-note__wrapper {

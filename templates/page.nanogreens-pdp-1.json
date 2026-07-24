@@ -676,7 +676,6 @@
         "eyebrow": "The real cost of doing it yourself",
         "heading": "<p>One scoop replaces <strong>five separate supplements</strong></p>",
         "subtext": "<p>NanoGreens isn't just a greens powder. Here's what it would cost to buy each part on its own.</p>",
-        "placeholder_note": "PLACEHOLDER PRICING — verify competitor retail before publishing",
         "box_title": "Buying it separately",
         "box_subtitle": "Five products, five subscriptions, five things to remember",
         "total_label": "Total, bought separately",
@@ -1007,7 +1006,6 @@
         "eyebrow": "Recommended in practice",
         "heading": "<p>The people who recommend it <strong>see patients all day</strong></p>",
         "subtext": "<p>NanoGreens was distributed through clinics for years before it was ever sold online. Many still stock it.</p>",
-        "placeholder_note": "PLACEHOLDER — replace with real, consented practitioner quotes & credentials",
         "bg_color": "#ffffff",
         "text_color": "#2a2611",
         "bold_color": "#78ad49",
@@ -1025,7 +1023,6 @@
     "cwc_founder_note": {
       "type": "CWC_founder_note",
       "settings": {
-        "placeholder_note": "PLACEHOLDER COPY — to be replaced with Rick's own words",
         "photo_alt": "Founder",
         "photo_placeholder": "FOUNDER PHOTO",
         "photo_caption": "Rick, in the facility",
@@ -1174,11 +1171,19 @@
       ],
       "settings": {
         "heading": "<p>Common <strong>questions</strong></p>",
+        "button_label": "",
+        "button_link": "",
+        "image_position": "right",
+        "image_alt": "NanoGreens",
         "bg_color": "#ffffff",
-        "text_color": "#2a2611",
+        "panel_bg_color": "#44681a",
+        "panel_text_color": "#ffffff",
         "bold_color": "#5ba90f",
-        "muted_color": "#5c5842",
-        "border_color": "#e6e5dc",
+        "answer_color": "#dbe6cd",
+        "divider_color": "#6a8348",
+        "sign_color": "#ffffff",
+        "button_bg_color": "#31501a",
+        "button_text_color": "#ffffff",
         "padding_top": 50,
         "padding_bottom": 50
       }
