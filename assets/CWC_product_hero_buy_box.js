@@ -397,6 +397,78 @@
       );
     }
 
+    // Drag the carousel with a mouse. Touch already scrolls natively, so this
+    // is limited to mouse pointers — taking over touch would throw away the
+    // browser's momentum and snapping.
+    if (track && slides.length > 1 && window.PointerEvent) {
+      track.classList.add('cwc_product-hero-buy-box__slides--draggable');
+
+      var dragging = false;
+      var dragStartX = 0;
+      var dragStartScroll = 0;
+      var dragDistance = 0;
+      var snapRestore;
+
+      track.addEventListener('pointerdown', function (event) {
+        if (event.pointerType !== 'mouse' || event.button !== 0) return;
+
+        dragging = true;
+        dragDistance = 0;
+        dragStartX = event.clientX;
+        dragStartScroll = track.scrollLeft;
+
+        // Writing scrollLeft directly cannot be animated or snapped mid-drag,
+        // or the track fights the cursor instead of following it.
+        clearTimeout(snapRestore);
+        track.style.scrollBehavior = 'auto';
+        track.style.scrollSnapType = 'none';
+        track.classList.add('cwc_product-hero-buy-box__slides--dragging');
+        track.setPointerCapture(event.pointerId);
+      });
+
+      track.addEventListener('pointermove', function (event) {
+        if (!dragging) return;
+        var delta = event.clientX - dragStartX;
+        dragDistance = Math.abs(delta);
+        track.scrollLeft = dragStartScroll - delta;
+      });
+
+      function endDrag(event) {
+        if (!dragging) return;
+        dragging = false;
+        track.classList.remove('cwc_product-hero-buy-box__slides--dragging');
+
+        if (track.hasPointerCapture && track.hasPointerCapture(event.pointerId)) {
+          track.releasePointerCapture(event.pointerId);
+        }
+
+        // Settle smoothly to the nearest slide first, then hand snapping back.
+        // Re-enabling it immediately would make the browser jump to the snap
+        // point before the animation had a chance to run.
+        track.style.scrollBehavior = '';
+        goToSlide(currentSlideIndex());
+
+        snapRestore = setTimeout(function () {
+          track.style.scrollSnapType = '';
+        }, 400);
+      }
+
+      track.addEventListener('pointerup', endDrag);
+      track.addEventListener('pointercancel', endDrag);
+
+      // A drag that ends on an image would otherwise fire a click too.
+      track.addEventListener(
+        'click',
+        function (event) {
+          if (dragDistance > 5) {
+            event.preventDefault();
+            event.stopPropagation();
+          }
+        },
+        true
+      );
+    }
+
     // The plan chip is a shortcut back to the supply cards, which are in view
     // in this same section.
     var planChip = sectionEl.querySelector('[data-cwc-plan-chip]');

@@ -85,6 +85,23 @@
   display: none;
 }
 
+/* Added by script only when there is more than one slide, so a single-image
+   gallery never advertises a drag that would do nothing. */
+.cwc_product-hero-buy-box__slides--draggable {
+  cursor: grab;
+}
+
+.cwc_product-hero-buy-box__slides--dragging {
+  cursor: grabbing;
+  user-select: none;
+}
+
+/* stops the browser's own image-drag ghost from taking over the gesture */
+.cwc_product-hero-buy-box__slide img {
+  -webkit-user-drag: none;
+  user-select: none;
+}
+
 .cwc_product-hero-buy-box__slide {
   flex: 0 0 100%;
   width: 100%;
