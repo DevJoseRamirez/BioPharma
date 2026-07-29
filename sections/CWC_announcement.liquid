@@ -1,0 +1,113 @@
+{% style %}
+  #cwc_announcement-{{ section.id }} {
+    --section-bg: {{ section.settings.bg_color | default: '#44681A' }};
+    --section-bg-end: {{ section.settings.bg_end_color | default: '#87CE34' }};
+    --text-color: {{ section.settings.text_color | default: '#ffffff' }};
+    --highlight-color: {{ section.settings.bold_color | default: '#A3C781' }};
+    --padding-top: {{ section.settings.padding_top | default: 10 }}px;
+    --padding-bottom: {{ section.settings.padding_bottom | default: 10 }}px;
+    --padding-top-mobile: {{ section.settings.padding_top | default: 10 | times: 0.5 }}px;
+    --padding-bottom-mobile: {{ section.settings.padding_bottom | default: 10 | times: 0.5 }}px;
+  }
+{% endstyle %}
+
+{{ 'CWC_fonts.css' | asset_url | stylesheet_tag }}
+{{ 'CWC_announcement.css' | asset_url | stylesheet_tag }}
+
+{% if section.settings.text != blank %}
+  <section
+    id="cwc_announcement-{{ section.id }}"
+    class="cwc_announcement{% if section.settings.enable_gradient %} cwc_announcement--gradient{% endif %}"
+  >
+    <div class="cwc_announcement__container">
+      <div class="cwc_announcement__text cwc-rte">
+        {{ section.settings.text }}
+      </div>
+    </div>
+  </section>
+{% endif %}
+
+{% schema %}
+{
+  "name": "CWC Announcement",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Announcement"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Announcement Text",
+      "default": "<p>Free shipping on subscriptions &middot; <strong>30-day money-back guarantee</strong> &middot; Formulated with clinicians since 2010</p>",
+      "info": "Bold text uses the Bold Color below."
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_gradient",
+      "label": "Use Gradient Background",
+      "default": true,
+      "info": "Fades from Background Color to Gradient End Color. Uncheck for a solid background."
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#44681A"
+    },
+    {
+      "type": "color",
+      "id": "bg_end_color",
+      "label": "Gradient End Color",
+      "default": "#87CE34"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "bold_color",
+      "label": "Bold Text Color",
+      "default": "#A3C781"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 60,
+      "step": 5,
+      "unit": "px",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 60,
+      "step": 5,
+      "unit": "px",
+      "default": 10
+    }
+  ],
+  "presets": [
+    {
+      "name": "Announcement",
+      "category": "CWC Custom"
+    }
+  ]
+}
+{% endschema %}

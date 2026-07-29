@@ -1,0 +1,58 @@
+/* ==============================
+   CWC Announcement
+   ============================== */
+
+/* === Section Wrapper === */
+.cwc_announcement {
+  font-size: 16px;
+  /* section anchor — all type below is em relative to this */
+  background-color: var(--section-bg);
+  color: var(--text-color);
+  font-family: var(--cwc-font-body);
+  padding-top: var(--padding-top);
+  padding-bottom: var(--padding-bottom);
+  text-align: center;
+}
+
+.cwc_announcement--gradient {
+  background: linear-gradient(90deg, var(--section-bg) 0%, var(--section-bg-end) 100%);
+}
+
+.cwc_announcement__container {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+/* === Announcement Text === */
+.cwc_announcement__text p {
+  font-size: 0.875em;
+  /* 14px */
+  letter-spacing: 0.2px;
+  line-height: 1.4;
+  margin: 0;
+  color: inherit;
+}
+
+.cwc_announcement__text strong {
+  color: var(--highlight-color);
+  font-weight: 700;
+}
+
+.cwc_announcement__text a {
+  color: inherit;
+}
+
+/* ==============================
+   Mobile Responsive
+   ============================== */
+@media screen and (max-width: 768px) {
+  /* rescale the whole section from one anchor */
+  .cwc_announcement {
+    font-size: 14px;
+  }
+
+  .cwc_announcement__container {
+    padding: 0 12px;
+  }
+}

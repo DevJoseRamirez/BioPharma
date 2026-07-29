@@ -1,13 +1,15 @@
 {% style %}
-    #cwc_announcement-nav-{{ section.id }} {
+    #cwc_header-{{ section.id }} {
       --section-bg: {{ section.settings.bg_color | default: '#ffffff' }};
       --text-color: {{ section.settings.text_color | default: '#5C5842' }};
       --highlight-color: {{ section.settings.bold_color | default: '#5BA90F' }};
-      --announce-bg: {{ section.settings.announce_bg_color | default: '#44681A' }};
-      --announce-text: {{ section.settings.announce_text_color | default: '#ffffff' }};
-      --announce-highlight: {{ section.settings.announce_bold_color | default: '#A3C781' }};
       --logo-color: {{ section.settings.logo_color | default: '#2A2611' }};
       --border-color: {{ section.settings.border_color | default: '#E6E5DC' }};
+      --dropdown-bg: {{ section.settings.dropdown_bg_color | default: '#ffffff' }};
+      --logo-height: {{ section.settings.logo_height | default: 34 }}px;
+      --logo-height-mobile: {{ section.settings.logo_height_mobile | default: 28 }}px;
+      --logo-text-size: {{ section.settings.logo_text_size | default: 22 }}px;
+      --logo-text-size-mobile: {{ section.settings.logo_text_size_mobile | default: 20 }}px;
       --padding-top: {{ section.settings.padding_top | default: 15 }}px;
       --padding-bottom: {{ section.settings.padding_bottom | default: 15 }}px;
       --padding-top-mobile: {{ section.settings.padding_top | default: 15 | times: 0.5 }}px;
@@ -22,59 +24,89 @@
 {% endstyle %}
 
 {{ 'CWC_fonts.css' | asset_url | stylesheet_tag }}
-{{ 'CWC_announcement_nav.css' | asset_url | stylesheet_tag }}
+{{ 'CWC_header.css' | asset_url | stylesheet_tag }}
 
 <section
-  id="cwc_announcement-nav-{{ section.id }}"
-  class="cwc_announcement-nav{% if section.settings.enable_sticky %} cwc_announcement-nav--sticky{% endif %}"
+  id="cwc_header-{{ section.id }}"
+  class="cwc_header{% if section.settings.enable_sticky %} cwc_header--sticky{% endif %}"
 >
-  {% if section.settings.announce_text != blank %}
-    <div class="cwc_announcement-nav__announce">
-      <div class="cwc_announcement-nav__announce-inner cwc-rte">
-        {{ section.settings.announce_text }}
-      </div>
-    </div>
-  {% endif %}
-
-  <div class="cwc_announcement-nav__bar">
-    <div class="cwc_announcement-nav__container">
+  <div class="cwc_header__bar">
+    <div class="cwc_header__container">
       {% comment %} Wordmark {% endcomment %}
-      <a href="{{ routes.root_url }}" class="cwc_announcement-nav__logo">
+      <a href="{{ routes.root_url }}" class="cwc_header__logo">
         {% if section.settings.logo != blank %}
           <img
             src="{{ section.settings.logo | image_url: width: 400 }}"
             alt="{{ section.settings.logo_alt | default: shop.name | escape }}"
-            class="cwc_announcement-nav__logo-image"
+            class="cwc_header__logo-image"
             width="200"
             height="40"
             loading="eager"
           >
         {% else %}
-          <span class="cwc_announcement-nav__logo-text">
+          <span class="cwc_header__logo-text">
             {%- if section.settings.logo_text_lead != blank -%}
-              <span class="cwc_announcement-nav__logo-lead">{{ section.settings.logo_text_lead }}</span>
+              <span class="cwc_header__logo-lead">{{ section.settings.logo_text_lead }}</span>
             {%- endif -%}
             {%- if section.settings.logo_text_accent != blank -%}
-              <span class="cwc_announcement-nav__logo-accent">{{ section.settings.logo_text_accent }}</span>
+              <span class="cwc_header__logo-accent">{{ section.settings.logo_text_accent }}</span>
             {%- endif -%}
           </span>
         {% endif %}
       </a>
 
-      {% comment %} Primary links {% endcomment %}
-      {% if section.blocks.size > 0 %}
-        <nav class="cwc_announcement-nav__links" data-cwc-menu>
+      {% comment %} Primary links — Shopify menu first, manual blocks as fallback {% endcomment %}
+      {% assign nav_menu = section.settings.menu %}
+
+      {% if nav_menu != blank and nav_menu.links.size > 0 %}
+        <nav class="cwc_header__links" data-cwc-menu>
+          {% for link in nav_menu.links %}
+            {% if link.links.size > 0 %}
+              <div class="cwc_header__item cwc_header__item--has-dropdown">
+                <a
+                  href="{{ link.url }}"
+                  class="cwc_header__link{% if link.active or link.child_active %} cwc_header__link--active{% endif %}"
+                >
+                  {{ link.title }}
+                  <svg class="cwc_header__caret" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                    <path d="m6 9 6 6 6-6"></path>
+                  </svg>
+                </a>
+
+                <div class="cwc_header__dropdown">
+                  {% for child_link in link.links %}
+                    <a
+                      href="{{ child_link.url }}"
+                      class="cwc_header__dropdown-link{% if child_link.active %} cwc_header__dropdown-link--active{% endif %}"
+                    >
+                      {{ child_link.title }}
+                    </a>
+                  {% endfor %}
+                </div>
+              </div>
+            {% else %}
+              <div class="cwc_header__item">
+                <a
+                  href="{{ link.url }}"
+                  class="cwc_header__link{% if link.active %} cwc_header__link--active{% endif %}"
+                >
+                  {{ link.title }}
+                </a>
+              </div>
+            {% endif %}
+          {% endfor %}
+        </nav>
+      {% elsif section.blocks.size > 0 %}
+        <nav class="cwc_header__links" data-cwc-menu>
           {% for block in section.blocks %}
             {% case block.type %}
               {% when 'link' %}
                 {% if block.settings.label != blank %}
-                  <a
-                    href="{{ block.settings.link | default: '#' }}"
-                    class="cwc_announcement-nav__link"
-                    {{ block.shopify_attributes }}
-                  >
-                    {{ block.settings.label }}
-                  </a>
+                  <div class="cwc_header__item" {{ block.shopify_attributes }}>
+                    <a href="{{ block.settings.link | default: '#' }}" class="cwc_header__link">
+                      {{ block.settings.label }}
+                    </a>
+                  </div>
                 {% endif %}
             {% endcase %}
           {% endfor %}
@@ -82,9 +114,9 @@
       {% endif %}
 
       {% comment %} Utility links {% endcomment %}
-      <div class="cwc_announcement-nav__utility">
+      <div class="cwc_header__utility">
         {% if section.settings.show_account %}
-          <a href="{{ routes.account_url }}" class="cwc_announcement-nav__icon" aria-label="Account">
+          <a href="{{ routes.account_url }}" class="cwc_header__icon" aria-label="Account">
             <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
               <circle cx="12" cy="8" r="3.6"></circle>
               <path d="M4.6 20c0-4 3.3-6.2 7.4-6.2s7.4 2.2 7.4 6.2"></path>
@@ -93,7 +125,7 @@
         {% endif %}
 
         {% if section.settings.show_search %}
-          <a href="{{ routes.search_url }}" class="cwc_announcement-nav__icon" aria-label="Search">
+          <a href="{{ routes.search_url }}" class="cwc_header__icon" aria-label="Search">
             <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
               <circle cx="11" cy="11" r="6.4"></circle>
               <path d="M15.8 15.8 20 20"></path>
@@ -102,7 +134,7 @@
         {% endif %}
 
         {% if section.settings.show_cart %}
-          <a href="{{ routes.cart_url }}" class="cwc_announcement-nav__icon" aria-label="Cart">
+          <a href="{{ routes.cart_url }}" class="cwc_header__icon" aria-label="Cart">
             <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
               <path d="M5 7h14l-1.2 12.2H6.2z"></path>
               <path d="M9 7V5.6A3 3 0 0 1 15 5.6V7"></path>
@@ -112,7 +144,7 @@
 
         <button
           type="button"
-          class="cwc_announcement-nav__toggle"
+          class="cwc_header__toggle"
           aria-label="Menu"
           aria-expanded="false"
           data-cwc-toggle
@@ -124,21 +156,22 @@
   </div>
 </section>
 
-{{ 'CWC_announcement_nav.js' | asset_url | script_tag }}
+{{ 'CWC_header.js' | asset_url | script_tag }}
 
 {% schema %}
 {
-  "name": "CWC Announcement + Nav",
+  "name": "CWC Header",
+  "tag": "section",
   "settings": [
     {
       "type": "header",
-      "content": "Announcement"
+      "content": "Navigation"
     },
     {
-      "type": "richtext",
-      "id": "announce_text",
-      "label": "Announcement Text",
-      "default": "<p>Free shipping on subscriptions &middot; <strong>30-day money-back guarantee</strong> &middot; Formulated with clinicians since 2010</p>"
+      "type": "link_list",
+      "id": "menu",
+      "label": "Menu",
+      "info": "Select a menu from Online Store > Navigation. Dropdowns render for any item with sub-links. Leave empty to use the manual Nav Link blocks below instead."
     },
     {
       "type": "header",
@@ -157,6 +190,26 @@
       "default": "NanoGreens"
     },
     {
+      "type": "range",
+      "id": "logo_height",
+      "label": "Logo Image Height — Desktop",
+      "min": 16,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "default": 34
+    },
+    {
+      "type": "range",
+      "id": "logo_height_mobile",
+      "label": "Logo Image Height — Mobile",
+      "min": 16,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "default": 28
+    },
+    {
       "type": "text",
       "id": "logo_text_lead",
       "label": "Wordmark — Leading Word",
@@ -167,6 +220,27 @@
       "id": "logo_text_accent",
       "label": "Wordmark — Accent Word",
       "default": "greens"
+    },
+    {
+      "type": "range",
+      "id": "logo_text_size",
+      "label": "Wordmark Text Size — Desktop",
+      "min": 14,
+      "max": 48,
+      "step": 1,
+      "unit": "px",
+      "default": 22,
+      "info": "Applies when no Logo Image is set."
+    },
+    {
+      "type": "range",
+      "id": "logo_text_size_mobile",
+      "label": "Wordmark Text Size — Mobile",
+      "min": 12,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 20
     },
     {
       "type": "header",
@@ -197,7 +271,7 @@
     {
       "type": "checkbox",
       "id": "enable_sticky",
-      "label": "Stick Nav To Top On Scroll",
+      "label": "Stick Header To Top On Scroll",
       "default": true
     },
     {
@@ -207,7 +281,7 @@
     {
       "type": "color",
       "id": "bg_color",
-      "label": "Nav Background Color",
+      "label": "Header Background Color",
       "default": "#ffffff"
     },
     {
@@ -235,26 +309,10 @@
       "default": "#E6E5DC"
     },
     {
-      "type": "header",
-      "content": "Announcement Colors"
-    },
-    {
       "type": "color",
-      "id": "announce_bg_color",
-      "label": "Announcement Background Color",
-      "default": "#44681A"
-    },
-    {
-      "type": "color",
-      "id": "announce_text_color",
-      "label": "Announcement Text Color",
+      "id": "dropdown_bg_color",
+      "label": "Dropdown Background Color",
       "default": "#ffffff"
-    },
-    {
-      "type": "color",
-      "id": "announce_bold_color",
-      "label": "Announcement Bold Color",
-      "default": "#A3C781"
     },
     {
       "type": "header",
@@ -303,7 +361,7 @@
   "max_blocks": 8,
   "presets": [
     {
-      "name": "Announcement + Nav",
+      "name": "Header",
       "category": "CWC Custom",
       "blocks": [{ "type": "link" }, { "type": "link" }, { "type": "link" }, { "type": "link" }, { "type": "link" }]
     }

@@ -9,8 +9,21 @@
  */
 {
   "sections": {
-    "cwc_announcement_nav": {
-      "type": "CWC_announcement_nav",
+    "cwc_announcement": {
+      "type": "CWC_announcement",
+      "settings": {
+        "text": "<p>Free shipping on subscriptions &middot; <strong>30-day money-back guarantee</strong> &middot; Formulated with clinicians since 2010</p>",
+        "enable_gradient": true,
+        "bg_color": "#44681a",
+        "bg_end_color": "#87ce34",
+        "text_color": "#ffffff",
+        "bold_color": "#a3c781",
+        "padding_top": 10,
+        "padding_bottom": 10
+      }
+    },
+    "cwc_header": {
+      "type": "CWC_header",
       "blocks": {
         "link_shop": {
           "type": "link",
@@ -51,7 +64,6 @@
         "link_wholesale"
       ],
       "settings": {
-        "announce_text": "<p>Free shipping on subscriptions &middot; <strong>30-day money-back guarantee</strong> &middot; Formulated with clinicians since 2010</p>",
         "logo_text_lead": "nano",
         "logo_text_accent": "greens",
         "enable_sticky": true,
@@ -1063,7 +1075,8 @@
     }
   },
   "order": [
-    "cwc_announcement_nav",
+    "cwc_announcement",
+    "cwc_header",
     "cwc_product_hero_buy_box",
     "cwc_absorption_pod",
     "cwc_taste",

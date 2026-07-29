@@ -206,7 +206,7 @@
       "type": "apps",
       "blocks": {
         "d7ef6148-1ddb-417a-9c81-a90f76078b00": {
-          "type": "shopify://apps/yotpo-product-photo-reviews/blocks/reviews/eb7dfd7d-db44-4334-bc49-c893b51b36cf",
+          "type": "shopify://apps/yotpo-product-reviews/blocks/reviews/eb7dfd7d-db44-4334-bc49-c893b51b36cf",
           "settings": {
             "product": "{{product}}"
           }

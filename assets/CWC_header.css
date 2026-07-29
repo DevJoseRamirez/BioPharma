@@ -1,0 +1,324 @@
+/* ==============================
+   CWC Header
+   ============================== */
+
+/* === Section Wrapper === */
+.cwc_header {
+  font-size: 16px;
+  /* section anchor — all type below is em relative to this */
+  background-color: var(--section-bg);
+  color: var(--text-color);
+  font-family: var(--cwc-font-body);
+}
+
+.cwc_header--sticky {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+
+.cwc_header__container {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 0 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+/* === Header Bar === */
+.cwc_header__bar {
+  background-color: var(--section-bg);
+  border-bottom: 1px solid var(--border-color);
+  padding-top: var(--padding-top);
+  padding-bottom: var(--padding-bottom);
+}
+
+/* === Wordmark === */
+.cwc_header__logo {
+  text-decoration: none;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+}
+
+.cwc_header__logo-image {
+  display: block;
+  width: auto;
+  height: var(--logo-height);
+  max-width: 220px;
+  object-fit: contain;
+}
+
+.cwc_header__logo-text {
+  font-size: var(--logo-text-size);
+  font-weight: 800;
+  letter-spacing: -0.3px;
+  color: var(--logo-color);
+  line-height: 1;
+}
+
+.cwc_header__logo-lead {
+  font-weight: 400;
+}
+
+.cwc_header__logo-accent {
+  color: var(--highlight-color);
+}
+
+/* === Primary Links === */
+.cwc_header__links {
+  display: flex;
+  align-items: center;
+  gap: 26px;
+}
+
+.cwc_header__item {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.cwc_header__link {
+  font-size: 0.9375em;
+  /* 15px */
+  font-weight: 600;
+  color: var(--text-color);
+  text-decoration: none;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.cwc_header__link:hover,
+.cwc_header__link--active {
+  color: var(--highlight-color);
+}
+
+.cwc_header__caret {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: transform 0.15s ease;
+}
+
+/* === Dropdown === */
+.cwc_header__dropdown {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: -14px;
+  min-width: 190px;
+  flex-direction: column;
+  background-color: var(--dropdown-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 8px 0;
+  margin-top: 10px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  z-index: 22;
+}
+
+/* hover bridge — keeps the dropdown open while crossing the gap */
+.cwc_header__item--has-dropdown::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  height: 12px;
+}
+
+.cwc_header__item--has-dropdown:hover .cwc_header__dropdown,
+.cwc_header__item--has-dropdown:focus-within .cwc_header__dropdown {
+  display: flex;
+}
+
+.cwc_header__item--has-dropdown:hover .cwc_header__caret,
+.cwc_header__item--has-dropdown:focus-within .cwc_header__caret {
+  transform: rotate(180deg);
+}
+
+.cwc_header__dropdown-link {
+  font-size: 0.875em;
+  /* 14px */
+  font-weight: 500;
+  color: var(--text-color);
+  text-decoration: none;
+  padding: 8px 18px;
+  white-space: nowrap;
+}
+
+.cwc_header__dropdown-link:hover,
+.cwc_header__dropdown-link--active {
+  color: var(--highlight-color);
+}
+
+/* === Utility Links === */
+.cwc_header__utility {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.cwc_header__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  color: var(--text-color);
+}
+
+.cwc_header__icon svg {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.cwc_header__icon:hover {
+  color: var(--highlight-color);
+}
+
+/* === Mobile Toggle === */
+.cwc_header__toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.cwc_header__toggle span {
+  display: block;
+  width: 20px;
+  height: 2px;
+  border-radius: 2px;
+  background-color: var(--text-color);
+}
+
+/* ==============================
+   Tablet Responsive
+   ============================== */
+@media screen and (max-width: 991px) {
+  .cwc_header__container {
+    padding: 0 20px;
+  }
+
+  .cwc_header__toggle {
+    display: flex;
+  }
+
+  .cwc_header__links {
+    display: none;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+    background-color: var(--section-bg);
+    border-bottom: 1px solid var(--border-color);
+    padding: 8px 20px 16px;
+    z-index: 21;
+  }
+
+  .cwc_header__links--open {
+    display: flex;
+  }
+
+  .cwc_header__item {
+    width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .cwc_header__link {
+    width: 100%;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  /* dropdowns flatten into an indented list — no hover on touch */
+  .cwc_header__item--has-dropdown::after {
+    display: none;
+  }
+
+  .cwc_header__caret {
+    display: none;
+  }
+
+  .cwc_header__dropdown {
+    display: flex;
+    position: static;
+    width: 100%;
+    min-width: 0;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    background: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .cwc_header__dropdown-link {
+    width: 100%;
+    padding: 10px 0 10px 16px;
+    border-bottom: 1px solid var(--border-color);
+    white-space: normal;
+  }
+
+  .cwc_header__bar {
+    position: relative;
+  }
+}
+
+/* ==============================
+   Mobile Responsive
+   ============================== */
+@media screen and (max-width: 768px) {
+
+  /* rescale the whole section from one anchor */
+  .cwc_header {
+    font-size: 14px;
+  }
+
+  .cwc_header__bar {
+    padding-top: var(--padding-top-mobile);
+    padding-bottom: var(--padding-bottom-mobile);
+  }
+
+  .cwc_header__logo-image {
+    height: var(--logo-height-mobile);
+  }
+
+  .cwc_header__logo-text {
+    font-size: var(--logo-text-size-mobile);
+  }
+
+  .cwc_header__container {
+    padding: 0 16px;
+  }
+
+  .cwc_header__links {
+    padding: 8px 16px 16px;
+  }
+}
