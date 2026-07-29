@@ -40,7 +40,22 @@
       {% endif %}
     </div>
 
- 
+    {% comment %} Clinicians band {% endcomment %}
+    {% if section.settings.show_clinician and section.settings.clinician_text != blank %}
+      <div class="cwc_practitioner-endorsement__clinician">
+        {% if section.settings.clinician_initials != blank %}
+          <span class="cwc_practitioner-endorsement__clinician-avatars" aria-hidden="true">
+            {% assign initials = section.settings.clinician_initials | split: ',' %}
+            {% for initial in initials %}
+              <span class="cwc_practitioner-endorsement__clinician-avatar">{{ initial | strip }}</span>
+            {% endfor %}
+          </span>
+        {% endif %}
+        <span class="cwc_practitioner-endorsement__clinician-text cwc-rte">
+          {{ section.settings.clinician_text }}
+        </span>
+      </div>
+    {% endif %}
 
     {% assign practitioner_blocks = section.blocks | where: 'type', 'practitioner' %}
     {% if practitioner_blocks.size > 0 %}
@@ -122,6 +137,29 @@
       "id": "subtext",
       "label": "Section Subtext",
       "default": "<p>NanoGreens was distributed through clinics for years before it was ever sold online. Many still stock it.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Clinicians Band"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_clinician",
+      "label": "Show Clinicians Band",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "clinician_initials",
+      "label": "Clinician Initials",
+      "info": "Comma separated, e.g. DC, ND, MD",
+      "default": "DC, ND, MD"
+    },
+    {
+      "type": "richtext",
+      "id": "clinician_text",
+      "label": "Clinicians Text",
+      "default": "<p><strong>Clinicians' choice.</strong> Recommended in practice for over 20 years, before it was ever sold online.</p>"
     },
     {
       "type": "header",

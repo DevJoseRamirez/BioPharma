@@ -1,0 +1,228 @@
+/* ==============================
+   CWC Outcomes Band
+   ============================== */
+
+/* === Section Wrapper === */
+.cwc_outcomes-band {
+  font-size: 16px;
+  /* section anchor — all type below is em relative to this */
+  position: relative;
+  isolation: isolate;
+  background-color: var(--section-bg);
+  color: var(--text-color);
+  padding-top: var(--padding-top);
+  padding-bottom: var(--padding-bottom);
+  overflow: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* === Background Image + Overlay === */
+.cwc_outcomes-band__media {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+}
+
+.cwc_outcomes-band__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.cwc_outcomes-band__overlay {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-color: var(--overlay-color);
+  opacity: var(--overlay-opacity);
+}
+
+.cwc_outcomes-band__container {
+  position: relative;
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+/* === Section Header === */
+.cwc_outcomes-band__content {
+  max-width: 720px;
+  margin: 0 auto;
+  width: 100%;
+  text-align: center;
+}
+
+.cwc_outcomes-band__eyebrow {
+  font-size: 0.78em;
+  /* 12.48px */
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--eyebrow-color);
+  margin-bottom: 10px;
+}
+
+.cwc_outcomes-band__content-heading h1,
+.cwc_outcomes-band__content-heading h2,
+.cwc_outcomes-band__content-heading h3,
+.cwc_outcomes-band__content-heading p {
+  font-family: 'Georgia', 'Times New Roman', serif;
+  font-weight: 400;
+  font-size: 2.5em;
+  /* 40px */
+  line-height: 1.18;
+  margin: 0;
+  color: var(--heading-color);
+}
+
+.cwc_outcomes-band__content-heading > * strong {
+  color: var(--highlight-color);
+  font-weight: 400;
+}
+
+.cwc_outcomes-band__content-subtext {
+  margin-top: 14px;
+}
+
+.cwc_outcomes-band__content-subtext p {
+  font-size: 0.94em;
+  /* 15.04px */
+  line-height: 1.6;
+  margin: 0;
+  color: var(--text-color);
+}
+
+/* === Button === */
+.cwc_outcomes-band__button {
+  text-align: center;
+  margin-top: 26px;
+}
+
+.cwc_outcomes-band__button-link {
+  display: inline-block;
+  background: var(--button-bg);
+  color: var(--button-text);
+  font-size: 0.81em;
+  /* 12.96px */
+  font-weight: 800;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 15px 32px;
+  border-radius: 40px;
+  transition: opacity 0.15s;
+}
+
+a.cwc_outcomes-band__button-link:hover {
+  opacity: 0.88;
+}
+
+/* === Outcome Cards === */
+.cwc_outcomes-band__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+  margin-top: 42px;
+}
+
+.cwc_outcomes-band__card {
+  background: rgba(255, 255, 255, var(--card-tint));
+  border: 1px solid var(--card-border);
+  border-radius: 14px;
+  padding: 26px 20px 24px;
+  text-align: center;
+}
+
+.cwc_outcomes-band__card-title {
+  font-family: 'Georgia', 'Times New Roman', serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 1.5em;
+  /* 24px */
+  line-height: 1.2;
+  color: var(--card-title-color);
+}
+
+.cwc_outcomes-band__card-value {
+  font-family: 'Georgia', 'Times New Roman', serif;
+  font-weight: 400;
+  font-size: 3em;
+  /* 48px */
+  line-height: 1.1;
+  color: var(--card-value-color);
+  margin: 10px 0 8px;
+}
+
+.cwc_outcomes-band__card-text {
+  font-size: 0.84em;
+  /* 13.44px */
+  line-height: 1.45;
+  color: var(--card-text-color);
+}
+
+/* === Footnote === */
+.cwc_outcomes-band__footnote {
+  margin-top: 34px;
+}
+
+.cwc_outcomes-band__footnote p {
+  font-size: 0.75em;
+  /* 12px */
+  line-height: 1.5;
+  margin: 0;
+  color: var(--footnote-color);
+}
+
+.cwc_outcomes-band__footnote a {
+  color: var(--footnote-color);
+  text-decoration: underline;
+  font-weight: 700;
+}
+
+/* ==============================
+   Tablet Responsive
+   ============================== */
+@media screen and (max-width: 991px) {
+  .cwc_outcomes-band__container {
+    padding: 0 20px;
+  }
+
+  .cwc_outcomes-band__content-heading h1,
+  .cwc_outcomes-band__content-heading h2,
+  .cwc_outcomes-band__content-heading h3,
+  .cwc_outcomes-band__content-heading p {
+    font-size: 2.06em;
+    /* 33px */
+  }
+
+  .cwc_outcomes-band__grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+    margin-top: 32px;
+  }
+}
+
+/* ==============================
+   Mobile Responsive
+   ============================== */
+@media screen and (max-width: 768px) {
+  /* rescale the whole section from one anchor */
+  .cwc_outcomes-band {
+    font-size: 14px;
+    padding-top: var(--padding-top-mobile);
+    padding-bottom: var(--padding-bottom-mobile);
+  }
+
+  .cwc_outcomes-band__container {
+    padding: 0 16px;
+  }
+
+  .cwc_outcomes-band__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .cwc_outcomes-band__card {
+    padding: 22px 18px 20px;
+  }
+}

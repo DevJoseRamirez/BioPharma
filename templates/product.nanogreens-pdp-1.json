@@ -65,21 +65,21 @@
         "pill_servings": {
           "type": "pill",
           "settings": {
-            "text": "10 servings of fruits & vegetables in one 12g scoop",
+            "text": "10 servings of fruits & vegetables in one scoop",
             "tone": "tint"
           }
         },
         "pill_enzyme": {
           "type": "pill",
           "settings": {
-            "text": "9-enzyme blend so your body absorbs it, not passes it through",
+            "text": "9 digestive enzymes so your body absorbs it",
             "tone": "accent"
           }
         },
         "pill_practitioners": {
           "type": "pill",
           "settings": {
-            "text": "Trusted by practitioners for over 15 years",
+            "text": "Recommended by practitioners for 20+ years",
             "tone": "tint"
           }
         },
@@ -143,46 +143,6 @@
             "label": "<p>Cancel or Pause Anytime</p>"
           }
         },
-        "stat_repeat": {
-          "type": "stat",
-          "settings": {
-            "icon_text": "★",
-            "name": "They'd buy it again",
-            "description": "Rate NanoGreens 4 stars or higher",
-            "value": "84%",
-            "tone": "tint"
-          }
-        },
-        "stat_taste": {
-          "type": "stat",
-          "settings": {
-            "icon_text": "◕",
-            "name": "A taste they finish",
-            "description": "Reviews specifically praising the flavor",
-            "value": "243",
-            "tone": "tint"
-          }
-        },
-        "stat_habit": {
-          "type": "stat",
-          "settings": {
-            "icon_text": "↻",
-            "name": "It becomes a habit",
-            "description": "Report drinking it daily for years",
-            "value": "120+",
-            "tone": "tint"
-          }
-        },
-        "stat_clinic": {
-          "type": "stat",
-          "settings": {
-            "icon_text": "✚",
-            "name": "Recommended in clinic",
-            "description": "Say a doctor or naturopath suggested it",
-            "value": "33",
-            "tone": "accent"
-          }
-        },
         "detail_ingredients": {
           "type": "detail",
           "settings": {
@@ -202,7 +162,7 @@
         "detail_enjoy": {
           "type": "detail",
           "settings": {
-            "title": "How to enjoy",
+            "title": "How to take it",
             "content": "<p>One 12g scoop into 6–16 oz of cold water. Shake, stir or blend. Best first thing in the morning.</p>",
             "open": false
           }
@@ -210,8 +170,8 @@
         "detail_tasting": {
           "type": "detail",
           "settings": {
-            "title": "Tasting notes",
-            "content": "<p>Green apple, lightly sweetened with stevia leaf extract. Under 1g added sugar.</p>",
+            "title": "Shipping & subscription",
+            "content": "<p>Free shipping on every subscription order. Choose a 90-day or 30-day supply — it renews automatically at the same price. Pause, reschedule or cancel anytime, with no cancellation fees.</p>",
             "open": false
           }
         }
@@ -226,10 +186,6 @@
         "trust_refund",
         "trust_shipping",
         "trust_pause",
-        "stat_repeat",
-        "stat_taste",
-        "stat_habit",
-        "stat_clinic",
         "detail_ingredients",
         "detail_quality",
         "detail_enjoy",
@@ -238,7 +194,7 @@
       "settings": {
         "eyebrow": "Daily greens & superfood",
         "heading": "<p>NanoGreens<strong>10</strong></p>",
-        "subtext": "<p>The antioxidant power of 10 servings of fruits and vegetables from 55 organic ingredients — juiced, then low-temperature freeze-dried. With a 9-enzyme blend so your body actually absorbs it. 30 servings per container.</p>",
+        "subtext": "<p>55 organic fruits and vegetables, juiced at peak ripeness and freeze-dried cold. One scoop, ten seconds, every morning.</p>",
         "show_rating": true,
         "rating_text": "4.4 · 410 reviews",
         "badge_text": "55 organic ingredients",
@@ -252,68 +208,10 @@
         "onetime_text": "One-time purchase · $74.95 ($2.50/serving)",
         "cta_text": "Add to cart",
         "micro_text": "🔒 Secure checkout · 30-day money-back guarantee · Cancel anytime",
-        "show_clinician": true,
-        "clinician_initials": "DC, ND, MD",
-        "clinician_text": "<p><strong>Clinicians' choice.</strong> Recommended in practice for over 15 years, before it was ever sold online.</p>",
-        "show_stats": true,
-        "stats_heading": "What customers report",
-        "stats_subtext": "From analysis of 410 verified reviews",
-        "stats_note": "Customer-reported outcomes, not a clinical trial. Individual results vary.",
+        "show_clinician": false,
+        "show_stats": false,
         "padding_top": 20,
         "padding_bottom": 40
-      }
-    },
-    "cwc_bundle_upgrade": {
-      "type": "CWC_bundle_upgrade",
-      "blocks": {
-        "column_greens": {
-          "type": "column",
-          "settings": {
-            "tag": "Greens only",
-            "ghost_labels": "",
-            "name": "NanoGreens",
-            "price": "$63.71",
-            "compare_price": "$74.95",
-            "per_text": "30-day supply · $2.13 / serving",
-            "features_included": "<p>55 organic ingredients, 30 servings</p><p>9-enzyme blend for absorption</p><p>Antioxidant &amp; immune support</p>",
-            "features_excluded": "<p>No protein for recovery</p><p>No omega-3 support</p><p>No blood-sugar support</p>",
-            "highlighted": false,
-            "ribbon_text": ""
-          }
-        },
-        "column_core4": {
-          "type": "column",
-          "settings": {
-            "tag": "The complete system",
-            "ghost_labels": "PRO, LEAN, OMEGA",
-            "name": "CORE4 Bundle",
-            "price": "$215.82",
-            "compare_price": "$284.80",
-            "per_text": "All four products · 24% off buying separately",
-            "features_included": "<p>Everything in NanoGreens</p><p>NanoPro — vegan protein for recovery</p><p>NanOmega — omega-3 support</p><p>NanoLean — daily wellness &amp; energy</p><p>One delivery, one subscription</p><p>Best value per product</p>",
-            "features_excluded": "",
-            "highlighted": true,
-            "ribbon_text": "Save $68.98"
-          }
-        }
-      },
-      "block_order": [
-        "column_greens",
-        "column_core4"
-      ],
-      "settings": {
-        "eyebrow": "Complete the system",
-        "heading": "<p>Upgrade to <strong>CORE4</strong></p>",
-        "subtext": "<p>Most customers already mix NanoGreens with our protein and omegas. CORE4 is all four, at a bundle price.</p>",
-        "cost_left_label": "Greens only",
-        "cost_left_value": "$2.13 / day",
-        "cost_right_label": "Complete system",
-        "cost_right_value": "$7.19 / day",
-        "cta_text": "Upgrade to CORE4  +$152.11",
-        "decline_text": "No thanks — just NanoGreens for now",
-        "note": "Assumption to confirm: CORE4 priced as a 30-day supply of all four products, compared like-for-like against the 30-day greens option.",
-        "padding_top": 60,
-        "padding_bottom": 60
       }
     },
     "cwc_absorption_pod": {
@@ -388,9 +286,26 @@
       "settings": {
         "eyebrow": "You are what you absorb",
         "heading": "<p>Most greens powders skip the enzymes. <strong>We don't.</strong></p>",
-        "body": "<p>Cheap greens are mostly filler grass your body passes straight through. NanoGreens includes a 9-enzyme blend (Item 32000B) specifically so your body takes in what you're drinking, not passes it through.</p>",
+        "body": "<p>You can drink the best greens in the world and still get very little from them. Absorption is the part nobody talks about, because the ingredient that solves it costs money. NanoGreens includes nine digestive enzymes — Blend 32000B — so what you drink actually gets used.</p>",
         "stat_value": "10",
         "stat_text": "servings of vegetables & fruit — the antioxidant equivalent in a single scoop.",
+        "padding_top": 50,
+        "padding_bottom": 50
+      }
+    },
+    "cwc_taste": {
+      "type": "CWC_taste",
+      "settings": {
+        "eyebrow": "The part that makes it a habit",
+        "heading": "<p>It tastes like green apple. That's why people <strong>finish the tub</strong>.</p>",
+        "body": "<p>Most greens powders get bought once and abandoned half-full. Ours doesn't, and the reason is simple — it's sweetened with stevia leaf, mixes clean without grit, and tastes like a crisp apple drink instead of a lawn.</p>",
+        "stat_value": "243",
+        "stat_text": "reviews mention the taste specifically",
+        "guarantee_text": "Not for you? Send it back within 30 days for a full refund.",
+        "image_alt": "NanoGreens mixed in a glass",
+        "image_position": "left",
+        "placeholder_label": "MIXED DRINK PHOTO",
+        "placeholder_note": "Light green, apple-juice-like, in a clear glass",
         "padding_top": 50,
         "padding_bottom": 50
       }
@@ -536,124 +451,11 @@
         "b_antioxidant",
         "b_recovery"
       ],
+      "disabled": true,
       "settings": {
         "eyebrow": "One scoop, every morning",
         "heading": "<p>What NanoGreens <strong>supports</strong></p>",
         "subtext": "<p>Six areas of daily wellness, from one 12g scoop.</p>",
-        "padding_top": 50,
-        "padding_bottom": 50
-      }
-    },
-    "cwc_cost_calculator": {
-      "type": "CWC_cost_calculator",
-      "blocks": {
-        "line_greens": {
-          "type": "line",
-          "settings": {
-            "name": "Organic greens powder",
-            "note": "Barley grass, spirulina, chlorella — 2,400mg blend",
-            "price": "$35"
-          }
-        },
-        "line_enzyme": {
-          "type": "line",
-          "settings": {
-            "name": "Digestive enzyme complex",
-            "note": "9-enzyme equivalent for absorption",
-            "price": "$25"
-          }
-        },
-        "line_antioxidant": {
-          "type": "line",
-          "settings": {
-            "name": "Antioxidant / polyphenol blend",
-            "note": "Green tea, grape seed, resveratrol, bilberry",
-            "price": "$30"
-          }
-        },
-        "line_fruit": {
-          "type": "line",
-          "settings": {
-            "name": "Fruit & vegetable concentrate",
-            "note": "Apple, mango, carrot, kale, beet — 1,250mg blend",
-            "price": "$28"
-          }
-        },
-        "line_milk_thistle": {
-          "type": "line",
-          "settings": {
-            "name": "Milk thistle extract",
-            "note": "20% silymarin with silybin",
-            "price": "$15"
-          }
-        }
-      },
-      "block_order": [
-        "line_greens",
-        "line_enzyme",
-        "line_antioxidant",
-        "line_fruit",
-        "line_milk_thistle"
-      ],
-      "settings": {
-        "eyebrow": "The real cost of doing it yourself",
-        "heading": "<p>One scoop replaces <strong>five separate supplements</strong></p>",
-        "subtext": "<p>NanoGreens isn't just a greens powder. Here's what it would cost to buy each part on its own.</p>",
-        "placeholder_note": "PLACEHOLDER PRICING — verify competitor retail before publishing",
-        "box_title": "Buying it separately",
-        "box_subtitle": "Five products, five subscriptions, five things to remember",
-        "total_label": "Total, bought separately",
-        "total_value": "$133 / mo",
-        "win_eyebrow": "All of it, in one scoop",
-        "win_title": "<p>NanoGreens 90-day supply</p>",
-        "win_price": "$56",
-        "win_price_unit": "/ month",
-        "win_price_sub": "$168.64 billed every 90 days · $1.87 per serving",
-        "win_save_value": "$921 / year",
-        "win_save_label": "saved versus buying the five separately",
-        "win_cta_text": "Start my 90-day supply →",
-        "footnote": "We built this because we know you're going to check the math. Comparison prices are based on average retail cost of standalone supplements at comparable dosages. NanoGreens price reflects the 90-day subscription rate ($168.64 billed every 90 days). Individual formulations vary.",
-        "padding_top": 50,
-        "padding_bottom": 50
-      }
-    },
-    "cwc_reviews": {
-      "type": "CWC_reviews",
-      "blocks": {
-        "rev_1": {
-          "type": "review",
-          "settings": {
-            "quote": "<p>\"I have taken NanoGreens for years after my naturopathic doctor suggested it. I feel so much better when I use it.\"</p>",
-            "author": "Verified Buyer",
-            "date": "06/09/26"
-          }
-        },
-        "rev_2": {
-          "type": "review",
-          "settings": {
-            "quote": "<p>\"Excellent way to support your digestive tract. I highly recommend this for athletes and seniors.\"</p>",
-            "author": "Verified Buyer",
-            "date": "05/15/26"
-          }
-        },
-        "rev_3": {
-          "type": "review",
-          "settings": {
-            "quote": "<p>\"I've been taking them for years. I take it every afternoon when I start getting hungry and it satisfies me. I order on a subscription — that's the way to go.\"</p>",
-            "author": "Verified Buyer",
-            "date": "04/03/26"
-          }
-        }
-      },
-      "block_order": [
-        "rev_1",
-        "rev_2",
-        "rev_3"
-      ],
-      "settings": {
-        "average": "4.4",
-        "count_text": "410 verified reviews",
-        "footnote": "Based on analysis of 410 verified reviews",
         "padding_top": 50,
         "padding_bottom": 50
       }
@@ -737,6 +539,243 @@
         "padding_bottom": 50
       }
     },
+    "cwc_cost_calculator": {
+      "type": "CWC_cost_calculator",
+      "blocks": {
+        "line_greens": {
+          "type": "line",
+          "settings": {
+            "name": "Organic greens powder",
+            "note": "Barley grass, spirulina, chlorella — 2,400mg blend",
+            "price": "$35"
+          }
+        },
+        "line_enzyme": {
+          "type": "line",
+          "settings": {
+            "name": "Digestive enzyme complex",
+            "note": "9-enzyme equivalent for absorption",
+            "price": "$25"
+          }
+        },
+        "line_antioxidant": {
+          "type": "line",
+          "settings": {
+            "name": "Antioxidant / polyphenol blend",
+            "note": "Green tea, grape seed, resveratrol, bilberry",
+            "price": "$30"
+          }
+        },
+        "line_fruit": {
+          "type": "line",
+          "settings": {
+            "name": "Fruit & vegetable concentrate",
+            "note": "Apple, mango, carrot, kale, beet — 1,250mg blend",
+            "price": "$28"
+          }
+        },
+        "line_milk_thistle": {
+          "type": "line",
+          "settings": {
+            "name": "Milk thistle extract",
+            "note": "20% silymarin with silybin",
+            "price": "$15"
+          }
+        }
+      },
+      "block_order": [
+        "line_greens",
+        "line_enzyme",
+        "line_antioxidant",
+        "line_fruit",
+        "line_milk_thistle"
+      ],
+      "settings": {
+        "eyebrow": "The real cost of doing it yourself",
+        "heading": "<p>One scoop replaces <strong>five separate supplements</strong></p>",
+        "subtext": "<p>NanoGreens isn't only a greens powder. Here's what each part would cost on its own.</p>",
+        "box_title": "Buying it separately",
+        "box_subtitle": "Five products, five subscriptions, five things to remember",
+        "total_label": "Total, bought separately",
+        "total_value": "$133 / mo",
+        "win_eyebrow": "All of it, in one scoop",
+        "win_title": "<p>NanoGreens 90-day supply</p>",
+        "win_price": "$56",
+        "win_price_unit": "/ month",
+        "win_price_sub": "$168.64 billed every 90 days · $1.87 per serving",
+        "win_save_value": "$921 / year",
+        "win_save_label": "saved versus buying the five separately",
+        "win_cta_text": "Start my 90-day supply →",
+        "footnote": "We built this because we know you're going to check the math. Comparison prices are based on average retail cost of standalone supplements at comparable dosages. NanoGreens price reflects the 90-day subscription rate ($168.64 billed every 90 days). Individual formulations vary.",
+        "padding_top": 50,
+        "padding_bottom": 50
+      }
+    },
+    "cwc_reviews": {
+      "type": "CWC_reviews",
+      "blocks": {
+        "stat_repeat": {
+          "type": "stat",
+          "settings": {
+            "icon_text": "★",
+            "name": "They'd buy it again",
+            "description": "Rate NanoGreens 4 stars or higher",
+            "value": "84%",
+            "tone": "tint"
+          }
+        },
+        "stat_taste": {
+          "type": "stat",
+          "settings": {
+            "icon_text": "◕",
+            "name": "A taste they finish",
+            "description": "Reviews specifically praising the flavor",
+            "value": "243",
+            "tone": "tint"
+          }
+        },
+        "stat_habit": {
+          "type": "stat",
+          "settings": {
+            "icon_text": "↻",
+            "name": "It becomes a habit",
+            "description": "Report drinking it daily for years",
+            "value": "120+",
+            "tone": "tint"
+          }
+        },
+        "stat_clinic": {
+          "type": "stat",
+          "settings": {
+            "icon_text": "✚",
+            "name": "Recommended in clinic",
+            "description": "Say a doctor or naturopath suggested it",
+            "value": "33",
+            "tone": "accent"
+          }
+        },
+        "rev_1": {
+          "type": "review",
+          "settings": {
+            "quote": "<p>\"I have taken NanoGreens for years after my naturopathic doctor suggested it. I feel so much better when I use it.\"</p>",
+            "author": "Verified Buyer",
+            "date": "06/09/26"
+          }
+        },
+        "rev_2": {
+          "type": "review",
+          "settings": {
+            "quote": "<p>\"Excellent way to support your digestive tract. I highly recommend this for athletes and seniors.\"</p>",
+            "author": "Verified Buyer",
+            "date": "05/15/26"
+          }
+        },
+        "rev_3": {
+          "type": "review",
+          "settings": {
+            "quote": "<p>\"I've been taking them for years. I take it every afternoon when I start getting hungry and it satisfies me. I order on a subscription — that's the way to go.\"</p>",
+            "author": "Verified Buyer",
+            "date": "04/03/26"
+          }
+        }
+      },
+      "block_order": [
+        "stat_repeat",
+        "stat_taste",
+        "stat_habit",
+        "stat_clinic",
+        "rev_1",
+        "rev_2",
+        "rev_3"
+      ],
+      "settings": {
+        "average": "4.4",
+        "count_text": "410 verified reviews",
+        "footnote": "Based on analysis of 410 verified reviews",
+        "show_stats": true,
+        "stats_heading": "What customers report",
+        "stats_subtext": "From analysis of 410 verified reviews",
+        "stats_note": "Customer-reported outcomes, not a clinical trial. Individual results vary.",
+        "padding_top": 50,
+        "padding_bottom": 50
+      }
+    },
+    "cwc_practitioner_endorsement": {
+      "type": "CWC_practitioner_endorsement",
+      "blocks": {
+        "prac_dc": {
+          "type": "practitioner",
+          "settings": {
+            "quote": "<p>\"I've recommended NanoGreens to patients for years. When someone isn't getting enough produce, this is the simplest thing I can hand them that they'll actually stick with.\"</p>",
+            "name": "[Practitioner Name], DC",
+            "role": "Chiropractor · [City, State]"
+          }
+        },
+        "prac_nd": {
+          "type": "practitioner",
+          "settings": {
+            "quote": "<p>\"The enzyme blend is why I choose it over cheaper greens. Absorption is the whole point — a powder your body passes through isn't doing anything for you.\"</p>",
+            "name": "[Practitioner Name], ND",
+            "role": "Naturopathic Doctor · [City, State]"
+          }
+        },
+        "prac_md": {
+          "type": "practitioner",
+          "settings": {
+            "quote": "<p>\"I've been stocking it in my practice since [year]. The formula hasn't been cheapened, which is rare in this industry. That consistency is why I keep recommending it.\"</p>",
+            "name": "[Practitioner Name], MD",
+            "role": "[Specialty] · [City, State]"
+          }
+        },
+        "stat_mention": {
+          "type": "stat",
+          "settings": {
+            "value": "33",
+            "label": "of 410 reviews mention a clinician recommended it"
+          }
+        },
+        "stat_years": {
+          "type": "stat",
+          "settings": {
+            "value": "20+",
+            "label": "years recommended in practitioner clinics"
+          }
+        },
+        "stat_tested": {
+          "type": "stat",
+          "settings": {
+            "value": "2×",
+            "label": "tested — before and after blending"
+          }
+        },
+        "stat_usa": {
+          "type": "stat",
+          "settings": {
+            "value": "USA",
+            "label": "made, American farms sourced first"
+          }
+        }
+      },
+      "block_order": [
+        "prac_dc",
+        "prac_nd",
+        "prac_md",
+        "stat_mention",
+        "stat_years",
+        "stat_tested",
+        "stat_usa"
+      ],
+      "settings": {
+        "eyebrow": "Recommended in practice",
+        "heading": "<p>The people who recommend it <strong>see patients all day</strong></p>",
+        "subtext": "<p>NanoGreens was distributed through clinics for years before it was ever sold online. Many still stock it.</p>",
+        "show_clinician": true,
+        "clinician_initials": "DC, ND, MD",
+        "clinician_text": "<p><strong>Clinicians' choice.</strong> Recommended in practice for over 20 years, before it was ever sold online.</p>",
+        "padding_top": 50,
+        "padding_bottom": 50
+      }
+    },
     "cwc_ingredients": {
       "type": "CWC_ingredients",
       "blocks": {
@@ -804,84 +843,9 @@
         "padding_bottom": 50
       }
     },
-    "cwc_practitioner_endorsement": {
-      "type": "CWC_practitioner_endorsement",
-      "blocks": {
-        "prac_dc": {
-          "type": "practitioner",
-          "settings": {
-            "quote": "<p>\"I've recommended NanoGreens to patients for years. When someone isn't getting enough produce, this is the simplest thing I can hand them that they'll actually stick with.\"</p>",
-            "name": "[Practitioner Name], DC",
-            "role": "Chiropractor · [City, State]"
-          }
-        },
-        "prac_nd": {
-          "type": "practitioner",
-          "settings": {
-            "quote": "<p>\"The enzyme blend is why I choose it over cheaper greens. Absorption is the whole point — a powder your body passes through isn't doing anything for you.\"</p>",
-            "name": "[Practitioner Name], ND",
-            "role": "Naturopathic Doctor · [City, State]"
-          }
-        },
-        "prac_md": {
-          "type": "practitioner",
-          "settings": {
-            "quote": "<p>\"I've been stocking it in my practice since [year]. The formula hasn't been cheapened, which is rare in this industry. That consistency is why I keep recommending it.\"</p>",
-            "name": "[Practitioner Name], MD",
-            "role": "[Specialty] · [City, State]"
-          }
-        },
-        "stat_mention": {
-          "type": "stat",
-          "settings": {
-            "value": "33",
-            "label": "of 410 reviews mention a clinician recommended it"
-          }
-        },
-        "stat_years": {
-          "type": "stat",
-          "settings": {
-            "value": "15+",
-            "label": "years distributed through practitioner clinics"
-          }
-        },
-        "stat_tested": {
-          "type": "stat",
-          "settings": {
-            "value": "2×",
-            "label": "tested — before and after blending"
-          }
-        },
-        "stat_usa": {
-          "type": "stat",
-          "settings": {
-            "value": "USA",
-            "label": "made, American farms sourced first"
-          }
-        }
-      },
-      "block_order": [
-        "prac_dc",
-        "prac_nd",
-        "prac_md",
-        "stat_mention",
-        "stat_years",
-        "stat_tested",
-        "stat_usa"
-      ],
-      "settings": {
-        "eyebrow": "Recommended in practice",
-        "heading": "<p>The people who recommend it <strong>see patients all day</strong></p>",
-        "subtext": "<p>NanoGreens was distributed through clinics for years before it was ever sold online. Many still stock it.</p>",
-        "placeholder_note": "PLACEHOLDER — replace with real, consented practitioner quotes & credentials",
-        "padding_top": 50,
-        "padding_bottom": 50
-      }
-    },
     "cwc_founder_note": {
       "type": "CWC_founder_note",
       "settings": {
-        "placeholder_note": "PLACEHOLDER COPY — to be replaced with Rick's own words",
         "photo_placeholder": "FOUNDER PHOTO",
         "photo_caption": "Rick, in the facility",
         "eyebrow": "A note from our founder",
@@ -934,6 +898,59 @@
         "body": "<p>Most people love the green apple taste. Some don't — and we'd rather you find out risk-free. Try NanoGreens for 30 days. If it isn't for you, contact us for a full refund. No questions asked.</p>",
         "padding_top": 50,
         "padding_bottom": 50
+      }
+    },
+    "cwc_bundle_upgrade": {
+      "type": "CWC_bundle_upgrade",
+      "blocks": {
+        "column_greens": {
+          "type": "column",
+          "settings": {
+            "tag": "Greens only",
+            "ghost_labels": "",
+            "name": "NanoGreens",
+            "price": "$63.71",
+            "compare_price": "$74.95",
+            "per_text": "30-day supply · $2.13 / serving",
+            "features_included": "<p>55 organic ingredients, 30 servings</p><p>9-enzyme blend for absorption</p><p>Antioxidant &amp; immune support</p>",
+            "features_excluded": "<p>No protein for recovery</p><p>No omega-3 support</p><p>No blood-sugar support</p>",
+            "highlighted": false,
+            "ribbon_text": ""
+          }
+        },
+        "column_core4": {
+          "type": "column",
+          "settings": {
+            "tag": "The complete system",
+            "ghost_labels": "PRO, LEAN, OMEGA",
+            "name": "CORE4 Bundle",
+            "price": "$215.82",
+            "compare_price": "$284.80",
+            "per_text": "All four products · 24% off buying separately",
+            "features_included": "<p>Everything in NanoGreens</p><p>NanoPro — vegan protein for recovery</p><p>NanOmega — omega-3 support</p><p>NanoLean — daily wellness &amp; energy</p><p>One delivery, one subscription</p><p>Best value per product</p>",
+            "features_excluded": "",
+            "highlighted": true,
+            "ribbon_text": "Save $68.98"
+          }
+        }
+      },
+      "block_order": [
+        "column_greens",
+        "column_core4"
+      ],
+      "settings": {
+        "eyebrow": "Complete the system",
+        "heading": "<p>Upgrade to <strong>CORE4</strong></p>",
+        "subtext": "<p>Most customers already mix NanoGreens with our protein and omegas. CORE4 is all four, at a bundle price.</p>",
+        "cost_left_label": "Greens only",
+        "cost_left_value": "$2.13 / day",
+        "cost_right_label": "Complete system",
+        "cost_right_value": "$7.19 / day",
+        "cta_text": "Upgrade to CORE4  +$152.11",
+        "decline_text": "No thanks — just NanoGreens for now",
+        "note": "Assumption to confirm: CORE4 priced as a 30-day supply of all four products, compared like-for-like against the 30-day greens option.",
+        "padding_top": 60,
+        "padding_bottom": 60
       }
     },
     "cwc_faq": {
@@ -1048,17 +1065,18 @@
   "order": [
     "cwc_announcement_nav",
     "cwc_product_hero_buy_box",
-    "cwc_bundle_upgrade",
     "cwc_absorption_pod",
+    "cwc_taste",
     "cwc_how_to_use",
     "cwc_whole_body_support",
+    "cwc_comparison_table",
     "cwc_cost_calculator",
     "cwc_reviews",
-    "cwc_comparison_table",
-    "cwc_ingredients",
     "cwc_practitioner_endorsement",
+    "cwc_ingredients",
     "cwc_founder_note",
     "cwc_guarantee",
+    "cwc_bundle_upgrade",
     "cwc_faq",
     "cwc_bottom_cta",
     "cwc_sticky_add_to_cart"

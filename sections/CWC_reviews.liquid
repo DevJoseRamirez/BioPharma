@@ -9,6 +9,13 @@
     --star-color: {{ section.settings.star_color | default: '#E8A317' }};
     --badge-bg: {{ section.settings.badge_bg_color | default: '#F2F8EA' }};
     --badge-color: {{ section.settings.badge_color | default: '#44681A' }};
+    --panel-bg: {{ section.settings.panel_bg_color | default: '#FAF9F4' }};
+    --tint-bg: {{ section.settings.tint_bg_color | default: '#F2F8EA' }};
+    --tint-border: {{ section.settings.tint_border_color | default: '#A3C781' }};
+    --accent-color: {{ section.settings.accent_color | default: '#4A5E8C' }};
+    --accent-bg: {{ section.settings.accent_bg_color | default: '#EEF1F9' }};
+    --accent-border: {{ section.settings.accent_border_color | default: '#A3B8E2' }};
+    --deep-color: {{ section.settings.deep_color | default: '#44681A' }};
     --padding-top: {{ section.settings.padding_top | default: 50 }}px;
     --padding-bottom: {{ section.settings.padding_bottom | default: 50 }}px;
     --padding-top-mobile: {{ section.settings.padding_top | default: 50 | times: 0.5 }}px;
@@ -33,24 +40,70 @@
       </div>
     </div>
 
-    {% if section.blocks.size > 0 %}
+    {% comment %} Customer-reported stats {% endcomment %}
+    {% assign stat_blocks = section.blocks | where: 'type', 'stat' %}
+    {% if section.settings.show_stats and stat_blocks.size > 0 %}
+      <div class="cwc_reviews__stats">
+        {% if section.settings.stats_heading != blank %}
+          <div class="cwc_reviews__stats-heading">{{ section.settings.stats_heading }}</div>
+        {% endif %}
+        {% if section.settings.stats_subtext != blank %}
+          <div class="cwc_reviews__stats-subtext">{{ section.settings.stats_subtext }}</div>
+        {% endif %}
+
+        {% for block in stat_blocks %}
+          <div class="cwc_reviews__stat" {{ block.shopify_attributes }}>
+            <span class="cwc_reviews__stat-icon{% if block.settings.tone == 'accent' %} cwc_reviews__stat-icon--accent{% endif %}">
+              {% if block.settings.icon != blank %}
+                <img
+                  src="{{ block.settings.icon | image_url: width: 80 }}"
+                  alt=""
+                  width="80"
+                  height="80"
+                  loading="lazy"
+                >
+              {% else %}
+                {{ block.settings.icon_text | default: '★' }}
+              {% endif %}
+            </span>
+            <span class="cwc_reviews__stat-body">
+              {% if block.settings.name != blank %}
+                <span class="cwc_reviews__stat-name">{{ block.settings.name }}</span>
+              {% endif %}
+              {% if block.settings.description != blank %}
+                <span class="cwc_reviews__stat-description">{{ block.settings.description }}</span>
+              {% endif %}
+            </span>
+            {% if block.settings.value != blank %}
+              <span class="cwc_reviews__stat-value{% if block.settings.tone == 'accent' %} cwc_reviews__stat-value--accent{% endif %}">
+                {{ block.settings.value }}
+              </span>
+            {% endif %}
+          </div>
+        {% endfor %}
+
+        {% if section.settings.stats_note != blank %}
+          <div class="cwc_reviews__stats-note">{{ section.settings.stats_note }}</div>
+        {% endif %}
+      </div>
+    {% endif %}
+
+    {% assign review_blocks = section.blocks | where: 'type', 'review' %}
+    {% if review_blocks.size > 0 %}
       <div class="cwc_reviews__cards">
-        {% for block in section.blocks %}
-          {% case block.type %}
-            {% when 'review' %}
-              <div class="cwc_reviews__card" {{ block.shopify_attributes }}>
-                <span class="cwc_reviews__stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
-                {% if block.settings.quote != blank %}
-                  <div class="cwc_reviews__quote cwc-rte">{{ block.settings.quote }}</div>
-                {% endif %}
-                <div class="cwc_reviews__author">
-                  {{ block.settings.author | default: 'Verified Buyer' }}
-                  {% if block.settings.date != blank %}
-                    <span class="cwc_reviews__date">{{ block.settings.date }}</span>
-                  {% endif %}
-                </div>
-              </div>
-          {% endcase %}
+        {% for block in review_blocks %}
+          <div class="cwc_reviews__card" {{ block.shopify_attributes }}>
+            <span class="cwc_reviews__stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+            {% if block.settings.quote != blank %}
+              <div class="cwc_reviews__quote cwc-rte">{{ block.settings.quote }}</div>
+            {% endif %}
+            <div class="cwc_reviews__author">
+              {{ block.settings.author | default: 'Verified Buyer' }}
+              {% if block.settings.date != blank %}
+                <span class="cwc_reviews__date">{{ block.settings.date }}</span>
+              {% endif %}
+            </div>
+          </div>
         {% endfor %}
       </div>
     {% endif %}
@@ -87,6 +140,34 @@
       "id": "footnote",
       "label": "Footnote",
       "default": "Based on analysis of 410 verified reviews"
+    },
+    {
+      "type": "header",
+      "content": "Customer-Reported Stats"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_stats",
+      "label": "Show Stats Panel",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "stats_heading",
+      "label": "Stats Heading",
+      "default": "What customers report"
+    },
+    {
+      "type": "text",
+      "id": "stats_subtext",
+      "label": "Stats Subtext",
+      "default": "From analysis of 410 verified reviews"
+    },
+    {
+      "type": "text",
+      "id": "stats_note",
+      "label": "Stats Disclaimer",
+      "default": "Customer-reported outcomes, not a clinical trial. Individual results vary."
     },
     {
       "type": "header",
@@ -152,6 +233,52 @@
     },
     {
       "type": "header",
+      "content": "Stats Panel Colors"
+    },
+    {
+      "type": "color",
+      "id": "panel_bg_color",
+      "label": "Stats Panel Background",
+      "default": "#FAF9F4"
+    },
+    {
+      "type": "color",
+      "id": "tint_bg_color",
+      "label": "Stat Icon Background",
+      "default": "#F2F8EA"
+    },
+    {
+      "type": "color",
+      "id": "tint_border_color",
+      "label": "Stat Icon Border",
+      "default": "#A3C781"
+    },
+    {
+      "type": "color",
+      "id": "deep_color",
+      "label": "Stat Value Color",
+      "default": "#44681A"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent Stat Color",
+      "default": "#4A5E8C"
+    },
+    {
+      "type": "color",
+      "id": "accent_bg_color",
+      "label": "Accent Stat Icon Background",
+      "default": "#EEF1F9"
+    },
+    {
+      "type": "color",
+      "id": "accent_border_color",
+      "label": "Accent Stat Icon Border",
+      "default": "#A3B8E2"
+    },
+    {
+      "type": "header",
       "content": "Spacing"
     },
     {
@@ -199,14 +326,62 @@
           "default": "06/09/26"
         }
       ]
+    },
+    {
+      "type": "stat",
+      "name": "Reported Stat",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Stat Icon Image"
+        },
+        {
+          "type": "text",
+          "id": "icon_text",
+          "label": "Icon Character",
+          "info": "Used when no icon image is set.",
+          "default": "★"
+        },
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Name",
+          "default": "They'd buy it again"
+        },
+        {
+          "type": "text",
+          "id": "description",
+          "label": "Description",
+          "default": "Rate NanoGreens 4 stars or higher"
+        },
+        {
+          "type": "text",
+          "id": "value",
+          "label": "Value",
+          "default": "84%"
+        },
+        {
+          "type": "select",
+          "id": "tone",
+          "label": "Tone",
+          "options": [
+            { "value": "tint", "label": "Green" },
+            { "value": "accent", "label": "Blue" }
+          ],
+          "default": "tint"
+        }
+      ]
     }
   ],
-  "max_blocks": 9,
+  "max_blocks": 18,
   "presets": [
     {
       "name": "Reviews",
       "category": "CWC Custom",
       "blocks": [
+        { "type": "stat" },
+        { "type": "stat" },
         { "type": "review" },
         { "type": "review" },
         { "type": "review" }

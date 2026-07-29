@@ -4,7 +4,8 @@
 
 /* === Section Wrapper === */
 .cwc_faq {
-  font-size: 16px; /* section anchor — all type below is em relative to this */
+  font-size: 16px;
+  /* section anchor — all type below is em relative to this */
   background-color: var(--section-bg);
   padding-top: var(--padding-top);
   padding-bottom: var(--padding-bottom);
@@ -44,13 +45,14 @@
 .cwc_faq__content-heading p {
   font-family: 'Georgia', 'Times New Roman', serif;
   font-weight: 400;
-  font-size: 2.75em; /* 44px */
+  font-size: 2.75em;
+  /* 44px */
   line-height: 1.1;
   margin: 0 0 0.5em;
   color: inherit;
 }
 
-.cwc_faq__content-heading > * strong {
+.cwc_faq__content-heading>* strong {
   color: var(--highlight-color);
   font-weight: 400;
 }
@@ -80,7 +82,8 @@
 }
 
 .cwc_faq__question-text {
-  font-size: 1em; /* 16px */
+  font-size: 1em;
+  /* 16px */
   font-weight: 700;
   line-height: 1.35;
 }
@@ -90,7 +93,8 @@
   position: relative;
   width: 1em;
   height: 1.375em;
-  font-size: 1.375em; /* 22px */
+  font-size: 1.375em;
+  /* 22px */
   color: var(--sign-color);
 }
 
@@ -105,7 +109,8 @@
 }
 
 .cwc_faq__item[open] .cwc_faq__sign::before {
-  content: '\2212'; /* minus sign */
+  content: '\2212';
+  /* minus sign */
 }
 
 .cwc_faq__answer {
@@ -114,7 +119,8 @@
 }
 
 .cwc_faq__answer p {
-  font-size: 0.9375em; /* 15px */
+  font-size: 0.9375em;
+  /* 15px */
   line-height: 1.6;
   margin: 0 0 0.75em;
 }
@@ -140,7 +146,8 @@
   color: var(--button-text);
   border-radius: 40px;
   padding: 16px 34px;
-  font-size: 0.8125em; /* 13px */
+  font-size: 0.8125em;
+  /* 13px */
   font-weight: 700;
   letter-spacing: 1.5px;
   text-transform: uppercase;
@@ -197,6 +204,7 @@
    Mobile Responsive
    ============================== */
 @media screen and (max-width: 768px) {
+
   /* rescale the whole section from one anchor */
   .cwc_faq {
     font-size: 14px;
@@ -211,7 +219,7 @@
   /* Panel always first, image below, regardless of desktop side */
   .cwc_faq__panel,
   .cwc_faq--reverse .cwc_faq__panel {
-    order: 1;
+    order: 2;
     padding: 40px 20px;
   }
 
@@ -223,6 +231,7 @@
   .cwc_faq__media {
     min-height: 0;
     aspect-ratio: 4 / 3;
+    order: 1;
   }
 
   .cwc_faq__placeholder {

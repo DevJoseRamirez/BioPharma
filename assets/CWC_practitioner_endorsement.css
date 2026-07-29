@@ -68,6 +68,61 @@
 }
 
 
+/* === Clinicians Band === */
+.cwc_practitioner-endorsement__clinician {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 14px 16px;
+  background: var(--accent-bg);
+  border: 1px solid var(--accent-border);
+  border-radius: 12px;
+  margin-top: 24px;
+}
+
+.cwc_practitioner-endorsement__clinician-avatars {
+  display: flex;
+  flex-shrink: 0;
+}
+
+.cwc_practitioner-endorsement__clinician-avatar {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 2px solid var(--accent-border);
+  margin-left: -8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.6em;
+  /* 9.6px */
+  font-weight: 800;
+  color: var(--accent-color);
+}
+
+.cwc_practitioner-endorsement__clinician-avatar:first-child {
+  margin-left: 0;
+}
+
+.cwc_practitioner-endorsement__clinician-text p {
+  font-size: 0.875em;
+  /* 14px */
+  color: var(--text-color);
+  line-height: 1.45;
+  margin: 0;
+}
+
+.cwc_practitioner-endorsement__clinician-text strong {
+  color: var(--accent-color);
+}
+
+.cwc_practitioner-endorsement__clinician-text a {
+  color: var(--accent-color);
+  font-weight: 700;
+  text-decoration: underline;
+}
+
 /* === Grid === */
 .cwc_practitioner-endorsement__grid {
   display: grid;

@@ -1,0 +1,293 @@
+{% style %}
+  #cwc_taste-{{ section.id }} {
+    --section-bg: {{ section.settings.bg_color | default: '#ffffff' }};
+    --text-color: {{ section.settings.text_color | default: '#2A2611' }};
+    --highlight-color: {{ section.settings.bold_color | default: '#5BA90F' }};
+    --muted-color: {{ section.settings.muted_color | default: '#5C5842' }};
+    --eyebrow-color: {{ section.settings.eyebrow_color | default: '#5BA90F' }};
+    --stat-bg: {{ section.settings.stat_bg_color | default: '#F2F8EA' }};
+    --stat-border: {{ section.settings.stat_border_color | default: '#A3C781' }};
+    --stat-value-color: {{ section.settings.stat_value_color | default: '#44681A' }};
+    --guarantee-border: {{ section.settings.guarantee_border_color | default: '#5BA90F' }};
+    --padding-top: {{ section.settings.padding_top | default: 50 }}px;
+    --padding-bottom: {{ section.settings.padding_bottom | default: 50 }}px;
+    --padding-top-mobile: {{ section.settings.padding_top | default: 50 | times: 0.5 }}px;
+    --padding-bottom-mobile: {{ section.settings.padding_bottom | default: 50 | times: 0.5 }}px;
+  }
+{% endstyle %}
+
+{{ 'CWC_taste.css' | asset_url | stylesheet_tag }}
+
+<section
+  id="cwc_taste-{{ section.id }}"
+  class="cwc_taste{% if section.settings.image_position == 'right' %} cwc_taste--reverse{% endif %}"
+>
+  <div class="cwc_taste__container">
+    <div class="cwc_taste__wrapper">
+
+      {% comment %} Image {% endcomment %}
+      <div class="cwc_taste__image">
+        {% if section.settings.image != blank %}
+          {% if section.settings.image_mobile != blank %}
+            <picture>
+              <source
+                media="(max-width: 767px)"
+                srcset="{{ section.settings.image_mobile | image_url: width: 800 }}"
+              >
+              <img
+                src="{{ section.settings.image | image_url: width: 1000 }}"
+                alt="{{ section.settings.image_alt | default: 'NanoGreens mixed in a glass' | escape }}"
+                width="1000"
+                height="750"
+                loading="lazy"
+              >
+            </picture>
+          {% else %}
+            <img
+              src="{{ section.settings.image | image_url: width: 1000 }}"
+              alt="{{ section.settings.image_alt | default: 'NanoGreens mixed in a glass' | escape }}"
+              width="1000"
+              height="750"
+              loading="lazy"
+            >
+          {% endif %}
+        {% else %}
+          <div class="cwc_taste__placeholder">
+            {% if section.settings.placeholder_label != blank %}
+              <span class="cwc_taste__placeholder-label">{{ section.settings.placeholder_label }}</span>
+            {% endif %}
+            {% if section.settings.placeholder_note != blank %}
+              <span class="cwc_taste__placeholder-note">{{ section.settings.placeholder_note }}</span>
+            {% endif %}
+          </div>
+        {% endif %}
+      </div>
+
+      {% comment %} Content {% endcomment %}
+      <div class="cwc_taste__content">
+        {% if section.settings.eyebrow != blank %}
+          <div class="cwc_taste__eyebrow">{{ section.settings.eyebrow }}</div>
+        {% endif %}
+
+        {% if section.settings.heading != blank %}
+          <div class="cwc_taste__content-heading cwc-rte">
+            {{ section.settings.heading }}
+          </div>
+        {% endif %}
+
+        {% if section.settings.body != blank %}
+          <div class="cwc_taste__body cwc-rte">
+            {{ section.settings.body }}
+          </div>
+        {% endif %}
+
+        {% if section.settings.stat_value != blank or section.settings.stat_text != blank %}
+          <div class="cwc_taste__stat">
+            {% if section.settings.stat_value != blank %}
+              <span class="cwc_taste__stat-value">{{ section.settings.stat_value }}</span>
+            {% endif %}
+            {% if section.settings.stat_text != blank %}
+              <span class="cwc_taste__stat-text">{{ section.settings.stat_text }}</span>
+            {% endif %}
+          </div>
+        {% endif %}
+
+        {% if section.settings.guarantee_text != blank %}
+          <div class="cwc_taste__guarantee">{{ section.settings.guarantee_text }}</div>
+        {% endif %}
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "CWC Taste",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Header"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "The part that makes it a habit"
+    },
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "<p>It tastes like green apple. That's why people <strong>finish the tub</strong>.</p>"
+    },
+    {
+      "type": "richtext",
+      "id": "body",
+      "label": "Body Text",
+      "default": "<p>Most greens powders get bought once and abandoned half-full. Ours doesn't, and the reason is simple — it's sweetened with stevia leaf, mixes clean without grit, and tastes like green apple instead of lawn clippings. A supplement only works if you actually take it.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Stat Callout"
+    },
+    {
+      "type": "text",
+      "id": "stat_value",
+      "label": "Stat Value",
+      "default": "243"
+    },
+    {
+      "type": "text",
+      "id": "stat_text",
+      "label": "Stat Text",
+      "default": "reviews mention the taste specifically"
+    },
+    {
+      "type": "header",
+      "content": "Guarantee Line"
+    },
+    {
+      "type": "text",
+      "id": "guarantee_text",
+      "label": "Guarantee Text",
+      "default": "Not for you? Send it back within 30 days for a full refund."
+    },
+    {
+      "type": "header",
+      "content": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_mobile",
+      "label": "Mobile Image"
+    },
+    {
+      "type": "text",
+      "id": "image_alt",
+      "label": "Image Alt Text",
+      "default": "NanoGreens mixed in a glass"
+    },
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "Image Position",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "text",
+      "id": "placeholder_label",
+      "label": "Placeholder Label",
+      "info": "Shown until an image is selected.",
+      "default": "MIXED DRINK PHOTO"
+    },
+    {
+      "type": "text",
+      "id": "placeholder_note",
+      "label": "Placeholder Note",
+      "default": "Light green, apple-juice-like, in a clear glass"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#2A2611"
+    },
+    {
+      "type": "color",
+      "id": "bold_color",
+      "label": "Heading Bold Color",
+      "default": "#5BA90F"
+    },
+    {
+      "type": "color",
+      "id": "muted_color",
+      "label": "Muted Text Color",
+      "default": "#5C5842"
+    },
+    {
+      "type": "color",
+      "id": "eyebrow_color",
+      "label": "Eyebrow Color",
+      "default": "#5BA90F"
+    },
+    {
+      "type": "header",
+      "content": "Stat Colors"
+    },
+    {
+      "type": "color",
+      "id": "stat_bg_color",
+      "label": "Stat Background Color",
+      "default": "#F2F8EA"
+    },
+    {
+      "type": "color",
+      "id": "stat_border_color",
+      "label": "Stat Border Color",
+      "default": "#A3C781"
+    },
+    {
+      "type": "color",
+      "id": "stat_value_color",
+      "label": "Stat Number Color",
+      "default": "#44681A"
+    },
+    {
+      "type": "color",
+      "id": "guarantee_border_color",
+      "label": "Guarantee Accent Color",
+      "default": "#5BA90F"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 50
+    }
+  ],
+  "presets": [
+    {
+      "name": "Taste",
+      "category": "CWC Custom"
+    }
+  ]
+}
+{% endschema %}

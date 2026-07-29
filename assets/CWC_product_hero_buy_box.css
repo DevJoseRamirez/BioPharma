@@ -13,10 +13,14 @@
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
   /* testing */
   padding-top: 32px;
+  padding-bottom: 80px;
+  background: #fff url(https://cdn.shopify.com/s/files/1/0497/3523/7795/files/pdp-bg-1-min.png?v=1784916456) no-repeat top center;
+  background-size: 100% auto;
 }
 
 .cwc_product-hero-buy-box__container {
   max-width: 1300px;
+  max-width: calc(1300px + 32px);
   margin: 0 auto;
   padding: 0 32px;
 }
@@ -900,6 +904,13 @@
    Mobile Responsive
    ============================== */
 @media screen and (max-width: 768px) {
+  .cwc_product-hero-buy-box__content {
+    padding-left: 0px !important;
+  }
+
+  .cwc_product-hero-buy-box__content-subtext p {
+    font-size: 1em;
+  }
 
   /* rescale the whole section from one anchor */
   .cwc_product-hero-buy-box {
@@ -923,12 +934,19 @@
 
   .cwc_product-hero-buy-box__pill {
     width: 100%;
+    width: auto;
+    font-size: .85em;
+    padding: 6px 14px;
+    align-items: center;
+    gap: 10px;
   }
 
   .cwc_product-hero-buy-box__flavors {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 9px;
+    /* testing */
+    display: flex;
   }
 
   .cwc_product-hero-buy-box__flavor {
@@ -972,6 +990,6 @@
    ============================== */
 @media screen and (max-width: 480px) {
   .cwc_product-hero-buy-box__flavors {
-    grid-template-columns: 1fr;
+    /* grid-template-columns: 1fr; */
   }
 }
