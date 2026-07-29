@@ -1,0 +1,100 @@
+{% comment %}
+  One supply / subscription option card in the product buy box.
+
+  Repeatable, like an FAQ row — each option carries enough settings of its own
+  that folding them into numbered fields on a single block would be unusable in
+  the editor. Consecutive supply blocks stack into a group visually because the
+  card carries its own bottom margin; there is no wrapper element.
+
+  Live selling-plan pricing wins over the typed fallback text, so the card stays
+  correct when Shopify prices change without anyone editing the section.
+
+  Accepts:
+  - block {Object} - the supply block.
+  - current_variant {Object} - variant whose selling plan allocations are read.
+  - section_id {String} - scopes the radio group name to this section.
+  - group_label {String} - optional label printed above the first card only.
+
+  Usage:
+  {% render 'CWC_pdp-supply-option__block',
+    block: block,
+    current_variant: current_variant,
+    section_id: section.id,
+    group_label: group_label
+  %}
+{% endcomment %}
+
+{%- liquid
+  assign plan_price = block.settings.price_text
+  assign plan_compare = block.settings.compare_text
+  assign plan_save = block.settings.save_text
+
+  for allocation in current_variant.selling_plan_allocations
+    if allocation.selling_plan.id == block.settings.selling_plan_id
+      assign plan_price = allocation.price | money
+      if allocation.compare_at_price > allocation.price
+        assign plan_compare = allocation.compare_at_price | money
+        assign plan_save = allocation.compare_at_price | minus: allocation.price | money
+      endif
+    endif
+  endfor
+-%}
+
+{% if group_label != blank %}
+  <div class="cwc_product-hero-buy-box__label">{{ group_label }}</div>
+{% endif %}
+
+<label
+  class="cwc_product-hero-buy-box__offer{% if block.settings.is_default %} cwc_product-hero-buy-box__offer--selected{% endif %}"
+  data-cwc-offer
+  data-cwc-offer-plan="{{ block.settings.selling_plan_id }}"
+  data-cwc-offer-quantity="{{ block.settings.quantity | default: 1 }}"
+  {{ block.shopify_attributes }}
+>
+  {% if block.settings.badge_text != blank %}
+    <span class="cwc_product-hero-buy-box__offer-badge">{{ block.settings.badge_text }}</span>
+  {% endif %}
+
+  <input
+    type="radio"
+    name="cwc_supply_{{ section_id }}"
+    class="cwc_product-hero-buy-box__offer-input"
+    value="{{ block.id }}"
+    {% if block.settings.is_default %}
+      checked
+    {% endif %}
+  >
+
+  <span class="cwc_product-hero-buy-box__offer-radio" aria-hidden="true"></span>
+
+  <span class="cwc_product-hero-buy-box__offer-body">
+    <span class="cwc_product-hero-buy-box__offer-name">
+      {{ block.settings.name }}
+      {% if block.settings.save_label != blank %}
+        <span class="cwc_product-hero-buy-box__offer-save{% unless block.settings.is_default %} cwc_product-hero-buy-box__offer-save--dim{% endunless %}">
+          {{ block.settings.save_label }}
+        </span>
+      {% endif %}
+    </span>
+
+    {% if block.settings.description != blank %}
+      <span class="cwc_product-hero-buy-box__offer-description">{{ block.settings.description }}</span>
+    {% endif %}
+
+    <span class="cwc_product-hero-buy-box__offer-price">
+      {% if plan_price != blank %}
+        <span class="cwc_product-hero-buy-box__offer-now" data-cwc-offer-now>{{ plan_price }}</span>
+      {% endif %}
+      {% if plan_compare != blank %}
+        <span class="cwc_product-hero-buy-box__offer-was" data-cwc-offer-was>{{ plan_compare }}</span>
+      {% endif %}
+      {% if plan_save != blank %}
+        <span class="cwc_product-hero-buy-box__offer-saving" data-cwc-offer-saving>&middot; save {{ plan_save }}</span>
+      {% endif %}
+    </span>
+
+    {% if block.settings.perks != blank %}
+      <span class="cwc_product-hero-buy-box__offer-perks cwc-rte">{{ block.settings.perks }}</span>
+    {% endif %}
+  </span>
+</label>

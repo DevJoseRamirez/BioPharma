@@ -1,0 +1,36 @@
+{% comment %}
+  Eyebrow, heading and subtext for the product buy box.
+
+  The three sit in one block so the product's name never separates from the
+  line that qualifies it. Heading falls back to the product title, which is
+  what keeps the block useful on a product that has no custom copy yet.
+
+  Accepts:
+  - block {Object} - the title block. Reads settings.eyebrow, .heading, .subtext.
+  - product {Object} - product used for the heading fallback.
+
+  Usage:
+  {% render 'CWC_pdp-title__block', block: block, product: hero_product %}
+{% endcomment %}
+
+<div {{ block.shopify_attributes }}>
+  {% if block.settings.eyebrow != blank %}
+    <div class="cwc_product-hero-buy-box__eyebrow">{{ block.settings.eyebrow }}</div>
+  {% endif %}
+
+  {% if block.settings.heading != blank %}
+    <div class="cwc_product-hero-buy-box__content-heading cwc-rte">
+      {{ block.settings.heading }}
+    </div>
+  {% else %}
+    <div class="cwc_product-hero-buy-box__content-heading">
+      <p>{{ product.title | default: 'Product title' }}</p>
+    </div>
+  {% endif %}
+
+  {% if block.settings.subtext != blank %}
+    <div class="cwc_product-hero-buy-box__content-subtext cwc-rte">
+      {{ block.settings.subtext }}
+    </div>
+  {% endif %}
+</div>

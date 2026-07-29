@@ -9,7 +9,7 @@
   color: var(--text-color);
   padding-top: var(--padding-top);
   padding-bottom: var(--padding-bottom);
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+  font-family: var(--cwc-font-body);
 }
 
 .cwc_absorption-pod__container {
@@ -30,7 +30,7 @@
 /* === Content === */
 .cwc_absorption-pod__eyebrow {
   font-size: 0.78em; /* 12.48px */
-  font-weight: 700;
+  font-weight: var(--cwc-weight-label);
   letter-spacing: 2px;
   text-transform: uppercase;
   color: var(--eyebrow-color);
@@ -41,9 +41,9 @@
 .cwc_absorption-pod__content-heading h2,
 .cwc_absorption-pod__content-heading h3,
 .cwc_absorption-pod__content-heading p {
-  font-family: 'Georgia', 'Times New Roman', serif;
-  font-weight: 400;
-  font-size: 1.94em; /* 31.04px */
+  font-family: var(--cwc-font-heading);
+  font-weight: var(--cwc-weight-heading);
+  font-size: var(--cwc-size-section-heading);
   line-height: 1.2;
   margin: 0;
   color: var(--heading-color);
@@ -57,7 +57,7 @@
 .cwc_absorption-pod__body p {
   font-size: 0.97em; /* 15.52px */
   color: var(--text-color);
-  line-height: 1.65;
+  line-height: var(--cwc-line-body);
   margin: 10px 0 0;
 }
 
@@ -91,7 +91,7 @@
 
 .cwc_absorption-pod__stat-value {
   font-size: 2.875em; /* 46px */
-  font-weight: 900;
+  font-weight: var(--cwc-weight-stat-strong);
   color: var(--stat-color);
   line-height: 1;
 }

@@ -1,0 +1,51 @@
+{% comment %}
+  Add to cart button and its reassurance line.
+
+  The button is a plain submit — the surrounding product form is rendered by the
+  section with display:contents, which is what allows blocks to sit either side
+  of this one without breaking the form.
+
+  When no product is set the section renders a non-functional preview, so the
+  button must not claim to be sold out in that state.
+
+  Accepts:
+  - block {Object} - the add_to_cart block. Reads settings.label, .sold_out_label, .micro_text.
+  - product {Object} - product being sold; blank in preview.
+  - current_variant {Object} - variant whose availability gates the button.
+
+  Usage:
+  {% render 'CWC_pdp-atc__block', block: block, product: hero_product, current_variant: current_variant %}
+{% endcomment %}
+
+{%- liquid
+  assign is_preview = false
+  if product == blank
+    assign is_preview = true
+  endif
+
+  assign is_available = false
+  if is_preview or current_variant.available
+    assign is_available = true
+  endif
+-%}
+
+<div {{ block.shopify_attributes }}>
+  <button
+    type="submit"
+    name="add"
+    class="cwc_product-hero-buy-box__cta"
+    {% unless is_available %}
+      disabled
+    {% endunless %}
+  >
+    {% if is_available %}
+      {{ block.settings.label | default: 'Add to cart' }} &nbsp;&rarr;
+    {% else %}
+      {{ block.settings.sold_out_label | default: 'Sold out' }}
+    {% endif %}
+  </button>
+
+  {% if block.settings.micro_text != blank %}
+    <div class="cwc_product-hero-buy-box__micro">{{ block.settings.micro_text }}</div>
+  {% endif %}
+</div>

@@ -17,6 +17,10 @@
     --button-text: {{ section.settings.button_text_color | default: '#ffffff' }};
     --star-color: {{ section.settings.star_color | default: '#E8A317' }};
     --panel-bg: {{ section.settings.panel_bg_color | default: '#FAF9F4' }};
+    --gallery-ratio: {{ section.settings.gallery_ratio | default: '1 / 1' }};
+    --gallery-fit: {{ section.settings.gallery_fit | default: 'cover' }};
+    --thumb-ratio: {{ section.settings.thumb_ratio | default: '4 / 3' }};
+    --thumbs-per-view: {{ section.settings.thumbs_per_view | default: 6 }};
     --padding-top: {{ section.settings.padding_top | default: 20 }}px;
     --padding-bottom: {{ section.settings.padding_bottom | default: 40 }}px;
     --padding-top-mobile: {{ section.settings.padding_top | default: 20 | times: 0.5 }}px;
@@ -24,12 +28,18 @@
   }
 {% endstyle %}
 
+{{ 'CWC_fonts.css' | asset_url | stylesheet_tag }}
 {{ 'CWC_product_hero_buy_box.css' | asset_url | stylesheet_tag }}
+{%- comment -%}
+  The sticky bar is a block of this section now, but keeps its own stylesheet
+  and class names so its styles did not have to be rewritten when it moved.
+{%- endcomment -%}
+{{ 'CWC_sticky_add_to_cart.css' | asset_url | stylesheet_tag }}
 
 {%- liquid
   assign hero_product = section.settings.product | default: product
   assign current_variant = hero_product.selected_or_first_available_variant
-  assign gallery_limit = 6
+  assign gallery_limit = section.settings.gallery_limit | default: 10
 -%}
 
 {%- capture variant_payload -%}
@@ -42,6 +52,7 @@
       "price": {{ variant.price | money | json }},
       "compare": {%- if variant.compare_at_price > variant.price -%}{{ variant.compare_at_price | money | json }}{%- else -%}""{%- endif -%},
       "image": {%- if variant.image != blank -%}{{ variant.image | image_url: width: 900 | json }}{%- else -%}""{%- endif -%},
+      "media_id": {%- if variant.featured_media != blank -%}{{ variant.featured_media.id }}{%- else -%}0{%- endif -%},
       "plans": {
         {%- for allocation in variant.selling_plan_allocations -%}
           "{{ allocation.selling_plan.id }}": {
@@ -65,18 +76,58 @@
     <div class="cwc_product-hero-buy-box__wrapper">
 
       {% comment %} Gallery {% endcomment %}
+      {%- comment -%}
+        The badge belongs to the first image, not to the gallery frame, so it
+        lives inside the first slide and scrolls away with it. Captured once
+        because the carousel and the single-image fallback both need it.
+      {%- endcomment -%}
+      {%- capture gallery_badge -%}
+        {%- if section.settings.badge_text != blank -%}
+          <span class="cwc_product-hero-buy-box__gallery-badge">{{ section.settings.badge_text }}</span>
+        {%- endif -%}
+      {%- endcapture -%}
+
       <div class="cwc_product-hero-buy-box__gallery">
         <div class="cwc_product-hero-buy-box__gallery-main">
-          {% if section.settings.badge_text != blank %}
-            <span class="cwc_product-hero-buy-box__gallery-badge">{{ section.settings.badge_text }}</span>
-          {% endif %}
+          {%- comment -%}
+            One slide per media item, in the same order and under the same limit
+            as the thumbnails, so slide index and thumb index always line up.
+            The track is a scroll-snap carousel: swiping it is native scrolling,
+            which is what gives the images real drag-and-snap on touch.
+          {%- endcomment -%}
+          {% if hero_product.media.size > 0 %}
+            <div class="cwc_product-hero-buy-box__slides" data-cwc-gallery-track>
+              {% for media in hero_product.media limit: gallery_limit %}
+                <div
+                  class="cwc_product-hero-buy-box__slide"
+                  data-cwc-slide
+                  data-cwc-media-id="{{ media.id }}"
+                >
+                  {% if forloop.first %}
+                    {{ gallery_badge }}
+                  {% endif %}
 
-          {% if current_variant.image != blank or hero_product.featured_image != blank %}
+                  <img
+                    src="{{ media | image_url: width: 1200 }}"
+                    alt="{{ media.alt | default: hero_product.title | escape }}"
+                    width="1200"
+                    height="1200"
+                    {% if forloop.first %}
+                      loading="eager"
+                    {% else %}
+                      loading="lazy"
+                    {% endif %}
+                  >
+                </div>
+              {% endfor %}
+            </div>
+          {% elsif hero_product.featured_image != blank %}
+            {{ gallery_badge }}
             <img
-              src="{{ current_variant.image | default: hero_product.featured_image | image_url: width: 900 }}"
+              src="{{ hero_product.featured_image | image_url: width: 1200 }}"
               alt="{{ hero_product.title | escape }}"
-              width="900"
-              height="900"
+              width="1200"
+              height="1200"
               loading="eager"
               data-cwc-gallery-image
             >
@@ -88,23 +139,45 @@
         </div>
 
         {% if section.settings.show_thumbnails and hero_product.media.size > 1 %}
-          <div class="cwc_product-hero-buy-box__thumbs">
-            {% for media in hero_product.media limit: gallery_limit %}
-              <button
-                type="button"
-                class="cwc_product-hero-buy-box__thumb{% if forloop.first %} cwc_product-hero-buy-box__thumb--active{% endif %}"
-                data-cwc-thumb="{{ media | image_url: width: 900 }}"
-                aria-label="{{ media.alt | default: hero_product.title | escape }}"
-              >
-                <img
-                  src="{{ media | image_url: width: 180 }}"
-                  alt="{{ media.alt | default: hero_product.title | escape }}"
-                  width="180"
-                  height="180"
-                  loading="lazy"
+          <div class="cwc_product-hero-buy-box__thumbs-wrap" data-cwc-thumbs-wrap>
+            <button
+              type="button"
+              class="cwc_product-hero-buy-box__thumbs-arrow cwc_product-hero-buy-box__thumbs-arrow--prev"
+              data-cwc-thumbs-prev
+              aria-label="Previous images"
+              hidden
+            >
+              <span aria-hidden="true">&#8249;</span>
+            </button>
+
+            <div class="cwc_product-hero-buy-box__thumbs" data-cwc-thumbs-scroller>
+              {% for media in hero_product.media limit: gallery_limit %}
+                <button
+                  type="button"
+                  class="cwc_product-hero-buy-box__thumb{% if forloop.first %} cwc_product-hero-buy-box__thumb--active{% endif %}"
+                  data-cwc-thumb="{{ media | image_url: width: 1200 }}"
+                  aria-label="{{ media.alt | default: hero_product.title | escape }}"
                 >
-              </button>
-            {% endfor %}
+                  <img
+                    src="{{ media | image_url: width: 320 }}"
+                    alt="{{ media.alt | default: hero_product.title | escape }}"
+                    width="320"
+                    height="240"
+                    loading="lazy"
+                  >
+                </button>
+              {% endfor %}
+            </div>
+
+            <button
+              type="button"
+              class="cwc_product-hero-buy-box__thumbs-arrow cwc_product-hero-buy-box__thumbs-arrow--next"
+              data-cwc-thumbs-next
+              aria-label="More images"
+              hidden
+            >
+              <span aria-hidden="true">&#8250;</span>
+            </button>
           </div>
         {% endif %}
 
@@ -116,198 +189,85 @@
         {% endif %}
       </div>
 
-      {% comment %} Buy box {% endcomment %}
+      {%- comment -%}
+        ===== Buy box =====
+
+        Every element in this column is a block, rendered in the order the
+        merchant set in the editor — there are no hardcoded positions left.
+
+        The loop is captured once, then rendered inside the real product form
+        when a product is set, or a plain div (non-functional preview) when not:
+        a Liquid form tag cannot be split across if branches. The form wraps the
+        whole loop, which is what lets a block sit either side of Add To Cart.
+      {%- endcomment -%}
       <div class="cwc_product-hero-buy-box__content">
+        {%- capture buy_box_blocks -%}
+          {%- assign supply_seen = 0 -%}
+          {% for block in section.blocks %}
+            {% case block.type %}
+              {% when 'rating' %}
+                {% render 'CWC_pdp-rating__block', block: block %}
 
-        {% if section.settings.show_rating %}
-          <div class="cwc_product-hero-buy-box__rating">
-            <span class="cwc_product-hero-buy-box__stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
-            {% if section.settings.rating_text != blank %}
-              <a href="{{ section.settings.rating_link | default: '#' }}" class="cwc_product-hero-buy-box__rating-link">
-                {{ section.settings.rating_text }}
-              </a>
-            {% endif %}
-          </div>
-        {% endif %}
+              {% when 'title' %}
+                {% render 'CWC_pdp-title__block', block: block, product: hero_product %}
 
-        {% if section.settings.eyebrow != blank %}
-          <div class="cwc_product-hero-buy-box__eyebrow">{{ section.settings.eyebrow }}</div>
-        {% endif %}
+              {% when 'key_benefits' %}
+                {% render 'CWC_pdp-key-benefits__block', block: block %}
 
-        {% if section.settings.heading != blank %}
-          <div class="cwc_product-hero-buy-box__content-heading cwc-rte">
-            {{ section.settings.heading }}
-          </div>
-        {% else %}
-          <div class="cwc_product-hero-buy-box__content-heading">
-            <p>{{ hero_product.title | default: 'Product title' }}</p>
-          </div>
-        {% endif %}
+              {% when 'flavors' %}
+                {% render 'CWC_pdp-flavors__block',
+                  block: block,
+                  product: hero_product,
+                  current_variant: current_variant
+                %}
 
-        {% if section.settings.subtext != blank %}
-          <div class="cwc_product-hero-buy-box__content-subtext cwc-rte">
-            {{ section.settings.subtext }}
-          </div>
-        {% endif %}
-
-        {% comment %} Value pills {% endcomment %}
-        {% assign pill_blocks = section.blocks | where: 'type', 'pill' %}
-        {% if pill_blocks.size > 0 %}
-          <div class="cwc_product-hero-buy-box__pills">
-            {% for block in pill_blocks %}
-              {% if block.settings.text != blank %}
-                <span
-                  class="cwc_product-hero-buy-box__pill cwc_product-hero-buy-box__pill--{{ block.settings.tone | default: 'tint' }}"
-                  {{ block.shopify_attributes }}
-                >
-                  <span class="cwc_product-hero-buy-box__pill-mark" aria-hidden="true">
-                    {%- if block.settings.tone == 'accent' -%}&#9671;{%- else -%}&#10003;{%- endif -%}
-                  </span>
-                  {{ block.settings.text }}
-                </span>
-              {% endif %}
-            {% endfor %}
-          </div>
-        {% endif %}
-
-        {% comment %} Flavour / variant swatches {% endcomment %}
-        {% if section.settings.show_flavors and hero_product.variants.size > 1 %}
-          {% if section.settings.flavor_label != blank %}
-            <div class="cwc_product-hero-buy-box__label">{{ section.settings.flavor_label }}</div>
-          {% endif %}
-          <div class="cwc_product-hero-buy-box__flavors">
-            {% for variant in hero_product.variants %}
-              <button
-                type="button"
-                class="cwc_product-hero-buy-box__flavor{% if variant.id == current_variant.id %} cwc_product-hero-buy-box__flavor--selected{% endif %}{% unless variant.available %} cwc_product-hero-buy-box__flavor--unavailable{% endunless %}"
-                data-cwc-variant="{{ variant.id }}"
-                {% unless variant.available %}disabled{% endunless %}
-              >
-                <span class="cwc_product-hero-buy-box__flavor-swatch{% if variant.image == blank %} cwc_product-hero-buy-box__flavor-swatch--empty{% endif %}">
-                  {% if variant.image != blank %}
-                    <img
-                      src="{{ variant.image | image_url: width: 240 }}"
-                      alt="{{ variant.title | escape }}"
-                      width="240"
-                      height="240"
-                      loading="lazy"
-                    >
-                  {% else %}
-                    <span class="cwc_product-hero-buy-box__flavor-empty-label">Image</span>
-                  {% endif %}
-                </span>
-                <span class="cwc_product-hero-buy-box__flavor-name">{{ variant.title }}</span>
-              </button>
-            {% endfor %}
-          </div>
-        {% endif %}
-
-        {% comment %} Supply options + add to cart {% endcomment %}
-        {% assign supply_blocks = section.blocks | where: 'type', 'supply' %}
-
-        {%- comment -%}
-          Buy-flow markup is captured once, then rendered inside the real product
-          form when a product is set, or a plain div (non-functional preview) when not.
-          A Liquid {% form %} block cannot be split across {% if %} branches.
-        {%- endcomment -%}
-        {%- capture buy_flow -%}
-          {% if supply_blocks.size > 0 %}
-            {% if section.settings.supply_label != blank %}
-              <div class="cwc_product-hero-buy-box__label">{{ section.settings.supply_label }}</div>
-            {% endif %}
-
-            <div class="cwc_product-hero-buy-box__offers">
-              {% for block in supply_blocks %}
+              {% when 'supply' %}
                 {%- liquid
-                  assign plan_price = block.settings.price_text
-                  assign plan_compare = block.settings.compare_text
-                  assign plan_save = block.settings.save_text
-                  for allocation in current_variant.selling_plan_allocations
-                    if allocation.selling_plan.id == block.settings.selling_plan_id
-                      assign plan_price = allocation.price | money
-                      if allocation.compare_at_price > allocation.price
-                        assign plan_compare = allocation.compare_at_price | money
-                        assign plan_save = allocation.compare_at_price | minus: allocation.price | money
-                      endif
-                    endif
-                  endfor
+                  # The group label belongs to the run of supply cards, not to any
+                  # one of them, so only the first card in the run prints it.
+                  assign supply_seen = supply_seen | plus: 1
+                  assign group_label = ''
+                  if supply_seen == 1
+                    assign group_label = section.settings.supply_label
+                  endif
                 -%}
-                <label
-                  class="cwc_product-hero-buy-box__offer{% if block.settings.is_default %} cwc_product-hero-buy-box__offer--selected{% endif %}"
-                  data-cwc-offer
-                  data-cwc-offer-plan="{{ block.settings.selling_plan_id }}"
-                  data-cwc-offer-quantity="{{ block.settings.quantity | default: 1 }}"
-                  {{ block.shopify_attributes }}
-                >
-                  {% if block.settings.badge_text != blank %}
-                    <span class="cwc_product-hero-buy-box__offer-badge">{{ block.settings.badge_text }}</span>
-                  {% endif %}
+                {% render 'CWC_pdp-supply-option__block',
+                  block: block,
+                  current_variant: current_variant,
+                  section_id: section.id,
+                  group_label: group_label
+                %}
 
-                  <input
-                    type="radio"
-                    name="cwc_supply_{{ section.id }}"
-                    class="cwc_product-hero-buy-box__offer-input"
-                    value="{{ block.id }}"
-                    {% if block.settings.is_default %}checked{% endif %}
-                  >
+              {% when 'onetime' %}
+                {% render 'CWC_pdp-onetime__block', block: block %}
 
-                  <span class="cwc_product-hero-buy-box__offer-radio" aria-hidden="true"></span>
+              {% when 'add_to_cart' %}
+                {% render 'CWC_pdp-atc__block',
+                  block: block,
+                  product: hero_product,
+                  current_variant: current_variant
+                %}
 
-                  <span class="cwc_product-hero-buy-box__offer-body">
-                    <span class="cwc_product-hero-buy-box__offer-name">
-                      {{ block.settings.name }}
-                      {% if block.settings.save_label != blank %}
-                        <span class="cwc_product-hero-buy-box__offer-save{% unless block.settings.is_default %} cwc_product-hero-buy-box__offer-save--dim{% endunless %}">
-                          {{ block.settings.save_label }}
-                        </span>
-                      {% endif %}
-                    </span>
+              {% when 'clinicians' %}
+                {% render 'CWC_pdp-clinicians__block', block: block %}
 
-                    {% if block.settings.description != blank %}
-                      <span class="cwc_product-hero-buy-box__offer-description">{{ block.settings.description }}</span>
-                    {% endif %}
+              {% when 'trust_icons' %}
+                {% render 'CWC_pdp-trust-icons__block', block: block %}
 
-                    <span class="cwc_product-hero-buy-box__offer-price">
-                      {% if plan_price != blank %}
-                        <span class="cwc_product-hero-buy-box__offer-now" data-cwc-offer-now>{{ plan_price }}</span>
-                      {% endif %}
-                      {% if plan_compare != blank %}
-                        <span class="cwc_product-hero-buy-box__offer-was" data-cwc-offer-was>{{ plan_compare }}</span>
-                      {% endif %}
-                      {% if plan_save != blank %}
-                        <span class="cwc_product-hero-buy-box__offer-saving" data-cwc-offer-saving>&middot; save {{ plan_save }}</span>
-                      {% endif %}
-                    </span>
+              {% when 'stats_panel' %}
+                {% render 'CWC_pdp-stats-panel__block', block: block %}
 
-                    {% if block.settings.perks != blank %}
-                      <span class="cwc_product-hero-buy-box__offer-perks cwc-rte">{{ block.settings.perks }}</span>
-                    {% endif %}
-                  </span>
-                </label>
-              {% endfor %}
-            </div>
-          {% endif %}
+              {% when 'detail' %}
+                {% render 'CWC_pdp-detail__block', block: block %}
 
-          {% if section.settings.show_onetime and section.settings.onetime_text != blank %}
-            <div class="cwc_product-hero-buy-box__onetime">
-              <button type="button" class="cwc_product-hero-buy-box__onetime-button" data-cwc-onetime>
-                {{ section.settings.onetime_text }}
-              </button>
-            </div>
-          {% endif %}
-
-          <button
-            type="submit"
-            name="add"
-            class="cwc_product-hero-buy-box__cta"
-            {% if hero_product != blank and current_variant.available == false %}disabled{% endif %}
-          >
-            {% if hero_product == blank or current_variant.available %}
-              {{ section.settings.cta_text | default: 'Add to cart' }} &nbsp;&rarr;
-            {% else %}
-              {{ section.settings.sold_out_text | default: 'Sold out' }}
-            {% endif %}
-          </button>
+              {% when 'sticky_atc' %}
+                {% render 'CWC_pdp-sticky-atc__block',
+                  block: block,
+                  product: hero_product,
+                  current_variant: current_variant
+                %}
+            {% endcase %}
+          {% endfor %}
         {%- endcapture -%}
 
         {% if hero_product != blank %}
@@ -315,140 +275,13 @@
             <input type="hidden" name="id" value="{{ current_variant.id }}" data-cwc-variant-input>
             <input type="hidden" name="quantity" value="1" data-cwc-quantity-input>
             <input type="hidden" name="selling_plan" value="" data-cwc-plan-input>
-            {{ buy_flow }}
+            {{ buy_box_blocks }}
           {% endform %}
         {% else %}
           <div class="cwc_product-hero-buy-box__form">
-            {{ buy_flow }}
+            {{ buy_box_blocks }}
           </div>
         {% endif %}
-
-        {% if section.settings.micro_text != blank %}
-          <div class="cwc_product-hero-buy-box__micro">{{ section.settings.micro_text }}</div>
-        {% endif %}
-
-        {% comment %} Clinicians band {% endcomment %}
-        {% if section.settings.show_clinician and section.settings.clinician_text != blank %}
-          <div class="cwc_product-hero-buy-box__clinician">
-            {% if section.settings.clinician_initials != blank %}
-              <span class="cwc_product-hero-buy-box__clinician-avatars" aria-hidden="true">
-                {% assign initials = section.settings.clinician_initials | split: ',' %}
-                {% for initial in initials limit: 4 %}
-                  <span class="cwc_product-hero-buy-box__clinician-avatar">{{ initial | strip }}</span>
-                {% endfor %}
-              </span>
-            {% endif %}
-            <span class="cwc_product-hero-buy-box__clinician-text cwc-rte">
-              {{ section.settings.clinician_text }}
-            </span>
-          </div>
-        {% endif %}
-
-        {% comment %} Trust row {% endcomment %}
-        {% assign trust_blocks = section.blocks | where: 'type', 'trust' %}
-        {% if trust_blocks.size > 0 %}
-          <div class="cwc_product-hero-buy-box__trust">
-            {% for block in trust_blocks %}
-              <div class="cwc_product-hero-buy-box__trust-item" {{ block.shopify_attributes }}>
-                <span class="cwc_product-hero-buy-box__trust-icon">
-                  {% if block.settings.icon != blank %}
-                    <img
-                      src="{{ block.settings.icon | image_url: width: 80 }}"
-                      alt="{{ block.settings.label | escape }}"
-                      width="80"
-                      height="80"
-                      loading="lazy"
-                    >
-                  {% else %}
-                    {{ block.settings.icon_text | default: '✓' }}
-                  {% endif %}
-                </span>
-                {% if block.settings.label != blank %}
-                  <span class="cwc_product-hero-buy-box__trust-label cwc-rte">{{ block.settings.label }}</span>
-                {% endif %}
-              </div>
-            {% endfor %}
-          </div>
-        {% endif %}
-
-        {% comment %} Customer-reported stats {% endcomment %}
-        {% assign stat_blocks = section.blocks | where: 'type', 'stat' %}
-        {% if section.settings.show_stats and stat_blocks.size > 0 %}
-          <div class="cwc_product-hero-buy-box__stats">
-            {% if section.settings.stats_heading != blank %}
-              <div class="cwc_product-hero-buy-box__stats-heading">{{ section.settings.stats_heading }}</div>
-            {% endif %}
-            {% if section.settings.stats_subtext != blank %}
-              <div class="cwc_product-hero-buy-box__stats-subtext">{{ section.settings.stats_subtext }}</div>
-            {% endif %}
-
-            {% for block in stat_blocks %}
-              <div class="cwc_product-hero-buy-box__stat" {{ block.shopify_attributes }}>
-                <span class="cwc_product-hero-buy-box__stat-icon{% if block.settings.tone == 'accent' %} cwc_product-hero-buy-box__stat-icon--accent{% endif %}">
-                  {% if block.settings.icon != blank %}
-                    <img
-                      src="{{ block.settings.icon | image_url: width: 80 }}"
-                      alt=""
-                      width="80"
-                      height="80"
-                      loading="lazy"
-                    >
-                  {% else %}
-                    {{ block.settings.icon_text | default: '★' }}
-                  {% endif %}
-                </span>
-                <span class="cwc_product-hero-buy-box__stat-body">
-                  {% if block.settings.name != blank %}
-                    <span class="cwc_product-hero-buy-box__stat-name">{{ block.settings.name }}</span>
-                  {% endif %}
-                  {% if block.settings.description != blank %}
-                    <span class="cwc_product-hero-buy-box__stat-description">{{ block.settings.description }}</span>
-                  {% endif %}
-                </span>
-                {% if block.settings.value != blank %}
-                  <span class="cwc_product-hero-buy-box__stat-value{% if block.settings.tone == 'accent' %} cwc_product-hero-buy-box__stat-value--accent{% endif %}">
-                    {{ block.settings.value }}
-                  </span>
-                {% endif %}
-              </div>
-            {% endfor %}
-
-            {% if section.settings.stats_note != blank %}
-              <div class="cwc_product-hero-buy-box__stats-note">{{ section.settings.stats_note }}</div>
-            {% endif %}
-          </div>
-        {% endif %}
-
-        {% comment %} Detail accordion {% endcomment %}
-        {% assign detail_blocks = section.blocks | where: 'type', 'detail' %}
-        {% if detail_blocks.size > 0 %}
-          <div class="cwc_product-hero-buy-box__details">
-            {% for block in detail_blocks %}
-              <div class="cwc_product-hero-buy-box__detail" {{ block.shopify_attributes }}>
-                <button
-                  type="button"
-                  class="cwc_product-hero-buy-box__detail-question"
-                  aria-expanded="{% if block.settings.open %}true{% else %}false{% endif %}"
-                  data-cwc-detail-toggle
-                >
-                  {{ block.settings.title }}
-                  <span class="cwc_product-hero-buy-box__detail-sign" aria-hidden="true">
-                    {%- if block.settings.open -%}&minus;{%- else -%}+{%- endif -%}
-                  </span>
-                </button>
-                {% if block.settings.content != blank %}
-                  <div
-                    class="cwc_product-hero-buy-box__detail-answer cwc-rte{% unless block.settings.open %} cwc_product-hero-buy-box__detail-answer--hidden{% endunless %}"
-                    data-cwc-detail-panel
-                  >
-                    {{ block.settings.content }}
-                  </div>
-                {% endif %}
-              </div>
-            {% endfor %}
-          </div>
-        {% endif %}
-
       </div>
     </div>
   </div>
@@ -488,50 +321,6 @@
     },
     {
       "type": "header",
-      "content": "Section Header"
-    },
-    {
-      "type": "text",
-      "id": "eyebrow",
-      "label": "Eyebrow",
-      "default": "Daily greens & superfood"
-    },
-    {
-      "type": "richtext",
-      "id": "heading",
-      "label": "Product Title Override",
-      "info": "Leave empty to use the product title.",
-      "default": "<p>NanoGreens<strong>10</strong></p>"
-    },
-    {
-      "type": "richtext",
-      "id": "subtext",
-      "label": "Product Subtext",
-      "default": "<p>55 organic fruits and vegetables, juiced at peak ripeness and freeze-dried cold. One scoop, ten seconds, every morning.</p>"
-    },
-    {
-      "type": "header",
-      "content": "Rating"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_rating",
-      "label": "Show Rating Row",
-      "default": true
-    },
-    {
-      "type": "text",
-      "id": "rating_text",
-      "label": "Rating Text",
-      "default": "4.4 · 410 reviews"
-    },
-    {
-      "type": "url",
-      "id": "rating_link",
-      "label": "Rating Link"
-    },
-    {
-      "type": "header",
       "content": "Gallery"
     },
     {
@@ -541,10 +330,87 @@
       "default": "55 organic ingredients"
     },
     {
+      "type": "select",
+      "id": "gallery_ratio",
+      "label": "Main Image Shape",
+      "options": [
+        {
+          "value": "1 / 1",
+          "label": "Square"
+        },
+        {
+          "value": "4 / 5",
+          "label": "Portrait (4:5)"
+        },
+        {
+          "value": "3 / 4",
+          "label": "Tall (3:4)"
+        }
+      ],
+      "default": "1 / 1"
+    },
+    {
+      "type": "select",
+      "id": "gallery_fit",
+      "label": "Main Image Fit",
+      "info": "Fill crops the image to the frame. Fit shows the whole image — better for packshots on white.",
+      "options": [
+        {
+          "value": "cover",
+          "label": "Fill the frame"
+        },
+        {
+          "value": "contain",
+          "label": "Fit inside the frame"
+        }
+      ],
+      "default": "cover"
+    },
+    {
       "type": "checkbox",
       "id": "show_thumbnails",
       "label": "Show Thumbnails",
       "default": true
+    },
+    {
+      "type": "range",
+      "id": "gallery_limit",
+      "label": "Maximum Thumbnails",
+      "info": "Extra images scroll horizontally behind the arrows.",
+      "min": 3,
+      "max": 20,
+      "step": 1,
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "thumbs_per_view",
+      "label": "Thumbnails Per View",
+      "info": "How many fit across before scrolling. One fewer is shown on mobile.",
+      "min": 3,
+      "max": 8,
+      "step": 1,
+      "default": 6
+    },
+    {
+      "type": "select",
+      "id": "thumb_ratio",
+      "label": "Thumbnail Shape",
+      "options": [
+        {
+          "value": "4 / 3",
+          "label": "Landscape (4:3)"
+        },
+        {
+          "value": "1 / 1",
+          "label": "Square"
+        },
+        {
+          "value": "3 / 4",
+          "label": "Portrait (3:4)"
+        }
+      ],
+      "default": "1 / 1"
     },
     {
       "type": "text",
@@ -566,110 +432,13 @@
     },
     {
       "type": "header",
-      "content": "Flavor & Supply"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_flavors",
-      "label": "Show Flavor Swatches",
-      "default": true
-    },
-    {
-      "type": "text",
-      "id": "flavor_label",
-      "label": "Flavor Label",
-      "default": "Select flavor"
+      "content": "Buy Flow"
     },
     {
       "type": "text",
       "id": "supply_label",
       "label": "Supply Label",
       "default": "Choose your supply"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_onetime",
-      "label": "Show One-Time Purchase Link",
-      "default": true
-    },
-    {
-      "type": "text",
-      "id": "onetime_text",
-      "label": "One-Time Purchase Text",
-      "default": "One-time purchase · $74.95 ($2.50/serving)"
-    },
-    {
-      "type": "header",
-      "content": "Add To Cart"
-    },
-    {
-      "type": "text",
-      "id": "cta_text",
-      "label": "Button Text",
-      "default": "Add to cart"
-    },
-    {
-      "type": "text",
-      "id": "sold_out_text",
-      "label": "Sold Out Text",
-      "default": "Sold out"
-    },
-    {
-      "type": "text",
-      "id": "micro_text",
-      "label": "Reassurance Line",
-      "default": "🔒 Secure checkout · 30-day money-back guarantee · Cancel anytime"
-    },
-    {
-      "type": "header",
-      "content": "Clinicians Band"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_clinician",
-      "label": "Show Clinicians Band",
-      "default": true
-    },
-    {
-      "type": "text",
-      "id": "clinician_initials",
-      "label": "Avatar Initials",
-      "info": "Comma separated, up to 4.",
-      "default": "DC, ND, MD"
-    },
-    {
-      "type": "richtext",
-      "id": "clinician_text",
-      "label": "Clinicians Text",
-      "default": "<p><strong>Clinicians' choice.</strong> Recommended in practice for over 20 years, before it was ever sold online.</p>"
-    },
-    {
-      "type": "header",
-      "content": "Customer-Reported Stats"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_stats",
-      "label": "Show Stats Panel",
-      "default": true
-    },
-    {
-      "type": "text",
-      "id": "stats_heading",
-      "label": "Stats Heading",
-      "default": "What customers report"
-    },
-    {
-      "type": "text",
-      "id": "stats_subtext",
-      "label": "Stats Subtext",
-      "default": "From analysis of 410 verified reviews"
-    },
-    {
-      "type": "text",
-      "id": "stats_note",
-      "label": "Stats Disclaimer",
-      "default": "Customer-reported outcomes, not a clinical trial. Individual results vary."
     },
     {
       "type": "header",
@@ -808,24 +577,219 @@
   ],
   "blocks": [
     {
-      "type": "pill",
-      "name": "Value Pill",
+      "type": "rating",
+      "name": "Rating",
+      "limit": 1,
       "settings": [
         {
           "type": "text",
           "id": "text",
+          "label": "Rating Text",
+          "default": "4.4 · 410 reviews"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Rating Link"
+        }
+      ]
+    },
+    {
+      "type": "title",
+      "name": "Title",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "eyebrow",
+          "label": "Eyebrow",
+          "default": "Daily greens & superfood"
+        },
+        {
+          "type": "richtext",
+          "id": "heading",
+          "label": "Heading",
+          "default": "<p>NanoGreens<strong>10</strong></p>"
+        },
+        {
+          "type": "richtext",
+          "id": "subtext",
+          "label": "Subtext",
+          "default": "<p>55 organic fruits and vegetables, juiced at peak ripeness and freeze-dried cold. One scoop, ten seconds, every morning.</p>"
+        }
+      ]
+    },
+    {
+      "type": "key_benefits",
+      "name": "Value Pills",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "header",
+          "content": "Pill 1"
+        },
+        {
+          "type": "text",
+          "id": "text_1",
           "label": "Text",
           "default": "10 servings of fruits & vegetables in one scoop"
         },
         {
           "type": "select",
-          "id": "tone",
+          "id": "tone_1",
           "label": "Tone",
           "options": [
-            { "value": "tint", "label": "Green" },
-            { "value": "accent", "label": "Blue" }
+            {
+              "value": "tint",
+              "label": "Green"
+            },
+            {
+              "value": "accent",
+              "label": "Blue"
+            }
           ],
           "default": "tint"
+        },
+        {
+          "type": "header",
+          "content": "Pill 2"
+        },
+        {
+          "type": "text",
+          "id": "text_2",
+          "label": "Text",
+          "default": "9 digestive enzymes so your body absorbs it"
+        },
+        {
+          "type": "select",
+          "id": "tone_2",
+          "label": "Tone",
+          "options": [
+            {
+              "value": "tint",
+              "label": "Green"
+            },
+            {
+              "value": "accent",
+              "label": "Blue"
+            }
+          ],
+          "default": "accent"
+        },
+        {
+          "type": "header",
+          "content": "Pill 3"
+        },
+        {
+          "type": "text",
+          "id": "text_3",
+          "label": "Text",
+          "default": "Recommended by practitioners for 20+ years"
+        },
+        {
+          "type": "select",
+          "id": "tone_3",
+          "label": "Tone",
+          "options": [
+            {
+              "value": "tint",
+              "label": "Green"
+            },
+            {
+              "value": "accent",
+              "label": "Blue"
+            }
+          ],
+          "default": "tint"
+        },
+        {
+          "type": "header",
+          "content": "Pill 4"
+        },
+        {
+          "type": "text",
+          "id": "text_4",
+          "label": "Text",
+          "default": "30-day money-back guarantee"
+        },
+        {
+          "type": "select",
+          "id": "tone_4",
+          "label": "Tone",
+          "options": [
+            {
+              "value": "tint",
+              "label": "Green"
+            },
+            {
+              "value": "accent",
+              "label": "Blue"
+            }
+          ],
+          "default": "tint"
+        },
+        {
+          "type": "header",
+          "content": "Pill 5"
+        },
+        {
+          "type": "text",
+          "id": "text_5",
+          "label": "Text"
+        },
+        {
+          "type": "select",
+          "id": "tone_5",
+          "label": "Tone",
+          "options": [
+            {
+              "value": "tint",
+              "label": "Green"
+            },
+            {
+              "value": "accent",
+              "label": "Blue"
+            }
+          ],
+          "default": "tint"
+        },
+        {
+          "type": "header",
+          "content": "Pill 6"
+        },
+        {
+          "type": "text",
+          "id": "text_6",
+          "label": "Text"
+        },
+        {
+          "type": "select",
+          "id": "tone_6",
+          "label": "Tone",
+          "options": [
+            {
+              "value": "tint",
+              "label": "Green"
+            },
+            {
+              "value": "accent",
+              "label": "Blue"
+            }
+          ],
+          "default": "tint"
+        }
+      ]
+    },
+    {
+      "type": "flavors",
+      "name": "Flavor Swatches",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Select flavor"
         }
       ]
     },
@@ -913,72 +877,334 @@
       ]
     },
     {
-      "type": "trust",
-      "name": "Trust Item",
+      "type": "onetime",
+      "name": "One-Time Purchase Link",
+      "limit": 1,
       "settings": [
         {
-          "type": "image_picker",
-          "id": "icon",
-          "label": "Trust Icon Image"
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "One-time purchase · $74.95 ($2.50/serving)"
+        }
+      ]
+    },
+    {
+      "type": "add_to_cart",
+      "name": "Add To Cart",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Button Label",
+          "default": "Add to cart"
         },
         {
           "type": "text",
-          "id": "icon_text",
+          "id": "sold_out_label",
+          "label": "Sold Out Label",
+          "default": "Sold out"
+        },
+        {
+          "type": "text",
+          "id": "micro_text",
+          "label": "Reassurance Line",
+          "default": "🔒 Secure checkout · 30-day money-back guarantee · Cancel anytime"
+        }
+      ]
+    },
+    {
+      "type": "trust_icons",
+      "name": "Trust Row",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "header",
+          "content": "Item 1"
+        },
+        {
+          "type": "image_picker",
+          "id": "icon_1",
+          "label": "Icon Image"
+        },
+        {
+          "type": "text",
+          "id": "icon_text_1",
           "label": "Icon Character",
           "info": "Used when no icon image is set.",
           "default": "↩"
         },
         {
           "type": "richtext",
-          "id": "label",
+          "id": "label_1",
           "label": "Label",
           "default": "<p>30-Day Money Back</p>"
+        },
+        {
+          "type": "header",
+          "content": "Item 2"
+        },
+        {
+          "type": "image_picker",
+          "id": "icon_2",
+          "label": "Icon Image"
+        },
+        {
+          "type": "text",
+          "id": "icon_text_2",
+          "label": "Icon Character",
+          "info": "Used when no icon image is set.",
+          "default": "⛟"
+        },
+        {
+          "type": "richtext",
+          "id": "label_2",
+          "label": "Label",
+          "default": "<p>Free Shipping on Subscriptions</p>"
+        },
+        {
+          "type": "header",
+          "content": "Item 3"
+        },
+        {
+          "type": "image_picker",
+          "id": "icon_3",
+          "label": "Icon Image"
+        },
+        {
+          "type": "text",
+          "id": "icon_text_3",
+          "label": "Icon Character",
+          "info": "Used when no icon image is set.",
+          "default": "⏸"
+        },
+        {
+          "type": "richtext",
+          "id": "label_3",
+          "label": "Label",
+          "default": "<p>Cancel or Pause Anytime</p>"
         }
       ]
     },
     {
-      "type": "stat",
-      "name": "Reported Stat",
+      "type": "stats_panel",
+      "name": "Customer-Reported Stats",
+      "limit": 1,
       "settings": [
         {
-          "type": "image_picker",
-          "id": "icon",
-          "label": "Stat Icon Image"
+          "type": "text",
+          "id": "heading",
+          "label": "Panel Heading",
+          "default": "What customers report"
         },
         {
           "type": "text",
-          "id": "icon_text",
+          "id": "subtext",
+          "label": "Panel Subtext",
+          "default": "From analysis of 410 verified reviews"
+        },
+        {
+          "type": "text",
+          "id": "note",
+          "label": "Disclaimer",
+          "default": "Customer-reported outcomes, not a clinical trial. Individual results vary."
+        },
+        {
+          "type": "header",
+          "content": "Row 1"
+        },
+        {
+          "type": "text",
+          "id": "icon_text_1",
           "label": "Icon Character",
-          "info": "Used when no icon image is set.",
           "default": "★"
         },
         {
           "type": "text",
-          "id": "name",
+          "id": "name_1",
           "label": "Name",
           "default": "They'd buy it again"
         },
         {
           "type": "text",
-          "id": "description",
+          "id": "description_1",
           "label": "Description",
           "default": "Rate NanoGreens 4 stars or higher"
         },
         {
           "type": "text",
-          "id": "value",
+          "id": "value_1",
           "label": "Value",
           "default": "84%"
         },
         {
           "type": "select",
-          "id": "tone",
+          "id": "tone_1",
           "label": "Tone",
           "options": [
-            { "value": "tint", "label": "Green" },
-            { "value": "accent", "label": "Blue" }
+            {
+              "value": "tint",
+              "label": "Green"
+            },
+            {
+              "value": "accent",
+              "label": "Blue"
+            }
           ],
           "default": "tint"
+        },
+        {
+          "type": "header",
+          "content": "Row 2"
+        },
+        {
+          "type": "text",
+          "id": "icon_text_2",
+          "label": "Icon Character",
+          "default": "◕"
+        },
+        {
+          "type": "text",
+          "id": "name_2",
+          "label": "Name",
+          "default": "A taste they finish"
+        },
+        {
+          "type": "text",
+          "id": "description_2",
+          "label": "Description",
+          "default": "Reviews specifically praising the flavor"
+        },
+        {
+          "type": "text",
+          "id": "value_2",
+          "label": "Value",
+          "default": "243"
+        },
+        {
+          "type": "select",
+          "id": "tone_2",
+          "label": "Tone",
+          "options": [
+            {
+              "value": "tint",
+              "label": "Green"
+            },
+            {
+              "value": "accent",
+              "label": "Blue"
+            }
+          ],
+          "default": "tint"
+        },
+        {
+          "type": "header",
+          "content": "Row 3"
+        },
+        {
+          "type": "text",
+          "id": "icon_text_3",
+          "label": "Icon Character",
+          "default": "↻"
+        },
+        {
+          "type": "text",
+          "id": "name_3",
+          "label": "Name",
+          "default": "It becomes a habit"
+        },
+        {
+          "type": "text",
+          "id": "description_3",
+          "label": "Description",
+          "default": "Report drinking it daily for years"
+        },
+        {
+          "type": "text",
+          "id": "value_3",
+          "label": "Value",
+          "default": "120+"
+        },
+        {
+          "type": "select",
+          "id": "tone_3",
+          "label": "Tone",
+          "options": [
+            {
+              "value": "tint",
+              "label": "Green"
+            },
+            {
+              "value": "accent",
+              "label": "Blue"
+            }
+          ],
+          "default": "tint"
+        },
+        {
+          "type": "header",
+          "content": "Row 4"
+        },
+        {
+          "type": "text",
+          "id": "icon_text_4",
+          "label": "Icon Character",
+          "default": "✚"
+        },
+        {
+          "type": "text",
+          "id": "name_4",
+          "label": "Name",
+          "default": "Recommended in clinic"
+        },
+        {
+          "type": "text",
+          "id": "description_4",
+          "label": "Description",
+          "default": "Say a doctor or naturopath suggested it"
+        },
+        {
+          "type": "text",
+          "id": "value_4",
+          "label": "Value",
+          "default": "33"
+        },
+        {
+          "type": "select",
+          "id": "tone_4",
+          "label": "Tone",
+          "options": [
+            {
+              "value": "tint",
+              "label": "Green"
+            },
+            {
+              "value": "accent",
+              "label": "Blue"
+            }
+          ],
+          "default": "accent"
+        }
+      ]
+    },
+    {
+      "type": "clinicians",
+      "name": "Clinicians Band",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "initials",
+          "label": "Clinician Initials",
+          "info": "Comma separated, e.g. DC, ND, MD",
+          "default": "DC, ND, MD"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text",
+          "default": "<p><strong>Clinicians' choice.</strong> Recommended in practice for over 20 years, before it was ever sold online.</p>"
         }
       ]
     },
@@ -1005,19 +1231,117 @@
           "default": false
         }
       ]
+    },
+    {
+      "type": "sticky_atc",
+      "name": "Sticky Add To Cart",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Fixed to the bottom of the screen once the main Add To Cart button scrolls out of view. Its position in this list does not affect the layout."
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Thumbnail Override",
+          "info": "Defaults to the product's featured image."
+        },
+        {
+          "type": "text",
+          "id": "name_override",
+          "label": "Product Name Override"
+        },
+        {
+          "type": "text",
+          "id": "subline",
+          "label": "Subline",
+          "default": "Free shipping · 30-day guarantee"
+        },
+        {
+          "type": "text",
+          "id": "plan_label",
+          "label": "Plan Label",
+          "default": "Choose your supply"
+        },
+        {
+          "type": "text",
+          "id": "plan_sub",
+          "label": "Plan Subtext"
+        },
+        {
+          "type": "text",
+          "id": "button_text",
+          "label": "Button Text",
+          "default": "Add to cart"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_price_in_button",
+          "label": "Show Price In Button",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "sold_out_text",
+          "label": "Sold Out Text",
+          "default": "Sold out"
+        },
+        {
+          "type": "range",
+          "id": "reveal_after",
+          "label": "Fallback Reveal Distance",
+          "info": "Used only when the main Add To Cart button is not on the page.",
+          "min": 200,
+          "max": 1200,
+          "step": 50,
+          "unit": "px",
+          "default": 600
+        }
+      ]
     }
   ],
-  "max_blocks": 30,
   "presets": [
     {
-      "name": "Hero Buy Box",
+      "name": "Product Hero Buy Box",
       "category": "CWC Custom",
       "blocks": [
-        { "type": "pill" },
-        { "type": "supply" },
-        { "type": "trust" },
-        { "type": "stat" },
-        { "type": "detail" }
+        {
+          "type": "rating"
+        },
+        {
+          "type": "title"
+        },
+        {
+          "type": "key_benefits"
+        },
+        {
+          "type": "flavors"
+        },
+        {
+          "type": "supply"
+        },
+        {
+          "type": "supply"
+        },
+        {
+          "type": "onetime"
+        },
+        {
+          "type": "add_to_cart"
+        },
+        {
+          "type": "trust_icons"
+        },
+        {
+          "type": "detail"
+        },
+        {
+          "type": "detail"
+        },
+        {
+          "type": "sticky_atc"
+        }
       ]
     }
   ]

@@ -5,7 +5,7 @@
 /* === Section Wrapper === */
 .cwc_sticky-add-to-cart {
   font-size: 16px; /* section anchor — all type below is em relative to this */
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+  font-family: var(--cwc-font-body);
 }
 
 .cwc_sticky-add-to-cart__bar {
@@ -85,7 +85,7 @@
 .cwc_sticky-add-to-cart__plan-label {
   display: block;
   font-size: 0.9em; /* 14.4px */
-  font-weight: 800;
+  font-weight: var(--cwc-weight-label);
   color: var(--text-color);
   line-height: 1.25;
 }

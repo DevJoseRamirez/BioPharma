@@ -1,0 +1,58 @@
+{% comment %}
+  Three-up trust row (guarantee / shipping / cancel) for the buy box.
+
+  One block holds all three so the row keeps its grid. Each column falls back to
+  a text glyph when no icon image is set, which keeps it usable before assets
+  are uploaded.
+
+  Accepts:
+  - block {Object} - the trust_icons block. Reads settings.icon_1 … icon_3,
+    icon_text_1 … icon_text_3 and label_1 … label_3.
+
+  Usage:
+  {% render 'CWC_pdp-trust-icons__block', block: block %}
+{% endcomment %}
+
+{%- liquid
+  assign item_ids = '1,2,3' | split: ','
+
+  assign item_count = 0
+  for item_id in item_ids
+    assign label_key = 'label_' | append: item_id
+    if block.settings[label_key] != blank
+      assign item_count = item_count | plus: 1
+    endif
+  endfor
+-%}
+
+{%- if item_count > 0 -%}
+  <div class="cwc_product-hero-buy-box__trust" {{ block.shopify_attributes }}>
+    {%- for item_id in item_ids -%}
+      {%- liquid
+        assign label_key = 'label_' | append: item_id
+        assign icon_key = 'icon_' | append: item_id
+        assign icon_text_key = 'icon_text_' | append: item_id
+        assign item_label = block.settings[label_key]
+        assign item_icon = block.settings[icon_key]
+      -%}
+      {%- if item_label != blank -%}
+        <div class="cwc_product-hero-buy-box__trust-item">
+          <span class="cwc_product-hero-buy-box__trust-icon">
+            {% if item_icon != blank %}
+              <img
+                src="{{ item_icon | image_url: width: 80 }}"
+                alt=""
+                width="80"
+                height="80"
+                loading="lazy"
+              >
+            {% else %}
+              {{ block.settings[icon_text_key] | default: '✓' }}
+            {% endif %}
+          </span>
+          <span class="cwc_product-hero-buy-box__trust-label cwc-rte">{{ item_label }}</span>
+        </div>
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+{%- endif -%}

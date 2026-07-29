@@ -10,7 +10,7 @@
   color: var(--text-color);
   padding-top: var(--padding-top);
   padding-bottom: var(--padding-bottom);
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+  font-family: var(--cwc-font-body);
 }
 
 .cwc_founder-note__container {
@@ -68,7 +68,7 @@
 .cwc_founder-note__eyebrow {
   font-size: 0.78em;
   /* 12.48px */
-  font-weight: 700;
+  font-weight: var(--cwc-weight-label);
   letter-spacing: 2px;
   text-transform: uppercase;
   color: var(--eyebrow-color);
@@ -83,10 +83,9 @@
 .cwc_founder-note__content-heading h2,
 .cwc_founder-note__content-heading h3,
 .cwc_founder-note__content-heading p {
-  font-family: 'Georgia', 'Times New Roman', serif;
-  font-weight: 400;
-  font-size: 1.94em;
-  /* 31.04px */
+  font-family: var(--cwc-font-heading);
+  font-weight: var(--cwc-weight-heading);
+  font-size: var(--cwc-size-section-heading);
   line-height: 1.2;
   margin: 0;
   color: inherit;
@@ -116,10 +115,12 @@
   border-top: 1px solid var(--border-color);
 }
 
+/* name role */
 .cwc_founder-note__signature-name {
-  font-family: 'Georgia', 'Times New Roman', serif;
-  font-size: 1.4em;
-  /* 22.4px */
+  font-family: var(--cwc-font-body);
+  font-weight: var(--cwc-weight-name);
+  font-size: 1.15em;
+  /* 18.4px */
   color: var(--text-color);
 }
 

@@ -1,0 +1,37 @@
+{% comment %}
+  One collapsible detail row in the buy-box accordion.
+
+  Repeatable. Each row renders its own bordered container; consecutive rows read
+  as one accordion because the row carries the border, not a wrapper.
+
+  Accepts:
+  - block {Object} - the detail block. Reads settings.title, .content, .open.
+
+  Usage:
+  {% render 'CWC_pdp-detail__block', block: block %}
+{% endcomment %}
+
+{%- if block.settings.title != blank -%}
+  <div class="cwc_product-hero-buy-box__detail" {{ block.shopify_attributes }}>
+    <button
+      type="button"
+      class="cwc_product-hero-buy-box__detail-question"
+      aria-expanded="{% if block.settings.open %}true{% else %}false{% endif %}"
+      data-cwc-detail-toggle
+    >
+      {{ block.settings.title }}
+      <span class="cwc_product-hero-buy-box__detail-sign" aria-hidden="true">
+        {%- if block.settings.open -%}&minus;{%- else -%}+{%- endif -%}
+      </span>
+    </button>
+
+    {% if block.settings.content != blank %}
+      <div
+        class="cwc_product-hero-buy-box__detail-answer cwc-rte{% unless block.settings.open %} cwc_product-hero-buy-box__detail-answer--hidden{% endunless %}"
+        data-cwc-detail-panel
+      >
+        {{ block.settings.content }}
+      </div>
+    {% endif %}
+  </div>
+{%- endif -%}

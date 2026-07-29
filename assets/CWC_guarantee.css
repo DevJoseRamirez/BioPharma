@@ -9,7 +9,7 @@
   color: var(--text-color);
   padding-top: var(--padding-top);
   padding-bottom: var(--padding-bottom);
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+  font-family: var(--cwc-font-body);
 }
 
 .cwc_guarantee__container {
@@ -64,9 +64,9 @@
 .cwc_guarantee__content-heading h2,
 .cwc_guarantee__content-heading h3,
 .cwc_guarantee__content-heading p {
-  font-family: 'Georgia', 'Times New Roman', serif;
-  font-weight: 400;
-  font-size: 2em; /* 32px */
+  font-family: var(--cwc-font-heading);
+  font-weight: var(--cwc-weight-heading);
+  font-size: var(--cwc-size-section-heading);
   line-height: 1.2;
   margin: 0;
   color: #ffffff;
@@ -85,7 +85,7 @@
 .cwc_guarantee__body p {
   font-size: 1em; /* 16px */
   color: var(--card-text);
-  line-height: 1.65;
+  line-height: var(--cwc-line-body);
   margin: 0;
 }
 

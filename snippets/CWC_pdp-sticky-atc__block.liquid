@@ -1,0 +1,99 @@
+{% comment %}
+  Sticky Add To Cart bar for the product buy box.
+
+  Rendered inside the buy box's product form, so it shares the one hidden
+  variant / quantity / selling_plan input with the main Add To Cart button.
+  There is nothing to keep in sync between the two, and both can only ever add
+  the same thing — which is what the standalone section had to mirror by hand.
+
+  The bar is position:fixed, so where it sits in the block order does not
+  affect the column.
+
+  Accepts:
+  - block {Object} - the sticky_atc block.
+  - product {Object} - the product being sold; blank in preview.
+  - current_variant {Object} - the variant that starts selected.
+
+  Usage:
+  {% render 'CWC_pdp-sticky-atc__block',
+    block: block,
+    product: hero_product,
+    current_variant: current_variant
+  %}
+{% endcomment %}
+
+{%- liquid
+  assign sticky_image = block.settings.image | default: product.featured_image
+
+  assign is_preview = false
+  if product == blank
+    assign is_preview = true
+  endif
+
+  assign is_available = false
+  if is_preview or current_variant.available
+    assign is_available = true
+  endif
+-%}
+
+<div
+  class="cwc_sticky-add-to-cart"
+  data-cwc-sticky
+  data-cwc-reveal-after="{{ block.settings.reveal_after | default: 600 }}"
+  {{ block.shopify_attributes }}
+>
+  <div class="cwc_sticky-add-to-cart__bar">
+
+    <div class="cwc_sticky-add-to-cart__thumb">
+      {% if sticky_image != blank %}
+        <img
+          src="{{ sticky_image | image_url: width: 120 }}"
+          alt="{{ product.title | escape }}"
+          width="46"
+          height="46"
+          loading="lazy"
+        >
+      {% endif %}
+    </div>
+
+    <div class="cwc_sticky-add-to-cart__info">
+      <div class="cwc_sticky-add-to-cart__name">
+        {{ block.settings.name_override | default: product.title | default: 'Product name' }}
+      </div>
+      {% if block.settings.subline != blank %}
+        <div class="cwc_sticky-add-to-cart__subline">{{ block.settings.subline }}</div>
+      {% endif %}
+    </div>
+
+    <button type="button" class="cwc_sticky-add-to-cart__plan" data-cwc-plan-chip>
+      <span class="cwc_sticky-add-to-cart__plan-label" data-cwc-plan-label>
+        {{ block.settings.plan_label | default: 'Choose your supply' }}
+      </span>
+      {% if block.settings.plan_sub != blank %}
+        <span class="cwc_sticky-add-to-cart__plan-sub" data-cwc-plan-sub>{{ block.settings.plan_sub }}</span>
+      {% endif %}
+      <span class="cwc_sticky-add-to-cart__plan-chevron" aria-hidden="true">&#8964;</span>
+    </button>
+
+    <button
+      type="submit"
+      name="add"
+      class="cwc_sticky-add-to-cart__button"
+      {% unless is_available %}
+        disabled
+      {% endunless %}
+    >
+      <span data-cwc-button-text>
+        {% if is_available %}
+          {{ block.settings.button_text | default: 'Add to cart' }}
+          {%- if block.settings.show_price_in_button -%}
+            &nbsp;&mdash; <span data-cwc-button-price>{{ current_variant.price | money }}</span>
+          {%- endif -%}
+        {% else %}
+          {{ block.settings.sold_out_text | default: 'Sold out' }}
+        {% endif %}
+      </span>
+    </button>
+
+  </div>
+</div>

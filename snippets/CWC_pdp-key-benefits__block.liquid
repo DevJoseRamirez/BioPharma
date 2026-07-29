@@ -1,0 +1,51 @@
+{% comment %}
+  Value pills for the product buy box.
+
+  One block holds every pill, so the group moves as a unit and no single pill
+  can end up stranded between the price and the Add To Cart button. Blank
+  fields are skipped, so a merchant can use fewer than six.
+
+  Accepts:
+  - block {Object} - the key_benefits block. Reads settings.text_1 … text_6
+    and the matching tone_1 … tone_6.
+
+  Usage:
+  {% render 'CWC_pdp-key-benefits__block', block: block %}
+{% endcomment %}
+
+{%- liquid
+  assign pill_ids = '1,2,3,4,5,6' | split: ','
+
+  assign pill_count = 0
+  for pill_id in pill_ids
+    assign text_key = 'text_' | append: pill_id
+    if block.settings[text_key] != blank
+      assign pill_count = pill_count | plus: 1
+    endif
+  endfor
+-%}
+
+{%- comment -%}
+  Counted first so an all-blank block renders nothing — an empty pills row
+  would still contribute its top margin to the column.
+{%- endcomment -%}
+{%- if pill_count > 0 -%}
+  <div class="cwc_product-hero-buy-box__pills" {{ block.shopify_attributes }}>
+    {%- for pill_id in pill_ids -%}
+      {%- liquid
+        assign text_key = 'text_' | append: pill_id
+        assign tone_key = 'tone_' | append: pill_id
+        assign pill_text = block.settings[text_key]
+        assign pill_tone = block.settings[tone_key] | default: 'tint'
+      -%}
+      {%- if pill_text != blank -%}
+        <span class="cwc_product-hero-buy-box__pill cwc_product-hero-buy-box__pill--{{ pill_tone }}">
+          <span class="cwc_product-hero-buy-box__pill-mark" aria-hidden="true">
+            {%- if pill_tone == 'accent' -%}&#9671;{%- else -%}&#10003;{%- endif -%}
+          </span>
+          {{ pill_text }}
+        </span>
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+{%- endif -%}

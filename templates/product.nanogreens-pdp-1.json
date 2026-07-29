@@ -62,32 +62,40 @@
     "cwc_product_hero_buy_box": {
       "type": "CWC_product_hero_buy_box",
       "blocks": {
-        "pill_servings": {
-          "type": "pill",
+        "rating": {
+          "type": "rating",
           "settings": {
-            "text": "10 servings of fruits & vegetables in one scoop",
-            "tone": "tint"
+            "text": "4.4 · 410 reviews",
+            "link": ""
           }
         },
-        "pill_enzyme": {
-          "type": "pill",
+        "title": {
+          "type": "title",
           "settings": {
-            "text": "9 digestive enzymes so your body absorbs it",
-            "tone": "accent"
+            "eyebrow": "Daily greens & superfood",
+            "heading": "<p>NanoGreens<strong>10</strong></p>",
+            "subtext": "<p>55 organic fruits and vegetables, juiced at peak ripeness and freeze-dried cold. One scoop, ten seconds, every morning.</p>"
           }
         },
-        "pill_practitioners": {
-          "type": "pill",
+        "key_benefits": {
+          "type": "key_benefits",
           "settings": {
-            "text": "Recommended by practitioners for 20+ years",
-            "tone": "tint"
+            "text_1": "10 servings of fruits & vegetables in one scoop",
+            "tone_1": "tint",
+            "text_2": "9 digestive enzymes so your body absorbs it",
+            "tone_2": "accent",
+            "text_3": "Recommended by practitioners for 20+ years",
+            "tone_3": "tint",
+            "text_4": "30-day money-back guarantee",
+            "tone_4": "tint",
+            "text_5": "",
+            "text_6": ""
           }
         },
-        "pill_guarantee": {
-          "type": "pill",
+        "flavors": {
+          "type": "flavors",
           "settings": {
-            "text": "30-day money-back guarantee",
-            "tone": "tint"
+            "label": "Select flavor"
           }
         },
         "supply_90": {
@@ -122,25 +130,29 @@
             "save_text": "$11.24"
           }
         },
-        "trust_refund": {
-          "type": "trust",
+        "onetime": {
+          "type": "onetime",
           "settings": {
-            "icon_text": "↩",
-            "label": "<p>30-Day Money Back</p>"
+            "text": "One-time purchase · $74.95 ($2.50/serving)"
           }
         },
-        "trust_shipping": {
-          "type": "trust",
+        "add_to_cart": {
+          "type": "add_to_cart",
           "settings": {
-            "icon_text": "⛟",
-            "label": "<p>Free Shipping on Subscriptions</p>"
+            "label": "Add to cart",
+            "sold_out_label": "Sold out",
+            "micro_text": "🔒 Secure checkout · 30-day money-back guarantee · Cancel anytime"
           }
         },
-        "trust_pause": {
-          "type": "trust",
+        "trust_icons": {
+          "type": "trust_icons",
           "settings": {
-            "icon_text": "⏸",
-            "label": "<p>Cancel or Pause Anytime</p>"
+            "icon_text_1": "↩",
+            "label_1": "<p>30-Day Money Back</p>",
+            "icon_text_2": "⛟",
+            "label_2": "<p>Free Shipping on Subscriptions</p>",
+            "icon_text_3": "⏸",
+            "label_3": "<p>Cancel or Pause Anytime</p>"
           }
         },
         "detail_ingredients": {
@@ -174,42 +186,42 @@
             "content": "<p>Free shipping on every subscription order. Choose a 90-day or 30-day supply — it renews automatically at the same price. Pause, reschedule or cancel anytime, with no cancellation fees.</p>",
             "open": false
           }
+        },
+        "sticky_atc": {
+          "type": "sticky_atc",
+          "settings": {
+            "name_override": "NanoGreens10 (Green Apple)",
+            "subline": "Free shipping · 30-day guarantee",
+            "plan_label": "90-Day Supply (Save 25%)",
+            "plan_sub": "$1.87 USD / serving",
+            "button_text": "Add to cart",
+            "show_price_in_button": true,
+            "reveal_after": 600
+          }
         }
       },
       "block_order": [
-        "pill_servings",
-        "pill_enzyme",
-        "pill_practitioners",
-        "pill_guarantee",
+        "rating",
+        "title",
+        "key_benefits",
+        "flavors",
         "supply_90",
         "supply_30",
-        "trust_refund",
-        "trust_shipping",
-        "trust_pause",
+        "onetime",
+        "add_to_cart",
+        "trust_icons",
         "detail_ingredients",
         "detail_quality",
         "detail_enjoy",
-        "detail_tasting"
+        "detail_tasting",
+        "sticky_atc"
       ],
       "settings": {
-        "eyebrow": "Daily greens & superfood",
-        "heading": "<p>NanoGreens<strong>10</strong></p>",
-        "subtext": "<p>55 organic fruits and vegetables, juiced at peak ripeness and freeze-dried cold. One scoop, ten seconds, every morning.</p>",
-        "show_rating": true,
-        "rating_text": "4.4 · 410 reviews",
         "badge_text": "55 organic ingredients",
         "show_thumbnails": true,
         "nutrition_button_text": "View Nutrition Label",
         "nutrition_alt": "NanoGreens supplement facts",
-        "show_flavors": true,
-        "flavor_label": "Select flavor",
         "supply_label": "Choose your supply",
-        "show_onetime": true,
-        "onetime_text": "One-time purchase · $74.95 ($2.50/serving)",
-        "cta_text": "Add to cart",
-        "micro_text": "🔒 Secure checkout · 30-day money-back guarantee · Cancel anytime",
-        "show_clinician": false,
-        "show_stats": false,
         "padding_top": 20,
         "padding_bottom": 40
       }
@@ -1048,18 +1060,6 @@
         "padding_top": 55,
         "padding_bottom": 55
       }
-    },
-    "cwc_sticky_add_to_cart": {
-      "type": "CWC_sticky_add_to_cart",
-      "settings": {
-        "name_override": "NanoGreens10 (Green Apple)",
-        "subline": "Free shipping · 30-day guarantee",
-        "plan_label": "90-Day Supply (Save 25%)",
-        "plan_sub": "$1.87 USD / serving",
-        "button_text": "Add to cart",
-        "show_price_in_button": true,
-        "reveal_after": 600
-      }
     }
   },
   "order": [
@@ -1078,7 +1078,6 @@
     "cwc_guarantee",
     "cwc_bundle_upgrade",
     "cwc_faq",
-    "cwc_bottom_cta",
-    "cwc_sticky_add_to_cart"
+    "cwc_bottom_cta"
   ]
 }

@@ -1,0 +1,74 @@
+{% comment %}
+  Customer-reported stats panel for the buy box.
+
+  Heading, rows and disclaimer live in one block so the panel — including the
+  "not a clinical trial" note — can never be separated from the numbers it
+  qualifies. Rows with no value are skipped.
+
+  Accepts:
+  - block {Object} - the stats_panel block. Reads settings.heading, .subtext,
+    .note and the numbered row fields name_1 … tone_4.
+
+  Usage:
+  {% render 'CWC_pdp-stats-panel__block', block: block %}
+{% endcomment %}
+
+{%- liquid
+  assign row_ids = '1,2,3,4' | split: ','
+
+  assign row_count = 0
+  for row_id in row_ids
+    assign name_key = 'name_' | append: row_id
+    if block.settings[name_key] != blank
+      assign row_count = row_count | plus: 1
+    endif
+  endfor
+-%}
+
+{%- if row_count > 0 -%}
+  <div class="cwc_product-hero-buy-box__stats" {{ block.shopify_attributes }}>
+    {% if block.settings.heading != blank %}
+      <div class="cwc_product-hero-buy-box__stats-heading">{{ block.settings.heading }}</div>
+    {% endif %}
+    {% if block.settings.subtext != blank %}
+      <div class="cwc_product-hero-buy-box__stats-subtext">{{ block.settings.subtext }}</div>
+    {% endif %}
+
+    {%- for row_id in row_ids -%}
+      {%- liquid
+        assign name_key = 'name_' | append: row_id
+        assign description_key = 'description_' | append: row_id
+        assign value_key = 'value_' | append: row_id
+        assign icon_text_key = 'icon_text_' | append: row_id
+        assign tone_key = 'tone_' | append: row_id
+
+        assign row_name = block.settings[name_key]
+        assign row_tone = block.settings[tone_key] | default: 'tint'
+      -%}
+      {%- if row_name != blank -%}
+        <div class="cwc_product-hero-buy-box__stat">
+          <span class="cwc_product-hero-buy-box__stat-icon{% if row_tone == 'accent' %} cwc_product-hero-buy-box__stat-icon--accent{% endif %}">
+            {{ block.settings[icon_text_key] | default: '★' }}
+          </span>
+          <span class="cwc_product-hero-buy-box__stat-body">
+            <span class="cwc_product-hero-buy-box__stat-name">{{ row_name }}</span>
+            {% if block.settings[description_key] != blank %}
+              <span class="cwc_product-hero-buy-box__stat-description">
+                {{ block.settings[description_key] }}
+              </span>
+            {% endif %}
+          </span>
+          {% if block.settings[value_key] != blank %}
+            <span class="cwc_product-hero-buy-box__stat-value{% if row_tone == 'accent' %} cwc_product-hero-buy-box__stat-value--accent{% endif %}">
+              {{ block.settings[value_key] }}
+            </span>
+          {% endif %}
+        </div>
+      {%- endif -%}
+    {%- endfor -%}
+
+    {% if block.settings.note != blank %}
+      <div class="cwc_product-hero-buy-box__stats-note">{{ block.settings.note }}</div>
+    {% endif %}
+  </div>
+{%- endif -%}

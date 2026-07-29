@@ -1,0 +1,50 @@
+{% comment %}
+  Variant (flavour) swatches for the product buy box.
+
+  Renders nothing for a single-variant product, so the block can be left in
+  place on products that do not need it.
+
+  Accepts:
+  - block {Object} - the flavors block. Reads settings.label.
+  - product {Object} - product whose variants are shown.
+  - current_variant {Object} - variant currently selected.
+
+  Usage:
+  {% render 'CWC_pdp-flavors__block', block: block, product: hero_product, current_variant: current_variant %}
+{% endcomment %}
+
+{%- if product.variants.size > 1 -%}
+  <div {{ block.shopify_attributes }}>
+    {% if block.settings.label != blank %}
+      <div class="cwc_product-hero-buy-box__label">{{ block.settings.label }}</div>
+    {% endif %}
+
+    <div class="cwc_product-hero-buy-box__flavors">
+      {% for variant in product.variants %}
+        <button
+          type="button"
+          class="cwc_product-hero-buy-box__flavor{% if variant.id == current_variant.id %} cwc_product-hero-buy-box__flavor--selected{% endif %}{% unless variant.available %} cwc_product-hero-buy-box__flavor--unavailable{% endunless %}"
+          data-cwc-variant="{{ variant.id }}"
+          {% unless variant.available %}
+            disabled
+          {% endunless %}
+        >
+          <span class="cwc_product-hero-buy-box__flavor-swatch{% if variant.image == blank %} cwc_product-hero-buy-box__flavor-swatch--empty{% endif %}">
+            {% if variant.image != blank %}
+              <img
+                src="{{ variant.image | image_url: width: 240 }}"
+                alt="{{ variant.title | escape }}"
+                width="240"
+                height="240"
+                loading="lazy"
+              >
+            {% else %}
+              <span class="cwc_product-hero-buy-box__flavor-empty-label">Image</span>
+            {% endif %}
+          </span>
+          <span class="cwc_product-hero-buy-box__flavor-name">{{ variant.title }}</span>
+        </button>
+      {% endfor %}
+    </div>
+  </div>
+{%- endif -%}

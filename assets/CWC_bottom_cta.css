@@ -6,7 +6,7 @@
 .cwc_bottom-cta {
   font-size: 16px; /* section anchor — all type below is em relative to this */
   color: var(--text-color);
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+  font-family: var(--cwc-font-body);
 }
 
 /* === CTA Band === */
@@ -27,9 +27,9 @@
 .cwc_bottom-cta__content-heading h2,
 .cwc_bottom-cta__content-heading h3,
 .cwc_bottom-cta__content-heading p {
-  font-family: 'Georgia', 'Times New Roman', serif;
-  font-weight: 400;
-  font-size: 2em; /* 32px */
+  font-family: var(--cwc-font-heading);
+  font-weight: var(--cwc-weight-heading);
+  font-size: var(--cwc-size-section-heading);
   line-height: 1.2;
   margin: 0;
   color: var(--heading-color);
@@ -47,7 +47,7 @@
 
 .cwc_bottom-cta__content-subtext p {
   font-size: 0.97em; /* 15.52px */
-  line-height: 1.65;
+  line-height: var(--cwc-line-body);
   margin: 0;
   color: var(--text-color);
 }

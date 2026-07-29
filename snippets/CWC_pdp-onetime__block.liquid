@@ -1,0 +1,17 @@
+{% comment %}
+  One-time purchase escape hatch, shown under the supply options.
+
+  Accepts:
+  - block {Object} - the onetime block. Reads settings.text.
+
+  Usage:
+  {% render 'CWC_pdp-onetime__block', block: block %}
+{% endcomment %}
+
+{%- if block.settings.text != blank -%}
+  <div class="cwc_product-hero-buy-box__onetime" {{ block.shopify_attributes }}>
+    <button type="button" class="cwc_product-hero-buy-box__onetime-button" data-cwc-onetime>
+      {{ block.settings.text }}
+    </button>
+  </div>
+{%- endif -%}

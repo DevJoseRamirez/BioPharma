@@ -1,0 +1,18 @@
+{% comment %}
+  Star rating row for the product buy box.
+
+  Accepts:
+  - block {Object} - the rating block. Reads settings.text and settings.link.
+
+  Usage:
+  {% render 'CWC_pdp-rating__block', block: block %}
+{% endcomment %}
+
+<div class="cwc_product-hero-buy-box__rating" {{ block.shopify_attributes }}>
+  <span class="cwc_product-hero-buy-box__stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+  {% if block.settings.text != blank %}
+    <a href="{{ block.settings.link | default: '#' }}" class="cwc_product-hero-buy-box__rating-link">
+      {{ block.settings.text }}
+    </a>
+  {% endif %}
+</div>

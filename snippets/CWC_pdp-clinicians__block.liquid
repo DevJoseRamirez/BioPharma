@@ -1,0 +1,28 @@
+{% comment %}
+  Clinicians' choice band for the buy box.
+
+  Note: the PDP templates currently run this content in the Practitioner
+  section instead, so this block is available but not placed by default.
+
+  Accepts:
+  - block {Object} - the clinicians block. Reads settings.initials and .text.
+
+  Usage:
+  {% render 'CWC_pdp-clinicians__block', block: block %}
+{% endcomment %}
+
+{%- if block.settings.text != blank -%}
+  <div class="cwc_product-hero-buy-box__clinician" {{ block.shopify_attributes }}>
+    {% if block.settings.initials != blank %}
+      <span class="cwc_product-hero-buy-box__clinician-avatars" aria-hidden="true">
+        {% assign initials = block.settings.initials | split: ',' %}
+        {% for initial in initials limit: 4 %}
+          <span class="cwc_product-hero-buy-box__clinician-avatar">{{ initial | strip }}</span>
+        {% endfor %}
+      </span>
+    {% endif %}
+    <span class="cwc_product-hero-buy-box__clinician-text cwc-rte">
+      {{ block.settings.text }}
+    </span>
+  </div>
+{%- endif -%}
