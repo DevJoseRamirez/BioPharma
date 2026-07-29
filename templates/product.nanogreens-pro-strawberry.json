@@ -1,0 +1,318 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "title": {
+          "type": "title",
+          "settings": {
+            "heading_tag": "h3"
+          }
+        },
+        "e5eae85b-1e9a-4732-9c53-e8c283312891": {
+          "type": "rating",
+          "settings": {
+            "show_empty": false,
+            "rating_mode": "rating"
+          }
+        },
+        "price": {
+          "type": "price",
+          "settings": {
+            "show_taxes_notice": false
+          }
+        },
+        "cd1c614d-685b-4401-8008-351ee86c6f8e": {
+          "type": "reviews",
+          "disabled": true,
+          "settings": {
+            "show_star_icon": false,
+            "liquid": "<div id=\"shopify-product-reviews\" data-id=\"{{ product.id }}\">{{ product.metafields.spr.reviews }}</div>"
+          }
+        },
+        "payment_terms": {
+          "type": "payment_terms",
+          "settings": {}
+        },
+        "separator": {
+          "type": "separator",
+          "settings": {}
+        },
+        "4fdaf462-62c5-44ce-bf60-14dca0ba0047": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Transform your daily routine with Nanogreens + Probiotic, the ultimate way to meet your recommended servings of fruits and vegetables while enjoying the added benefits of a probiotic. Packed with the antioxidant power of 10 servings from 55 different ingredients, this supplement offers a rich blend of dark leafy greens and vibrant fruits. Plus, it includes 5 billion CFUs of Bacillus Subtilis, a beneficial probiotic strain. This all-natural green supplement not only delivers a full spectrum of essential vitamins and minerals but also supports a healthy gut.</p>"
+          }
+        },
+        "variant_picker": {
+          "type": "variant_picker",
+          "settings": {
+            "hide_sold_out_variants": false,
+            "selector_type": "dropdown",
+            "color_selector_type": "color",
+            "size_chart_page": ""
+          }
+        },
+        "quantity_selector": {
+          "type": "quantity_selector",
+          "settings": {}
+        },
+        "buy_buttons": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_payment_button": true,
+            "show_gift_card_recipient": true,
+            "atc_button_background": "",
+            "atc_button_text_color": "",
+            "payment_button_background": "",
+            "payment_button_text_color": ""
+          }
+        },
+        "complementary_products": {
+          "type": "complementary_products",
+          "settings": {
+            "title": "Pairs well with",
+            "products_count": 2,
+            "show_below_gallery": true,
+            "stack_products": false,
+            "show_quick_buy": true
+          }
+        },
+        "e89ef5be-5725-4ecb-8ec5-661b8e82a1ca": {
+          "type": "feature_with_icon",
+          "disabled": true,
+          "settings": {
+            "text": "Feature",
+            "link": "",
+            "icon": "picto-award-gift",
+            "icon_width": 16,
+            "background": "#f8f4ec",
+            "text_color": "#6b6b6b",
+            "border_color": ""
+          }
+        },
+        "b9345515-f7f7-4bdd-b1ba-90f4c9669832": {
+          "type": "more_information",
+          "disabled": true,
+          "settings": {
+            "text": "More information"
+          }
+        },
+        "f156a492-6b11-4eee-8e9d-69feae9fb2a7": {
+          "type": "accordion",
+          "settings": {
+            "show_below_gallery": true,
+            "icon": "none",
+            "title": "<strong>+ How to use</strong>",
+            "content": "<p><strong>+ </strong>Mix 1 scoop nanogreens with 12-16 ounces of COLD water</p><p><strong>+</strong> Shake briskly, blend in a blender bottle or us an electric mixer </p><p><strong>+</strong> Sip and savor the refreshing taste of this nourishing blend while providing your body with all the essential plant nutrients it needs</p><p><strong>Pro Tips:</strong></p><p><strong>+ </strong>Cold water</p><p><strong>+ </strong>Add to smoothie, unsweetened almond milk, or coconut milk </p><p><strong>+ </strong>Take first thing in the morning to alkalize, energize and give you what you need to get the day   started</p><p><strong>+ </strong>Mix with nanopro & nanomega to get a nice fruity flavor</p>",
+            "page": ""
+          }
+        },
+        "272d0ae5-3ddd-40d0-b629-b5a263f2ffc4": {
+          "type": "accordion",
+          "settings": {
+            "show_below_gallery": true,
+            "icon": "none",
+            "title": "<strong>+ Key Ingredients</strong>",
+            "content": "<p><strong>+ DE111 Probiotic Bacillus Subtilis</strong>: helps maintain a balanced gut microbiota by outcompeting harmful bacteria and promoting the growth of beneficial microbes.</p><p><strong>+ Milk Thistle</strong>: helping to neutralize free radicals in the body.</p><p><strong>+ Enzyme blend</strong>: mixtures of different enzymes aid in the digestion and absorption of nutrients</p><p><strong>+ Cinnamon</strong>: anti-inflammatory properties that may help reduce inflammation in the body.</p><p><strong>+ Phytonutrient blend:</strong> help the liver metabolize and eliminate toxins, promoting overall detoxification and supporting the body's ability to cleanse itself.</p><p><strong>+ Freeze dried to keep nutrients in</strong>: This helps retain the original structure and nutrient composition of the material.</p><p><strong>+ Vitamins and minerals</strong>: They are needed for an efficient metabolism and healthy cell renewal.</p><p><strong>+ Antioxidants</strong>: play a crucial role in protecting cells from oxidative stress, which is associated with aging and various illnesses. </p>",
+            "page": ""
+          }
+        },
+        "55afab39-f126-4571-af89-3d32311cb2e6": {
+          "type": "accordion",
+          "settings": {
+            "show_below_gallery": true,
+            "icon": "none",
+            "title": "<strong>+ Benefits</strong>",
+            "content": "<p><strong>+Boosted Immunity:</strong> Strengthens the body’s defenses against infections by supporting immune system function.</p><p><strong>+ Gut Health:</strong> Good gut health supports digestion, nutrient absorption, immune function, and overall well-being. Maintaining a healthy gut can reduce bloating, improve mood, boost energy levels, and even support mental clarity. </p><p><strong>+ Natural Energy:</strong> Provides a sustainable energy boost without the need for stimulants, helping maintain vitality throughout the day.</p><p><strong>+ Reduced Inflammation</strong>: Helps alleviate inflammation, which can lower the risk of chronic illnesses and improve overall health.</p><p><strong>+ Convenience:</strong> Offers an easy and practical way to support wellness through simplified daily routines.</p><p><strong>+ Detoxifying Support:</strong> Aids the body's natural detoxification processes, promoting the elimination of toxins and maintaining optimal health.</p><p><strong>+ Digestion:</strong> Supports digestive health by enhancing nutrient absorption and promoting gut balance.</p>",
+            "page": ""
+          }
+        }
+      },
+      "block_order": [
+        "title",
+        "e5eae85b-1e9a-4732-9c53-e8c283312891",
+        "price",
+        "cd1c614d-685b-4401-8008-351ee86c6f8e",
+        "payment_terms",
+        "separator",
+        "4fdaf462-62c5-44ce-bf60-14dca0ba0047",
+        "variant_picker",
+        "quantity_selector",
+        "buy_buttons",
+        "complementary_products",
+        "e89ef5be-5725-4ecb-8ec5-661b8e82a1ca",
+        "b9345515-f7f7-4bdd-b1ba-90f4c9669832",
+        "f156a492-6b11-4eee-8e9d-69feae9fb2a7",
+        "272d0ae5-3ddd-40d0-b629-b5a263f2ffc4",
+        "55afab39-f126-4571-af89-3d32311cb2e6"
+      ],
+      "settings": {
+        "color_scheme": "scheme-2",
+        "container_size": "lg",
+        "product_info_size": 35,
+        "show_sticky_add_to_cart": false,
+        "center_basic_info": false,
+        "desktop_media_layout": "carousel_thumbnails_left",
+        "desktop_media_grid_gap": 30,
+        "mobile_controls": "dots",
+        "enable_media_autoplay": false,
+        "enable_video_looping": true,
+        "enable_image_zoom": true,
+        "max_image_zoom_level": 3
+      }
+    },
+    "image_with_text_overlay_wmV7YR": {
+      "type": "image-with-text-overlay",
+      "blocks": {
+        "heading_deD87J": {
+          "type": "heading",
+          "settings": {
+            "text": "",
+            "heading_tag": "h4"
+          }
+        },
+        "richtext_xbmFNt": {
+          "type": "richtext",
+          "settings": {
+            "content": ""
+          }
+        }
+      },
+      "block_order": [
+        "heading_deD87J",
+        "richtext_xbmFNt"
+      ],
+      "settings": {
+        "color_scheme": "",
+        "image_size": "auto",
+        "image": "shopify://shop_images/KEY_INGREDIENTS_4.png",
+        "allow_transparent_header": false,
+        "reveal_on_scroll": true,
+        "remove_vertical_spacing": true,
+        "content_width": "md",
+        "mobile_text_position": "place-self-center text-center",
+        "desktop_text_position": "sm:place-self-center sm:text-center",
+        "overlay_color": "#000000",
+        "overlay_opacity": 0
+      }
+    },
+    "faq_Cd3ntF": {
+      "type": "faq",
+      "blocks": {
+        "category_DL84aL": {
+          "type": "category",
+          "settings": {
+            "title": "NANOGREENS + PROBIOTIC STRAWBERRY",
+            "icon": "none",
+            "icon_width": 16
+          }
+        },
+        "question_LUGqkW": {
+          "type": "question",
+          "settings": {
+            "question": "IS NANOGREENS + PROBIOTIC GLUTEN FREE?",
+            "answer": "<p>Nanogreens + Probiotic is our only product that contains traces of gluten from Organic Barley Grass. We are FDA gluten-free compliant, but we are not certified gluten-free since depending on the batch, Nanogreens contains trace amounts of gluten ranging from 7-12 ppm (parts per million). </p>"
+          }
+        },
+        "question_fTH78x": {
+          "type": "question",
+          "settings": {
+            "question": "DO NANOGREENS + PROBIOTIC NEED TO BE REFRIGERATED?",
+            "answer": "<p>We recommend products be stored in the fridge after opening, but it is not required. The<br/>fridge is simply a reminder to take the product every day. </p>"
+          }
+        },
+        "question_Bxtnhn": {
+          "type": "question",
+          "settings": {
+            "question": "IS NANOGREENS + PROBIOTIC ORGANIC?",
+            "answer": "<p>All our products are made with organic ingredients, and we source everything that can be sourced organically. There are certain key ingredients that cannot be sourced organically at this time, so we source ingredients that are non-GMO, all natural and contain NO artificial ingredients or pesticides.</p>"
+          }
+        },
+        "question_TWbkXY": {
+          "type": "question",
+          "settings": {
+            "question": "HOW IS NANOGREENS + PROBIOTIC DIFFERENT FROM THE ORIGINAL NANOGREENS?",
+            "answer": "<p>While it maintains the same great taste and nutrient-dense formula as the original, Nanogreens + Probiotic includes DE111 Bacillus subtilis, which helps promote digestive health and supports a balanced gut microbiome. </p>"
+          }
+        },
+        "question_V47HPq": {
+          "type": "question",
+          "settings": {
+            "question": "WHAT ARE THE BENEFITS OF ADDING DE111 BACILLUS SUBTILIS?",
+            "answer": "<p>DE111 Probiotic Bacillus subtilis has been shown to support healthy digestion, enhance immune function, and promote the growth of beneficial gut bacteria, providing an added layer of health benefits to the already powerful greens formula.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "category_DL84aL",
+        "question_LUGqkW",
+        "question_fTH78x",
+        "question_Bxtnhn",
+        "question_TWbkXY",
+        "question_V47HPq"
+      ],
+      "settings": {
+        "color_scheme": "",
+        "separate_section_with_border": true,
+        "show_categories": false,
+        "subheading": "Need help?",
+        "title": "Frequently Asked Questions",
+        "content": ""
+      }
+    },
+    "related-products": {
+      "type": "related-products",
+      "settings": {
+        "color_scheme": "scheme-2",
+        "separate_section_with_border": true,
+        "hide_product_information": false,
+        "stack_products": false,
+        "recommendations_count": 10,
+        "products_per_row_mobile": "2",
+        "products_per_row_desktop": 4,
+        "horizontal_spacing_factor": 1,
+        "vertical_spacing_factor": 1,
+        "subheading": "",
+        "title": "Related products",
+        "content": ""
+      }
+    },
+    "1698782823c8484977": {
+      "type": "apps",
+      "blocks": {
+        "d7ef6148-1ddb-417a-9c81-a90f76078b00": {
+          "type": "shopify://apps/yotpo-product-reviews/blocks/reviews/eb7dfd7d-db44-4334-bc49-c893b51b36cf",
+          "settings": {
+            "product": "{{product}}"
+          }
+        }
+      },
+      "block_order": [
+        "d7ef6148-1ddb-417a-9c81-a90f76078b00"
+      ],
+      "settings": {
+        "color_scheme": "scheme-2",
+        "separate_section_with_border": false,
+        "remove_vertical_spacing": true,
+        "remove_horizontal_spacing": false
+      }
+    }
+  },
+  "order": [
+    "main",
+    "image_with_text_overlay_wmV7YR",
+    "faq_Cd3ntF",
+    "related-products",
+    "1698782823c8484977"
+  ]
+}

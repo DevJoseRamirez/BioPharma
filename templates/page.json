@@ -9,15 +9,102 @@
  */
 {
   "sections": {
+    "029a3859-68e8-4eac-b938-c3d24c72da0c": {
+      "type": "image-with-text",
+      "blocks": {
+        "template--16872426733826__029a3859-68e8-4eac-b938-c3d24c72da0c-subheading-1": {
+          "type": "subheading",
+          "settings": {
+            "text": "Welcome to Biopharma Scientific"
+          }
+        },
+        "template--16872426733826__029a3859-68e8-4eac-b938-c3d24c72da0c-heading-1": {
+          "type": "heading",
+          "settings": {
+            "text": "Who we ARe:",
+            "heading_tag": "h1"
+          }
+        },
+        "template--16872426733826__029a3859-68e8-4eac-b938-c3d24c72da0c-richtext-1": {
+          "type": "richtext",
+          "settings": {
+            "content": "<p>In today's world, the need for a comprehensive wellness solution has never been more pressing. We're confronted with a distressing epidemic of chronic diseases such as diabetes, heart disease, stroke, and cancer. The demands of our lives are relentless, stress is a constant companion, and financial constraints often stand in the way of achieving a picture-perfect healthy lifestyle. At Biopharma Scientific, we're on a mission to change this narrative.</p><p>At Biopharma Scientific, we've made it effortless for you to access the full spectrum of nutrients your body requires to thrive. We take immense pride in sourcing the finest ingredients from the purest corners of the world, ensuring they are designed to harmonize perfectly with your body's needs. Our commitment is to provide products that offer not only superior quality but also exceptional absorption rates.</p><p></p><p></p>"
+          }
+        }
+      },
+      "block_order": [
+        "template--16872426733826__029a3859-68e8-4eac-b938-c3d24c72da0c-subheading-1",
+        "template--16872426733826__029a3859-68e8-4eac-b938-c3d24c72da0c-heading-1",
+        "template--16872426733826__029a3859-68e8-4eac-b938-c3d24c72da0c-richtext-1"
+      ],
+      "disabled": true,
+      "settings": {
+        "color_scheme": "",
+        "separate_section_with_border": true,
+        "image": "shopify://shop_images/Untitled_design_-_2023-11-08T155857.153.png",
+        "reveal_on_scroll": true,
+        "image_position": "start",
+        "content_width": "sm",
+        "remove_vertical_spacing": true
+      }
+    },
     "main": {
       "type": "main-page",
       "settings": {
-        "padding_top": 28,
-        "padding_bottom": 28
+        "color_scheme": "scheme-4",
+        "show_title": true,
+        "page_width": "xs"
+      }
+    },
+    "779347ef-d01a-4844-998d-69651d5338c7": {
+      "type": "slideshow",
+      "blocks": {
+        "template--16872426733826__779347ef-d01a-4844-998d-69651d5338c7-image-1": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/Add_a_heading_15.png",
+            "subheading": "",
+            "title": "",
+            "mobile_text_position": "place-self-center text-center",
+            "desktop_text_position": "sm:place-self-center sm:text-center",
+            "content_max_width": 780,
+            "button_1_text": "",
+            "button_1_link": "",
+            "button_1_style": "solid",
+            "button_1_background": "#ffffff",
+            "button_1_text_color": "#000000",
+            "button_2_text": "",
+            "button_2_link": "",
+            "button_2_style": "outline",
+            "button_2_background": "#ffffff",
+            "button_2_text_color": "#000000",
+            "background": "",
+            "background_opacity": 50,
+            "text_color": "#ffffff",
+            "border_color": "",
+            "gradient_overlay": ""
+          }
+        }
+      },
+      "block_order": [
+        "template--16872426733826__779347ef-d01a-4844-998d-69651d5338c7-image-1"
+      ],
+      "disabled": true,
+      "settings": {
+        "allow_transparent_header": true,
+        "show_next_section_button": true,
+        "media_size": "auto",
+        "autoplay": true,
+        "autoplay_pause_on_video": true,
+        "cycle_speed": 5,
+        "background": "#000000",
+        "controls_color": "#ffffff"
       }
     }
   },
   "order": [
-    "main"
+    "029a3859-68e8-4eac-b938-c3d24c72da0c",
+    "main",
+    "779347ef-d01a-4844-998d-69651d5338c7"
   ]
 }

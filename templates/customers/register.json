@@ -10,11 +10,17 @@
 {
   "sections": {
     "main": {
-      "type": "main-register",
-      "settings": {
-        "padding_top": 36,
-        "padding_bottom": 36
-      }
+      "type": "main-customers-register",
+      "blocks": {
+        "fields": {
+          "type": "fields",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "fields"
+      ],
+      "settings": {}
     }
   },
   "order": [

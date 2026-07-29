@@ -1,0 +1,46 @@
+$(document).ready(function(){
+    $("img[src=\"//biopharmasci.com/cdn/shop/files/Untitled_design_-_2023-10-26T143022.487.png?v=1736967577&width=280\"]").attr("alt", "Biopharma Scientific logo");
+$("img[src=\"//biopharmasci.com/cdn/shop/files/NANO_PRIME_DAY_1080_x_1920_px_3200_x_1200_px_4.png?v=1757701060&width=3200\"]").attr("alt", "NanoCREATINE monohydrate supplement bottle on rock");
+$("img[src=\"//biopharmasci.com/cdn/shop/files/SuperSorb_Technology.png?v=1710974406&width=2500\"]").attr("alt", "Green smoothie surrounded by leaves, highlighting nutrient absorption technology");
+$("img[src=\"//biopharmasci.com/cdn/shop/files/what_are_phytonurients.jpg?v=1705605740&width=2000\"]").attr("alt", "What are phytonutrients, leaf, cell, and broccoli icons");
+$("img[src=\"//biopharmasci.com/cdn/shop/files/proteins.jpg?v=1705606619&width=1400\"]").attr("alt", "Protein supplement container and scoop on wooden surface");
+$("img[src=\"//biopharmasci.com/cdn/shop/files/proteins_1.jpg?v=1705606769&width=1400\"]").attr("alt", "Fish oil supplement bag, glass of juice, and oranges on table");
+$("img[src=\"//biopharmasci.com/cdn/shop/files/proteins_2.jpg?v=1705606993&width=1400\"]").attr("alt", "Biopharma Scientific Nanolean energy supplement packet on cactus");
+$("img[src=\"//biopharmasci.com/cdn/shop/files/proteins_3.jpg?v=1705607156&width=1400\"]").attr("alt", "Blood sugar supplement bottle on plant");
+$("img[src=\"//biopharmasci.com/cdn/shop/files/Untitled_design_-_2023-11-08T154811.286.png?v=1699487382&width=1400\"]").attr("alt", "Hand holding green drink in glass cup");
+$("img[src=\"//biopharmasci.com/cdn/shop/files/Untitled_design_80.png?v=1697661929&width=1080\"]").attr("alt", "Nanogreens supplement container and scoop on a table");
+$("img[src=\"//biopharmasci.com/cdn/shop/files/Untitled_design_-_2023-09-12T144917.481.png?v=1694555371&width=1900\"]").attr("alt", "NanoPRO immune supplement container and scoop");
+$("img[src=\"//biopharmasci.com/cdn/shop/files/Untitled_design_-_2025-02-25T153344.572.png?v=1740526468&width=600\"]").attr("alt", "Biopharma Scientific logo");
+$('input[name="loop_variant_id"]').attr('aria-label', 'Select variant');
+$("img[src=\"//biopharmasci.com/cdn/shop/files/KEY_INGREDIENTS_1.png?v=1729011928&width=2500\"]").attr("alt", "Nanogreens green apple supplement container and glass");
+$("img[src=\"//biopharmasci.com/cdn/shop/files/KEY_INGREDIENTS_3.png?v=1729013711&width=2500\"]").attr("alt", "Hand holding nanogreens+ probiotic green apple bag on beach");
+$("img[src=\"//biopharmasci.com/cdn/shop/files/KEY_INGREDIENTS_25.png?v=1757627971&width=2500\"]").attr("alt", "Nanocreatine monohydrate unflavored supplement bottle");
+$("img[src=\"//biopharmasci.com/cdn/shop/files/KEY_INGREDIENTS_20.png?v=1729031053&width=2500\"]").attr("alt", "NanoBEAUTY gummy bottle with product details");
+$("img[src=\"//biopharmasci.com/cdn/shop/files/KEY_INGREDIENTS_14.png?v=1729026563&width=2500\"]").attr("alt", "NanoLean natural berry supplement packaging");
+$("img[src=\"//biopharmasci.com/cdn/shop/files/KEY_INGREDIENTS_10.png?v=1729023317&width=2500\"]").attr("alt", "Vanilla whey protein powder container and scoop on wooden surface");
+$("img[src=\"//biopharmasci.com/cdn/shop/files/KEY_INGREDIENTS_2.png?v=1729013371&width=2500\"]").attr("alt", "Strawberry nanogreens supplement container and glass");
+$("img[src=\"//biopharmasci.com/cdn/shop/files/KEY_INGREDIENTS_5.png?v=1729015241&width=2500\"]").attr("alt", "Natural berry popsicles and supplement container");
+$("img[src=\"//biopharmasci.com/cdn/shop/files/KEY_INGREDIENTS_9.png?v=1729022702&width=2500\"]").attr("alt", "Pineapple orange flavor supplement packaging and fruit on stool");
+$("img[src=\"//biopharmasci.com/cdn/shop/files/KEY_INGREDIENTS_3.png?v=1729013711&width=2500\"]").attr("alt", "Hand holding nanogreens+ probiotic green apple bag on beach");
+$("img[src=\"//biopharmasci.com/cdn/shop/files/KEY_INGREDIENTS_4.png?v=1729014973&width=2500\"]").attr("alt", "Nanogreens+ probiotic strawberry supplement bag and glass");
+$("img[src=\"//biopharmasci.com/cdn/shop/files/KEY_INGREDIENTS_6.png?v=1729018157&width=2500\"]").attr("alt", "NanoEPA lemon supplement bottle on wooden table outdoors");
+$("img[src=\"//biopharmasci.com/cdn/shop/files/KEY_INGREDIENTS_15.png?v=1729027186&width=2500\"]").attr("alt", "Nanomeal tropical blend packaging and health benefits list");
+$("img[src=\"//biopharmasci.com/cdn/shop/files/KEY_INGREDIENTS_17.png?v=1729028751&width=2500\"]").attr("alt", "Nanoneuro NAC capsules bottle");
+$("img[src=\"//biopharmasci.com/cdn/shop/files/KEY_INGREDIENTS_12.png?v=1729024655&width=2500\"]").attr("alt", "Nanogluco control capsules supplement bottle on plant");
+$("img[src=\"//biopharmasci.com/cdn/shop/files/KEY_INGREDIENTS_11.png?v=1729024088&width=2500\"]").attr("alt", "Hand holding nanopro vegan supplement container");
+$("img[src=\"//biopharmasci.com/cdn/shop/files/KEY_INGREDIENTS_21.png?v=1729031743&width=2500\"]").attr("alt", "NanoPROBIOTIC gummy bottle with label");
+$("img[src=\"//biopharmasci.com/cdn/shop/files/KEY_INGREDIENTS_18.png?v=1729029739&width=2500\"]").attr("alt", "Nanosnooze capsules with key ingredients and benefits");
+$("img[src=\"//biopharmasci.com/cdn/shop/files/KEY_INGREDIENTS_13.png?v=1729025438&width=2500\"]").attr("alt", "Hand holding white bottle of nanominerals capsules");
+
+$("img[src=\"//biopharmasci.com/cdn/shop/files/Untitled_design_-_2023-11-08T155857.153.png?v=1699487952&width=2000\"]").attr("alt", "Woman in denim jacket and hat holding Biopharma Scientific shaker bottle");
+$("img[src=\"//biopharmasci.com/cdn/shop/files/Add_a_heading_35.png?v=1740590186&width=3200\"]").attr("alt", "Variety of leafy greens and broccoli on a stone surface");
+$("img[src=\"https://cdn.shopify.com/s/files/1/0497/3523/7795/files/shipping_resized_1024x1024.jpg?v=1627401997\"]").attr("alt", "Stacked boxes on a porch with product labels");
+$('input.aaa_captcha_result').attr('aria-label', 'Enter captcha result');
+
+$("img[src=\"//biopharmasci.com/cdn/shop/files/Untitled_design_53.png?v=1734576181&width=1080\"]").attr("alt", "Hand holding glass of green juice");
+$("img[src=\"//biopharmasci.com/cdn/shop/files/HOW_IT_WORKS_1.png?v=1734576226&width=3200\"]").attr("alt", "Subscribe & Save steps: shop, choose delivery, place order");
+$("img[src=\"//biopharmasci.com/cdn/shop/files/Untitled_design_-_2023-11-08T154833.455.png?v=1699487327&width=1400\"]").attr("alt", "Glass of green drink and nanogreens container on wood chips");
+$("img[src=\"//biopharmasci.com/cdn/shop/files/Untitled_design_-_2023-11-08T154821.280.png?v=1699487355&width=1400\"]").attr("alt", "White container of nanoPRO immune supplement with scoop");
+$("img[src=\"//biopharmasci.com/cdn/shop/files/Untitled_design_-_2023-11-08T154811.286.png?v=1699487382&width=1400\"]").attr("alt", "Hand holding green matcha drink in a ribbed glass");
+console.log("ready");
+});

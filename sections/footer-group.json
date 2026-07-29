@@ -8,28 +8,144 @@
  * ------------------------------------------------------------
  */
 {
-  "name": "t:sections.footer.name",
   "type": "footer",
+  "name": "Footer group",
   "sections": {
+    "text-with-icons": {
+      "type": "text-with-icons",
+      "blocks": {
+        "icon-1": {
+          "type": "item",
+          "settings": {
+            "icon": "picto-percent",
+            "icon_width": 36,
+            "mobile_icon_width": 24,
+            "title": "15% off every purchase",
+            "content": ""
+          }
+        },
+        "icon-2": {
+          "type": "item",
+          "settings": {
+            "icon": "picto-return",
+            "icon_width": 36,
+            "mobile_icon_width": 24,
+            "title": "30 day return policy",
+            "content": ""
+          }
+        },
+        "icon-3": {
+          "type": "item",
+          "settings": {
+            "icon": "picto-error",
+            "icon_width": 36,
+            "mobile_icon_width": 24,
+            "title": "skip or cancel anytime",
+            "content": ""
+          }
+        },
+        "icon-4": {
+          "type": "item",
+          "settings": {
+            "icon": "picto-customer-support",
+            "icon_width": 36,
+            "mobile_icon_width": 24,
+            "title": "Dedicated Support",
+            "content": ""
+          }
+        }
+      },
+      "block_order": [
+        "icon-1",
+        "icon-2",
+        "icon-3",
+        "icon-4"
+      ],
+      "disabled": true,
+      "settings": {
+        "color_scheme": "scheme-2",
+        "separate_section_with_border": true,
+        "stack_on_mobile": false,
+        "icon_color": "",
+        "text_color": "",
+        "text_alignment": "center"
+      }
+    },
     "footer": {
       "type": "footer",
+      "blocks": {
+        "7332009e-edad-4f87-b345-eefdb33a8929": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/Untitled_design_-_2025-02-25T153344.572.png",
+            "image_width": 190,
+            "link": ""
+          }
+        },
+        "text_mYaDg9": {
+          "type": "text",
+          "settings": {
+            "title": "GET IN TOUCH",
+            "content": "<p>2575 Pioneer Ave #103 Vista, CA 92081</p><p>Phone: 877-772-4362<br/>Fax: 800-377-1410</p><p><a href=\"mailto:info@biopharmasci.com?Subject=Contact%20Us\" title=\"Contact Us\">info@biopharmasci.com</a></p>",
+            "enable_follow_on_shop": true
+          }
+        },
+        "links": {
+          "type": "links",
+          "settings": {
+            "menu": "footer",
+            "show_menu_title": true,
+            "menu_title": "Info"
+          }
+        },
+        "ebd98b05-bdb0-441c-8a59-32bb244a51af": {
+          "type": "links",
+          "settings": {
+            "menu": "my-account",
+            "show_menu_title": true,
+            "menu_title": "My Account"
+          }
+        },
+        "newsletter": {
+          "type": "newsletter",
+          "settings": {
+            "title": "Newsletter",
+            "content": "<p>Stay up to date on what's new with Biopharma Scientific!</p>",
+            "button_background": "#699b4e",
+            "button_text_color": "#ffffff"
+          }
+        },
+        "text_JMxkni": {
+          "type": "text",
+          "settings": {
+            "title": "Disclaimer",
+            "content": "<p>*These statements have not been evaluated by the food and drug administration. These products are not intended to diagnose, treat, cure or prevent any disease. Consult your physician or healthcare provider before taking any of our products. Individual results may vary.</p>",
+            "enable_follow_on_shop": false
+          }
+        }
+      },
+      "block_order": [
+        "7332009e-edad-4f87-b345-eefdb33a8929",
+        "text_mYaDg9",
+        "links",
+        "ebd98b05-bdb0-441c-8a59-32bb244a51af",
+        "newsletter",
+        "text_JMxkni"
+      ],
       "settings": {
-        "color_scheme": "scheme-1",
-        "newsletter_enable": true,
-        "newsletter_heading": "Subscribe to our emails",
-        "enable_follow_on_shop": true,
-        "show_social": true,
-        "enable_country_selector": true,
-        "enable_language_selector": true,
-        "payment_enable": true,
-        "show_policy": true,
-        "margin_top": 0,
-        "padding_top": 36,
-        "padding_bottom": 36
+        "color_scheme": "scheme-3",
+        "separate_section_with_border": false,
+        "show_social_media": true,
+        "show_payment_icons": true,
+        "show_country_selector": false,
+        "show_country_name": true,
+        "show_country_flag": true,
+        "show_locale_selector": true
       }
     }
   },
   "order": [
+    "text-with-icons",
     "footer"
   ]
 }

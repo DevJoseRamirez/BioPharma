@@ -1,0 +1,136 @@
+{% if section.settings.show-collection-sidebar == true %}
+<div class="sidebar_main">
+<h3 class="sidebar_title">PRODUCTS</h3>
+<div class="sidebar_menu_wr">
+  <nav role="navigation" class="collection-nav">
+  {% if customer and customer.tags contains 'wholesale' or customer.tags contains 'Wholesale' or customer.tags contains 'WHOLESALE' or customer.tags contains 'wholesale2' or customer.tags contains 'Wholesale2' or customer.tags contains 'WHOLESALE2' %}
+    <ul class="sidebar_ul">
+    {% for link in linklists[section.settings.main-menu-wholesale].links %}
+      {%- comment %}<locksmith:06d5>{% endcomment -%}
+        {%- capture var %}{% render 'locksmith-variables', scope: 'subject', subject: link, subject_parent: linklists[section.settings.main-menu-wholesale], variable: 'transparent' %}{% endcapture %}{% if var == "true" %}{% else %}{% continue %}{% endif -%}
+      {%- comment %}</locksmith:06d5>{% endcomment -%}
+      <li id="showmenu" class="sidebar_ul">
+        <a class="menu_link" href="{{ link.url }}" {% if link.active %}aria-current="page"{% endif %}>
+          {{ link.title }}
+        </a>
+        {%- if link.links != blank -%}
+          <ul class="submenu accordian_content">
+            {%- for child_link in link.links -%}
+              {%- comment %}<locksmith:9752>{% endcomment -%}
+                {%- capture var %}{% render 'locksmith-variables', scope: 'subject', subject: child_link, subject_parent: link, variable: 'transparent' %}{% endcapture %}{% if var == "true" %}{% else %}{% continue %}{% endif -%}
+              {%- comment %}</locksmith:9752>{% endcomment -%}
+              <li>
+                <a href="{{ child_link.url }}" {% if child_link.active %}aria-current="page"{% endif %}>
+                  {{ child_link.title }}
+                </a>
+
+                {%- if child_link.links != blank -%}
+                  <ul>
+                    {%- for grandchild_link in child_link.links -%}
+                      {%- comment %}<locksmith:64f4>{% endcomment -%}
+                        {%- capture var %}{% render 'locksmith-variables', scope: 'subject', subject: grandchild_link, subject_parent: child_link, variable: 'transparent' %}{% endcapture %}{% if var == "true" %}{% else %}{% continue %}{% endif -%}
+                      {%- comment %}</locksmith:64f4>{% endcomment -%}
+                      <li>
+                        <a href="{{ grandchild_link.url }}" {% if grandchild_link.active %}aria-current="page"{% endif %}>
+                          {{ grandchild_link.title }}
+                        </a>
+                      </li>
+                    {%- endfor -%}
+                  </ul>
+                {%- endif -%}
+
+              </li>
+            {%- endfor -%}
+          </ul>
+        {%- endif -%}
+
+      </li>
+    {%- endfor -%}
+  </ul>
+  {% else %}  
+  <ul class="sidebar_ul">
+    {% for link in linklists[section.settings.main-menu].links %}
+      {%- comment %}<locksmith:48ff>{% endcomment -%}
+        {%- capture var %}{% render 'locksmith-variables', scope: 'subject', subject: link, subject_parent: linklists[section.settings.main-menu], variable: 'transparent' %}{% endcapture %}{% if var == "true" %}{% else %}{% continue %}{% endif -%}
+      {%- comment %}</locksmith:48ff>{% endcomment -%}
+      <li id="showmenu" class="sidebar_ul">
+        <a class="menu_link" href="{{ link.url }}" {% if link.active %}aria-current="page"{% endif %}>
+          {{ link.title }}
+        </a>
+        {%- if link.links != blank -%}
+          <ul class="submenu accordian_content">
+            {%- for child_link in link.links -%}
+              {%- comment %}<locksmith:5b33>{% endcomment -%}
+                {%- capture var %}{% render 'locksmith-variables', scope: 'subject', subject: child_link, subject_parent: link, variable: 'transparent' %}{% endcapture %}{% if var == "true" %}{% else %}{% continue %}{% endif -%}
+              {%- comment %}</locksmith:5b33>{% endcomment -%}
+              <li>
+                <a href="{{ child_link.url }}" {% if child_link.active %}aria-current="page"{% endif %}>
+                  {{ child_link.title }}
+                </a>
+
+                {%- if child_link.links != blank -%}
+                  <ul>
+                    {%- for grandchild_link in child_link.links -%}
+                      {%- comment %}<locksmith:cb2b>{% endcomment -%}
+                        {%- capture var %}{% render 'locksmith-variables', scope: 'subject', subject: grandchild_link, subject_parent: child_link, variable: 'transparent' %}{% endcapture %}{% if var == "true" %}{% else %}{% continue %}{% endif -%}
+                      {%- comment %}</locksmith:cb2b>{% endcomment -%}
+                      <li>
+                        <a href="{{ grandchild_link.url }}" {% if grandchild_link.active %}aria-current="page"{% endif %}>
+                          {{ grandchild_link.title }}
+                        </a>
+                      </li>
+                    {%- endfor -%}
+                  </ul>
+                {%- endif -%}
+
+              </li>
+            {%- endfor -%}
+          </ul>
+        {%- endif -%}
+
+      </li>
+    {%- endfor -%}
+  </ul>
+  {% endif %}  
+</nav>
+</div>
+</div>
+
+{% endif %}
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    let links = document.querySelectorAll('.sidebar_ul > li > a');
+    links.forEach(function(link) {
+        link.addEventListener('click', function(event) {
+            event.preventDefault();
+            let parentLi = this.parentNode;
+            parentLi.classList.toggle('active');
+
+            let nextUl = this.nextElementSibling;
+            if (nextUl.style.display === "block") {
+                nextUl.style.display = "none";
+            } else {
+                nextUl.style.display = "block";
+            }
+        });
+    });
+});
+ </script>
+<style>
+  ul{
+  	padding:0px;
+  }
+  li{
+  	list-style:none;
+  }
+	.submenu {
+	display: none;
+}
+.sidebar_menu_wr  .active{
+  display: block;
+  }
+  .sidebar_ul > li > a {
+      display: block;
+  }
+</style>

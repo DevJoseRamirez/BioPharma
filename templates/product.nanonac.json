@@ -1,0 +1,302 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "title": {
+          "type": "title",
+          "settings": {
+            "heading_tag": "h3"
+          }
+        },
+        "e5eae85b-1e9a-4732-9c53-e8c283312891": {
+          "type": "rating",
+          "settings": {
+            "show_empty": false,
+            "rating_mode": "rating"
+          }
+        },
+        "price": {
+          "type": "price",
+          "settings": {
+            "show_taxes_notice": false
+          }
+        },
+        "cd1c614d-685b-4401-8008-351ee86c6f8e": {
+          "type": "reviews",
+          "disabled": true,
+          "settings": {
+            "show_star_icon": false,
+            "liquid": "<div id=\"shopify-product-reviews\" data-id=\"{{ product.id }}\">{{ product.metafields.spr.reviews }}</div>"
+          }
+        },
+        "payment_terms": {
+          "type": "payment_terms",
+          "settings": {}
+        },
+        "separator": {
+          "type": "separator",
+          "settings": {}
+        },
+        "4fdaf462-62c5-44ce-bf60-14dca0ba0047": {
+          "type": "text",
+          "settings": {
+            "text": "<p> NAC (N-Acetylcysteine) helps alleviate respiratory symptoms by functioning as both an antioxidant and an expectorant, aiding in the breakdown of mucus in the airways. Additionally, we've included three times the recommended daily intake of vitamin C to further strengthen and support your immune system.</p>"
+          }
+        },
+        "variant_picker": {
+          "type": "variant_picker",
+          "settings": {
+            "hide_sold_out_variants": false,
+            "selector_type": "dropdown",
+            "color_selector_type": "color",
+            "size_chart_page": ""
+          }
+        },
+        "quantity_selector": {
+          "type": "quantity_selector",
+          "settings": {}
+        },
+        "buy_buttons": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_payment_button": true,
+            "show_gift_card_recipient": true,
+            "atc_button_background": "",
+            "atc_button_text_color": "",
+            "payment_button_background": "",
+            "payment_button_text_color": ""
+          }
+        },
+        "complementary_products": {
+          "type": "complementary_products",
+          "settings": {
+            "title": "Pairs well with",
+            "products_count": 2,
+            "show_below_gallery": true,
+            "stack_products": false,
+            "show_quick_buy": true
+          }
+        },
+        "e89ef5be-5725-4ecb-8ec5-661b8e82a1ca": {
+          "type": "feature_with_icon",
+          "disabled": true,
+          "settings": {
+            "text": "Feature",
+            "link": "",
+            "icon": "picto-award-gift",
+            "icon_width": 16,
+            "background": "#f8f4ec",
+            "text_color": "#6b6b6b",
+            "border_color": ""
+          }
+        },
+        "b9345515-f7f7-4bdd-b1ba-90f4c9669832": {
+          "type": "more_information",
+          "disabled": true,
+          "settings": {
+            "text": "More information"
+          }
+        },
+        "f156a492-6b11-4eee-8e9d-69feae9fb2a7": {
+          "type": "accordion",
+          "settings": {
+            "show_below_gallery": true,
+            "icon": "none",
+            "title": "<strong>+ How to use</strong>",
+            "content": "<p><strong>+ </strong>Take 1 capsule (600 mg NAC) per day with 6-8 oz. of water</p><p><strong>+ </strong>You can take up to 3 capsules (1,800 mg NAC) per day </p><p><strong>Pro Tips:</strong></p><p><strong>+ </strong>Taken daily, this product can significantly improve lung functions</p>",
+            "page": ""
+          }
+        },
+        "272d0ae5-3ddd-40d0-b629-b5a263f2ffc4": {
+          "type": "accordion",
+          "settings": {
+            "show_below_gallery": true,
+            "icon": "none",
+            "title": "<strong>+ Key Ingredients</strong>",
+            "content": "<p><strong>+ NAC (N-Acetylcysteine): </strong>A powerful antioxidant that supports respiratory health by thinning mucus and promoting lung function. It also boosts glutathione levels, a key antioxidant for detoxification and cellular protection.</p><p><strong>+ Vitamin C: </strong>A potent immune-boosting vitamin known for its antioxidant properties, helping to protect cells from oxidative stress, promote collagen production, and enhance the body's defense against illness and infection.</p>",
+            "page": ""
+          }
+        },
+        "55afab39-f126-4571-af89-3d32311cb2e6": {
+          "type": "accordion",
+          "settings": {
+            "show_below_gallery": true,
+            "icon": "none",
+            "title": "<strong>+ Benefits</strong>",
+            "content": "<p><strong>+ Lung Health:</strong> Supports lung function by helping to clear mucus and protect against respiratory issues, promoting easier breathing.</p><p><strong>+ Healthy Respiratory System</strong>: Aids in maintaining clear airways and healthy lung tissue, ensuring optimal respiratory function and comfort.</p><p><strong>+ Immune Health</strong>: Strengthens the immune system by providing powerful antioxidants that enhance the body’s natural defenses against illness and infection.</p><p><strong>+ Reduces Inflammation</strong>: Helps lower inflammation in the body, particularly in the respiratory tract, to improve overall wellness and reduce discomfort associated with respiratory conditions.</p>",
+            "page": ""
+          }
+        }
+      },
+      "block_order": [
+        "title",
+        "e5eae85b-1e9a-4732-9c53-e8c283312891",
+        "price",
+        "cd1c614d-685b-4401-8008-351ee86c6f8e",
+        "payment_terms",
+        "separator",
+        "4fdaf462-62c5-44ce-bf60-14dca0ba0047",
+        "variant_picker",
+        "quantity_selector",
+        "buy_buttons",
+        "complementary_products",
+        "e89ef5be-5725-4ecb-8ec5-661b8e82a1ca",
+        "b9345515-f7f7-4bdd-b1ba-90f4c9669832",
+        "f156a492-6b11-4eee-8e9d-69feae9fb2a7",
+        "272d0ae5-3ddd-40d0-b629-b5a263f2ffc4",
+        "55afab39-f126-4571-af89-3d32311cb2e6"
+      ],
+      "settings": {
+        "color_scheme": "scheme-2",
+        "container_size": "lg",
+        "product_info_size": 35,
+        "show_sticky_add_to_cart": false,
+        "center_basic_info": false,
+        "desktop_media_layout": "carousel_thumbnails_left",
+        "desktop_media_grid_gap": 30,
+        "mobile_controls": "dots",
+        "enable_media_autoplay": false,
+        "enable_video_looping": true,
+        "enable_image_zoom": true,
+        "max_image_zoom_level": 3
+      }
+    },
+    "image_with_text_overlay_wmV7YR": {
+      "type": "image-with-text-overlay",
+      "blocks": {
+        "heading_deD87J": {
+          "type": "heading",
+          "settings": {
+            "text": "",
+            "heading_tag": "h4"
+          }
+        },
+        "richtext_xbmFNt": {
+          "type": "richtext",
+          "settings": {
+            "content": ""
+          }
+        }
+      },
+      "block_order": [
+        "heading_deD87J",
+        "richtext_xbmFNt"
+      ],
+      "settings": {
+        "color_scheme": "",
+        "image_size": "auto",
+        "image": "shopify://shop_images/KEY_INGREDIENTS_16.png",
+        "allow_transparent_header": false,
+        "reveal_on_scroll": true,
+        "remove_vertical_spacing": true,
+        "content_width": "md",
+        "mobile_text_position": "place-self-center text-center",
+        "desktop_text_position": "sm:place-self-center sm:text-center",
+        "overlay_color": "#000000",
+        "overlay_opacity": 0
+      }
+    },
+    "faq_Cd3ntF": {
+      "type": "faq",
+      "blocks": {
+        "category_DL84aL": {
+          "type": "category",
+          "settings": {
+            "title": "NANONAC + VITAMIN C",
+            "icon": "none",
+            "icon_width": 16
+          }
+        },
+        "question_LUGqkW": {
+          "type": "question",
+          "settings": {
+            "question": "DOES NANONAC+ HELP WITH RESPIRATORY ISSUES?",
+            "answer": "<p>Yes, NAC is known for its ability to thin mucus, making it easier to clear from the lungs. This can benefit individuals with respiratory conditions such as chronic bronchitis, COPD, or other issues where excess mucus is a concern.</p>"
+          }
+        },
+        "question_fTH78x": {
+          "type": "question",
+          "settings": {
+            "question": "WILL NANONAC+ HELP MY IMMUNE SYSTEM?",
+            "answer": "<p>Yes! We've included three times the recommended daily intake in our formula, along with our Supersorb® technology to ensure your body absorbs 100% of the vitamin C for maximum effectiveness. As a powerful antioxidant, it helps reduce inflammation, including lung inflammation.</p>"
+          }
+        },
+        "question_Bxtnhn": {
+          "type": "question",
+          "settings": {
+            "question": "BENEFITS OF GLUTATHIONE?",
+            "answer": "<p>Increasing glutathione levels may offer various health benefits, such as alleviating symptoms of respiratory conditions and reducing the severity and frequency of wheezing, coughing, and respiratory attacks.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "category_DL84aL",
+        "question_LUGqkW",
+        "question_fTH78x",
+        "question_Bxtnhn"
+      ],
+      "settings": {
+        "color_scheme": "",
+        "separate_section_with_border": true,
+        "show_categories": false,
+        "subheading": "Need help?",
+        "title": "Frequently Asked Questions",
+        "content": ""
+      }
+    },
+    "related-products": {
+      "type": "related-products",
+      "settings": {
+        "color_scheme": "scheme-2",
+        "separate_section_with_border": true,
+        "hide_product_information": false,
+        "stack_products": false,
+        "recommendations_count": 10,
+        "products_per_row_mobile": "2",
+        "products_per_row_desktop": 4,
+        "horizontal_spacing_factor": 1,
+        "vertical_spacing_factor": 1,
+        "subheading": "",
+        "title": "Related products",
+        "content": ""
+      }
+    },
+    "1698782823c8484977": {
+      "type": "apps",
+      "blocks": {
+        "d7ef6148-1ddb-417a-9c81-a90f76078b00": {
+          "type": "shopify://apps/yotpo-product-reviews/blocks/reviews/eb7dfd7d-db44-4334-bc49-c893b51b36cf",
+          "settings": {
+            "product": "{{product}}"
+          }
+        }
+      },
+      "block_order": [
+        "d7ef6148-1ddb-417a-9c81-a90f76078b00"
+      ],
+      "settings": {
+        "color_scheme": "scheme-2",
+        "separate_section_with_border": false,
+        "remove_vertical_spacing": true,
+        "remove_horizontal_spacing": false
+      }
+    }
+  },
+  "order": [
+    "main",
+    "image_with_text_overlay_wmV7YR",
+    "faq_Cd3ntF",
+    "related-products",
+    "1698782823c8484977"
+  ]
+}

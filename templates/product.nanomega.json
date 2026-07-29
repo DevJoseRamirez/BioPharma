@@ -1,0 +1,310 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "title": {
+          "type": "title",
+          "settings": {
+            "heading_tag": "h3"
+          }
+        },
+        "e5eae85b-1e9a-4732-9c53-e8c283312891": {
+          "type": "rating",
+          "settings": {
+            "show_empty": false,
+            "rating_mode": "rating"
+          }
+        },
+        "price": {
+          "type": "price",
+          "settings": {
+            "show_taxes_notice": false
+          }
+        },
+        "cd1c614d-685b-4401-8008-351ee86c6f8e": {
+          "type": "reviews",
+          "disabled": true,
+          "settings": {
+            "show_star_icon": false,
+            "liquid": "<div id=\"shopify-product-reviews\" data-id=\"{{ product.id }}\">{{ product.metafields.spr.reviews }}</div>"
+          }
+        },
+        "payment_terms": {
+          "type": "payment_terms",
+          "settings": {}
+        },
+        "separator": {
+          "type": "separator",
+          "settings": {}
+        },
+        "4fdaf462-62c5-44ce-bf60-14dca0ba0047": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Nanomega, our vegan omega-3 supplement formulated for those seeking a cruelty-free, vegetarian, or vegan alternative to traditional fish oil pills. Packed with the goodness of organic flaxseed and marine algae, Nanomega provides a rich source of essential omega-3 fatty acids to support cholesterol levels, blood pressure, vision, mood, joints, and gastrointestinal health.</p>"
+          }
+        },
+        "variant_picker": {
+          "type": "variant_picker",
+          "settings": {
+            "hide_sold_out_variants": false,
+            "selector_type": "dropdown",
+            "color_selector_type": "color",
+            "size_chart_page": ""
+          }
+        },
+        "quantity_selector": {
+          "type": "quantity_selector",
+          "settings": {}
+        },
+        "buy_buttons": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_payment_button": true,
+            "show_gift_card_recipient": true,
+            "atc_button_background": "",
+            "atc_button_text_color": "",
+            "payment_button_background": "",
+            "payment_button_text_color": ""
+          }
+        },
+        "complementary_products": {
+          "type": "complementary_products",
+          "settings": {
+            "title": "Pairs well with",
+            "products_count": 2,
+            "show_below_gallery": true,
+            "stack_products": false,
+            "show_quick_buy": true
+          }
+        },
+        "e89ef5be-5725-4ecb-8ec5-661b8e82a1ca": {
+          "type": "feature_with_icon",
+          "disabled": true,
+          "settings": {
+            "text": "Feature",
+            "link": "",
+            "icon": "picto-award-gift",
+            "icon_width": 16,
+            "background": "#f8f4ec",
+            "text_color": "#6b6b6b",
+            "border_color": ""
+          }
+        },
+        "b9345515-f7f7-4bdd-b1ba-90f4c9669832": {
+          "type": "more_information",
+          "disabled": true,
+          "settings": {
+            "text": "More information"
+          }
+        },
+        "f156a492-6b11-4eee-8e9d-69feae9fb2a7": {
+          "type": "accordion",
+          "settings": {
+            "show_below_gallery": true,
+            "icon": "none",
+            "title": "<strong>+ How to use</strong>",
+            "content": "<p><strong>+</strong> Mix 1 scoop nanomega with 12-16 ounces of COLD water</p><p><strong>+</strong> Shake briskly, blend in a blender bottle or us an electric mixer\t</p><p><strong>+</strong> Sip and savor the refreshing taste of this nourishing blend while providing your body with all the essential omega nutrients it needs</p><p><strong>+ </strong><span style=\"text-decoration:underline\"><strong>IMPORTANT</strong></span><strong>: </strong>Must be refrigerated upon opening and consume within 6 weeks of opening</p><p><strong>+Pro Tips:</strong></p><p><strong>+</strong> Cold water</p><p><strong>+ </strong>Add to smoothie, unsweetened almond milk, or coconut milk </p><p><strong>+</strong> Take first thing in the morning to alkalize, energize and give you what you need to get the day   started</p><p><strong>+ </strong>Mix with nanopro & nanogreens to get a nice fruity flavor</p>",
+            "page": ""
+          }
+        },
+        "272d0ae5-3ddd-40d0-b629-b5a263f2ffc4": {
+          "type": "accordion",
+          "settings": {
+            "show_below_gallery": true,
+            "icon": "none",
+            "title": "<strong>+ Key Ingredients</strong>",
+            "content": "<p><strong> + Organic golden Flax Seed:</strong> Golden flaxseed is an excellent plant-based source of alpha-linolenic acid (ALA), a type of omega-3 fatty acid that supports heart health, reduces inflammation, and may improve cognitive function.</p><p><strong>+ Omega 3</strong>: Omega 3 help reduce triglyceride levels, lower blood pressure, and decrease the risk of heart disease by improving overall heart function and reducing inflammation.</p><p><strong>+ Omega 6:</strong> Omega-6 fatty acids contribute to brain function and development. They are involved in maintaining healthy brain cells and may support cognitive function.</p><p><strong>+ Vitamin B12: </strong>B12 is involved in the conversion of food into energy. It helps metabolize fats and proteins, contributing to overall energy levels and reducing fatigue.</p><p><strong>+ Vegan Vitamin D</strong>: Vitamin D is crucial for calcium absorption, which helps maintain strong and healthy bones.</p><p><strong>+ Magnesium:</strong> Magnesium plays a crucial role in bone formation by aiding in the absorption of calcium and contributing to bone density</p>",
+            "page": ""
+          }
+        },
+        "55afab39-f126-4571-af89-3d32311cb2e6": {
+          "type": "accordion",
+          "settings": {
+            "show_below_gallery": true,
+            "icon": "none",
+            "title": "<strong>+ Benefits</strong>",
+            "content": "<p><strong>+ Cholesterol Levels:</strong> Helps maintain healthy cholesterol levels, reducing the risk of heart disease and improving cardiovascular health.</p><p><strong>+ Blood Pressure</strong>: Supports normal blood pressure, contributing to overall heart and circulatory system health.</p><p><strong>+ Vision:</strong> Promotes eye health and may help protect against age-related vision decline.</p><p><strong>+ Mood:</strong> Enhances mood regulation and emotional well-being by supporting brain chemistry and reducing stress.</p><p><strong>+ Joints:</strong> Improves joint flexibility and reduces discomfort, promoting mobility and overall joint health.</p><p><strong>+ Heart Health</strong>: Strengthens heart function and reduces risk factors associated with heart disease.</p><p><strong>+ Skin Health</strong>: Promotes clear, radiant skin by supporting hydration, elasticity, and protection against environmental damage.</p><p><strong>+ Cognitive Function</strong>: Boosts brain health, enhancing memory, focus, and mental clarity while reducing the risk of cognitive decline.</p>",
+            "page": ""
+          }
+        }
+      },
+      "block_order": [
+        "title",
+        "e5eae85b-1e9a-4732-9c53-e8c283312891",
+        "price",
+        "cd1c614d-685b-4401-8008-351ee86c6f8e",
+        "payment_terms",
+        "separator",
+        "4fdaf462-62c5-44ce-bf60-14dca0ba0047",
+        "variant_picker",
+        "quantity_selector",
+        "buy_buttons",
+        "complementary_products",
+        "e89ef5be-5725-4ecb-8ec5-661b8e82a1ca",
+        "b9345515-f7f7-4bdd-b1ba-90f4c9669832",
+        "f156a492-6b11-4eee-8e9d-69feae9fb2a7",
+        "272d0ae5-3ddd-40d0-b629-b5a263f2ffc4",
+        "55afab39-f126-4571-af89-3d32311cb2e6"
+      ],
+      "settings": {
+        "color_scheme": "scheme-2",
+        "container_size": "lg",
+        "product_info_size": 35,
+        "show_sticky_add_to_cart": false,
+        "center_basic_info": false,
+        "desktop_media_layout": "carousel_thumbnails_left",
+        "desktop_media_grid_gap": 30,
+        "mobile_controls": "dots",
+        "enable_media_autoplay": false,
+        "enable_video_looping": true,
+        "enable_image_zoom": true,
+        "max_image_zoom_level": 3
+      }
+    },
+    "image_with_text_overlay_wmV7YR": {
+      "type": "image-with-text-overlay",
+      "blocks": {
+        "heading_deD87J": {
+          "type": "heading",
+          "settings": {
+            "text": "",
+            "heading_tag": "h4"
+          }
+        },
+        "richtext_xbmFNt": {
+          "type": "richtext",
+          "settings": {
+            "content": ""
+          }
+        }
+      },
+      "block_order": [
+        "heading_deD87J",
+        "richtext_xbmFNt"
+      ],
+      "settings": {
+        "color_scheme": "",
+        "image_size": "auto",
+        "image": "shopify://shop_images/KEY_INGREDIENTS_9.png",
+        "allow_transparent_header": false,
+        "reveal_on_scroll": true,
+        "remove_vertical_spacing": true,
+        "content_width": "md",
+        "mobile_text_position": "place-self-center text-center",
+        "desktop_text_position": "sm:place-self-center sm:text-center",
+        "overlay_color": "#000000",
+        "overlay_opacity": 0
+      }
+    },
+    "faq_Cd3ntF": {
+      "type": "faq",
+      "blocks": {
+        "category_DL84aL": {
+          "type": "category",
+          "settings": {
+            "title": "NANOMEGA",
+            "icon": "none",
+            "icon_width": 16
+          }
+        },
+        "question_LUGqkW": {
+          "type": "question",
+          "settings": {
+            "question": "DOES THIS PRODUCT NEED TO BE REFRIGERATED?",
+            "answer": "<p>Yes! Refrigerate this product immediately, even if unopened. Consume within 6 weeks of opening product. </p>"
+          }
+        },
+        "question_fTH78x": {
+          "type": "question",
+          "settings": {
+            "question": "WHAT MAKES THIS A VEGAN FISH OIL?",
+            "answer": "<p>This product was created to reflect health benefits of our nanoEPA/DHA in a vegan kind of way! It is created from the world’s best organic flaxseed and marine algae. This formulation is brilliantly put together to give you essential omega-3 fatty acids and keep your heart, brain, vision working at optional level. </p>"
+          }
+        },
+        "question_Bxtnhn": {
+          "type": "question",
+          "settings": {
+            "question": "HOW IS THIS DIFFERENT THAN OTHER VEGAN FISH OIL?",
+            "answer": "<p>We take it much further than other vegan omegas and add additional ingredients so you get the best vegan omega3 on the market. We add 400 IU vitamin D2 (vegan form), synergistic blend of vitamin E, B6, B12 and folic acid, curcumin, and pre-biotic fiber for digestive health. </p>"
+          }
+        },
+        "question_nzU4fC": {
+          "type": "question",
+          "settings": {
+            "question": "ARE OMEGA-3'S CONSIDERED ESSENTAIL TO HUMAN HEALTH?",
+            "answer": "<p>Yes! Your body cannot produce its own omega-3 fatty acids, so you have to get them from dietary sources like fish oil and flax seed.  Dietary sources of omega-3 fatty acids include fish, plants and nut oil. </p>"
+          }
+        }
+      },
+      "block_order": [
+        "category_DL84aL",
+        "question_LUGqkW",
+        "question_fTH78x",
+        "question_Bxtnhn",
+        "question_nzU4fC"
+      ],
+      "settings": {
+        "color_scheme": "",
+        "separate_section_with_border": true,
+        "show_categories": false,
+        "subheading": "Need help?",
+        "title": "Frequently Asked Questions",
+        "content": ""
+      }
+    },
+    "related-products": {
+      "type": "related-products",
+      "settings": {
+        "color_scheme": "scheme-2",
+        "separate_section_with_border": true,
+        "hide_product_information": false,
+        "stack_products": false,
+        "recommendations_count": 10,
+        "products_per_row_mobile": "2",
+        "products_per_row_desktop": 4,
+        "horizontal_spacing_factor": 1,
+        "vertical_spacing_factor": 1,
+        "subheading": "",
+        "title": "Related products",
+        "content": ""
+      }
+    },
+    "1698782823c8484977": {
+      "type": "apps",
+      "blocks": {
+        "d7ef6148-1ddb-417a-9c81-a90f76078b00": {
+          "type": "shopify://apps/yotpo-product-reviews/blocks/reviews/eb7dfd7d-db44-4334-bc49-c893b51b36cf",
+          "settings": {
+            "product": "{{product}}"
+          }
+        }
+      },
+      "block_order": [
+        "d7ef6148-1ddb-417a-9c81-a90f76078b00"
+      ],
+      "settings": {
+        "color_scheme": "scheme-2",
+        "separate_section_with_border": false,
+        "remove_vertical_spacing": true,
+        "remove_horizontal_spacing": false
+      }
+    }
+  },
+  "order": [
+    "main",
+    "image_with_text_overlay_wmV7YR",
+    "faq_Cd3ntF",
+    "related-products",
+    "1698782823c8484977"
+  ]
+}

@@ -1,0 +1,99 @@
+{% comment %} check authorization {% endcomment %}
+{% assign isAuthorized = false %}
+{% for tag in customer.tags %}
+  {% assign customerTag = tag | strip | downcase %}
+  {% if customerTag == "wholesale" %}
+    {% assign isAuthorized = true %}
+  {% endif %}
+{% endfor %}
+{% assign isRestrictedProduct = false %}
+{% for tag in product.tags %}
+  {% assign productTag = tag | strip | downcase  %}
+    {% if productTag == "wholesale" %}
+    {% assign isRestrictedProduct = true %}
+  {% endif %}
+{% endfor %}
+
+<style>
+  .notAuthorizedWholeSale{
+    /*height: 100%;
+    display: flex;
+    background: #00000014;
+    justify-content: center;
+    align-items: center;*/
+    display:none;
+  }
+</style>
+
+
+{%- comment -%}
+----------------------------------------------------------------------------------------------------------------------
+PREDICTIVE SEARCH ITEM
+----------------------------------------------------------------------------------------------------------------------
+
+Renders a single result for the predictive search (this is abstracted as a snippet as this is rendered for both
+native predictive search and for the fallback search in Liquid, for languages that do not support predictive search)
+
+********************************************
+Supported variables
+********************************************
+
+* type: the object type. Can be "product", "query", "article", "collection" or "page"
+* product, query, article, collection, page: depending on the object type, the correspondin object is set
+{%- endcomment -%}
+
+{%- case type -%}
+  {%- when 'product' -%}
+    <div class="md-max:hidden {% if isRestrictedProduct and isAuthorized == false %}notAuthorizedWholeSale{% endif %}" >
+      {% if isRestrictedProduct and isAuthorized == false %}Wholesale Product{% endif %}
+      
+      {%- comment %}<locksmith:92ab>{% endcomment -%}
+        {%- assign locksmith_bf5d_forloop__size = 0 %}{%- for product in predictive_search.resources.products -%}{% capture var %}{% render 'locksmith-variables', scope: 'subject', subject: product, subject_parent: predictive_search.resources, variable: 'transparent' %}{% endcapture %}{% if var == 'true' %}{% assign locksmith_bf5d_forloop__size = locksmith_bf5d_forloop__size | plus: 1 %}{% endif %}{% endfor %}{% assign locksmith_bf5d_forloop__index = nil -%}
+      {%- comment %}</locksmith:92ab>{% endcomment -%}
+      {%- comment %}<locksmith:4493>{% endcomment -%}
+          {%- capture var %}{% render 'locksmith-variables', scope: 'subject', subject: product, subject_parent: predictive_search.resources, variable: 'transparent' %}{% endcapture %}{% if var == "true" %}{% if locksmith_bf5d_forloop__index == nil %}{% assign locksmith_bf5d_forloop__index = 1 %}{% assign locksmith_bf5d_forloop__index0 = 0 %}{% else %}{% assign locksmith_bf5d_forloop__index = locksmith_bf5d_forloop__index | plus: 1 %}{% assign locksmith_bf5d_forloop__index0 = locksmith_bf5d_forloop__index0 | plus: 1 %}{% endif %}{% if locksmith_bf5d_forloop__index == 1 %}{% assign locksmith_bf5d_forloop__first = true %}{% else %}{% assign locksmith_bf5d_forloop__first = false %}{% endif %}{% if locksmith_bf5d_forloop__index == locksmith_bf5d_forloop__size %}{% assign locksmith_bf5d_forloop__last = true %}{% else %}{% assign locksmith_bf5d_forloop__last = false %}{% endif %}{% assign locksmith_bf5d_forloop__rindex = locksmith_bf5d_forloop__size | minus: locksmith_bf5d_forloop__index | minus: 1 %}{% assign locksmith_bf5d_forloop__rindex0 = locksmith_bf5d_forloop__size | minus: locksmith_bf5d_forloop__index0 | minus: 1 %}{% else %}{% continue %}{% endif -%}
+      {%- comment %}</locksmith:4493>{% endcomment -%}
+          {%- render 'product-card', product: product, show_quick_buy: false -%}
+    </div>
+
+    <div class="md:hidden">
+          {%- render 'product-card-horizontal', product: product, show_quick_buy: false -%}
+    </div>
+
+  {%- when 'query' -%}
+    <div>
+      <a href="{{ query.url }}" class="link-reverse" data-instant>{{ query.styled_text }}</a>
+    </div>
+
+  {%- when 'article' -%}
+    {%- render 'blog-post-card', article: article, show_excerpt: false, show_category: true, show_read_more: false, category_class: 'smallcaps', title_class: 'h6 sm:h5' -%}
+
+  {%- when 'collection' -%}
+    {% if customer.tags contains 'wholesale' %}  
+      	{% if collection.title contains 'Wholesale' %}
+          <a href="{{ collection.url }}" class="v-stack gap-3 sm:gap-5">
+            {%- if collection.image -%}
+              {{- collection.image | image_url: width: collection.image.width | image_tag: loading: 'lazy', sizes: '(max-width: 699px) 160px, 500px', widths: '200,300,400,500,600,800,1000,1200,1400' -}}
+            {%- endif -%}
+
+            <span class="h6 sm:h5">{{ collection.title }}</span>
+          </a>
+        {% endif %}
+    {% endif %}
+
+    {% unless product.tags contains 'wholesale' %}
+      <a href="{{ collection.url }}" class="v-stack gap-3 sm:gap-5">
+        {%- if collection.image -%}
+          {{- collection.image | image_url: width: collection.image.width | image_tag: loading: 'lazy', sizes: '(max-width: 699px) 160px, 500px', widths: '200,300,400,500,600,800,1000,1200,1400' -}}
+        {%- endif -%}
+
+        <span class="h6 sm:h5">{{ collection.title }}</span>
+      </a>
+    {% endunless %}
+
+
+  {%- when 'page' -%}
+    <div>
+      <a href="{{ page.url }}" class="link-reverse" data-instant>{{ page.title }}</a>
+    </div>
+{%- endcase -%}

@@ -1,0 +1,450 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "color_scheme": "",
+        "show_title": true,
+        "page_width": "xs"
+      }
+    },
+    "c872ca9a-9d77-4221-b1a1-ffdde1bbd913": {
+      "type": "rich-text",
+      "blocks": {
+        "template--16968027930882__c872ca9a-9d77-4221-b1a1-ffdde1bbd913-subheading-1": {
+          "type": "subheading",
+          "disabled": true,
+          "settings": {
+            "text": "Subheading"
+          }
+        },
+        "template--16968027930882__c872ca9a-9d77-4221-b1a1-ffdde1bbd913-heading-1": {
+          "type": "heading",
+          "settings": {
+            "text": "Subscribe + Save",
+            "heading_tag": "h1"
+          }
+        },
+        "template--16968027930882__c872ca9a-9d77-4221-b1a1-ffdde1bbd913-richtext-1": {
+          "type": "richtext",
+          "settings": {
+            "content": "<h5>Our Subscribe & Save program is designed to provide our customers with a convenient and cost-effective way to keep their favorite products stocked up on a regular basis. By subscribing to our program, you can <strong>save up to 15%</strong> on your recurring orders.</h5>"
+          }
+        }
+      },
+      "block_order": [
+        "template--16968027930882__c872ca9a-9d77-4221-b1a1-ffdde1bbd913-subheading-1",
+        "template--16968027930882__c872ca9a-9d77-4221-b1a1-ffdde1bbd913-heading-1",
+        "template--16968027930882__c872ca9a-9d77-4221-b1a1-ffdde1bbd913-richtext-1"
+      ],
+      "disabled": true,
+      "settings": {
+        "color_scheme": "",
+        "separate_section_with_border": true,
+        "content_width": "sm",
+        "text_position": "center",
+        "remove_vertical_spacing": false
+      }
+    },
+    "d5a53d29-a539-4645-bfc9-cf3aa80c1307": {
+      "type": "image-with-text",
+      "blocks": {
+        "template--16968027930882__d5a53d29-a539-4645-bfc9-cf3aa80c1307-subheading-1": {
+          "type": "subheading",
+          "disabled": true,
+          "settings": {
+            "text": "Subheading"
+          }
+        },
+        "template--16968027930882__d5a53d29-a539-4645-bfc9-cf3aa80c1307-heading-1": {
+          "type": "heading",
+          "disabled": true,
+          "settings": {
+            "text": "Choose your favorite products",
+            "heading_tag": "h1"
+          }
+        },
+        "template--16968027930882__d5a53d29-a539-4645-bfc9-cf3aa80c1307-richtext-1": {
+          "type": "richtext",
+          "settings": {
+            "content": "<p>Browse our website and select the products that you would like to receive on a recurring basis. Whether you're looking for supplements to support your immune system, boost your energy, or improve your overall health, we've got you covered.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "template--16968027930882__d5a53d29-a539-4645-bfc9-cf3aa80c1307-subheading-1",
+        "template--16968027930882__d5a53d29-a539-4645-bfc9-cf3aa80c1307-heading-1",
+        "template--16968027930882__d5a53d29-a539-4645-bfc9-cf3aa80c1307-richtext-1"
+      ],
+      "disabled": true,
+      "settings": {
+        "color_scheme": "scheme-4",
+        "separate_section_with_border": true,
+        "image": "shopify://shop_images/kjjkjk.jpg",
+        "reveal_on_scroll": true,
+        "image_position": "start",
+        "content_width": "sm",
+        "remove_vertical_spacing": true
+      }
+    },
+    "f1c7be3b-8f18-420a-be3d-86344e92350f": {
+      "type": "image-with-text",
+      "blocks": {
+        "cb298f79-fcd0-4e9a-92ee-35ae054c920c": {
+          "type": "subheading",
+          "disabled": true,
+          "settings": {
+            "text": "Subheading"
+          }
+        },
+        "686f0288-a57e-433e-88fd-b5df802b03de": {
+          "type": "heading",
+          "settings": {
+            "text": "Select your delivery frequency",
+            "heading_tag": "h1"
+          }
+        },
+        "8475d70a-dc8e-47e3-a74e-fc2035003711": {
+          "type": "richtext",
+          "settings": {
+            "content": "<p>You can choose how often you want your products delivered - every month, every two months, or every three months. This way, you can have your supplements delivered to your doorstep on a schedule that works for you.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "cb298f79-fcd0-4e9a-92ee-35ae054c920c",
+        "686f0288-a57e-433e-88fd-b5df802b03de",
+        "8475d70a-dc8e-47e3-a74e-fc2035003711"
+      ],
+      "disabled": true,
+      "settings": {
+        "color_scheme": "",
+        "separate_section_with_border": true,
+        "image": "shopify://shop_images/Untitled_design_54.png",
+        "reveal_on_scroll": true,
+        "image_position": "start",
+        "content_width": "sm",
+        "remove_vertical_spacing": true
+      }
+    },
+    "188c5ed3-02ea-4db9-bc8b-b32089e07e2c": {
+      "type": "image-with-text",
+      "blocks": {
+        "c2a10ccd-3a63-4e22-9b78-98d46070aaa8": {
+          "type": "subheading",
+          "settings": {
+            "text": "Subheading"
+          }
+        },
+        "ef6c5b78-9c76-4a46-a398-4c981f8ade34": {
+          "type": "heading",
+          "settings": {
+            "text": "Save up to 15% on each order",
+            "heading_tag": "h1"
+          }
+        },
+        "f9f2b8dc-d753-48a2-9433-8bde637cbeb0": {
+          "type": "richtext",
+          "settings": {
+            "content": "<p>By subscribing to our program, you can save up to 15% on each recurring order (15% for retail & 5% for wholesale). Plus, you'll never have to worry about running out of your favorite products again.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "c2a10ccd-3a63-4e22-9b78-98d46070aaa8",
+        "ef6c5b78-9c76-4a46-a398-4c981f8ade34",
+        "f9f2b8dc-d753-48a2-9433-8bde637cbeb0"
+      ],
+      "disabled": true,
+      "settings": {
+        "color_scheme": "scheme-4",
+        "separate_section_with_border": true,
+        "image": "shopify://shop_images/Untitled_design_57.png",
+        "reveal_on_scroll": true,
+        "image_position": "start",
+        "content_width": "sm",
+        "remove_vertical_spacing": true
+      }
+    },
+    "5aa7d2b7-a1fa-48c6-b76d-31fa53d958d4": {
+      "type": "image-with-text",
+      "blocks": {
+        "86695a72-e407-45db-ad45-2511ee1a9e60": {
+          "type": "subheading",
+          "settings": {
+            "text": "Subheading"
+          }
+        },
+        "c235eeeb-91f8-451e-ae4a-2cdffa493dcf": {
+          "type": "heading",
+          "settings": {
+            "text": "Manage your subscription easily",
+            "heading_tag": "h1"
+          }
+        },
+        "e629974d-ad5e-4fd0-9c98-ee5d7c6d04e5": {
+          "type": "richtext",
+          "settings": {
+            "content": "<p>With our easy-to-use online platform, you can manage your subscription anytime, anywhere. You can pause, skip, or cancel your subscription at any time, and you'll always have full control over your orders.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "86695a72-e407-45db-ad45-2511ee1a9e60",
+        "c235eeeb-91f8-451e-ae4a-2cdffa493dcf",
+        "e629974d-ad5e-4fd0-9c98-ee5d7c6d04e5"
+      ],
+      "disabled": true,
+      "settings": {
+        "color_scheme": "scheme-1",
+        "separate_section_with_border": true,
+        "image": "shopify://shop_images/Untitled_design_66.png",
+        "reveal_on_scroll": true,
+        "image_position": "start",
+        "content_width": "sm",
+        "remove_vertical_spacing": true
+      }
+    },
+    "8b144f01-0ab3-460f-8318-acff4cf1de52": {
+      "type": "image-with-text",
+      "blocks": {
+        "4647d14f-f386-4c8b-be6f-33fb5a8e357c": {
+          "type": "subheading",
+          "disabled": true,
+          "settings": {
+            "text": "Subheading"
+          }
+        },
+        "fca85768-b8de-4406-b3a9-362c2a44dbbc": {
+          "type": "heading",
+          "settings": {
+            "text": "Lifelong wellness truly made easy",
+            "heading_tag": "h1"
+          }
+        },
+        "ced955e5-e55a-4d76-ba40-8dcb441642b0": {
+          "type": "richtext",
+          "settings": {
+            "content": "<p>With our easy-to-use online platform, you can manage your subscription anytime, anywhere. You can pause, skip, or cancel your subscription at any time, and you'll always have full control over your orders.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "4647d14f-f386-4c8b-be6f-33fb5a8e357c",
+        "fca85768-b8de-4406-b3a9-362c2a44dbbc",
+        "ced955e5-e55a-4d76-ba40-8dcb441642b0"
+      ],
+      "disabled": true,
+      "settings": {
+        "color_scheme": "scheme-4",
+        "separate_section_with_border": true,
+        "image": "shopify://shop_images/lifelong.jpg",
+        "reveal_on_scroll": true,
+        "image_position": "start",
+        "content_width": "sm",
+        "remove_vertical_spacing": true
+      }
+    },
+    "6b2844b2-6514-4cb4-b0bf-79ccaa05a5d1": {
+      "type": "image-with-text",
+      "blocks": {
+        "template--16968027930882__6b2844b2-6514-4cb4-b0bf-79ccaa05a5d1-heading-1": {
+          "type": "heading",
+          "settings": {
+            "text": "Subscribe & Save",
+            "heading_tag": "h1"
+          }
+        },
+        "template--16968027930882__6b2844b2-6514-4cb4-b0bf-79ccaa05a5d1-richtext-1": {
+          "type": "richtext",
+          "settings": {
+            "content": "<h5>OUR SUBSCRIBE & SAVE PROGRAM IS DESIGNED TO PROVIDE OUR CUSTOMERS WITH A CONVENIENT AND COST-EFFECTIVE WAY TO KEEP THEIR FAVORITE PRODUCTS STOCKED UP ON A REGULAR BASIS. BY SUBSCRIBING TO OUR PROGRAM, YOU CAN <strong>SAVE UP TO 15%</strong> ON YOUR RECURRING ORDERS.</h5>"
+          }
+        }
+      },
+      "block_order": [
+        "template--16968027930882__6b2844b2-6514-4cb4-b0bf-79ccaa05a5d1-heading-1",
+        "template--16968027930882__6b2844b2-6514-4cb4-b0bf-79ccaa05a5d1-richtext-1"
+      ],
+      "settings": {
+        "color_scheme": "",
+        "separate_section_with_border": true,
+        "image": "shopify://shop_images/Untitled_design_53.png",
+        "reveal_on_scroll": true,
+        "image_position": "start",
+        "content_width": "sm",
+        "remove_vertical_spacing": true
+      }
+    },
+    "51f074be-541f-4d50-99b0-44d9016c0548": {
+      "type": "slideshow",
+      "blocks": {
+        "template--16968027930882__51f074be-541f-4d50-99b0-44d9016c0548-image-1": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/HOW_IT_WORKS_1.png",
+            "subheading": "",
+            "title": "",
+            "mobile_text_position": "place-self-center text-center",
+            "desktop_text_position": "sm:place-self-center sm:text-center",
+            "content_max_width": 780,
+            "button_1_text": "",
+            "button_1_link": "",
+            "button_1_style": "solid",
+            "button_1_background": "#ffffff",
+            "button_1_text_color": "#000000",
+            "button_2_text": "",
+            "button_2_link": "",
+            "button_2_style": "outline",
+            "button_2_background": "#ffffff",
+            "button_2_text_color": "#000000",
+            "background": "",
+            "background_opacity": 50,
+            "text_color": "#ffffff",
+            "border_color": "",
+            "gradient_overlay": ""
+          }
+        }
+      },
+      "block_order": [
+        "template--16968027930882__51f074be-541f-4d50-99b0-44d9016c0548-image-1"
+      ],
+      "settings": {
+        "allow_transparent_header": true,
+        "show_next_section_button": true,
+        "media_size": "auto",
+        "autoplay": true,
+        "autoplay_pause_on_video": true,
+        "cycle_speed": 5,
+        "background": "#000000",
+        "controls_color": "#ffffff"
+      }
+    },
+    "c7819dbe-b168-4100-8cd6-6e77f6a456a4": {
+      "type": "multi-column",
+      "blocks": {
+        "template--16968027930882__c7819dbe-b168-4100-8cd6-6e77f6a456a4-image_with_text-1": {
+          "type": "image_with_text",
+          "settings": {
+            "image": "shopify://shop_images/Untitled_design_-_2023-11-08T154833.455.png",
+            "title": "SAVE 15% ON EVERY ORDER",
+            "heading_tag": "h3",
+            "content": "",
+            "link_url": "",
+            "link_text": ""
+          }
+        },
+        "template--16968027930882__c7819dbe-b168-4100-8cd6-6e77f6a456a4-image_with_text-2": {
+          "type": "image_with_text",
+          "settings": {
+            "image": "shopify://shop_images/Untitled_design_-_2023-11-08T154821.280.png",
+            "title": "NEVER RUN OUT AGAIN",
+            "heading_tag": "h3",
+            "content": "",
+            "link_url": "",
+            "link_text": ""
+          }
+        },
+        "template--16968027930882__c7819dbe-b168-4100-8cd6-6e77f6a456a4-image_with_text-3": {
+          "type": "image_with_text",
+          "settings": {
+            "image": "shopify://shop_images/Untitled_design_-_2023-11-08T154811.286.png",
+            "title": "ONLY GOOD HEALTH AHEAD",
+            "heading_tag": "h3",
+            "content": "",
+            "link_url": "",
+            "link_text": ""
+          }
+        }
+      },
+      "block_order": [
+        "template--16968027930882__c7819dbe-b168-4100-8cd6-6e77f6a456a4-image_with_text-1",
+        "template--16968027930882__c7819dbe-b168-4100-8cd6-6e77f6a456a4-image_with_text-2",
+        "template--16968027930882__c7819dbe-b168-4100-8cd6-6e77f6a456a4-image_with_text-3"
+      ],
+      "settings": {
+        "color_scheme": "scheme-4",
+        "separate_section_with_border": true,
+        "columns_per_row": 3,
+        "stack_on_mobile": false,
+        "overlap_image": false,
+        "content_alignment": "start",
+        "text_alignment": "start",
+        "spacing": "md",
+        "subheading": "",
+        "title": "",
+        "content": ""
+      }
+    },
+    "90c898db-a1b6-4cdf-a928-29ab51f67a7e": {
+      "type": "faq",
+      "blocks": {
+        "template--16968027930882__90c898db-a1b6-4cdf-a928-29ab51f67a7e-question-1": {
+          "type": "question",
+          "settings": {
+            "question": "HOW DO I SIGN UP FOR SUBSCRIBE & SAVE?",
+            "answer": "<p>It’s simple! Just select the \"Subscribe & Save\" option on the product page, choose your preferred delivery frequency, and add the item to your cart. Complete checkout as usual, and you’ll start receiving automatic shipments based on your selected schedule.</p>"
+          }
+        },
+        "template--16968027930882__90c898db-a1b6-4cdf-a928-29ab51f67a7e-question-2": {
+          "type": "question",
+          "settings": {
+            "question": "CAN I CHANGE OR CANCEL MY SUBSCRIPTION",
+            "answer": "<p>Absolutely. You can update your subscription frequency, skip a delivery, or cancel your subscription anytime through your account. There are no long-term commitments or hidden fees.</p>"
+          }
+        },
+        "template--16968027930882__90c898db-a1b6-4cdf-a928-29ab51f67a7e-question-3": {
+          "type": "question",
+          "settings": {
+            "question": "CAN I USE DISCOUNT CODES OR PROMOTIONS ON SUBSCRIBE & SAVE?",
+            "answer": "<p>Discount codes or one-time promotions cannot be applied to subscription orders, as you’re already receiving exclusive savings through the Subscribe & Save program.</p>"
+          }
+        },
+        "question_rfETXC": {
+          "type": "question",
+          "settings": {
+            "question": "HOW DO I MANAGE MY SUBSCRIPTIONS?",
+            "answer": "<p>Simply log into your account and navigate to the \"Subscriptions\" section. From there, you can modify delivery schedules, skip shipments, update payment information, or cancel your subscription.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "template--16968027930882__90c898db-a1b6-4cdf-a928-29ab51f67a7e-question-1",
+        "template--16968027930882__90c898db-a1b6-4cdf-a928-29ab51f67a7e-question-2",
+        "template--16968027930882__90c898db-a1b6-4cdf-a928-29ab51f67a7e-question-3",
+        "question_rfETXC"
+      ],
+      "settings": {
+        "color_scheme": "scheme-4",
+        "separate_section_with_border": true,
+        "show_categories": false,
+        "subheading": "Need help?",
+        "title": "Frequently Asked Questions",
+        "content": ""
+      }
+    }
+  },
+  "order": [
+    "main",
+    "c872ca9a-9d77-4221-b1a1-ffdde1bbd913",
+    "d5a53d29-a539-4645-bfc9-cf3aa80c1307",
+    "f1c7be3b-8f18-420a-be3d-86344e92350f",
+    "188c5ed3-02ea-4db9-bc8b-b32089e07e2c",
+    "5aa7d2b7-a1fa-48c6-b76d-31fa53d958d4",
+    "8b144f01-0ab3-460f-8318-acff4cf1de52",
+    "6b2844b2-6514-4cb4-b0bf-79ccaa05a5d1",
+    "51f074be-541f-4d50-99b0-44d9016c0548",
+    "c7819dbe-b168-4100-8cd6-6e77f6a456a4",
+    "90c898db-a1b6-4cdf-a928-29ab51f67a7e"
+  ]
+}

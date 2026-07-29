@@ -1,0 +1,302 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "title": {
+          "type": "title",
+          "settings": {
+            "heading_tag": "h3"
+          }
+        },
+        "e5eae85b-1e9a-4732-9c53-e8c283312891": {
+          "type": "rating",
+          "settings": {
+            "show_empty": false,
+            "rating_mode": "rating"
+          }
+        },
+        "price": {
+          "type": "price",
+          "settings": {
+            "show_taxes_notice": false
+          }
+        },
+        "cd1c614d-685b-4401-8008-351ee86c6f8e": {
+          "type": "reviews",
+          "disabled": true,
+          "settings": {
+            "show_star_icon": false,
+            "liquid": "<div id=\"shopify-product-reviews\" data-id=\"{{ product.id }}\">{{ product.metafields.spr.reviews }}</div>"
+          }
+        },
+        "payment_terms": {
+          "type": "payment_terms",
+          "settings": {}
+        },
+        "separator": {
+          "type": "separator",
+          "settings": {}
+        },
+        "4fdaf462-62c5-44ce-bf60-14dca0ba0047": {
+          "type": "text",
+          "settings": {
+            "text": "<p>NanoASHWA Gummies—a delightful fusion of wellness and the potent adaptogenic benefits of Ashwagandha. These tasty gummies provide a convenient and enjoyable way to support your overall well-being. Each gummy delivers 750 mg of Ashwagandha, renowned for its stress-relieving properties, helping you achieve relaxation and balance amidst life’s hustle and bustle. Enjoy a treat that supports your wellness journey with every bite!</p>"
+          }
+        },
+        "variant_picker": {
+          "type": "variant_picker",
+          "settings": {
+            "hide_sold_out_variants": false,
+            "selector_type": "dropdown",
+            "color_selector_type": "color",
+            "size_chart_page": ""
+          }
+        },
+        "quantity_selector": {
+          "type": "quantity_selector",
+          "settings": {}
+        },
+        "buy_buttons": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_payment_button": true,
+            "show_gift_card_recipient": true,
+            "atc_button_background": "",
+            "atc_button_text_color": "",
+            "payment_button_background": "",
+            "payment_button_text_color": ""
+          }
+        },
+        "complementary_products": {
+          "type": "complementary_products",
+          "settings": {
+            "title": "Pairs well with",
+            "products_count": 2,
+            "show_below_gallery": true,
+            "stack_products": false,
+            "show_quick_buy": true
+          }
+        },
+        "e89ef5be-5725-4ecb-8ec5-661b8e82a1ca": {
+          "type": "feature_with_icon",
+          "disabled": true,
+          "settings": {
+            "text": "Feature",
+            "link": "",
+            "icon": "picto-award-gift",
+            "icon_width": 16,
+            "background": "#f8f4ec",
+            "text_color": "#6b6b6b",
+            "border_color": ""
+          }
+        },
+        "b9345515-f7f7-4bdd-b1ba-90f4c9669832": {
+          "type": "more_information",
+          "disabled": true,
+          "settings": {
+            "text": "More information"
+          }
+        },
+        "f156a492-6b11-4eee-8e9d-69feae9fb2a7": {
+          "type": "accordion",
+          "settings": {
+            "show_below_gallery": true,
+            "icon": "none",
+            "title": "<strong>+ How to use</strong>",
+            "content": "<p><strong>+</strong> Take 1 cherry-flavored gummies per day</p><p><strong>+ </strong>We recommend taking them first thing in the morning on an empty stomach to enhance complete absorption.</p><p><strong>+</strong> Take | Taste | Enjoy</p>",
+            "page": ""
+          }
+        },
+        "272d0ae5-3ddd-40d0-b629-b5a263f2ffc4": {
+          "type": "accordion",
+          "settings": {
+            "show_below_gallery": true,
+            "icon": "none",
+            "title": "<strong>+ Key Ingredients</strong>",
+            "content": "<p><strong>+ Ashwagandha Root 30:1</strong>: Ashwagandha is renowned for its ability to reduce stress and anxiety. It helps lower cortisol levels, the hormone associated with stress, and promotes a sense of calm and well-being.</p><p><strong>+ Zinc: </strong>Zinc is vital for maintaining a healthy immune system. It helps in the development and function of immune cells, enhances the body's ability to fight off infections, and may reduce the duration and severity of common colds.</p><p><strong>+ Vitamin D: </strong>Vitamin D plays a role in mood regulation, contributing to emotional well-being, and supports muscle function and cardiovascular health<strong>.</strong></p>",
+            "page": ""
+          }
+        },
+        "55afab39-f126-4571-af89-3d32311cb2e6": {
+          "type": "accordion",
+          "settings": {
+            "show_below_gallery": true,
+            "icon": "none",
+            "title": "<strong>+ Benefits</strong>",
+            "content": "<p><strong>+ Natural energy boost:</strong> Provides sustained energy throughout the day without the need for stimulants, helping you feel more energized and alert.</p><p><strong>+ Improved focus:</strong> Enhances cognitive function and concentration, supporting better mental clarity and productivity.</p><p><strong>+ Sleep quality: </strong>Supports restful and rejuvenating sleep, helping you wake up feeling refreshed.</p><p><strong>+ Stress reduction:</strong> Reduces stress levels by balancing cortisol, the body’s stress hormone, contributing to overall well-being.</p><p><strong>+ Mood booster:</strong> Enhances mood by supporting emotional balance and reducing feelings of irritability or overwhelm.</p><p><strong>+ Blood sugar regulation</strong>: Helps maintain stable blood sugar levels, promoting better energy management and reducing sugar crashes.</p>",
+            "page": ""
+          }
+        }
+      },
+      "block_order": [
+        "title",
+        "e5eae85b-1e9a-4732-9c53-e8c283312891",
+        "price",
+        "cd1c614d-685b-4401-8008-351ee86c6f8e",
+        "payment_terms",
+        "separator",
+        "4fdaf462-62c5-44ce-bf60-14dca0ba0047",
+        "variant_picker",
+        "quantity_selector",
+        "buy_buttons",
+        "complementary_products",
+        "e89ef5be-5725-4ecb-8ec5-661b8e82a1ca",
+        "b9345515-f7f7-4bdd-b1ba-90f4c9669832",
+        "f156a492-6b11-4eee-8e9d-69feae9fb2a7",
+        "272d0ae5-3ddd-40d0-b629-b5a263f2ffc4",
+        "55afab39-f126-4571-af89-3d32311cb2e6"
+      ],
+      "settings": {
+        "color_scheme": "scheme-2",
+        "container_size": "lg",
+        "product_info_size": 35,
+        "show_sticky_add_to_cart": false,
+        "center_basic_info": false,
+        "desktop_media_layout": "carousel_thumbnails_left",
+        "desktop_media_grid_gap": 30,
+        "mobile_controls": "dots",
+        "enable_media_autoplay": false,
+        "enable_video_looping": true,
+        "enable_image_zoom": true,
+        "max_image_zoom_level": 3
+      }
+    },
+    "image_with_text_overlay_wmV7YR": {
+      "type": "image-with-text-overlay",
+      "blocks": {
+        "heading_deD87J": {
+          "type": "heading",
+          "settings": {
+            "text": "",
+            "heading_tag": "h4"
+          }
+        },
+        "richtext_xbmFNt": {
+          "type": "richtext",
+          "settings": {
+            "content": ""
+          }
+        }
+      },
+      "block_order": [
+        "heading_deD87J",
+        "richtext_xbmFNt"
+      ],
+      "settings": {
+        "color_scheme": "",
+        "image_size": "auto",
+        "image": "shopify://shop_images/KEY_INGREDIENTS_19.png",
+        "allow_transparent_header": false,
+        "reveal_on_scroll": true,
+        "remove_vertical_spacing": true,
+        "content_width": "md",
+        "mobile_text_position": "place-self-center text-center",
+        "desktop_text_position": "sm:place-self-center sm:text-center",
+        "overlay_color": "#000000",
+        "overlay_opacity": 0
+      }
+    },
+    "faq_Cd3ntF": {
+      "type": "faq",
+      "blocks": {
+        "category_DL84aL": {
+          "type": "category",
+          "settings": {
+            "title": "NANOASHWA GUMMY",
+            "icon": "none",
+            "icon_width": 16
+          }
+        },
+        "question_LUGqkW": {
+          "type": "question",
+          "settings": {
+            "question": "WHAT ARE THE BENEFITS OF ASHWAGANDHA?",
+            "answer": "<p>Ashwagandha is an adaptogenic herb known for supporting stress relief, promoting relaxation, and enhancing overall well-being. NanoAshwa Gummy uses nanotechnology to improve the absorption and effectiveness of Ashwagandha.</p>"
+          }
+        },
+        "question_fTH78x": {
+          "type": "question",
+          "settings": {
+            "question": "CAN NANOASHWA HELP WITH STRESS?",
+            "answer": "<p>Yes, Ashwagandha is an adaptogen that helps the body manage stress and may reduce symptoms of anxiety. NanoAshwa Gummy is formulated to support relaxation and promote a balanced mood, which can help with stress management.</p>"
+          }
+        },
+        "question_Bxtnhn": {
+          "type": "question",
+          "settings": {
+            "question": "IS NANOASHWA SAFE FOR DAILY USE?",
+            "answer": "<p>Yes, NanoAshwa Gummy is considered safe for daily use when taken as directed. Ashwagandha is a well-known herb with a long history of use. </p>"
+          }
+        }
+      },
+      "block_order": [
+        "category_DL84aL",
+        "question_LUGqkW",
+        "question_fTH78x",
+        "question_Bxtnhn"
+      ],
+      "settings": {
+        "color_scheme": "",
+        "separate_section_with_border": true,
+        "show_categories": false,
+        "subheading": "Need help?",
+        "title": "Frequently Asked Questions",
+        "content": ""
+      }
+    },
+    "related-products": {
+      "type": "related-products",
+      "settings": {
+        "color_scheme": "scheme-2",
+        "separate_section_with_border": true,
+        "hide_product_information": false,
+        "stack_products": false,
+        "recommendations_count": 10,
+        "products_per_row_mobile": "2",
+        "products_per_row_desktop": 4,
+        "horizontal_spacing_factor": 1,
+        "vertical_spacing_factor": 1,
+        "subheading": "",
+        "title": "Related products",
+        "content": ""
+      }
+    },
+    "1698782823c8484977": {
+      "type": "apps",
+      "blocks": {
+        "d7ef6148-1ddb-417a-9c81-a90f76078b00": {
+          "type": "shopify://apps/yotpo-product-reviews/blocks/reviews/eb7dfd7d-db44-4334-bc49-c893b51b36cf",
+          "settings": {
+            "product": "{{product}}"
+          }
+        }
+      },
+      "block_order": [
+        "d7ef6148-1ddb-417a-9c81-a90f76078b00"
+      ],
+      "settings": {
+        "color_scheme": "scheme-2",
+        "separate_section_with_border": false,
+        "remove_vertical_spacing": true,
+        "remove_horizontal_spacing": false
+      }
+    }
+  },
+  "order": [
+    "main",
+    "image_with_text_overlay_wmV7YR",
+    "faq_Cd3ntF",
+    "related-products",
+    "1698782823c8484977"
+  ]
+}

@@ -1,0 +1,318 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "title": {
+          "type": "title",
+          "settings": {
+            "heading_tag": "h3"
+          }
+        },
+        "e5eae85b-1e9a-4732-9c53-e8c283312891": {
+          "type": "rating",
+          "settings": {
+            "show_empty": false,
+            "rating_mode": "rating"
+          }
+        },
+        "price": {
+          "type": "price",
+          "settings": {
+            "show_taxes_notice": false
+          }
+        },
+        "cd1c614d-685b-4401-8008-351ee86c6f8e": {
+          "type": "reviews",
+          "disabled": true,
+          "settings": {
+            "show_star_icon": false,
+            "liquid": "<div id=\"shopify-product-reviews\" data-id=\"{{ product.id }}\">{{ product.metafields.spr.reviews }}</div>"
+          }
+        },
+        "payment_terms": {
+          "type": "payment_terms",
+          "settings": {}
+        },
+        "separator": {
+          "type": "separator",
+          "settings": {}
+        },
+        "4fdaf462-62c5-44ce-bf60-14dca0ba0047": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Nanoreds are loaded with super fruits and vegetables, emphasizing high-antioxidant berries. Each serving delivers the antioxidant power of 10 servings of fruits and vegetables. We've also included resveratrol for its anti-aging benefits and a highly bioavailable form of vitamin C to boost your body’s immune system and deliver noticeable benefits immediately. Kid friendly stamp of approval!  </p>"
+          }
+        },
+        "variant_picker": {
+          "type": "variant_picker",
+          "settings": {
+            "hide_sold_out_variants": false,
+            "selector_type": "dropdown",
+            "color_selector_type": "color",
+            "size_chart_page": ""
+          }
+        },
+        "quantity_selector": {
+          "type": "quantity_selector",
+          "settings": {}
+        },
+        "buy_buttons": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_payment_button": true,
+            "show_gift_card_recipient": true,
+            "atc_button_background": "",
+            "atc_button_text_color": "",
+            "payment_button_background": "",
+            "payment_button_text_color": ""
+          }
+        },
+        "complementary_products": {
+          "type": "complementary_products",
+          "settings": {
+            "title": "Pairs well with",
+            "products_count": 2,
+            "show_below_gallery": true,
+            "stack_products": false,
+            "show_quick_buy": true
+          }
+        },
+        "e89ef5be-5725-4ecb-8ec5-661b8e82a1ca": {
+          "type": "feature_with_icon",
+          "disabled": true,
+          "settings": {
+            "text": "Feature",
+            "link": "",
+            "icon": "picto-award-gift",
+            "icon_width": 16,
+            "background": "#f8f4ec",
+            "text_color": "#6b6b6b",
+            "border_color": ""
+          }
+        },
+        "b9345515-f7f7-4bdd-b1ba-90f4c9669832": {
+          "type": "more_information",
+          "disabled": true,
+          "settings": {
+            "text": "More information"
+          }
+        },
+        "f156a492-6b11-4eee-8e9d-69feae9fb2a7": {
+          "type": "accordion",
+          "settings": {
+            "show_below_gallery": true,
+            "icon": "none",
+            "title": "<strong>+ How to use</strong>",
+            "content": "<p><strong>+ </strong>Mix 1 scoop nanoreds with 12-16 ounces of COLD water</p><p><strong>+ </strong>Shake briskly, blend in a blender bottle or us an electric mixer </p><p><strong>+ </strong>Sip and savor the refreshing taste of this nourishing blend while providing your body with all the essential fruit nutrients it needs</p><p><strong>Pro Tips:</strong></p><p><strong>+</strong> Cold water</p><p><strong>+</strong> Add to smoothie, unsweetened almond milk, or coconut milk </p><p><strong>+</strong> Take first thing in the morning to alkalize, energize and give you what you need to get the day started</p>",
+            "page": ""
+          }
+        },
+        "272d0ae5-3ddd-40d0-b629-b5a263f2ffc4": {
+          "type": "accordion",
+          "settings": {
+            "show_below_gallery": true,
+            "icon": "none",
+            "title": "<strong>+ Key Ingredients</strong>",
+            "content": "<p><strong>+ Vitamin C: </strong>A powerful antioxidant that supports the immune system, helps protect cells from damage, and promotes healthy skin by boosting collagen production</p><p><strong>+ Super Antioxidant Blend: </strong>A combination of potent antioxidants that work together to neutralize free radicals, reducing oxidative stress in the body</p><p><strong>+ Resveratrol:</strong> Resveratrol's primary benefit is its potent antioxidant activity, which allows it to neutralize harmful free radicals in the body, potentially reducing oxidative stress and protecting cells from damage</p><p><strong>+ Fruit & Vegetable Blend: </strong>A concentrated mix of nutrient-rich fruits and vegetables that provides a wide array of vitamins, minerals, and phytonutrients. (Pomegranate, lemon, cranberry, chokeberry, pumpkin, blueberry, elderberry, cherry, black currents, hibiscus, apple, carrot, tomato, spinach and broccoli)</p><p><strong>\t+ Elderberry: </strong>Elderberries are high in antioxidants such as flavonoids and anthocyanins, which help neutralize free radicals and reduce oxidative stress, protecting cells from damage and supporting overall health.</p><p><strong>\t+Amla Extract: </strong>Amla has antibacterial and anti-inflammatory properties. The phytonutrients and antioxidants in amla can benefit memory by fighting against free radicals that can attack and damage brain cells</p>",
+            "page": ""
+          }
+        },
+        "55afab39-f126-4571-af89-3d32311cb2e6": {
+          "type": "accordion",
+          "settings": {
+            "show_below_gallery": true,
+            "icon": "none",
+            "title": "<strong>+ Benefits</strong>",
+            "content": "<p><strong>+ Cellular Nourishment: </strong>Provides essential nutrients at a cellular level, supporting overall body function and optimizing health.</p><p><strong>+ Increased Energy: </strong>Boosts energy production by enhancing cellular metabolism and improving mitochondrial function, leading to sustained vitality.</p><p><strong>+ Reduced inflammation: </strong>Helps lower inflammation by delivering antioxidants and nutrients that fight oxidative stress, promoting joint and tissue health<strong>.</strong></p><p><strong>+ Immune Function: </strong>Strengthens the immune system by providing vital nutrients that enhance the body’s natural defenses and increase resilience against illness.</p><p><strong>+ Healthy Digestion: </strong>Supports a healthy digestive system by promoting nutrient absorption, balancing gut bacteria, and easing digestive discomfort.</p>",
+            "page": ""
+          }
+        }
+      },
+      "block_order": [
+        "title",
+        "e5eae85b-1e9a-4732-9c53-e8c283312891",
+        "price",
+        "cd1c614d-685b-4401-8008-351ee86c6f8e",
+        "payment_terms",
+        "separator",
+        "4fdaf462-62c5-44ce-bf60-14dca0ba0047",
+        "variant_picker",
+        "quantity_selector",
+        "buy_buttons",
+        "complementary_products",
+        "e89ef5be-5725-4ecb-8ec5-661b8e82a1ca",
+        "b9345515-f7f7-4bdd-b1ba-90f4c9669832",
+        "f156a492-6b11-4eee-8e9d-69feae9fb2a7",
+        "272d0ae5-3ddd-40d0-b629-b5a263f2ffc4",
+        "55afab39-f126-4571-af89-3d32311cb2e6"
+      ],
+      "settings": {
+        "color_scheme": "scheme-2",
+        "container_size": "lg",
+        "product_info_size": 35,
+        "show_sticky_add_to_cart": false,
+        "center_basic_info": false,
+        "desktop_media_layout": "carousel_thumbnails_left",
+        "desktop_media_grid_gap": 30,
+        "mobile_controls": "dots",
+        "enable_media_autoplay": false,
+        "enable_video_looping": true,
+        "enable_image_zoom": true,
+        "max_image_zoom_level": 3
+      }
+    },
+    "image_with_text_overlay_wmV7YR": {
+      "type": "image-with-text-overlay",
+      "blocks": {
+        "heading_deD87J": {
+          "type": "heading",
+          "settings": {
+            "text": "",
+            "heading_tag": "h4"
+          }
+        },
+        "richtext_xbmFNt": {
+          "type": "richtext",
+          "settings": {
+            "content": ""
+          }
+        }
+      },
+      "block_order": [
+        "heading_deD87J",
+        "richtext_xbmFNt"
+      ],
+      "settings": {
+        "color_scheme": "",
+        "image_size": "auto",
+        "image": "shopify://shop_images/KEY_INGREDIENTS_5.png",
+        "allow_transparent_header": false,
+        "reveal_on_scroll": true,
+        "remove_vertical_spacing": true,
+        "content_width": "md",
+        "mobile_text_position": "place-self-center text-center",
+        "desktop_text_position": "sm:place-self-center sm:text-center",
+        "overlay_color": "#000000",
+        "overlay_opacity": 0
+      }
+    },
+    "faq_Cd3ntF": {
+      "type": "faq",
+      "blocks": {
+        "category_DL84aL": {
+          "type": "category",
+          "settings": {
+            "title": "NANOREDS",
+            "icon": "none",
+            "icon_width": 16
+          }
+        },
+        "question_LUGqkW": {
+          "type": "question",
+          "settings": {
+            "question": "WHAT IS NANOREDS?",
+            "answer": "<p>NanoReds is a superfood powder supplement that provides a concentrated source of antioxidants, vitamins, and nutrients from sources like berries, pomegranate, and beets in a convenient powdered form.</p>"
+          }
+        },
+        "question_fTH78x": {
+          "type": "question",
+          "settings": {
+            "question": "IS NANOREDS KID-FRIENDLY?",
+            "answer": "<p>Yes! NanoReds is a popular choice for kids because of its delicious taste and its fun, vibrant red color.</p>"
+          }
+        },
+        "question_Bxtnhn": {
+          "type": "question",
+          "settings": {
+            "question": "CAN I TAKE BOTH NANOGREENS & NANOREDS?",
+            "answer": "<p>Yes! Nanogreens has more antioxidants from the deep dark greens we normally don’t get in our diet and Nanoreds focuses on high antioxidant fruits with a highly bioavailable vitamin C and resveratrol for anti-aging. </p>"
+          }
+        },
+        "question_4Exakc": {
+          "type": "question",
+          "settings": {
+            "question": "WHAT IF MY CANISTER IS NOT FILLED TO THE TOP?",
+            "answer": "<p>Each canister is measured by weight not volume. Rest assured; you are still receiving the full 30-day supply of the product.  </p>"
+          }
+        },
+        "question_mt4D9t": {
+          "type": "question",
+          "settings": {
+            "question": "HOW IS NANOREDS DIFFERENT FROM OTHER SUPERFOOD SUPPLEMENTS?",
+            "answer": "<p>NanoReds is unique because it focuses specifically on red superfoods, which are particularly rich in antioxidants like anthocyanins and polyphenols. It also uses nanotechnology for better absorption, which may make its nutrients more bioavailable than in some other supplements.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "category_DL84aL",
+        "question_LUGqkW",
+        "question_fTH78x",
+        "question_Bxtnhn",
+        "question_4Exakc",
+        "question_mt4D9t"
+      ],
+      "settings": {
+        "color_scheme": "",
+        "separate_section_with_border": true,
+        "show_categories": false,
+        "subheading": "Need help?",
+        "title": "Frequently Asked Questions",
+        "content": ""
+      }
+    },
+    "related-products": {
+      "type": "related-products",
+      "settings": {
+        "color_scheme": "scheme-2",
+        "separate_section_with_border": true,
+        "hide_product_information": false,
+        "stack_products": false,
+        "recommendations_count": 10,
+        "products_per_row_mobile": "2",
+        "products_per_row_desktop": 4,
+        "horizontal_spacing_factor": 1,
+        "vertical_spacing_factor": 1,
+        "subheading": "",
+        "title": "Related products",
+        "content": ""
+      }
+    },
+    "1698782823c8484977": {
+      "type": "apps",
+      "blocks": {
+        "d7ef6148-1ddb-417a-9c81-a90f76078b00": {
+          "type": "shopify://apps/yotpo-product-reviews/blocks/reviews/eb7dfd7d-db44-4334-bc49-c893b51b36cf",
+          "settings": {
+            "product": "{{product}}"
+          }
+        }
+      },
+      "block_order": [
+        "d7ef6148-1ddb-417a-9c81-a90f76078b00"
+      ],
+      "settings": {
+        "color_scheme": "scheme-2",
+        "separate_section_with_border": false,
+        "remove_vertical_spacing": true,
+        "remove_horizontal_spacing": false
+      }
+    }
+  },
+  "order": [
+    "main",
+    "image_with_text_overlay_wmV7YR",
+    "faq_Cd3ntF",
+    "related-products",
+    "1698782823c8484977"
+  ]
+}

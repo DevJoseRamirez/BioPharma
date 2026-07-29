@@ -10,11 +10,8 @@
 {
   "sections": {
     "main": {
-      "type": "main-addresses",
-      "settings": {
-        "padding_top": 36,
-        "padding_bottom": 36
-      }
+      "type": "main-customers-addresses",
+      "settings": {}
     }
   },
   "order": [

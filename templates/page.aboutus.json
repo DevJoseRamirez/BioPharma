@@ -1,0 +1,167 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "029a3859-68e8-4eac-b938-c3d24c72da0c": {
+      "type": "image-with-text",
+      "blocks": {
+        "template--16872426733826__029a3859-68e8-4eac-b938-c3d24c72da0c-subheading-1": {
+          "type": "subheading",
+          "settings": {
+            "text": "Welcome to Biopharma Scientific"
+          }
+        },
+        "template--16872426733826__029a3859-68e8-4eac-b938-c3d24c72da0c-heading-1": {
+          "type": "heading",
+          "settings": {
+            "text": "our mission:",
+            "heading_tag": "h1"
+          }
+        },
+        "template--16872426733826__029a3859-68e8-4eac-b938-c3d24c72da0c-richtext-1": {
+          "type": "richtext",
+          "settings": {
+            "content": "<p>In today's fast-paced world, the need for a holistic approach to wellness has never been more urgent. Chronic conditions like diabetes, heart disease, stroke, and gut issues are increasingly prevalent, while stress and financial challenges make maintaining a healthy lifestyle difficult for many. At Biopharma Scientific, we’re dedicated to changing this.</p><p>We make it simple for you to get the essential nutrients your body needs to thrive. By sourcing the highest quality ingredients from the purest locations around the globe, we ensure our products are designed to work in harmony with your body. Our focus is not only on delivering superior quality but also on ensuring maximum absorption, so you get the full benefit of every product.</p><p></p><p></p>"
+          }
+        }
+      },
+      "block_order": [
+        "template--16872426733826__029a3859-68e8-4eac-b938-c3d24c72da0c-subheading-1",
+        "template--16872426733826__029a3859-68e8-4eac-b938-c3d24c72da0c-heading-1",
+        "template--16872426733826__029a3859-68e8-4eac-b938-c3d24c72da0c-richtext-1"
+      ],
+      "settings": {
+        "color_scheme": "scheme-4",
+        "separate_section_with_border": true,
+        "image": "shopify://shop_images/Untitled_design_-_2023-11-08T154833.455.png",
+        "reveal_on_scroll": true,
+        "image_position": "start",
+        "content_width": "sm",
+        "remove_vertical_spacing": true
+      }
+    },
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "color_scheme": "",
+        "show_title": true,
+        "page_width": "xs"
+      }
+    },
+    "e74f3b22-7c34-41f2-b259-e2c1c3237b44": {
+      "type": "timeline",
+      "blocks": {
+        "template--16872426733826__e74f3b22-7c34-41f2-b259-e2c1c3237b44-item-1": {
+          "type": "item",
+          "settings": {
+            "image": "shopify://shop_images/Untitled_design_-_2024-01-18T145027.338.png",
+            "label": "2010",
+            "subheading": "Established",
+            "title": "2010",
+            "content": "<p>Biopharma was established and under the name, superfood solution. The only 2 products were Nanogreens & Nanopro Immune.</p>",
+            "link_text": "",
+            "link_url": "",
+            "link_style": "link",
+            "mobile_text_color": "#ffffff"
+          }
+        },
+        "template--16872426733826__e74f3b22-7c34-41f2-b259-e2c1c3237b44-item-2": {
+          "type": "item",
+          "settings": {
+            "label": "2015",
+            "subheading": "Subheading",
+            "title": "2015",
+            "content": "<p>Use this text to share information about what happened to your brand at a specific time.</p>",
+            "link_text": "",
+            "link_url": "",
+            "link_style": "link",
+            "mobile_text_color": "#ffffff"
+          }
+        },
+        "template--16872426733826__e74f3b22-7c34-41f2-b259-e2c1c3237b44-item-3": {
+          "type": "item",
+          "settings": {
+            "label": "2024",
+            "subheading": "Where we are now",
+            "title": "2023",
+            "content": "<p>We have a full product line of 17 different products </p>",
+            "link_text": "",
+            "link_url": "",
+            "link_style": "link",
+            "mobile_text_color": "#ffffff"
+          }
+        }
+      },
+      "block_order": [
+        "template--16872426733826__e74f3b22-7c34-41f2-b259-e2c1c3237b44-item-1",
+        "template--16872426733826__e74f3b22-7c34-41f2-b259-e2c1c3237b44-item-2",
+        "template--16872426733826__e74f3b22-7c34-41f2-b259-e2c1c3237b44-item-3"
+      ],
+      "disabled": true,
+      "settings": {
+        "color_scheme": "",
+        "item_color_scheme": "",
+        "separate_section_with_border": true
+      }
+    },
+    "779347ef-d01a-4844-998d-69651d5338c7": {
+      "type": "slideshow",
+      "blocks": {
+        "template--16872426733826__779347ef-d01a-4844-998d-69651d5338c7-image-1": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/Add_a_heading_15.png",
+            "subheading": "",
+            "title": "",
+            "mobile_text_position": "place-self-center text-center",
+            "desktop_text_position": "sm:place-self-center sm:text-center",
+            "content_max_width": 780,
+            "button_1_text": "",
+            "button_1_link": "",
+            "button_1_style": "solid",
+            "button_1_background": "#ffffff",
+            "button_1_text_color": "#000000",
+            "button_2_text": "",
+            "button_2_link": "",
+            "button_2_style": "outline",
+            "button_2_background": "#ffffff",
+            "button_2_text_color": "#000000",
+            "background": "",
+            "background_opacity": 50,
+            "text_color": "#ffffff",
+            "border_color": "",
+            "gradient_overlay": ""
+          }
+        }
+      },
+      "block_order": [
+        "template--16872426733826__779347ef-d01a-4844-998d-69651d5338c7-image-1"
+      ],
+      "disabled": true,
+      "settings": {
+        "allow_transparent_header": true,
+        "show_next_section_button": true,
+        "media_size": "auto",
+        "autoplay": true,
+        "autoplay_pause_on_video": true,
+        "cycle_speed": 5,
+        "background": "#000000",
+        "controls_color": "#ffffff"
+      }
+    }
+  },
+  "order": [
+    "029a3859-68e8-4eac-b938-c3d24c72da0c",
+    "main",
+    "e74f3b22-7c34-41f2-b259-e2c1c3237b44",
+    "779347ef-d01a-4844-998d-69651d5338c7"
+  ]
+}

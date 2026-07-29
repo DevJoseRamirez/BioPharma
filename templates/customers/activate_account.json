@@ -10,11 +10,8 @@
 {
   "sections": {
     "main": {
-      "type": "main-activate-account",
-      "settings": {
-        "padding_top": 36,
-        "padding_bottom": 36
-      }
+      "type": "main-customers-activate-account",
+      "settings": {}
     }
   },
   "order": [

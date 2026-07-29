@@ -1,32 +1,122 @@
-{% comment %}
-  Renders a swatch component.
-  Accepts:
-  - swatch: {Object} a swatch object
-  - shape: {String} swatch shape. Accepts 'square', defaults to circle.
+{%- comment -%}
+----------------------------------------------------------------------------------------------------------------------
+OPTION SWATCH
+----------------------------------------------------------------------------------------------------------------------
 
-  Usage:
-  {% render 'swatch',
-    swatch: value.swatch
-    shape: 'square'
-  %}
-{% endcomment %}
+This component renders a single option swatch. The supported options depend on the type of swatch.
+
+********************************************
+Supported variables
+********************************************
+
+* selected: if set to true, this swatch is preselected
+* allow_multiple: if set to true, it allows several values to be selected (by using a checkbox instead of radio)
+* value: the color value
+* name: the name attribute when field is submitted
+* form: the form ID that this swatch is linked to
+* disabled: if set to true, this swatch is disabled
+* href: if defined, the swatch will be outputted as a link instead of an input (most of the other attributes are ignored)
+* id_prefix: an optional prefix to be used to dissociate the ID
+
+Media swatch specific parameters:
+
+* media: the media to use
+
+Block swatch specific parameters
+
+* show_color: if set to true, show the color as a small tile.
+
+Color swatch specific parameters:
+
+* show_tooltip: if set to true, display a tooltip on hover
+{%- endcomment -%}
+
+{%- capture id -%}swatch-{{ id_prefix }}-{{ section.id }}-{{ form }}-{{ name }}-{{ value | handle }}{%- endcapture -%}
 
 {%- liquid
-  assign swatch_value = null
-  if swatch.image
-    assign image_url = swatch.image | image_url: width: 50
-    assign swatch_value = 'url(' | append: image_url | append: ')'
-    assign swatch_focal_point = swatch.image.presentation.focal_point
-  elsif swatch.color
-    assign swatch_value = 'rgb(' | append: swatch.color.rgb | append: ')'
+  if swatch == 'color' or swatch == 'block' and show_color
+    assign swatch_config = settings.color_swatch_config | newline_to_br | split: '<br />'
+
+    assign value_downcase = value | downcase | strip
+    assign swatch_style = '--swatch-background: linear-gradient(to right, ' | append: value_downcase | append: ', ' | append: value_downcase | append: ')'
+
+    for swatch_item in swatch_config
+      assign swatch_parts = swatch_item | split: ':'
+      assign swatch_name = swatch_parts.first | downcase | strip
+
+      if value_downcase == swatch_name
+        assign swatch_value = swatch_parts.last | strip
+
+        if swatch_value contains '#'
+          assign swatch_style = '--swatch-background: linear-gradient(to right, ' | append: swatch_value | append: ', ' | append: swatch_value | append: ')'
+        elsif swatch_value contains 'linear-gradient('
+          assign swatch_style = '--swatch-background: ' | append: swatch_value
+        elsif images[swatch_value] != blank
+          assign swatch_image = images[swatch_value] | image_url: width: 72
+          assign swatch_style = '--swatch-background: url(' | append: swatch_image | append: ')'
+        endif
+
+        break
+      endif
+    endfor
   endif
 -%}
 
-<span
-  {% if swatch_value %}
-    class="swatch{% if shape == 'square' %} swatch--square{% endif %}"
-    style="--swatch--background: {{ swatch_value }};{% if swatch_focal_point %} --swatch-focal-point: {{ swatch_focal_point }};{% endif %}"
-  {% else %}
-    class="swatch swatch--unavailable{% if shape == 'square' %} swatch--square{% endif %}"
-  {% endif %}
-></span>
+{%- if href == blank -%}
+  <input class="sr-only" type="{% if allow_multiple %}checkbox{% else %}radio{% endif %}" name="{{ name }}" id="{{ id | escape }}" {% if form %}form="{{ form | escape }}"{% endif %} value="{{ value | escape }}" {% if disabled %}disabled{% endif %} {% if selected %}checked="checked"{% endif %}>
+{%- endif -%}
+
+{%- case swatch -%}
+  {%- when 'media' -%}
+    {%- if media != blank -%}
+      {%- if href == blank -%}
+        <label class="media-swatch" for="{{ id | escape }}" data-option-value>
+          <span class="sr-only">{{ value }}</span>
+          {{- media | image_url: width: media.width | image_tag: loading: 'lazy', sizes: '(max-width: 699px) 48px, 68px', widths: '48,68,96,136', class: 'object-cover' -}}
+        </label>
+      {%- else -%}
+        <a href="{{ href }}" class="media-swatch {% if selected %}is-selected{% endif %}">
+          <span class="sr-only">{{ value }}</span>
+          {{- media | image_url: width: media.width | image_tag: loading: 'lazy', sizes: '(max-width: 699px) 48px, 68px', widths: '48,68,96,136', class: 'object-cover' -}}
+        </a>
+      {%- endif -%}
+    {%- else -%}
+      <label class="block-swatch" for="{{ id | escape }}" data-option-value>{{ value }}</label>
+    {%- endif -%}
+
+  {%- when 'block' -%}
+    {%- assign white_label = 'general.label.white' | t | downcase -%}
+    {%- assign value_downcase = value | downcase -%}
+
+    {%- if href == blank -%}
+      <label class="block-swatch" for="{{ id | escape }}" data-option-value>
+        {%- if show_color -%}
+          <span class="block-swatch__color {% if white_label == value_downcase %}border{% endif %}" style="{{ swatch_style }}"></span>
+        {%- endif -%}
+
+        <span>{{ value }}</span>
+      </label>
+    {%- else -%}
+      <a href="{{ href }}" class="block-swatch {% if selected %}is-selected{% endif %}">
+        {%- if show_color -%}
+          <span class="block-swatch__color {% if settings.round_color_swatches %}rounded-full{% endif %} {% if white_label == value_downcase %}border{% endif %}" style="{{ swatch_style }}"></span>
+        {%- endif -%}
+
+        <span>{{ value }}</span>
+      </a>
+    {%- endif -%}
+
+  {%- when 'color' -%}
+    {%- assign white_label = 'general.label.white' | t | downcase -%}
+    {%- assign value_downcase = value | downcase -%}
+
+    {%- if href == blank -%}
+      <label class="color-swatch {% if settings.round_color_swatches %}rounded-full{% endif %} {% if white_label == value_downcase %}border{% endif %}" for="{{ id | escape }}" {% if show_tooltip %}data-tooltip="{{ value | escape }}"{% endif %} data-option-value style="{{ swatch_style }}">
+        <span class="sr-only">{{ value }}</span>
+      </label>
+    {%- else -%}
+      <a href="{{ href }}" class="color-swatch {% if selected %}is-selected{% endif %} {% if settings.round_color_swatches %}rounded-full{% endif %} {% if white_label == value_downcase %}border{% endif %}" {% if show_tooltip %}data-tooltip="{{ value | escape }}"{% endif %} style="{{ swatch_style }}">
+        <span class="sr-only">{{ value }}</span>
+      </a>
+    {%- endif -%}
+{%- endcase -%}

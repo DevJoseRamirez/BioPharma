@@ -9,76 +9,829 @@
  */
 {
   "sections": {
-    "image_banner": {
-      "type": "image-banner",
+    "slideshow": {
+      "type": "slideshow",
       "blocks": {
-        "heading": {
-          "type": "heading",
+        "e89706c1-a304-4c81-b15c-d04e238a7ecb": {
+          "type": "image",
           "settings": {
-            "heading": "Browse our latest products",
-            "heading_size": "h0"
-          }
-        },
-        "button": {
-          "type": "buttons",
-          "settings": {
-            "button_label_1": "Shop all",
-            "button_link_1": "shopify://collections/all",
-            "button_style_secondary_1": true,
-            "button_label_2": "",
-            "button_link_2": "",
-            "button_style_secondary_2": false
+            "image": "shopify://shop_images/science-backed_formulations_3200_x_1200_px_1.jpg",
+            "mobile_image": "shopify://shop_images/science-backed_formulations_1200_x_1600_px.jpg",
+            "subheading": "",
+            "title": "",
+            "mobile_text_position": "place-self-center-start text-start",
+            "desktop_text_position": "sm:place-self-end-center sm:text-center",
+            "content_max_width": 780,
+            "button_1_text": "",
+            "button_1_link": "shopify://products/nanogreens-green-apple",
+            "button_1_style": "solid",
+            "button_1_background": "#ffffff",
+            "button_1_text_color": "#000000",
+            "button_2_text": "",
+            "button_2_link": "shopify://products/nanogreens-strawberry",
+            "button_2_style": "outline",
+            "button_2_background": "#ffffff",
+            "button_2_text_color": "#000000",
+            "background": "",
+            "background_opacity": 1,
+            "text_color": "#ffffff",
+            "border_color": "",
+            "gradient_overlay": ""
           }
         }
       },
       "block_order": [
-        "heading",
-        "button"
+        "e89706c1-a304-4c81-b15c-d04e238a7ecb"
       ],
       "settings": {
-        "image_overlay_opacity": 40,
-        "image_height": "large",
-        "desktop_content_position": "bottom-center",
-        "show_text_box": false,
-        "image_behavior": "none",
-        "desktop_content_alignment": "center",
-        "color_scheme": "scheme-3",
-        "mobile_content_alignment": "center",
-        "stack_images_on_mobile": false,
-        "show_text_below": false
+        "allow_transparent_header": false,
+        "show_next_section_button": false,
+        "media_size": "fill",
+        "autoplay": true,
+        "autoplay_pause_on_video": true,
+        "cycle_speed": 4,
+        "background": "#000000",
+        "controls_color": "#ffffff"
       }
     },
-    "featured_collection": {
-      "type": "featured-collection",
+    "collection-list": {
+      "type": "collection-list",
+      "blocks": {
+        "collection-1": {
+          "type": "collection",
+          "settings": {
+            "color_scheme": "scheme-1",
+            "collection": "greens",
+            "expand_collection": false,
+            "content_position": "place-self-end-start text-start",
+            "subheading": "",
+            "title": "Greens + Reds",
+            "button_text": "",
+            "button_link": "",
+            "overlay_color": "#000000",
+            "overlay_opacity": 30
+          }
+        },
+        "collection-2": {
+          "type": "collection",
+          "settings": {
+            "color_scheme": "scheme-1",
+            "collection": "protein",
+            "expand_collection": false,
+            "content_position": "place-self-end-start text-start",
+            "subheading": "",
+            "title": "Proteins",
+            "button_text": "",
+            "button_link": "",
+            "overlay_color": "#000000",
+            "overlay_opacity": 30
+          }
+        },
+        "collection-3": {
+          "type": "collection",
+          "settings": {
+            "color_scheme": "scheme-1",
+            "collection": "fish-oil",
+            "expand_collection": false,
+            "content_position": "place-self-end-start text-start",
+            "subheading": "",
+            "title": "Omegas + Fish Oil",
+            "button_text": "",
+            "button_link": "",
+            "overlay_color": "#000000",
+            "overlay_opacity": 30
+          }
+        },
+        "collection-4": {
+          "type": "collection",
+          "settings": {
+            "color_scheme": "scheme-1",
+            "collection": "health-and-wellness",
+            "expand_collection": false,
+            "content_position": "place-self-end-start text-start",
+            "subheading": "",
+            "title": "Health + Wellness",
+            "button_text": "",
+            "button_link": "",
+            "overlay_color": "#000000",
+            "overlay_opacity": 30
+          }
+        }
+      },
+      "block_order": [
+        "collection-1",
+        "collection-2",
+        "collection-3",
+        "collection-4"
+      ],
+      "disabled": true,
       "settings": {
-        "title": "Featured products",
-        "heading_size": "h2",
-        "description": "",
-        "show_description": false,
-        "description_style": "body",
-        "collection": "all",
-        "products_to_show": 8,
-        "columns_desktop": 4,
+        "color_scheme": "scheme-2",
+        "separate_section_with_border": false,
+        "image_size": "auto",
+        "show_text_outside": true,
+        "space_items": true,
+        "stack_collections": true,
+        "collections_per_row_desktop": 4,
+        "subheading": "",
+        "title": "SHOP BY CATEGORY",
+        "content": ""
+      }
+    },
+    "1fbb6cee-4e56-4aa3-9a52-72fd791c83db": {
+      "type": "text-with-icons",
+      "blocks": {
+        "template--16872426602754__1fbb6cee-4e56-4aa3-9a52-72fd791c83db-item-1": {
+          "type": "item",
+          "settings": {
+            "icon": "picto-target",
+            "icon_width": 36,
+            "mobile_icon_width": 24,
+            "title": "Quality Obsessed",
+            "content": ""
+          }
+        },
+        "template--16872426602754__1fbb6cee-4e56-4aa3-9a52-72fd791c83db-item-2": {
+          "type": "item",
+          "settings": {
+            "icon": "picto-leaf",
+            "icon_width": 36,
+            "mobile_icon_width": 24,
+            "title": "Bioavailability",
+            "content": ""
+          }
+        },
+        "template--16872426602754__1fbb6cee-4e56-4aa3-9a52-72fd791c83db-item-3": {
+          "type": "item",
+          "settings": {
+            "icon": "picto-success",
+            "icon_width": 36,
+            "mobile_icon_width": 24,
+            "title": "Third Party Tested",
+            "content": ""
+          }
+        },
+        "7be1d4f2-10c8-475d-8b14-99ac5938914a": {
+          "type": "item",
+          "settings": {
+            "icon": "picto-love",
+            "icon_width": 36,
+            "mobile_icon_width": 24,
+            "title": "Made in San Diego",
+            "content": ""
+          }
+        },
+        "c4056273-e377-4536-885a-e09790da4a36": {
+          "type": "item",
+          "disabled": true,
+          "settings": {
+            "icon": "picto-document",
+            "icon_width": 24,
+            "mobile_icon_width": 24,
+            "title": "EXPERTLY FORMULATED",
+            "content": ""
+          }
+        }
+      },
+      "block_order": [
+        "template--16872426602754__1fbb6cee-4e56-4aa3-9a52-72fd791c83db-item-1",
+        "template--16872426602754__1fbb6cee-4e56-4aa3-9a52-72fd791c83db-item-2",
+        "template--16872426602754__1fbb6cee-4e56-4aa3-9a52-72fd791c83db-item-3",
+        "7be1d4f2-10c8-475d-8b14-99ac5938914a",
+        "c4056273-e377-4536-885a-e09790da4a36"
+      ],
+      "settings": {
+        "color_scheme": "scheme-2",
+        "separate_section_with_border": true,
+        "stack_on_mobile": true,
+        "icon_color": "#1c1c1c",
+        "text_color": "#1c1c1c",
+        "text_alignment": "center"
+      }
+    },
+    "image_with_text_overlay_gpqW6D": {
+      "type": "image-with-text-overlay",
+      "blocks": {
+        "heading_bYwC8z": {
+          "type": "heading",
+          "settings": {
+            "text": "",
+            "heading_tag": "h4"
+          }
+        },
+        "richtext_gMcYAG": {
+          "type": "richtext",
+          "settings": {
+            "content": ""
+          }
+        }
+      },
+      "block_order": [
+        "heading_bYwC8z",
+        "richtext_gMcYAG"
+      ],
+      "disabled": true,
+      "settings": {
+        "color_scheme": "",
+        "image_size": "auto",
+        "allow_transparent_header": false,
+        "reveal_on_scroll": true,
+        "remove_vertical_spacing": true,
+        "content_width": "md",
+        "mobile_text_position": "place-self-center text-center",
+        "desktop_text_position": "sm:place-self-center sm:text-center",
+        "overlay_color": "#000000",
+        "overlay_opacity": 0
+      }
+    },
+    "8a0e8e70-422c-4597-8351-e859cd47dd87": {
+      "type": "image-with-text-block",
+      "blocks": {
+        "template--16872426602754__8a0e8e70-422c-4597-8351-e859cd47dd87-subheading-1": {
+          "type": "subheading",
+          "settings": {
+            "text": "FORMULATED BY SCIENTISTS"
+          }
+        },
+        "template--16872426602754__8a0e8e70-422c-4597-8351-e859cd47dd87-richtext-1": {
+          "type": "richtext",
+          "settings": {
+            "content": "<p>Add your own custom content to give more information about your store, availability details...</p>"
+          }
+        }
+      },
+      "block_order": [
+        "template--16872426602754__8a0e8e70-422c-4597-8351-e859cd47dd87-subheading-1",
+        "template--16872426602754__8a0e8e70-422c-4597-8351-e859cd47dd87-richtext-1"
+      ],
+      "disabled": true,
+      "settings": {
+        "color_scheme": "",
+        "image_size": "sm",
+        "image": "shopify://shop_images/broccoli-pieces-on-green-surface.jpg",
+        "content_width": "sm",
+        "enable_parallax": true,
+        "remove_vertical_spacing": true
+      }
+    },
+    "8785e8b4-6b8f-4cf6-a835-4e7802e3d178": {
+      "type": "image-with-text-overlay",
+      "blocks": {
+        "template--16872426602754__8785e8b4-6b8f-4cf6-a835-4e7802e3d178-heading-1": {
+          "type": "heading",
+          "settings": {
+            "text": "Formulated  by scientists",
+            "heading_tag": "h1"
+          }
+        },
+        "template--16872426602754__8785e8b4-6b8f-4cf6-a835-4e7802e3d178-richtext-1": {
+          "type": "richtext",
+          "settings": {
+            "content": "<p>Add your own custom content to give more information about your store, availability details...</p>"
+          }
+        }
+      },
+      "block_order": [
+        "template--16872426602754__8785e8b4-6b8f-4cf6-a835-4e7802e3d178-heading-1",
+        "template--16872426602754__8785e8b4-6b8f-4cf6-a835-4e7802e3d178-richtext-1"
+      ],
+      "disabled": true,
+      "settings": {
+        "color_scheme": "",
+        "image_size": "auto",
+        "image": "shopify://shop_images/Untitled_design_-_2023-10-25T135416.209.png",
+        "allow_transparent_header": false,
+        "reveal_on_scroll": true,
+        "remove_vertical_spacing": true,
+        "content_width": "md",
+        "mobile_text_position": "place-self-center text-center",
+        "desktop_text_position": "sm:place-self-start sm:text-start",
+        "overlay_color": "#000000",
+        "overlay_opacity": 30
+      }
+    },
+    "68c26a30-c15d-4973-a4bf-a983d059d31d": {
+      "type": "rich-text",
+      "blocks": {
+        "template--16872426602754__68c26a30-c15d-4973-a4bf-a983d059d31d-heading-1": {
+          "type": "heading",
+          "settings": {
+            "text": "",
+            "heading_tag": "h1"
+          }
+        },
+        "template--16872426602754__68c26a30-c15d-4973-a4bf-a983d059d31d-richtext-1": {
+          "type": "richtext",
+          "settings": {
+            "content": "<h3><strong>We believe that daily health is the key to a happy and fulfilling life. That’s why we provide a diverse range of wellness products designed to support every aspect of your well-being. Whether it's powdered supplements or chewable gummies, our products help bridge nutrient gaps and lay the foundation for a healthier you</strong>.</h3>"
+          }
+        }
+      },
+      "block_order": [
+        "template--16872426602754__68c26a30-c15d-4973-a4bf-a983d059d31d-heading-1",
+        "template--16872426602754__68c26a30-c15d-4973-a4bf-a983d059d31d-richtext-1"
+      ],
+      "settings": {
+        "color_scheme": "scheme-2",
+        "separate_section_with_border": true,
+        "content_width": "sm",
+        "text_position": "start",
+        "remove_vertical_spacing": false
+      }
+    },
+    "ce05baa8-8b14-4699-8f6c-79e554966767": {
+      "type": "image-with-text",
+      "blocks": {
+        "ece6e5d6-a17d-42f8-ba88-d53a4703e566": {
+          "type": "heading",
+          "settings": {
+            "text": "our flagship product:",
+            "heading_tag": "h6"
+          }
+        },
+        "template--16872426602754__ce05baa8-8b14-4699-8f6c-79e554966767-heading-1": {
+          "type": "heading",
+          "settings": {
+            "text": "<em><strong>nanogreens</strong></em>",
+            "heading_tag": "h1"
+          }
+        },
+        "subheading_JRXjiA": {
+          "type": "subheading",
+          "settings": {
+            "text": "ESTABLISHED in  2010"
+          }
+        },
+        "template--16872426602754__ce05baa8-8b14-4699-8f6c-79e554966767-richtext-1": {
+          "type": "richtext",
+          "settings": {
+            "content": "<p>We go to great lengths to source the finest organic greens, fruits, and vegetables, carefully selected for their exceptional phytonutrient content. These ingredients are juiced and low-temperature freeze-dried to preserve their natural potency—delivering all the benefits of freshly juiced produce without the sugar, fiber, or excess water.</p>"
+          }
+        },
+        "9f253b57-8e4f-463c-8b30-0515d85e31f9": {
+          "type": "link",
+          "disabled": true,
+          "settings": {
+            "text": "SAVE NOW",
+            "url": "shopify://pages/subscribe-save"
+          }
+        },
+        "4d71fc05-c685-49f7-8a5c-3bd815037d48": {
+          "type": "button",
+          "settings": {
+            "style": "solid",
+            "text": "LEARN MORE",
+            "url": "shopify://products/nanogreens-green-apple",
+            "background": "",
+            "text_color": ""
+          }
+        }
+      },
+      "block_order": [
+        "ece6e5d6-a17d-42f8-ba88-d53a4703e566",
+        "template--16872426602754__ce05baa8-8b14-4699-8f6c-79e554966767-heading-1",
+        "subheading_JRXjiA",
+        "template--16872426602754__ce05baa8-8b14-4699-8f6c-79e554966767-richtext-1",
+        "9f253b57-8e4f-463c-8b30-0515d85e31f9",
+        "4d71fc05-c685-49f7-8a5c-3bd815037d48"
+      ],
+      "settings": {
         "color_scheme": "scheme-1",
-        "full_width": false,
-        "show_view_all": true,
-        "view_all_style": "solid",
-        "enable_desktop_slider": false,
-        "swipe_on_mobile": false,
-        "image_ratio": "adapt",
-        "image_shape": "default",
-        "show_secondary_image": true,
-        "show_vendor": false,
-        "show_rating": false,
-        "quick_add": "none",
-        "columns_mobile": "2",
-        "padding_top": 44,
-        "padding_bottom": 36
+        "separate_section_with_border": true,
+        "image": "shopify://shop_images/55_different_ingreidnes_4.png",
+        "reveal_on_scroll": true,
+        "image_position": "end",
+        "content_width": "sm",
+        "remove_vertical_spacing": true
+      }
+    },
+    "d6391080-5d6e-4596-8a0e-85c6449edc18": {
+      "type": "image-with-text",
+      "blocks": {
+        "template--16872426602754__d6391080-5d6e-4596-8a0e-85c6449edc18-heading-1": {
+          "type": "heading",
+          "settings": {
+            "text": "<em>AKA: SUPERFOODS</em>",
+            "heading_tag": "h2"
+          }
+        },
+        "template--16872426602754__d6391080-5d6e-4596-8a0e-85c6449edc18-richtext-1": {
+          "type": "richtext",
+          "settings": {
+            "content": "<p>Phytonutrients are natural compounds found in plants that serve as powerful antioxidants and detoxifiers, helping to protect them from environmental stressors. When we incorporate a diverse range of these plant-based nutrients into our diets, we benefit from the same protective and health-boosting properties!</p>"
+          }
+        },
+        "69bfc70f-d385-4796-b4bb-c427a4d24f15": {
+          "type": "link",
+          "disabled": true,
+          "settings": {
+            "text": "Build My CORE4",
+            "url": "shopify://products/core4-bundle"
+          }
+        },
+        "85756efa-46d0-4fbf-b8c8-a44f1c8c72f2": {
+          "type": "button",
+          "settings": {
+            "style": "solid",
+            "text": "Build My CORE4",
+            "url": "shopify://products/core4-bundle",
+            "background": "",
+            "text_color": ""
+          }
+        }
+      },
+      "block_order": [
+        "template--16872426602754__d6391080-5d6e-4596-8a0e-85c6449edc18-heading-1",
+        "template--16872426602754__d6391080-5d6e-4596-8a0e-85c6449edc18-richtext-1",
+        "69bfc70f-d385-4796-b4bb-c427a4d24f15",
+        "85756efa-46d0-4fbf-b8c8-a44f1c8c72f2"
+      ],
+      "settings": {
+        "color_scheme": "scheme-1",
+        "separate_section_with_border": true,
+        "image": "shopify://shop_images/what_are_phytonurients.jpg",
+        "reveal_on_scroll": true,
+        "image_position": "start",
+        "content_width": "sm",
+        "remove_vertical_spacing": true
+      }
+    },
+    "multi-column": {
+      "type": "multi-column",
+      "blocks": {
+        "column-1": {
+          "type": "image_with_text",
+          "settings": {
+            "image": "shopify://shop_images/proteins.jpg",
+            "title": "",
+            "heading_tag": "h4",
+            "content": "<p>nanoPRO</p>",
+            "link_url": "shopify://products/nanopro-vanilla",
+            "link_text": ""
+          }
+        },
+        "column-2": {
+          "type": "image_with_text",
+          "settings": {
+            "image": "shopify://shop_images/proteins_1.jpg",
+            "title": "",
+            "heading_tag": "h2",
+            "content": "<p>nanOMEGA</p>",
+            "link_url": "shopify://products/nanomega-pineapple-orange",
+            "link_text": ""
+          }
+        },
+        "column-3": {
+          "type": "image_with_text",
+          "settings": {
+            "image": "shopify://shop_images/proteins_2.jpg",
+            "title": "",
+            "heading_tag": "h2",
+            "content": "<p>nanoLEAN</p>",
+            "link_url": "shopify://products/nanolean-natural-berry",
+            "link_text": ""
+          }
+        },
+        "image_with_text_d9cp4w": {
+          "type": "image_with_text",
+          "settings": {
+            "image": "shopify://shop_images/proteins_3.jpg",
+            "title": "",
+            "heading_tag": "h3",
+            "content": "<p>nanoGLUCO</p>",
+            "link_url": "shopify://products/nanogluco-control-capsules",
+            "link_text": ""
+          }
+        }
+      },
+      "block_order": [
+        "column-1",
+        "column-2",
+        "column-3",
+        "image_with_text_d9cp4w"
+      ],
+      "settings": {
+        "color_scheme": "scheme-2",
+        "separate_section_with_border": true,
+        "columns_per_row": 4,
+        "stack_on_mobile": false,
+        "overlap_image": false,
+        "content_alignment": "center",
+        "text_alignment": "center",
+        "spacing": "xs",
+        "subheading": "our brand grew",
+        "title": "<em>we expanded our line to deliver the foundation for better health</em>",
+        "content": ""
+      }
+    },
+    "before-after": {
+      "type": "before-after",
+      "blocks": {
+        "before": {
+          "type": "before",
+          "settings": {
+            "color_scheme": "",
+            "text": "Before",
+            "link_text": "",
+            "link_url": "",
+            "link_style": "link"
+          }
+        },
+        "after": {
+          "type": "after",
+          "settings": {
+            "color_scheme": "",
+            "text": "After",
+            "link_text": "",
+            "link_url": "",
+            "link_style": "link"
+          }
+        }
+      },
+      "block_order": [
+        "before",
+        "after"
+      ],
+      "disabled": true,
+      "settings": {
+        "color_scheme": "",
+        "separate_section_with_border": true,
+        "subheading": "",
+        "title": "Before/after",
+        "content": "<p>Showcase your product benefit by using before/after image comparison.</p>",
+        "cursor_direction": "horizontal",
+        "cursor_initial_position": 50,
+        "cursor_background": "#ffffff",
+        "cursor_arrows_color": "#000000"
+      }
+    },
+    "image-with-text-scroll": {
+      "type": "images-with-text-scroll",
+      "blocks": {
+        "item-1": {
+          "type": "image_with_text",
+          "settings": {
+            "image": "shopify://shop_images/healthy-green-juice-on-ice.jpg",
+            "subheading": "",
+            "title": "Enhanced Bioavailability",
+            "content": "<p>Welcome your customers to your store by sharing temporary offers or explaining to them what your products are about.</p>",
+            "link_text": "",
+            "link_url": "",
+            "link_style": "solid"
+          }
+        },
+        "item-2": {
+          "type": "image_with_text",
+          "settings": {
+            "image": "shopify://shop_images/NL1.jpg",
+            "subheading": "",
+            "title": "Taste is everything",
+            "content": "<p>Create trust with your customers by explaining the story of your brand. Share your values or what is important to you.</p>",
+            "link_text": "",
+            "link_url": "",
+            "link_style": "solid"
+          }
+        },
+        "item-3": {
+          "type": "image_with_text",
+          "settings": {
+            "image": "shopify://shop_images/kjjkjk.jpg",
+            "subheading": "",
+            "title": "quality ingredient",
+            "content": "<p>Share information about your product with your customers. Describe a product, and share info about your production process...</p>",
+            "link_text": "",
+            "link_url": "",
+            "link_style": "solid"
+          }
+        }
+      },
+      "block_order": [
+        "item-1",
+        "item-2",
+        "item-3"
+      ],
+      "disabled": true,
+      "settings": {
+        "color_scheme": "",
+        "background_image": "shopify://shop_images/Untitled_design_-_2023-10-18T134216.485.png",
+        "image_position": "start",
+        "text_alignment": "center",
+        "heading_tag": "h3",
+        "overlay_color": "#000000",
+        "overlay_opacity": 0
+      }
+    },
+    "multiple-media-with-text": {
+      "type": "multiple-media-with-text",
+      "blocks": {
+        "image-1": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/Untitled_design_-_2023-11-08T154811.286.png",
+            "rotation": 0
+          }
+        },
+        "image-2": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/Untitled_design_80.png",
+            "rotation": 0
+          }
+        }
+      },
+      "block_order": [
+        "image-1",
+        "image-2"
+      ],
+      "settings": {
+        "color_scheme": "scheme-2",
+        "reveal_on_scroll": true,
+        "separate_section_with_border": true,
+        "media_position_desktop": "before_text",
+        "media_position_mobile": "before_text",
+        "media_layout": "overlap",
+        "media_alignment": "center",
+        "media_alignment_offset": 0,
+        "media_mobile_alignment_offset": 0,
+        "text_alignment": "center",
+        "subheading": "INVEST IN YOURSELF",
+        "title": "SUBSCRIBE & SAVE",
+        "content": "<p>SAVE 15% ON EVERY ORDER! </p>",
+        "button_1_text": "SHOP NOW",
+        "button_1_link": "shopify://pages/subscribe-save",
+        "button_1_style": "solid",
+        "button_2_text": "",
+        "button_2_link": "",
+        "button_2_style": "solid"
+      }
+    },
+    "shop-the-look": {
+      "type": "shop-the-look",
+      "blocks": {
+        "look-1": {
+          "type": "look",
+          "settings": {
+            "image": "shopify://shop_images/Untitled_design_-_2023-09-12T144917.481.png",
+            "hot_spots_background": "#ffffff",
+            "product_1": "nanopro-vanilla",
+            "product_1_horizontal_position": 53,
+            "product_1_vertical_position": 42,
+            "product_2": "",
+            "product_2_horizontal_position": 25,
+            "product_2_vertical_position": 40,
+            "product_3": "",
+            "product_3_horizontal_position": 65,
+            "product_3_vertical_position": 60,
+            "product_4": "",
+            "product_4_horizontal_position": 85,
+            "product_4_vertical_position": 85
+          }
+        }
+      },
+      "block_order": [
+        "look-1"
+      ],
+      "settings": {
+        "color_scheme": "scheme-2",
+        "separate_section_with_border": true,
+        "subheading": "New look, same great taste and quality you're used to",
+        "title": "NEW LABEL DESIGN",
+        "content": "",
+        "popover_title": "Shop the look"
+      }
+    },
+    "f3299dc4-3f8b-44b7-8045-122bdb100c79": {
+      "type": "rich-text",
+      "blocks": {
+        "template--16872426602754__f3299dc4-3f8b-44b7-8045-122bdb100c79-heading-1": {
+          "type": "heading",
+          "settings": {
+            "text": "SUBSCRIBE & SAVE",
+            "heading_tag": "h4"
+          }
+        },
+        "template--16872426602754__f3299dc4-3f8b-44b7-8045-122bdb100c79-richtext-1": {
+          "type": "richtext",
+          "settings": {
+            "content": "<h1>15% OFF EVERY ORDER WHEN YOU SUBSCRIBE</h1>"
+          }
+        },
+        "bf0b7033-f30c-4db3-94a3-6d0f556e7955": {
+          "type": "richtext",
+          "settings": {
+            "content": "<h5>save by getting delivered to your doorstep every month</h5>"
+          }
+        },
+        "70047424-cf91-4988-a1ec-9df485f91db2": {
+          "type": "button",
+          "settings": {
+            "style": "solid",
+            "text": "Subscribe & Save",
+            "url": "",
+            "background": "",
+            "text_color": ""
+          }
+        }
+      },
+      "block_order": [
+        "template--16872426602754__f3299dc4-3f8b-44b7-8045-122bdb100c79-heading-1",
+        "template--16872426602754__f3299dc4-3f8b-44b7-8045-122bdb100c79-richtext-1",
+        "bf0b7033-f30c-4db3-94a3-6d0f556e7955",
+        "70047424-cf91-4988-a1ec-9df485f91db2"
+      ],
+      "disabled": true,
+      "settings": {
+        "color_scheme": "scheme-2",
+        "separate_section_with_border": true,
+        "content_width": "sm",
+        "text_position": "center",
+        "remove_vertical_spacing": false
+      }
+    },
+    "blog-posts": {
+      "type": "blog-posts",
+      "disabled": true,
+      "settings": {
+        "color_scheme": "scheme-2",
+        "separate_section_with_border": true,
+        "blog": "lifelong-wellness-made-easy",
+        "posts_count": 3,
+        "stack_on_mobile": true,
+        "show_category": false,
+        "show_excerpt": true,
+        "show_read_more": true,
+        "subheading": "",
+        "title": "Blog posts",
+        "content": "",
+        "button_link": "",
+        "button_text": "View all"
+      }
+    },
+    "testimonials_gDXykN": {
+      "type": "testimonials",
+      "blocks": {
+        "testimonial_3jDEVt": {
+          "type": "testimonial",
+          "settings": {
+            "content": "<h6>I love nanogreens! I mix it in a cup with water, a bit of apple juice, a scoop of yogurt, and my lemon flavored fish oil. It’s actually really good!! The best green drink by far! I’ve been drinking it for years and I keep coming back to it!</h6>",
+            "logo_max_width": 140,
+            "logo_mobile_max_width": 100,
+            "author": "K G."
+          }
+        },
+        "testimonial_zAaWLN": {
+          "type": "testimonial",
+          "settings": {
+            "content": "<h6>I take this whenever I am feeling really depleted and low energy. Nano greens always delivers a good pick me up so I can go about my business. Every ingredient is recognizable good stuff. No chemicals! Great product.</h6>",
+            "logo_max_width": 140,
+            "logo_mobile_max_width": 100,
+            "author": "Beth G"
+          }
+        },
+        "testimonial_QVp3Vg": {
+          "type": "testimonial",
+          "settings": {
+            "content": "<h5>Nano greens is the most delicious and nutritious product I have ever used. Its amazing!!!!</h5>",
+            "logo_max_width": 140,
+            "logo_mobile_max_width": 100,
+            "author": "Michelle"
+          }
+        }
+      },
+      "block_order": [
+        "testimonial_3jDEVt",
+        "testimonial_zAaWLN",
+        "testimonial_QVp3Vg"
+      ],
+      "settings": {
+        "color_scheme": "scheme-4",
+        "separate_section_with_border": true,
+        "auto_rotate_between_testimonials": true,
+        "cycle_speed": 5,
+        "font_size_factor": 1,
+        "subheading": "",
+        "title": "Customer Reviews:",
+        "content": ""
       }
     }
   },
   "order": [
-    "image_banner",
-    "featured_collection"
+    "slideshow",
+    "collection-list",
+    "1fbb6cee-4e56-4aa3-9a52-72fd791c83db",
+    "image_with_text_overlay_gpqW6D",
+    "8a0e8e70-422c-4597-8351-e859cd47dd87",
+    "8785e8b4-6b8f-4cf6-a835-4e7802e3d178",
+    "68c26a30-c15d-4973-a4bf-a983d059d31d",
+    "ce05baa8-8b14-4699-8f6c-79e554966767",
+    "d6391080-5d6e-4596-8a0e-85c6449edc18",
+    "multi-column",
+    "before-after",
+    "image-with-text-scroll",
+    "multiple-media-with-text",
+    "shop-the-look",
+    "f3299dc4-3f8b-44b7-8045-122bdb100c79",
+    "blog-posts",
+    "testimonials_gDXykN"
   ]
 }

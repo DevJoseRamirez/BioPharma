@@ -1,0 +1,334 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "title": {
+          "type": "title",
+          "settings": {
+            "heading_tag": "h3"
+          }
+        },
+        "e5eae85b-1e9a-4732-9c53-e8c283312891": {
+          "type": "rating",
+          "settings": {
+            "show_empty": false,
+            "rating_mode": "rating"
+          }
+        },
+        "price": {
+          "type": "price",
+          "settings": {
+            "show_taxes_notice": false
+          }
+        },
+        "cd1c614d-685b-4401-8008-351ee86c6f8e": {
+          "type": "reviews",
+          "disabled": true,
+          "settings": {
+            "show_star_icon": false,
+            "liquid": "<div id=\"shopify-product-reviews\" data-id=\"{{ product.id }}\">{{ product.metafields.spr.reviews }}</div>"
+          }
+        },
+        "payment_terms": {
+          "type": "payment_terms",
+          "settings": {}
+        },
+        "separator": {
+          "type": "separator",
+          "settings": {}
+        },
+        "4fdaf462-62c5-44ce-bf60-14dca0ba0047": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Creatine is one of the most studied and trusted supplements in sports nutrition. Found naturally in your muscles and brain, creatine fuels energy production, supports muscle growth, and enhances recovery. But most people don’t get enough from diet alone. That’s why we created <strong>NanoCreatine</strong>—a clean, unflavored, 100% pure creatine monohydrate designed to elevate your performance and support your overall health.<br/></p>"
+          }
+        },
+        "variant_picker": {
+          "type": "variant_picker",
+          "settings": {
+            "hide_sold_out_variants": false,
+            "selector_type": "dropdown",
+            "color_selector_type": "color",
+            "size_chart_page": ""
+          }
+        },
+        "quantity_selector": {
+          "type": "quantity_selector",
+          "settings": {}
+        },
+        "buy_buttons": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_payment_button": true,
+            "show_gift_card_recipient": true,
+            "atc_button_background": "",
+            "atc_button_text_color": "",
+            "payment_button_background": "",
+            "payment_button_text_color": ""
+          }
+        },
+        "complementary_products": {
+          "type": "complementary_products",
+          "settings": {
+            "title": "Pairs well with",
+            "products_count": 2,
+            "show_below_gallery": true,
+            "stack_products": false,
+            "show_quick_buy": true
+          }
+        },
+        "e89ef5be-5725-4ecb-8ec5-661b8e82a1ca": {
+          "type": "feature_with_icon",
+          "disabled": true,
+          "settings": {
+            "text": "Feature",
+            "link": "",
+            "icon": "picto-award-gift",
+            "icon_width": 16,
+            "background": "#f8f4ec",
+            "text_color": "#6b6b6b",
+            "border_color": ""
+          }
+        },
+        "b9345515-f7f7-4bdd-b1ba-90f4c9669832": {
+          "type": "more_information",
+          "disabled": true,
+          "settings": {
+            "text": "More information"
+          }
+        },
+        "f156a492-6b11-4eee-8e9d-69feae9fb2a7": {
+          "type": "accordion",
+          "settings": {
+            "show_below_gallery": true,
+            "icon": "none",
+            "title": "<strong>+ How to use</strong>",
+            "content": "<p><strong>+ </strong>2 scoops taken 1 to 2 times daily. Creatine dissolves easily into any beverage. It can be added to water, smoothies, juice, or nanogreens.<br/></p><p><strong>+</strong> We recommend taking it every day (even when you’re not working out) to increase your body’s creatine stores and optimize the cognitive benefits.<br/><br/></p><p><strong>Pro Tips:</strong></p><p><strong>+ </strong>Take 30 minutes before and or after training</p><p><strong>+</strong> Can mix with juice or high carbohydrate beverage</p><p>+ Do not exceed 10 grams per day</p>",
+            "page": ""
+          }
+        },
+        "272d0ae5-3ddd-40d0-b629-b5a263f2ffc4": {
+          "type": "accordion",
+          "settings": {
+            "show_below_gallery": true,
+            "icon": "none",
+            "title": "<strong>+ Key Ingredients</strong>",
+            "content": "<p><strong>+ Creatine Monohydrate Powder: (5 grams) </strong>One of the most studied and scientifically validated fitness supplements, creatine helps build lean muscle, improve strength and endurance, and support brain health.<br/></p>",
+            "page": ""
+          }
+        },
+        "55afab39-f126-4571-af89-3d32311cb2e6": {
+          "type": "accordion",
+          "settings": {
+            "show_below_gallery": true,
+            "icon": "none",
+            "title": "<strong>+ Benefits</strong>",
+            "content": "<p><strong>+ Supports Lean Muscle Growth: </strong>Creatine helps muscles retain water, creating an environment that supports strength and healthy muscle development.<br/></p><p><strong>+ Supports Cognitive Performance: </strong>Research suggests creatine plays a role in cellular energy, which may support focus and mental clarity.<br/></p><p><strong>+ Helps With Post-Exercise Recovery: </strong>Reduces muscle fatigue and soreness so you can train more consistently.<br/></p><p><strong>+ Supports Strength and Power Output: </strong>Creatine helps regenerate ATP, your body’s primary energy currency, so your muscles can push harder and recover faster.</p><p>+ <strong>Safe and Effective: </strong>One of the most researched supplements in the world<br/></p><p><br/>These statements have not been evaluated by the Food and Drug Administration. This product is not intended to diagnose, treat, cure, or prevent any disease.<br/><br/><br/></p>",
+            "page": ""
+          }
+        }
+      },
+      "block_order": [
+        "title",
+        "e5eae85b-1e9a-4732-9c53-e8c283312891",
+        "price",
+        "cd1c614d-685b-4401-8008-351ee86c6f8e",
+        "payment_terms",
+        "separator",
+        "4fdaf462-62c5-44ce-bf60-14dca0ba0047",
+        "variant_picker",
+        "quantity_selector",
+        "buy_buttons",
+        "complementary_products",
+        "e89ef5be-5725-4ecb-8ec5-661b8e82a1ca",
+        "b9345515-f7f7-4bdd-b1ba-90f4c9669832",
+        "f156a492-6b11-4eee-8e9d-69feae9fb2a7",
+        "272d0ae5-3ddd-40d0-b629-b5a263f2ffc4",
+        "55afab39-f126-4571-af89-3d32311cb2e6"
+      ],
+      "settings": {
+        "color_scheme": "scheme-2",
+        "container_size": "lg",
+        "product_info_size": 35,
+        "show_sticky_add_to_cart": false,
+        "center_basic_info": false,
+        "desktop_media_layout": "carousel_thumbnails_left",
+        "desktop_media_grid_gap": 30,
+        "mobile_controls": "dots",
+        "enable_media_autoplay": false,
+        "enable_video_looping": true,
+        "enable_image_zoom": true,
+        "max_image_zoom_level": 3
+      }
+    },
+    "image_with_text_overlay_wmV7YR": {
+      "type": "image-with-text-overlay",
+      "blocks": {
+        "heading_deD87J": {
+          "type": "heading",
+          "settings": {
+            "text": "",
+            "heading_tag": "h4"
+          }
+        },
+        "richtext_xbmFNt": {
+          "type": "richtext",
+          "settings": {
+            "content": ""
+          }
+        }
+      },
+      "block_order": [
+        "heading_deD87J",
+        "richtext_xbmFNt"
+      ],
+      "settings": {
+        "color_scheme": "",
+        "image_size": "auto",
+        "image": "shopify://shop_images/KEY_INGREDIENTS_25.png",
+        "allow_transparent_header": false,
+        "reveal_on_scroll": true,
+        "remove_vertical_spacing": true,
+        "content_width": "md",
+        "mobile_text_position": "place-self-center text-center",
+        "desktop_text_position": "sm:place-self-center sm:text-center",
+        "overlay_color": "#000000",
+        "overlay_opacity": 0
+      }
+    },
+    "faq_Cd3ntF": {
+      "type": "faq",
+      "blocks": {
+        "category_DL84aL": {
+          "type": "category",
+          "settings": {
+            "title": "NANOCREATINE",
+            "icon": "none",
+            "icon_width": 16
+          }
+        },
+        "question_LUGqkW": {
+          "type": "question",
+          "settings": {
+            "question": "WHAT IS CREATINE?",
+            "answer": "<p>Creatine is a natural compound found in your muscles and brain. It helps produce energy (ATP) during exercise, supporting strength, power, and recovery. Supplementing with creatine monohydrate provides more of what your body needs to perform at its best.<br/> </p>"
+          }
+        },
+        "question_fTH78x": {
+          "type": "question",
+          "settings": {
+            "question": "IS CREATINE SAFE?",
+            "answer": "<p>Yes. Creatine monohydrate is one of the most studied supplements in the world, with decades of clinical research confirming its safety when taken as directed.</p>"
+          }
+        },
+        "question_Bxtnhn": {
+          "type": "question",
+          "settings": {
+            "question": "WILL CREATINE MAKE ME BULKY?",
+            "answer": "<p>No. Creatine helps support lean muscle growth by fueling your workouts and hydrating your muscles, but it won’t cause unwanted bulk. It supports natural strength and performance—how your body responds depends on your training style and nutrition.<br/></p>"
+          }
+        },
+        "question_8gzAx9": {
+          "type": "question",
+          "settings": {
+            "question": "DOES CREATINE CAUSE BLOATING?",
+            "answer": "<p>Creatine pulls water into your muscle cells, which may make muscles look fuller and more hydrated. This is not “bloating” in the stomach—it’s intracellular hydration that actually benefits performance and recovery.<br/></p>"
+          }
+        },
+        "question_Ei38Jn": {
+          "type": "question",
+          "settings": {
+            "question": "WHO CAN TAKE CREATINE?",
+            "answer": "<p>Creatine is beneficial for athletes, fitness enthusiasts, and even older adults looking to support muscle health and cognitive function. It’s safe for both men and women.<br/></p>"
+          }
+        },
+        "question_tVVfFQ": {
+          "type": "question",
+          "settings": {
+            "question": "CAN I MIX NANOCREATINE WITH OTHER PRODUCTS?",
+            "answer": "<p>Yes. NanoCreatine is unflavored and easily mixes into water, juice, or your favorite BioPharma Scientific product like NanoGreens, NanoPro, or NanoMeal.<br/><br/></p>"
+          }
+        },
+        "question_JQTtcB": {
+          "type": "question",
+          "settings": {
+            "question": "HOW LONG DOES IT TAKE TO SEE RESULTS?",
+            "answer": "<p>Most people notice improved strength, energy, and recovery within 2–4 weeks of daily use.<br/><br/></p>"
+          }
+        }
+      },
+      "block_order": [
+        "category_DL84aL",
+        "question_LUGqkW",
+        "question_fTH78x",
+        "question_Bxtnhn",
+        "question_8gzAx9",
+        "question_Ei38Jn",
+        "question_tVVfFQ",
+        "question_JQTtcB"
+      ],
+      "settings": {
+        "color_scheme": "",
+        "separate_section_with_border": true,
+        "show_categories": false,
+        "subheading": "Need help?",
+        "title": "Frequently Asked Questions",
+        "content": ""
+      }
+    },
+    "related-products": {
+      "type": "related-products",
+      "settings": {
+        "color_scheme": "scheme-2",
+        "separate_section_with_border": true,
+        "hide_product_information": false,
+        "stack_products": false,
+        "recommendations_count": 10,
+        "products_per_row_mobile": "2",
+        "products_per_row_desktop": 4,
+        "horizontal_spacing_factor": 1,
+        "vertical_spacing_factor": 1,
+        "subheading": "",
+        "title": "Related products",
+        "content": ""
+      }
+    },
+    "1698782823c8484977": {
+      "type": "apps",
+      "blocks": {
+        "d7ef6148-1ddb-417a-9c81-a90f76078b00": {
+          "type": "shopify://apps/yotpo-product-reviews/blocks/reviews/eb7dfd7d-db44-4334-bc49-c893b51b36cf",
+          "settings": {
+            "product": "{{product}}"
+          }
+        }
+      },
+      "block_order": [
+        "d7ef6148-1ddb-417a-9c81-a90f76078b00"
+      ],
+      "settings": {
+        "color_scheme": "scheme-2",
+        "separate_section_with_border": false,
+        "remove_vertical_spacing": true,
+        "remove_horizontal_spacing": false
+      }
+    }
+  },
+  "order": [
+    "main",
+    "image_with_text_overlay_wmV7YR",
+    "faq_Cd3ntF",
+    "related-products",
+    "1698782823c8484977"
+  ]
+}

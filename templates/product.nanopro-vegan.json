@@ -1,0 +1,310 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "title": {
+          "type": "title",
+          "settings": {
+            "heading_tag": "h3"
+          }
+        },
+        "e5eae85b-1e9a-4732-9c53-e8c283312891": {
+          "type": "rating",
+          "settings": {
+            "show_empty": false,
+            "rating_mode": "rating"
+          }
+        },
+        "price": {
+          "type": "price",
+          "settings": {
+            "show_taxes_notice": false
+          }
+        },
+        "cd1c614d-685b-4401-8008-351ee86c6f8e": {
+          "type": "reviews",
+          "disabled": true,
+          "settings": {
+            "show_star_icon": false,
+            "liquid": "<div id=\"shopify-product-reviews\" data-id=\"{{ product.id }}\">{{ product.metafields.spr.reviews }}</div>"
+          }
+        },
+        "payment_terms": {
+          "type": "payment_terms",
+          "settings": {}
+        },
+        "separator": {
+          "type": "separator",
+          "settings": {}
+        },
+        "4fdaf462-62c5-44ce-bf60-14dca0ba0047": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Nanopro Vegan is made from high-quality, non-GMO American yellow pea, brown rice, and chia seed, it delivers a complete amino acid profile comparable to whey protein. We’ve also enhanced Nanopro Vegan with Ashwagandha and vegan D3, providing added benefits for muscle recovery, immune support, stress reduction, and lower cortisol levels. Whether you're building muscle or accelerating post-workout recovery, Nanopro Vegan is expertly designed to support your fitness goals.</p>"
+          }
+        },
+        "variant_picker": {
+          "type": "variant_picker",
+          "settings": {
+            "hide_sold_out_variants": false,
+            "selector_type": "dropdown",
+            "color_selector_type": "color",
+            "size_chart_page": ""
+          }
+        },
+        "quantity_selector": {
+          "type": "quantity_selector",
+          "settings": {}
+        },
+        "buy_buttons": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_payment_button": true,
+            "show_gift_card_recipient": true,
+            "atc_button_background": "",
+            "atc_button_text_color": "",
+            "payment_button_background": "",
+            "payment_button_text_color": ""
+          }
+        },
+        "complementary_products": {
+          "type": "complementary_products",
+          "settings": {
+            "title": "Pairs well with",
+            "products_count": 2,
+            "show_below_gallery": true,
+            "stack_products": false,
+            "show_quick_buy": true
+          }
+        },
+        "e89ef5be-5725-4ecb-8ec5-661b8e82a1ca": {
+          "type": "feature_with_icon",
+          "disabled": true,
+          "settings": {
+            "text": "Feature",
+            "link": "",
+            "icon": "picto-award-gift",
+            "icon_width": 16,
+            "background": "#f8f4ec",
+            "text_color": "#6b6b6b",
+            "border_color": ""
+          }
+        },
+        "b9345515-f7f7-4bdd-b1ba-90f4c9669832": {
+          "type": "more_information",
+          "disabled": true,
+          "settings": {
+            "text": "More information"
+          }
+        },
+        "f156a492-6b11-4eee-8e9d-69feae9fb2a7": {
+          "type": "accordion",
+          "settings": {
+            "show_below_gallery": true,
+            "icon": "none",
+            "title": "<strong>+ How to use</strong>",
+            "content": "<p><strong>+</strong> Mix one scoop of Nanopro Vegan with 6-8 ounces of COLD water, milk, or your smoothie.</p><p><strong>+</strong> Shake briskly, blend in a blender bottle or us an electric mixer</p><p><strong>+ </strong>Enjoy it as a nutritious breakfast, post-workout recovery drink, or a healthy snack any time of the day</p><p><strong>Pro Tips:</strong></p><p><strong>+</strong> Cold water</p><p><strong>+ </strong>Add to smoothie, unsweetened almond milk, or coconut milk </p><p><strong>+</strong> Mix with nanogreens & nanomega to get a nice fruity flavor</p>",
+            "page": ""
+          }
+        },
+        "272d0ae5-3ddd-40d0-b629-b5a263f2ffc4": {
+          "type": "accordion",
+          "settings": {
+            "show_below_gallery": true,
+            "icon": "none",
+            "title": "<strong>+ Key Ingredients</strong>",
+            "content": "<p><strong>+ Ashwagandha: </strong>A powerful adaptogen that helps the body manage stress, supports cognitive function, and boosts energy levels.</p><p><strong>+ Vegan D3: </strong>A plant-based form of vitamin D3 that supports bone health, immune function, and mood regulation. It is essential for calcium absorption and maintaining healthy bones and teeth.</p><p><strong>+ ProHydrolase: </strong>A digestive enzyme that enhances protein absorption by breaking down protein into smaller, more easily absorbed amino acids. It improves digestion, reduces bloating, and maximizes the benefits of protein intake</p><p><strong>+ Maitake Mushroom:</strong> A medicinal mushroom known for its immune-boosting properties. It supports healthy immune function, may help regulate blood sugar levels, and provides antioxidant benefits.</p><p><strong>+ non-GMO American yellow pea, brown rice and chia seed: </strong>the amino acid profile comparable to whey and all wrapped up in a creamy vanilla toffee flavor</p>",
+            "page": ""
+          }
+        },
+        "55afab39-f126-4571-af89-3d32311cb2e6": {
+          "type": "accordion",
+          "settings": {
+            "show_below_gallery": true,
+            "icon": "none",
+            "title": "<strong>+ Benefits</strong>",
+            "content": "<p><strong>+ Muscle Recovery:</strong> Protein aids in the repair and regeneration of muscle tissue, reducing recovery time after workouts.</p><p><strong>+ Gut Health:</strong> Made with ingredients that support gut health promote a balanced digestive system by encouraging the growth of beneficial bacteria and improving nutrient absorption</p><p><strong>+ Clean Ingredients:</strong> High-quality protein provides essential amino acids that support muscle growth, tissue repair, and overall body function. It helps in building lean muscle, improving strength, and supporting long-term health.</p><p><strong>+ Immune Support:</strong> promotes faster recovery, balanced immune responses, and overall wellness by enhancing the body's natural defense mechanisms.</p>",
+            "page": ""
+          }
+        }
+      },
+      "block_order": [
+        "title",
+        "e5eae85b-1e9a-4732-9c53-e8c283312891",
+        "price",
+        "cd1c614d-685b-4401-8008-351ee86c6f8e",
+        "payment_terms",
+        "separator",
+        "4fdaf462-62c5-44ce-bf60-14dca0ba0047",
+        "variant_picker",
+        "quantity_selector",
+        "buy_buttons",
+        "complementary_products",
+        "e89ef5be-5725-4ecb-8ec5-661b8e82a1ca",
+        "b9345515-f7f7-4bdd-b1ba-90f4c9669832",
+        "f156a492-6b11-4eee-8e9d-69feae9fb2a7",
+        "272d0ae5-3ddd-40d0-b629-b5a263f2ffc4",
+        "55afab39-f126-4571-af89-3d32311cb2e6"
+      ],
+      "settings": {
+        "color_scheme": "scheme-2",
+        "container_size": "lg",
+        "product_info_size": 35,
+        "show_sticky_add_to_cart": false,
+        "center_basic_info": false,
+        "desktop_media_layout": "carousel_thumbnails_left",
+        "desktop_media_grid_gap": 30,
+        "mobile_controls": "dots",
+        "enable_media_autoplay": false,
+        "enable_video_looping": true,
+        "enable_image_zoom": true,
+        "max_image_zoom_level": 3
+      }
+    },
+    "image_with_text_overlay_wmV7YR": {
+      "type": "image-with-text-overlay",
+      "blocks": {
+        "heading_deD87J": {
+          "type": "heading",
+          "settings": {
+            "text": "",
+            "heading_tag": "h4"
+          }
+        },
+        "richtext_xbmFNt": {
+          "type": "richtext",
+          "settings": {
+            "content": ""
+          }
+        }
+      },
+      "block_order": [
+        "heading_deD87J",
+        "richtext_xbmFNt"
+      ],
+      "settings": {
+        "color_scheme": "",
+        "image_size": "auto",
+        "image": "shopify://shop_images/KEY_INGREDIENTS_11.png",
+        "allow_transparent_header": false,
+        "reveal_on_scroll": true,
+        "remove_vertical_spacing": true,
+        "content_width": "md",
+        "mobile_text_position": "place-self-center text-center",
+        "desktop_text_position": "sm:place-self-center sm:text-center",
+        "overlay_color": "#000000",
+        "overlay_opacity": 0
+      }
+    },
+    "faq_Cd3ntF": {
+      "type": "faq",
+      "blocks": {
+        "category_DL84aL": {
+          "type": "category",
+          "settings": {
+            "title": "NANOPRO VEGAN",
+            "icon": "none",
+            "icon_width": 16
+          }
+        },
+        "question_LUGqkW": {
+          "type": "question",
+          "settings": {
+            "question": "WHAT IS NANOPRO VEGAN?",
+            "answer": "<p>NanoPro Vegan is a plant-based protein supplement designed to support muscle recovery, energy, and overall wellness. It uses high-quality, vegan protein sources like pea protein, rice protein, or other plant-derived ingredients to provide a complete amino acid profile.</p>"
+          }
+        },
+        "question_fTH78x": {
+          "type": "question",
+          "settings": {
+            "question": "WHAT MAKES NANOPRO VEGAN DIFFERENT?",
+            "answer": "<p>NanoPro Vegan stands out because of its use of nanotechnology, which enhances the bioavailability of nutrients, ensuring better absorption and effectiveness. It is also formulated with a blend of additional nutrients or superfoods that go beyond basic protein supplementation, providing extra health benefits.</p>"
+          }
+        },
+        "question_Bxtnhn": {
+          "type": "question",
+          "settings": {
+            "question": "IS NANOPRO VEGAN GOOD FOR PEOPLE WITH DIETARY RESTRICTIONS?",
+            "answer": "<p>Yes, NanoPro Vegan is designed to be suitable for various dietary restrictions. It is free from dairy, soy, gluten, and animal products, making it an excellent choice for vegans, vegetarians, and individuals with lactose intolerance or gluten sensitivity.</p>"
+          }
+        },
+        "question_eiDm3C": {
+          "type": "question",
+          "settings": {
+            "question": "HOW MANY GRAMS OF PROTEIN PER SERVING?",
+            "answer": "<p>Nanopro Vegan contains 14g of protein per scoop.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "category_DL84aL",
+        "question_LUGqkW",
+        "question_fTH78x",
+        "question_Bxtnhn",
+        "question_eiDm3C"
+      ],
+      "settings": {
+        "color_scheme": "",
+        "separate_section_with_border": true,
+        "show_categories": false,
+        "subheading": "Need help?",
+        "title": "Frequently Asked Questions",
+        "content": ""
+      }
+    },
+    "related-products": {
+      "type": "related-products",
+      "settings": {
+        "color_scheme": "scheme-2",
+        "separate_section_with_border": true,
+        "hide_product_information": false,
+        "stack_products": false,
+        "recommendations_count": 10,
+        "products_per_row_mobile": "2",
+        "products_per_row_desktop": 4,
+        "horizontal_spacing_factor": 1,
+        "vertical_spacing_factor": 1,
+        "subheading": "",
+        "title": "Related products",
+        "content": ""
+      }
+    },
+    "1698782823c8484977": {
+      "type": "apps",
+      "blocks": {
+        "d7ef6148-1ddb-417a-9c81-a90f76078b00": {
+          "type": "shopify://apps/yotpo-product-reviews/blocks/reviews/eb7dfd7d-db44-4334-bc49-c893b51b36cf",
+          "settings": {
+            "product": "{{product}}"
+          }
+        }
+      },
+      "block_order": [
+        "d7ef6148-1ddb-417a-9c81-a90f76078b00"
+      ],
+      "settings": {
+        "color_scheme": "scheme-2",
+        "separate_section_with_border": false,
+        "remove_vertical_spacing": true,
+        "remove_horizontal_spacing": false
+      }
+    }
+  },
+  "order": [
+    "main",
+    "image_with_text_overlay_wmV7YR",
+    "faq_Cd3ntF",
+    "related-products",
+    "1698782823c8484977"
+  ]
+}

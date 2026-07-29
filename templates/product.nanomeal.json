@@ -1,0 +1,302 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "title": {
+          "type": "title",
+          "settings": {
+            "heading_tag": "h3"
+          }
+        },
+        "e5eae85b-1e9a-4732-9c53-e8c283312891": {
+          "type": "rating",
+          "settings": {
+            "show_empty": false,
+            "rating_mode": "rating"
+          }
+        },
+        "price": {
+          "type": "price",
+          "settings": {
+            "show_taxes_notice": false
+          }
+        },
+        "cd1c614d-685b-4401-8008-351ee86c6f8e": {
+          "type": "reviews",
+          "disabled": true,
+          "settings": {
+            "show_star_icon": false,
+            "liquid": "<div id=\"shopify-product-reviews\" data-id=\"{{ product.id }}\">{{ product.metafields.spr.reviews }}</div>"
+          }
+        },
+        "payment_terms": {
+          "type": "payment_terms",
+          "settings": {}
+        },
+        "separator": {
+          "type": "separator",
+          "settings": {}
+        },
+        "4fdaf462-62c5-44ce-bf60-14dca0ba0047": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Each box of NanoMeal contains 10 convenient travel packets, with each packet providing a single serving (1 scoop) of NanoGreens, NanoPro, and NanoOmega combined into one easy, all-in-one meal. We source our ingredients from some of the most nutrient-rich foods on the planet, including organic golden flax, hormone-free whey protein, organic soluble rice bran, and a vibrant mix of fruits and vegetables. This nutrient-dense, great-tasting meal delivers everything your body needs to support optimal health and well-being.</p><p><strong>Nanomeal </strong>= 1 scoop of Nanogreens+ Nanopro+ Nanomega.</p>"
+          }
+        },
+        "variant_picker": {
+          "type": "variant_picker",
+          "settings": {
+            "hide_sold_out_variants": false,
+            "selector_type": "dropdown",
+            "color_selector_type": "color",
+            "size_chart_page": ""
+          }
+        },
+        "quantity_selector": {
+          "type": "quantity_selector",
+          "settings": {}
+        },
+        "buy_buttons": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_payment_button": true,
+            "show_gift_card_recipient": true,
+            "atc_button_background": "",
+            "atc_button_text_color": "",
+            "payment_button_background": "",
+            "payment_button_text_color": ""
+          }
+        },
+        "complementary_products": {
+          "type": "complementary_products",
+          "settings": {
+            "title": "Pairs well with",
+            "products_count": 2,
+            "show_below_gallery": true,
+            "stack_products": false,
+            "show_quick_buy": true
+          }
+        },
+        "e89ef5be-5725-4ecb-8ec5-661b8e82a1ca": {
+          "type": "feature_with_icon",
+          "disabled": true,
+          "settings": {
+            "text": "Feature",
+            "link": "",
+            "icon": "picto-award-gift",
+            "icon_width": 16,
+            "background": "#f8f4ec",
+            "text_color": "#6b6b6b",
+            "border_color": ""
+          }
+        },
+        "b9345515-f7f7-4bdd-b1ba-90f4c9669832": {
+          "type": "more_information",
+          "disabled": true,
+          "settings": {
+            "text": "More information"
+          }
+        },
+        "f156a492-6b11-4eee-8e9d-69feae9fb2a7": {
+          "type": "accordion",
+          "settings": {
+            "show_below_gallery": true,
+            "icon": "none",
+            "title": "<strong>+ How to use</strong>",
+            "content": "<p><strong>+ </strong>Mix 1 packet of nanomeal with 12-16 ounces of COLD water</p><p><strong>+</strong> Shake briskly, blend in a blender bottle or us an electric mixer</p><p><strong>+ </strong>Sip and savor the refreshing taste of this nourishing blend while providing your body with all the essential plant nutrients it needs</p><p><strong>Pro Tips:</strong></p><p><strong>+</strong> Cold water</p><p><strong>+</strong>add to smoothie, unsweetened almond milk, or coconut milk </p><p><strong>+</strong> take first thing in the morning to alkalize, energize and give you what you need to get the day   started</p>",
+            "page": ""
+          }
+        },
+        "272d0ae5-3ddd-40d0-b629-b5a263f2ffc4": {
+          "type": "accordion",
+          "settings": {
+            "show_below_gallery": true,
+            "icon": "none",
+            "title": "<strong>+ Key Ingredients</strong>",
+            "content": "<p><strong>+ Nanogreens: </strong>A blend of over 55 organic fruits, vegetables, and superfoods designed to provide essential vitamins, minerals, and antioxidants. Nanogreens supports energy, immune function, and overall health by delivering the nutrients your body needs from nature’s most nutrient-rich foods.</p><p><strong>+ Nanopro PRP:</strong> A high-quality whey protein enhanced with Proline-Rich Polypeptides (PRPs) to support immune health, muscle recovery, and tissue repair. It aids in building lean muscle, reducing recovery time, and promoting overall vitality.</p><p><strong>+ Nanomega: </strong>A plant-based omega-3 supplement that provides essential fatty acids for heart, brain, and joint health. Nanomega helps reduce inflammation, supports cardiovascular function, and promotes healthy skin and brain function</p>",
+            "page": ""
+          }
+        },
+        "55afab39-f126-4571-af89-3d32311cb2e6": {
+          "type": "accordion",
+          "settings": {
+            "show_below_gallery": true,
+            "icon": "none",
+            "title": "<strong>+ Benefits</strong>",
+            "content": "<p><strong>+ Immune Health: </strong>Strengthens the body’s natural defense system, helping to protect against illness and infections while supporting overall wellness.</p><p><strong>+ Detoxification: </strong>Aids the body in eliminating toxins and waste, promoting a cleaner internal environment for improved function.</p><p><strong>+ Digestive Health: </strong>Supports a healthy digestive system by promoting nutrient absorption, balancing gut bacteria, and reducing bloating.</p><p><strong>+ Heart Health: </strong>Promotes cardiovascular function by supporting healthy cholesterol levels, blood pressure, and circulation for a strong heart.</p><p><strong>+ Brain Health: </strong>Enhances cognitive function, memory, and mental clarity by supporting overall brain health and reducing oxidative stress.</p><p><strong>+ Vision Health: </strong>Helps protect and maintain eye health, supporting clear vision and reducing the risk of age-related eye conditions.</p><p><strong>+ Joint Health: </strong>Supports joint mobility and flexibility, reduces inflammation, and promotes overall joint comfort and strength.</p><p>\t </p>",
+            "page": ""
+          }
+        }
+      },
+      "block_order": [
+        "title",
+        "e5eae85b-1e9a-4732-9c53-e8c283312891",
+        "price",
+        "cd1c614d-685b-4401-8008-351ee86c6f8e",
+        "payment_terms",
+        "separator",
+        "4fdaf462-62c5-44ce-bf60-14dca0ba0047",
+        "variant_picker",
+        "quantity_selector",
+        "buy_buttons",
+        "complementary_products",
+        "e89ef5be-5725-4ecb-8ec5-661b8e82a1ca",
+        "b9345515-f7f7-4bdd-b1ba-90f4c9669832",
+        "f156a492-6b11-4eee-8e9d-69feae9fb2a7",
+        "272d0ae5-3ddd-40d0-b629-b5a263f2ffc4",
+        "55afab39-f126-4571-af89-3d32311cb2e6"
+      ],
+      "settings": {
+        "color_scheme": "scheme-2",
+        "container_size": "lg",
+        "product_info_size": 35,
+        "show_sticky_add_to_cart": false,
+        "center_basic_info": false,
+        "desktop_media_layout": "carousel_thumbnails_left",
+        "desktop_media_grid_gap": 30,
+        "mobile_controls": "dots",
+        "enable_media_autoplay": false,
+        "enable_video_looping": true,
+        "enable_image_zoom": true,
+        "max_image_zoom_level": 3
+      }
+    },
+    "image_with_text_overlay_wmV7YR": {
+      "type": "image-with-text-overlay",
+      "blocks": {
+        "heading_deD87J": {
+          "type": "heading",
+          "settings": {
+            "text": "",
+            "heading_tag": "h4"
+          }
+        },
+        "richtext_xbmFNt": {
+          "type": "richtext",
+          "settings": {
+            "content": ""
+          }
+        }
+      },
+      "block_order": [
+        "heading_deD87J",
+        "richtext_xbmFNt"
+      ],
+      "settings": {
+        "color_scheme": "",
+        "image_size": "auto",
+        "image": "shopify://shop_images/KEY_INGREDIENTS_15.png",
+        "allow_transparent_header": false,
+        "reveal_on_scroll": true,
+        "remove_vertical_spacing": true,
+        "content_width": "md",
+        "mobile_text_position": "place-self-center text-center",
+        "desktop_text_position": "sm:place-self-center sm:text-center",
+        "overlay_color": "#000000",
+        "overlay_opacity": 0
+      }
+    },
+    "faq_Cd3ntF": {
+      "type": "faq",
+      "blocks": {
+        "category_DL84aL": {
+          "type": "category",
+          "settings": {
+            "title": "NANOMEAL",
+            "icon": "none",
+            "icon_width": 16
+          }
+        },
+        "question_LUGqkW": {
+          "type": "question",
+          "settings": {
+            "question": "WHAT PRODUCTS ARE INCLUDED IN NANOMEAL?",
+            "answer": "<p>Each packet of NanoMeal includes one scoop of NanoGreens, one scoop of NanoOmega, and one scoop of NanoPro, providing a complete and balanced meal. NanoMeal is sold in a box containing 10 individual pouches. To get a full 30-day supply, you'll need to order 3 boxes.</p><p>Airport security safe and no refrigeration needed!</p>"
+          }
+        },
+        "question_fTH78x": {
+          "type": "question",
+          "settings": {
+            "question": "IS NANOMEAL CONSIDERED A MEAL REPLACEMENT?",
+            "answer": "<p>Yes, NanoMeal is indeed considered a meal replacement. Each serving provides a blend of fruits and vegetables, 12g of protein, and omega-rich fish oil, making it an excellent alternative to a traditional breakfast.</p>"
+          }
+        },
+        "question_Bxtnhn": {
+          "type": "question",
+          "settings": {
+            "question": "BENEFITS OF NANOMEAL?",
+            "answer": "<p>NanoMeal is an all-in-one, convenient meal replacement shake powder that supports optimal health in various areas, including the immune system, weight management, detoxification, digestion, brain function, vision, joints, heart, and the health of skin, hair, and nails. It’s also an ideal meal replacement option for any weight loss program.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "category_DL84aL",
+        "question_LUGqkW",
+        "question_fTH78x",
+        "question_Bxtnhn"
+      ],
+      "settings": {
+        "color_scheme": "",
+        "separate_section_with_border": true,
+        "show_categories": false,
+        "subheading": "Need help?",
+        "title": "Frequently Asked Questions",
+        "content": ""
+      }
+    },
+    "related-products": {
+      "type": "related-products",
+      "settings": {
+        "color_scheme": "scheme-2",
+        "separate_section_with_border": true,
+        "hide_product_information": false,
+        "stack_products": false,
+        "recommendations_count": 10,
+        "products_per_row_mobile": "2",
+        "products_per_row_desktop": 4,
+        "horizontal_spacing_factor": 1,
+        "vertical_spacing_factor": 1,
+        "subheading": "",
+        "title": "Related products",
+        "content": ""
+      }
+    },
+    "1698782823c8484977": {
+      "type": "apps",
+      "blocks": {
+        "d7ef6148-1ddb-417a-9c81-a90f76078b00": {
+          "type": "shopify://apps/yotpo-product-reviews/blocks/reviews/eb7dfd7d-db44-4334-bc49-c893b51b36cf",
+          "settings": {
+            "product": "{{product}}"
+          }
+        }
+      },
+      "block_order": [
+        "d7ef6148-1ddb-417a-9c81-a90f76078b00"
+      ],
+      "settings": {
+        "color_scheme": "scheme-2",
+        "separate_section_with_border": false,
+        "remove_vertical_spacing": true,
+        "remove_horizontal_spacing": false
+      }
+    }
+  },
+  "order": [
+    "main",
+    "image_with_text_overlay_wmV7YR",
+    "faq_Cd3ntF",
+    "related-products",
+    "1698782823c8484977"
+  ]
+}
