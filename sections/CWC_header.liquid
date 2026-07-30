@@ -32,6 +32,19 @@
 >
   <div class="cwc_header__bar">
     <div class="cwc_header__container">
+      {% comment %} Menu toggle — mobile only, sits left of the wordmark {% endcomment %}
+      <div class="cwc_header__toggle-wrap">
+        <button
+          type="button"
+          class="cwc_header__toggle"
+          aria-label="Menu"
+          aria-expanded="false"
+          data-cwc-toggle
+        >
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+
       {% comment %} Wordmark {% endcomment %}
       <a href="{{ routes.root_url }}" class="cwc_header__logo">
         {% if section.settings.logo != blank %}
@@ -55,8 +68,26 @@
         {% endif %}
       </a>
 
-      {% comment %} Primary links — Shopify menu first, manual blocks as fallback {% endcomment %}
-      {% assign nav_menu = section.settings.menu %}
+      {% comment %}
+        Primary links — Shopify menu first, manual blocks as fallback.
+        Wholesale customers get their own menu, matching the tag check in sections/header.liquid.
+      {% endcomment %}
+      {% liquid
+        assign nav_menu = section.settings.menu
+        assign is_wholesale_customer = false
+
+        for tag in customer.tags
+          assign customer_tag = tag | strip | downcase
+          if customer_tag == 'wholesale'
+            assign is_wholesale_customer = true
+            break
+          endif
+        endfor
+
+        if is_wholesale_customer and section.settings.menu_wholesale != blank
+          assign nav_menu = section.settings.menu_wholesale
+        endif
+      %}
 
       {% if nav_menu != blank and nav_menu.links.size > 0 %}
         <nav class="cwc_header__links" data-cwc-menu>
@@ -141,16 +172,6 @@
             </svg>
           </a>
         {% endif %}
-
-        <button
-          type="button"
-          class="cwc_header__toggle"
-          aria-label="Menu"
-          aria-expanded="false"
-          data-cwc-toggle
-        >
-          <span></span><span></span><span></span>
-        </button>
       </div>
     </div>
   </div>
@@ -172,6 +193,16 @@
       "id": "menu",
       "label": "Menu",
       "info": "Select a menu from Online Store > Navigation. Dropdowns render for any item with sub-links. Leave empty to use the manual Nav Link blocks below instead."
+    },
+    {
+      "type": "header",
+      "content": "Navigation (Wholesale Customers)"
+    },
+    {
+      "type": "link_list",
+      "id": "menu_wholesale",
+      "label": "Menu (Wholesale Customers)",
+      "info": "Shown instead of the menu above to logged-in customers tagged 'wholesale'. Leave empty and wholesale customers see the standard menu."
     },
     {
       "type": "header",

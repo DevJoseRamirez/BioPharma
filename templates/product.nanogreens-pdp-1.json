@@ -11,8 +11,9 @@
   "sections": {
     "cwc_announcement": {
       "type": "CWC_announcement",
+      "disabled": true,
       "settings": {
-        "text": "<p>Free shipping on subscriptions &middot; <strong>30-day money-back guarantee</strong> &middot; Formulated with clinicians since 2010</p>",
+        "text": "<p>Free shipping on subscriptions · <strong>30-day money-back guarantee</strong> · Formulated with clinicians since 2010</p>",
         "enable_gradient": true,
         "bg_color": "#44681a",
         "bg_end_color": "#87ce34",
@@ -28,31 +29,36 @@
         "link_shop": {
           "type": "link",
           "settings": {
-            "label": "Shop"
+            "label": "Shop",
+            "link": ""
           }
         },
         "link_subscribe": {
           "type": "link",
           "settings": {
-            "label": "Subscribe"
+            "label": "Subscribe",
+            "link": ""
           }
         },
         "link_science": {
           "type": "link",
           "settings": {
-            "label": "Science"
+            "label": "Science",
+            "link": ""
           }
         },
         "link_about": {
           "type": "link",
           "settings": {
-            "label": "About"
+            "label": "About",
+            "link": ""
           }
         },
         "link_wholesale": {
           "type": "link",
           "settings": {
-            "label": "Wholesale"
+            "label": "Wholesale",
+            "link": ""
           }
         }
       },
@@ -63,10 +69,27 @@
         "link_about",
         "link_wholesale"
       ],
+      "disabled": true,
       "settings": {
+        "menu": "our-shop-new",
+        "menu_wholesale": "products-wholesale",
+        "logo_alt": "NanoGreens",
+        "logo_height": 34,
+        "logo_height_mobile": 28,
         "logo_text_lead": "nano",
         "logo_text_accent": "greens",
+        "logo_text_size": 22,
+        "logo_text_size_mobile": 20,
+        "show_account": true,
+        "show_search": true,
+        "show_cart": true,
         "enable_sticky": true,
+        "bg_color": "#ffffff",
+        "text_color": "#5c5842",
+        "bold_color": "#5ba90f",
+        "logo_color": "#2a2611",
+        "border_color": "#e6e5dc",
+        "dropdown_bg_color": "#ffffff",
         "padding_top": 15,
         "padding_bottom": 15
       }
@@ -101,7 +124,9 @@
             "text_4": "30-day money-back guarantee",
             "tone_4": "tint",
             "text_5": "",
-            "text_6": ""
+            "tone_5": "tint",
+            "text_6": "",
+            "tone_6": "tint"
           }
         },
         "flavors": {
@@ -208,6 +233,7 @@
             "plan_sub": "$1.87 USD / serving",
             "button_text": "Add to cart",
             "show_price_in_button": true,
+            "sold_out_text": "Sold out",
             "reveal_after": 600
           }
         }
@@ -229,11 +255,34 @@
         "sticky_atc"
       ],
       "settings": {
+        "product": "",
         "badge_text": "55 organic ingredients",
+        "gallery_ratio": "1 / 1",
+        "gallery_fit": "cover",
         "show_thumbnails": true,
+        "gallery_limit": 10,
+        "thumbs_per_view": 6,
+        "thumb_ratio": "1 / 1",
         "nutrition_button_text": "View Nutrition Label",
         "nutrition_alt": "NanoGreens supplement facts",
         "supply_label": "Choose your supply",
+        "bg_color": "#ffffff",
+        "text_color": "#2a2611",
+        "bold_color": "#5ba90f",
+        "muted_color": "#5c5842",
+        "deep_color": "#44681a",
+        "star_color": "#e8a317",
+        "card_bg_color": "#ffffff",
+        "card_selected_bg_color": "#fafdf6",
+        "panel_bg_color": "#faf9f4",
+        "border_color": "#e6e5dc",
+        "tint_bg_color": "#f2f8ea",
+        "tint_border_color": "#a3c781",
+        "accent_color": "#4a5e8c",
+        "accent_bg_color": "#eef1f9",
+        "accent_border_color": "#a3b8e2",
+        "button_bg_color": "#5ba90f",
+        "button_text_color": "#ffffff",
         "padding_top": 20,
         "padding_bottom": 40
       }
@@ -313,6 +362,12 @@
         "body": "<p>You can drink the best greens in the world and still get very little from them. Absorption is the part nobody talks about, because the ingredient that solves it costs money. NanoGreens includes nine digestive enzymes — Blend 32000B — so what you drink actually gets used.</p>",
         "stat_value": "10",
         "stat_text": "servings of vegetables & fruit — the antioxidant equivalent in a single scoop.",
+        "bg_color": "#44681a",
+        "text_color": "#d9e7c9",
+        "heading_color": "#ffffff",
+        "bold_color": "#a3c781",
+        "eyebrow_color": "#a3c781",
+        "stat_color": "#a3c781",
         "padding_top": 50,
         "padding_bottom": 50
       }
@@ -330,6 +385,15 @@
         "image_position": "left",
         "placeholder_label": "MIXED DRINK PHOTO",
         "placeholder_note": "Light green, apple-juice-like, in a clear glass",
+        "bg_color": "#ffffff",
+        "text_color": "#2a2611",
+        "bold_color": "#5ba90f",
+        "muted_color": "#5c5842",
+        "eyebrow_color": "#5ba90f",
+        "stat_bg_color": "#f2f8ea",
+        "stat_border_color": "#a3c781",
+        "stat_value_color": "#44681a",
+        "guarantee_border_color": "#5ba90f",
         "padding_top": 50,
         "padding_bottom": 50
       }
@@ -411,6 +475,16 @@
         "heading": "<p>How to <strong>use it</strong></p>",
         "subtext": "<p>One scoop, cold water, shake. That's the whole routine.</p>",
         "tips_heading": "Pro tips",
+        "bg_color": "#ffffff",
+        "text_color": "#2a2611",
+        "bold_color": "#5ba90f",
+        "muted_color": "#5c5842",
+        "deep_color": "#44681a",
+        "eyebrow_color": "#5ba90f",
+        "card_bg_color": "#ffffff",
+        "step_bg_color": "#5ba90f",
+        "border_color": "#e6e5dc",
+        "tips_accent_color": "#78ad49",
         "padding_top": 50,
         "padding_bottom": 50
       }
@@ -480,6 +554,17 @@
         "eyebrow": "One scoop, every morning",
         "heading": "<p>What NanoGreens <strong>supports</strong></p>",
         "subtext": "<p>Six areas of daily wellness, from one 12g scoop.</p>",
+        "bg_color": "#ffffff",
+        "text_color": "#2a2611",
+        "bold_color": "#5ba90f",
+        "muted_color": "#5c5842",
+        "eyebrow_color": "#5ba90f",
+        "card_bg_color": "#ffffff",
+        "border_color": "#e6e5dc",
+        "icon_bg_color": "#f2f8ea",
+        "icon_border_color": "#a3c781",
+        "accent_bg_color": "#eef1f9",
+        "accent_border_color": "#a3b8e2",
         "padding_top": 50,
         "padding_bottom": 50
       }
@@ -492,8 +577,11 @@
           "settings": {
             "feature": "Whole food, not filler grass",
             "us_type": "check",
+            "us_text": "",
             "a_type": "cross",
-            "b_type": "cross"
+            "a_text": "",
+            "b_type": "cross",
+            "b_text": ""
           }
         },
         "row_juiced": {
@@ -501,8 +589,11 @@
           "settings": {
             "feature": "Juiced at peak ripeness",
             "us_type": "check",
+            "us_text": "",
             "a_type": "cross",
-            "b_type": "cross"
+            "a_text": "",
+            "b_type": "cross",
+            "b_text": ""
           }
         },
         "row_freezedried": {
@@ -510,8 +601,11 @@
           "settings": {
             "feature": "Low-temperature freeze-dried",
             "us_type": "check",
+            "us_text": "",
             "a_type": "cross",
-            "b_type": "cross"
+            "a_text": "",
+            "b_type": "cross",
+            "b_text": ""
           }
         },
         "row_enzyme": {
@@ -519,8 +613,11 @@
           "settings": {
             "feature": "9-enzyme blend for absorption",
             "us_type": "check",
+            "us_text": "",
             "a_type": "cross",
-            "b_type": "cross"
+            "a_text": "",
+            "b_type": "cross",
+            "b_text": ""
           }
         },
         "row_tested": {
@@ -528,6 +625,7 @@
           "settings": {
             "feature": "Third-party tested",
             "us_type": "check",
+            "us_text": "",
             "a_type": "text",
             "a_text": "Varies",
             "b_type": "text",
@@ -539,7 +637,9 @@
           "settings": {
             "feature": "Tastes good enough to finish",
             "us_type": "check",
+            "us_text": "",
             "a_type": "cross",
+            "a_text": "",
             "b_type": "text",
             "b_text": "—"
           }
@@ -559,6 +659,17 @@
         "col_us_label": "NanoGreens",
         "col_a_label": "$25 greens powder",
         "col_b_label": "Synthetic multivitamin",
+        "bg_color": "#ffffff",
+        "text_color": "#2a2611",
+        "bold_color": "#5ba90f",
+        "muted_color": "#5c5842",
+        "eyebrow_color": "#5ba90f",
+        "border_color": "#e6e5dc",
+        "us_bg_color": "#5ba90f",
+        "us_cell_bg_color": "#f6fbf0",
+        "check_color": "#5ba90f",
+        "cross_color": "#cfcec0",
+        "them_color": "#aaa997",
         "padding_top": 50,
         "padding_bottom": 50
       }
@@ -630,7 +741,21 @@
         "win_save_value": "$921 / year",
         "win_save_label": "saved versus buying the five separately",
         "win_cta_text": "Start my 90-day supply →",
+        "win_cta_link": "",
         "footnote": "We built this because we know you're going to check the math. Comparison prices are based on average retail cost of standalone supplements at comparable dosages. NanoGreens price reflects the 90-day subscription rate ($168.64 billed every 90 days). Individual formulations vary.",
+        "bg_color": "#f4f3ee",
+        "text_color": "#2a2611",
+        "bold_color": "#5ba90f",
+        "muted_color": "#5c5842",
+        "eyebrow_color": "#5ba90f",
+        "card_bg_color": "#ffffff",
+        "total_bg_color": "#faf9f4",
+        "border_color": "#e6e5dc",
+        "win_bg_color": "#44681a",
+        "win_accent_color": "#a3c781",
+        "win_muted_color": "#cfe0bd",
+        "button_bg_color": "#5ba90f",
+        "button_text_color": "#ffffff",
         "padding_top": 50,
         "padding_bottom": 50
       }
@@ -720,6 +845,22 @@
         "stats_heading": "What customers report",
         "stats_subtext": "From analysis of 410 verified reviews",
         "stats_note": "Customer-reported outcomes, not a clinical trial. Individual results vary.",
+        "bg_color": "#f4f3ee",
+        "text_color": "#2a2611",
+        "bold_color": "#5ba90f",
+        "muted_color": "#5c5842",
+        "star_color": "#e8a317",
+        "card_bg_color": "#ffffff",
+        "border_color": "#e6e5dc",
+        "badge_bg_color": "#f2f8ea",
+        "badge_color": "#44681a",
+        "panel_bg_color": "#faf9f4",
+        "tint_bg_color": "#f2f8ea",
+        "tint_border_color": "#a3c781",
+        "deep_color": "#44681a",
+        "accent_color": "#4a5e8c",
+        "accent_bg_color": "#eef1f9",
+        "accent_border_color": "#a3b8e2",
         "padding_top": 50,
         "padding_bottom": 50
       }
@@ -796,8 +937,81 @@
         "show_clinician": true,
         "clinician_initials": "DC, ND, MD",
         "clinician_text": "<p><strong>Clinicians' choice.</strong> Recommended in practice for over 20 years, before it was ever sold online.</p>",
+        "bg_color": "#ffffff",
+        "text_color": "#2a2611",
+        "bold_color": "#78ad49",
+        "muted_color": "#5c5842",
+        "eyebrow_color": "#4a5e8c",
+        "border_color": "#e6e5dc",
+        "card_bg_color": "#ffffff",
+        "accent_color": "#4a5e8c",
+        "accent_bg_color": "#eef1f9",
+        "accent_border_color": "#a3b8e2",
         "padding_top": 50,
         "padding_bottom": 50
+      }
+    },
+    "cwc_outcomes_band": {
+      "type": "CWC_outcomes_band",
+      "blocks": {
+        "outcome_energy": {
+          "type": "outcome",
+          "settings": {
+            "title": "More Energy",
+            "value": "95%",
+            "text": "Of participants felt a noticeable boost in daily energy"
+          }
+        },
+        "outcome_gut": {
+          "type": "outcome",
+          "settings": {
+            "title": "A Healthier Gut",
+            "value": "85%",
+            "text": "Of participants experienced better digestion and less bloating"
+          }
+        },
+        "outcome_sleep": {
+          "type": "outcome",
+          "settings": {
+            "title": "Sleep Better",
+            "value": "80%",
+            "text": "Participants reported getting better sleep"
+          }
+        },
+        "outcome_focus": {
+          "type": "outcome",
+          "settings": {
+            "title": "Perform Sharper",
+            "value": "75%",
+            "text": "Of participants noticed sharper focus and improved mental clarity"
+          }
+        }
+      },
+      "block_order": ["outcome_energy", "outcome_gut", "outcome_sleep", "outcome_focus"],
+      "settings": {
+        "heading": "<p>Clinically Studied. Third-Party Tested. <strong>Practitioner Trusted.</strong></p>",
+        "subtext": "<p>Every ingredient in NanoGreens is third-party tested for heavy metals, pesticides and contaminants. Our quality standards exceed industry requirements.</p>",
+        "cta_text": "View third party results",
+        "footnote": "<p>Results based on a customer-reported outcomes survey. Not a clinical trial.</p>",
+        "overlay_color": "#2a2611",
+        "overlay_opacity": 55,
+        "bg_color": "#44681a",
+        "heading_color": "#ffffff",
+        "text_color": "#d9e7c9",
+        "bold_color": "#a3c781",
+        "eyebrow_color": "#a3c781",
+        "button_bg_color": "#ffffff",
+        "button_text_color": "#44681a",
+        "footnote_color": "#c9dab6",
+        "card_title_color": "#ffffff",
+        "card_value_color": "#e8a317",
+        "card_text_color": "#d9e7c9",
+        "card_tint": 6,
+        "card_border_color": "#a3c781",
+        "card_border_opacity": 18,
+        "card_title_style": "serif",
+        "padding_top": 70,
+        "padding_bottom": 70
       }
     },
     "cwc_ingredients": {
@@ -863,6 +1077,14 @@
       "settings": {
         "eyebrow": "What's inside",
         "heading": "<p>The ingredients doing the <strong>work</strong></p>",
+        "bg_color": "#f4f3ee",
+        "text_color": "#2a2611",
+        "bold_color": "#5ba90f",
+        "muted_color": "#5c5842",
+        "eyebrow_color": "#5ba90f",
+        "border_color": "#e6e5dc",
+        "icon_bg_color": "#f2f8ea",
+        "icon_border_color": "#a3c781",
         "padding_top": 50,
         "padding_bottom": 50
       }
@@ -870,6 +1092,7 @@
     "cwc_founder_note": {
       "type": "CWC_founder_note",
       "settings": {
+        "photo_alt": "Founder",
         "photo_placeholder": "FOUNDER PHOTO",
         "photo_caption": "Rick, in the facility",
         "eyebrow": "A note from our founder",
@@ -877,6 +1100,12 @@
         "note": "<p>I've stood in the rooms where a lot of supplements get made. I've seen what goes into them, and I've seen what gets left out when someone decides the margin matters more than the product.</p><p>That's why NanoGreens costs what it costs. The enzyme blend is expensive — most companies skip it, because you can't see it on a label the way you can see a big number of ingredients. But without it, you're drinking something your body largely passes through.</p><p>We've been making this the same way since 2010. Same sourcing, same low-temperature freeze-drying, same testing before and after blending. When the price of an ingredient goes up, we pay it. We don't reformulate around it.</p><p>If you try it and it isn't for you, send it back and we'll refund you. I'd rather do that than have you keep something you don't want.</p>",
         "signature_name": "Rick",
         "signature_role": "Founder, BioPharma Scientific · San Diego, CA",
+        "bg_color": "#f4f3ee",
+        "text_color": "#2a2611",
+        "bold_color": "#5ba90f",
+        "muted_color": "#5c5842",
+        "eyebrow_color": "#5ba90f",
+        "border_color": "#e6e5dc",
         "padding_top": 50,
         "padding_bottom": 50
       }
@@ -920,6 +1149,13 @@
         "badge_label": "DAY",
         "heading": "<p>Love it, or <strong>get your money back</strong></p>",
         "body": "<p>Most people love the green apple taste. Some don't — and we'd rather you find out risk-free. Try NanoGreens for 30 days. If it isn't for you, contact us for a full refund. No questions asked.</p>",
+        "bg_color": "#ffffff",
+        "text_color": "#2a2611",
+        "bold_color": "#a3c781",
+        "card_bg_color": "#44681a",
+        "card_text_color": "#d9e7c9",
+        "badge_border_color": "#a3c781",
+        "badge_text_color": "#cfe0bd",
         "padding_top": 50,
         "padding_bottom": 50
       }
@@ -971,8 +1207,21 @@
         "cost_right_label": "Complete system",
         "cost_right_value": "$7.19 / day",
         "cta_text": "Upgrade to CORE4  +$152.11",
+        "cta_link": "",
         "decline_text": "No thanks — just NanoGreens for now",
+        "decline_link": "",
         "note": "Assumption to confirm: CORE4 priced as a 30-day supply of all four products, compared like-for-like against the 30-day greens option.",
+        "bg_color": "#f4f3ee",
+        "text_color": "#2a2611",
+        "bold_color": "#5ba90f",
+        "muted_color": "#5c5842",
+        "deep_color": "#44681a",
+        "eyebrow_color": "#5ba90f",
+        "card_bg_color": "#ffffff",
+        "card_highlight_bg_color": "#fafdf6",
+        "border_color": "#e6e5dc",
+        "button_bg_color": "#5ba90f",
+        "button_text_color": "#ffffff",
         "padding_top": 60,
         "padding_bottom": 60
       }
@@ -1057,6 +1306,19 @@
       ],
       "settings": {
         "heading": "<p>FAQs</p>",
+        "button_label": "Explore all FAQs",
+        "button_link": "",
+        "image_position": "right",
+        "image_alt": "NanoGreens",
+        "bg_color": "#ffffff",
+        "panel_bg_color": "#44681a",
+        "panel_text_color": "#ffffff",
+        "bold_color": "#a3c781",
+        "answer_color": "#dbe6cd",
+        "divider_color": "#6a8348",
+        "sign_color": "#ffffff",
+        "button_bg_color": "#31501a",
+        "button_text_color": "#ffffff",
         "padding_top": 50,
         "padding_bottom": 50
       }
@@ -1067,10 +1329,41 @@
         "heading": "<p>Ready to <strong>start?</strong></p>",
         "subtext": "<p>Join thousands who make NanoGreens part of their morning.</p>",
         "cta_text": "Start my 90-day supply  →",
+        "cta_link": "",
         "micro_text": "$168.64 · 3 tubs · $1.87/serving · free shipping · cancel anytime",
         "disclaimer": "<p>*These statements have not been evaluated by the Food and Drug Administration. This product is not intended to diagnose, treat, cure or prevent any disease.</p>",
+        "bg_color": "#44681a",
+        "text_color": "#d9e7c9",
+        "heading_color": "#ffffff",
+        "bold_color": "#a3c781",
+        "micro_color": "#c9dab6",
+        "button_bg_color": "#5ba90f",
+        "button_text_color": "#ffffff",
+        "disclaimer_bg_color": "#ffffff",
+        "disclaimer_color": "#8b8a7a",
         "padding_top": 55,
         "padding_bottom": 55
+      }
+    },
+    "17853738227e9e0455": {
+      "type": "apps",
+      "blocks": {
+        "yotpo_product_reviews_reviews_BxPWFb": {
+          "type": "shopify://apps/yotpo-product-reviews/blocks/reviews/eb7dfd7d-db44-4334-bc49-c893b51b36cf",
+          "settings": {
+            "product": "{{product}}"
+          }
+        }
+      },
+      "block_order": [
+        "yotpo_product_reviews_reviews_BxPWFb"
+      ],
+      "disabled": true,
+      "settings": {
+        "color_scheme": "",
+        "separate_section_with_border": true,
+        "remove_vertical_spacing": false,
+        "remove_horizontal_spacing": false
       }
     }
   },
@@ -1086,11 +1379,13 @@
     "cwc_cost_calculator",
     "cwc_reviews",
     "cwc_practitioner_endorsement",
+    "cwc_outcomes_band",
     "cwc_ingredients",
     "cwc_founder_note",
     "cwc_guarantee",
     "cwc_bundle_upgrade",
     "cwc_faq",
-    "cwc_bottom_cta"
+    "cwc_bottom_cta",
+    "17853738227e9e0455"
   ]
 }

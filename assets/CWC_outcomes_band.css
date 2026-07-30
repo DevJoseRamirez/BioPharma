@@ -80,6 +80,11 @@
   font-weight: 400;
 }
 
+/* keep the headline legible over photography */
+.cwc_outcomes-band--has-image .cwc_outcomes-band__content-heading > * {
+  text-shadow: 0 1px 18px rgba(0, 0, 0, 0.35);
+}
+
 .cwc_outcomes-band__content-subtext {
   margin-top: 14px;
 }
@@ -141,6 +146,14 @@ a.cwc_outcomes-band__button-link:hover {
   /* 20px */
   line-height: 1.25;
   color: var(--card-title-color);
+}
+
+/* italic serif variant — matches the client reference */
+.cwc_outcomes-band--serif-titles .cwc_outcomes-band__card-title {
+  font-family: var(--cwc-font-heading);
+  font-weight: var(--cwc-weight-heading);
+  font-style: italic;
+  font-size: 1.4em; /* 22.4px */
 }
 
 /* big stat number role */

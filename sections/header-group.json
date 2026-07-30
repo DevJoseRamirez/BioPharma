@@ -11,6 +11,92 @@
   "type": "header",
   "name": "Header group",
   "sections": {
+    "cwc_announcement_njmfpb": {
+      "type": "CWC_announcement",
+      "name": "Announcement",
+      "settings": {
+        "text": "<p>Free shipping on subscriptions · <strong>30-day money-back guarantee</strong> · Formulated with clinicians since 2010</p>",
+        "enable_gradient": true,
+        "bg_color": "#44681a",
+        "bg_end_color": "#87ce34",
+        "text_color": "#ffffff",
+        "bold_color": "#a3c781",
+        "padding_top": 10,
+        "padding_bottom": 10
+      }
+    },
+    "cwc_header_L77DAi": {
+      "type": "CWC_header",
+      "blocks": {
+        "link_McigqG": {
+          "type": "link",
+          "settings": {
+            "label": "Shop",
+            "link": ""
+          }
+        },
+        "link_RL7LF4": {
+          "type": "link",
+          "settings": {
+            "label": "Shop",
+            "link": ""
+          }
+        },
+        "link_3UpfDg": {
+          "type": "link",
+          "settings": {
+            "label": "Shop",
+            "link": ""
+          }
+        },
+        "link_x7WRXd": {
+          "type": "link",
+          "settings": {
+            "label": "Shop",
+            "link": ""
+          }
+        },
+        "link_AXAdBa": {
+          "type": "link",
+          "settings": {
+            "label": "Shop",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "link_McigqG",
+        "link_RL7LF4",
+        "link_3UpfDg",
+        "link_x7WRXd",
+        "link_AXAdBa"
+      ],
+      "name": "Header",
+      "settings": {
+        "menu": "our-shop-new",
+        "menu_wholesale": "products-wholesale",
+        "logo": "shopify://shop_images/logo_direction1_evolved_mark_2_1.png",
+        "logo_alt": "NanoGreens",
+        "logo_height": 42,
+        "logo_height_mobile": 36,
+        "logo_text_lead": "nano",
+        "logo_text_accent": "greens",
+        "logo_text_size": 22,
+        "logo_text_size_mobile": 23,
+        "show_account": true,
+        "show_search": false,
+        "show_cart": true,
+        "enable_sticky": true,
+        "bg_color": "#ffffff",
+        "text_color": "#5c5842",
+        "bold_color": "#5ba90f",
+        "logo_color": "#2a2611",
+        "border_color": "#e6e5dc",
+        "dropdown_bg_color": "#ffffff",
+        "padding_top": 15,
+        "padding_bottom": 15
+      }
+    },
     "announcement-bar": {
       "type": "announcement-bar",
       "blocks": {
@@ -32,6 +118,7 @@
         "message_h3dWy9",
         "message_J8P9j9"
       ],
+      "disabled": true,
       "settings": {
         "color_scheme": "scheme-4",
         "enable_sticky": false,
@@ -43,6 +130,7 @@
     },
     "header": {
       "type": "header",
+      "disabled": true,
       "settings": {
         "color_scheme": "scheme-2",
         "enable_sticky": true,
@@ -71,6 +159,8 @@
     }
   },
   "order": [
+    "cwc_announcement_njmfpb",
+    "cwc_header_L77DAi",
     "announcement-bar",
     "header"
   ]

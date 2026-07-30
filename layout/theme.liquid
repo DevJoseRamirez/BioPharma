@@ -1,30 +1,37 @@
-{% include 'shogun-content-handler' %}
-{%- comment %}<locksmith:094f>{% endcomment -%}
-  {%- render 'locksmith' -%}
-{%- comment %}</locksmith:094f>{% endcomment -%}
+{%- comment %}<locksmith:094f>{%- endcomment %}
+{%- render 'locksmith' -%}
+{%- comment %}</locksmith:094f>{%- endcomment %}
 
 <!doctype html>
- 
+
 <html class="no-js" lang="{{ request.locale.iso_code }}" dir="{% render 'direction' %}">
   <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, height=device-height, minimum-scale=1.0, maximum-scale=5.0">
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, height=device-height, minimum-scale=1.0, maximum-scale=5.0"
+    >
 
-    <title>{% if page_title == blank %}{{ shop.name }}{% else %}{{ page_title }}{% if current_page != 1 %} &ndash; {{ 'general.page' | t: page: current_page }}{% endif %}{% endif %}</title>
+    <title>
+      {% if page_title == blank -%}
+        {{- shop.name -}}
+      {%- else -%}
+        {{- page_title -}}
+        {%- if current_page != 1 %} &ndash; {{ 'general.page' | t: page: current_page }}{% endif -%}
+      {%- endif %}
+    </title>
 
     {%- if page_description -%}
-    <meta name="description" content="{{ page_description | escape }}">
+      <meta name="description" content="{{ page_description | escape }}">
     {%- endif -%}
 
-
-    {% if template contains "product" %}
+    {% if template contains 'product' %}
       {% assign productTagList = product.tags | downcase %}
       {% if productTagList contains 'wholesale' %}
         <meta name="robots" content="noindex, nofollow" />
       {% endif %}
     {% endif %}
 
-    
     <link rel="canonical" href="{{ canonical_url }}">
 
     {%- if settings.favicon -%}
@@ -42,13 +49,13 @@
     {%- unless settings.text_font.system? -%}
       <link rel="preload" href="{{ settings.text_font | font_url }}" as="font" type="font/woff2" crossorigin>
     {%- endunless -%}
- 
 
     {% if page_description %}
-      {%- comment %}<locksmith:8245>{% endcomment -%}
-        {%- capture var %}{% render 'locksmith-variables', variable: 'transparent', hiding_scope: 'resource' %}{% endcapture %}{% if var == 'true' %}<meta name="description" content="{{ page_description | escape }}">{% endif -%}
-        {%- comment %}original: <meta name="description" content="{{ page_description | escape }}">{%- endcomment %}
-      {%- comment %}</locksmith:8245>{% endcomment -%}
+      {%- comment %}<locksmith:8245>{%- endcomment %}
+      {%- capture var %}{% render 'locksmith-variables', variable: 'transparent', hiding_scope: 'resource' %}{% endcapture -%}
+      {%- if var == 'true' %}<meta name="description" content="{{ page_description | escape }}">{% endif -%}
+      {%- comment %}original: <meta name="description" content="{{ page_description | escape }}">{%- endcomment %}
+      {%- comment %}</locksmith:8245>{%- endcomment %}
     {% endif %}
 
     {%- render 'social-meta-tags' -%}
@@ -79,16 +86,13 @@
     {{ content_for_header }}
 
     {{- 'theme.css' | asset_url | stylesheet_tag: preload: true -}}
-  
-  {% render 'shogun-head' %}
 
-      <script type="text/javascript" id="loop-subscription-script" src="{{ 'loop-widget.js' | asset_url }}"></script>
+    <script type="text/javascript" id="loop-subscription-script" src="{{ 'loop-widget.js' | asset_url }}"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-  {{ 'daa.js' | asset_url | script_tag }} 
-{{ 'daa.css' | asset_url | stylesheet_tag }}
-   {{ 'dda.js' | asset_url | script_tag }}
-
-</head>
+    {{ 'daa.js' | asset_url | script_tag }}
+    {{ 'daa.css' | asset_url | stylesheet_tag }}
+    {{ 'dda.js' | asset_url | script_tag }}
+  </head>
 
   {% liquid
     assign features_class = ''
@@ -106,14 +110,17 @@
     endif
   %}
 
+  <style class="loop-style">
+    {% render 'loop-widget.css' %}
+  </style>
 
-    <style class="loop-style"> {% render 'loop-widget.css' %} </style>
-    
-  <body class="{{ features_class }} color-scheme color-scheme--{{ settings.default_color_scheme.id }} {% if customer.tags contains 'wholesale' or customer.tags contains 'Wholesale' or customer.tags contains 'WHOLESALE' or customer.tags contains 'wholesale2' or customer.tags contains 'Wholesale2' or customer.tags contains 'WHOLESALE2' or customer.tags contains 'wholesale3' or customer.tags contains 'Wholesale3' or customer.tags contains 'WHOLESALE3 %}wholesale-login{% endif %}">
+  <body class="{{ features_class }} color-scheme color-scheme--{{ settings.default_color_scheme.id }} {% if customer.tags contains 'wholesale' or customer.tags contains 'Wholesale' or customer.tags contains 'WHOLESALE' or customer.tags contains 'wholesale2' or customer.tags contains 'Wholesale2' or customer.tags contains 'WHOLESALE2' or customer.tags contains 'wholesale3' or customer.tags contains 'Wholesale3' or customer.tags contains 'WHOLESALE3' %} wholesale-login {% endif %}">
     {%- render 'shadow-dom-templates' -%}
 
     <loading-bar class="loading-bar" aria-hidden="true"></loading-bar>
-    <a href="#main" allow-hash-change class="skip-to-content sr-only">{{ 'general.accessibility.skip_to_content' | t }}</a>
+    <a href="#main" allow-hash-change class="skip-to-content sr-only">
+      {{- 'general.accessibility.skip_to_content' | t -}}
+    </a>
 
     {%- if request.page_type != 'password' -%}
       {%- sections 'header-group' -%}
@@ -121,17 +128,16 @@
     {%- endif -%}
 
     <main id="main" class="anchor">
+      {%- if request.path contains 'loop_subscriptions/bundle' -%}
+        {% render 'loop_loader' %}
+      {%- endif -%}
 
-    {%- if request.path contains 'loop_subscriptions/bundle' -%}
-      {% render 'loop_loader' %}
-    {%- endif -%}
-  
       {{ content_for_layout }}
 
       {%- comment -%}
-      IMPLEMENTATION NOTE: For best semantics, having the footer group outside the main would be slightly better, but
-        moving it inside the main allows to have all the sections (including sections inside the footer group) to be
-        consecutive, and hence having a cleaner margin collapsing management.
+        IMPLEMENTATION NOTE: For best semantics, having the footer group outside the main would be slightly better, but
+          moving it inside the main allows to have all the sections (including sections inside the footer group) to be
+          consecutive, and hence having a cleaner margin collapsing management.
       {%- endcomment -%}
       {%- if request.page_type != 'password' -%}
         {%- sections 'footer-group' -%}

@@ -1,0 +1,433 @@
+{% liquid
+  assign card_tint = section.settings.card_tint | default: 6 | divided_by: 100.0
+  assign border_alpha = section.settings.card_border_opacity | default: 18 | divided_by: 100.0
+  assign card_border = section.settings.card_border_color | default: '#A3C781' | color_modify: 'alpha', border_alpha
+%}
+
+{% style %}
+  #cwc_outcomes-band-{{ section.id }} {
+    --section-bg: {{ section.settings.bg_color | default: '#44681A' }};
+    --text-color: {{ section.settings.text_color | default: '#d9e7c9' }};
+    --highlight-color: {{ section.settings.bold_color | default: '#A3C781' }};
+    --heading-color: {{ section.settings.heading_color | default: '#ffffff' }};
+    --eyebrow-color: {{ section.settings.eyebrow_color | default: '#A3C781' }};
+    --overlay-color: {{ section.settings.overlay_color | default: '#2A2611' }};
+    --overlay-opacity: {{ section.settings.overlay_opacity | default: 55 | divided_by: 100.0 }};
+    --button-bg: {{ section.settings.button_bg_color | default: '#ffffff' }};
+    --button-text: {{ section.settings.button_text_color | default: '#44681A' }};
+    --card-tint: {{ card_tint }};
+    --card-border: {{ card_border }};
+    --card-title-color: {{ section.settings.card_title_color | default: '#ffffff' }};
+    --card-value-color: {{ section.settings.card_value_color | default: '#E8A317' }};
+    --card-text-color: {{ section.settings.card_text_color | default: '#d9e7c9' }};
+    --footnote-color: {{ section.settings.footnote_color | default: '#c9dab6' }};
+    --padding-top: {{ section.settings.padding_top | default: 70 }}px;
+    --padding-bottom: {{ section.settings.padding_bottom | default: 70 }}px;
+    --padding-top-mobile: {{ section.settings.padding_top | default: 70 | times: 0.5 }}px;
+    --padding-bottom-mobile: {{ section.settings.padding_bottom | default: 70 | times: 0.5 }}px;
+  }
+{% endstyle %}
+
+{{ 'CWC_fonts.css' | asset_url | stylesheet_tag }}
+{{ 'CWC_outcomes_band.css' | asset_url | stylesheet_tag }}
+
+{% liquid
+  # Background: image override wins, then nothing — the flat brand color shows through.
+  assign bg_image = section.settings.image
+
+  if section.settings.image_mobile != blank
+    assign bg_image_mobile = section.settings.image_mobile
+  else
+    assign bg_image_mobile = bg_image
+  endif
+
+  assign band_classes = 'cwc_outcomes-band'
+  if bg_image != blank
+    assign band_classes = band_classes | append: ' cwc_outcomes-band--has-image'
+  endif
+  if section.settings.card_title_style == 'serif'
+    assign band_classes = band_classes | append: ' cwc_outcomes-band--serif-titles'
+  endif
+%}
+
+<section id="cwc_outcomes-band-{{ section.id }}" class="{{ band_classes }}">
+  {% comment %} Background media + overlay {% endcomment %}
+  {% if bg_image != blank %}
+    <div class="cwc_outcomes-band__media" aria-hidden="true">
+      <picture>
+        {% if bg_image_mobile != blank %}
+          <source
+            media="(max-width: 767px)"
+            srcset="
+              {{ bg_image_mobile | image_url: width: 750 }} 750w,
+              {{ bg_image_mobile | image_url: width: 1100 }} 1100w
+            "
+            sizes="100vw"
+          >
+        {% endif %}
+        <img
+          src="{{ bg_image | image_url: width: 1800 }}"
+          srcset="
+            {{ bg_image | image_url: width: 900 }} 900w,
+            {{ bg_image | image_url: width: 1400 }} 1400w,
+            {{ bg_image | image_url: width: 1800 }} 1800w,
+            {{ bg_image | image_url: width: 2400 }} 2400w
+          "
+          sizes="100vw"
+          alt="{{ section.settings.alt_text | escape }}"
+          width="{{ bg_image.width }}"
+          height="{{ bg_image.height }}"
+          loading="lazy"
+        >
+      </picture>
+    </div>
+    <div class="cwc_outcomes-band__overlay" aria-hidden="true"></div>
+  {% endif %}
+
+  <div class="cwc_outcomes-band__container">
+
+    {% comment %} Section Header {% endcomment %}
+    <div class="cwc_outcomes-band__content">
+      {% if section.settings.eyebrow != blank %}
+        <div class="cwc_outcomes-band__eyebrow">{{ section.settings.eyebrow }}</div>
+      {% endif %}
+
+      {% if section.settings.heading != blank %}
+        <div class="cwc_outcomes-band__content-heading cwc-rte">
+          {{ section.settings.heading }}
+        </div>
+      {% endif %}
+
+      {% if section.settings.subtext != blank %}
+        <div class="cwc_outcomes-band__content-subtext cwc-rte">
+          {{ section.settings.subtext }}
+        </div>
+      {% endif %}
+
+      {% if section.settings.cta_text != blank %}
+        <div class="cwc_outcomes-band__button">
+          {% if section.settings.cta_link != blank %}
+            <a href="{{ section.settings.cta_link }}" class="cwc_outcomes-band__button-link">
+              {{- section.settings.cta_text -}}
+            </a>
+          {% else %}
+            <span class="cwc_outcomes-band__button-link">{{ section.settings.cta_text }}</span>
+          {% endif %}
+        </div>
+      {% endif %}
+    </div>
+
+    {% comment %} Outcome Cards {% endcomment %}
+    {% if section.blocks.size > 0 %}
+      <div class="cwc_outcomes-band__grid">
+        {% for block in section.blocks %}
+          {% case block.type %}
+            {% when 'outcome' %}
+              <div class="cwc_outcomes-band__card" {{ block.shopify_attributes }}>
+                {% if block.settings.title != blank %}
+                  <div class="cwc_outcomes-band__card-title">{{ block.settings.title }}</div>
+                {% endif %}
+
+                {% if block.settings.value != blank %}
+                  <div class="cwc_outcomes-band__card-value">{{ block.settings.value }}</div>
+                {% endif %}
+
+                {% if block.settings.text != blank %}
+                  <div class="cwc_outcomes-band__card-text">{{ block.settings.text }}</div>
+                {% endif %}
+              </div>
+          {% endcase %}
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    {% comment %} Source Footnote {% endcomment %}
+    {% if section.settings.footnote != blank %}
+      <div class="cwc_outcomes-band__footnote cwc-rte">
+        {{ section.settings.footnote }}
+      </div>
+    {% endif %}
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "CWC Outcomes Band",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Header"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow Label",
+      "info": "Small uppercase line above the heading. Optional."
+    },
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "<p>Clinically Studied. Third-Party Tested. <strong>Practitioner Trusted.</strong></p>"
+    },
+    {
+      "type": "richtext",
+      "id": "subtext",
+      "label": "Section Subtext",
+      "default": "<p>Every ingredient in NanoGreens is third-party tested for heavy metals, pesticides and contaminants. Our quality standards exceed industry requirements.</p>"
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "Button Text",
+      "default": "View third party results"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "Button Link"
+    },
+    {
+      "type": "header",
+      "content": "Source Footnote"
+    },
+    {
+      "type": "paragraph",
+      "content": "Keep the study description attached to the numbers above. Add a link here to the full results."
+    },
+    {
+      "type": "richtext",
+      "id": "footnote",
+      "label": "Footnote",
+      "default": "<p>Results based on a customer-reported outcomes survey. Not a clinical trial.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Background Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Background Image",
+      "info": "Optional. Leave empty to use the flat background color."
+    },
+    {
+      "type": "image_picker",
+      "id": "image_mobile",
+      "label": "Mobile Image",
+      "info": "Optional. Falls back to the desktop image."
+    },
+    {
+      "type": "text",
+      "id": "alt_text",
+      "label": "Image Alt Text",
+      "info": "Leave blank for a decorative background."
+    },
+    {
+      "type": "header",
+      "content": "Image Overlay"
+    },
+    {
+      "type": "paragraph",
+      "content": "The overlay sits between the image and the text so the headline and numbers stay readable. Raise the opacity on busy or light images."
+    },
+    {
+      "type": "color",
+      "id": "overlay_color",
+      "label": "Overlay Color",
+      "default": "#2A2611"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "Overlay Opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 55
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#44681A"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#d9e7c9"
+    },
+    {
+      "type": "color",
+      "id": "bold_color",
+      "label": "Heading Bold Color",
+      "default": "#A3C781"
+    },
+    {
+      "type": "color",
+      "id": "eyebrow_color",
+      "label": "Eyebrow Color",
+      "default": "#A3C781"
+    },
+    {
+      "type": "color",
+      "id": "button_bg_color",
+      "label": "Button Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button Text Color",
+      "default": "#44681A"
+    },
+    {
+      "type": "color",
+      "id": "footnote_color",
+      "label": "Footnote Color",
+      "default": "#c9dab6"
+    },
+    {
+      "type": "header",
+      "content": "Card Colors"
+    },
+    {
+      "type": "color",
+      "id": "card_title_color",
+      "label": "Card Title Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "card_value_color",
+      "label": "Stat Number Color",
+      "default": "#E8A317"
+    },
+    {
+      "type": "color",
+      "id": "card_text_color",
+      "label": "Card Text Color",
+      "default": "#d9e7c9"
+    },
+    {
+      "type": "range",
+      "id": "card_tint",
+      "label": "Card Fill Strength",
+      "info": "Frosted white fill over the background.",
+      "min": 0,
+      "max": 30,
+      "step": 1,
+      "unit": "%",
+      "default": 6
+    },
+    {
+      "type": "color",
+      "id": "card_border_color",
+      "label": "Card Border Color",
+      "default": "#A3C781"
+    },
+    {
+      "type": "range",
+      "id": "card_border_opacity",
+      "label": "Card Border Opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 18
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "card_title_style",
+      "label": "Card Title Style",
+      "options": [
+        { "value": "sans", "label": "Body font" },
+        { "value": "serif", "label": "Heading font, italic" }
+      ],
+      "default": "serif"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 70
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 70
+    }
+  ],
+  "blocks": [
+    {
+      "type": "outcome",
+      "name": "Outcome",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Outcome Title",
+          "default": "More Energy"
+        },
+        {
+          "type": "text",
+          "id": "value",
+          "label": "Stat Number",
+          "info": "Include the symbol, e.g. 95% or 4.8x.",
+          "default": "95%"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Supporting Text",
+          "default": "Of participants felt a noticeable boost in daily energy"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 4,
+  "presets": [
+    {
+      "name": "Outcomes Band",
+      "category": "CWC Custom",
+      "blocks": [
+        { "type": "outcome" },
+        { "type": "outcome" },
+        { "type": "outcome" },
+        { "type": "outcome" }
+      ]
+    }
+  ]
+}
+{% endschema %}

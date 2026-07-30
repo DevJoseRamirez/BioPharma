@@ -1,0 +1,499 @@
+{% style %}
+  #cwc_collection-banner-{{ section.id }} {
+    --section-bg: {{ section.settings.bg_color | default: '#44681A' }};
+    --text-color: {{ section.settings.text_color | default: '#ffffff' }};
+    --highlight-color: {{ section.settings.bold_color | default: '#A3C781' }};
+    --heading-color: {{ section.settings.heading_color | default: '#ffffff' }};
+    --eyebrow-color: {{ section.settings.eyebrow_color | default: '#A3C781' }};
+    --overlay-color: {{ section.settings.overlay_color | default: '#2A2611' }};
+    --overlay-opacity: {{ section.settings.overlay_opacity | default: 55 | divided_by: 100.0 }};
+    --pill-bg: {{ section.settings.pill_bg_color | default: 'rgba(0,0,0,0)' }};
+    --pill-text: {{ section.settings.pill_text_color | default: '#ffffff' }};
+    --pill-border: {{ section.settings.pill_border_color | default: '#A3C781' }};
+    --pill-bg-active: {{ section.settings.pill_bg_active_color | default: '#5BA90F' }};
+    --pill-text-active: {{ section.settings.pill_text_active_color | default: '#ffffff' }};
+    --pill-border-active: {{ section.settings.pill_border_active_color | default: '#5BA90F' }};
+    --heading-size: {{ section.settings.heading_size | default: 44 }}px;
+    --heading-size-mobile: {{ section.settings.heading_size | default: 44 | times: 0.62 }}px;
+    --banner-min-height: {{ section.settings.min_height | default: 260 }}px;
+    --banner-min-height-mobile: {{ section.settings.min_height | default: 260 | times: 0.75 }}px;
+    --padding-top: {{ section.settings.padding_top | default: 60 }}px;
+    --padding-bottom: {{ section.settings.padding_bottom | default: 60 }}px;
+    --padding-top-mobile: {{ section.settings.padding_top | default: 60 | times: 0.5 }}px;
+    --padding-bottom-mobile: {{ section.settings.padding_bottom | default: 60 | times: 0.5 }}px;
+  }
+{% endstyle %}
+
+{{ 'CWC_fonts.css' | asset_url | stylesheet_tag }}
+{{ 'CWC_collection_banner.css' | asset_url | stylesheet_tag }}
+
+{% liquid
+  # Title: override wins, then the collection's own title, then a safe fallback.
+  if section.settings.heading_override != blank
+    assign banner_title = section.settings.heading_override
+  elsif collection != blank and collection.title != blank
+    assign banner_title = collection.title
+  else
+    assign banner_title = 'Shop All'
+  endif
+
+  # Background: image override wins, then the collection's own image when enabled.
+  if section.settings.image != blank
+    assign bg_image = section.settings.image
+  elsif section.settings.use_collection_image and collection != blank and collection.image != blank
+    assign bg_image = collection.image
+  else
+    assign bg_image = nil
+  endif
+
+  if section.settings.image_mobile != blank
+    assign bg_image_mobile = section.settings.image_mobile
+  else
+    assign bg_image_mobile = bg_image
+  endif
+
+  assign heading_tag = section.settings.heading_tag | default: 'h1'
+
+  assign banner_classes = 'cwc_collection-banner'
+  assign banner_classes = banner_classes | append: ' cwc_collection-banner--align-' | append: section.settings.text_align
+  if bg_image != blank
+    assign banner_classes = banner_classes | append: ' cwc_collection-banner--has-image'
+  endif
+  if section.settings.uppercase_heading
+    assign banner_classes = banner_classes | append: ' cwc_collection-banner--uppercase'
+  endif
+  if section.settings.full_width
+    assign banner_classes = banner_classes | append: ' cwc_collection-banner--full-width'
+  endif
+%}
+
+<section id="cwc_collection-banner-{{ section.id }}" class="{{ banner_classes }}">
+  {% comment %} Background media + overlay {% endcomment %}
+  {% if bg_image != blank %}
+    <div class="cwc_collection-banner__media" aria-hidden="true">
+      <picture>
+        {% if bg_image_mobile != blank %}
+          <source
+            media="(max-width: 767px)"
+            srcset="
+              {{ bg_image_mobile | image_url: width: 750 }} 750w,
+              {{ bg_image_mobile | image_url: width: 1100 }} 1100w
+            "
+            sizes="100vw"
+          >
+        {% endif %}
+        <img
+          src="{{ bg_image | image_url: width: 1800 }}"
+          srcset="
+            {{ bg_image | image_url: width: 900 }} 900w,
+            {{ bg_image | image_url: width: 1400 }} 1400w,
+            {{ bg_image | image_url: width: 1800 }} 1800w,
+            {{ bg_image | image_url: width: 2400 }} 2400w
+          "
+          sizes="100vw"
+          alt="{{ section.settings.alt_text | default: banner_title | escape }}"
+          width="{{ bg_image.width }}"
+          height="{{ bg_image.height }}"
+          loading="{% if section.settings.lazy_load %}lazy{% else %}eager{% endif %}"
+          fetchpriority="{% if section.settings.lazy_load %}auto{% else %}high{% endif %}"
+        >
+      </picture>
+      <div class="cwc_collection-banner__overlay"></div>
+    </div>
+  {% endif %}
+
+  <div class="cwc_collection-banner__container">
+    <div class="cwc_collection-banner__content">
+
+      {% if section.settings.eyebrow != blank %}
+        <div class="cwc_collection-banner__eyebrow">{{ section.settings.eyebrow }}</div>
+      {% endif %}
+
+      {% if banner_title != blank %}
+        <{{ heading_tag }} class="cwc_collection-banner__content-heading">
+          {{- banner_title -}}
+        </{{ heading_tag }}>
+      {% endif %}
+
+      {% if section.settings.subtext != blank %}
+        <div class="cwc_collection-banner__content-subtext cwc-rte">
+          {{ section.settings.subtext }}
+        </div>
+      {% endif %}
+
+      {% if section.settings.show_product_count and collection != blank %}
+        <div class="cwc_collection-banner__count">
+          {{ collection.all_products_count }}
+          {% if collection.all_products_count == 1 %}product{% else %}products{% endif %}
+        </div>
+      {% endif %}
+
+      {% comment %} Pill navigation {% endcomment %}
+      {% if section.blocks.size > 0 %}
+        <nav class="cwc_collection-banner__nav" aria-label="{{ section.settings.nav_label | default: 'Collection links' | escape }}">
+          {% for block in section.blocks %}
+            {% case block.type %}
+              {% when 'pill' %}
+                {% liquid
+                  assign pill_collection = block.settings.collection
+
+                  if block.settings.title != blank
+                    assign pill_title = block.settings.title
+                  elsif pill_collection != blank
+                    assign pill_title = pill_collection.title
+                  else
+                    assign pill_title = 'Shop All'
+                  endif
+
+                  if block.settings.link != blank
+                    assign pill_link = block.settings.link
+                  elsif pill_collection != blank
+                    assign pill_link = pill_collection.url
+                  else
+                    assign pill_link = nil
+                  endif
+
+                  assign pill_active = false
+                  if block.settings.force_active
+                    assign pill_active = true
+                  elsif pill_collection != blank and collection != blank and pill_collection.handle == collection.handle
+                    assign pill_active = true
+                  endif
+                %}
+
+                {% if pill_link != blank %}
+                  <a
+                    href="{{ pill_link }}"
+                    class="cwc_collection-banner__pill{% if pill_active %} cwc_collection-banner__pill--active{% endif %}"
+                    {% if pill_active %}aria-current="page"{% endif %}
+                    {{ block.shopify_attributes }}
+                  >
+                    {{- pill_title -}}
+                  </a>
+                {% else %}
+                  <span
+                    class="cwc_collection-banner__pill cwc_collection-banner__pill--static"
+                    {{ block.shopify_attributes }}
+                  >
+                    {{- pill_title -}}
+                  </span>
+                {% endif %}
+            {% endcase %}
+          {% endfor %}
+        </nav>
+      {% endif %}
+
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "CWC Collection Banner",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Header"
+    },
+    {
+      "type": "paragraph",
+      "content": "The heading pulls the current collection title automatically. Use the override below only when you need different wording."
+    },
+    {
+      "type": "text",
+      "id": "heading_override",
+      "label": "Heading Override",
+      "info": "Leave blank to use the collection title."
+    },
+    {
+      "type": "select",
+      "id": "heading_tag",
+      "label": "Heading Level",
+      "info": "Use Level 1 on collection pages for SEO. Drop to Level 2 if the page already has a Level 1 heading.",
+      "options": [
+        { "value": "h1", "label": "Level 1" },
+        { "value": "h2", "label": "Level 2" },
+        { "value": "div", "label": "No heading level" }
+      ],
+      "default": "h1"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow Label",
+      "info": "Small uppercase line above the heading. Optional."
+    },
+    {
+      "type": "richtext",
+      "id": "subtext",
+      "label": "Subtext"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_product_count",
+      "label": "Show Product Count",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Background Image"
+    },
+    {
+      "type": "checkbox",
+      "id": "use_collection_image",
+      "label": "Use Collection Image",
+      "info": "Falls back to the flat background color when the collection has no image.",
+      "default": false
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image Override",
+      "info": "Overrides the collection image."
+    },
+    {
+      "type": "image_picker",
+      "id": "image_mobile",
+      "label": "Mobile Image",
+      "info": "Optional. Falls back to the desktop image."
+    },
+    {
+      "type": "text",
+      "id": "alt_text",
+      "label": "Image Alt Text"
+    },
+    {
+      "type": "checkbox",
+      "id": "lazy_load",
+      "label": "Lazy Load Image",
+      "info": "Turn off when this banner is the first thing on the page.",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Image Overlay"
+    },
+    {
+      "type": "paragraph",
+      "content": "The overlay sits between the image and the text so headings stay readable. Raise the opacity on busy or light images."
+    },
+    {
+      "type": "color",
+      "id": "overlay_color",
+      "label": "Overlay Color",
+      "default": "#2A2611"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "Overlay Opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 55
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#44681A"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "bold_color",
+      "label": "Heading Bold Color",
+      "default": "#A3C781"
+    },
+    {
+      "type": "color",
+      "id": "eyebrow_color",
+      "label": "Eyebrow Color",
+      "default": "#A3C781"
+    },
+    {
+      "type": "header",
+      "content": "Pill Colors"
+    },
+    {
+      "type": "color",
+      "id": "pill_bg_color",
+      "label": "Pill Background Color",
+      "info": "Leave dark/transparent for the outlined look.",
+      "default": "#44681A"
+    },
+    {
+      "type": "color",
+      "id": "pill_text_color",
+      "label": "Pill Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "pill_border_color",
+      "label": "Pill Border Color",
+      "default": "#A3C781"
+    },
+    {
+      "type": "color",
+      "id": "pill_bg_active_color",
+      "label": "Active Pill Background Color",
+      "default": "#5BA90F"
+    },
+    {
+      "type": "color",
+      "id": "pill_text_active_color",
+      "label": "Active Pill Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "pill_border_active_color",
+      "label": "Active Pill Border Color",
+      "default": "#5BA90F"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "text_align",
+      "label": "Text Alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "Full Width Content",
+      "info": "Turn off to keep content inside the 1300px container.",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "label": "Heading Size",
+      "min": 24,
+      "max": 72,
+      "step": 2,
+      "unit": "px",
+      "default": 44
+    },
+    {
+      "type": "checkbox",
+      "id": "uppercase_heading",
+      "label": "Uppercase Heading",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "min_height",
+      "label": "Minimum Height",
+      "min": 120,
+      "max": 600,
+      "step": 10,
+      "unit": "px",
+      "default": 260
+    },
+    {
+      "type": "text",
+      "id": "nav_label",
+      "label": "Pill Navigation Screen Reader Label",
+      "default": "Collection links"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 60
+    }
+  ],
+  "blocks": [
+    {
+      "type": "pill",
+      "name": "Pill Link",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection",
+          "info": "Supplies the label and link. Highlights automatically when the shopper is on this collection."
+        },
+        {
+          "type": "header",
+          "content": "Overrides (Optional)"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Label Override"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link Override"
+        },
+        {
+          "type": "checkbox",
+          "id": "force_active",
+          "label": "Always Highlight",
+          "info": "Force the active style, e.g. on a Shop All pill.",
+          "default": false
+        }
+      ]
+    }
+  ],
+  "max_blocks": 8,
+  "presets": [
+    {
+      "name": "Collection Banner",
+      "category": "CWC Custom",
+      "blocks": [
+        { "type": "pill" },
+        { "type": "pill" },
+        { "type": "pill" },
+        { "type": "pill" }
+      ]
+    }
+  ]
+}
+{% endschema %}

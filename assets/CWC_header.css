@@ -193,8 +193,12 @@
 }
 
 /* === Mobile Toggle === */
-.cwc_header__toggle {
+.cwc_header__toggle-wrap {
   display: none;
+}
+
+.cwc_header__toggle {
+  display: flex;
   flex-direction: column;
   justify-content: center;
   gap: 4px;
@@ -220,10 +224,37 @@
 @media screen and (max-width: 991px) {
   .cwc_header__container {
     padding: 0 20px;
+    gap: 12px;
   }
 
-  .cwc_header__toggle {
+  /* three zones: toggle left, wordmark centered, utility right.
+     equal flex on the outer zones is what keeps the wordmark optically centered */
+  .cwc_header__toggle-wrap {
     display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex: 1 1 0;
+    min-width: 0;
+  }
+
+  .cwc_header__logo {
+    flex: 0 0 auto;
+    max-width: 55%;
+    justify-content: center;
+  }
+
+  .cwc_header__logo-image {
+    max-width: 100%;
+  }
+
+  .cwc_header__logo-text {
+    white-space: nowrap;
+  }
+
+  .cwc_header__utility {
+    flex: 1 1 0;
+    min-width: 0;
+    justify-content: flex-end;
   }
 
   .cwc_header__links {

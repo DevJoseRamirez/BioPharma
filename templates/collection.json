@@ -11,25 +11,27 @@
   "sections": {
     "collection-banner": {
       "type": "collection-banner",
+      "disabled": true,
       "settings": {
-        "color_scheme": "scheme-1",
+        "color_scheme": "scheme-f23b3a5a-1f3c-4d6a-94eb-96f8fab0ad49",
+        "image": "shopify://shop_images/pdp-image-frame-06.png",
         "image_size": "xs",
         "allow_transparent_header": false,
-        "reveal": true,
-        "enable_parallax": true,
+        "reveal": false,
+        "enable_parallax": false,
         "show_image": false,
         "show_collection_title": true,
         "show_collection_description": false,
         "show_breadcrumb": false,
         "content_width": "xs",
-        "overlay_color": "#000000",
-        "overlay_opacity": 30
+        "overlay_color": "#FFFFFF",
+        "overlay_opacity": 50
       }
     },
     "main": {
       "type": "main-collection",
       "settings": {
-        "color_scheme": "scheme-2",
+        "color_scheme": "scheme-f23b3a5a-1f3c-4d6a-94eb-96f8fab0ad49",
         "hide_product_information": false,
         "products_per_page": 34,
         "products_per_row_mobile": "2",

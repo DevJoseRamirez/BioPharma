@@ -1,0 +1,276 @@
+/* ==============================
+   CWC Collection Banner
+   ============================== */
+
+/* === Section Wrapper === */
+.cwc_collection-banner {
+  font-size: 16px; /* section anchor — all type below is em relative to this */
+  position: relative;
+  isolation: isolate;
+  background-color: var(--section-bg);
+  color: var(--text-color);
+  font-family: var(--cwc-font-body);
+  padding-top: var(--padding-top);
+  padding-bottom: var(--padding-bottom);
+  min-height: var(--banner-min-height);
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+/* === Background Media + Overlay === */
+.cwc_collection-banner__media {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.cwc_collection-banner__media picture,
+.cwc_collection-banner__media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.cwc_collection-banner__media img {
+  object-fit: cover;
+  object-position: center;
+}
+
+.cwc_collection-banner__overlay {
+  position: absolute;
+  inset: 0;
+  background-color: var(--overlay-color);
+  opacity: var(--overlay-opacity);
+}
+
+/* === Container === */
+.cwc_collection-banner__container {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+.cwc_collection-banner--full-width .cwc_collection-banner__container {
+  max-width: none;
+}
+
+/* === Content === */
+.cwc_collection-banner__content {
+  width: 100%;
+}
+
+.cwc_collection-banner--align-center .cwc_collection-banner__content {
+  text-align: center;
+  max-width: 820px;
+  margin: 0 auto;
+}
+
+.cwc_collection-banner--align-left .cwc_collection-banner__content {
+  text-align: left;
+  max-width: 720px;
+}
+
+/* === Eyebrow === */
+.cwc_collection-banner__eyebrow {
+  font-size: 0.75em; /* 12px */
+  font-weight: var(--cwc-weight-label);
+  letter-spacing: var(--cwc-tracking-label);
+  text-transform: uppercase;
+  color: var(--eyebrow-color);
+  margin-bottom: 12px;
+}
+
+/* === Heading === */
+.cwc_collection-banner__content-heading {
+  font-family: var(--cwc-font-heading);
+  font-weight: var(--cwc-weight-heading);
+  font-size: var(--heading-size);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  margin: 0;
+  color: var(--heading-color);
+}
+
+.cwc_collection-banner--uppercase .cwc_collection-banner__content-heading {
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+}
+
+.cwc_collection-banner__content-heading strong {
+  color: var(--highlight-color);
+  font-weight: inherit;
+}
+
+/* Keep the heading legible over photography */
+.cwc_collection-banner--has-image .cwc_collection-banner__content-heading {
+  text-shadow: 0 1px 18px rgba(0, 0, 0, 0.35);
+}
+
+/* === Subtext === */
+.cwc_collection-banner__content-subtext {
+  margin-top: 14px;
+  max-width: 620px;
+}
+
+.cwc_collection-banner--align-center .cwc_collection-banner__content-subtext {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.cwc_collection-banner__content-subtext p {
+  font-size: 1.0625em; /* 17px */
+  line-height: var(--cwc-line-body);
+  margin: 0;
+  color: var(--text-color);
+}
+
+.cwc_collection-banner__content-subtext p + p {
+  margin-top: 10px;
+}
+
+.cwc_collection-banner__content-subtext strong {
+  color: var(--highlight-color);
+  font-weight: var(--cwc-weight-subheading);
+}
+
+.cwc_collection-banner__content-subtext a {
+  color: inherit;
+  text-decoration: underline;
+}
+
+/* === Product Count === */
+.cwc_collection-banner__count {
+  margin-top: 12px;
+  font-size: 0.8125em; /* 13px */
+  font-weight: var(--cwc-weight-label);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--text-color);
+  opacity: 0.8;
+}
+
+/* === Pill Navigation === */
+.cwc_collection-banner__nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.cwc_collection-banner--align-center .cwc_collection-banner__nav {
+  justify-content: center;
+}
+
+.cwc_collection-banner--align-left .cwc_collection-banner__nav {
+  justify-content: flex-start;
+}
+
+.cwc_collection-banner__pill {
+  display: inline-block;
+  background: var(--pill-bg);
+  color: var(--pill-text);
+  border: 1px solid var(--pill-border);
+  border-radius: 999px;
+  padding: 11px 22px;
+  font-size: 0.8125em; /* 13px */
+  font-weight: var(--cwc-weight-label);
+  letter-spacing: 1.2px;
+  line-height: 1;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.cwc_collection-banner__pill:hover,
+.cwc_collection-banner__pill:focus-visible {
+  background: var(--pill-bg-active);
+  color: var(--pill-text-active);
+  border-color: var(--pill-border-active);
+}
+
+.cwc_collection-banner__pill--static:hover {
+  background: var(--pill-bg);
+  color: var(--pill-text);
+  border-color: var(--pill-border);
+  cursor: default;
+}
+
+.cwc_collection-banner__pill--active {
+  background: var(--pill-bg-active);
+  color: var(--pill-text-active);
+  border-color: var(--pill-border-active);
+}
+
+.cwc_collection-banner__pill:focus-visible {
+  outline: 2px solid var(--pill-text);
+  outline-offset: 2px;
+}
+
+/* ==============================
+   Tablet Responsive
+   ============================== */
+@media screen and (max-width: 991px) {
+  .cwc_collection-banner__container {
+    padding: 0 20px;
+  }
+
+  .cwc_collection-banner__content-heading {
+    font-size: calc((var(--heading-size) + var(--heading-size-mobile)) / 2);
+  }
+}
+
+/* ==============================
+   Mobile Responsive
+   ============================== */
+@media screen and (max-width: 768px) {
+  .cwc_collection-banner {
+    padding-top: var(--padding-top-mobile);
+    padding-bottom: var(--padding-bottom-mobile);
+    min-height: var(--banner-min-height-mobile);
+  }
+
+  .cwc_collection-banner__container {
+    padding: 0 16px;
+  }
+
+  .cwc_collection-banner__content-heading {
+    font-size: var(--heading-size-mobile);
+  }
+
+  .cwc_collection-banner__eyebrow {
+    margin-bottom: 8px;
+  }
+
+  .cwc_collection-banner__content-subtext {
+    margin-top: 10px;
+  }
+
+  .cwc_collection-banner__content-subtext p {
+    font-size: 1em; /* 16px */
+  }
+
+  .cwc_collection-banner__nav {
+    gap: 8px;
+    margin-top: 18px;
+  }
+
+  .cwc_collection-banner__pill {
+    padding: 9px 16px;
+    font-size: 0.75em; /* 12px */
+    letter-spacing: 1px;
+  }
+}
+
+/* ==============================
+   Reduced Motion
+   ============================== */
+@media (prefers-reduced-motion: reduce) {
+  .cwc_collection-banner__pill {
+    transition: none;
+  }
+}

@@ -13,8 +13,6 @@
       "type": "collection-banner",
       "settings": {
         "color_scheme": "scheme-1",
-        "image": "shopify://shop_images/Add_a_little_bit_of_body_text_Facebook_Cover_4.png",
-        "mobile_image": "shopify://shop_images/Add_a_little_bit_of_body_text_Facebook_Cover_4.png",
         "image_size": "xs",
         "allow_transparent_header": false,
         "reveal": true,
@@ -31,7 +29,7 @@
     "main": {
       "type": "main-collection",
       "settings": {
-        "color_scheme": "scheme-2",
+        "color_scheme": "scheme-f23b3a5a-1f3c-4d6a-94eb-96f8fab0ad49",
         "hide_product_information": false,
         "products_per_page": 34,
         "products_per_row_mobile": "2",

@@ -132,6 +132,7 @@
         "newsletter",
         "text_JMxkni"
       ],
+      "disabled": true,
       "settings": {
         "color_scheme": "scheme-3",
         "separate_section_with_border": false,
