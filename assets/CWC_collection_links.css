@@ -1,0 +1,215 @@
+/* ==============================
+   CWC Collection Links
+   ============================== */
+
+/* === Section Wrapper === */
+.cwc_collection-links {
+  font-size: 16px; /* section anchor — all type below is em relative to this */
+  background-color: var(--section-bg);
+  font-family: var(--cwc-font-body);
+  padding-top: var(--padding-top);
+  padding-bottom: var(--padding-bottom);
+}
+
+.cwc_collection-links--top-border {
+  border-top: 1px solid var(--border-color);
+}
+
+.cwc_collection-links--bottom-border {
+  border-bottom: 1px solid var(--border-color);
+}
+
+/* === Container === */
+.cwc_collection-links__container {
+  width: 100%;
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+.cwc_collection-links--full-width .cwc_collection-links__container {
+  max-width: none;
+}
+
+/* === Pill Row ===
+   A single scrolling row, not a wrapping grid. Width is fit-content capped at
+   100%, so a short row centres itself and a long row fills the space and
+   scrolls — using justify-content:center on an overflowing scroller would make
+   the first pills unreachable in some browsers. */
+.cwc_collection-links__nav {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 12px;
+  width: fit-content;
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-behavior: smooth;
+  scroll-snap-type: x proximity;
+  /* keeps a horizontal flick from also scrolling the page */
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
+  /* room for the scrollbar so it never sits on top of the pills */
+  padding-bottom: 10px;
+  /* scrollbar, Firefox */
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+}
+
+.cwc_collection-links--align-center .cwc_collection-links__nav {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.cwc_collection-links--align-left .cwc_collection-links__nav {
+  margin-left: 0;
+  margin-right: auto;
+}
+
+/* === Scrollbar === */
+.cwc_collection-links__nav::-webkit-scrollbar {
+  height: 5px;
+}
+
+.cwc_collection-links__nav::-webkit-scrollbar-track {
+  background: var(--scrollbar-track);
+  border-radius: 999px;
+}
+
+.cwc_collection-links__nav::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border-radius: 999px;
+}
+
+/* Mouse drag-to-scroll, added by script while a drag is in progress. */
+.cwc_collection-links__nav--dragging {
+  cursor: grabbing;
+  user-select: none;
+  scroll-snap-type: none;
+}
+
+.cwc_collection-links__nav--dragging .cwc_collection-links__pill {
+  cursor: grabbing;
+}
+
+/* Hidden bar variant — the row still scrolls by drag, wheel and keyboard. */
+.cwc_collection-links--no-scrollbar .cwc_collection-links__nav {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  padding-bottom: 0;
+}
+
+.cwc_collection-links--no-scrollbar .cwc_collection-links__nav::-webkit-scrollbar {
+  display: none;
+}
+
+/* === Pill === */
+.cwc_collection-links__pill {
+  display: inline-block;
+  /* never shrink or wrap — the row scrolls instead */
+  flex: 0 0 auto;
+  scroll-snap-align: start;
+  background: var(--pill-bg);
+  color: var(--pill-text);
+  border: 1px solid var(--pill-border);
+  border-radius: 999px;
+  padding: 11px 22px;
+  font-size: 0.8125em; /* 13px */
+  font-weight: var(--cwc-weight-label);
+  letter-spacing: 1.2px;
+  line-height: 1;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.cwc_collection-links__pill:hover,
+.cwc_collection-links__pill:focus-visible {
+  background: var(--pill-bg-active);
+  color: var(--pill-text-active);
+  border-color: var(--pill-border-active);
+}
+
+.cwc_collection-links__pill--static:hover {
+  background: var(--pill-bg);
+  color: var(--pill-text);
+  border-color: var(--pill-border);
+  cursor: default;
+}
+
+.cwc_collection-links__pill--active {
+  background: var(--pill-bg-active);
+  color: var(--pill-text-active);
+  border-color: var(--pill-border-active);
+}
+
+.cwc_collection-links__pill:focus-visible {
+  outline: 2px solid var(--pill-border-active);
+  outline-offset: 2px;
+}
+
+/* === Empty State === */
+.cwc_collection-links__empty {
+  text-align: center;
+  color: #999;
+}
+
+.cwc_collection-links__empty p {
+  margin: 0;
+  font-size: 0.9em;
+}
+
+/* ==============================
+   Tablet Responsive
+   ============================== */
+@media screen and (max-width: 991px) {
+  .cwc_collection-links__container {
+    padding: 0 20px;
+  }
+}
+
+/* ==============================
+   Mobile Responsive
+   ============================== */
+@media screen and (max-width: 768px) {
+  .cwc_collection-links {
+    padding-top: var(--padding-top-mobile);
+    padding-bottom: var(--padding-bottom-mobile);
+  }
+
+  .cwc_collection-links__container {
+    padding: 0 16px;
+  }
+
+  .cwc_collection-links__nav {
+    gap: 8px;
+    /* full bleed to the container edges so the row reads as scrollable */
+    width: auto;
+  }
+
+  .cwc_collection-links--align-center .cwc_collection-links__nav,
+  .cwc_collection-links--align-left .cwc_collection-links__nav {
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .cwc_collection-links__pill {
+    padding: 9px 16px;
+    font-size: 0.75em; /* 12px */
+    letter-spacing: 1px;
+  }
+}
+
+/* ==============================
+   Reduced Motion
+   ============================== */
+@media (prefers-reduced-motion: reduce) {
+  .cwc_collection-links__pill {
+    transition: none;
+  }
+
+  .cwc_collection-links__nav {
+    scroll-behavior: auto;
+  }
+}

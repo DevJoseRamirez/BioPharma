@@ -2,6 +2,7 @@
   'use strict';
 
   var SELECTED_OFFER = 'cwc_product-hero-buy-box__offer--selected';
+  var SELECTED_ONETIME = 'cwc_product-hero-buy-box__onetime-button--selected';
   var SELECTED_FLAVOR = 'cwc_product-hero-buy-box__flavor--selected';
   var ACTIVE_THUMB = 'cwc_product-hero-buy-box__thumb--active';
   var HIDDEN_PANEL = 'cwc_product-hero-buy-box__detail-answer--hidden';
@@ -161,21 +162,29 @@
     // The sticky bar shares this section's form, so only its display text has
     // to follow the selection — the inputs it submits are already the same ones.
     var stickyPlanLabel = sectionEl.querySelector('[data-cwc-plan-label]');
+    var stickyPlanSub = sectionEl.querySelector('[data-cwc-plan-sub]');
     var stickyPrice = sectionEl.querySelector('[data-cwc-button-price]');
 
-    function syncSticky(label, price) {
+    // What the chip says before anything is picked, so the one-time option can
+    // fall back to it instead of leaving a stale supply sub-line behind.
+    var stickySubDefault = stickyPlanSub ? stickyPlanSub.textContent.trim() : '';
+
+    function syncSticky(label, price, sub) {
       if (stickyPlanLabel && label) stickyPlanLabel.textContent = label;
       if (stickyPrice && price) stickyPrice.textContent = price;
+      // sub is allowed to be empty — an option with no sub must clear the old
+      // one rather than keep showing the previous option's per-serving price
+      if (stickyPlanSub) stickyPlanSub.textContent = sub || stickySubDefault;
     }
 
     function announce() {
       var selected = sectionEl.querySelector('.' + SELECTED_OFFER);
       var priceEl = selected ? selected.querySelector('[data-cwc-offer-now]') : null;
-      var nameEl = selected ? selected.querySelector('.cwc_product-hero-buy-box__offer-name') : null;
 
       syncSticky(
-        nameEl ? nameEl.textContent.trim() : '',
-        priceEl ? priceEl.textContent.trim() : ''
+        selected ? selected.getAttribute('data-cwc-offer-name') : '',
+        priceEl ? priceEl.textContent.trim() : '',
+        selected ? selected.getAttribute('data-cwc-offer-sub') : ''
       );
 
       sectionEl.dispatchEvent(
@@ -187,24 +196,47 @@
             sellingPlan: planInput ? planInput.value : '',
             quantity: quantityInput ? quantityInput.value : '1',
             price: priceEl ? priceEl.textContent.trim() : '',
-            label: nameEl ? nameEl.textContent.trim() : ''
+            label: selected ? selected.getAttribute('data-cwc-offer-name') || '' : ''
           }
         })
       );
     }
 
-    function selectOffer(offerEl) {
+    /**
+     * Cart expects selling_plan to be a bare integer, and rejects an empty
+     * string outright with "expected String to be a Integer: selling_plan".
+     *
+     * Two things go wrong in practice. Merchants paste the id from the admin,
+     * where it reads "#1861583106" and often carries a trailing non-breaking
+     * space. And a one-time purchase has no plan at all. So: strip to digits,
+     * and disable the field when nothing is left, since a disabled input is not
+     * submitted rather than submitted empty.
+     */
+    function setPlan(rawValue) {
+      if (!planInput) return;
+
+      var digits = String(rawValue || '').replace(/[^0-9]/g, '');
+      planInput.value = digits;
+      planInput.disabled = digits === '';
+    }
+
+    function clearOffers() {
       offers.forEach(function (item) {
         item.classList.remove(SELECTED_OFFER);
         var input = item.querySelector('.cwc_product-hero-buy-box__offer-input');
         if (input) input.checked = false;
       });
+    }
+
+    function selectOffer(offerEl) {
+      clearOffers();
+      if (onetime) onetime.classList.remove(SELECTED_ONETIME);
 
       offerEl.classList.add(SELECTED_OFFER);
       var radio = offerEl.querySelector('.cwc_product-hero-buy-box__offer-input');
       if (radio) radio.checked = true;
 
-      if (planInput) planInput.value = offerEl.getAttribute('data-cwc-offer-plan') || '';
+      setPlan(offerEl.getAttribute('data-cwc-offer-plan'));
       if (quantityInput) quantityInput.value = offerEl.getAttribute('data-cwc-offer-quantity') || '1';
 
       announce();
@@ -216,16 +248,85 @@
       });
     });
 
+    /**
+     * The real product form, or null in the no-product preview where the same
+     * class sits on a plain div.
+     */
+    function productForm() {
+      var el = sectionEl.querySelector('.cwc_product-hero-buy-box__form');
+      return el && el.tagName === 'FORM' ? el : null;
+    }
+
+    /**
+     * The theme adds to cart over fetch and reports a rejected add by firing
+     * cart:error on the form — its own buy-buttons element is what normally
+     * displays that, and this section does not use it. Without this the shopper
+     * would press the button and see nothing happen at all.
+     */
+    function initCartErrors() {
+      var form = productForm();
+      if (!form) return;
+
+      form.addEventListener('cart:error', function (event) {
+        var message = (event.detail && event.detail.error) || 'This item could not be added to your cart.';
+        var box = sectionEl.querySelector('[data-cwc-cart-error]');
+
+        if (!box) {
+          box = document.createElement('div');
+          box.className = 'cwc_product-hero-buy-box__cart-error';
+          box.setAttribute('data-cwc-cart-error', '');
+          box.setAttribute('role', 'alert');
+
+          var cta = sectionEl.querySelector('.cwc_product-hero-buy-box__cta');
+          if (cta && cta.parentNode) {
+            cta.parentNode.insertBefore(box, cta.nextSibling);
+          } else {
+            form.appendChild(box);
+          }
+        }
+
+        box.textContent = message;
+      });
+
+      // A successful add clears whatever the last failure said.
+      form.addEventListener('variant:add', function () {
+        var box = sectionEl.querySelector('[data-cwc-cart-error]');
+        if (box) box.textContent = '';
+      });
+    }
+
+    /**
+     * The one-time link is a buy action, not just a toggle: picking it drops the
+     * selling plan and adds the bare product straight to the cart, one unit.
+     *
+     * It submits through the real Add To Cart button rather than the form, so a
+     * theme cart drawer listening for that click still opens. The form is only
+     * submitted directly when the Add To Cart block is absent, which is allowed.
+     */
+    function addOneTimeToCart() {
+      var form = productForm();
+      if (!form) return;
+
+      var cta = sectionEl.querySelector('.cwc_product-hero-buy-box__cta');
+      if (cta && cta.disabled) return;
+
+      if (cta) {
+        cta.click();
+      } else if (form.requestSubmit) {
+        form.requestSubmit();
+      } else {
+        form.submit();
+      }
+    }
+
     if (onetime) {
       onetime.addEventListener('click', function () {
-        offers.forEach(function (item) {
-          item.classList.remove(SELECTED_OFFER);
-          var input = item.querySelector('.cwc_product-hero-buy-box__offer-input');
-          if (input) input.checked = false;
-        });
-        if (planInput) planInput.value = '';
+        clearOffers();
+        onetime.classList.add(SELECTED_ONETIME);
+        setPlan('');
         if (quantityInput) quantityInput.value = '1';
         announce();
+        addOneTimeToCart();
       });
     }
 
@@ -469,17 +570,203 @@
       );
     }
 
-    // The plan chip is a shortcut back to the supply cards, which are in view
-    // in this same section.
+    /* ===== Sticky plan picker =====
+
+       The chip changes the selection outright instead of scrolling back to the
+       supply cards. Options are read from those cards at open time and each one
+       routes through the same selectOffer() / one-time handler the cards use, so
+       there is a single selection path and nothing to keep in sync.
+
+       Falls back to scrolling to the cards only when there is nothing to pick
+       from, which is the one case where the old behaviour was the useful one. */
     var planChip = sectionEl.querySelector('[data-cwc-plan-chip]');
-    if (planChip) {
-      planChip.addEventListener('click', function () {
-        sectionEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    var planMenu = sectionEl.querySelector('[data-cwc-plan-menu]');
+
+    function collectPlanOptions() {
+      var options = [];
+
+      offers.forEach(function (offerEl) {
+        var nameEl = offerEl.querySelector('.cwc_product-hero-buy-box__offer-name');
+        var priceEl = offerEl.querySelector('[data-cwc-offer-now]');
+        var descEl = offerEl.querySelector('.cwc_product-hero-buy-box__offer-description');
+        var saveEl = offerEl.querySelector('.cwc_product-hero-buy-box__offer-save');
+
+        options.push({
+          // the attribute is the clean name; the element's text would also pick
+          // up the save badge nested inside it ("90-Day SupplySave 25%")
+          label:
+            offerEl.getAttribute('data-cwc-offer-name') ||
+            directText(nameEl) ||
+            (nameEl ? nameEl.textContent.trim() : 'Supply option'),
+          note: descEl ? descEl.textContent.trim() : '',
+          price: priceEl ? priceEl.textContent.trim() : '',
+          save: saveEl ? saveEl.textContent.trim() : '',
+          isSelected: offerEl.classList.contains(SELECTED_OFFER),
+          choose: function () {
+            selectOffer(offerEl);
+          }
+        });
       });
+
+      // Subscription plans only. The one-time purchase stays available on the
+      // card below; the sticky bar is a fast path to the plan the shopper is
+      // most likely to want, not a full repeat of the buy box.
+      return options;
+    }
+
+    /* Text belonging to the element itself, ignoring nested spans such as the
+       save badge. */
+    function directText(el) {
+      if (!el) return '';
+      var out = '';
+      for (var i = 0; i < el.childNodes.length; i++) {
+        if (el.childNodes[i].nodeType === 3) out += el.childNodes[i].textContent;
+      }
+      return out.trim();
+    }
+
+    function buildPlanMenu() {
+      if (!planMenu) return 0;
+
+      var options = collectPlanOptions();
+      planMenu.textContent = '';
+
+      options.forEach(function (option) {
+        var row = document.createElement('button');
+        row.type = 'button';
+        row.className = 'cwc_sticky-add-to-cart__plan-option';
+        if (option.isSelected) {
+          row.className += ' cwc_sticky-add-to-cart__plan-option--selected';
+        }
+        row.setAttribute('role', 'option');
+        row.setAttribute('aria-selected', option.isSelected ? 'true' : 'false');
+
+        var main = document.createElement('span');
+        main.className = 'cwc_sticky-add-to-cart__plan-option-main';
+
+        var name = document.createElement('span');
+        name.className = 'cwc_sticky-add-to-cart__plan-option-name';
+        name.textContent = option.label;
+        main.appendChild(name);
+
+        if (option.note) {
+          var note = document.createElement('span');
+          note.className = 'cwc_sticky-add-to-cart__plan-option-note';
+          note.textContent = option.note;
+          main.appendChild(note);
+        }
+
+        row.appendChild(main);
+
+        if (option.price || option.save) {
+          var meta = document.createElement('span');
+          meta.className = 'cwc_sticky-add-to-cart__plan-option-meta';
+
+          if (option.price) {
+            var price = document.createElement('span');
+            price.className = 'cwc_sticky-add-to-cart__plan-option-price';
+            price.textContent = option.price;
+            meta.appendChild(price);
+          }
+
+          if (option.save) {
+            var save = document.createElement('span');
+            save.className = 'cwc_sticky-add-to-cart__plan-option-save';
+            save.textContent = option.save;
+            meta.appendChild(save);
+          }
+
+          row.appendChild(meta);
+        }
+
+        row.addEventListener('click', function () {
+          option.choose();
+          closePlanMenu();
+          planChip.focus();
+        });
+
+        planMenu.appendChild(row);
+      });
+
+      return options.length;
+    }
+
+    function planMenuIsOpen() {
+      return planMenu && !planMenu.hidden;
+    }
+
+    function openPlanMenu() {
+      if (!planMenu) return;
+      if (!buildPlanMenu()) return;
+
+      planMenu.hidden = false;
+      planChip.setAttribute('aria-expanded', 'true');
+      planChip.classList.add('cwc_sticky-add-to-cart__plan--open');
+
+      var current = planMenu.querySelector('.cwc_sticky-add-to-cart__plan-option--selected');
+      (current || planMenu.firstElementChild).focus();
+    }
+
+    function closePlanMenu() {
+      if (!planMenu || planMenu.hidden) return;
+      planMenu.hidden = true;
+      planChip.setAttribute('aria-expanded', 'false');
+      planChip.classList.remove('cwc_sticky-add-to-cart__plan--open');
+    }
+
+    if (planChip) {
+      planChip.addEventListener('click', function (event) {
+        event.stopPropagation();
+
+        if (planMenuIsOpen()) {
+          closePlanMenu();
+          return;
+        }
+
+        // no plans to choose from — fall back to showing the cards
+        if (!offers.length) {
+          sectionEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          return;
+        }
+
+        openPlanMenu();
+      });
+
+      if (planMenu) {
+        // clicks inside the panel must not reach the outside-click handler
+        planMenu.addEventListener('click', function (event) {
+          event.stopPropagation();
+        });
+
+        planMenu.addEventListener('keydown', function (event) {
+          var rows = Array.prototype.slice.call(planMenu.children);
+          var index = rows.indexOf(document.activeElement);
+
+          if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+            event.preventDefault();
+            var next = index + (event.key === 'ArrowDown' ? 1 : -1);
+            if (next < 0) next = rows.length - 1;
+            if (next >= rows.length) next = 0;
+            if (rows[next]) rows[next].focus();
+          }
+        });
+
+        document.addEventListener('click', function () {
+          closePlanMenu();
+        });
+
+        document.addEventListener('keydown', function (event) {
+          if (event.key === 'Escape' && planMenuIsOpen()) {
+            closePlanMenu();
+            planChip.focus();
+          }
+        });
+      }
     }
 
     initThumbScroller(sectionEl);
     initStickyBar(sectionEl);
+    initCartErrors();
 
     sectionEl.querySelectorAll('[data-cwc-detail-toggle]').forEach(function (toggle) {
       toggle.addEventListener('click', function () {
@@ -521,12 +808,61 @@
       });
     }
 
+    initMediaPopups(sectionEl);
+
     var initiallySelected = sectionEl.querySelector('.' + SELECTED_OFFER);
     if (!initiallySelected && offers.length) {
       selectOffer(offers[0]);
     } else if (initiallySelected) {
       selectOffer(initiallySelected);
     }
+  }
+
+  /**
+   * media_popup blocks: any number of trigger/overlay pairs, matched on the
+   * block id. Kept separate from the section-level nutrition modal above so
+   * that one keeps working exactly as before.
+   */
+  function initMediaPopups(sectionEl) {
+    var triggers = sectionEl.querySelectorAll('[data-cwc-popup-open]');
+    if (!triggers.length) return;
+
+    triggers.forEach(function (trigger) {
+      var id = trigger.getAttribute('data-cwc-popup-open');
+      var modal = sectionEl.querySelector('[data-cwc-popup-modal="' + id + '"]');
+      if (!modal) return;
+
+      var closeButton = modal.querySelector('[data-cwc-popup-close]');
+
+      function open() {
+        modal.hidden = false;
+        trigger.setAttribute('aria-expanded', 'true');
+        document.body.style.overflow = 'hidden';
+        if (closeButton) closeButton.focus();
+      }
+
+      function close() {
+        if (modal.hidden) return;
+        modal.hidden = true;
+        trigger.setAttribute('aria-expanded', 'false');
+        document.body.style.overflow = '';
+        trigger.focus();
+      }
+
+      trigger.addEventListener('click', open);
+
+      // backdrop only — clicks inside the panel must not close it
+      modal.addEventListener('click', function (event) {
+        if (event.target === modal) close();
+      });
+
+      if (closeButton) closeButton.addEventListener('click', close);
+
+      // document-level so Escape still closes it if focus moved off the panel
+      document.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape' && !modal.hidden) close();
+      });
+    });
   }
 
   function initAllSections() {

@@ -187,6 +187,19 @@
             {{ section.settings.nutrition_button_text }}
           </button>
         {% endif %}
+
+        {%- comment -%}
+          Media-column blocks. These render here, under the thumbnails, instead
+          of in the buy-box loop below. That loop's case statement has no branch
+          for this block type, so a media_popup block can never leak into the
+          right-hand column.
+        {%- endcomment -%}
+        {% for block in section.blocks %}
+          {% case block.type %}
+            {% when 'media_popup' %}
+              {% render 'CWC_pdp-media-popup__block', block: block %}
+          {% endcase %}
+        {% endfor %}
       </div>
 
       {%- comment -%}
@@ -270,11 +283,25 @@
           {% endfor %}
         {%- endcapture -%}
 
+        {%- comment -%}
+          is="product-form" hands the submit to the theme's own ProductForm
+          element: it POSTs to /cart/add.js, then fires cart:change, which is
+          what makes the cart drawer open. Without it the browser does a native
+          POST and lands the shopper on /cart, off the page entirely.
+
+          Every add in this section — main button, sticky bar, one-time link —
+          goes through this one form, so they all inherit that behaviour.
+        {%- endcomment -%}
         {% if hero_product != blank %}
-          {% form 'product', hero_product, class: 'cwc_product-hero-buy-box__form', novalidate: 'novalidate' %}
+          {% form 'product', hero_product, class: 'cwc_product-hero-buy-box__form', novalidate: 'novalidate', is: 'product-form' %}
             <input type="hidden" name="id" value="{{ current_variant.id }}" data-cwc-variant-input>
             <input type="hidden" name="quantity" value="1" data-cwc-quantity-input>
-            <input type="hidden" name="selling_plan" value="" data-cwc-plan-input>
+            {%- comment -%}
+              Starts disabled so it is not submitted at all until a plan is
+              actually chosen — cart rejects an empty selling_plan. The script
+              enables it when a subscription option is selected.
+            {%- endcomment -%}
+            <input type="hidden" name="selling_plan" value="" data-cwc-plan-input disabled>
             {{ buy_box_blocks }}
           {% endform %}
         {% else %}
@@ -301,6 +328,14 @@
       </div>
     </div>
   {% endif %}
+
+  {% comment %} Media popup overlays — one per media_popup block {% endcomment %}
+  {% for block in section.blocks %}
+    {% case block.type %}
+      {% when 'media_popup' %}
+        {% render 'CWC_pdp-media-popup__modal', block: block %}
+    {% endcase %}
+  {% endfor %}
 </section>
 
 {{ 'CWC_product_hero_buy_box.js' | asset_url | script_tag }}
@@ -823,6 +858,13 @@
           "default": "3 tubs, delivered every 90 days"
         },
         {
+          "type": "text",
+          "id": "sticky_sub",
+          "label": "Sticky Bar Sub-line",
+          "info": "Second line on the sticky bar chip when this option is selected, e.g. \"$1.87 USD / serving\". Falls back to the description.",
+          "default": "$1.87 USD / serving"
+        },
+        {
           "type": "richtext",
           "id": "perks",
           "label": "Perks",
@@ -843,7 +885,7 @@
           "type": "text",
           "id": "selling_plan_id",
           "label": "Selling Plan ID",
-          "info": "Paste the subscription selling plan ID. Leave empty for a one-time purchase."
+          "info": "Numbers only, e.g. 1861583106 — the admin shows it as #1861583106, and the # is not part of the ID. Leave empty for a one-time purchase."
         },
         {
           "type": "number",
@@ -1276,6 +1318,13 @@
           "default": "Add to cart"
         },
         {
+          "type": "text",
+          "id": "button_text_mobile",
+          "label": "Button Text (Mobile)",
+          "info": "Short label used on phones so the button stays narrow and the supply selector gets the space. The price is never shown in the button on mobile.",
+          "default": "Add"
+        },
+        {
           "type": "checkbox",
           "id": "show_price_in_button",
           "label": "Show Price In Button",
@@ -1297,6 +1346,72 @@
           "step": 50,
           "unit": "px",
           "default": 600
+        }
+      ]
+    },
+    {
+      "type": "media_popup",
+      "name": "Image Popup",
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Renders under the gallery thumbnails, not in the buy-box column. Clicking it opens the image below in an overlay. Its position in this block list does not affect where it appears — add several and they stack in list order."
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Button Label",
+          "default": "View Nutrition Label"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Popup Image",
+          "info": "Required. The button is hidden until both a label and an image are set."
+        },
+        {
+          "type": "text",
+          "id": "alt_text",
+          "label": "Popup Image Alt Text",
+          "info": "Defaults to the button label."
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Popup Heading",
+          "info": "Optional title shown above the image in the overlay."
+        },
+        {
+          "type": "header",
+          "content": "Button Icon"
+        },
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Icon Image",
+          "info": "Optional. Takes priority over the icon glyph below."
+        },
+        {
+          "type": "text",
+          "id": "icon_text",
+          "label": "Icon Glyph",
+          "info": "Used when no icon image is set. Leave blank for no icon.",
+          "default": "▤"
+        },
+        {
+          "type": "header",
+          "content": "Style"
+        },
+        {
+          "type": "select",
+          "id": "style",
+          "label": "Button Style",
+          "options": [
+            { "value": "tint", "label": "Tinted green" },
+            { "value": "outline", "label": "Outlined" },
+            { "value": "solid", "label": "Solid green" }
+          ],
+          "default": "tint"
         }
       ]
     }

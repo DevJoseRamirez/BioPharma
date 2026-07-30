@@ -1,0 +1,12 @@
+{% if fill_color %}
+  {% assign fill_color = fill_color %}
+{% else %}
+  {% assign fill_color = '#44681a' %}
+{% endif %}
+
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+  <path d="M17.5 3H6.5C5.67157 3 5 3.67157 5 4.5V19.5C5 20.3284 5.67157 21 6.5 21H17.5C18.3284 21 19 20.3284 19 19.5V4.5C19 3.67157 18.3284 3 17.5 3Z" stroke="{{ fill_color }}" stroke-width="1.6"/>
+  <path d="M8 8H16" stroke="{{ fill_color }}" stroke-width="1.6"/>
+  <path d="M8 12H16" stroke="{{ fill_color }}" stroke-width="1.6"/>
+  <path d="M8 16H13" stroke="{{ fill_color }}" stroke-width="1.6"/>
+</svg>

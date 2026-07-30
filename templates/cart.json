@@ -12,7 +12,7 @@
     "main": {
       "type": "main-cart",
       "settings": {
-        "color_scheme": "scheme-4",
+        "color_scheme": "scheme-f23b3a5a-1f3c-4d6a-94eb-96f8fab0ad49",
         "show_cart_note": true,
         "show_order_weight": false,
         "show_shipping_text": true,

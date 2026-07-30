@@ -1,0 +1,53 @@
+{% comment %}
+  Overlay half of a media_popup block.
+
+  Rendered at the end of the section, outside the gallery grid, so the fixed
+  positioning is never trapped by an ancestor's overflow or transform. Paired
+  to its trigger by block id.
+
+  Accepts:
+  - block {Object} - the media_popup block. Reads settings.label, .image,
+    .alt_text and .heading.
+
+  Usage:
+  {% render 'CWC_pdp-media-popup__modal', block: block %}
+{% endcomment %}
+
+{%- if block.settings.label != blank and block.settings.image != blank -%}
+  <div
+    class="cwc_product-hero-buy-box__modal"
+    data-cwc-popup-modal="{{ block.id }}"
+    role="dialog"
+    aria-modal="true"
+    aria-label="{{ block.settings.heading | default: block.settings.label | escape }}"
+    hidden
+  >
+    <div class="cwc_product-hero-buy-box__modal-inner">
+      <button
+        type="button"
+        class="cwc_product-hero-buy-box__modal-close"
+        aria-label="Close"
+        data-cwc-popup-close
+      >
+        &times;
+      </button>
+
+      {%- if block.settings.heading != blank -%}
+        <div class="cwc_product-hero-buy-box__modal-heading">{{ block.settings.heading }}</div>
+      {%- endif -%}
+
+      <img
+        src="{{ block.settings.image | image_url: width: 1400 }}"
+        srcset="
+          {{ block.settings.image | image_url: width: 700 }} 700w,
+          {{ block.settings.image | image_url: width: 1400 }} 1400w
+        "
+        sizes="(max-width: 768px) 90vw, 640px"
+        alt="{{ block.settings.alt_text | default: block.settings.label | escape }}"
+        width="{{ block.settings.image.width }}"
+        height="{{ block.settings.image.height }}"
+        loading="lazy"
+      >
+    </div>
+  </div>
+{%- endif -%}

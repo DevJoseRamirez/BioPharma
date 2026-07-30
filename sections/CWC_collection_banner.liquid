@@ -7,12 +7,6 @@
     --eyebrow-color: {{ section.settings.eyebrow_color | default: '#A3C781' }};
     --overlay-color: {{ section.settings.overlay_color | default: '#2A2611' }};
     --overlay-opacity: {{ section.settings.overlay_opacity | default: 55 | divided_by: 100.0 }};
-    --pill-bg: {{ section.settings.pill_bg_color | default: 'rgba(0,0,0,0)' }};
-    --pill-text: {{ section.settings.pill_text_color | default: '#ffffff' }};
-    --pill-border: {{ section.settings.pill_border_color | default: '#A3C781' }};
-    --pill-bg-active: {{ section.settings.pill_bg_active_color | default: '#5BA90F' }};
-    --pill-text-active: {{ section.settings.pill_text_active_color | default: '#ffffff' }};
-    --pill-border-active: {{ section.settings.pill_border_active_color | default: '#5BA90F' }};
     --heading-size: {{ section.settings.heading_size | default: 44 }}px;
     --heading-size-mobile: {{ section.settings.heading_size | default: 44 | times: 0.62 }}px;
     --banner-min-height: {{ section.settings.min_height | default: 260 }}px;
@@ -126,61 +120,6 @@
           {{ collection.all_products_count }}
           {% if collection.all_products_count == 1 %}product{% else %}products{% endif %}
         </div>
-      {% endif %}
-
-      {% comment %} Pill navigation {% endcomment %}
-      {% if section.blocks.size > 0 %}
-        <nav class="cwc_collection-banner__nav" aria-label="{{ section.settings.nav_label | default: 'Collection links' | escape }}">
-          {% for block in section.blocks %}
-            {% case block.type %}
-              {% when 'pill' %}
-                {% liquid
-                  assign pill_collection = block.settings.collection
-
-                  if block.settings.title != blank
-                    assign pill_title = block.settings.title
-                  elsif pill_collection != blank
-                    assign pill_title = pill_collection.title
-                  else
-                    assign pill_title = 'Shop All'
-                  endif
-
-                  if block.settings.link != blank
-                    assign pill_link = block.settings.link
-                  elsif pill_collection != blank
-                    assign pill_link = pill_collection.url
-                  else
-                    assign pill_link = nil
-                  endif
-
-                  assign pill_active = false
-                  if block.settings.force_active
-                    assign pill_active = true
-                  elsif pill_collection != blank and collection != blank and pill_collection.handle == collection.handle
-                    assign pill_active = true
-                  endif
-                %}
-
-                {% if pill_link != blank %}
-                  <a
-                    href="{{ pill_link }}"
-                    class="cwc_collection-banner__pill{% if pill_active %} cwc_collection-banner__pill--active{% endif %}"
-                    {% if pill_active %}aria-current="page"{% endif %}
-                    {{ block.shopify_attributes }}
-                  >
-                    {{- pill_title -}}
-                  </a>
-                {% else %}
-                  <span
-                    class="cwc_collection-banner__pill cwc_collection-banner__pill--static"
-                    {{ block.shopify_attributes }}
-                  >
-                    {{- pill_title -}}
-                  </span>
-                {% endif %}
-            {% endcase %}
-          {% endfor %}
-        </nav>
       {% endif %}
 
     </div>
@@ -330,47 +269,6 @@
     },
     {
       "type": "header",
-      "content": "Pill Colors"
-    },
-    {
-      "type": "color",
-      "id": "pill_bg_color",
-      "label": "Pill Background Color",
-      "info": "Leave dark/transparent for the outlined look.",
-      "default": "#44681A"
-    },
-    {
-      "type": "color",
-      "id": "pill_text_color",
-      "label": "Pill Text Color",
-      "default": "#ffffff"
-    },
-    {
-      "type": "color",
-      "id": "pill_border_color",
-      "label": "Pill Border Color",
-      "default": "#A3C781"
-    },
-    {
-      "type": "color",
-      "id": "pill_bg_active_color",
-      "label": "Active Pill Background Color",
-      "default": "#5BA90F"
-    },
-    {
-      "type": "color",
-      "id": "pill_text_active_color",
-      "label": "Active Pill Text Color",
-      "default": "#ffffff"
-    },
-    {
-      "type": "color",
-      "id": "pill_border_active_color",
-      "label": "Active Pill Border Color",
-      "default": "#5BA90F"
-    },
-    {
-      "type": "header",
       "content": "Layout"
     },
     {
@@ -417,12 +315,6 @@
       "default": 260
     },
     {
-      "type": "text",
-      "id": "nav_label",
-      "label": "Pill Navigation Screen Reader Label",
-      "default": "Collection links"
-    },
-    {
       "type": "header",
       "content": "Spacing"
     },
@@ -447,52 +339,10 @@
       "default": 60
     }
   ],
-  "blocks": [
-    {
-      "type": "pill",
-      "name": "Pill Link",
-      "settings": [
-        {
-          "type": "collection",
-          "id": "collection",
-          "label": "Collection",
-          "info": "Supplies the label and link. Highlights automatically when the shopper is on this collection."
-        },
-        {
-          "type": "header",
-          "content": "Overrides (Optional)"
-        },
-        {
-          "type": "text",
-          "id": "title",
-          "label": "Label Override"
-        },
-        {
-          "type": "url",
-          "id": "link",
-          "label": "Link Override"
-        },
-        {
-          "type": "checkbox",
-          "id": "force_active",
-          "label": "Always Highlight",
-          "info": "Force the active style, e.g. on a Shop All pill.",
-          "default": false
-        }
-      ]
-    }
-  ],
-  "max_blocks": 8,
   "presets": [
     {
       "name": "Collection Banner",
-      "category": "CWC Custom",
-      "blocks": [
-        { "type": "pill" },
-        { "type": "pill" },
-        { "type": "pill" },
-        { "type": "pill" }
-      ]
+      "category": "CWC Custom"
     }
   ]
 }

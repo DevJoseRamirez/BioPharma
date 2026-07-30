@@ -1,0 +1,317 @@
+{% style %}
+  #cwc_collection-links-{{ section.id }} {
+    --section-bg: {{ section.settings.bg_color | default: '#ffffff' }};
+    --pill-bg: {{ section.settings.pill_bg_color | default: '#ffffff' }};
+    --pill-text: {{ section.settings.pill_text_color | default: '#44681A' }};
+    --pill-border: {{ section.settings.pill_border_color | default: '#A3C781' }};
+    --pill-bg-active: {{ section.settings.pill_bg_active_color | default: '#5BA90F' }};
+    --pill-text-active: {{ section.settings.pill_text_active_color | default: '#ffffff' }};
+    --pill-border-active: {{ section.settings.pill_border_active_color | default: '#5BA90F' }};
+    --scrollbar-track: {{ section.settings.scrollbar_track_color | default: '#A3C781' | color_modify: 'alpha', 0.3 }};
+    --scrollbar-thumb: {{ section.settings.scrollbar_thumb_color | default: '#5BA90F' }};
+    --border-color: {{ section.settings.border_color | default: '#E6E5DC' }};
+    --padding-top: {{ section.settings.padding_top | default: 24 }}px;
+    --padding-bottom: {{ section.settings.padding_bottom | default: 24 }}px;
+    --padding-top-mobile: {{ section.settings.padding_top | default: 24 | times: 0.5 }}px;
+    --padding-bottom-mobile: {{ section.settings.padding_bottom | default: 24 | times: 0.5 }}px;
+  }
+{% endstyle %}
+
+{{ 'CWC_fonts.css' | asset_url | stylesheet_tag }}
+{{ 'CWC_collection_links.css' | asset_url | stylesheet_tag }}
+
+{% liquid
+  assign links_classes = 'cwc_collection-links'
+  assign links_classes = links_classes | append: ' cwc_collection-links--align-' | append: section.settings.text_align
+  if section.settings.full_width
+    assign links_classes = links_classes | append: ' cwc_collection-links--full-width'
+  endif
+  unless section.settings.show_scrollbar
+    assign links_classes = links_classes | append: ' cwc_collection-links--no-scrollbar'
+  endunless
+  if section.settings.show_top_border
+    assign links_classes = links_classes | append: ' cwc_collection-links--top-border'
+  endif
+  if section.settings.show_bottom_border
+    assign links_classes = links_classes | append: ' cwc_collection-links--bottom-border'
+  endif
+%}
+
+<section id="cwc_collection-links-{{ section.id }}" class="{{ links_classes }}">
+  <div class="cwc_collection-links__container">
+
+    {% if section.blocks.size > 0 %}
+      <nav
+        class="cwc_collection-links__nav"
+        aria-label="{{ section.settings.nav_label | default: 'Collection links' | escape }}"
+        data-cwc-links-nav
+      >
+        {% for block in section.blocks %}
+          {% case block.type %}
+            {% when 'pill' %}
+              {% liquid
+                # Override → collection → fallback, for label and link alike.
+                assign pill_collection = block.settings.collection
+
+                if block.settings.title != blank
+                  assign pill_title = block.settings.title
+                elsif pill_collection != blank
+                  assign pill_title = pill_collection.title
+                else
+                  assign pill_title = 'Shop All'
+                endif
+
+                if block.settings.link != blank
+                  assign pill_link = block.settings.link
+                elsif pill_collection != blank
+                  assign pill_link = pill_collection.url
+                else
+                  assign pill_link = nil
+                endif
+
+                # Highlights on its own when the shopper is on that collection.
+                assign pill_active = false
+                if block.settings.force_active
+                  assign pill_active = true
+                elsif pill_collection != blank and collection != blank and pill_collection.handle == collection.handle
+                  assign pill_active = true
+                endif
+              %}
+
+              {% if pill_link != blank %}
+                <a
+                  href="{{ pill_link }}"
+                  class="cwc_collection-links__pill{% if pill_active %} cwc_collection-links__pill--active{% endif %}"
+                  {% if pill_active %}aria-current="page"{% endif %}
+                  {{ block.shopify_attributes }}
+                >
+                  {{- pill_title -}}
+                </a>
+              {% else %}
+                <span
+                  class="cwc_collection-links__pill cwc_collection-links__pill--static"
+                  {{ block.shopify_attributes }}
+                >
+                  {{- pill_title -}}
+                </span>
+              {% endif %}
+          {% endcase %}
+        {% endfor %}
+      </nav>
+    {% else %}
+      <div class="cwc_collection-links__empty">
+        <p>Add pill links to display collection navigation.</p>
+      </div>
+    {% endif %}
+
+  </div>
+</section>
+
+{{ 'CWC_collection_links.js' | asset_url | script_tag }}
+
+{% schema %}
+{
+  "name": "CWC Collection Links",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "pill_bg_color",
+      "label": "Pill Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "pill_text_color",
+      "label": "Pill Text Color",
+      "default": "#44681A"
+    },
+    {
+      "type": "color",
+      "id": "pill_border_color",
+      "label": "Pill Border Color",
+      "default": "#A3C781"
+    },
+    {
+      "type": "color",
+      "id": "pill_bg_active_color",
+      "label": "Active Pill Background Color",
+      "default": "#5BA90F"
+    },
+    {
+      "type": "color",
+      "id": "pill_text_active_color",
+      "label": "Active Pill Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "pill_border_active_color",
+      "label": "Active Pill Border Color",
+      "default": "#5BA90F"
+    },
+    {
+      "type": "header",
+      "content": "Scrollbar"
+    },
+    {
+      "type": "paragraph",
+      "content": "The pills sit in one scrolling row. The bar below them shows there is more to see."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_scrollbar",
+      "label": "Show Scrollbar",
+      "info": "Turn off to hide the bar. The row still scrolls by drag, wheel and keyboard.",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "scrollbar_track_color",
+      "label": "Scrollbar Track Color",
+      "default": "#A3C781"
+    },
+    {
+      "type": "color",
+      "id": "scrollbar_thumb_color",
+      "label": "Scrollbar Thumb Color",
+      "default": "#5BA90F"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "text_align",
+      "label": "Row Alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "Full Width Row",
+      "info": "Turn off to keep the row inside the 1300px container.",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "nav_label",
+      "label": "Screen Reader Label",
+      "default": "Collection links"
+    },
+    {
+      "type": "header",
+      "content": "Borders"
+    },
+    {
+      "type": "paragraph",
+      "content": "Useful when this row sits directly under the banner and needs separating from the products below."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_top_border",
+      "label": "Show Top Border",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_bottom_border",
+      "label": "Show Bottom Border",
+      "default": false
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Border Color",
+      "default": "#E6E5DC"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 25
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 25
+    }
+  ],
+  "blocks": [
+    {
+      "type": "pill",
+      "name": "Pill Link",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection",
+          "info": "Supplies the label and link. Highlights automatically when the shopper is on this collection."
+        },
+        {
+          "type": "header",
+          "content": "Overrides (Optional)"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Label Override"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link Override"
+        },
+        {
+          "type": "checkbox",
+          "id": "force_active",
+          "label": "Always Highlight",
+          "info": "Force the active style, e.g. on a Shop All pill.",
+          "default": false
+        }
+      ]
+    }
+  ],
+  "max_blocks": 12,
+  "presets": [
+    {
+      "name": "Collection Links",
+      "category": "CWC Custom",
+      "blocks": [
+        { "type": "pill" },
+        { "type": "pill" },
+        { "type": "pill" },
+        { "type": "pill" }
+      ]
+    }
+  ]
+}
+{% endschema %}

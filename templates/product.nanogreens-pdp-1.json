@@ -82,6 +82,20 @@
         "logo_text_size_mobile": 20,
         "show_account": true,
         "show_search": true,
+        "search_placeholder": "Search products",
+        "search_popular_label": "Popular searches",
+        "search_popular": "greens, collagen, bundles, weight loss",
+        "search_limit": 6,
+        "search_min_chars": 3,
+        "search_panel_height": 60,
+        "search_bg_color": "#ffffff",
+        "search_field_bg_color": "#f4f3ee",
+        "search_accent_color": "#44681a",
+        "search_muted_color": "#5c5842",
+        "search_chip_bg_color": "#f2f8ea",
+        "search_chip_border_color": "#a3c781",
+        "search_overlay_color": "#2a2611",
+        "search_overlay_opacity": 45,
         "show_cart": true,
         "enable_sticky": true,
         "bg_color": "#ffffff",
@@ -97,6 +111,17 @@
     "cwc_product_hero_buy_box": {
       "type": "CWC_product_hero_buy_box",
       "blocks": {
+        "media_popup_bqEGVJ": {
+          "type": "media_popup",
+          "settings": {
+            "label": "View Nutrition Label",
+            "image": "shopify://shop_images/nanoEPA-4_1600.jpg",
+            "alt_text": "",
+            "heading": "",
+            "icon_text": "",
+            "style": "tint"
+          }
+        },
         "rating": {
           "type": "rating",
           "settings": {
@@ -142,9 +167,10 @@
             "save_label": "Save 25%",
             "badge_text": "Best value",
             "description": "3 tubs, delivered every 90 days",
+            "sticky_sub": "$1.87 USD / serving",
             "perks": "<p>$1.87 per serving — lowest price per scoop</p><p>90 days of supply in one delivery</p><p>Free shipping on every order</p><p>Cancel, pause, or reschedule anytime</p><p>30-day money-back guarantee</p>",
             "is_default": true,
-            "selling_plan_id": "",
+            "selling_plan_id": "3962667266",
             "quantity": 3,
             "price_text": "$168.64",
             "compare_text": "$224.85",
@@ -158,9 +184,10 @@
             "save_label": "Save 15%",
             "badge_text": "",
             "description": "1 tub, delivered every 30 days",
+            "sticky_sub": "$1.87 USD / serving",
             "perks": "<p>$2.13 per serving</p><p>Free shipping on every order</p><p>Cancel, pause, or reschedule anytime</p>",
             "is_default": false,
-            "selling_plan_id": "",
+            "selling_plan_id": "3962634498",
             "quantity": 1,
             "price_text": "$63.71",
             "compare_text": "$74.95",
@@ -232,6 +259,7 @@
             "plan_label": "90-Day Supply (Save 25%)",
             "plan_sub": "$1.87 USD / serving",
             "button_text": "Add to cart",
+            "button_text_mobile": "Add",
             "show_price_in_button": true,
             "sold_out_text": "Sold out",
             "reveal_after": 600
@@ -239,6 +267,7 @@
         }
       },
       "block_order": [
+        "media_popup_bqEGVJ",
         "rating",
         "title",
         "key_benefits",
@@ -951,69 +980,6 @@
         "padding_bottom": 50
       }
     },
-    "cwc_outcomes_band": {
-      "type": "CWC_outcomes_band",
-      "blocks": {
-        "outcome_energy": {
-          "type": "outcome",
-          "settings": {
-            "title": "More Energy",
-            "value": "95%",
-            "text": "Of participants felt a noticeable boost in daily energy"
-          }
-        },
-        "outcome_gut": {
-          "type": "outcome",
-          "settings": {
-            "title": "A Healthier Gut",
-            "value": "85%",
-            "text": "Of participants experienced better digestion and less bloating"
-          }
-        },
-        "outcome_sleep": {
-          "type": "outcome",
-          "settings": {
-            "title": "Sleep Better",
-            "value": "80%",
-            "text": "Participants reported getting better sleep"
-          }
-        },
-        "outcome_focus": {
-          "type": "outcome",
-          "settings": {
-            "title": "Perform Sharper",
-            "value": "75%",
-            "text": "Of participants noticed sharper focus and improved mental clarity"
-          }
-        }
-      },
-      "block_order": ["outcome_energy", "outcome_gut", "outcome_sleep", "outcome_focus"],
-      "settings": {
-        "heading": "<p>Clinically Studied. Third-Party Tested. <strong>Practitioner Trusted.</strong></p>",
-        "subtext": "<p>Every ingredient in NanoGreens is third-party tested for heavy metals, pesticides and contaminants. Our quality standards exceed industry requirements.</p>",
-        "cta_text": "View third party results",
-        "footnote": "<p>Results based on a customer-reported outcomes survey. Not a clinical trial.</p>",
-        "overlay_color": "#2a2611",
-        "overlay_opacity": 55,
-        "bg_color": "#44681a",
-        "heading_color": "#ffffff",
-        "text_color": "#d9e7c9",
-        "bold_color": "#a3c781",
-        "eyebrow_color": "#a3c781",
-        "button_bg_color": "#ffffff",
-        "button_text_color": "#44681a",
-        "footnote_color": "#c9dab6",
-        "card_title_color": "#ffffff",
-        "card_value_color": "#e8a317",
-        "card_text_color": "#d9e7c9",
-        "card_tint": 6,
-        "card_border_color": "#a3c781",
-        "card_border_opacity": 18,
-        "card_title_style": "serif",
-        "padding_top": 70,
-        "padding_bottom": 70
-      }
-    },
     "cwc_ingredients": {
       "type": "CWC_ingredients",
       "blocks": {
@@ -1108,6 +1074,78 @@
         "border_color": "#e6e5dc",
         "padding_top": 50,
         "padding_bottom": 50
+      }
+    },
+    "cwc_outcomes_band_QKLkEf": {
+      "type": "CWC_outcomes_band",
+      "blocks": {
+        "outcome_WiiaHe": {
+          "type": "outcome",
+          "settings": {
+            "title": "More Energy",
+            "value": "95%",
+            "text": "Of participants felt a noticeable boost in daily energy"
+          }
+        },
+        "outcome_NGBhdX": {
+          "type": "outcome",
+          "settings": {
+            "title": "More Energy",
+            "value": "95%",
+            "text": "Of participants felt a noticeable boost in daily energy"
+          }
+        },
+        "outcome_nqK8e3": {
+          "type": "outcome",
+          "settings": {
+            "title": "More Energy",
+            "value": "95%",
+            "text": "Of participants felt a noticeable boost in daily energy"
+          }
+        },
+        "outcome_DnAE6V": {
+          "type": "outcome",
+          "settings": {
+            "title": "More Energy",
+            "value": "95%",
+            "text": "Of participants felt a noticeable boost in daily energy"
+          }
+        }
+      },
+      "block_order": [
+        "outcome_WiiaHe",
+        "outcome_NGBhdX",
+        "outcome_nqK8e3",
+        "outcome_DnAE6V"
+      ],
+      "name": "Outcomes Band",
+      "settings": {
+        "eyebrow": "",
+        "heading": "<p>Clinically Studied. Third-Party Tested. <strong>Practitioner Trusted.</strong></p>",
+        "subtext": "<p>Every ingredient in NanoGreens is third-party tested for heavy metals, pesticides and contaminants. Our quality standards exceed industry requirements.</p>",
+        "cta_text": "View third party results",
+        "cta_link": "",
+        "footnote": "<p>Results based on a customer-reported outcomes survey. Not a clinical trial.</p>",
+        "alt_text": "",
+        "overlay_color": "#2a2611",
+        "overlay_opacity": 55,
+        "bg_color": "#44681a",
+        "heading_color": "#ffffff",
+        "text_color": "#d9e7c9",
+        "bold_color": "#a3c781",
+        "eyebrow_color": "#a3c781",
+        "button_bg_color": "#ffffff",
+        "button_text_color": "#44681a",
+        "footnote_color": "#c9dab6",
+        "card_title_color": "#ffffff",
+        "card_value_color": "#e8a317",
+        "card_text_color": "#d9e7c9",
+        "card_tint": 6,
+        "card_border_color": "#a3c781",
+        "card_border_opacity": 20,
+        "card_title_style": "serif",
+        "padding_top": 70,
+        "padding_bottom": 70
       }
     },
     "cwc_guarantee": {
@@ -1309,6 +1347,8 @@
         "button_label": "Explore all FAQs",
         "button_link": "",
         "image_position": "right",
+        "image": "shopify://shop_images/faq_1.png",
+        "image_mobile": "shopify://shop_images/faq_1.png",
         "image_alt": "NanoGreens",
         "bg_color": "#ffffff",
         "panel_bg_color": "#44681a",
@@ -1319,8 +1359,8 @@
         "sign_color": "#ffffff",
         "button_bg_color": "#31501a",
         "button_text_color": "#ffffff",
-        "padding_top": 50,
-        "padding_bottom": 50
+        "padding_top": 0,
+        "padding_bottom": 0
       }
     },
     "cwc_bottom_cta": {
@@ -1379,9 +1419,9 @@
     "cwc_cost_calculator",
     "cwc_reviews",
     "cwc_practitioner_endorsement",
-    "cwc_outcomes_band",
     "cwc_ingredients",
     "cwc_founder_note",
+    "cwc_outcomes_band_QKLkEf",
     "cwc_guarantee",
     "cwc_bundle_upgrade",
     "cwc_faq",

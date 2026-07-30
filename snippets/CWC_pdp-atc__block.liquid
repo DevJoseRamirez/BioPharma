@@ -39,7 +39,7 @@
     {% endunless %}
   >
     {% if is_available %}
-      {{ block.settings.label | default: 'Add to cart' }} &nbsp;&rarr;
+      {{ block.settings.label | default: 'Add to cart' }}
     {% else %}
       {{ block.settings.sold_out_label | default: 'Sold out' }}
     {% endif %}

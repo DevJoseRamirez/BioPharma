@@ -1,0 +1,119 @@
+{%- comment -%}
+  Results for the CWC header search panel.
+
+  Not a section a merchant ever adds — it has no preset. It exists so the panel
+  can fetch rendered results through the predictive search URL:
+
+    {{ routes.predictive_search_url }}?q=…&section_id=CWC_predictive_search
+
+  Rendering here rather than in JavaScript keeps money formatting, image sizing
+  and product URLs in Liquid, and lets the Search & Discovery app decide what is
+  searchable.
+
+  Products only — the panel deliberately does not surface collections, pages or
+  article matches.
+{%- endcomment -%}
+
+{%- liquid
+  assign products = predictive_search.resources.products
+  assign search_terms = predictive_search.terms
+-%}
+
+<div class="cwc_header__search-payload" data-cwc-search-payload>
+  {%- if predictive_search.performed -%}
+    {%- if products.size > 0 -%}
+      {%- comment -%}
+        Every label carries a literal fallback: this section is rendered on its
+        own rather than from a template, so settings cannot be relied on.
+      {%- endcomment -%}
+      <div class="cwc_header__search-group">
+        <div class="cwc_header__search-group-title">
+          {{ section.settings.results_label | default: 'Products' }}
+        </div>
+
+        <div class="cwc_header__search-list">
+          {%- for product in products -%}
+            <a
+              href="{{ product.url }}"
+              class="cwc_header__search-result"
+              role="option"
+              aria-selected="false"
+              tabindex="-1"
+            >
+              <span class="cwc_header__search-result-media">
+                {%- if product.featured_image != blank -%}
+                  <img
+                    src="{{ product.featured_image | image_url: width: 160 }}"
+                    alt="{{ product.featured_image.alt | default: product.title | escape }}"
+                    width="80"
+                    height="80"
+                    loading="lazy"
+                  >
+                {%- endif -%}
+              </span>
+
+              <span class="cwc_header__search-result-body">
+                <span class="cwc_header__search-result-title">{{ product.title }}</span>
+
+                <span class="cwc_header__search-result-price">
+                  {%- if product.price_varies -%}
+                    {%- assign price_min = product.price_min | money -%}
+                    {{- 'product.price.from_price_html' | t: price_min: price_min -}}
+                  {%- else -%}
+                    {{ product.price | money }}
+                  {%- endif -%}
+
+                  {%- if product.compare_at_price_min > product.price_min -%}
+                    <s class="cwc_header__search-result-was">{{ product.compare_at_price_min | money }}</s>
+                  {%- endif -%}
+                </span>
+              </span>
+            </a>
+          {%- endfor -%}
+        </div>
+
+        <a
+          href="{{ routes.search_url }}?q={{ search_terms | url_encode }}&type=product"
+          class="cwc_header__search-all"
+        >
+          {{ section.settings.view_all_label | default: 'View all results' }}
+        </a>
+      </div>
+    {%- else -%}
+      <div class="cwc_header__search-empty">
+        <p>{{ section.settings.no_results_label | default: 'No products found for' }} “{{ search_terms | escape }}”</p>
+      </div>
+    {%- endif -%}
+  {%- endif -%}
+</div>
+
+{% schema %}
+{
+  "name": "CWC Predictive Search",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Results for the CWC Header search panel. This is not added to a page directly — the header fetches it. Edit the labels below to change what the panel says."
+    },
+    {
+      "type": "text",
+      "id": "results_label",
+      "label": "Results Heading",
+      "default": "Products"
+    },
+    {
+      "type": "text",
+      "id": "view_all_label",
+      "label": "View All Link Text",
+      "default": "View all results"
+    },
+    {
+      "type": "text",
+      "id": "no_results_label",
+      "label": "No Results Text",
+      "info": "The search term is appended in quotes.",
+      "default": "No products found for"
+    }
+  ]
+}
+{% endschema %}

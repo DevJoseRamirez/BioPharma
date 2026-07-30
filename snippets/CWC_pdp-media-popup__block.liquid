@@ -1,0 +1,56 @@
+{% comment %}
+  Media-column popup trigger for the buy box.
+
+  Renders under the gallery thumbnails rather than in the buy-box content
+  column, so it reads as part of the gallery — the place a shopper looks for
+  "show me the label". The matching overlay markup is rendered separately by
+  'CWC_pdp-media-popup__modal' at the end of the section, because a fixed
+  overlay must not be nested inside the gallery's transformed/overflow context.
+
+  Trigger and overlay are paired by block id, which is what lets several of
+  these blocks coexist in one section.
+
+  Accepts:
+  - block {Object} - the media_popup block. Reads settings.label, .image,
+    .icon_text and .style.
+
+  Usage:
+  {% render 'CWC_pdp-media-popup__block', block: block %}
+{% endcomment %}
+
+{%- if block.settings.label != blank and block.settings.image != blank -%}
+  {%- liquid
+    assign popup_style = block.settings.style | default: 'tint'
+    assign trigger_classes = 'cwc_product-hero-buy-box__media-popup'
+    assign trigger_classes = trigger_classes | append: ' cwc_product-hero-buy-box__media-popup--' | append: popup_style
+  -%}
+
+  <button
+    type="button"
+    class="{{ trigger_classes }}"
+    data-cwc-popup-open="{{ block.id }}"
+    aria-haspopup="dialog"
+    aria-expanded="false"
+    {{ block.shopify_attributes }}
+  >
+    {%- if block.settings.icon != blank -%}
+      <img
+        class="cwc_product-hero-buy-box__media-popup-icon-image"
+        src="{{ block.settings.icon | image_url: width: 48 }}"
+        alt=""
+        width="24"
+        height="24"
+        loading="lazy"
+      >
+    {%- elsif block.settings.icon_text != blank -%}
+      <span class="cwc_product-hero-buy-box__media-popup-icon" aria-hidden="true">
+        {{- block.settings.icon_text -}}
+      </span>
+    {% else %}
+
+      {% render 'CWC_pdp-facts-icon__block' %}
+    {%- endif -%}
+
+    <span class="cwc_product-hero-buy-box__media-popup-label">{{ block.settings.label }}</span>
+  </button>
+{%- endif -%}

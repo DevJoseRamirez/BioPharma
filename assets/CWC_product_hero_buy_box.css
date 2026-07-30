@@ -14,15 +14,19 @@
   /* testing */
   padding-top: 32px;
   padding-bottom: 80px;
-  background: #fff url(https://cdn.shopify.com/s/files/1/0497/3523/7795/files/pdp-bg-1-min.png?v=1784916456) no-repeat top center;
   background-size: 100% auto;
+  /* background: #fff url(https://cdn.shopify.com/s/files/1/0497/3523/7795/files/Group_5_1_1.png?v=1785378493) no-repeat top center; */
+  background: #fff url(https://cdn.shopify.com/s/files/1/0497/3523/7795/files/Group_5_2_1.png?v=1785378615) no-repeat top center;
+
+
+
 }
 
 .cwc_product-hero-buy-box__container {
   max-width: 1300px;
   max-width: calc(1300px + 32px);
   margin: 0 auto;
-  padding: 0 32px;
+  padding: 0 2rem;
 }
 
 .cwc_product-hero-buy-box__wrapper {
@@ -265,6 +269,95 @@
   color: var(--accent-color);
   font-size: 1.0667em;
   /* 16px, relative to 15px button */
+}
+
+/* === Media Popup Block (under the thumbnails) === */
+.cwc_product-hero-buy-box__media-popup {
+  width: 100%;
+  border-radius: 11px;
+  padding: 14px;
+  margin-top: 10px;
+  font-family: var(--cwc-font-body);
+  font-size: 0.9375em;
+  /* 15px */
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  text-align: center;
+  transition: border-color 0.15s, background-color 0.15s, color 0.15s;
+  /*  */
+  border-radius: 999px;
+}
+
+/* tinted green — the default, matches the reference */
+.cwc_product-hero-buy-box__media-popup--tint {
+  background: var(--tint-bg);
+  border: 1px solid var(--tint-border);
+  color: var(--deep-color);
+}
+
+.cwc_product-hero-buy-box__media-popup--tint:hover {
+  border-color: var(--highlight-color);
+  background: var(--card-selected-bg);
+}
+
+/* outlined — sits quieter next to a busy gallery */
+.cwc_product-hero-buy-box__media-popup--outline {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  color: var(--text-color);
+}
+
+.cwc_product-hero-buy-box__media-popup--outline:hover {
+  border-color: var(--highlight-color);
+}
+
+/* solid green — use when this is the only call to action in the column */
+.cwc_product-hero-buy-box__media-popup--solid {
+  background: var(--button-bg);
+  border: 1px solid var(--button-bg);
+  color: var(--button-text);
+}
+
+.cwc_product-hero-buy-box__media-popup--solid:hover {
+  filter: brightness(0.94);
+}
+
+.cwc_product-hero-buy-box__media-popup:focus-visible {
+  outline: 2px solid var(--highlight-color);
+  outline-offset: 2px;
+}
+
+.cwc_product-hero-buy-box__media-popup-icon {
+  font-size: 1.0667em;
+  /* 16px, relative to 15px button */
+  line-height: 1;
+}
+
+.cwc_product-hero-buy-box__media-popup-icon-image {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  display: block;
+  flex: 0 0 auto;
+}
+
+.cwc_product-hero-buy-box__media-popup-label {
+  line-height: 1.2;
+}
+
+/* heading inside a media popup overlay */
+.cwc_product-hero-buy-box__modal-heading {
+  font-family: var(--cwc-font-heading);
+  font-weight: var(--cwc-weight-heading);
+  font-size: 1.375em;
+  /* 22px */
+  line-height: 1.25;
+  color: var(--text-color);
+  margin: 0 28px 14px 0;
 }
 
 .cwc_product-hero-buy-box__content {
@@ -652,6 +745,23 @@
   font-family: inherit;
 }
 
+/* Held for the moment between the click and the cart responding, so the choice
+   reads as taken even when an AJAX drawer keeps the page in place. */
+.cwc_product-hero-buy-box__onetime-button--selected {
+  color: var(--deep-color);
+  font-weight: 700;
+}
+
+/* Written by the script only when the cart refuses an add. Empty the rest of
+   the time, so it must not reserve space. */
+.cwc_product-hero-buy-box__cart-error:not(:empty) {
+  margin-top: 10px;
+  font-size: 0.875em;
+  /* 14px */
+  color: #B3261E;
+  text-align: center;
+}
+
 /* === Add To Cart === */
 .cwc_product-hero-buy-box__cta {
   width: 100%;
@@ -1008,12 +1118,17 @@
   cursor: pointer;
 }
 
+.cwc_product-hero-buy-box__media-popup svg {
+  width: auto;
+  height: 18px;
+}
+
 /* ==============================
    Tablet Responsive
    ============================== */
 @media screen and (max-width: 991px) {
   .cwc_product-hero-buy-box__container {
-    padding: 0 20px;
+    /* padding: 0 20px; */
   }
 
   .cwc_product-hero-buy-box__wrapper {
@@ -1030,6 +1145,11 @@
    Mobile Responsive
    ============================== */
 @media screen and (max-width: 768px) {
+
+  .cwc_product-hero-buy-box__media-popup {
+    padding: 12px;
+  }
+
   .cwc_product-hero-buy-box__content {
     padding-left: 0px !important;
   }
@@ -1047,7 +1167,7 @@
   }
 
   .cwc_product-hero-buy-box__container {
-    padding: 0 16px;
+    padding: 0 1rem;
   }
 
   .cwc_product-hero-buy-box__wrapper {
@@ -1144,6 +1264,10 @@
 
   .cwc_product-hero-buy-box__stats {
     padding: 16px;
+  }
+
+  .cwc_product-hero-buy-box__modal-inner {
+    padding: 0rem;
   }
 }
 

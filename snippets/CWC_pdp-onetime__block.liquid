@@ -1,6 +1,10 @@
 {% comment %}
   One-time purchase escape hatch, shown under the supply options.
 
+  Clicking it is a buy action, not just a selection: the script clears the
+  selling plan, sets quantity to 1, and submits the surrounding product form, so
+  the plain product goes to the cart on its own.
+
   Accepts:
   - block {Object} - the onetime block. Reads settings.text.
 

@@ -44,11 +44,19 @@
   <div class="cwc_product-hero-buy-box__label">{{ group_label }}</div>
 {% endif %}
 
+{%- comment -%}
+  The sticky bar reads its chip text from these attributes rather than scraping
+  the card, so it never picks up the save badge that sits inside the name.
+{%- endcomment -%}
+{%- assign sticky_sub = block.settings.sticky_sub | default: block.settings.description -%}
+
 <label
   class="cwc_product-hero-buy-box__offer{% if block.settings.is_default %} cwc_product-hero-buy-box__offer--selected{% endif %}"
   data-cwc-offer
   data-cwc-offer-plan="{{ block.settings.selling_plan_id }}"
   data-cwc-offer-quantity="{{ block.settings.quantity | default: 1 }}"
+  data-cwc-offer-name="{{ block.settings.name | escape }}"
+  data-cwc-offer-sub="{{ sticky_sub | escape }}"
   {{ block.shopify_attributes }}
 >
   {% if block.settings.badge_text != blank %}

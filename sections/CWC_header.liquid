@@ -6,6 +6,15 @@
       --logo-color: {{ section.settings.logo_color | default: '#2A2611' }};
       --border-color: {{ section.settings.border_color | default: '#E6E5DC' }};
       --dropdown-bg: {{ section.settings.dropdown_bg_color | default: '#ffffff' }};
+      --search-bg: {{ section.settings.search_bg_color | default: '#ffffff' }};
+      --search-field-bg: {{ section.settings.search_field_bg_color | default: '#F4F3EE' }};
+      --search-accent: {{ section.settings.search_accent_color | default: '#44681A' }};
+      --search-muted: {{ section.settings.search_muted_color | default: '#5C5842' }};
+      --search-chip-bg: {{ section.settings.search_chip_bg_color | default: '#F2F8EA' }};
+      --search-chip-border: {{ section.settings.search_chip_border_color | default: '#A3C781' }};
+      --search-overlay-color: {{ section.settings.search_overlay_color | default: '#2A2611' }};
+      --search-overlay-opacity: {{ section.settings.search_overlay_opacity | default: 45 | divided_by: 100.0 }};
+      --search-panel-height: {{ section.settings.search_panel_height | default: 60 }}vh;
       --logo-height: {{ section.settings.logo_height | default: 34 }}px;
       --logo-height-mobile: {{ section.settings.logo_height_mobile | default: 28 }}px;
       --logo-text-size: {{ section.settings.logo_text_size | default: 22 }}px;
@@ -156,7 +165,18 @@
         {% endif %}
 
         {% if section.settings.show_search %}
-          <a href="{{ routes.search_url }}" class="cwc_header__icon" aria-label="Search">
+          {%- comment -%}
+            Stays a real link to the search page, so it still works if the script
+            never runs. The handler cancels the navigation and opens the panel.
+          {%- endcomment -%}
+          <a
+            href="{{ routes.search_url }}"
+            class="cwc_header__icon"
+            aria-label="Search"
+            aria-haspopup="dialog"
+            aria-expanded="false"
+            data-cwc-search-open
+          >
             <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
               <circle cx="11" cy="11" r="6.4"></circle>
               <path d="M15.8 15.8 20 20"></path>
@@ -175,6 +195,10 @@
       </div>
     </div>
   </div>
+
+  {% if section.settings.show_search %}
+    {% render 'CWC_header-search__panel', section: section %}
+  {% endif %}
 </section>
 
 {{ 'CWC_header.js' | asset_url | script_tag }}
@@ -288,6 +312,119 @@
       "id": "show_search",
       "label": "Show Search Icon",
       "default": true
+    },
+    {
+      "type": "header",
+      "content": "Search Panel"
+    },
+    {
+      "type": "paragraph",
+      "content": "The search icon opens a panel under the header with live product results. Which products match is controlled by the Search & Discovery app."
+    },
+    {
+      "type": "text",
+      "id": "search_placeholder",
+      "label": "Placeholder Text",
+      "default": "Search products"
+    },
+    {
+      "type": "text",
+      "id": "search_popular_label",
+      "label": "Popular Searches Heading",
+      "default": "Popular searches"
+    },
+    {
+      "type": "text",
+      "id": "search_popular",
+      "label": "Popular Searches",
+      "info": "Comma separated. Shown as tappable chips before the shopper types.",
+      "default": "greens, collagen, bundles, weight loss"
+    },
+    {
+      "type": "range",
+      "id": "search_limit",
+      "label": "Results Shown",
+      "min": 3,
+      "max": 10,
+      "step": 1,
+      "default": 6
+    },
+    {
+      "type": "range",
+      "id": "search_min_chars",
+      "label": "Characters Before Searching",
+      "info": "Lower values search sooner but fire more requests.",
+      "min": 1,
+      "max": 5,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "search_panel_height",
+      "label": "Panel Height",
+      "info": "Share of the screen height the panel may fill on desktop. Full screen on mobile regardless.",
+      "min": 25,
+      "max": 80,
+      "step": 5,
+      "unit": "%",
+      "default": 60
+    },
+    {
+      "type": "header",
+      "content": "Search Panel Colors"
+    },
+    {
+      "type": "color",
+      "id": "search_bg_color",
+      "label": "Panel Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "search_field_bg_color",
+      "label": "Search Field Background Color",
+      "default": "#F4F3EE"
+    },
+    {
+      "type": "color",
+      "id": "search_accent_color",
+      "label": "Accent Color",
+      "default": "#44681A"
+    },
+    {
+      "type": "color",
+      "id": "search_muted_color",
+      "label": "Muted Text Color",
+      "default": "#5C5842"
+    },
+    {
+      "type": "color",
+      "id": "search_chip_bg_color",
+      "label": "Popular Chip Background Color",
+      "default": "#F2F8EA"
+    },
+    {
+      "type": "color",
+      "id": "search_chip_border_color",
+      "label": "Popular Chip Border Color",
+      "default": "#A3C781"
+    },
+    {
+      "type": "color",
+      "id": "search_overlay_color",
+      "label": "Backdrop Color",
+      "default": "#2A2611"
+    },
+    {
+      "type": "range",
+      "id": "search_overlay_opacity",
+      "label": "Backdrop Opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 45
     },
     {
       "type": "checkbox",

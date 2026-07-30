@@ -9,8 +9,92 @@
  */
 {
   "sections": {
+    "cwc_collection_banner_GGM8ji": {
+      "type": "CWC_collection_banner",
+      "blocks": {
+        "pill_yzFmLg": {
+          "type": "pill",
+          "settings": {
+            "collection": "greens",
+            "title": "",
+            "link": "shopify://collections/greens",
+            "force_active": false
+          }
+        },
+        "pill_erPbAR": {
+          "type": "pill",
+          "settings": {
+            "collection": "fish-oil",
+            "title": "",
+            "link": "",
+            "force_active": false
+          }
+        },
+        "pill_BPc8fL": {
+          "type": "pill",
+          "settings": {
+            "collection": "protein",
+            "title": "",
+            "link": "",
+            "force_active": false
+          }
+        },
+        "pill_BndFPr": {
+          "type": "pill",
+          "settings": {
+            "collection": "gummies",
+            "title": "",
+            "link": "",
+            "force_active": false
+          }
+        }
+      },
+      "block_order": [
+        "pill_yzFmLg",
+        "pill_erPbAR",
+        "pill_BPc8fL",
+        "pill_BndFPr"
+      ],
+      "name": "Collection Banner",
+      "settings": {
+        "heading_override": "",
+        "heading_tag": "h1",
+        "eyebrow": "",
+        "subtext": "",
+        "show_product_count": false,
+        "use_collection_image": false,
+        "image": "shopify://shop_images/pdp-image-frame-06.png",
+        "alt_text": "",
+        "lazy_load": false,
+        "overlay_color": "#2a2611",
+        "overlay_opacity": 55,
+        "bg_color": "#44681a",
+        "heading_color": "#ffffff",
+        "text_color": "#ffffff",
+        "bold_color": "#a3c781",
+        "eyebrow_color": "#a3c781",
+        "pill_bg_color": "#44681a",
+        "pill_text_color": "#ffffff",
+        "pill_border_color": "#a3c781",
+        "pill_bg_active_color": "#5ba90f",
+        "pill_text_active_color": "#ffffff",
+        "pill_border_active_color": "#5ba90f",
+        "show_scrollbar": true,
+        "scrollbar_track_color": "#a3c781",
+        "scrollbar_thumb_color": "#5ba90f",
+        "text_align": "center",
+        "full_width": false,
+        "heading_size": 44,
+        "uppercase_heading": true,
+        "min_height": 260,
+        "nav_label": "Collection links",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
     "collection-banner": {
       "type": "collection-banner",
+      "disabled": true,
       "settings": {
         "color_scheme": "scheme-1",
         "image_size": "xs",
@@ -51,6 +135,7 @@
     }
   },
   "order": [
+    "cwc_collection_banner_GGM8ji",
     "collection-banner",
     "main"
   ]

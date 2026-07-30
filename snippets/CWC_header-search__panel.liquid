@@ -1,0 +1,118 @@
+{% comment %}
+  Predictive search panel for the CWC header.
+
+  Sits inside the header section rather than the page body, so a sticky header
+  carries the panel with it instead of leaving it behind on scroll.
+
+  Results are not rendered here. The script fetches them from the
+  CWC_predictive_search section through the predictive search URL, which keeps
+  money formatting, image URLs and the Search & Discovery configuration on the
+  Liquid side rather than reimplementing them in JavaScript.
+
+  Accepts:
+  - section {Object} - the header section. Reads settings.search_placeholder,
+    .search_popular, .search_min_chars and .search_limit.
+
+  Usage:
+  {% render 'CWC_header-search__panel', section: section %}
+{% endcomment %}
+
+{%- liquid
+  assign results_id = 'cwc_header-search-results-' | append: section.id
+  assign popular_terms = section.settings.search_popular | split: ','
+-%}
+
+{% comment %} Backdrop — dims the page behind the panel {% endcomment %}
+<div class="cwc_header__search-overlay" data-cwc-search-overlay hidden></div>
+
+<div
+  class="cwc_header__search"
+  data-cwc-search-panel
+  data-cwc-search-url="{{ routes.predictive_search_url }}"
+  data-cwc-search-limit="{{ section.settings.search_limit | default: 6 }}"
+  data-cwc-search-min="{{ section.settings.search_min_chars | default: 3 }}"
+  hidden
+>
+  <div class="cwc_header__search-inner">
+    <form
+      class="cwc_header__search-form"
+      action="{{ routes.search_url }}"
+      method="get"
+      role="search"
+    >
+      <span class="cwc_header__search-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" focusable="false">
+          <circle cx="11" cy="11" r="6.4"></circle>
+          <path d="M15.8 15.8 20 20"></path>
+        </svg>
+      </span>
+
+      <input
+        type="search"
+        name="q"
+        class="cwc_header__search-input"
+        placeholder="{{ section.settings.search_placeholder | default: 'Search products' | escape }}"
+        aria-label="{{ section.settings.search_placeholder | default: 'Search products' | escape }}"
+        autocomplete="off"
+        spellcheck="false"
+        role="combobox"
+        aria-expanded="false"
+        aria-controls="{{ results_id }}"
+        aria-autocomplete="list"
+        data-cwc-search-input
+      >
+
+      {% comment %} Narrows the search page results to products, matching the panel {% endcomment %}
+      <input type="hidden" name="type" value="product">
+
+      <button
+        type="button"
+        class="cwc_header__search-close"
+        aria-label="Close search"
+        data-cwc-search-close
+      >
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M6 6l12 12M18 6L6 18"></path>
+        </svg>
+      </button>
+    </form>
+
+    <div class="cwc_header__search-body">
+      {% comment %} Shown until the query is long enough to search {% endcomment %}
+      {% if popular_terms.size > 0 %}
+        <div class="cwc_header__search-popular" data-cwc-search-popular>
+          {% if section.settings.search_popular_label != blank %}
+            <div class="cwc_header__search-group-title">
+              {{ section.settings.search_popular_label }}
+            </div>
+          {% endif %}
+
+          <div class="cwc_header__search-chips">
+            {% for term in popular_terms %}
+              {%- assign clean_term = term | strip -%}
+              {% if clean_term != blank %}
+                <a
+                  href="{{ routes.search_url }}?q={{ clean_term | url_encode }}&type=product"
+                  class="cwc_header__search-chip"
+                  data-cwc-search-term="{{ clean_term | escape }}"
+                >
+                  {{- clean_term -}}
+                </a>
+              {% endif %}
+            {% endfor %}
+          </div>
+        </div>
+      {% endif %}
+
+      <div
+        class="cwc_header__search-results"
+        id="{{ results_id }}"
+        data-cwc-search-results
+        role="listbox"
+        aria-label="Search results"
+      ></div>
+
+      <div class="cwc_header__search-status" data-cwc-search-status role="status" aria-live="polite" hidden></div>
+    </div>
+  </div>
+</div>

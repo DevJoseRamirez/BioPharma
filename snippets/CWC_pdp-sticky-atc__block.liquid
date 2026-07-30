@@ -65,15 +65,36 @@
       {% endif %}
     </div>
 
-    <button type="button" class="cwc_sticky-add-to-cart__plan" data-cwc-plan-chip>
-      <span class="cwc_sticky-add-to-cart__plan-label" data-cwc-plan-label>
-        {{ block.settings.plan_label | default: 'Choose your supply' }}
-      </span>
-      {% if block.settings.plan_sub != blank %}
-        <span class="cwc_sticky-add-to-cart__plan-sub" data-cwc-plan-sub>{{ block.settings.plan_sub }}</span>
-      {% endif %}
-      <span class="cwc_sticky-add-to-cart__plan-chevron" aria-hidden="true">&#8964;</span>
-    </button>
+    {%- comment -%}
+      The chip is a real option picker, not a scroll shortcut. Its menu is built
+      by the script from the supply cards already in this section, so the two can
+      never drift apart and the list needs no second source of truth here.
+    {%- endcomment -%}
+    <div class="cwc_sticky-add-to-cart__plan-wrap">
+      <button
+        type="button"
+        class="cwc_sticky-add-to-cart__plan"
+        data-cwc-plan-chip
+        aria-haspopup="listbox"
+        aria-expanded="false"
+      >
+        <span class="cwc_sticky-add-to-cart__plan-label" data-cwc-plan-label>
+          {{ block.settings.plan_label | default: 'Choose your supply' }}
+        </span>
+        {% if block.settings.plan_sub != blank %}
+          <span class="cwc_sticky-add-to-cart__plan-sub" data-cwc-plan-sub>{{ block.settings.plan_sub }}</span>
+        {% endif %}
+        <span class="cwc_sticky-add-to-cart__plan-chevron" aria-hidden="true">&#8964;</span>
+      </button>
+
+      <div
+        class="cwc_sticky-add-to-cart__plan-menu"
+        data-cwc-plan-menu
+        role="listbox"
+        aria-label="{{ block.settings.plan_label | default: 'Choose your supply' | escape }}"
+        hidden
+      ></div>
+    </div>
 
     <button
       type="submit"
@@ -83,12 +104,25 @@
         disabled
       {% endunless %}
     >
+      {%- comment -%}
+        Two labels, one shown per breakpoint by CSS. Phones get the short one so
+        the button stays narrow and the supply selector keeps the width it needs
+        to stay readable — the price lives only in the desktop label.
+
+        The price span sits inside the desktop label only: the script looks it up
+        with a single querySelector, so there must be exactly one of them.
+      {%- endcomment -%}
       <span data-cwc-button-text>
         {% if is_available %}
-          {{ block.settings.button_text | default: 'Add to cart' }}
-          {%- if block.settings.show_price_in_button -%}
-            &nbsp;&mdash; <span data-cwc-button-price>{{ current_variant.price | money }}</span>
-          {%- endif -%}
+          <span class="cwc_sticky-add-to-cart__button-full">
+            {{- block.settings.button_text | default: 'Add to cart' -}}
+            {%- if block.settings.show_price_in_button -%}
+              &nbsp;&mdash; <span data-cwc-button-price>{{ current_variant.price | money }}</span>
+            {%- endif -%}
+          </span>
+          <span class="cwc_sticky-add-to-cart__button-short">
+            {{- block.settings.button_text_mobile | default: 'Add' -}}
+          </span>
         {% else %}
           {{ block.settings.sold_out_text | default: 'Sold out' }}
         {% endif %}

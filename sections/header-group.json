@@ -31,8 +31,8 @@
         "link_McigqG": {
           "type": "link",
           "settings": {
-            "label": "Shop",
-            "link": ""
+            "label": "Greens + Reds",
+            "link": "shopify://collections/greens"
           }
         },
         "link_RL7LF4": {

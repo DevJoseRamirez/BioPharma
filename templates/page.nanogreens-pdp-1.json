@@ -952,69 +952,6 @@
         "padding_bottom": 50
       }
     },
-    "cwc_outcomes_band": {
-      "type": "CWC_outcomes_band",
-      "blocks": {
-        "outcome_energy": {
-          "type": "outcome",
-          "settings": {
-            "title": "More Energy",
-            "value": "95%",
-            "text": "Of participants felt a noticeable boost in daily energy"
-          }
-        },
-        "outcome_gut": {
-          "type": "outcome",
-          "settings": {
-            "title": "A Healthier Gut",
-            "value": "85%",
-            "text": "Of participants experienced better digestion and less bloating"
-          }
-        },
-        "outcome_sleep": {
-          "type": "outcome",
-          "settings": {
-            "title": "Sleep Better",
-            "value": "80%",
-            "text": "Participants reported getting better sleep"
-          }
-        },
-        "outcome_focus": {
-          "type": "outcome",
-          "settings": {
-            "title": "Perform Sharper",
-            "value": "75%",
-            "text": "Of participants noticed sharper focus and improved mental clarity"
-          }
-        }
-      },
-      "block_order": ["outcome_energy", "outcome_gut", "outcome_sleep", "outcome_focus"],
-      "settings": {
-        "heading": "<p>Clinically Studied. Third-Party Tested. <strong>Practitioner Trusted.</strong></p>",
-        "subtext": "<p>Every ingredient in NanoGreens is third-party tested for heavy metals, pesticides and contaminants. Our quality standards exceed industry requirements.</p>",
-        "cta_text": "View third party results",
-        "footnote": "<p>Results based on a customer-reported outcomes survey. Not a clinical trial.</p>",
-        "overlay_color": "#2a2611",
-        "overlay_opacity": 55,
-        "bg_color": "#44681a",
-        "heading_color": "#ffffff",
-        "text_color": "#d9e7c9",
-        "bold_color": "#a3c781",
-        "eyebrow_color": "#a3c781",
-        "button_bg_color": "#ffffff",
-        "button_text_color": "#44681a",
-        "footnote_color": "#c9dab6",
-        "card_title_color": "#ffffff",
-        "card_value_color": "#e8a317",
-        "card_text_color": "#d9e7c9",
-        "card_tint": 6,
-        "card_border_color": "#a3c781",
-        "card_border_opacity": 18,
-        "card_title_style": "serif",
-        "padding_top": 70,
-        "padding_bottom": 70
-      }
-    },
     "cwc_ingredients": {
       "type": "CWC_ingredients",
       "blocks": {
@@ -1361,7 +1298,6 @@
     "cwc_cost_calculator",
     "cwc_reviews",
     "cwc_practitioner_endorsement",
-    "cwc_outcomes_band",
     "cwc_ingredients",
     "cwc_founder_note",
     "cwc_guarantee",
