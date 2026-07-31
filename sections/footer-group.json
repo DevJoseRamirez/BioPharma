@@ -55,20 +55,20 @@
       "settings": {
         "logo_width": 170,
         "disclaimer": "<p>*These statements have not been evaluated by the Food and Drug Administration. These products are not intended to diagnose, treat, cure or prevent any disease. Consult your physician or healthcare provider before taking any of our products. Individual results may vary.</p>",
-        "show_policies": true,
         "copyright_text": "",
+        "show_policies": true,
         "policy_menu": "",
         "bg_color": "#1f3900",
         "heading_color": "#ffffff",
         "text_color": "#d9d6c9",
         "bold_color": "#a3c781",
         "link_color": "#d9d6c9",
-        "border_color": "#D9D6C9",
+        "border_color": "#d9d6c9",
         "input_border_color": "#d9d6c9",
         "button_bg_color": "#5ba90f",
         "button_text_color": "#ffffff",
         "padding_top": 60,
-        "padding_bottom": 30
+        "padding_bottom": 200
       }
     },
     "text-with-icons": {

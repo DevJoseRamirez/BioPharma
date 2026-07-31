@@ -49,6 +49,7 @@
   line-height: 1.1;
   margin: 0 0 0.5em;
   color: inherit;
+  font-size: 2.5rem;
 }
 
 .cwc_faq__content-heading>* strong {
@@ -70,10 +71,11 @@
   justify-content: space-between;
   align-items: center;
   gap: 20px;
-  padding: 18px 0;
+  padding: 14px 0;
   cursor: pointer;
   list-style: none;
   color: var(--panel-text);
+      padding: 16px 24px 16px 0;
 }
 
 .cwc_faq__question::-webkit-details-marker {

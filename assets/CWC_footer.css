@@ -189,7 +189,6 @@
   /* 12px */
   font-size: 0.7em;
   line-height: 1.6;
-  line-height: normal;
   margin: 0;
   opacity: 0.75;
   /* centred to sit with the copyright row it now follows */
@@ -198,7 +197,7 @@
 
 /* === Bottom Bar === */
 .cwc_footer__bottom {
-  margin-top: 40px;
+  margin-top: 60px;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -272,5 +271,9 @@
     margin-top: 32px;
     justify-content: center;
 
+  }
+
+  .cwc_footer__disclaimer p {
+    line-height: normal;
   }
 }

@@ -299,10 +299,13 @@
         "trust_icons": {
           "type": "trust_icons",
           "settings": {
+            "icon_style_1": "shield",
             "icon_text_1": "↩",
             "label_1": "<p>30-Day Money Back</p>",
+            "icon_style_2": "truck",
             "icon_text_2": "⛟",
             "label_2": "<p>Free Shipping on Subscriptions</p>",
+            "icon_style_3": "pause",
             "icon_text_3": "⏸",
             "label_3": "<p>Cancel or Pause Anytime</p>"
           }
@@ -341,7 +344,6 @@
         },
         "sticky_atc": {
           "type": "sticky_atc",
-          "disabled": true,
           "settings": {
             "name_override": "NanoGreens10 (Green Apple)",
             "subline": "Free shipping · 30-day guarantee",
@@ -620,8 +622,8 @@
         "b_energy": {
           "type": "benefit",
           "settings": {
-            "title": "Natural energy",
-            "text": "<p>Sustained energy without stimulants — customers call it \"liquid energy,\" no coffee crash.</p>",
+            "title": "Steady energy",
+            "text": "<p>Customers call it \"liquid energy\" — sustained, no stimulants, no coffee crash.</p>",
             "tone": "tint"
           }
         },
@@ -629,7 +631,7 @@
           "type": "benefit",
           "settings": {
             "title": "Digestion",
-            "text": "<p>A 9-enzyme blend plus oat beta glucan supports nutrient absorption and regularity.</p>",
+            "text": "<p>9 enzymes plus 2,500mg oat beta glucan support digestion and regularity.</p>",
             "tone": "tint"
           }
         },
@@ -637,23 +639,23 @@
           "type": "benefit",
           "settings": {
             "title": "Gut health",
-            "text": "<p>Supports gut balance and healthy digestion — the foundation customers report first.</p>",
+            "text": "<p>The benefit customers mention second-most, after taste.</p>",
             "tone": "tint"
           }
         },
         "b_immunity": {
           "type": "benefit",
           "settings": {
-            "title": "Healthy immunity",
-            "text": "<p>Vitamin A, vitamin C and acerola cherry support immune system function.</p>",
+            "title": "Immune support",
+            "text": "<p>Vitamin A, vitamin C and organic acerola cherry support normal immune function.</p>",
             "tone": "tint"
           }
         },
         "b_antioxidant": {
           "type": "benefit",
           "settings": {
-            "title": "Antioxidant support",
-            "text": "<p>Green tea, grape seed, resveratrol and a 360mg phytonutrient blend help protect cells from oxidative stress.</p>",
+            "title": "Antioxidant defense",
+            "text": "<p>A 360mg phytonutrient blend — green tea, grape seed, resveratrol — helps protect cells from oxidative stress.</p>",
             "tone": "accent"
           }
         },
@@ -674,7 +676,6 @@
         "b_antioxidant",
         "b_recovery"
       ],
-      "disabled": true,
       "settings": {
         "eyebrow": "One scoop, every morning",
         "heading": "<p>What NanoGreens <strong>supports</strong></p>",
@@ -1084,8 +1085,8 @@
           "type": "outcome",
           "settings": {
             "title": "More Energy",
-            "value": "95%",
-            "text": "Of participants felt a noticeable boost in daily energy"
+            "value": "2×",
+            "text": "Tested before and after blending"
           }
         },
         "outcome_NGBhdX": {
@@ -1093,22 +1094,22 @@
           "settings": {
             "title": "More Energy",
             "value": "95%",
-            "text": "Of participants felt a noticeable boost in daily energy"
+            "text": "Same formula, never cheapened"
           }
         },
         "outcome_nqK8e3": {
           "type": "outcome",
           "settings": {
             "title": "More Energy",
-            "value": "95%",
-            "text": "Of participants felt a noticeable boost in daily energy"
+            "value": "USA",
+            "text": "Made here, American farms first"
           }
         },
         "outcome_DnAE6V": {
           "type": "outcome",
           "settings": {
             "title": "More Energy",
-            "value": "95%",
+            "value": "7–12",
             "text": "Of participants felt a noticeable boost in daily energy"
           }
         }
@@ -1119,14 +1120,15 @@
         "outcome_nqK8e3",
         "outcome_DnAE6V"
       ],
+      "disabled": true,
       "name": "Outcomes Band",
       "settings": {
         "eyebrow": "",
-        "heading": "<p>Clinically Studied. Third-Party Tested. <strong>Practitioner Trusted.</strong></p>",
-        "subtext": "<p>Every ingredient in NanoGreens is third-party tested for heavy metals, pesticides and contaminants. Our quality standards exceed industry requirements.</p>",
-        "cta_text": "View third party results",
+        "heading": "<p>Quality you can check</p>",
+        "subtext": "",
+        "cta_text": "",
         "cta_link": "",
-        "footnote": "<p>Results based on a customer-reported outcomes survey. Not a clinical trial.</p>",
+        "footnote": "",
         "alt_text": "",
         "overlay_color": "#2a2611",
         "overlay_opacity": 55,
