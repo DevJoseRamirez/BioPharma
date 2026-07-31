@@ -54,29 +54,6 @@
         </button>
       </div>
 
-      {% comment %} Wordmark {% endcomment %}
-      <a href="{{ routes.root_url }}" class="cwc_header__logo">
-        {% if section.settings.logo != blank %}
-          <img
-            src="{{ section.settings.logo | image_url: width: 400 }}"
-            alt="{{ section.settings.logo_alt | default: shop.name | escape }}"
-            class="cwc_header__logo-image"
-            width="200"
-            height="40"
-            loading="eager"
-          >
-        {% else %}
-          <span class="cwc_header__logo-text">
-            {%- if section.settings.logo_text_lead != blank -%}
-              <span class="cwc_header__logo-lead">{{ section.settings.logo_text_lead }}</span>
-            {%- endif -%}
-            {%- if section.settings.logo_text_accent != blank -%}
-              <span class="cwc_header__logo-accent">{{ section.settings.logo_text_accent }}</span>
-            {%- endif -%}
-          </span>
-        {% endif %}
-      </a>
-
       {% comment %}
         Primary links — Shopify menu first, manual blocks as fallback.
         Wholesale customers get their own menu, matching the tag check in sections/header.liquid.
@@ -152,6 +129,29 @@
           {% endfor %}
         </nav>
       {% endif %}
+
+      {% comment %} Wordmark {% endcomment %}
+      <a href="{{ routes.root_url }}" class="cwc_header__logo">
+        {% if section.settings.logo != blank %}
+          <img
+            src="{{ section.settings.logo | image_url: width: 400 }}"
+            alt="{{ section.settings.logo_alt | default: shop.name | escape }}"
+            class="cwc_header__logo-image"
+            width="200"
+            height="40"
+            loading="eager"
+          >
+        {% else %}
+          <span class="cwc_header__logo-text">
+            {%- if section.settings.logo_text_lead != blank -%}
+              <span class="cwc_header__logo-lead">{{ section.settings.logo_text_lead }}</span>
+            {%- endif -%}
+            {%- if section.settings.logo_text_accent != blank -%}
+              <span class="cwc_header__logo-accent">{{ section.settings.logo_text_accent }}</span>
+            {%- endif -%}
+          </span>
+        {% endif %}
+      </a>
 
       {% comment %} Utility links {% endcomment %}
       <div class="cwc_header__utility">

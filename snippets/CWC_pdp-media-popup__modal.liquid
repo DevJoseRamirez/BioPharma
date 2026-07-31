@@ -5,15 +5,43 @@
   positioning is never trapped by an ancestor's overflow or transform. Paired
   to its trigger by block id.
 
+  Holds one image, or one image per flavour. A product whose flavours each carry
+  their own nutrition label needs the second: the overlay then opens on a row of
+  flavour buttons and swaps the image beneath them, rather than the shopper
+  having to guess which label they are looking at.
+
   Accepts:
   - block {Object} - the media_popup block. Reads settings.label, .image,
-    .alt_text and .heading.
+    .alt_text, .heading and the four flavour slots.
 
   Usage:
   {% render 'CWC_pdp-media-popup__modal', block: block %}
 {% endcomment %}
 
-{%- if block.settings.label != blank and block.settings.image != blank -%}
+{%- liquid
+  comment
+    The flavour slots, and whether there is anything to show at all. A slot
+    counts only when it has both a name and an image: a button with no image
+    behind it, or an image with nothing to label it, is not a choice.
+  endcomment
+  assign slot_numbers = '1,2,3,4' | split: ','
+  assign flavor_count = 0
+
+  for slot_number in slot_numbers
+    assign name_key = 'flavor' | append: slot_number | append: '_name'
+    assign image_key = 'flavor' | append: slot_number | append: '_image'
+    if block.settings[name_key] != blank and block.settings[image_key] != blank
+      assign flavor_count = flavor_count | plus: 1
+    endif
+  endfor
+
+  assign has_media = false
+  if flavor_count > 0 or block.settings.image != blank
+    assign has_media = true
+  endif
+-%}
+
+{%- if block.settings.label != blank and has_media -%}
   <div
     class="cwc_product-hero-buy-box__modal"
     data-cwc-popup-modal="{{ block.id }}"
@@ -36,18 +64,77 @@
         <div class="cwc_product-hero-buy-box__modal-heading">{{ block.settings.heading }}</div>
       {%- endif -%}
 
-      <img
-        src="{{ block.settings.image | image_url: width: 1400 }}"
-        srcset="
-          {{ block.settings.image | image_url: width: 700 }} 700w,
-          {{ block.settings.image | image_url: width: 1400 }} 1400w
-        "
-        sizes="(max-width: 768px) 90vw, 640px"
-        alt="{{ block.settings.alt_text | default: block.settings.label | escape }}"
-        width="{{ block.settings.image.width }}"
-        height="{{ block.settings.image.height }}"
-        loading="lazy"
-      >
+      {%- if flavor_count > 0 -%}
+        {%- comment -%}
+          One button per flavour, printed only when there is more than one to
+          choose between — a single slot is just an image with a caption nobody
+          asked for. The first slot opens selected; the script moves the
+          selection to the flavour the shopper is already on when it can.
+        {%- endcomment -%}
+        {%- if flavor_count > 1 -%}
+          <div class="cwc_product-hero-buy-box__modal-tabs">
+            {%- assign tab_index = 0 -%}
+            {%- for slot_number in slot_numbers -%}
+              {%- liquid
+                assign name_key = 'flavor' | append: slot_number | append: '_name'
+                assign image_key = 'flavor' | append: slot_number | append: '_image'
+                assign flavor_name = block.settings[name_key]
+                assign flavor_image = block.settings[image_key]
+              -%}
+              {%- if flavor_name != blank and flavor_image != blank -%}
+                <button
+                  type="button"
+                  class="cwc_product-hero-buy-box__modal-tab{% if tab_index == 0 %} cwc_product-hero-buy-box__modal-tab--selected{% endif %}"
+                  data-cwc-popup-tab="{{ flavor_name | escape }}"
+                  aria-pressed="{% if tab_index == 0 %}true{% else %}false{% endif %}"
+                >
+                  {{ flavor_name }}
+                </button>
+                {%- assign tab_index = tab_index | plus: 1 -%}
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+
+        {%- assign panel_index = 0 -%}
+        {%- for slot_number in slot_numbers -%}
+          {%- liquid
+            assign name_key = 'flavor' | append: slot_number | append: '_name'
+            assign image_key = 'flavor' | append: slot_number | append: '_image'
+            assign flavor_name = block.settings[name_key]
+            assign flavor_image = block.settings[image_key]
+          -%}
+          {%- if flavor_name != blank and flavor_image != blank -%}
+            <img
+              data-cwc-popup-panel="{{ flavor_name | escape }}"
+              src="{{ flavor_image | image_url: width: 500 }}"
+              srcset="                {{ flavor_image | image_url: width: 500 }} 700w"
+              sizes="(max-width: 768px) 90vw, 640px"
+              alt="{{ flavor_name | escape }} — {{ block.settings.alt_text | default: block.settings.label | escape }}"
+              width="{{ flavor_image.width }}"
+              height="{{ flavor_image.height }}"
+              loading="lazy"
+              {% if panel_index > 0 %}
+                hidden
+              {% endif %}
+            >
+            {%- assign panel_index = panel_index | plus: 1 -%}
+          {%- endif -%}
+        {%- endfor -%}
+      {%- else -%}
+        <img
+          src="{{ block.settings.image | image_url: width: 1400 }}"
+          srcset="
+            {{ block.settings.image | image_url: width: 700 }} 700w,
+            {{ block.settings.image | image_url: width: 1400 }} 1400w
+          "
+          sizes="(max-width: 768px) 90vw, 640px"
+          alt="{{ block.settings.alt_text | default: block.settings.label | escape }}"
+          width="{{ block.settings.image.width }}"
+          height="{{ block.settings.image.height }}"
+          loading="lazy"
+        >
+      {%- endif -%}
     </div>
   </div>
 {%- endif -%}

@@ -18,7 +18,29 @@
   {% render 'CWC_pdp-media-popup__block', block: block %}
 {% endcomment %}
 
-{%- if block.settings.label != blank and block.settings.image != blank -%}
+{%- liquid
+  comment
+    The overlay accepts either one image or one per flavour, so the button has
+    to survive on either — hiding it whenever the single Popup Image is empty
+    would lose the button on exactly the products that need it most.
+  endcomment
+  assign slot_numbers = '1,2,3,4' | split: ','
+  assign has_media = false
+
+  if block.settings.image != blank
+    assign has_media = true
+  endif
+
+  for slot_number in slot_numbers
+    assign name_key = 'flavor' | append: slot_number | append: '_name'
+    assign image_key = 'flavor' | append: slot_number | append: '_image'
+    if block.settings[name_key] != blank and block.settings[image_key] != blank
+      assign has_media = true
+    endif
+  endfor
+-%}
+
+{%- if block.settings.label != blank and has_media -%}
   {%- liquid
     assign popup_style = block.settings.style | default: 'tint'
     assign trigger_classes = 'cwc_product-hero-buy-box__media-popup'

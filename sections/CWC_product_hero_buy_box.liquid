@@ -118,6 +118,8 @@
           -%}
           "{{ allocation.selling_plan.id }}": {
             "price": {{ plan_now | money | json }},
+            {%- comment -%} undivided, for the "billed X every Y" strip {%- endcomment -%}
+            "total": {{ allocation.price | money_with_currency | json }},
             "compare": {%- if plan_then > plan_now -%}{{ plan_then | money | json }}{%- else -%}""{%- endif -%},
             "save": {%- if plan_then > plan_now -%}{{ plan_then | minus: plan_now | money | json }}{%- else -%}""{%- endif -%}
           }{%- unless forloop.last -%},{%- endunless -%}
@@ -977,6 +979,18 @@
           "info": "Picking a supply option is always a subscription, so this is required for the option to add correctly."
         },
         {
+          "type": "text",
+          "id": "opt1_billing_note",
+          "label": "Billing Interval Text",
+          "info": "Follows the billed amount, e.g. \"every 12 weeks\". Leave empty to say \"every N months\" from Months Per Charge below."
+        },
+        {
+          "type": "text",
+          "id": "opt1_serving_text",
+          "label": "Per Serving Text",
+          "info": "Sits at the right of the billing strip, e.g. \"$2.13 USD / serving\". Leave empty to hide it."
+        },
+        {
           "type": "number",
           "id": "opt1_billing_months",
           "label": "Months Per Charge",
@@ -1164,6 +1178,18 @@
           "info": "Picking a supply option is always a subscription, so this is required for the option to add correctly."
         },
         {
+          "type": "text",
+          "id": "opt2_billing_note",
+          "label": "Billing Interval Text",
+          "info": "Follows the billed amount, e.g. \"every 12 weeks\". Leave empty to say \"every N months\" from Months Per Charge below."
+        },
+        {
+          "type": "text",
+          "id": "opt2_serving_text",
+          "label": "Per Serving Text",
+          "info": "Sits at the right of the billing strip, e.g. \"$2.13 USD / serving\". Leave empty to hide it."
+        },
+        {
           "type": "number",
           "id": "opt2_billing_months",
           "label": "Months Per Charge",
@@ -1344,6 +1370,18 @@
           "id": "opt3_selling_plan_id",
           "label": "Selling Plan ID",
           "info": "Picking a supply option is always a subscription, so this is required for the option to add correctly."
+        },
+        {
+          "type": "text",
+          "id": "opt3_billing_note",
+          "label": "Billing Interval Text",
+          "info": "Follows the billed amount, e.g. \"every 12 weeks\". Leave empty to say \"every N months\" from Months Per Charge below."
+        },
+        {
+          "type": "text",
+          "id": "opt3_serving_text",
+          "label": "Per Serving Text",
+          "info": "Sits at the right of the billing strip, e.g. \"$2.13 USD / serving\". Leave empty to hide it."
         },
         {
           "type": "number",
@@ -1527,6 +1565,18 @@
           "info": "Picking a supply option is always a subscription, so this is required for the option to add correctly."
         },
         {
+          "type": "text",
+          "id": "opt4_billing_note",
+          "label": "Billing Interval Text",
+          "info": "Follows the billed amount, e.g. \"every 12 weeks\". Leave empty to say \"every N months\" from Months Per Charge below."
+        },
+        {
+          "type": "text",
+          "id": "opt4_serving_text",
+          "label": "Per Serving Text",
+          "info": "Sits at the right of the billing strip, e.g. \"$2.13 USD / serving\". Leave empty to hide it."
+        },
+        {
           "type": "number",
           "id": "opt4_billing_months",
           "label": "Months Per Charge",
@@ -1703,10 +1753,26 @@
           "label": "Icon Image"
         },
         {
+          "type": "select",
+          "id": "icon_style_1",
+          "label": "Icon",
+          "info": "Used when no Icon Image is set. Drawn in the section's colors.",
+          "options": [
+            { "value": "shield", "label": "Shield" },
+            { "value": "truck", "label": "Truck" },
+            { "value": "pause", "label": "Pause" },
+            { "value": "check", "label": "Check" },
+            { "value": "leaf", "label": "Leaf" },
+            { "value": "return", "label": "Return arrow" },
+            { "value": "none", "label": "None \u2014 use the character below" }
+          ],
+          "default": "shield"
+        },
+        {
           "type": "text",
           "id": "icon_text_1",
           "label": "Icon Character",
-          "info": "Used when no icon image is set.",
+          "info": "Used only when the Icon setting above is None.",
           "default": "↩"
         },
         {
@@ -1725,10 +1791,26 @@
           "label": "Icon Image"
         },
         {
+          "type": "select",
+          "id": "icon_style_2",
+          "label": "Icon",
+          "info": "Used when no Icon Image is set. Drawn in the section's colors.",
+          "options": [
+            { "value": "shield", "label": "Shield" },
+            { "value": "truck", "label": "Truck" },
+            { "value": "pause", "label": "Pause" },
+            { "value": "check", "label": "Check" },
+            { "value": "leaf", "label": "Leaf" },
+            { "value": "return", "label": "Return arrow" },
+            { "value": "none", "label": "None \u2014 use the character below" }
+          ],
+          "default": "truck"
+        },
+        {
           "type": "text",
           "id": "icon_text_2",
           "label": "Icon Character",
-          "info": "Used when no icon image is set.",
+          "info": "Used only when the Icon setting above is None.",
           "default": "⛟"
         },
         {
@@ -1747,10 +1829,26 @@
           "label": "Icon Image"
         },
         {
+          "type": "select",
+          "id": "icon_style_3",
+          "label": "Icon",
+          "info": "Used when no Icon Image is set. Drawn in the section's colors.",
+          "options": [
+            { "value": "shield", "label": "Shield" },
+            { "value": "truck", "label": "Truck" },
+            { "value": "pause", "label": "Pause" },
+            { "value": "check", "label": "Check" },
+            { "value": "leaf", "label": "Leaf" },
+            { "value": "return", "label": "Return arrow" },
+            { "value": "none", "label": "None \u2014 use the character below" }
+          ],
+          "default": "pause"
+        },
+        {
           "type": "text",
           "id": "icon_text_3",
           "label": "Icon Character",
-          "info": "Used when no icon image is set.",
+          "info": "Used only when the Icon setting above is None.",
           "default": "⏸"
         },
         {
@@ -2099,7 +2197,7 @@
           "type": "image_picker",
           "id": "image",
           "label": "Popup Image",
-          "info": "Required. The button is hidden until both a label and an image are set."
+          "info": "The single image shown when no flavors are set below. The button is hidden until there is a label and at least one image."
         },
         {
           "type": "text",
@@ -2112,6 +2210,51 @@
           "id": "heading",
           "label": "Popup Heading",
           "info": "Optional title shown above the image in the overlay."
+        },
+        {
+          "type": "header",
+          "content": "Flavors",
+          "info": "For a product whose flavors each have their own label. Fill in two or more and the overlay opens on a row of flavor buttons that swap the image. A slot needs both a name and an image to count, and these replace the single Popup Image above. Name each one exactly as the flavor option value so the overlay opens on the flavor already selected."
+        },
+        {
+          "type": "text",
+          "id": "flavor1_name",
+          "label": "Flavor 1 Name"
+        },
+        {
+          "type": "image_picker",
+          "id": "flavor1_image",
+          "label": "Flavor 1 Image"
+        },
+        {
+          "type": "text",
+          "id": "flavor2_name",
+          "label": "Flavor 2 Name"
+        },
+        {
+          "type": "image_picker",
+          "id": "flavor2_image",
+          "label": "Flavor 2 Image"
+        },
+        {
+          "type": "text",
+          "id": "flavor3_name",
+          "label": "Flavor 3 Name"
+        },
+        {
+          "type": "image_picker",
+          "id": "flavor3_image",
+          "label": "Flavor 3 Image"
+        },
+        {
+          "type": "text",
+          "id": "flavor4_name",
+          "label": "Flavor 4 Name"
+        },
+        {
+          "type": "image_picker",
+          "id": "flavor4_image",
+          "label": "Flavor 4 Image"
         },
         {
           "type": "header",

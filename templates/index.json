@@ -201,7 +201,7 @@
         "c4056273-e377-4536-885a-e09790da4a36"
       ],
       "settings": {
-        "color_scheme": "scheme-2",
+        "color_scheme": "scheme-f23b3a5a-1f3c-4d6a-94eb-96f8fab0ad49",
         "separate_section_with_border": true,
         "stack_on_mobile": true,
         "icon_color": "#1c1c1c",
@@ -396,7 +396,7 @@
         "4d71fc05-c685-49f7-8a5c-3bd815037d48"
       ],
       "settings": {
-        "color_scheme": "scheme-1",
+        "color_scheme": "scheme-f23b3a5a-1f3c-4d6a-94eb-96f8fab0ad49",
         "separate_section_with_border": true,
         "image": "shopify://shop_images/55_different_ingreidnes_4.png",
         "reveal_on_scroll": true,
@@ -447,7 +447,7 @@
         "85756efa-46d0-4fbf-b8c8-a44f1c8c72f2"
       ],
       "settings": {
-        "color_scheme": "scheme-1",
+        "color_scheme": "scheme-f23b3a5a-1f3c-4d6a-94eb-96f8fab0ad49",
         "separate_section_with_border": true,
         "image": "shopify://shop_images/what_are_phytonurients.jpg",
         "reveal_on_scroll": true,
@@ -644,7 +644,7 @@
         "image-2"
       ],
       "settings": {
-        "color_scheme": "scheme-2",
+        "color_scheme": "scheme-f23b3a5a-1f3c-4d6a-94eb-96f8fab0ad49",
         "reveal_on_scroll": true,
         "separate_section_with_border": true,
         "media_position_desktop": "before_text",
@@ -804,7 +804,7 @@
         "testimonial_QVp3Vg"
       ],
       "settings": {
-        "color_scheme": "scheme-4",
+        "color_scheme": "scheme-f23b3a5a-1f3c-4d6a-94eb-96f8fab0ad49",
         "separate_section_with_border": true,
         "auto_rotate_between_testimonials": true,
         "cycle_speed": 5,

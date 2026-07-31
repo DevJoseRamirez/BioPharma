@@ -9,6 +9,133 @@
  */
 {
   "sections": {
+    "cwc_collection_banner_AkgWnL": {
+      "type": "CWC_collection_banner",
+      "name": "Collection Banner",
+      "settings": {
+        "heading_override": "",
+        "heading_tag": "h1",
+        "eyebrow": "",
+        "subtext": "",
+        "show_product_count": false,
+        "use_collection_image": false,
+        "image": "shopify://shop_images/pdp-image-frame-06.png",
+        "alt_text": "",
+        "lazy_load": false,
+        "overlay_color": "#2A2611",
+        "overlay_opacity": 55,
+        "bg_color": "#44681A",
+        "heading_color": "#ffffff",
+        "text_color": "#ffffff",
+        "bold_color": "#A3C781",
+        "eyebrow_color": "#A3C781",
+        "text_align": "center",
+        "full_width": false,
+        "heading_size": 44,
+        "uppercase_heading": true,
+        "min_height": 260,
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "cwc_collection_links_hQQ4rc": {
+      "type": "CWC_collection_links",
+      "blocks": {
+        "pill_7Uac6F": {
+          "type": "pill",
+          "settings": {
+            "collection": "greens",
+            "title": "",
+            "link": "",
+            "force_active": false
+          }
+        },
+        "pill_cwfymV": {
+          "type": "pill",
+          "settings": {
+            "collection": "gummies",
+            "title": "",
+            "link": "",
+            "force_active": false
+          }
+        },
+        "pill_EwqwHC": {
+          "type": "pill",
+          "settings": {
+            "collection": "protein",
+            "title": "",
+            "link": "",
+            "force_active": false
+          }
+        },
+        "pill_H9ACdN": {
+          "type": "pill",
+          "settings": {
+            "collection": "fish-oil",
+            "title": "",
+            "link": "",
+            "force_active": false
+          }
+        },
+        "pill_tFcqpe": {
+          "type": "pill",
+          "settings": {
+            "collection": "brain",
+            "title": "",
+            "link": "",
+            "force_active": false
+          }
+        },
+        "pill_6kRBRE": {
+          "type": "pill",
+          "settings": {
+            "collection": "active-lifestyle",
+            "title": "",
+            "link": "",
+            "force_active": false
+          }
+        },
+        "pill_4apqNL": {
+          "type": "pill",
+          "settings": {
+            "collection": "blood-sugar",
+            "title": "",
+            "link": "",
+            "force_active": false
+          }
+        }
+      },
+      "block_order": [
+        "pill_7Uac6F",
+        "pill_cwfymV",
+        "pill_EwqwHC",
+        "pill_H9ACdN",
+        "pill_tFcqpe",
+        "pill_6kRBRE",
+        "pill_4apqNL"
+      ],
+      "name": "Collection Links",
+      "settings": {
+        "bg_color": "#ffffff",
+        "pill_bg_color": "#44681A",
+        "pill_text_color": "#FFFFFF",
+        "pill_border_color": "#A3C781",
+        "pill_bg_active_color": "#5BA90F",
+        "pill_text_active_color": "#ffffff",
+        "pill_border_active_color": "#5BA90F",
+        "show_scrollbar": true,
+        "scrollbar_track_color": "#A3C781",
+        "scrollbar_thumb_color": "#5BA90F",
+        "text_align": "center",
+        "full_width": false,
+        "nav_label": "Collection links",
+        "show_top_border": false,
+        "show_bottom_border": false,
+        "border_color": "#E6E5DC",
+        "padding_top": 25,
+        "padding_bottom": 25
+      }
+    },
     "collection-banner": {
       "type": "collection-banner",
       "disabled": true,
@@ -24,7 +151,7 @@
         "show_collection_description": false,
         "show_breadcrumb": false,
         "content_width": "xs",
-        "overlay_color": "#FFFFFF",
+        "overlay_color": "#ffffff",
         "overlay_opacity": 50
       }
     },
@@ -53,6 +180,8 @@
     }
   },
   "order": [
+    "cwc_collection_banner_AkgWnL",
+    "cwc_collection_links_hQQ4rc",
     "collection-banner",
     "main"
   ]

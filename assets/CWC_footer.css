@@ -173,28 +173,36 @@
   margin: 12px 0 0;
 }
 
-/* === Disclaimer === */
+/* === Disclaimer ===
+
+   Last in the footer and below the rule, so the small print reads as a footnote
+   to everything above it rather than as another band of content. The divider
+   lives here rather than on the bar above because the bar now comes first. */
 .cwc_footer__disclaimer {
-  margin-top: 40px;
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border-color);
 }
 
 .cwc_footer__disclaimer p {
   font-size: 0.75em;
   /* 12px */
+  font-size: 0.7em;
   line-height: 1.6;
+  line-height: normal;
   margin: 0;
   opacity: 0.75;
+  /* centred to sit with the copyright row it now follows */
+  text-align: center;
 }
 
 /* === Bottom Bar === */
 .cwc_footer__bottom {
   margin-top: 40px;
-  padding-top: 24px;
-  border-top: 1px solid var(--border-color);
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 8px 16px;
 }
 
@@ -214,7 +222,7 @@
 }
 
 /* Divider between policy links, never after the last one. */
-.cwc_footer__policies li + li::before {
+.cwc_footer__policies li+li::before {
   content: '|';
   margin: 0 8px;
   opacity: 0.5;
@@ -253,11 +261,16 @@
 
   .cwc_footer__columns {
     grid-template-columns: 1fr;
-    gap: 32px;
+    gap: 3rem;
   }
 
-  .cwc_footer__disclaimer,
+  .cwc_footer__links {
+    gap: 6px;
+  }
+
   .cwc_footer__bottom {
     margin-top: 32px;
+    justify-content: center;
+
   }
 }

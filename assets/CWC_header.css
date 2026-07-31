@@ -35,12 +35,18 @@
   padding-bottom: var(--padding-bottom);
 }
 
-/* === Wordmark === */
+/* === Wordmark ===
+
+   Middle of three zones: links, wordmark, utility. The outer two take an equal
+   share of whatever is left over, which is what centres the wordmark on the bar
+   itself rather than in the space between the links and the icons — those two
+   are never the same width. */
 .cwc_header__logo {
   text-decoration: none;
-  flex-shrink: 0;
+  flex: 0 0 auto;
   display: flex;
   align-items: center;
+  justify-content: center;
 }
 
 .cwc_header__logo-image {
@@ -71,7 +77,10 @@
 .cwc_header__links {
   display: flex;
   align-items: center;
+  justify-content: flex-start;
   gap: 26px;
+  flex: 1 1 0;
+  min-width: 0;
 }
 
 .cwc_header__item {
@@ -82,6 +91,7 @@
 
 .cwc_header__link {
   font-size: 0.9375em;
+  font-size: 1rem;
   /* 15px */
   font-weight: 600;
   color: var(--text-color);
@@ -148,6 +158,7 @@
 
 .cwc_header__dropdown-link {
   font-size: 0.875em;
+  font-size: .9em;
   /* 14px */
   font-weight: 500;
   color: var(--text-color);
@@ -165,8 +176,10 @@
 .cwc_header__utility {
   display: flex;
   align-items: center;
+  justify-content: flex-end;
   gap: 12px;
-  flex-shrink: 0;
+  flex: 1 1 0;
+  min-width: 0;
 }
 
 .cwc_header__icon {
@@ -175,6 +188,8 @@
   justify-content: center;
   width: 26px;
   height: 26px;
+  /* the zone flexes now, the icons in it must not */
+  flex-shrink: 0;
   color: var(--text-color);
 }
 
@@ -685,6 +700,7 @@
    Reduced Motion
    ============================== */
 @media (prefers-reduced-motion: reduce) {
+
   .cwc_header__search,
   .cwc_header__search-overlay,
   .cwc_header__search-chip,

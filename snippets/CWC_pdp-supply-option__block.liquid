@@ -214,6 +214,31 @@
           assign plan_save = block.settings[key]
 
           comment
+            The billing strip under the price: what actually leaves the card and
+            how often, against a per-month headline that never says either.
+
+            The amount is live, so only the wording is typed. Left empty it is
+            written from Months Per Charge, which is right for a plan billed in
+            whole months — a plan a merchant would rather describe in weeks gets
+            the setting.
+          endcomment
+          assign plan_total = ''
+
+          assign key = prefix | append: 'serving_text'
+          assign opt_serving = block.settings[key]
+
+          assign key = prefix | append: 'billing_note'
+          assign opt_billing_note = block.settings[key]
+
+          if opt_billing_note == blank
+            if opt_months > 1
+              assign opt_billing_note = 'every ' | append: opt_months | append: ' months'
+            else
+              assign opt_billing_note = 'every month'
+            endif
+          endif
+
+          comment
             Which value of the supply option this card stands for.
 
             Nothing needs filling in when the cards are named after the option's
@@ -299,6 +324,7 @@
               assign plan_now = allocation.price | divided_by: opt_months
               assign plan_then = allocation.compare_at_price | divided_by: opt_months
               assign plan_price = plan_now | money
+              assign plan_total = allocation.price | money_with_currency
               if plan_then > plan_now
                 assign plan_compare = plan_then | money
                 assign plan_save = plan_then | minus: plan_now | money
@@ -388,6 +414,32 @@
                 <span class="cwc_product-hero-buy-box__offer-saving" data-cwc-offer-saving>&middot; save {{ plan_save }}</span>
               {% endif %}
             </span>
+
+            {%- comment -%}
+              What the shopper is actually charged, and what a serving of it
+              costs — the two figures the per-month headline above leaves out.
+
+              Outside the collapsing panel below on purpose: this is the small
+              print of the price, so it belongs to the headline every card shows
+              rather than to the detail only the selected card opens.
+            {%- endcomment -%}
+            {%- if plan_total != blank or opt_serving != blank -%}
+              <span class="cwc_product-hero-buy-box__offer-billing">
+                {% if plan_total != blank %}
+                  <span class="cwc_product-hero-buy-box__offer-billed">
+                    <span class="cwc_product-hero-buy-box__offer-billed-label">Billed</span>
+                    <span class="cwc_product-hero-buy-box__offer-billed-total" data-cwc-offer-billed>
+                      {{- plan_total -}}
+                    </span>
+                    {{ opt_billing_note }}
+                  </span>
+                {% endif %}
+
+                {% if opt_serving != blank %}
+                  <span class="cwc_product-hero-buy-box__offer-serving">{{ opt_serving }}</span>
+                {% endif %}
+              </span>
+            {%- endif -%}
 
             {%- comment -%}
               Everything below the price collapses while the option is not the

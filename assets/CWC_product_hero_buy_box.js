@@ -571,8 +571,12 @@
         var nowEl = offerEl.querySelector('[data-cwc-offer-now]');
         var wasEl = offerEl.querySelector('[data-cwc-offer-was]');
         var savingEl = offerEl.querySelector('[data-cwc-offer-saving]');
+        // the undivided charge in the billing strip — the one figure on the card
+        // that is not per month
+        var billedEl = offerEl.querySelector('[data-cwc-offer-billed]');
 
         if (nowEl && pricing.price) nowEl.textContent = pricing.price;
+        if (billedEl && pricing.total) billedEl.textContent = pricing.total;
         if (wasEl) {
           wasEl.textContent = pricing.compare || '';
           wasEl.style.display = pricing.compare ? '' : 'none';
@@ -1068,14 +1072,82 @@
     var triggers = sectionEl.querySelectorAll('[data-cwc-popup-open]');
     if (!triggers.length) return;
 
+    /**
+     * The flavour the shopper is on, as the swatch spells it.
+     *
+     * Read at open time rather than once at init, because the swatch can change
+     * under an overlay that was already built.
+     */
+    function selectedFlavorName() {
+      var swatch = sectionEl.querySelector('.' + SELECTED_FLAVOR);
+      if (!swatch) return '';
+
+      var value = swatch.getAttribute('data-cwc-flavor-value');
+      if (!value) {
+        var nameEl = swatch.querySelector('.cwc_product-hero-buy-box__flavor-name');
+        value = nameEl ? nameEl.textContent : '';
+      }
+
+      return String(value || '').trim().toLowerCase();
+    }
+
     triggers.forEach(function (trigger) {
       var id = trigger.getAttribute('data-cwc-popup-open');
       var modal = sectionEl.querySelector('[data-cwc-popup-modal="' + id + '"]');
       if (!modal) return;
 
       var closeButton = modal.querySelector('[data-cwc-popup-close]');
+      var tabs = Array.prototype.slice.call(modal.querySelectorAll('[data-cwc-popup-tab]'));
+      var panels = Array.prototype.slice.call(modal.querySelectorAll('[data-cwc-popup-panel]'));
+
+      /**
+       * One label per flavour: the buttons and the images are matched on the
+       * flavour name rather than on position, so a slot left empty in the
+       * middle of the four cannot pair a button with the wrong image.
+       */
+      function showPanel(name) {
+        var wanted = String(name || '').trim().toLowerCase();
+        var matched = false;
+
+        panels.forEach(function (panel) {
+          var panelName = String(panel.getAttribute('data-cwc-popup-panel') || '')
+            .trim()
+            .toLowerCase();
+          var isWanted = panelName === wanted;
+          panel.hidden = !isWanted;
+          if (isWanted) matched = true;
+        });
+
+        // Nothing matched — a flavour with no label of its own. Leave whichever
+        // panel was showing rather than blanking the overlay.
+        if (!matched) {
+          panels.forEach(function (panel, index) {
+            panel.hidden = index !== 0;
+          });
+        }
+
+        tabs.forEach(function (tab) {
+          var tabName = String(tab.getAttribute('data-cwc-popup-tab') || '')
+            .trim()
+            .toLowerCase();
+          var isSelected = matched ? tabName === wanted : tabs.indexOf(tab) === 0;
+          tab.classList.toggle('cwc_product-hero-buy-box__modal-tab--selected', isSelected);
+          tab.setAttribute('aria-pressed', isSelected ? 'true' : 'false');
+        });
+      }
+
+      tabs.forEach(function (tab) {
+        tab.addEventListener('click', function () {
+          showPanel(tab.getAttribute('data-cwc-popup-tab'));
+        });
+      });
 
       function open() {
+        // Open on the flavour already chosen, so the shopper is not asked to
+        // pick it a second time. Falls through to the first panel when the
+        // names do not line up.
+        if (panels.length > 1) showPanel(selectedFlavorName());
+
         modal.hidden = false;
         trigger.setAttribute('aria-expanded', 'true');
         document.body.style.overflow = 'hidden';

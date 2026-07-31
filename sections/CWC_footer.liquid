@@ -101,10 +101,6 @@
       {% endfor %}
     </div>
 
-    {% if section.settings.disclaimer != blank %}
-      <div class="cwc_footer__disclaimer cwc-rte">{{ section.settings.disclaimer }}</div>
-    {% endif %}
-
     <div class="cwc_footer__bottom">
       <p class="cwc_footer__copyright">
         {% if section.settings.copyright_text != blank %}
@@ -118,27 +114,36 @@
       {% comment %}
         A menu wins when the merchant sets one, otherwise the store's own
         published policies are listed — unpublished ones come through blank.
+
+        The toggle wraps both routes, so switching the links off does not mean
+        clearing the menu setting and losing which menu was chosen.
       {% endcomment %}
-      {% if section.settings.policy_menu != blank %}
-        <ul class="cwc_footer__policies">
-          {% for link in section.settings.policy_menu.links %}
-            <li>
-              <a href="{{ link.url }}">{{ link.title }}</a>
-            </li>
-          {% endfor %}
-        </ul>
-      {% elsif shop.policies.size > 0 %}
-        <ul class="cwc_footer__policies">
-          {% for policy in shop.policies %}
-            {% if policy != blank %}
+      {% if section.settings.show_policies %}
+        {% if section.settings.policy_menu != blank %}
+          <ul class="cwc_footer__policies">
+            {% for link in section.settings.policy_menu.links %}
               <li>
-                <a href="{{ policy.url }}">{{ policy.title | escape }}</a>
+                <a href="{{ link.url }}">{{ link.title }}</a>
               </li>
-            {% endif %}
-          {% endfor %}
-        </ul>
+            {% endfor %}
+          </ul>
+        {% elsif shop.policies.size > 0 %}
+          <ul class="cwc_footer__policies">
+            {% for policy in shop.policies %}
+              {% if policy != blank %}
+                <li>
+                  <a href="{{ policy.url }}">{{ policy.title | escape }}</a>
+                </li>
+              {% endif %}
+            {% endfor %}
+          </ul>
+        {% endif %}
       {% endif %}
     </div>
+
+    {% if section.settings.disclaimer != blank %}
+      <div class="cwc_footer__disclaimer cwc-rte">{{ section.settings.disclaimer }}</div>
+    {% endif %}
   </div>
 </section>
 
@@ -183,6 +188,13 @@
       "id": "copyright_text",
       "label": "Copyright Text",
       "info": "Leave empty to show the year and your store name."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_policies",
+      "label": "Show Policy Links",
+      "info": "The row of links beside the copyright.",
+      "default": true
     },
     {
       "type": "link_list",
@@ -267,10 +279,10 @@
       "id": "padding_bottom",
       "label": "Padding Bottom",
       "min": 0,
-      "max": 120,
+      "max": 200,
       "step": 10,
       "unit": "px",
-      "default": 30
+      "default": 180
     }
   ],
   "blocks": [

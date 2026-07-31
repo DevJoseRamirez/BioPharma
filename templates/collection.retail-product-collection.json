@@ -50,10 +50,10 @@
             "force_active": false
           }
         },
-        "pill_erPbAR": {
+        "pill_BndFPr": {
           "type": "pill",
           "settings": {
-            "collection": "fish-oil",
+            "collection": "gummies",
             "title": "",
             "link": "",
             "force_active": false
@@ -68,10 +68,37 @@
             "force_active": false
           }
         },
-        "pill_BndFPr": {
+        "pill_erPbAR": {
           "type": "pill",
           "settings": {
-            "collection": "gummies",
+            "collection": "fish-oil",
+            "title": "",
+            "link": "",
+            "force_active": false
+          }
+        },
+        "pill_9Q8xyg": {
+          "type": "pill",
+          "settings": {
+            "collection": "brain",
+            "title": "",
+            "link": "",
+            "force_active": false
+          }
+        },
+        "pill_GAUDfK": {
+          "type": "pill",
+          "settings": {
+            "collection": "active-lifestyle",
+            "title": "",
+            "link": "",
+            "force_active": false
+          }
+        },
+        "pill_tEHpEL": {
+          "type": "pill",
+          "settings": {
+            "collection": "blood-sugar",
             "title": "",
             "link": "",
             "force_active": false
@@ -80,15 +107,18 @@
       },
       "block_order": [
         "pill_yzFmLg",
-        "pill_erPbAR",
+        "pill_BndFPr",
         "pill_BPc8fL",
-        "pill_BndFPr"
+        "pill_erPbAR",
+        "pill_9Q8xyg",
+        "pill_GAUDfK",
+        "pill_tEHpEL"
       ],
       "name": "Collection Links",
       "settings": {
         "bg_color": "#ffffff",
-        "pill_bg_color": "#44681a",
-        "pill_text_color": "#ffffff",
+        "pill_bg_color": "#44681A",
+        "pill_text_color": "#FFFFFF",
         "pill_border_color": "#a3c781",
         "pill_bg_active_color": "#5ba90f",
         "pill_text_active_color": "#ffffff",
@@ -99,6 +129,9 @@
         "text_align": "center",
         "full_width": false,
         "nav_label": "Collection links",
+        "show_top_border": false,
+        "show_bottom_border": false,
+        "border_color": "#e6e5dc",
         "padding_top": 25,
         "padding_bottom": 25
       }

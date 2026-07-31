@@ -73,7 +73,7 @@
       ],
       "name": "Header",
       "settings": {
-        "menu": "our-shop-new",
+        "menu": "header-menu-v1",
         "menu_wholesale": "products-wholesale",
         "logo": "shopify://shop_images/logo_direction1_evolved_mark_2_1.png",
         "logo_alt": "NanoGreens",
@@ -84,7 +84,7 @@
         "logo_text_size": 22,
         "logo_text_size_mobile": 23,
         "show_account": true,
-        "show_search": true,
+        "show_search": false,
         "search_placeholder": "Search products",
         "search_popular_label": "Popular searches",
         "search_popular": "greens, collagen, bundles, weight loss",

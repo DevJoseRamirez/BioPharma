@@ -1,13 +1,20 @@
 {% comment %}
   Three-up trust row (guarantee / shipping / cancel) for the buy box.
 
-  One block holds all three so the row keeps its grid. Each column falls back to
-  a text glyph when no icon image is set, which keeps it usable before assets
-  are uploaded.
+  One block holds all three so the row keeps its grid.
+
+  Each column draws its icon from the first of three sources that is set: an
+  uploaded image, one of the built-in line icons, or a text glyph. The built-in
+  set is what makes the row look right before anyone uploads anything — the
+  glyphs a font happens to carry for a truck or a shield rarely match each other
+  in weight or size, and a row of mismatched marks reads as an accident.
+
+  The built-ins inherit their colour from the tile, so they follow the section's
+  colours rather than carrying their own.
 
   Accepts:
   - block {Object} - the trust_icons block. Reads settings.icon_1 … icon_3,
-    icon_text_1 … icon_text_3 and label_1 … label_3.
+    icon_style_1 … icon_style_3, icon_text_1 … icon_text_3 and label_1 … label_3.
 
   Usage:
   {% render 'CWC_pdp-trust-icons__block', block: block %}
@@ -31,14 +38,16 @@
       {%- liquid
         assign label_key = 'label_' | append: item_id
         assign icon_key = 'icon_' | append: item_id
+        assign icon_style_key = 'icon_style_' | append: item_id
         assign icon_text_key = 'icon_text_' | append: item_id
         assign item_label = block.settings[label_key]
         assign item_icon = block.settings[icon_key]
+        assign item_icon_style = block.settings[icon_style_key] | default: 'none'
       -%}
       {%- if item_label != blank -%}
         <div class="cwc_product-hero-buy-box__trust-item">
           <span class="cwc_product-hero-buy-box__trust-icon">
-            {% if item_icon != blank %}
+            {%- if item_icon != blank -%}
               <img
                 src="{{ item_icon | image_url: width: 80 }}"
                 alt=""
@@ -46,9 +55,33 @@
                 height="80"
                 loading="lazy"
               >
-            {% else %}
-              {{ block.settings[icon_text_key] | default: '✓' }}
-            {% endif %}
+            {%- elsif item_icon_style != 'none' -%}
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                {%- case item_icon_style -%}
+                  {%- when 'shield' -%}
+                    <path d="M12 3.2 19 6v5c0 4.2-2.9 7.6-7 8.8C7.9 18.6 5 15.2 5 11V6l7-2.8Z"></path>
+                  {%- when 'truck' -%}
+                    <path d="M3.2 7.2h10.3v8.1H3.2z"></path>
+                    <path d="M13.5 10.4h3.4l3 3v1.9h-6.4z"></path>
+                    <circle cx="7" cy="17.4" r="1.8"></circle>
+                    <circle cx="16.6" cy="17.4" r="1.8"></circle>
+                  {%- when 'pause' -%}
+                    <circle cx="12" cy="12" r="8.4"></circle>
+                    <path d="M10.2 9.3v5.4M13.8 9.3v5.4"></path>
+                  {%- when 'check' -%}
+                    <circle cx="12" cy="12" r="8.4"></circle>
+                    <path d="m8.3 12.2 2.6 2.6 4.8-5.2"></path>
+                  {%- when 'leaf' -%}
+                    <path d="M19.8 4.2c0 8-4.5 12-9.5 12A4.5 4.5 0 0 1 5.8 11.7c0-5 6-7.5 14-7.5Z"></path>
+                    <path d="M14.6 9.2c-3.9 1.6-6.8 4.7-8.8 10.6"></path>
+                  {%- when 'return' -%}
+                    <path d="M19.8 12a7.8 7.8 0 1 1-2.3-5.5"></path>
+                    <path d="M19.8 4.4v4.5h-4.5"></path>
+                {%- endcase -%}
+              </svg>
+            {%- else -%}
+              {{ block.settings[icon_text_key] }}
+            {%- endif -%}
           </span>
           <span class="cwc_product-hero-buy-box__trust-label cwc-rte">{{ item_label }}</span>
         </div>
