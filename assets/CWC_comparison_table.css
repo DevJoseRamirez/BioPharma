@@ -4,7 +4,8 @@
 
 /* === Section Wrapper === */
 .cwc_comparison-table {
-  font-size: 16px; /* section anchor — all type below is em relative to this */
+  font-size: 16px;
+  /* section anchor — all type below is em relative to this */
   background-color: var(--section-bg);
   color: var(--text-color);
   padding-top: var(--padding-top);
@@ -26,7 +27,8 @@
 }
 
 .cwc_comparison-table__eyebrow {
-  font-size: 0.78em; /* 12.48px */
+  font-size: 0.78em;
+  /* 12.48px */
   font-weight: var(--cwc-weight-label);
   letter-spacing: 2px;
   text-transform: uppercase;
@@ -46,7 +48,7 @@
   color: inherit;
 }
 
-.cwc_comparison-table__content-heading > * strong {
+.cwc_comparison-table__content-heading>* strong {
   color: var(--highlight-color);
   font-weight: 400;
 }
@@ -64,13 +66,36 @@
   background: #ffffff;
 }
 
+/* === Closing Line ===
+   Same 720px as the table above it, so the two share an edge instead of the
+   text running wider than the thing it is commenting on. */
+.cwc_comparison-table__closing {
+  max-width: 720px;
+  margin: 20px auto 0;
+  text-align: center;
+}
+
+.cwc_comparison-table__closing p {
+  font-size: 0.97em;
+  /* 15.52px */
+  line-height: var(--cwc-line-body);
+  color: var(--muted-color);
+  margin: 0;
+}
+
+.cwc_comparison-table__closing strong {
+  color: var(--text-color);
+}
+
 .cwc_comparison-table__th {
   padding: 11px 8px;
-  font-size: 0.75em; /* 12px */
+  font-size: 0.75em;
+  /* 12px */
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.4px;
   text-align: center;
+  opacity: 1;
 }
 
 .cwc_comparison-table__th--us {
@@ -85,7 +110,8 @@
 
 .cwc_comparison-table__cell {
   padding: 11px 8px;
-  font-size: 0.9em; /* 14.4px */
+  font-size: 0.9em;
+  /* 14.4px */
   text-align: center;
   border-bottom: 1px solid var(--border-color);
   color: var(--muted-color);
@@ -104,12 +130,14 @@
 .cwc_comparison-table__check {
   color: var(--check-color);
   font-weight: 800;
-  font-size: 1.2222em; /* 17.6px, relative to 14.4px cell */
+  font-size: 1.2222em;
+  /* 17.6px, relative to 14.4px cell */
 }
 
 .cwc_comparison-table__cross {
   color: var(--cross-color);
-  font-size: 1.2222em; /* 17.6px, relative to 14.4px cell */
+  font-size: 1.2222em;
+  /* 17.6px, relative to 14.4px cell */
 }
 
 /* ==============================
@@ -125,6 +153,7 @@
    Mobile Responsive
    ============================== */
 @media screen and (max-width: 768px) {
+
   /* rescale the whole section from one anchor */
   .cwc_comparison-table {
     font-size: 14px;

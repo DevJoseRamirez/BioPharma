@@ -101,7 +101,7 @@
         "rating": {
           "type": "rating",
           "settings": {
-            "text": "4.4 · 410 reviews",
+            "text": "<p>4.4 · 410 reviews</p>",
             "link": ""
           }
         },
@@ -134,38 +134,6 @@
           "type": "flavors",
           "settings": {
             "label": "Select flavor"
-          }
-        },
-        "supply_90": {
-          "type": "supply",
-          "settings": {
-            "name": "90-Day Supply",
-            "save_label": "Save 25%",
-            "badge_text": "Best value",
-            "description": "3 tubs, delivered every 90 days",
-            "perks": "<p>$1.87 per serving — lowest price per scoop</p><p>90 days of supply in one delivery</p><p>Free shipping on every order</p><p>Cancel, pause, or reschedule anytime</p><p>30-day money-back guarantee</p>",
-            "is_default": true,
-            "selling_plan_id": "",
-            "quantity": 3,
-            "price_text": "$168.64",
-            "compare_text": "$224.85",
-            "save_text": "$56.21"
-          }
-        },
-        "supply_30": {
-          "type": "supply",
-          "settings": {
-            "name": "30-Day Supply",
-            "save_label": "Save 15%",
-            "badge_text": "",
-            "description": "1 tub, delivered every 30 days",
-            "perks": "<p>$2.13 per serving</p><p>Free shipping on every order</p><p>Cancel, pause, or reschedule anytime</p>",
-            "is_default": false,
-            "selling_plan_id": "",
-            "quantity": 1,
-            "price_text": "$63.71",
-            "compare_text": "$74.95",
-            "save_text": "$11.24"
           }
         },
         "onetime": {
@@ -237,6 +205,37 @@
             "sold_out_text": "Sold out",
             "reveal_after": 600
           }
+        },
+        "supply": {
+          "type": "supply",
+          "settings": {
+            "group_label": "Choose your supply",
+            "option_name": "",
+            "opt1_value": "",
+            "opt1_name": "90-Day Supply",
+            "opt1_save_label": "Save 25%",
+            "opt1_badge_text": "Best value",
+            "opt1_description": "3 tubs, delivered every 90 days",
+            "opt1_perks": "<p>$1.87 per serving — lowest price per scoop</p><p>90 days of supply in one delivery</p><p>Free shipping on every order</p><p>Cancel, pause, or reschedule anytime</p><p>30-day money-back guarantee</p>",
+            "opt1_is_default": true,
+            "opt1_selling_plan_id": "",
+            "opt1_quantity": 3,
+            "opt1_price_text": "$168.64",
+            "opt1_compare_text": "$224.85",
+            "opt1_save_text": "$56.21",
+            "opt2_value": "",
+            "opt2_name": "30-Day Supply",
+            "opt2_save_label": "Save 15%",
+            "opt2_badge_text": "",
+            "opt2_description": "1 tub, delivered every 30 days",
+            "opt2_perks": "<p>$2.13 per serving</p><p>Free shipping on every order</p><p>Cancel, pause, or reschedule anytime</p>",
+            "opt2_is_default": false,
+            "opt2_selling_plan_id": "",
+            "opt2_quantity": 1,
+            "opt2_price_text": "$63.71",
+            "opt2_compare_text": "$74.95",
+            "opt2_save_text": "$11.24"
+          }
         }
       },
       "block_order": [
@@ -244,8 +243,7 @@
         "title",
         "key_benefits",
         "flavors",
-        "supply_90",
-        "supply_30",
+        "supply",
         "onetime",
         "add_to_cart",
         "trust_icons",
@@ -266,7 +264,6 @@
         "thumb_ratio": "1 / 1",
         "nutrition_button_text": "View Nutrition Label",
         "nutrition_alt": "NanoGreens supplement facts",
-        "supply_label": "Choose your supply",
         "bg_color": "#ffffff",
         "text_color": "#2a2611",
         "bold_color": "#5ba90f",

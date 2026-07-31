@@ -11,6 +11,35 @@
   "sections": {
     "cwc_collection_banner_GGM8ji": {
       "type": "CWC_collection_banner",
+      "name": "Collection Banner",
+      "settings": {
+        "heading_override": "",
+        "heading_tag": "h1",
+        "eyebrow": "",
+        "subtext": "",
+        "show_product_count": false,
+        "use_collection_image": false,
+        "image": "shopify://shop_images/pdp-image-frame-06.png",
+        "alt_text": "",
+        "lazy_load": false,
+        "overlay_color": "#2a2611",
+        "overlay_opacity": 55,
+        "bg_color": "#44681a",
+        "heading_color": "#ffffff",
+        "text_color": "#ffffff",
+        "bold_color": "#a3c781",
+        "eyebrow_color": "#a3c781",
+        "text_align": "center",
+        "full_width": false,
+        "heading_size": 44,
+        "uppercase_heading": true,
+        "min_height": 260,
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "cwc_collection_links_GGM8ji": {
+      "type": "CWC_collection_links",
       "blocks": {
         "pill_yzFmLg": {
           "type": "pill",
@@ -55,24 +84,9 @@
         "pill_BPc8fL",
         "pill_BndFPr"
       ],
-      "name": "Collection Banner",
+      "name": "Collection Links",
       "settings": {
-        "heading_override": "",
-        "heading_tag": "h1",
-        "eyebrow": "",
-        "subtext": "",
-        "show_product_count": false,
-        "use_collection_image": false,
-        "image": "shopify://shop_images/pdp-image-frame-06.png",
-        "alt_text": "",
-        "lazy_load": false,
-        "overlay_color": "#2a2611",
-        "overlay_opacity": 55,
-        "bg_color": "#44681a",
-        "heading_color": "#ffffff",
-        "text_color": "#ffffff",
-        "bold_color": "#a3c781",
-        "eyebrow_color": "#a3c781",
+        "bg_color": "#ffffff",
         "pill_bg_color": "#44681a",
         "pill_text_color": "#ffffff",
         "pill_border_color": "#a3c781",
@@ -84,12 +98,9 @@
         "scrollbar_thumb_color": "#5ba90f",
         "text_align": "center",
         "full_width": false,
-        "heading_size": 44,
-        "uppercase_heading": true,
-        "min_height": 260,
         "nav_label": "Collection links",
-        "padding_top": 60,
-        "padding_bottom": 60
+        "padding_top": 25,
+        "padding_bottom": 25
       }
     },
     "collection-banner": {
@@ -136,6 +147,7 @@
   },
   "order": [
     "cwc_collection_banner_GGM8ji",
+    "cwc_collection_links_GGM8ji",
     "collection-banner",
     "main"
   ]

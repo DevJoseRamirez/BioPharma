@@ -8,6 +8,8 @@
     --border-color: {{ section.settings.border_color | default: '#E6E5DC' }};
     --card-bg: {{ section.settings.card_bg_color | default: '#ffffff' }};
     --step-bg: {{ section.settings.step_bg_color | default: '#5BA90F' }};
+    --step-image-ratio: {{ section.settings.step_image_ratio | default: '4 / 3' }};
+    --step-image-fit: {{ section.settings.step_image_fit | default: 'cover' }};
     --eyebrow-color: {{ section.settings.eyebrow_color | default: '#5BA90F' }};
     --tips-accent: {{ section.settings.tips_accent_color | default: '#78AD49' }};
     --padding-top: {{ section.settings.padding_top | default: 50 }}px;
@@ -46,6 +48,26 @@
       <div class="cwc_how-to-use__steps">
         {% for block in step_blocks %}
           <div class="cwc_how-to-use__step" {{ block.shopify_attributes }}>
+            {%- comment -%}
+              Optional per-step image, above the number. A card left without one
+              renders exactly as it did before — the frame is only printed when
+              there is an image to put in it, so no empty box appears.
+
+              Alt falls back to the step title, since a step photo illustrates
+              the thing the title already names. Both empty means the image is
+              decorative and an empty alt is the correct answer.
+            {%- endcomment -%}
+            {% if block.settings.image != blank %}
+              <div class="cwc_how-to-use__step-image">
+                <img
+                  src="{{ block.settings.image | image_url: width: 800 }}"
+                  alt="{{ block.settings.image_alt | default: block.settings.title | escape }}"
+                  width="800"
+                  height="600"
+                  loading="lazy"
+                >
+              </div>
+            {% endif %}
             <div class="cwc_how-to-use__step-number">{{ forloop.index }}</div>
             {% if block.settings.title != blank %}
               <div class="cwc_how-to-use__step-title">{{ block.settings.title }}</div>
@@ -112,6 +134,51 @@
       "id": "tips_heading",
       "label": "Pro Tips Heading",
       "default": "Pro tips"
+    },
+    {
+      "type": "header",
+      "content": "Step Images",
+      "info": "Applies to every step that has an image, so the cards stay a matched set."
+    },
+    {
+      "type": "select",
+      "id": "step_image_ratio",
+      "label": "Step Image Shape",
+      "options": [
+        {
+          "value": "4 / 3",
+          "label": "Landscape (4:3)"
+        },
+        {
+          "value": "16 / 9",
+          "label": "Wide (16:9)"
+        },
+        {
+          "value": "3 / 2",
+          "label": "Photo (3:2)"
+        },
+        {
+          "value": "1 / 1",
+          "label": "Square"
+        }
+      ],
+      "default": "4 / 3"
+    },
+    {
+      "type": "select",
+      "id": "step_image_fit",
+      "label": "Step Image Cropping",
+      "options": [
+        {
+          "value": "cover",
+          "label": "Fill the frame (crops)"
+        },
+        {
+          "value": "contain",
+          "label": "Fit inside the frame (no crop)"
+        }
+      ],
+      "default": "cover"
     },
     {
       "type": "header",
@@ -211,6 +278,18 @@
       "type": "step",
       "name": "Step",
       "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Step Image",
+          "info": "Optional. Shown at the top of the card. Shape and cropping for every step are set under Step Images in the section settings."
+        },
+        {
+          "type": "text",
+          "id": "image_alt",
+          "label": "Step Image Alt Text",
+          "info": "Leave empty to describe the image with the step title."
+        },
         {
           "type": "text",
           "id": "title",

@@ -24,7 +24,7 @@
 
 .cwc_product-hero-buy-box__container {
   max-width: 1300px;
-  max-width: calc(1300px + 32px);
+  max-width: calc(1300px + 2rem);
   margin: 0 auto;
   padding: 0 2rem;
 }
@@ -275,7 +275,7 @@
 .cwc_product-hero-buy-box__media-popup {
   width: 100%;
   border-radius: 11px;
-  padding: 14px;
+  padding: 12px 14px;
   margin-top: 10px;
   font-family: var(--cwc-font-body);
   font-size: 0.9375em;
@@ -387,11 +387,31 @@
 }
 
 .cwc_product-hero-buy-box__rating-link {
-  font-size: 0.875em;
+  font-size: 0.85em;
   /* 14px */
   color: var(--deep-color);
-  font-weight: 600;
+  /* font-weight: 600; */
   /* text-decoration: underline; */
+}
+
+/* Richtext arrives wrapped in <p>, whose default margins would push the text
+   off the star baseline in this flex row. */
+.cwc_product-hero-buy-box__rating-link p {
+  margin: 0;
+  font-size: inherit;
+  line-height: 1.4;
+  color: inherit;
+}
+
+.cwc_product-hero-buy-box__rating-link strong {
+  /* color: var(--accent-color);  */
+}
+
+/* Only for a link typed into the text itself — the whole-row anchor takes its
+   colour from the block above. */
+.cwc_product-hero-buy-box__rating-link a {
+  color: var(--accent-color);
+  text-decoration: underline;
 }
 
 .cwc_product-hero-buy-box__eyebrow {
@@ -463,6 +483,7 @@
   /* testing */
   font-size: .7em;
   background: none !important;
+  padding: 6px 14px;
 }
 
 .cwc_product-hero-buy-box__pill--tint {
@@ -493,35 +514,38 @@
   margin: 16px 0 8px;
 }
 
-/* === Flavor Swatches === */
+/* === Flavor Swatches ===
+
+   The image is the control and the name sits under it, outside any card. So
+   the button carries no chrome of its own: no border, no fill, no padding box.
+   Selection is a ring drawn around the circle rather than a box around the
+   pair, which is what lets a two-line name grow without moving the circles. */
 .cwc_product-hero-buy-box__flavors {
   display: flex;
-  gap: 10px;
+  /* wide enough that neighbouring selection rings never crowd each other */
+  gap: 16px;
   flex-wrap: wrap;
+  /* the ring is a box-shadow, so it takes no layout space — this keeps it off
+     the edge of the column and off the label above */
+  padding: 4px 0;
 }
 
 .cwc_product-hero-buy-box__flavor {
-  width: 124px;
-  padding: 11px;
-  border: 1px solid var(--border-color);
-  border-radius: 12px;
-  background: var(--card-bg);
+  /* share the row evenly and shrink together, rather than holding a fixed
+     width and wrapping one item onto its own line */
+  flex: 1 1 0;
+  min-width: 74px;
+  max-width: 74px;
+  padding: 0;
+  border: 0;
+  background: none;
   cursor: pointer;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 6px;
+  gap: 9px;
+  gap: 12px;
   text-align: center;
-  transition: border-color 0.15s;
-}
-
-.cwc_product-hero-buy-box__flavor:hover {
-  border-color: var(--tint-border);
-}
-
-.cwc_product-hero-buy-box__flavor--selected {
-  border-color: var(--highlight-color);
-  background: #f6fbf0;
 }
 
 .cwc_product-hero-buy-box__flavor--unavailable {
@@ -531,19 +555,42 @@
 
 .cwc_product-hero-buy-box__flavor-swatch {
   width: 100%;
-  height: 68px;
-  background: var(--card-bg);
-  border-radius: 8px;
+  aspect-ratio: 1 / 1;
+  background: var(--panel-bg);
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  transition: box-shadow 0.15s;
+  border-radius: 10px;
+  border-radius: 999px;
+  /*  */
+  border: 1px solid var(--border-color);
+  background: white;
 }
 
+/* Two shadows, not one: the inner ring is painted in the section background so
+   the coloured ring reads as detached from the circle instead of thickening
+   its edge. */
+.cwc_product-hero-buy-box__flavor:hover .cwc_product-hero-buy-box__flavor-swatch {
+  /* box-shadow: 0 0 0 3px var(--card-bg), 0 0 0 4px var(--tint-border); */
+}
+
+.cwc_product-hero-buy-box__flavor--selected .cwc_product-hero-buy-box__flavor-swatch {
+  /* box-shadow: 0 0 0 3px var(--card-bg), 0 0 0 5px var(--highlight-color); */
+  border-color: #5ba90f;
+  background: #fafdf6;
+}
+
+/* contain, and short of the full width, so a square product shot keeps clear
+   of the curve instead of having its corners cropped off */
 .cwc_product-hero-buy-box__flavor-swatch img {
-  height: 96%;
-  width: auto;
-  object-fit: contain;
+  width: 74%;
+  height: 74%;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .cwc_product-hero-buy-box__flavor-swatch--empty {
@@ -561,13 +608,33 @@
 
 .cwc_product-hero-buy-box__flavor-name {
   font-size: 0.875em;
+  font-size: 0.8em;
   /* 14px */
   font-weight: 800;
+  line-height: 1.25;
   color: var(--text-color);
 }
 
 .cwc_product-hero-buy-box__flavor--selected .cwc_product-hero-buy-box__flavor-name {
   color: var(--deep-color);
+}
+
+/* Only ever rendered inside the theme editor — a shopper never sees this. */
+.cwc_product-hero-buy-box__editor-note {
+  border: 1px solid #d9822b;
+  border-left: 3px solid #d9822b;
+  border-radius: 8px;
+  background: #fdf5ec;
+  color: #7a4a12;
+  padding: 12px 14px;
+  margin-bottom: 12px;
+  font-size: 0.8em;
+  line-height: 1.5;
+}
+
+.cwc_product-hero-buy-box__editor-note ul {
+  margin: 6px 0;
+  padding-left: 18px;
 }
 
 /* === Supply Offers === */
@@ -592,16 +659,17 @@
 .cwc_product-hero-buy-box__offer-badge {
   position: absolute;
   top: -1px;
-  right: 16px;
+  right: 0px;
   background: var(--highlight-color);
   color: #ffffff;
-  font-size: 0.72em;
+  font-size: 0.65em;
   /* 11.52px */
   font-weight: 800;
   letter-spacing: 0.5px;
   text-transform: uppercase;
   padding: 3px 12px;
   border-radius: 0 0 8px 8px;
+  border-radius: 0 12px 0 12px !important;
 }
 
 .cwc_product-hero-buy-box__offer-input {
@@ -649,6 +717,8 @@
   align-items: center;
   gap: 8px;
   flex-wrap: wrap;
+  color: #44681a;
+
 }
 
 .cwc_product-hero-buy-box__offer-save {
@@ -686,19 +756,59 @@
   font-size: 1.66em;
   /* 26.56px */
   font-weight: 900;
+  color: #44681a;
 }
 
 .cwc_product-hero-buy-box__offer-was {
-  font-size: 0.97em;
+  font-size: 0.8em;
   /* 15.52px */
   color: #b2b1a1;
+  color: #44681a;
   text-decoration: line-through;
+
+}
+
+.cwc_product-hero-buy-box__offer-was-mo {
+  text-decoration: none;
+  font-size: 0.82em;
+  margin-left: -1px;
+  color: #44681a;
+  font-weight: 600;
 }
 
 .cwc_product-hero-buy-box__offer-saving {
   font-size: 0.84em;
   /* 13.44px */
   color: var(--muted-color);
+}
+
+/* === Supply Option: Closed / Open ===
+
+   Only the selected option shows its perks and gift strip. Animated on
+   grid-template-rows rather than max-height so the open height is the content's
+   real height — there is no magic number to go stale when a merchant adds a
+   sixth perk or a fourth gift. */
+.cwc_product-hero-buy-box__offer-details {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.3s ease;
+}
+
+.cwc_product-hero-buy-box__offer--selected .cwc_product-hero-buy-box__offer-details {
+  grid-template-rows: 1fr;
+}
+
+/* min-height is what actually lets the row close: a grid item floors at its
+   min-content height otherwise, and the perks would never go below one line. */
+.cwc_product-hero-buy-box__offer-details-inner {
+  overflow: hidden;
+  min-height: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cwc_product-hero-buy-box__offer-details {
+    transition: none;
+  }
 }
 
 .cwc_product-hero-buy-box__offer-perks {
@@ -726,6 +836,94 @@
   left: 0;
   color: var(--highlight-color);
   font-weight: 800;
+}
+
+/* === Gift Strip ===
+
+   The kit that ships with an option. It sits at the foot of the card, under a
+   rule, so it reads as something that comes with the choice rather than another
+   line of the pitch. */
+.cwc_product-hero-buy-box__offer-gifts-label {
+  display: block;
+  margin-top: 13px;
+  padding-top: 11px;
+  border-top: 1px solid var(--border-color);
+  font-size: 0.72em;
+  /* 11.52px */
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--deep-color);
+}
+
+/* A left-aligned strip of fixed-width tiles that wraps.
+
+   Not a 1fr grid: with one gift, a single auto-fit column takes the whole card
+   width and the square frame blows up to the full width of the card. Sizing the
+   tile instead of the track keeps one gift the same size as four. */
+.cwc_product-hero-buy-box__offer-gifts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+/* Width only — never a height. The frame is square off this width, and the
+   value and name below are free to take the room they need; clamping the tile
+   height instead spills the caption straight through the bottom of the card. */
+.cwc_product-hero-buy-box__offer-gift {
+  display: block;
+  width: 72px;
+  text-align: center;
+}
+
+.cwc_product-hero-buy-box__offer-gift-frame {
+  display: block;
+  aspect-ratio: 1 / 1;
+  background: var(--panel-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  overflow: hidden;
+  /* padding so a product shot sits inside the frame rather than against its
+     corners, matching the flavour swatches */
+  padding: 0px;
+  box-sizing: border-box;
+}
+
+/* contain, not cover: these are product shots, and cover crops the ends off a
+   tall bottle to fill a square. */
+.cwc_product-hero-buy-box__offer-gift-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.cwc_product-hero-buy-box__offer-gift-value {
+  display: block;
+  margin-top: 1px;
+  font-size: 0.73em;
+  /* 11.52px */
+  color: #b2b1a1;
+  text-decoration: line-through;
+  color: #44681a;
+}
+
+.cwc_product-hero-buy-box__offer-gift-title {
+  display: block;
+  margin-top: 1px;
+  font-size: 0.7em;
+  /* 11.52px */
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--muted-color);
+  line-height: normal;
+  color: #44681a;
+}
+
+.cwc_product-hero-buy-box__offer--selected .cwc_product-hero-buy-box__offer-gift-title {
+  color: var(--text-color);
+  color: #355411;
 }
 
 /* === One-Time Link === */
@@ -1077,6 +1275,7 @@
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.6);
+  background-color: rgba(0, 0, 0, .7);
   z-index: 60;
   display: flex;
   align-items: center;
@@ -1231,8 +1430,10 @@
     display: flex;
   }
 
+  /* let four circles still share one row on a narrow column before wrapping */
   .cwc_product-hero-buy-box__flavor {
     width: auto;
+    min-width: 62px;
   }
 
   .cwc_product-hero-buy-box__offer {

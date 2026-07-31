@@ -143,9 +143,67 @@
         "show_country_flag": true,
         "show_locale_selector": true
       }
+    },
+    "cwc_footer_main": {
+      "type": "CWC_footer",
+      "blocks": {
+        "contact": {
+          "type": "text_column",
+          "settings": {
+            "heading": "Get In Touch",
+            "content": "<p>2575 Pioneer Ave #103<br/>Vista, CA 92081</p><p>Phone: 877-772-4362<br/>Fax: 800-377-1410</p><p><a href=\"mailto:info@biopharmasci.com?Subject=Contact%20Us\" title=\"Contact Us\">info@biopharmasci.com</a></p>"
+          }
+        },
+        "info_links": {
+          "type": "link_column",
+          "settings": {
+            "heading": "Info",
+            "menu": "footer"
+          }
+        },
+        "account_links": {
+          "type": "link_column",
+          "settings": {
+            "heading": "My Account",
+            "menu": "my-account"
+          }
+        },
+        "newsletter": {
+          "type": "newsletter_column",
+          "settings": {
+            "heading": "Newsletter",
+            "text": "<p>Stay up to date on what's new with Biopharma Scientific.</p>",
+            "placeholder": "Email",
+            "button_label": "Sign Up",
+            "success_text": "Thanks for subscribing."
+          }
+        }
+      },
+      "block_order": [
+        "contact",
+        "info_links",
+        "account_links",
+        "newsletter"
+      ],
+      "settings": {
+        "logo_width": 170,
+        "disclaimer": "<p>*These statements have not been evaluated by the Food and Drug Administration. These products are not intended to diagnose, treat, cure or prevent any disease. Consult your physician or healthcare provider before taking any of our products. Individual results may vary.</p>",
+        "bg_color": "#2a2611",
+        "heading_color": "#ffffff",
+        "text_color": "#d9d6c9",
+        "bold_color": "#a3c781",
+        "link_color": "#d9d6c9",
+        "border_color": "#46422f",
+        "input_border_color": "#6e6a55",
+        "button_bg_color": "#5ba90f",
+        "button_text_color": "#ffffff",
+        "padding_top": 60,
+        "padding_bottom": 30
+      }
     }
   },
   "order": [
+    "cwc_footer_main",
     "text-with-icons",
     "footer"
   ]

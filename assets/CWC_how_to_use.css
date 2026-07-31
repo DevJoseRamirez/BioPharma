@@ -82,6 +82,24 @@
   position: relative;
 }
 
+/* The frame fixes the shape so a row of steps lines up whatever the source
+   images measure. contain gets a tinted bed behind it, since a fitted image
+   leaves bars either side and a bare card background reads as a gap. */
+.cwc_how-to-use__step-image {
+  aspect-ratio: var(--step-image-ratio);
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--border-color);
+  margin-bottom: 16px;
+}
+
+.cwc_how-to-use__step-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: var(--step-image-fit);
+  display: block;
+}
+
 .cwc_how-to-use__step-number {
   width: 34px;
   height: 34px;
@@ -149,7 +167,8 @@
   font-size: 0.9em;
   /* 14.4px */
   color: var(--muted-color);
-  padding-left: 17.6px;
+  /* padding-left: 17.6px; */
+  padding-inline-start: 17.6px !important;
   position: relative;
   line-height: 1.45;
 }

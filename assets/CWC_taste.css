@@ -15,12 +15,13 @@
 
 .cwc_taste__container {
   max-width: 1300px;
+  max-width: calc(1300px + 2rem);
   margin: 0 auto;
-  padding: 0 32px;
+  padding: 0 2rem;
 }
 
 .cwc_taste__wrapper {
-  max-width: 900px;
+  max-width: 1000px;
   margin: 0 auto;
   display: grid;
   grid-template-columns: 1fr 1.05fr;
@@ -41,6 +42,7 @@
   width: 100%;
   height: auto;
   aspect-ratio: 4 / 3;
+  aspect-ratio: 1 / 1;
   object-fit: cover;
   display: block;
   border-radius: 16px;
@@ -97,7 +99,7 @@
   color: var(--text-color);
 }
 
-.cwc_taste__content-heading > * strong {
+.cwc_taste__content-heading>* strong {
   color: var(--highlight-color);
   font-weight: 400;
 }
@@ -170,6 +172,7 @@
    Mobile Responsive
    ============================== */
 @media screen and (max-width: 768px) {
+
   /* rescale the whole section from one anchor */
   .cwc_taste {
     font-size: 14px;

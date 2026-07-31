@@ -91,6 +91,15 @@
       </table>
     </div>
 
+    {%- comment -%}
+      Closing line. Sits under the table and is held to the table's own width so
+      it reads as the last word on the comparison rather than as a new block of
+      section copy.
+    {%- endcomment -%}
+    {% if section.settings.closing_text != blank %}
+      <div class="cwc_comparison-table__closing cwc-rte">{{ section.settings.closing_text }}</div>
+    {% endif %}
+
   </div>
 </section>
 
@@ -137,6 +146,17 @@
       "label": "Competitor B Label",
       "info": "Leave empty to hide this column.",
       "default": "Synthetic multivitamin"
+    },
+    {
+      "type": "header",
+      "content": "Closing Line"
+    },
+    {
+      "type": "richtext",
+      "id": "closing_text",
+      "label": "Closing Text",
+      "info": "Shown under the table. Leave empty to hide it.",
+      "default": "<p>We're not telling you to stop eating vegetables. If you're already getting 7–13 servings a day, you don't need this. Most of us aren't — that's the whole reason NanoGreens exists.</p>"
     },
     {
       "type": "header",

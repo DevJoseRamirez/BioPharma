@@ -1,0 +1,368 @@
+{% style %}
+  #cwc_footer-{{ section.id }} {
+    --section-bg: {{ section.settings.bg_color | default: '#1F3900' }};
+    --text-color: {{ section.settings.text_color | default: '#D9D6C9' }};
+    --highlight-color: {{ section.settings.bold_color | default: '#A3C781' }};
+    --heading-color: {{ section.settings.heading_color | default: '#ffffff' }};
+    --link-color: {{ section.settings.link_color | default: '#D9D6C9' }};
+    --border-color: {{ section.settings.border_color | default: '#46422F' }};
+    --input-border: {{ section.settings.input_border_color | default: '#6E6A55' }};
+    --button-bg: {{ section.settings.button_bg_color | default: '#5BA90F' }};
+    --button-text: {{ section.settings.button_text_color | default: '#ffffff' }};
+    --logo-width: {{ section.settings.logo_width | default: 170 }}px;
+    --padding-top: {{ section.settings.padding_top | default: 60 }}px;
+    --padding-bottom: {{ section.settings.padding_bottom | default: 30 }}px;
+    --padding-top-mobile: {{ section.settings.padding_top | default: 60 | times: 0.5 }}px;
+    --padding-bottom-mobile: {{ section.settings.padding_bottom | default: 30 | times: 0.5 }}px;
+  }
+{% endstyle %}
+
+{{ 'CWC_fonts.css' | asset_url | stylesheet_tag }}
+{{ 'CWC_footer.css' | asset_url | stylesheet_tag }}
+
+<section id="cwc_footer-{{ section.id }}" class="cwc_footer">
+  <div class="cwc_footer__container">
+    <div class="cwc_footer__columns">
+      {% if section.settings.logo != blank %}
+        <div class="cwc_footer__logo">
+          <a href="{{ routes.root_url }}">
+            <img
+              src="{{ section.settings.logo | image_url: width: 400 }}"
+              alt="{{ section.settings.logo.alt | default: shop.name | escape }}"
+              loading="lazy"
+              width="200"
+              height="60"
+            >
+          </a>
+        </div>
+      {% endif %}
+
+      {% for block in section.blocks %}
+        <div class="cwc_footer__column" {{ block.shopify_attributes }}>
+          {% if block.settings.heading != blank %}
+            <p class="cwc_footer__column-heading">{{ block.settings.heading }}</p>
+          {% endif %}
+
+          {% case block.type %}
+            {% when 'text_column' %}
+              {% if block.settings.content != blank %}
+                <div class="cwc_footer__text cwc-rte">{{ block.settings.content }}</div>
+              {% endif %}
+
+            {% when 'link_column' %}
+              {% if block.settings.menu != blank %}
+                <ul class="cwc_footer__links">
+                  {% for link in block.settings.menu.links %}
+                    <li>
+                      <a href="{{ link.url }}">{{ link.title }}</a>
+                    </li>
+                  {% endfor %}
+                </ul>
+              {% endif %}
+
+            {% when 'newsletter_column' %}
+              {% if block.settings.text != blank %}
+                <div class="cwc_footer__text cwc-rte">{{ block.settings.text }}</div>
+              {% endif %}
+
+              {% comment %}
+                On success the field and button are replaced by the confirmation
+                rather than sitting under it, so the column keeps its shape and
+                nobody is invited to sign up twice.
+              {% endcomment %}
+              {% form 'customer', class: 'cwc_footer__form' %}
+                <input type="hidden" name="contact[tags]" value="newsletter">
+
+                {% if form.posted_successfully? %}
+                  <p class="cwc_footer__form-note">{{ block.settings.success_text }}</p>
+                {% else %}
+                  <div class="cwc_footer__form-row">
+                    <input
+                      class="cwc_footer__input"
+                      type="email"
+                      name="contact[email]"
+                      placeholder="{{ block.settings.placeholder | default: 'Email' | escape }}"
+                      aria-label="{{ block.settings.placeholder | default: 'Email' | escape }}"
+                      autocomplete="email"
+                      required
+                    >
+                    <button class="cwc_footer__button" type="submit">{{ block.settings.button_label }}</button>
+                  </div>
+
+                  {% if form.errors %}
+                    <p class="cwc_footer__form-error">
+                      {{ form.errors.messages.form | default: form.errors.messages.email }}
+                    </p>
+                  {% endif %}
+                {% endif %}
+              {% endform %}
+          {% endcase %}
+        </div>
+      {% endfor %}
+    </div>
+
+    {% if section.settings.disclaimer != blank %}
+      <div class="cwc_footer__disclaimer cwc-rte">{{ section.settings.disclaimer }}</div>
+    {% endif %}
+
+    <div class="cwc_footer__bottom">
+      <p class="cwc_footer__copyright">
+        {% if section.settings.copyright_text != blank %}
+          {{ section.settings.copyright_text }}
+        {% else %}
+          &copy; {{ 'now' | date: '%Y' }}
+          {{ shop.name }}
+        {% endif %}
+      </p>
+
+      {% comment %}
+        A menu wins when the merchant sets one, otherwise the store's own
+        published policies are listed — unpublished ones come through blank.
+      {% endcomment %}
+      {% if section.settings.policy_menu != blank %}
+        <ul class="cwc_footer__policies">
+          {% for link in section.settings.policy_menu.links %}
+            <li>
+              <a href="{{ link.url }}">{{ link.title }}</a>
+            </li>
+          {% endfor %}
+        </ul>
+      {% elsif shop.policies.size > 0 %}
+        <ul class="cwc_footer__policies">
+          {% for policy in shop.policies %}
+            {% if policy != blank %}
+              <li>
+                <a href="{{ policy.url }}">{{ policy.title | escape }}</a>
+              </li>
+            {% endif %}
+          {% endfor %}
+        </ul>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "CWC Footer",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Logo"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo",
+      "info": "Sits as the first column. Leave empty to start with the columns below."
+    },
+    {
+      "type": "range",
+      "id": "logo_width",
+      "label": "Logo Width",
+      "min": 80,
+      "max": 320,
+      "step": 10,
+      "unit": "px",
+      "default": 170
+    },
+    {
+      "type": "header",
+      "content": "Bottom Bar"
+    },
+    {
+      "type": "richtext",
+      "id": "disclaimer",
+      "label": "Disclaimer",
+      "info": "Small print above the bottom bar, e.g. FDA statements.",
+      "default": "<p>*These statements have not been evaluated by the Food and Drug Administration. These products are not intended to diagnose, treat, cure or prevent any disease. Consult your physician or healthcare provider before taking any of our products. Individual results may vary.</p>"
+    },
+    {
+      "type": "text",
+      "id": "copyright_text",
+      "label": "Copyright Text",
+      "info": "Leave empty to show the year and your store name."
+    },
+    {
+      "type": "link_list",
+      "id": "policy_menu",
+      "label": "Policy Menu",
+      "info": "Optional. Leave empty to list your store's published policies automatically."
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#2A2611"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Column Heading Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#D9D6C9"
+    },
+    {
+      "type": "color",
+      "id": "bold_color",
+      "label": "Bold Text Color",
+      "default": "#A3C781"
+    },
+    {
+      "type": "color",
+      "id": "link_color",
+      "label": "Link Color",
+      "default": "#D9D6C9"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Divider Color",
+      "default": "#46422F"
+    },
+    {
+      "type": "color",
+      "id": "input_border_color",
+      "label": "Email Field Border Color",
+      "default": "#6E6A55"
+    },
+    {
+      "type": "color",
+      "id": "button_bg_color",
+      "label": "Button Background Color",
+      "default": "#5BA90F"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 120,
+      "step": 10,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 120,
+      "step": 10,
+      "unit": "px",
+      "default": 30
+    }
+  ],
+  "blocks": [
+    {
+      "type": "text_column",
+      "name": "Text Column",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Column Heading",
+          "default": "Get In Touch"
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Column Text",
+          "default": "<p>2575 Pioneer Ave #103<br/>Vista, CA 92081</p><p>Phone: 877-772-4362<br/>Fax: 800-377-1410</p>"
+        }
+      ]
+    },
+    {
+      "type": "link_column",
+      "name": "Link Column",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Column Heading",
+          "default": "Info"
+        },
+        {
+          "type": "link_list",
+          "id": "menu",
+          "label": "Menu",
+          "default": "footer"
+        }
+      ]
+    },
+    {
+      "type": "newsletter_column",
+      "name": "Newsletter Column",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Column Heading",
+          "default": "Newsletter"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Column Text",
+          "default": "<p>Stay up to date on what's new with Biopharma Scientific.</p>"
+        },
+        {
+          "type": "text",
+          "id": "placeholder",
+          "label": "Email Field Placeholder",
+          "default": "Email"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button Label",
+          "default": "Sign Up"
+        },
+        {
+          "type": "text",
+          "id": "success_text",
+          "label": "Success Message",
+          "default": "Thanks for subscribing."
+        }
+      ]
+    }
+  ],
+  "enabled_on": {
+    "groups": ["footer"]
+  },
+  "max_blocks": 4,
+  "presets": [
+    {
+      "name": "CWC Footer",
+      "category": "CWC Custom",
+      "blocks": [
+        { "type": "text_column" },
+        { "type": "link_column" },
+        { "type": "link_column" },
+        { "type": "newsletter_column" }
+      ]
+    }
+  ]
+}
+{% endschema %}

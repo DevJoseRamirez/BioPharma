@@ -1,6 +1,11 @@
 {% comment %}
   Star rating row for the product buy box.
 
+  The text is richtext, so the count can carry its own emphasis and its own
+  links. That is also why the row is only wrapped in an anchor when a Rating
+  Link is actually set: an unset link used to render href="#", and now that the
+  text may contain a link of its own, an always-on wrapper would nest anchors.
+
   Accepts:
   - block {Object} - the rating block. Reads settings.text and settings.link.
 
@@ -11,8 +16,14 @@
 <div class="cwc_product-hero-buy-box__rating" {{ block.shopify_attributes }}>
   <span class="cwc_product-hero-buy-box__stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
   {% if block.settings.text != blank %}
-    <a href="{{ block.settings.link | default: '#' }}" class="cwc_product-hero-buy-box__rating-link">
-      {{ block.settings.text }}
-    </a>
+    {% if block.settings.link != blank %}
+      <a href="{{ block.settings.link }}" class="cwc_product-hero-buy-box__rating-link cwc-rte">
+        {{ block.settings.text }}
+      </a>
+    {% else %}
+      <div class="cwc_product-hero-buy-box__rating-link cwc-rte">
+        {{ block.settings.text }}
+      </div>
+    {% endif %}
   {% endif %}
 </div>

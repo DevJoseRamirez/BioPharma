@@ -1,11 +1,21 @@
 {% comment %}
   Variant (flavour) swatches for the product buy box.
 
-  Renders nothing for a single-variant product, so the block can be left in
-  place on products that do not need it.
+  By default one swatch per variant, which is right for a product whose only
+  option is the flavour. Name a product option in the block instead and the row
+  collapses to that option's values — so a product built as Flavour × Supply
+  shows four flavours rather than every combination of the two.
+
+  Each swatch still carries a single variant id, because that is what the script
+  and the cart want. For a named option the id is that value's first available
+  variant, falling back to its first variant when the whole value is sold out.
+
+  Renders nothing when there is only one thing to choose, so the block can be
+  left in place on products that do not need it.
 
   Accepts:
-  - block {Object} - the flavors block. Reads settings.label.
+  - block {Object} - the flavors block. Reads settings.label and
+    settings.option_name.
   - product {Object} - product whose variants are shown.
   - current_variant {Object} - variant currently selected.
 
@@ -13,38 +23,88 @@
   {% render 'CWC_pdp-flavors__block', block: block, product: hero_product, current_variant: current_variant %}
 {% endcomment %}
 
-{%- if product.variants.size > 1 -%}
+{%- liquid
+  assign wanted_option = block.settings.option_name | strip | downcase
+  assign option_position = 0
+
+  if wanted_option != blank
+    for product_option in product.options_with_values
+      assign this_name = product_option.name | strip | downcase
+      if this_name == wanted_option
+        assign option_position = product_option.position
+        assign option_values = product_option.values
+      endif
+    endfor
+  endif
+
+  comment
+    Both modes reduce to "group the variants by some property and show one
+    swatch per distinct value of it" — the option name for a named option, the
+    variant title otherwise. Naming that property once is what lets a single
+    loop below serve both, and it keeps the no-option path rendering exactly
+    what it rendered before: one swatch per variant.
+
+    A name that matches no option on the product falls through to that same
+    default rather than printing an empty row, so a typo degrades to the old
+    behaviour instead of losing the picker.
+  endcomment
+  if option_position > 0
+    assign match_key = 'option' | append: option_position
+    assign swatch_values = option_values
+  else
+    assign match_key = 'title'
+    assign swatch_values = product.variants | map: 'title'
+  endif
+-%}
+
+{%- if swatch_values.size > 1 -%}
   <div {{ block.shopify_attributes }}>
     {% if block.settings.label != blank %}
       <div class="cwc_product-hero-buy-box__label">{{ block.settings.label }}</div>
     {% endif %}
 
-    <div class="cwc_product-hero-buy-box__flavors">
-      {% for variant in product.variants %}
-        <button
-          type="button"
-          class="cwc_product-hero-buy-box__flavor{% if variant.id == current_variant.id %} cwc_product-hero-buy-box__flavor--selected{% endif %}{% unless variant.available %} cwc_product-hero-buy-box__flavor--unavailable{% endunless %}"
-          data-cwc-variant="{{ variant.id }}"
-          {% unless variant.available %}
-            disabled
-          {% endunless %}
-        >
-          <span class="cwc_product-hero-buy-box__flavor-swatch{% if variant.image == blank %} cwc_product-hero-buy-box__flavor-swatch--empty{% endif %}">
-            {% if variant.image != blank %}
-              <img
-                src="{{ variant.image | image_url: width: 240 }}"
-                alt="{{ variant.title | escape }}"
-                width="240"
-                height="240"
-                loading="lazy"
-              >
-            {% else %}
-              <span class="cwc_product-hero-buy-box__flavor-empty-label">Image</span>
+    <div
+      class="cwc_product-hero-buy-box__flavors"
+      {% if option_position > 0 %}
+        data-cwc-flavor-position="{{ option_position }}"
+      {% endif %}
+    >
+      {%- for swatch_value in swatch_values -%}
+        {%- liquid
+          assign matches = product.variants | where: match_key, swatch_value
+          assign in_stock = matches | where: 'available', true
+          assign swatch_variant = in_stock.first | default: matches.first
+        -%}
+
+        {%- if swatch_variant != blank -%}
+          <button
+            type="button"
+            class="cwc_product-hero-buy-box__flavor{% if current_variant[match_key] == swatch_value %} cwc_product-hero-buy-box__flavor--selected{% endif %}{% if in_stock.size == 0 %} cwc_product-hero-buy-box__flavor--unavailable{% endif %}"
+            data-cwc-variant="{{ swatch_variant.id }}"
+            {% if option_position > 0 %}
+              data-cwc-flavor-value="{{ swatch_value | escape }}"
             {% endif %}
-          </span>
-          <span class="cwc_product-hero-buy-box__flavor-name">{{ variant.title }}</span>
-        </button>
-      {% endfor %}
+            {% if in_stock.size == 0 %}
+              disabled
+            {% endif %}
+          >
+            <span class="cwc_product-hero-buy-box__flavor-swatch{% if swatch_variant.image == blank %} cwc_product-hero-buy-box__flavor-swatch--empty{% endif %}">
+              {% if swatch_variant.image != blank %}
+                <img
+                  src="{{ swatch_variant.image | image_url: width: 100 }}"
+                  alt="{{ swatch_value | escape }}"
+                  width="100"
+                  height="100"
+                  loading="lazy"
+                >
+              {% else %}
+                <span class="cwc_product-hero-buy-box__flavor-empty-label">Image</span>
+              {% endif %}
+            </span>
+            <span class="cwc_product-hero-buy-box__flavor-name">{{ swatch_value }}</span>
+          </button>
+        {%- endif -%}
+      {%- endfor -%}
     </div>
   </div>
 {%- endif -%}

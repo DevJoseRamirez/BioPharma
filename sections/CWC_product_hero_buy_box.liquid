@@ -42,6 +42,43 @@
   assign gallery_limit = section.settings.gallery_limit | default: 10
 -%}
 
+{%- comment -%}
+  How many months each selling plan charges for, gathered off the supply cards
+  before any pricing is printed.
+
+  A quarterly plan bills three months at once, and quoting that whole charge
+  against a monthly plan's would compare a quarter with a month. So every price
+  in this section is per month, and the divisor has to be known here rather than
+  only inside the card: the payload below is what the script re-prices from when
+  the flavour changes, so both routes have to divide by the same number or the
+  card would change price the moment it was touched.
+
+  Only plans that bill for more than one month are listed, which keeps the
+  lookup below empty on the ordinary all-monthly setup.
+{%- endcomment -%}
+{%- liquid
+  assign slot_numbers = '1,2,3,4' | split: ','
+  assign plan_months = ''
+
+  for buy_box_block in section.blocks
+    if buy_box_block.type == 'supply'
+      for slot_number in slot_numbers
+        assign key = 'opt' | append: slot_number | append: '_selling_plan_id'
+        assign slot_plan = buy_box_block.settings[key] | remove: '#' | strip
+
+        assign key = 'opt' | append: slot_number | append: '_billing_months'
+        assign slot_months = buy_box_block.settings[key] | default: 1
+
+        if slot_plan != blank and slot_months > 1
+          assign plan_months = plan_months | append: slot_plan | append: ':' | append: slot_months | append: ','
+        endif
+      endfor
+    endif
+  endfor
+
+  assign plan_month_pairs = plan_months | split: ','
+-%}
+
 {%- capture variant_payload -%}
   [
   {%- for variant in hero_product.variants -%}
@@ -49,16 +86,40 @@
       "id": {{ variant.id }},
       "available": {{ variant.available }},
       "title": {{ variant.title | json }},
+      {%- comment -%}
+        Option values by position, so the script can resolve a variant from a
+        combination of choices — flavour and supply are separate options now,
+        and picking one has to keep the other.
+      {%- endcomment -%}
+      "options": [{{ variant.option1 | json }}, {{ variant.option2 | json }}, {{ variant.option3 | json }}],
       "price": {{ variant.price | money | json }},
       "compare": {%- if variant.compare_at_price > variant.price -%}{{ variant.compare_at_price | money | json }}{%- else -%}""{%- endif -%},
       "image": {%- if variant.image != blank -%}{{ variant.image | image_url: width: 900 | json }}{%- else -%}""{%- endif -%},
       "media_id": {%- if variant.featured_media != blank -%}{{ variant.featured_media.id }}{%- else -%}0{%- endif -%},
       "plans": {
         {%- for allocation in variant.selling_plan_allocations -%}
+          {%- liquid
+            comment
+              Per month, so a quarterly card reads against a monthly one. Cents
+              divide before they are formatted, which keeps the rounding to a
+              single place rather than to each of the three numbers.
+            endcomment
+            assign months = 1
+            for pair in plan_month_pairs
+              assign pair_parts = pair | split: ':'
+              assign pair_plan = pair_parts[0] | plus: 0
+              if pair_plan == allocation.selling_plan.id
+                assign months = pair_parts[1] | plus: 0
+              endif
+            endfor
+
+            assign plan_now = allocation.price | divided_by: months
+            assign plan_then = allocation.compare_at_price | divided_by: months
+          -%}
           "{{ allocation.selling_plan.id }}": {
-            "price": {{ allocation.price | money | json }},
-            "compare": {%- if allocation.compare_at_price > allocation.price -%}{{ allocation.compare_at_price | money | json }}{%- else -%}""{%- endif -%},
-            "save": {%- if allocation.compare_at_price > allocation.price -%}{{ allocation.compare_at_price | minus: allocation.price | money | json }}{%- else -%}""{%- endif -%}
+            "price": {{ plan_now | money | json }},
+            "compare": {%- if plan_then > plan_now -%}{{ plan_then | money | json }}{%- else -%}""{%- endif -%},
+            "save": {%- if plan_then > plan_now -%}{{ plan_then | minus: plan_now | money | json }}{%- else -%}""{%- endif -%}
           }{%- unless forloop.last -%},{%- endunless -%}
         {%- endfor -%}
       }
@@ -74,7 +135,6 @@
 >
   <div class="cwc_product-hero-buy-box__container">
     <div class="cwc_product-hero-buy-box__wrapper">
-
       {% comment %} Gallery {% endcomment %}
       {%- comment -%}
         The badge belongs to the first image, not to the gallery frame, so it
@@ -215,7 +275,6 @@
       {%- endcomment -%}
       <div class="cwc_product-hero-buy-box__content">
         {%- capture buy_box_blocks -%}
-          {%- assign supply_seen = 0 -%}
           {% for block in section.blocks %}
             {% case block.type %}
               {% when 'rating' %}
@@ -235,20 +294,16 @@
                 %}
 
               {% when 'supply' %}
-                {%- liquid
-                  # The group label belongs to the run of supply cards, not to any
-                  # one of them, so only the first card in the run prints it.
-                  assign supply_seen = supply_seen | plus: 1
-                  assign group_label = ''
-                  if supply_seen == 1
-                    assign group_label = section.settings.supply_label
-                  endif
-                -%}
+                {%- comment -%}
+                  One block renders the whole group now, so the label belongs to
+                  the render rather than to a running count of cards.
+                {%- endcomment -%}
                 {% render 'CWC_pdp-supply-option__block',
                   block: block,
+                  product: hero_product,
                   current_variant: current_variant,
                   section_id: section.id,
-                  group_label: group_label
+                  group_label: block.settings.group_label
                 %}
 
               {% when 'onetime' %}
@@ -293,7 +348,12 @@
           goes through this one form, so they all inherit that behaviour.
         {%- endcomment -%}
         {% if hero_product != blank %}
-          {% form 'product', hero_product, class: 'cwc_product-hero-buy-box__form', novalidate: 'novalidate', is: 'product-form' %}
+          {% form 'product',
+            hero_product,
+            class: 'cwc_product-hero-buy-box__form',
+            novalidate: 'novalidate',
+            is: 'product-form'
+          %}
             <input type="hidden" name="id" value="{{ current_variant.id }}" data-cwc-variant-input>
             <input type="hidden" name="quantity" value="1" data-cwc-quantity-input>
             {%- comment -%}
@@ -317,7 +377,9 @@
   {% if section.settings.nutrition_label != blank %}
     <div class="cwc_product-hero-buy-box__modal" data-cwc-nutrition-modal hidden>
       <div class="cwc_product-hero-buy-box__modal-inner">
-        <button type="button" class="cwc_product-hero-buy-box__modal-close" aria-label="Close" data-cwc-nutrition-close>&times;</button>
+        <button type="button" class="cwc_product-hero-buy-box__modal-close" aria-label="Close" data-cwc-nutrition-close>
+          &times;
+        </button>
         <img
           src="{{ section.settings.nutrition_label | image_url: width: 1200 }}"
           alt="{{ section.settings.nutrition_alt | default: 'Supplement facts' | escape }}"
@@ -467,16 +529,6 @@
     },
     {
       "type": "header",
-      "content": "Buy Flow"
-    },
-    {
-      "type": "text",
-      "id": "supply_label",
-      "label": "Supply Label",
-      "default": "Choose your supply"
-    },
-    {
-      "type": "header",
       "content": "Colors"
     },
     {
@@ -617,15 +669,16 @@
       "limit": 1,
       "settings": [
         {
-          "type": "text",
+          "type": "richtext",
           "id": "text",
           "label": "Rating Text",
-          "default": "4.4 · 410 reviews"
+          "default": "<p>4.4 · 410 reviews</p>"
         },
         {
           "type": "url",
           "id": "link",
-          "label": "Rating Link"
+          "label": "Rating Link",
+          "info": "Makes the whole rating text a link. Leave empty if you would rather link part of the text from the Rating Text field itself."
         }
       ]
     },
@@ -825,96 +878,775 @@
           "id": "label",
           "label": "Label",
           "default": "Select flavor"
+        },
+        {
+          "type": "text",
+          "id": "option_name",
+          "label": "Product Option",
+          "default": "flavor",
+          "info": "Which option to show swatches for, e.g. Flavor. Must match the option name on the product; capitalisation does not matter. Leave empty to show every variant, which is what a product whose only option is the flavour wants."
         }
       ]
     },
     {
       "type": "supply",
-      "name": "Supply Option",
+      "name": "Supply Options",
+      "limit": 1,
       "settings": [
         {
+          "type": "header",
+          "content": "Supply Group"
+        },
+        {
           "type": "text",
-          "id": "name",
+          "id": "group_label",
+          "label": "Group Label",
+          "info": "Printed above the cards. Leave empty to show none.",
+          "default": "Subscribe & Save"
+        },
+        {
+          "type": "text",
+          "id": "option_name",
+          "label": "Supply Product Option",
+          "default": "supply",
+          "info": "Which product option holds the supply size, e.g. Supply. Must match the option name on the product; capitalisation does not matter. Leave empty to price every option off the selected variant instead."
+        },
+        {
+          "type": "header",
+          "content": "Option 1",
+          "info": "A slot needs a Name to appear. Leave the Name empty to hide this option."
+        },
+        {
+          "type": "text",
+          "id": "opt1_name",
           "label": "Name",
           "default": "90-Day Supply"
         },
         {
           "type": "text",
-          "id": "save_label",
-          "label": "Savings Label",
+          "id": "opt1_value",
+          "label": "Supply Option Value",
+          "info": "Optional. Only needed when this card's Name is not one of the option's values — the Name is matched against them automatically."
+        },
+        {
+          "type": "text",
+          "id": "opt1_save_label",
+          "label": "Save Badge",
           "default": "Save 25%"
         },
         {
           "type": "text",
-          "id": "badge_text",
+          "id": "opt1_badge_text",
           "label": "Corner Badge",
-          "info": "Leave empty for no badge.",
           "default": "Best value"
         },
         {
           "type": "text",
-          "id": "description",
+          "id": "opt1_description",
           "label": "Description",
           "default": "3 tubs, delivered every 90 days"
         },
         {
           "type": "text",
-          "id": "sticky_sub",
+          "id": "opt1_sticky_sub",
           "label": "Sticky Bar Sub-line",
-          "info": "Second line on the sticky bar chip when this option is selected, e.g. \"$1.87 USD / serving\". Falls back to the description.",
+          "info": "Falls back to the Description.",
           "default": "$1.87 USD / serving"
         },
         {
           "type": "richtext",
-          "id": "perks",
+          "id": "opt1_perks",
           "label": "Perks",
-          "info": "One perk per line — each line renders with a check mark.",
           "default": "<p>$1.87 per serving — lowest price per scoop</p><p>Free shipping on every order</p><p>Cancel, pause, or reschedule anytime</p>"
         },
         {
           "type": "checkbox",
-          "id": "is_default",
+          "id": "opt1_is_default",
           "label": "Selected By Default",
-          "default": false
+          "info": "If more than one option is ticked, the first one wins.",
+          "default": true
         },
         {
           "type": "header",
-          "content": "Cart Behaviour"
+          "content": "Option 1 · Cart"
         },
         {
           "type": "text",
-          "id": "selling_plan_id",
+          "id": "opt1_selling_plan_id",
           "label": "Selling Plan ID",
-          "info": "Numbers only, e.g. 1861583106 — the admin shows it as #1861583106, and the # is not part of the ID. Leave empty for a one-time purchase."
+          "info": "Picking a supply option is always a subscription, so this is required for the option to add correctly."
         },
         {
           "type": "number",
-          "id": "quantity",
+          "id": "opt1_billing_months",
+          "label": "Months Per Charge",
+          "info": "How many months this plan bills at once — 3 for a quarterly plan, 1 for monthly. Prices are shown per month, so every card can be compared against the others. The cart still charges the full amount.",
+          "default": 1
+        },
+        {
+          "type": "number",
+          "id": "opt1_quantity",
           "label": "Quantity Added",
+          "info": "Leave at 1. The supply size normally comes from the variant, so raising this adds that supply more than once. Only raise it for a card that really is several of the same variant.",
           "default": 1
         },
         {
           "type": "header",
-          "content": "Price Fallbacks"
+          "content": "Option 1 · Gift Strip",
+          "info": "A gift needs a Name to appear; the image and value are optional."
         },
         {
           "type": "text",
-          "id": "price_text",
-          "label": "Price",
-          "info": "Used only when no selling plan price is available.",
-          "default": "$168.64"
+          "id": "opt1_gift_label",
+          "label": "Gift Strip Heading",
+          "info": "Leave empty to show the gifts with no heading.",
+          "default": "Welcome kit — arrives with first order"
+        },
+        {
+          "type": "image_picker",
+          "id": "opt1_gift_image_1",
+          "label": "Gift 1 Image"
         },
         {
           "type": "text",
-          "id": "compare_text",
-          "label": "Compare-At Price",
-          "default": "$224.85"
+          "id": "opt1_gift_title_1",
+          "label": "Gift 1 Name"
         },
         {
           "type": "text",
-          "id": "save_text",
-          "label": "Savings Amount",
-          "default": "$56.21"
+          "id": "opt1_gift_value_1",
+          "label": "Gift 1 Value",
+          "info": "Shown struck through, e.g. $18."
+        },
+        {
+          "type": "image_picker",
+          "id": "opt1_gift_image_2",
+          "label": "Gift 2 Image"
+        },
+        {
+          "type": "text",
+          "id": "opt1_gift_title_2",
+          "label": "Gift 2 Name"
+        },
+        {
+          "type": "text",
+          "id": "opt1_gift_value_2",
+          "label": "Gift 2 Value"
+        },
+        {
+          "type": "image_picker",
+          "id": "opt1_gift_image_3",
+          "label": "Gift 3 Image"
+        },
+        {
+          "type": "text",
+          "id": "opt1_gift_title_3",
+          "label": "Gift 3 Name"
+        },
+        {
+          "type": "text",
+          "id": "opt1_gift_value_3",
+          "label": "Gift 3 Value"
+        },
+        {
+          "type": "image_picker",
+          "id": "opt1_gift_image_4",
+          "label": "Gift 4 Image"
+        },
+        {
+          "type": "text",
+          "id": "opt1_gift_title_4",
+          "label": "Gift 4 Name"
+        },
+        {
+          "type": "text",
+          "id": "opt1_gift_value_4",
+          "label": "Gift 4 Value"
+        },
+        {
+          "type": "header",
+          "content": "Option 1 · Add-On Item"
+        },
+        {
+          "type": "product",
+          "id": "opt1_addon_product",
+          "label": "Add-On Product",
+          "info": "Added to the cart together with this option, in the same add-to-cart, as its own one-time line item with no selling plan. Leave empty for none. Uses the product’s first available variant, so pick a single-variant product."
+        },
+        {
+          "type": "number",
+          "id": "opt1_addon_quantity",
+          "label": "Add-On Quantity",
+          "default": 1
+        },
+        {
+          "type": "header",
+          "content": "Option 1 · Price Fallbacks",
+          "info": "Shown only until live selling-plan pricing is available."
+        },
+        {
+          "type": "text",
+          "id": "opt1_price_text",
+          "label": "Price"
+        },
+        {
+          "type": "text",
+          "id": "opt1_compare_text",
+          "label": "Compare-At Price"
+        },
+        {
+          "type": "text",
+          "id": "opt1_save_text",
+          "label": "Saving"
+        },
+        {
+          "type": "header",
+          "content": "Option 2",
+          "info": "A slot needs a Name to appear. Leave the Name empty to hide this option."
+        },
+        {
+          "type": "text",
+          "id": "opt2_name",
+          "label": "Name",
+          "default": "30-Day Supply"
+        },
+        {
+          "type": "text",
+          "id": "opt2_value",
+          "label": "Supply Option Value",
+          "info": "Optional. Only needed when this card's Name is not one of the option's values — the Name is matched against them automatically."
+        },
+        {
+          "type": "text",
+          "id": "opt2_save_label",
+          "label": "Save Badge",
+          "default": "Save 15%"
+        },
+        {
+          "type": "text",
+          "id": "opt2_badge_text",
+          "label": "Corner Badge"
+        },
+        {
+          "type": "text",
+          "id": "opt2_description",
+          "label": "Description",
+          "default": "1 tub, delivered every 30 days"
+        },
+        {
+          "type": "text",
+          "id": "opt2_sticky_sub",
+          "label": "Sticky Bar Sub-line",
+          "info": "Falls back to the Description.",
+          "default": "$2.13 USD / serving"
+        },
+        {
+          "type": "richtext",
+          "id": "opt2_perks",
+          "label": "Perks",
+          "default": "<p>$2.13 per serving</p><p>Free shipping on every order</p><p>Cancel, pause, or reschedule anytime</p>"
+        },
+        {
+          "type": "checkbox",
+          "id": "opt2_is_default",
+          "label": "Selected By Default",
+          "info": "If more than one option is ticked, the first one wins.",
+          "default": false
+        },
+        {
+          "type": "header",
+          "content": "Option 2 · Cart"
+        },
+        {
+          "type": "text",
+          "id": "opt2_selling_plan_id",
+          "label": "Selling Plan ID",
+          "info": "Picking a supply option is always a subscription, so this is required for the option to add correctly."
+        },
+        {
+          "type": "number",
+          "id": "opt2_billing_months",
+          "label": "Months Per Charge",
+          "info": "How many months this plan bills at once — 3 for a quarterly plan, 1 for monthly. Prices are shown per month, so every card can be compared against the others. The cart still charges the full amount.",
+          "default": 1
+        },
+        {
+          "type": "number",
+          "id": "opt2_quantity",
+          "label": "Quantity Added",
+          "info": "Leave at 1. The supply size normally comes from the variant, so raising this adds that supply more than once. Only raise it for a card that really is several of the same variant.",
+          "default": 1
+        },
+        {
+          "type": "header",
+          "content": "Option 2 · Gift Strip",
+          "info": "A gift needs a Name to appear; the image and value are optional."
+        },
+        {
+          "type": "text",
+          "id": "opt2_gift_label",
+          "label": "Gift Strip Heading",
+          "info": "Leave empty to show the gifts with no heading.",
+          "default": "Welcome kit — arrives with first order"
+        },
+        {
+          "type": "image_picker",
+          "id": "opt2_gift_image_1",
+          "label": "Gift 1 Image"
+        },
+        {
+          "type": "text",
+          "id": "opt2_gift_title_1",
+          "label": "Gift 1 Name"
+        },
+        {
+          "type": "text",
+          "id": "opt2_gift_value_1",
+          "label": "Gift 1 Value",
+          "info": "Shown struck through, e.g. $18."
+        },
+        {
+          "type": "image_picker",
+          "id": "opt2_gift_image_2",
+          "label": "Gift 2 Image"
+        },
+        {
+          "type": "text",
+          "id": "opt2_gift_title_2",
+          "label": "Gift 2 Name"
+        },
+        {
+          "type": "text",
+          "id": "opt2_gift_value_2",
+          "label": "Gift 2 Value"
+        },
+        {
+          "type": "image_picker",
+          "id": "opt2_gift_image_3",
+          "label": "Gift 3 Image"
+        },
+        {
+          "type": "text",
+          "id": "opt2_gift_title_3",
+          "label": "Gift 3 Name"
+        },
+        {
+          "type": "text",
+          "id": "opt2_gift_value_3",
+          "label": "Gift 3 Value"
+        },
+        {
+          "type": "image_picker",
+          "id": "opt2_gift_image_4",
+          "label": "Gift 4 Image"
+        },
+        {
+          "type": "text",
+          "id": "opt2_gift_title_4",
+          "label": "Gift 4 Name"
+        },
+        {
+          "type": "text",
+          "id": "opt2_gift_value_4",
+          "label": "Gift 4 Value"
+        },
+        {
+          "type": "header",
+          "content": "Option 2 · Add-On Item"
+        },
+        {
+          "type": "product",
+          "id": "opt2_addon_product",
+          "label": "Add-On Product",
+          "info": "Added to the cart together with this option, in the same add-to-cart, as its own one-time line item with no selling plan. Leave empty for none. Uses the product’s first available variant, so pick a single-variant product."
+        },
+        {
+          "type": "number",
+          "id": "opt2_addon_quantity",
+          "label": "Add-On Quantity",
+          "default": 1
+        },
+        {
+          "type": "header",
+          "content": "Option 2 · Price Fallbacks",
+          "info": "Shown only until live selling-plan pricing is available."
+        },
+        {
+          "type": "text",
+          "id": "opt2_price_text",
+          "label": "Price"
+        },
+        {
+          "type": "text",
+          "id": "opt2_compare_text",
+          "label": "Compare-At Price"
+        },
+        {
+          "type": "text",
+          "id": "opt2_save_text",
+          "label": "Saving"
+        },
+        {
+          "type": "header",
+          "content": "Option 3",
+          "info": "A slot needs a Name to appear. Leave the Name empty to hide this option."
+        },
+        {
+          "type": "text",
+          "id": "opt3_name",
+          "label": "Name"
+        },
+        {
+          "type": "text",
+          "id": "opt3_value",
+          "label": "Supply Option Value",
+          "info": "Optional. Only needed when this card's Name is not one of the option's values — the Name is matched against them automatically."
+        },
+        {
+          "type": "text",
+          "id": "opt3_save_label",
+          "label": "Save Badge"
+        },
+        {
+          "type": "text",
+          "id": "opt3_badge_text",
+          "label": "Corner Badge"
+        },
+        {
+          "type": "text",
+          "id": "opt3_description",
+          "label": "Description"
+        },
+        {
+          "type": "text",
+          "id": "opt3_sticky_sub",
+          "label": "Sticky Bar Sub-line",
+          "info": "Falls back to the Description."
+        },
+        {
+          "type": "richtext",
+          "id": "opt3_perks",
+          "label": "Perks"
+        },
+        {
+          "type": "checkbox",
+          "id": "opt3_is_default",
+          "label": "Selected By Default",
+          "info": "If more than one option is ticked, the first one wins.",
+          "default": false
+        },
+        {
+          "type": "header",
+          "content": "Option 3 · Cart"
+        },
+        {
+          "type": "text",
+          "id": "opt3_selling_plan_id",
+          "label": "Selling Plan ID",
+          "info": "Picking a supply option is always a subscription, so this is required for the option to add correctly."
+        },
+        {
+          "type": "number",
+          "id": "opt3_billing_months",
+          "label": "Months Per Charge",
+          "info": "How many months this plan bills at once — 3 for a quarterly plan, 1 for monthly. Prices are shown per month, so every card can be compared against the others. The cart still charges the full amount.",
+          "default": 1
+        },
+        {
+          "type": "number",
+          "id": "opt3_quantity",
+          "label": "Quantity Added",
+          "info": "Leave at 1. The supply size normally comes from the variant, so raising this adds that supply more than once. Only raise it for a card that really is several of the same variant.",
+          "default": 1
+        },
+        {
+          "type": "header",
+          "content": "Option 3 · Gift Strip",
+          "info": "A gift needs a Name to appear; the image and value are optional."
+        },
+        {
+          "type": "text",
+          "id": "opt3_gift_label",
+          "label": "Gift Strip Heading",
+          "info": "Leave empty to show the gifts with no heading."
+        },
+        {
+          "type": "image_picker",
+          "id": "opt3_gift_image_1",
+          "label": "Gift 1 Image"
+        },
+        {
+          "type": "text",
+          "id": "opt3_gift_title_1",
+          "label": "Gift 1 Name"
+        },
+        {
+          "type": "text",
+          "id": "opt3_gift_value_1",
+          "label": "Gift 1 Value",
+          "info": "Shown struck through, e.g. $18."
+        },
+        {
+          "type": "image_picker",
+          "id": "opt3_gift_image_2",
+          "label": "Gift 2 Image"
+        },
+        {
+          "type": "text",
+          "id": "opt3_gift_title_2",
+          "label": "Gift 2 Name"
+        },
+        {
+          "type": "text",
+          "id": "opt3_gift_value_2",
+          "label": "Gift 2 Value"
+        },
+        {
+          "type": "image_picker",
+          "id": "opt3_gift_image_3",
+          "label": "Gift 3 Image"
+        },
+        {
+          "type": "text",
+          "id": "opt3_gift_title_3",
+          "label": "Gift 3 Name"
+        },
+        {
+          "type": "text",
+          "id": "opt3_gift_value_3",
+          "label": "Gift 3 Value"
+        },
+        {
+          "type": "image_picker",
+          "id": "opt3_gift_image_4",
+          "label": "Gift 4 Image"
+        },
+        {
+          "type": "text",
+          "id": "opt3_gift_title_4",
+          "label": "Gift 4 Name"
+        },
+        {
+          "type": "text",
+          "id": "opt3_gift_value_4",
+          "label": "Gift 4 Value"
+        },
+        {
+          "type": "header",
+          "content": "Option 3 · Add-On Item"
+        },
+        {
+          "type": "product",
+          "id": "opt3_addon_product",
+          "label": "Add-On Product",
+          "info": "Added to the cart together with this option, in the same add-to-cart, as its own one-time line item with no selling plan. Leave empty for none. Uses the product’s first available variant, so pick a single-variant product."
+        },
+        {
+          "type": "number",
+          "id": "opt3_addon_quantity",
+          "label": "Add-On Quantity",
+          "default": 1
+        },
+        {
+          "type": "header",
+          "content": "Option 3 · Price Fallbacks",
+          "info": "Shown only until live selling-plan pricing is available."
+        },
+        {
+          "type": "text",
+          "id": "opt3_price_text",
+          "label": "Price"
+        },
+        {
+          "type": "text",
+          "id": "opt3_compare_text",
+          "label": "Compare-At Price"
+        },
+        {
+          "type": "text",
+          "id": "opt3_save_text",
+          "label": "Saving"
+        },
+        {
+          "type": "header",
+          "content": "Option 4",
+          "info": "A slot needs a Name to appear. Leave the Name empty to hide this option."
+        },
+        {
+          "type": "text",
+          "id": "opt4_name",
+          "label": "Name"
+        },
+        {
+          "type": "text",
+          "id": "opt4_value",
+          "label": "Supply Option Value",
+          "info": "Optional. Only needed when this card's Name is not one of the option's values — the Name is matched against them automatically."
+        },
+        {
+          "type": "text",
+          "id": "opt4_save_label",
+          "label": "Save Badge"
+        },
+        {
+          "type": "text",
+          "id": "opt4_badge_text",
+          "label": "Corner Badge"
+        },
+        {
+          "type": "text",
+          "id": "opt4_description",
+          "label": "Description"
+        },
+        {
+          "type": "text",
+          "id": "opt4_sticky_sub",
+          "label": "Sticky Bar Sub-line",
+          "info": "Falls back to the Description."
+        },
+        {
+          "type": "richtext",
+          "id": "opt4_perks",
+          "label": "Perks"
+        },
+        {
+          "type": "checkbox",
+          "id": "opt4_is_default",
+          "label": "Selected By Default",
+          "info": "If more than one option is ticked, the first one wins.",
+          "default": false
+        },
+        {
+          "type": "header",
+          "content": "Option 4 · Cart"
+        },
+        {
+          "type": "text",
+          "id": "opt4_selling_plan_id",
+          "label": "Selling Plan ID",
+          "info": "Picking a supply option is always a subscription, so this is required for the option to add correctly."
+        },
+        {
+          "type": "number",
+          "id": "opt4_billing_months",
+          "label": "Months Per Charge",
+          "info": "How many months this plan bills at once — 3 for a quarterly plan, 1 for monthly. Prices are shown per month, so every card can be compared against the others. The cart still charges the full amount.",
+          "default": 1
+        },
+        {
+          "type": "number",
+          "id": "opt4_quantity",
+          "label": "Quantity Added",
+          "info": "Leave at 1. The supply size normally comes from the variant, so raising this adds that supply more than once. Only raise it for a card that really is several of the same variant.",
+          "default": 1
+        },
+        {
+          "type": "header",
+          "content": "Option 4 · Gift Strip",
+          "info": "A gift needs a Name to appear; the image and value are optional."
+        },
+        {
+          "type": "text",
+          "id": "opt4_gift_label",
+          "label": "Gift Strip Heading",
+          "info": "Leave empty to show the gifts with no heading."
+        },
+        {
+          "type": "image_picker",
+          "id": "opt4_gift_image_1",
+          "label": "Gift 1 Image"
+        },
+        {
+          "type": "text",
+          "id": "opt4_gift_title_1",
+          "label": "Gift 1 Name"
+        },
+        {
+          "type": "text",
+          "id": "opt4_gift_value_1",
+          "label": "Gift 1 Value",
+          "info": "Shown struck through, e.g. $18."
+        },
+        {
+          "type": "image_picker",
+          "id": "opt4_gift_image_2",
+          "label": "Gift 2 Image"
+        },
+        {
+          "type": "text",
+          "id": "opt4_gift_title_2",
+          "label": "Gift 2 Name"
+        },
+        {
+          "type": "text",
+          "id": "opt4_gift_value_2",
+          "label": "Gift 2 Value"
+        },
+        {
+          "type": "image_picker",
+          "id": "opt4_gift_image_3",
+          "label": "Gift 3 Image"
+        },
+        {
+          "type": "text",
+          "id": "opt4_gift_title_3",
+          "label": "Gift 3 Name"
+        },
+        {
+          "type": "text",
+          "id": "opt4_gift_value_3",
+          "label": "Gift 3 Value"
+        },
+        {
+          "type": "image_picker",
+          "id": "opt4_gift_image_4",
+          "label": "Gift 4 Image"
+        },
+        {
+          "type": "text",
+          "id": "opt4_gift_title_4",
+          "label": "Gift 4 Name"
+        },
+        {
+          "type": "text",
+          "id": "opt4_gift_value_4",
+          "label": "Gift 4 Value"
+        },
+        {
+          "type": "header",
+          "content": "Option 4 · Add-On Item"
+        },
+        {
+          "type": "product",
+          "id": "opt4_addon_product",
+          "label": "Add-On Product",
+          "info": "Added to the cart together with this option, in the same add-to-cart, as its own one-time line item with no selling plan. Leave empty for none. Uses the product’s first available variant, so pick a single-variant product."
+        },
+        {
+          "type": "number",
+          "id": "opt4_addon_quantity",
+          "label": "Add-On Quantity",
+          "default": 1
+        },
+        {
+          "type": "header",
+          "content": "Option 4 · Price Fallbacks",
+          "info": "Shown only until live selling-plan pricing is available."
+        },
+        {
+          "type": "text",
+          "id": "opt4_price_text",
+          "label": "Price"
+        },
+        {
+          "type": "text",
+          "id": "opt4_compare_text",
+          "label": "Compare-At Price"
+        },
+        {
+          "type": "text",
+          "id": "opt4_save_text",
+          "label": "Saving"
         }
       ]
     },
@@ -1432,9 +2164,6 @@
         },
         {
           "type": "flavors"
-        },
-        {
-          "type": "supply"
         },
         {
           "type": "supply"

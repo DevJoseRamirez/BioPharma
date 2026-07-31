@@ -159,6 +159,70 @@
     var mainImage = sectionEl.querySelector('[data-cwc-gallery-image]');
     var onetime = sectionEl.querySelector('[data-cwc-onetime]');
 
+    /**
+     * Flavour and supply can each be a real product option, which makes the
+     * variant a function of both rather than of whichever was clicked last.
+     * These hold the 1-based option position each control drives, or 0 when
+     * that control is not bound to an option — in which case the old behaviour
+     * stands and its swatches address a variant directly.
+     */
+    var flavorsEl = sectionEl.querySelector('[data-cwc-flavor-position]');
+    var offersEl = sectionEl.querySelector('[data-cwc-supply-position]');
+    var flavorPosition = flavorsEl ? parseInt(flavorsEl.getAttribute('data-cwc-flavor-position'), 10) : 0;
+    var supplyPosition = offersEl ? parseInt(offersEl.getAttribute('data-cwc-supply-position'), 10) : 0;
+
+    // position -> chosen value, for the options this section actually drives
+    var chosen = {};
+
+    /**
+     * First variant whose option values match every entry in `values`.
+     *
+     * Availability is a preference, not a filter: a shopper who picks a
+     * sold-out combination should land on it and see it is sold out, rather
+     * than have the section silently swap them onto something else. So the
+     * available pass runs first and the second pass accepts anything.
+     */
+    function variantMatching(values) {
+      var pass, i, key, variant, matched;
+
+      for (pass = 0; pass < 2; pass++) {
+        for (i = 0; i < variants.length; i++) {
+          variant = variants[i];
+          if (pass === 0 && !variant.available) continue;
+          if (!variant.options) continue;
+
+          matched = true;
+          for (key in values) {
+            if (!Object.prototype.hasOwnProperty.call(values, key)) continue;
+            if (String(variant.options[key - 1]) !== String(values[key])) {
+              matched = false;
+              break;
+            }
+          }
+          if (matched) return variant;
+        }
+      }
+
+      return null;
+    }
+
+    /**
+     * The chosen combination, plus one override — used to ask "which variant
+     * would this supply option be, keeping the flavour the shopper is on?"
+     * without disturbing the actual selection.
+     */
+    function combinationWith(position, value) {
+      var probe = {};
+      var key;
+
+      for (key in chosen) {
+        if (Object.prototype.hasOwnProperty.call(chosen, key)) probe[key] = chosen[key];
+      }
+      if (position && value) probe[position] = value;
+
+      return probe;
+    }
+
     // The sticky bar shares this section's form, so only its display text has
     // to follow the selection — the inputs it submits are already the same ones.
     var stickyPlanLabel = sectionEl.querySelector('[data-cwc-plan-label]');
@@ -220,12 +284,36 @@
       planInput.disabled = digits === '';
     }
 
+    /**
+     * A closed option's detail panel is clipped to nothing but is still in the
+     * DOM, so a screen reader would otherwise read out the perks and gifts of
+     * every option at once as if they all applied.
+     *
+     * inert takes the closed ones out of the accessibility tree without
+     * changing how they render, which is what leaves the height animation
+     * intact — hidden would collapse them instantly and there would be nothing
+     * left to animate.
+     */
+    function syncOfferDetails() {
+      offers.forEach(function (item) {
+        var details = item.querySelector('[data-cwc-offer-details]');
+        if (!details) return;
+
+        if (item.classList.contains(SELECTED_OFFER)) {
+          details.removeAttribute('inert');
+        } else {
+          details.setAttribute('inert', '');
+        }
+      });
+    }
+
     function clearOffers() {
       offers.forEach(function (item) {
         item.classList.remove(SELECTED_OFFER);
         var input = item.querySelector('.cwc_product-hero-buy-box__offer-input');
         if (input) input.checked = false;
       });
+      syncOfferDetails();
     }
 
     function selectOffer(offerEl) {
@@ -237,8 +325,32 @@
       if (radio) radio.checked = true;
 
       setPlan(offerEl.getAttribute('data-cwc-offer-plan'));
-      if (quantityInput) quantityInput.value = offerEl.getAttribute('data-cwc-offer-quantity') || '1';
 
+      // Supply is a product option too, so the card is a variant choice as much
+      // as a plan choice. Record it and re-resolve, which keeps the flavour.
+      var offerValue = offerEl.getAttribute('data-cwc-offer-value');
+
+      /**
+       * One unit unless a card explicitly asks for more.
+       *
+       * The supply size is normally carried by the variant — a 90-day variant
+       * IS the ninety days — so anything above one adds that supply over and
+       * over. Quantity Added stays as an escape hatch for a card that really is
+       * several of the same variant, but it has to be typed in on purpose: a
+       * missing, blank or nonsense value reads as one rather than carrying over
+       * whatever the last card asked for.
+       */
+      if (quantityInput) {
+        var wanted = parseInt(offerEl.getAttribute('data-cwc-offer-quantity'), 10);
+        quantityInput.value = wanted > 1 ? String(wanted) : '1';
+      }
+
+      if (supplyPosition && offerValue) {
+        chosen[supplyPosition] = offerValue;
+        syncVariant();
+      }
+
+      syncOfferDetails();
       announce();
     }
 
@@ -256,6 +368,78 @@
       var el = sectionEl.querySelector('.cwc_product-hero-buy-box__form');
       return el && el.tagName === 'FORM' ? el : null;
     }
+
+    /**
+     * Add-on items.
+     *
+     * A supply option can carry a second product that goes in the same basket
+     * press. Shopify's add endpoint takes either one item as flat id/quantity
+     * fields or a list as items[n][...], never a mix — so when an add-on is in
+     * play the flat inputs are switched off for that request and the whole order
+     * is restated as a list. Options without an add-on keep the flat fields and
+     * the request the theme has always sent.
+     *
+     * This runs on the section in the capture phase, which is what guarantees it
+     * finishes before the theme's own submit handler reads the form. Hanging it
+     * off the form itself would put it in a registration-order race with that
+     * handler, and the theme's is registered first.
+     */
+    function syncBundleInputs() {
+      var form = productForm();
+      if (!form) return;
+
+      var host = form.querySelector('[data-cwc-bundle-inputs]');
+      if (!host) {
+        host = document.createElement('div');
+        host.setAttribute('data-cwc-bundle-inputs', '');
+        host.hidden = true;
+        form.insertBefore(host, form.firstChild);
+      }
+      host.textContent = '';
+
+      var selected = sectionEl.querySelector('.' + SELECTED_OFFER);
+      var addonId = selected ? selected.getAttribute('data-cwc-offer-addon') : '';
+
+      if (!addonId) {
+        if (variantInput) variantInput.disabled = false;
+        if (quantityInput) quantityInput.disabled = false;
+        // Restore this too. A previous bundled add switched it off, and an
+        // option without an add-on would otherwise submit with no plan at all —
+        // which reads as a one-time purchase. Driven off the value rather than
+        // switched on unconditionally, because cart rejects a blank
+        // selling_plan outright.
+        if (planInput) planInput.disabled = planInput.value === '';
+        return;
+      }
+
+      function field(name, value) {
+        var input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = name;
+        input.value = value;
+        host.appendChild(input);
+      }
+
+      field('items[0][id]', variantInput ? variantInput.value : '');
+      field('items[0][quantity]', quantityInput ? quantityInput.value : '1');
+      // Read the value, not the disabled flag: a previous bundled add leaves the
+      // flat field switched off, and testing that would silently drop the plan
+      // on every add after the first.
+      if (planInput && planInput.value) {
+        field('items[0][selling_plan]', planInput.value);
+      }
+
+      // The add-on is deliberately plan-free: it is a one-off that accompanies
+      // the subscription, not a second thing being subscribed to.
+      field('items[1][id]', addonId);
+      field('items[1][quantity]', selected.getAttribute('data-cwc-offer-addon-quantity') || '1');
+
+      if (variantInput) variantInput.disabled = true;
+      if (quantityInput) quantityInput.disabled = true;
+      if (planInput) planInput.disabled = true;
+    }
+
+    sectionEl.addEventListener('submit', syncBundleInputs, true);
 
     /**
      * The theme adds to cart over fetch and reports a rejected add by firing
@@ -355,9 +539,33 @@
         mainImage.src = variant.image;
       }
 
+      refreshOfferPrices(variant);
+      announce();
+    }
+
+    /**
+     * Each card prices its OWN variant, not the selected one.
+     *
+     * When supply is a product option, the 30-day and 90-day cards are
+     * different variants at different prices — pricing them all off whichever
+     * is currently selected would show the shopper the same number on every
+     * card and make the comparison meaningless. So each card resolves the
+     * variant it stands for, keeping the flavour the shopper is on.
+     *
+     * With no supply option bound, every card resolves to `fallback` and this
+     * behaves exactly as it did before.
+     */
+    function refreshOfferPrices(fallback) {
       offers.forEach(function (offerEl) {
         var planId = offerEl.getAttribute('data-cwc-offer-plan');
-        var pricing = planId && variant.plans ? variant.plans[planId] : null;
+        var offerValue = offerEl.getAttribute('data-cwc-offer-value');
+        var variant = fallback;
+
+        if (supplyPosition && offerValue) {
+          variant = variantMatching(combinationWith(supplyPosition, offerValue)) || fallback;
+        }
+
+        var pricing = variant && planId && variant.plans ? variant.plans[planId] : null;
         if (!pricing) return;
 
         var nowEl = offerEl.querySelector('[data-cwc-offer-now]');
@@ -374,8 +582,16 @@
           savingEl.style.display = pricing.save ? '' : 'none';
         }
       });
+    }
 
-      announce();
+    /**
+     * Resolve the variant from every option the shopper has chosen so far and
+     * apply it. This is what keeps flavour and supply from overwriting each
+     * other: whichever one was just clicked, both are read back.
+     */
+    function syncVariant() {
+      var variant = variantMatching(chosen);
+      if (variant) applyVariant(variant.id);
     }
 
     flavors.forEach(function (flavorEl) {
@@ -385,7 +601,17 @@
           item.classList.remove(SELECTED_FLAVOR);
         });
         flavorEl.classList.add(SELECTED_FLAVOR);
-        applyVariant(flavorEl.getAttribute('data-cwc-variant'));
+
+        // Bound to a product option: record the value and resolve against every
+        // choice, so the supply size the shopper picked survives the change.
+        // Unbound: the swatch is a variant in its own right, as before.
+        var flavorValue = flavorEl.getAttribute('data-cwc-flavor-value');
+        if (flavorPosition && flavorValue) {
+          chosen[flavorPosition] = flavorValue;
+          syncVariant();
+        } else {
+          applyVariant(flavorEl.getAttribute('data-cwc-variant'));
+        }
       });
     });
 
@@ -809,6 +1035,21 @@
     }
 
     initMediaPopups(sectionEl);
+
+    /**
+     * Seed the option state from what the server already marked as selected.
+     *
+     * Without this the first resolve would see only the supply half of the
+     * combination — selectOffer runs below and records its own value — and
+     * would pick an arbitrary flavour for the shopper.
+     */
+    var initialFlavor = sectionEl.querySelector('.' + SELECTED_FLAVOR + '[data-cwc-flavor-value]');
+    if (!initialFlavor) {
+      initialFlavor = sectionEl.querySelector('[data-cwc-flavor-value]');
+    }
+    if (flavorPosition && initialFlavor) {
+      chosen[flavorPosition] = initialFlavor.getAttribute('data-cwc-flavor-value');
+    }
 
     var initiallySelected = sectionEl.querySelector('.' + SELECTED_OFFER);
     if (!initiallySelected && offers.length) {

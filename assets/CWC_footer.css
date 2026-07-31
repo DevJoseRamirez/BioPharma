@@ -1,0 +1,263 @@
+/* ==============================
+   CWC Footer
+   ============================== */
+
+/* === Section Wrapper === */
+.cwc_footer {
+  font-size: 16px;
+  /* section anchor — all type below is em relative to this */
+  background-color: var(--section-bg);
+  color: var(--text-color);
+  padding-top: var(--padding-top);
+  padding-bottom: var(--padding-bottom);
+  font-family: var(--cwc-font-body);
+}
+
+.cwc_footer__container {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+/* === Columns ===
+
+   Equal tracks that wrap on their own, so the footer reads the same whether the
+   merchant runs three columns or five. The logo is a column like any other —
+   it just holds an image instead of text. */
+.cwc_footer__columns {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 40px;
+  align-items: start;
+}
+
+.cwc_footer__logo img {
+  width: var(--logo-width);
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+.cwc_footer__column-heading {
+  font-family: var(--cwc-font-body);
+  font-size: 0.82em;
+  /* 13.12px */
+  font-weight: var(--cwc-weight-label);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--heading-color);
+  line-height: 1.2;
+  margin: 0 0 16px;
+}
+
+.cwc_footer__text p {
+  font-size: 0.88em;
+  /* 14.08px */
+  line-height: 1.7;
+  margin: 0 0 14px;
+}
+
+.cwc_footer__text p:last-child {
+  margin-bottom: 0;
+}
+
+.cwc_footer__text strong {
+  color: var(--highlight-color);
+  font-weight: var(--cwc-weight-subheading);
+}
+
+.cwc_footer__text a {
+  color: var(--link-color);
+}
+
+/* === Link List === */
+.cwc_footer__links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.cwc_footer__links a,
+.cwc_footer__policies a {
+  color: var(--link-color);
+  font-size: 0.88em;
+  /* 14.08px */
+  line-height: 1.3;
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.cwc_footer__links a:hover,
+.cwc_footer__policies a:hover {
+  color: var(--highlight-color);
+  text-decoration: underline;
+}
+
+/* === Newsletter === */
+.cwc_footer__form {
+  margin-top: 16px;
+}
+
+/* Field over button, both full width — the field is the footer's own color with
+   a light rule around it, the button is the solid one. */
+.cwc_footer__form-row {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Scoped through the section class on purpose: base.css styles every input with
+   `input:not([type='checkbox'], [type='radio'])`, which outweighs a lone class
+   and would otherwise repaint the field in the theme's grey. */
+.cwc_footer .cwc_footer__input {
+  width: 100%;
+  min-height: 46px;
+  background-color: transparent;
+  color: var(--heading-color);
+  border: 1px solid var(--input-border);
+  border-radius: 8px;
+  padding: 0 16px;
+  font-family: var(--cwc-font-body);
+  font-size: 0.94em;
+  /* 15.04px */
+}
+
+.cwc_footer .cwc_footer__input::placeholder {
+  color: var(--text-color);
+  opacity: 1;
+}
+
+.cwc_footer__button {
+  width: 100%;
+  min-height: 46px;
+  background: var(--button-bg);
+  color: var(--button-text);
+  border: none;
+  border-radius: 8px;
+  padding: 0 24px;
+  font-family: var(--cwc-font-body);
+  font-size: 0.94em;
+  /* 15.04px */
+  font-weight: var(--cwc-weight-label);
+  letter-spacing: 0.3px;
+  cursor: pointer;
+  transition: opacity 0.15s ease;
+}
+
+.cwc_footer__button:hover {
+  opacity: 0.9;
+}
+
+/* Sits in the field's place after signing up, so the column does not resize. */
+.cwc_footer__form-note {
+  min-height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border: 1px solid var(--input-border);
+  border-radius: 8px;
+  padding: 10px 16px;
+  font-size: 0.94em;
+  /* 15.04px */
+  margin: 0;
+}
+
+.cwc_footer__form-error {
+  font-size: 0.82em;
+  /* 13.12px */
+  line-height: 1.4;
+  margin: 12px 0 0;
+}
+
+/* === Disclaimer === */
+.cwc_footer__disclaimer {
+  margin-top: 40px;
+}
+
+.cwc_footer__disclaimer p {
+  font-size: 0.75em;
+  /* 12px */
+  line-height: 1.6;
+  margin: 0;
+  opacity: 0.75;
+}
+
+/* === Bottom Bar === */
+.cwc_footer__bottom {
+  margin-top: 40px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border-color);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 8px 16px;
+}
+
+.cwc_footer__copyright {
+  font-size: 0.75em;
+  /* 12px */
+  margin: 0;
+}
+
+.cwc_footer__policies {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+/* Divider between policy links, never after the last one. */
+.cwc_footer__policies li + li::before {
+  content: '|';
+  margin: 0 8px;
+  opacity: 0.5;
+}
+
+.cwc_footer__policies a {
+  font-size: 0.75em;
+  /* 12px */
+}
+
+/* ==============================
+   Tablet Responsive
+   ============================== */
+@media screen and (max-width: 991px) {
+  .cwc_footer__container {
+    padding: 0 20px;
+  }
+
+  .cwc_footer__columns {
+    gap: 32px;
+  }
+}
+
+/* ==============================
+   Mobile Responsive
+   ============================== */
+@media screen and (max-width: 768px) {
+  .cwc_footer {
+    padding-top: var(--padding-top-mobile);
+    padding-bottom: var(--padding-bottom-mobile);
+  }
+
+  .cwc_footer__container {
+    padding: 0 16px;
+  }
+
+  .cwc_footer__columns {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .cwc_footer__disclaimer,
+  .cwc_footer__bottom {
+    margin-top: 32px;
+  }
+}

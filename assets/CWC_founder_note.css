@@ -16,8 +16,9 @@
 .cwc_founder-note__container {
   max-width: 900px;
   max-width: 1000px;
+  max-width: calc(1000px + 2rem);
   margin: 0 auto;
-  padding: 0 32px;
+  padding: 0 2rem;
 }
 
 
@@ -33,9 +34,10 @@
 /* === Photo === */
 .cwc_founder-note__photo {
   aspect-ratio: 4 / 5;
+  /* aspect-ratio: 5 / 8; */
   background: #f4f3ee;
   border: 1px dashed #cfcec0;
-  border-radius: 16px;
+  border-radius: 12px;
   display: flex;
   flex-direction: column;
   align-items: center;

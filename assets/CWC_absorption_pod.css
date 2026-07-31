@@ -4,7 +4,8 @@
 
 /* === Section Wrapper === */
 .cwc_absorption-pod {
-  font-size: 16px; /* section anchor — all type below is em relative to this */
+  font-size: 16px;
+  /* section anchor — all type below is em relative to this */
   background-color: var(--section-bg);
   color: var(--text-color);
   padding-top: var(--padding-top);
@@ -14,12 +15,13 @@
 
 .cwc_absorption-pod__container {
   max-width: 1300px;
+  max-width: calc(1300px + 2rem);
   margin: 0 auto;
-  padding: 0 32px;
+  padding: 0 2rem;
 }
 
 .cwc_absorption-pod__wrapper {
-  max-width: 900px;
+  max-width: 1000px;
   margin: 0 auto;
   display: grid;
   grid-template-columns: 1.15fr 1fr;
@@ -29,7 +31,8 @@
 
 /* === Content === */
 .cwc_absorption-pod__eyebrow {
-  font-size: 0.78em; /* 12.48px */
+  font-size: 0.78em;
+  /* 12.48px */
   font-weight: var(--cwc-weight-label);
   letter-spacing: 2px;
   text-transform: uppercase;
@@ -49,13 +52,14 @@
   color: var(--heading-color);
 }
 
-.cwc_absorption-pod__content-heading > * strong {
+.cwc_absorption-pod__content-heading>* strong {
   color: var(--highlight-color);
   font-weight: 400;
 }
 
 .cwc_absorption-pod__body p {
-  font-size: 0.97em; /* 15.52px */
+  font-size: 0.97em;
+  /* 15.52px */
   color: var(--text-color);
   line-height: var(--cwc-line-body);
   margin: 10px 0 0;
@@ -70,7 +74,8 @@
 }
 
 .cwc_absorption-pod__enzyme {
-  font-size: 0.81em; /* 12.96px */
+  font-size: 0.81em;
+  /* 12.96px */
   font-weight: 600;
   color: #eaf3df;
   background: rgba(255, 255, 255, 0.1);
@@ -90,14 +95,16 @@
 }
 
 .cwc_absorption-pod__stat-value {
-  font-size: 2.875em; /* 46px */
+  font-size: 2.875em;
+  /* 46px */
   font-weight: var(--cwc-weight-stat-strong);
   color: var(--stat-color);
   line-height: 1;
 }
 
 .cwc_absorption-pod__stat-text {
-  font-size: 0.9em; /* 14.4px */
+  font-size: 0.9em;
+  /* 14.4px */
   color: var(--text-color);
   line-height: 1.55;
 }
@@ -120,6 +127,7 @@
    Mobile Responsive
    ============================== */
 @media screen and (max-width: 768px) {
+
   /* rescale the whole section from one anchor */
   .cwc_absorption-pod {
     font-size: 14px;

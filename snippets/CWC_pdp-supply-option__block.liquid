@@ -1,23 +1,37 @@
 {% comment %}
-  One supply / subscription option card in the product buy box.
+  The supply / subscription options for the product buy box — the whole group,
+  from a single block.
 
-  Repeatable, like an FAQ row — each option carries enough settings of its own
-  that folding them into numbered fields on a single block would be unusable in
-  the editor. Consecutive supply blocks stack into a group visually because the
-  card carries its own bottom margin; there is no wrapper element.
+  Supply is a real product option, so each card names one of that option's
+  values and stands for the variant carrying it. It also carries its own selling
+  plan id: picking a supply option is always a subscription, never a one-time
+  add, so the plan is part of the card rather than something chosen elsewhere.
 
-  Live selling-plan pricing wins over the typed fallback text, so the card stays
-  correct when Shopify prices change without anyone editing the section.
+  Four numbered slots. A slot needs a Name to exist at all, so an unused one
+  prints nothing — the same rule the gift strip inside each card uses for its
+  tiles.
+
+  Live selling-plan pricing wins over the typed fallback text, so a card stays
+  correct when Shopify prices change without anyone editing the section. Each
+  card prices its OWN variant, not the one currently selected, which is what
+  lets a shopper compare supply sizes before committing to one.
+
+  An option may also carry an add-on product. It rides along on the same
+  add-to-cart request as a separate one-time line item — no selling plan of its
+  own — and only for the option it is set on. The ids are published as
+  attributes here; the script assembles the actual cart payload.
 
   Accepts:
   - block {Object} - the supply block.
-  - current_variant {Object} - variant whose selling plan allocations are read.
+  - product {Object} - product whose variants and options are read.
+  - current_variant {Object} - variant currently selected.
   - section_id {String} - scopes the radio group name to this section.
-  - group_label {String} - optional label printed above the first card only.
+  - group_label {String} - optional label printed above the group.
 
   Usage:
   {% render 'CWC_pdp-supply-option__block',
     block: block,
+    product: product,
     current_variant: current_variant,
     section_id: section.id,
     group_label: group_label
@@ -25,84 +39,423 @@
 {% endcomment %}
 
 {%- liquid
-  assign plan_price = block.settings.price_text
-  assign plan_compare = block.settings.compare_text
-  assign plan_save = block.settings.save_text
+  assign wanted_option = block.settings.option_name | strip | downcase
+  assign supply_position = 0
 
-  for allocation in current_variant.selling_plan_allocations
-    if allocation.selling_plan.id == block.settings.selling_plan_id
-      assign plan_price = allocation.price | money
-      if allocation.compare_at_price > allocation.price
-        assign plan_compare = allocation.compare_at_price | money
-        assign plan_save = allocation.compare_at_price | minus: allocation.price | money
+  if wanted_option != blank
+    for product_option in product.options_with_values
+      assign this_name = product_option.name | strip | downcase
+      if this_name == wanted_option
+        assign supply_position = product_option.position
+        assign supply_values = product_option.values
       endif
-    endif
-  endfor
+    endfor
+  endif
+
+  if supply_position > 0
+    assign supply_key = 'option' | append: supply_position
+  endif
+
+  assign option_numbers = '1,2,3,4' | split: ','
 -%}
 
-{% if group_label != blank %}
-  <div class="cwc_product-hero-buy-box__label">{{ group_label }}</div>
-{% endif %}
-
 {%- comment -%}
-  The sticky bar reads its chip text from these attributes rather than scraping
-  the card, so it never picks up the save badge that sits inside the name.
+  Label, editor warning and cards share one wrapper carrying the block
+  attributes, so the theme editor treats the group as a single block — clicking
+  the label selects the same block as clicking a card, and the label travels
+  with the cards when the block is reordered.
 {%- endcomment -%}
-{%- assign sticky_sub = block.settings.sticky_sub | default: block.settings.description -%}
-
-<label
-  class="cwc_product-hero-buy-box__offer{% if block.settings.is_default %} cwc_product-hero-buy-box__offer--selected{% endif %}"
-  data-cwc-offer
-  data-cwc-offer-plan="{{ block.settings.selling_plan_id }}"
-  data-cwc-offer-quantity="{{ block.settings.quantity | default: 1 }}"
-  data-cwc-offer-name="{{ block.settings.name | escape }}"
-  data-cwc-offer-sub="{{ sticky_sub | escape }}"
-  {{ block.shopify_attributes }}
->
-  {% if block.settings.badge_text != blank %}
-    <span class="cwc_product-hero-buy-box__offer-badge">{{ block.settings.badge_text }}</span>
+<div {{ block.shopify_attributes }}>
+  {% if group_label != blank %}
+    <div class="cwc_product-hero-buy-box__label">{{ group_label }}</div>
   {% endif %}
 
-  <input
-    type="radio"
-    name="cwc_supply_{{ section_id }}"
-    class="cwc_product-hero-buy-box__offer-input"
-    value="{{ block.id }}"
-    {% if block.settings.is_default %}
-      checked
+  {%- comment -%}
+    Editor-only warning, for cards that resolve to no value at all.
+
+    A card that cannot be tied to a variant fails silently and expensively: it
+    still renders and still sets its selling plan, but never switches the variant,
+    so every option adds the same supply size and the cart looks like it ignored
+    the choice. This only fires once both routes have failed — the Name did not
+    match a value and no override was typed — so naming the cards after the
+    option's values is enough to keep it quiet.
+  {%- endcomment -%}
+  {%- if request.design_mode and supply_position > 0 -%}
+    {%- capture supply_warnings -%}
+      {%- for option_number in option_numbers -%}
+        {%- liquid
+          assign prefix = 'opt' | append: option_number | append: '_'
+          assign key = prefix | append: 'name'
+          assign warn_name = block.settings[key]
+          assign key = prefix | append: 'value'
+          assign warn_value = block.settings[key]
+
+          if warn_value != blank
+            assign warn_wanted = warn_value | strip | downcase
+          else
+            assign warn_wanted = warn_name | strip | downcase
+          endif
+
+          assign warn_ok = false
+          for supply_value in supply_values
+            assign this_value = supply_value | strip | downcase
+            if this_value == warn_wanted
+              assign warn_ok = true
+            endif
+          endfor
+        -%}
+        {%- if warn_name != blank and warn_ok == false -%}
+          <li>
+            <strong>{{ warn_name }}</strong> —
+            {% if warn_value == blank %}
+              its name does not match any value, and no Supply Option Value is set.
+            {% else %}
+              “{{ warn_value }}” is not a value of the “{{ block.settings.option_name }}” option.
+            {% endif %}
+          </li>
+        {%- endif -%}
+      {%- endfor -%}
+    {%- endcapture -%}
+
+    {%- if supply_warnings != blank -%}
+      <div class="cwc_product-hero-buy-box__editor-note">
+        <strong>Some supply options are not tied to a variant.</strong>
+        These cards set their selling plan but will add the same supply size as
+        whatever is already selected:
+        <ul>{{ supply_warnings }}</ul>
+        Name the card after the value, or set Supply Option Value. Values for
+        “{{ block.settings.option_name }}”: {{ supply_values | join: ', ' }}.
+      </div>
+    {%- endif -%}
+  {%- endif -%}
+
+  <div
+    class="cwc_product-hero-buy-box__offers"
+    data-cwc-offers
+    {% if supply_position > 0 %}
+      data-cwc-supply-position="{{ supply_position }}"
     {% endif %}
   >
+    {%- assign default_taken = false -%}
 
-  <span class="cwc_product-hero-buy-box__offer-radio" aria-hidden="true"></span>
+    {%- for option_number in option_numbers -%}
+      {%- liquid
+        assign prefix = 'opt' | append: option_number | append: '_'
 
-  <span class="cwc_product-hero-buy-box__offer-body">
-    <span class="cwc_product-hero-buy-box__offer-name">
-      {{ block.settings.name }}
-      {% if block.settings.save_label != blank %}
-        <span class="cwc_product-hero-buy-box__offer-save{% unless block.settings.is_default %} cwc_product-hero-buy-box__offer-save--dim{% endunless %}">
-          {{ block.settings.save_label }}
-        </span>
-      {% endif %}
-    </span>
+        assign key = prefix | append: 'name'
+        assign opt_name = block.settings[key]
+      -%}
 
-    {% if block.settings.description != blank %}
-      <span class="cwc_product-hero-buy-box__offer-description">{{ block.settings.description }}</span>
-    {% endif %}
+      {%- if opt_name != blank -%}
+        {%- liquid
+          assign key = prefix | append: 'value'
+          assign opt_value = block.settings[key]
 
-    <span class="cwc_product-hero-buy-box__offer-price">
-      {% if plan_price != blank %}
-        <span class="cwc_product-hero-buy-box__offer-now" data-cwc-offer-now>{{ plan_price }}</span>
-      {% endif %}
-      {% if plan_compare != blank %}
-        <span class="cwc_product-hero-buy-box__offer-was" data-cwc-offer-was>{{ plan_compare }}</span>
-      {% endif %}
-      {% if plan_save != blank %}
-        <span class="cwc_product-hero-buy-box__offer-saving" data-cwc-offer-saving>&middot; save {{ plan_save }}</span>
-      {% endif %}
-    </span>
+          assign key = prefix | append: 'save_label'
+          assign opt_save_label = block.settings[key]
 
-    {% if block.settings.perks != blank %}
-      <span class="cwc_product-hero-buy-box__offer-perks cwc-rte">{{ block.settings.perks }}</span>
-    {% endif %}
-  </span>
-</label>
+          assign key = prefix | append: 'badge_text'
+          assign opt_badge = block.settings[key]
+
+          assign key = prefix | append: 'description'
+          assign opt_description = block.settings[key]
+
+          assign key = prefix | append: 'sticky_sub'
+          assign opt_sticky_sub = block.settings[key]
+
+          assign key = prefix | append: 'perks'
+          assign opt_perks = block.settings[key]
+
+          comment
+            Merchants paste the id out of the admin, where it reads
+            "#1861583106". The hash has to come off before the number is any use
+            — both for the comparison against the allocation below, which is a
+            real integer, and for the attribute the script looks the plan's
+            prices up by.
+          endcomment
+          assign key = prefix | append: 'selling_plan_id'
+          assign opt_plan = block.settings[key] | remove: '#' | strip
+          assign opt_plan_id = opt_plan | plus: 0
+
+          comment
+            How many months this plan charges for. A quarterly plan takes three
+            at once, so its charge is divided by three and every card quotes the
+            same unit — otherwise the card billing least often looks like the
+            expensive one.
+          endcomment
+          assign key = prefix | append: 'billing_months'
+          assign opt_months = block.settings[key] | default: 1
+          if opt_months < 1
+            assign opt_months = 1
+          endif
+
+          assign key = prefix | append: 'quantity'
+          assign opt_quantity = block.settings[key] | default: 1
+
+          assign key = prefix | append: 'is_default'
+          assign opt_is_default = block.settings[key]
+
+          assign key = prefix | append: 'addon_product'
+          assign opt_addon_product = block.settings[key]
+
+          assign key = prefix | append: 'addon_quantity'
+          assign opt_addon_quantity = block.settings[key] | default: 1
+
+          assign key = prefix | append: 'gift_label'
+          assign opt_gift_label = block.settings[key]
+
+          assign key = prefix | append: 'price_text'
+          assign plan_price = block.settings[key]
+
+          assign key = prefix | append: 'compare_text'
+          assign plan_compare = block.settings[key]
+
+          assign key = prefix | append: 'save_text'
+          assign plan_save = block.settings[key]
+
+          comment
+            Which value of the supply option this card stands for.
+
+            Nothing needs filling in when the cards are named after the option's
+            values, which is the normal case — the Name is matched against the
+            real values and the exact one is taken back, so capitalisation and
+            spacing slips do not matter. The explicit setting is only an override,
+            for when the card title is marketing copy that does not equal the
+            value.
+
+            Resolving to the option's own string rather than to what was typed is
+            what makes `where` below safe: that filter is case-sensitive, so it
+            has to be handed the value exactly as Shopify holds it.
+          endcomment
+          assign resolved_value = ''
+
+          if supply_position > 0
+            if opt_value != blank
+              assign wanted_value = opt_value | strip | downcase
+            else
+              assign wanted_value = opt_name | strip | downcase
+            endif
+
+            for supply_value in supply_values
+              assign this_value = supply_value | strip | downcase
+              if this_value == wanted_value
+                assign resolved_value = supply_value
+              endif
+            endfor
+          endif
+
+          comment
+            Only the first slot marked as the default gets it. Two cards opened at
+            once would leave the radio group and the collapse state disagreeing
+            about which option is live.
+          endcomment
+          assign is_selected = false
+          if opt_is_default and default_taken == false
+            assign is_selected = true
+            assign default_taken = true
+          endif
+
+          comment
+            The card's own variant: the one carrying this supply value that
+            otherwise matches what is currently selected. Narrowing one option
+            position at a time — and only keeping a narrowing that leaves
+            something — means a flavour with no variant in this supply size still
+            resolves to a real variant rather than to nothing.
+          endcomment
+          assign card_variant = current_variant
+
+          if resolved_value != blank
+            assign candidates = product.variants | where: supply_key, resolved_value
+
+            for position in (1..3)
+              if position != supply_position and product.options.size >= position
+                assign other_key = 'option' | append: position
+                assign other_value = current_variant[other_key]
+
+                if other_value != blank
+                  assign narrowed = candidates | where: other_key, other_value
+                  if narrowed.size > 0
+                    assign candidates = narrowed
+                  endif
+                endif
+              endif
+            endfor
+
+            assign in_stock = candidates | where: 'available', true
+            assign card_variant = in_stock.first | default: candidates.first | default: current_variant
+          endif
+
+          comment
+            Live pricing off this card's own variant, so the numbers on an
+            unselected card are that option's real numbers rather than the
+            selected option's.
+
+            Divided down to a month, and in cents before formatting so the three
+            numbers round once between them. The typed fallbacks stand only when
+            the plan has no allocation on this variant at all.
+          endcomment
+          for allocation in card_variant.selling_plan_allocations
+            if allocation.selling_plan.id == opt_plan_id
+              assign plan_now = allocation.price | divided_by: opt_months
+              assign plan_then = allocation.compare_at_price | divided_by: opt_months
+              assign plan_price = plan_now | money
+              if plan_then > plan_now
+                assign plan_compare = plan_then | money
+                assign plan_save = plan_then | minus: plan_now | money
+              endif
+            endif
+          endfor
+
+          comment
+            The picker gives us a product, not a variant, so the add-on resolves to
+            that product's first available variant — which is the whole product for
+            the single-variant items an add-on normally is.
+          endcomment
+          assign addon_variant = opt_addon_product.selected_or_first_available_variant
+
+          comment
+            The sticky bar reads its chip text from these attributes rather than
+            scraping the card, so it never picks up the save badge that sits
+            inside the name.
+          endcomment
+          assign sticky_sub = opt_sticky_sub | default: opt_description
+
+          assign gift_ids = '1,2,3,4' | split: ','
+          assign gift_count = 0
+          for gift_id in gift_ids
+            assign key = prefix | append: 'gift_title_' | append: gift_id
+            if block.settings[key] != blank
+              assign gift_count = gift_count | plus: 1
+            endif
+          endfor
+        -%}
+
+        <label
+          class="cwc_product-hero-buy-box__offer{% if is_selected %} cwc_product-hero-buy-box__offer--selected{% endif %}"
+          data-cwc-offer
+          data-cwc-offer-plan="{{ opt_plan }}"
+          data-cwc-offer-quantity="{{ opt_quantity }}"
+          {% if resolved_value != blank %}
+            data-cwc-offer-value="{{ resolved_value | escape }}"
+          {% endif %}
+          data-cwc-offer-variant="{{ card_variant.id }}"
+          {% if addon_variant != blank %}
+            data-cwc-offer-addon="{{ addon_variant.id }}"
+            data-cwc-offer-addon-quantity="{{ opt_addon_quantity }}"
+          {% endif %}
+          data-cwc-offer-name="{{ opt_name | escape }}"
+          data-cwc-offer-sub="{{ sticky_sub | escape }}"
+        >
+          {% if opt_badge != blank %}
+            <span class="cwc_product-hero-buy-box__offer-badge">{{ opt_badge }}</span>
+          {% endif %}
+
+          <input
+            type="radio"
+            name="cwc_supply_{{ section_id }}"
+            class="cwc_product-hero-buy-box__offer-input"
+            value="{{ block.id }}-{{ option_number }}"
+            {% if is_selected %}
+              checked
+            {% endif %}
+          >
+
+          <span class="cwc_product-hero-buy-box__offer-radio" aria-hidden="true"></span>
+
+          <span class="cwc_product-hero-buy-box__offer-body">
+            <span class="cwc_product-hero-buy-box__offer-name">
+              {{ opt_name }}
+              {% if opt_save_label != blank %}
+                <span class="cwc_product-hero-buy-box__offer-save{% unless is_selected %} cwc_product-hero-buy-box__offer-save--dim{% endunless %}">
+                  {{ opt_save_label }}
+                </span>
+              {% endif %}
+            </span>
+
+            {% if opt_description != blank %}
+              <span class="cwc_product-hero-buy-box__offer-description">{{ opt_description }}</span>
+            {% endif %}
+
+            <span class="cwc_product-hero-buy-box__offer-price">
+              {% if plan_price != blank %}
+                <span class="cwc_product-hero-buy-box__offer-now" data-cwc-offer-now>{{ plan_price }}</span>
+              {% endif %}
+              {% if plan_compare != blank %}
+                <span class="cwc_product-hero-buy-box__offer-was" data-cwc-offer-was>{{ plan_compare }}</span>
+                <span class="cwc_product-hero-buy-box__offer-was-mo">/mo</span>
+              {% endif %}
+              {% if plan_save != blank %}
+                <span class="cwc_product-hero-buy-box__offer-saving" data-cwc-offer-saving>&middot; save {{ plan_save }}</span>
+              {% endif %}
+            </span>
+
+            {%- comment -%}
+              Everything below the price collapses while the option is not the
+              selected one, so the cards a shopper is not on stay a headline they
+              can scan. The wrapper is only printed when there is something to
+              collapse — an option with neither perks nor gifts has no closed
+              state to speak of.
+
+              Two spans, not one: the outer animates its height and the inner is
+              what gets clipped. One element cannot do both, since the thing being
+              animated has to stay the size of its content.
+
+              Everything here is a span: the card is a <label>, and a <div> inside
+              it would be invalid inside the inline flow the rest of the body
+              uses. The grid comes from CSS instead.
+            {%- endcomment -%}
+            {%- if opt_perks != blank or gift_count > 0 -%}
+              <span class="cwc_product-hero-buy-box__offer-details" data-cwc-offer-details>
+                <span class="cwc_product-hero-buy-box__offer-details-inner">
+                  {% if opt_perks != blank %}
+                    <span class="cwc_product-hero-buy-box__offer-perks cwc-rte">{{ opt_perks }}</span>
+                  {% endif %}
+
+                  {%- if gift_count > 0 -%}
+                    {% if opt_gift_label != blank %}
+                      <span class="cwc_product-hero-buy-box__offer-gifts-label">{{ opt_gift_label }}</span>
+                    {% endif %}
+
+                    <span class="cwc_product-hero-buy-box__offer-gifts">
+                      {%- for gift_id in gift_ids -%}
+                        {%- liquid
+                          assign key = prefix | append: 'gift_title_' | append: gift_id
+                          assign gift_title = block.settings[key]
+
+                          assign key = prefix | append: 'gift_image_' | append: gift_id
+                          assign gift_image = block.settings[key]
+
+                          assign key = prefix | append: 'gift_value_' | append: gift_id
+                          assign gift_value = block.settings[key]
+                        -%}
+                        {%- if gift_title != blank -%}
+                          <span class="cwc_product-hero-buy-box__offer-gift">
+                            <span class="cwc_product-hero-buy-box__offer-gift-frame">
+                              {% if gift_image != blank %}
+                                <img
+                                  src="{{ gift_image | image_url: width: 100 }}"
+                                  alt="{{ gift_title | escape }}"
+                                  width="240"
+                                  height="240"
+                                  loading="lazy"
+                                >
+                              {% endif %}
+                            </span>
+                            {% if gift_value != blank %}
+                              <span class="cwc_product-hero-buy-box__offer-gift-value">{{ gift_value }}</span>
+                            {% endif %}
+                            <span class="cwc_product-hero-buy-box__offer-gift-title">{{ gift_title }}</span>
+                          </span>
+                        {%- endif -%}
+                      {%- endfor -%}
+                    </span>
+                  {%- endif -%}
+                </span>
+              </span>
+            {%- endif -%}
+          </span>
+        </label>
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+</div>
