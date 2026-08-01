@@ -992,6 +992,8 @@ height-observer {
   height: 100%;
   display: grid;
   position: relative;
+  background-color: white;
+  color: black;
 }
 
 .drawer::part(header) {
@@ -1029,6 +1031,8 @@ height-observer {
   padding-block-end: var(--drawer-footer-padding-block);
   padding-inline-start: var(--drawer-footer-padding-inline);
   padding-inline-end: var(--drawer-footer-padding-inline);
+  background: white !important;
+  color: black !important;
 }
 
 .drawer--sm {
@@ -6943,6 +6947,7 @@ tfoot td {
 
 .text-subdued {
   color: rgb(var(--text-color) / .65);
+  color: #000;
 }
 
 .text-on-sale {

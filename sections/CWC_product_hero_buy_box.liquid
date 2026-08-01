@@ -46,22 +46,24 @@
 -%}
 
 {%- comment -%}
-  How many months each selling plan charges for, gathered off the supply cards
-  before any pricing is printed.
+  How long each selling plan's charge covers, in days, gathered off the supply
+  cards before any pricing is printed.
 
   A quarterly plan bills three months at once, and quoting that whole charge
   against a monthly plan's would compare a quarter with a month. So every price
-  in this section is per month, and the divisor has to be known here rather than
-  only inside the card: the payload below is what the script re-prices from when
-  the flavour changes, so both routes have to divide by the same number or the
-  card would change price the moment it was touched.
+  in this section is per 4 weeks — a month being 4 weeks here, so the headline
+  times the interval reconciles to the total the card says it bills — and the
+  interval has to be known here rather than only inside the card: the payload
+  below is what the script re-prices from when the flavour changes, so both
+  routes have to scale by the same number or the card would change price the
+  moment it was touched.
 
-  Only plans that bill for more than one month are listed, which keeps the
-  lookup below empty on the ordinary all-monthly setup.
+  Only plans on an interval other than 4 weeks are listed, which keeps the lookup
+  below empty on a setup where every card bills monthly.
 {%- endcomment -%}
 {%- liquid
   assign slot_numbers = '1,2,3,4' | split: ','
-  assign plan_months = ''
+  assign plan_intervals = ''
 
   for buy_box_block in section.blocks
     if buy_box_block.type == 'supply'
@@ -69,17 +71,34 @@
         assign key = 'opt' | append: slot_number | append: '_selling_plan_id'
         assign slot_plan = buy_box_block.settings[key] | remove: '#' | strip
 
-        assign key = 'opt' | append: slot_number | append: '_billing_months'
-        assign slot_months = buy_box_block.settings[key] | default: 1
+        assign key = 'opt' | append: slot_number | append: '_billing_interval_count'
+        assign slot_count = buy_box_block.settings[key] | default: 1
+        if slot_count < 1
+          assign slot_count = 1
+        endif
 
-        if slot_plan != blank and slot_months > 1
-          assign plan_months = plan_months | append: slot_plan | append: ':' | append: slot_months | append: ','
+        assign key = 'opt' | append: slot_number | append: '_billing_interval_unit'
+        assign slot_unit = buy_box_block.settings[key] | default: 'week'
+
+        case slot_unit
+          when 'day'
+            assign slot_unit_days = 1
+          when 'month'
+            assign slot_unit_days = 28
+          else
+            assign slot_unit_days = 7
+        endcase
+
+        assign slot_days = slot_count | times: slot_unit_days
+
+        if slot_plan != blank and slot_days != 28
+          assign plan_intervals = plan_intervals | append: slot_plan | append: ':' | append: slot_days | append: ','
         endif
       endfor
     endif
   endfor
 
-  assign plan_month_pairs = plan_months | split: ','
+  assign plan_interval_pairs = plan_intervals | split: ','
 -%}
 
 {%- capture variant_payload -%}
@@ -103,21 +122,21 @@
         {%- for allocation in variant.selling_plan_allocations -%}
           {%- liquid
             comment
-              Per month, so a quarterly card reads against a monthly one. Cents
-              divide before they are formatted, which keeps the rounding to a
+              Per 4 weeks, so a quarterly card reads against a monthly one. Cents
+              are scaled before they are formatted, which keeps the rounding to a
               single place rather than to each of the three numbers.
             endcomment
-            assign months = 1
-            for pair in plan_month_pairs
+            assign interval_days = 28
+            for pair in plan_interval_pairs
               assign pair_parts = pair | split: ':'
               assign pair_plan = pair_parts[0] | plus: 0
               if pair_plan == allocation.selling_plan.id
-                assign months = pair_parts[1] | plus: 0
+                assign interval_days = pair_parts[1] | plus: 0
               endif
             endfor
 
-            assign plan_now = allocation.price | divided_by: months
-            assign plan_then = allocation.compare_at_price | divided_by: months
+            assign plan_now = allocation.price | times: 28 | divided_by: interval_days
+            assign plan_then = allocation.compare_at_price | times: 28 | divided_by: interval_days
           -%}
           "{{ allocation.selling_plan.id }}": {
             "price": {{ plan_now | money | json }},
@@ -1020,7 +1039,7 @@
           "type": "text",
           "id": "opt1_billing_note",
           "label": "Billing Interval Text",
-          "info": "Follows the billed amount, e.g. \"every 12 weeks\". Leave empty to say \"every N months\" from Months Per Charge below."
+          "info": "Follows the billed amount, e.g. \"every 12 weeks\". Leave empty to write it from the Billing Interval below."
         },
         {
           "type": "text",
@@ -1030,10 +1049,21 @@
         },
         {
           "type": "number",
-          "id": "opt1_billing_months",
-          "label": "Months Per Charge",
-          "info": "How many months this plan bills at once — 3 for a quarterly plan, 1 for monthly. Prices are shown per month, so every card can be compared against the others. The cart still charges the full amount.",
-          "default": 1
+          "id": "opt1_billing_interval_count",
+          "label": "Billing Interval",
+          "info": "How often this plan charges, counted in the unit below — 4 weeks, 12 weeks, 3 months. Match the selling plan. Prices are shown per month so every card can be compared against the others; the cart still charges the full amount.",
+          "default": 4
+        },
+        {
+          "type": "select",
+          "id": "opt1_billing_interval_unit",
+          "label": "Billing Interval Unit",
+          "options": [
+            { "value": "day", "label": "Days" },
+            { "value": "week", "label": "Weeks" },
+            { "value": "month", "label": "Months" }
+          ],
+          "default": "week"
         },
         {
           "type": "number",
@@ -1219,7 +1249,7 @@
           "type": "text",
           "id": "opt2_billing_note",
           "label": "Billing Interval Text",
-          "info": "Follows the billed amount, e.g. \"every 12 weeks\". Leave empty to say \"every N months\" from Months Per Charge below."
+          "info": "Follows the billed amount, e.g. \"every 12 weeks\". Leave empty to write it from the Billing Interval below."
         },
         {
           "type": "text",
@@ -1229,10 +1259,21 @@
         },
         {
           "type": "number",
-          "id": "opt2_billing_months",
-          "label": "Months Per Charge",
-          "info": "How many months this plan bills at once — 3 for a quarterly plan, 1 for monthly. Prices are shown per month, so every card can be compared against the others. The cart still charges the full amount.",
-          "default": 1
+          "id": "opt2_billing_interval_count",
+          "label": "Billing Interval",
+          "info": "How often this plan charges, counted in the unit below — 4 weeks, 12 weeks, 3 months. Match the selling plan. Prices are shown per month so every card can be compared against the others; the cart still charges the full amount.",
+          "default": 4
+        },
+        {
+          "type": "select",
+          "id": "opt2_billing_interval_unit",
+          "label": "Billing Interval Unit",
+          "options": [
+            { "value": "day", "label": "Days" },
+            { "value": "week", "label": "Weeks" },
+            { "value": "month", "label": "Months" }
+          ],
+          "default": "week"
         },
         {
           "type": "number",
@@ -1413,7 +1454,7 @@
           "type": "text",
           "id": "opt3_billing_note",
           "label": "Billing Interval Text",
-          "info": "Follows the billed amount, e.g. \"every 12 weeks\". Leave empty to say \"every N months\" from Months Per Charge below."
+          "info": "Follows the billed amount, e.g. \"every 12 weeks\". Leave empty to write it from the Billing Interval below."
         },
         {
           "type": "text",
@@ -1423,10 +1464,21 @@
         },
         {
           "type": "number",
-          "id": "opt3_billing_months",
-          "label": "Months Per Charge",
-          "info": "How many months this plan bills at once — 3 for a quarterly plan, 1 for monthly. Prices are shown per month, so every card can be compared against the others. The cart still charges the full amount.",
-          "default": 1
+          "id": "opt3_billing_interval_count",
+          "label": "Billing Interval",
+          "info": "How often this plan charges, counted in the unit below — 4 weeks, 12 weeks, 3 months. Match the selling plan. Prices are shown per month so every card can be compared against the others; the cart still charges the full amount.",
+          "default": 4
+        },
+        {
+          "type": "select",
+          "id": "opt3_billing_interval_unit",
+          "label": "Billing Interval Unit",
+          "options": [
+            { "value": "day", "label": "Days" },
+            { "value": "week", "label": "Weeks" },
+            { "value": "month", "label": "Months" }
+          ],
+          "default": "week"
         },
         {
           "type": "number",
@@ -1606,7 +1658,7 @@
           "type": "text",
           "id": "opt4_billing_note",
           "label": "Billing Interval Text",
-          "info": "Follows the billed amount, e.g. \"every 12 weeks\". Leave empty to say \"every N months\" from Months Per Charge below."
+          "info": "Follows the billed amount, e.g. \"every 12 weeks\". Leave empty to write it from the Billing Interval below."
         },
         {
           "type": "text",
@@ -1616,10 +1668,21 @@
         },
         {
           "type": "number",
-          "id": "opt4_billing_months",
-          "label": "Months Per Charge",
-          "info": "How many months this plan bills at once — 3 for a quarterly plan, 1 for monthly. Prices are shown per month, so every card can be compared against the others. The cart still charges the full amount.",
-          "default": 1
+          "id": "opt4_billing_interval_count",
+          "label": "Billing Interval",
+          "info": "How often this plan charges, counted in the unit below — 4 weeks, 12 weeks, 3 months. Match the selling plan. Prices are shown per month so every card can be compared against the others; the cart still charges the full amount.",
+          "default": 4
+        },
+        {
+          "type": "select",
+          "id": "opt4_billing_interval_unit",
+          "label": "Billing Interval Unit",
+          "options": [
+            { "value": "day", "label": "Days" },
+            { "value": "week", "label": "Weeks" },
+            { "value": "month", "label": "Months" }
+          ],
+          "default": "week"
         },
         {
           "type": "number",

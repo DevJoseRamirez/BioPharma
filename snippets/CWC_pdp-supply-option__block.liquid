@@ -178,16 +178,37 @@
           assign opt_plan_id = opt_plan | plus: 0
 
           comment
-            How many months this plan charges for. A quarterly plan takes three
-            at once, so its charge is divided by three and every card quotes the
-            same unit — otherwise the card billing least often looks like the
-            expensive one.
+            How often this plan charges, written the way the selling plan itself
+            is — a count and a unit, so a Loop plan set to every 4 weeks is
+            described in weeks here too rather than rounded to a month.
+
+            Carried as days, which is the one base all three units share. A month
+            is 4 weeks here, not 30 days, so the headline a 12-week card shows
+            times its three months comes back to the total it says it bills —
+            which a 30-day month would overshoot.
+
+            Every card's headline is then per 4 weeks, so the card billing least
+            often does not look like the expensive one.
           endcomment
-          assign key = prefix | append: 'billing_months'
-          assign opt_months = block.settings[key] | default: 1
-          if opt_months < 1
-            assign opt_months = 1
+          assign key = prefix | append: 'billing_interval_count'
+          assign opt_interval_count = block.settings[key] | default: 1
+          if opt_interval_count < 1
+            assign opt_interval_count = 1
           endif
+
+          assign key = prefix | append: 'billing_interval_unit'
+          assign opt_interval_unit = block.settings[key] | default: 'week'
+
+          case opt_interval_unit
+            when 'day'
+              assign unit_days = 1
+            when 'month'
+              assign unit_days = 28
+            else
+              assign unit_days = 7
+          endcase
+
+          assign opt_interval_days = opt_interval_count | times: unit_days
 
           assign key = prefix | append: 'quantity'
           assign opt_quantity = block.settings[key] | default: 1
@@ -218,9 +239,9 @@
             how often, against a per-month headline that never says either.
 
             The amount is live, so only the wording is typed. Left empty it is
-            written from Months Per Charge, which is right for a plan billed in
-            whole months — a plan a merchant would rather describe in weeks gets
-            the setting.
+            written from the billing interval above — "every 4 weeks", "every 3
+            months" — so the setting is only for wording that does not follow
+            that shape.
           endcomment
           assign plan_total = ''
 
@@ -231,10 +252,10 @@
           assign opt_billing_note = block.settings[key]
 
           if opt_billing_note == blank
-            if opt_months > 1
-              assign opt_billing_note = 'every ' | append: opt_months | append: ' months'
+            if opt_interval_count > 1
+              assign opt_billing_note = 'every ' | append: opt_interval_count | append: ' ' | append: opt_interval_unit | append: 's'
             else
-              assign opt_billing_note = 'every month'
+              assign opt_billing_note = 'every ' | append: opt_interval_unit
             endif
           endif
 
@@ -315,14 +336,16 @@
             unselected card are that option's real numbers rather than the
             selected option's.
 
-            Divided down to a month, and in cents before formatting so the three
-            numbers round once between them. The typed fallbacks stand only when
-            the plan has no allocation on this variant at all.
+            Scaled from the charge interval to 4 weeks, and in cents before
+            formatting so the three numbers round once between them. Multiplying
+            before dividing keeps the whole thing in integers without losing the
+            fraction. The typed fallbacks stand only when the plan has no
+            allocation on this variant at all.
           endcomment
           for allocation in card_variant.selling_plan_allocations
             if allocation.selling_plan.id == opt_plan_id
-              assign plan_now = allocation.price | divided_by: opt_months
-              assign plan_then = allocation.compare_at_price | divided_by: opt_months
+              assign plan_now = allocation.price | times: 28 | divided_by: opt_interval_days
+              assign plan_then = allocation.compare_at_price | times: 28 | divided_by: opt_interval_days
               assign plan_price = plan_now | money
               assign plan_total = allocation.price | money_with_currency
               if plan_then > plan_now
