@@ -34,7 +34,7 @@
 /* === Photo === */
 .cwc_founder-note__photo {
   aspect-ratio: 4 / 5;
-  /* aspect-ratio: 5 / 8; */
+  aspect-ratio: 5 / 8;
   background: #f4f3ee;
   border: 1px dashed #cfcec0;
   border-radius: 12px;
@@ -147,7 +147,8 @@
   }
 
   .cwc_founder-note__photo {
-    max-width: 280px;
+    /* max-width: 280px; */
+    aspect-ratio: 1 / 1;
   }
 }
 
@@ -166,4 +167,6 @@
   .cwc_founder-note__container {
     padding: 0 16px;
   }
+
+  
 }

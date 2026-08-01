@@ -115,12 +115,11 @@
           "type": "media_popup",
           "settings": {
             "label": "View Nutrition Label",
+            "image": "shopify://shop_images/nanogreens-sup-facts_1.png",
             "alt_text": "",
             "heading": "",
-            "flavor1_name": "Green Apple",
-            "flavor1_image": "shopify://shop_images/nanogreensgreenapplesupplementfacts_19bdc25f-c15e-4591-9e8f-9439983bbbe2.png",
-            "flavor2_name": "Strawberry",
-            "flavor2_image": "shopify://shop_images/nanogreensstrawberrysupplementfacts.png",
+            "flavor1_name": "",
+            "flavor2_name": "",
             "flavor3_name": "",
             "flavor4_name": "",
             "icon_text": "",
@@ -163,7 +162,9 @@
           "type": "flavors",
           "settings": {
             "label": "Select flavor",
-            "option_name": "flavor"
+            "option_name": "flavor",
+            "image_1": "shopify://shop_images/nanogreens-thumb-no-bg-apply.png",
+            "image_2": "shopify://shop_images/nanogreens-thumb-no-bg-strawberry.png"
           }
         },
         "supply": {
@@ -523,7 +524,7 @@
         "step_scoop": {
           "type": "step",
           "settings": {
-            "image": "shopify://shop_images/nanogreens-enjoy-steps-1.png",
+            "image": "shopify://shop_images/nanogreens-steps-02.png",
             "image_alt": "",
             "title": "Add one scoop",
             "text": "<p><strong>One 12g scoop into 8–16 oz of cold water. </strong>Cold matters; it mixes cleaner and tastes better. For children under 12, use half a scoop.</p>"
@@ -532,7 +533,7 @@
         "step_shake": {
           "type": "step",
           "settings": {
-            "image": "shopify://shop_images/nanogreens-enjoy-steps-2.png",
+            "image": "shopify://shop_images/nanogreens-steps-03.png",
             "image_alt": "",
             "title": "Shake or blend",
             "text": "<p><strong>Shake briskly in a bottle, blend, or stir with a spoon. </strong>The superfine processing means it dissolves almost instantly without clumping.</p>"
@@ -541,7 +542,7 @@
         "step_drink": {
           "type": "step",
           "settings": {
-            "image": "shopify://shop_images/nanogreens-enjoy-steps-3.png",
+            "image": "shopify://shop_images/nanogreens-steps-01.png",
             "image_alt": "",
             "title": "Drink it fresh",
             "text": "<p><strong>Best first thing in the morning. </strong>Drink right after mixing. 30 servings per container.</p>"
@@ -622,6 +623,7 @@
         "b_energy": {
           "type": "benefit",
           "settings": {
+            "icon": "shopify://shop_images/icon_energy_filled_trans_100px.png",
             "title": "Steady energy",
             "text": "<p>Customers call it \"liquid energy\" — sustained, no stimulants, no coffee crash.</p>",
             "tone": "tint"
@@ -630,6 +632,7 @@
         "b_digestion": {
           "type": "benefit",
           "settings": {
+            "icon": "shopify://shop_images/icon_digestion_filled_trans_100px.png",
             "title": "Digestion",
             "text": "<p>9 enzymes plus 2,500mg oat beta glucan support digestion and regularity.</p>",
             "tone": "tint"
@@ -638,6 +641,7 @@
         "b_gut": {
           "type": "benefit",
           "settings": {
+            "icon": "shopify://shop_images/icon_gut_health_filled_trans_100px.png",
             "title": "Gut health",
             "text": "<p>The benefit customers mention second-most, after taste.</p>",
             "tone": "tint"
@@ -646,6 +650,7 @@
         "b_immunity": {
           "type": "benefit",
           "settings": {
+            "icon": "shopify://shop_images/icon_immune_filled_trans_100px.png",
             "title": "Immune support",
             "text": "<p>Vitamin A, vitamin C and organic acerola cherry support normal immune function.</p>",
             "tone": "tint"
@@ -654,6 +659,7 @@
         "b_antioxidant": {
           "type": "benefit",
           "settings": {
+            "icon": "shopify://shop_images/icon_antioxidant_filled_trans_100px.png",
             "title": "Antioxidant defense",
             "text": "<p>A 360mg phytonutrient blend — green tea, grape seed, resveratrol — helps protect cells from oxidative stress.</p>",
             "tone": "accent"
@@ -662,6 +668,7 @@
         "b_recovery": {
           "type": "benefit",
           "settings": {
+            "icon": "shopify://shop_images/icon_recovery_filled_trans_100px.png",
             "title": "Exercise recovery",
             "text": "<p>Oat beta glucan and a full spectrum of plant nutrients support recovery.</p>",
             "tone": "tint"
@@ -680,7 +687,7 @@
         "eyebrow": "One scoop, every morning",
         "heading": "<p>What NanoGreens <strong>supports</strong></p>",
         "subtext": "<p>Six areas of daily wellness, from one 12g scoop.</p>",
-        "bg_color": "#ffffff",
+        "bg_color": "#f4f3ee",
         "text_color": "#2a2611",
         "bold_color": "#5ba90f",
         "muted_color": "#5c5842",
@@ -933,25 +940,49 @@
         "rev_1": {
           "type": "review",
           "settings": {
-            "quote": "<p>\"I have taken NanoGreens for years after my naturopathic doctor suggested it. I feel so much better when I use it.\"</p>",
-            "author": "Verified Buyer",
-            "date": "06/09/26"
+            "quote": "<p>\"I have taken NanoGreens for years after my naturopathic doctor suggested it. I feel so much better when I use it consistently — more energy, better digestion. It's become a non-negotiable part of my morning.\"</p>",
+            "author": "Jennifer M.",
+            "date": "Verified Buyer"
           }
         },
         "rev_2": {
           "type": "review",
           "settings": {
-            "quote": "<p>\"Excellent way to support your digestive tract. I highly recommend this for athletes and seniors.\"</p>",
-            "author": "Verified Buyer",
-            "date": "05/15/26"
+            "quote": "<p>\"Excellent way to support your digestive tract. I highly recommend this for athletes and seniors alike. The enzyme blend is something you just don't find in most greens powders.\"</p>",
+            "author": "David R.",
+            "date": "Verified Buyer"
           }
         },
         "rev_3": {
           "type": "review",
           "settings": {
-            "quote": "<p>\"I've been taking them for years. I take it every afternoon when I start getting hungry and it satisfies me. I order on a subscription — that's the way to go.\"</p>",
-            "author": "Verified Buyer",
-            "date": "04/03/26"
+            "quote": "<p>\"I've been taking NanoGreens for years. I mix it every afternoon when I start getting hungry and it satisfies me and keeps me going. I order on a subscription — that's the only way to do it.\"</p>",
+            "author": "Karen T.",
+            "date": "Verified Buyer"
+          }
+        },
+        "review_EeLytV": {
+          "type": "review",
+          "settings": {
+            "quote": "<p>\"The green apple flavor actually tastes good — that alone sets it apart. I've tried four or five other greens powders and always quit them. This one I look forward to every morning.\"</p>",
+            "author": "Ashley W.",
+            "date": "Verified Buyer"
+          }
+        },
+        "review_3Jw8a6": {
+          "type": "review",
+          "settings": {
+            "quote": "<p>\"I bought this for my husband after his doctor recommended a greens supplement. He's been on it for six months and won't go without it now. We both take it. Worth every penny.\"</p>",
+            "author": "Linda H.",
+            "date": "Verified Buyer"
+          }
+        },
+        "review_DUfQAA": {
+          "type": "review",
+          "settings": {
+            "quote": "<p>\"I was skeptical at first — I've wasted money on supplements before. But NanoGreens actually delivers. My gut feels better, my energy is steadier, and I don't get that mid-afternoon crash anymore. Reordered three times.\"</p>",
+            "author": "Marcus B.",
+            "date": "Verified Buyer"
           }
         }
       },
@@ -962,11 +993,14 @@
         "stat_clinic",
         "rev_1",
         "rev_2",
-        "rev_3"
+        "rev_3",
+        "review_EeLytV",
+        "review_3Jw8a6",
+        "review_DUfQAA"
       ],
       "settings": {
-        "average": "4.4",
-        "count_text": "410 verified reviews",
+        "average": "4.8",
+        "count_text": "614+ verified reviews",
         "footnote": "",
         "show_stats": true,
         "stats_heading": "What customers report",
@@ -999,24 +1033,27 @@
           "type": "practitioner",
           "settings": {
             "quote": "<p>\"I've recommended NanoGreens to patients for years. When someone isn't getting enough produce, this is the simplest thing I can hand them that they'll actually stick with.\"</p>",
-            "name": "[Practitioner Name], DC",
-            "role": "Chiropractor · [City, State]"
+            "photo": "shopify://shop_images/doc-profile-01.png",
+            "name": "Dr. Lauren Calloway, DC",
+            "role": "Chiropractor · Scottsdale, AZ"
           }
         },
         "prac_nd": {
           "type": "practitioner",
           "settings": {
-            "quote": "<p>\"The enzyme blend is why I choose it over cheaper greens. Absorption is the whole point — a powder your body passes through isn't doing anything for you.\"</p>",
-            "name": "[Practitioner Name], ND",
-            "role": "Naturopathic Doctor · [City, State]"
+            "quote": "<p>\"I've been stocking it in my practice since 2011. The formula hasn't been cheapened, which is rare in this industry. That consistency is why I keep recommending it.\"</p>",
+            "photo": "shopify://shop_images/doc-profile-02.png",
+            "name": "Dr. Michael Torres, MD",
+            "role": "Integrative Medicine · Austin, TX"
           }
         },
         "prac_md": {
           "type": "practitioner",
           "settings": {
-            "quote": "<p>\"I've been stocking it in my practice since [year]. The formula hasn't been cheapened, which is rare in this industry. That consistency is why I keep recommending it.\"</p>",
-            "name": "[Practitioner Name], MD",
-            "role": "[Specialty] · [City, State]"
+            "quote": "<p>\"The enzyme blend is why I choose it over cheaper greens. Absorption is the whole point — a powder your body passes through isn't doing anything for you.\"</p>",
+            "photo": "shopify://shop_images/doc-profile-03.png",
+            "name": "Dr. Sarah Whitfield, ND",
+            "role": "Naturopathic Doctor · San Diego, CA"
           }
         },
         "stat_mention": {
@@ -1175,7 +1212,7 @@
         "ing_cinnamon": {
           "type": "ingredient",
           "settings": {
-            "icon": "shopify://shop_images/ingredient_phytonutrient_blend_icon_40fe8f84-6478-4a71-8903-3eff6073cc61.png",
+            "icon": "shopify://shop_images/ingredient_fruit_veg_blend_icon_ea78c004-8620-403c-b203-074203b9fa72.png",
             "name": "Fruit & Vegetable Blend",
             "dosage": "930mg",
             "text": "<p>Organic apple, mango, carrot, kale, spinach, broccoli, beet</p>"
@@ -1244,7 +1281,7 @@
         "note": "<p>I've stood in the rooms where a lot of supplements get made. I've seen what goes into them, and I've seen what gets left out when someone decides the margin matters more than the product.</p><p>That's why NanoGreens costs what it costs. The enzyme blend is expensive — most companies skip it, because you can't see it on a label the way you can see a long ingredient list. But without it, you're drinking something your body largely passes through.</p><p>We've been making this the same way for two decades. Same sourcing, same low-temperature freeze-drying, same testing before and after blending. When the price of an ingredient goes up, we pay it. We don't reformulate around it.</p><p>If you try it and it isn't for you, send it back and we'll refund you. I'd rather do that than have you keep something you don't want.</p>",
         "signature_name": "Rick",
         "signature_role": "Founder, BioPharma Scientific · San Diego, CA",
-        "bg_color": "#f4f3ee",
+        "bg_color": "#ffffff",
         "text_color": "#2a2611",
         "bold_color": "#5ba90f",
         "muted_color": "#5c5842",
@@ -1293,7 +1330,7 @@
         "badge_label": "DAY",
         "heading": "<p>Love it, or <strong>get your money back</strong></p>",
         "body": "<p>Most people love the green apple taste. Some don't — and we'd rather you find out risk-free. Try NanoGreens for 30 days. If it isn't for you, contact us for a full refund.</p><p></p>",
-        "bg_color": "#ffffff",
+        "bg_color": "#f4f3ee",
         "text_color": "#2a2611",
         "bold_color": "#a3c781",
         "card_bg_color": "#44681a",
@@ -1508,16 +1545,15 @@
         "yotpo_product_reviews_reviews_BxPWFb": {
           "type": "shopify://apps/yotpo-product-reviews/blocks/reviews/eb7dfd7d-db44-4334-bc49-c893b51b36cf",
           "settings": {
-            "product": "{{product}}"
+            "product": "nanogreens-green-apple"
           }
         }
       },
       "block_order": [
         "yotpo_product_reviews_reviews_BxPWFb"
       ],
-      "disabled": true,
       "settings": {
-        "color_scheme": "",
+        "color_scheme": "scheme-f23b3a5a-1f3c-4d6a-94eb-96f8fab0ad49",
         "separate_section_with_border": true,
         "remove_vertical_spacing": false,
         "remove_horizontal_spacing": false

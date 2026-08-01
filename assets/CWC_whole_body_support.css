@@ -100,8 +100,8 @@
 }
 
 .cwc_whole-body-support__card-icon img {
-  width: 22px;
-  height: 22px;
+  /* width: 22px; */
+  /* height: 22px; */
   object-fit: contain;
 }
 

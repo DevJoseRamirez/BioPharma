@@ -91,21 +91,43 @@
 
     {% assign review_blocks = section.blocks | where: 'type', 'review' %}
     {% if review_blocks.size > 0 %}
-      <div class="cwc_reviews__cards">
-        {% for block in review_blocks %}
-          <div class="cwc_reviews__card" {{ block.shopify_attributes }}>
-            <span class="cwc_reviews__stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
-            {% if block.settings.quote != blank %}
-              <div class="cwc_reviews__quote cwc-rte">{{ block.settings.quote }}</div>
-            {% endif %}
-            <div class="cwc_reviews__author">
-              {{ block.settings.author | default: 'Verified Buyer' }}
-              {% if block.settings.date != blank %}
-                <span class="cwc_reviews__date">{{ block.settings.date }}</span>
+      {% comment %}
+        The cards keep their grid layout on desktop. On mobile the same track
+        becomes a horizontal scroll-snap carousel — one wrapper holds every
+        card so all of them live in a single swipeable row.
+      {% endcomment %}
+      <div class="cwc_reviews__carousel" data-cwc-reviews-carousel>
+        <div class="cwc_reviews__cards" data-cwc-reviews-track>
+          {% for block in review_blocks %}
+            <div class="cwc_reviews__card" data-cwc-reviews-slide {{ block.shopify_attributes }}>
+              <span class="cwc_reviews__stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+              {% if block.settings.quote != blank %}
+                <div class="cwc_reviews__quote cwc-rte">{{ block.settings.quote }}</div>
               {% endif %}
+              <div class="cwc_reviews__author">
+                {{ block.settings.author | default: 'Verified Buyer' }}
+                {% if block.settings.date != blank %}
+                  <span class="cwc_reviews__date">{{ block.settings.date }}</span>
+                {% endif %}
+              </div>
             </div>
+          {% endfor %}
+        </div>
+
+        {% comment %} Dots are mobile-only in CSS — nothing to page through otherwise. {% endcomment %}
+        {% if review_blocks.size > 1 %}
+          <div class="cwc_reviews__dots" data-cwc-reviews-dots>
+            {% for block in review_blocks %}
+              <button
+                type="button"
+                class="cwc_reviews__dot{% if forloop.first %} cwc_reviews__dot--active{% endif %}"
+                data-cwc-reviews-dot="{{ forloop.index0 }}"
+                aria-label="Show review {{ forloop.index }} of {{ review_blocks.size }}"
+                {% if forloop.first %}aria-current="true"{% endif %}
+              ></button>
+            {% endfor %}
           </div>
-        {% endfor %}
+        {% endif %}
       </div>
     {% endif %}
 
@@ -115,6 +137,8 @@
 
   </div>
 </section>
+
+{{ 'CWC_reviews.js' | asset_url | script_tag }}
 
 {% schema %}
 {

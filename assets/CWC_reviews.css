@@ -160,6 +160,11 @@
   gap: 14px;
 }
 
+/* Carousel chrome is mobile-only — the grid needs no wrapper styling here. */
+.cwc_reviews__dots {
+  display: none;
+}
+
 .cwc_reviews__card {
   background: var(--card-bg);
   border: 1px solid var(--border-color);
@@ -234,5 +239,96 @@
 
   .cwc_reviews__container {
     padding: 0 16px;
+  }
+
+  .cwc_reviews__head {
+    justify-content: center;
+  }
+
+  /* === Cards Carousel (mobile only) === */
+  .cwc_reviews__cards {
+    display: flex;
+    /* stretch keeps every card the height of the tallest, so the track does
+       not jump as you swipe between quotes of different lengths */
+    align-items: stretch;
+    gap: 12px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    /* the browser drives the horizontal swipe; vertical stays with the page */
+    overscroll-behavior-x: contain;
+    /* bleed to the viewport edges so a card can sit flush against the screen
+       while the container's own 16px gutter still frames the first card */
+    margin-left: -16px;
+    margin-right: -16px;
+    padding-left: 16px;
+    padding-right: 16px;
+    /* snapport inset — without this the padding above would leave every card
+       snapping 16px short of where it visually belongs */
+    scroll-padding-left: 16px;
+  }
+
+  .cwc_reviews__cards::-webkit-scrollbar {
+    display: none;
+  }
+
+  .cwc_reviews__card {
+    /* a sliver of the next card is what tells the shopper there is more to
+       swipe — the only spacing change from the stacked layout */
+    flex: 0 0 87%;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
+
+  /* Added by script only when there is more than one card, so a single-review
+     section never advertises a drag that would do nothing. */
+  .cwc_reviews__cards--draggable {
+    cursor: grab;
+  }
+
+  .cwc_reviews__cards--dragging {
+    cursor: grabbing;
+    user-select: none;
+  }
+
+  /* === Carousel Dots === */
+  .cwc_reviews__dots {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin-top: 14px;
+  }
+
+  .cwc_reviews__dot {
+    width: 7px;
+    height: 7px;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background: var(--border-color);
+    cursor: pointer;
+    transition: background-color 0.15s, width 0.15s;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+
+  .cwc_reviews__dot--active {
+    width: 18px;
+    border-radius: 4px;
+    background: var(--highlight-color);
+  }
+}
+
+@media screen and (prefers-reduced-motion: reduce) {
+  .cwc_reviews__cards {
+    scroll-behavior: auto;
+  }
+
+  .cwc_reviews__dot {
+    transition: none;
   }
 }

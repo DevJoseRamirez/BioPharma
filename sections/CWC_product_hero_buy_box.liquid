@@ -26,6 +26,9 @@
     --padding-top-mobile: {{ section.settings.padding_top | default: 20 | times: 0.5 }}px;
     --padding-bottom-mobile: {{ section.settings.padding_bottom | default: 40 | times: 0.5 }}px;
   }
+  #tidio-chat{
+    display: none !important;
+  }
 {% endstyle %}
 
 {{ 'CWC_fonts.css' | asset_url | stylesheet_tag }}
@@ -887,6 +890,41 @@
           "label": "Product Option",
           "default": "flavor",
           "info": "Which option to show swatches for, e.g. Flavor. Must match the option name on the product; capitalisation does not matter. Leave empty to show every variant, which is what a product whose only option is the flavour wants."
+        },
+        {
+          "type": "header",
+          "content": "Swatch Images",
+          "info": "Optional. Each slot replaces the variant image on the swatch in that position, counting left to right in the order the swatches appear. Leave a slot empty to keep that variant's own image."
+        },
+        {
+          "type": "image_picker",
+          "id": "image_1",
+          "label": "Swatch 1 Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_2",
+          "label": "Swatch 2 Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_3",
+          "label": "Swatch 3 Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_4",
+          "label": "Swatch 4 Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_5",
+          "label": "Swatch 5 Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_6",
+          "label": "Swatch 6 Image"
         }
       ]
     },

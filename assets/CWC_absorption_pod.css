@@ -69,7 +69,7 @@
 .cwc_absorption-pod__enzymes {
   display: flex;
   flex-wrap: wrap;
-  gap: 7px;
+  gap: 12px;
   margin-top: 16px;
 }
 
@@ -137,5 +137,9 @@
 
   .cwc_absorption-pod__container {
     padding: 0 16px;
+  }
+
+  .cwc_absorption-pod__enzymes {
+    gap: 7px;
   }
 }

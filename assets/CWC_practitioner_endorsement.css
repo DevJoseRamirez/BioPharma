@@ -143,7 +143,7 @@
   line-height: var(--cwc-line-body);
   color: var(--text-color);
   font-style: italic;
-  margin: 0 0 16px;
+  margin: 16px 0 0;
 }
 
 .cwc_practitioner-endorsement__who {
@@ -155,6 +155,8 @@
 .cwc_practitioner-endorsement__avatar {
   width: 42px;
   height: 42px;
+  width: 54px;
+  height: 54px;
   border-radius: 50%;
   background: var(--accent-bg);
   border: 1px solid var(--accent-border);
