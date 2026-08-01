@@ -19,11 +19,23 @@
     id="cwc_announcement-{{ section.id }}"
     class="cwc_announcement{% if section.settings.enable_gradient %} cwc_announcement--gradient{% endif %}"
   >
+    {% if section.settings.link != blank %}
+      <a href="{{ section.settings.link }}" class="cwc_announcement__link">
+    {% else %}
+      <div class="cwc_announcement__inner">
+    {% endif %}
+
     <div class="cwc_announcement__container">
       <div class="cwc_announcement__text cwc-rte">
         {{ section.settings.text }}
       </div>
     </div>
+
+    {% if section.settings.link != blank %}
+      </a>
+    {% else %}
+      </div>
+    {% endif %}
   </section>
 {% endif %}
 
@@ -42,6 +54,12 @@
       "label": "Announcement Text",
       "default": "<p>Free shipping on subscriptions &middot; <strong>30-day money-back guarantee</strong> &middot; Formulated with clinicians since 2010</p>",
       "info": "Bold text uses the Bold Color below."
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "Bar Link (Optional)",
+      "info": "Leave empty for a plain bar. If set, the whole bar becomes clickable — don't add links inside the text above."
     },
     {
       "type": "header",

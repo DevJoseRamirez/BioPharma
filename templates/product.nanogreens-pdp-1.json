@@ -14,6 +14,7 @@
       "disabled": true,
       "settings": {
         "text": "<p>Free shipping on subscriptions · <strong>30-day money-back guarantee</strong> · Formulated with clinicians since 2010</p>",
+        "link": "",
         "enable_gradient": true,
         "bg_color": "#44681a",
         "bg_end_color": "#87ce34",
@@ -1004,7 +1005,7 @@
         "footnote": "",
         "show_stats": true,
         "stats_heading": "What customers report",
-        "stats_subtext": "From analysis of 410 verified reviews",
+        "stats_subtext": "From analysis of hundreds verified reviews",
         "stats_note": "Customer-reported outcomes, not a clinical trial. Individual results vary.",
         "bg_color": "#f4f3ee",
         "text_color": "#2a2611",
