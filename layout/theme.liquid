@@ -1,3 +1,4 @@
+{% include 'shogun-content-handler' %}
 {%- comment %}<locksmith:094f>{%- endcomment %}
 {%- render 'locksmith' -%}
 {%- comment %}</locksmith:094f>{%- endcomment %}
@@ -92,7 +93,9 @@
     {{ 'daa.js' | asset_url | script_tag }}
     {{ 'daa.css' | asset_url | stylesheet_tag }}
     {{ 'dda.js' | asset_url | script_tag }}
-  </head>
+  
+  {% render 'shogun-head' %}
+</head>
 
   {% liquid
     assign features_class = ''
