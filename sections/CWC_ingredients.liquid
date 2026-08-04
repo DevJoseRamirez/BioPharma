@@ -8,6 +8,8 @@
     --eyebrow-color: {{ section.settings.eyebrow_color | default: '#5BA90F' }};
     --icon-bg: {{ section.settings.icon_bg_color | default: '#F2F8EA' }};
     --icon-border: {{ section.settings.icon_border_color | default: '#A3C781' }};
+    --footer-color: {{ section.settings.footer_color | default: '#5C5842' }};
+    --link-color: {{ section.settings.link_color | default: '#5BA90F' }};
     --padding-top: {{ section.settings.padding_top | default: 50 }}px;
     --padding-bottom: {{ section.settings.padding_bottom | default: 50 }}px;
     --padding-top-mobile: {{ section.settings.padding_top | default: 50 | times: 0.5 }}px;
@@ -69,6 +71,12 @@
       </div>
     {% endif %}
 
+    {% if section.settings.footer_text != blank %}
+      <div class="cwc_ingredients__footer cwc-rte">
+        {{ section.settings.footer_text }}
+      </div>
+    {% endif %}
+
   </div>
 </section>
 
@@ -91,6 +99,17 @@
       "id": "heading",
       "label": "Section Heading",
       "default": "<p>The ingredients doing the <strong>work</strong></p>"
+    },
+    {
+      "type": "header",
+      "content": "Footer Line"
+    },
+    {
+      "type": "richtext",
+      "id": "footer_text",
+      "label": "Footer Text",
+      "info": "Appears below the ingredient list. Highlight any words and use the link button to embed a link to a research study.",
+      "default": "<p>Every ingredient is backed by peer-reviewed research. <a href=\"#\">View the study</a></p>"
     },
     {
       "type": "header",
@@ -131,6 +150,18 @@
       "id": "border_color",
       "label": "Border Color",
       "default": "#E6E5DC"
+    },
+    {
+      "type": "color",
+      "id": "footer_color",
+      "label": "Footer Text Color",
+      "default": "#5C5842"
+    },
+    {
+      "type": "color",
+      "id": "link_color",
+      "label": "Footer Link Color",
+      "default": "#5BA90F"
     },
     {
       "type": "header",

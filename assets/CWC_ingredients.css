@@ -105,6 +105,32 @@
   margin: 0;
 }
 
+/* === Footer Line === */
+.cwc_ingredients__footer {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border-color);
+}
+
+.cwc_ingredients__footer p {
+  font-size: 0.8125em;
+  /* 13px */
+  color: var(--footer-color);
+  line-height: 1.5;
+  margin: 0;
+}
+
+.cwc_ingredients__footer a {
+  color: var(--link-color);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: opacity 0.2s ease;
+}
+
+.cwc_ingredients__footer a:hover {
+  opacity: 0.75;
+}
+
 /* ==============================
    Tablet Responsive
    ============================== */
