@@ -1,0 +1,256 @@
+/* ==============================
+   CWC Page Research Charts
+   ============================== */
+
+/* === Section Wrapper === */
+.cwc_page-research-antioxidant-testing {
+  font-size: 16px;
+  /* section anchor — all type below is em relative to this */
+  background-color: var(--section-bg);
+  color: var(--text-color);
+  padding-top: var(--padding-top);
+  padding-bottom: var(--padding-bottom);
+  font-family: var(--cwc-font-body);
+}
+
+.cwc_page-research-antioxidant-testing__container {
+  max-width: 1164px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+/* === Section Header === */
+.cwc_page-research-antioxidant-testing__content {
+  width: 100%;
+}
+
+.cwc_page-research-antioxidant-testing__eyebrow {
+  font-size: 0.72em;
+  font-weight: var(--cwc-weight-label);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--eyebrow-color);
+  margin-bottom: 12px;
+}
+
+.cwc_page-research-antioxidant-testing__content-heading {
+  margin-bottom: 26px;
+}
+
+.cwc_page-research-antioxidant-testing__content-heading h1,
+.cwc_page-research-antioxidant-testing__content-heading h2,
+.cwc_page-research-antioxidant-testing__content-heading h3,
+.cwc_page-research-antioxidant-testing__content-heading p {
+  font-family: var(--cwc-font-heading);
+  font-weight: var(--cwc-weight-heading);
+  font-size: clamp(2em, 3.8vw, 3em);
+  line-height: 1.12;
+  letter-spacing: -0.015em;
+  margin: 0;
+  color: var(--heading-color);
+  max-width: 30ch;
+}
+
+.cwc_page-research-antioxidant-testing__content-heading > * strong {
+  color: var(--highlight-color);
+  font-weight: 600;
+}
+
+.cwc_page-research-antioxidant-testing__content-subtext {
+  max-width: 660px;
+}
+
+.cwc_page-research-antioxidant-testing__content-subtext p {
+  font-size: 1em;
+  line-height: 1.75;
+  margin: 0;
+  color: var(--text-color);
+}
+
+/* === Chart Cards === */
+.cwc_page-research-antioxidant-testing__wrapper {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 28px;
+  margin-top: 44px;
+}
+
+.cwc_page-research-antioxidant-testing__card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 18px;
+  padding: 34px 32px;
+  box-shadow:
+    0 2px 4px rgba(45, 80, 22, 0.03),
+    0 12px 32px rgba(45, 80, 22, 0.05);
+}
+
+.cwc_page-research-antioxidant-testing__card-title {
+  font-size: 0.78em;
+  font-weight: var(--cwc-weight-label);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  line-height: 1.5;
+  color: #888888;
+  margin-bottom: 24px;
+}
+
+/* === In Vitro Bars === */
+.cwc_page-research-antioxidant-testing__bars {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.cwc_page-research-antioxidant-testing__bar-row {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.cwc_page-research-antioxidant-testing__bar-label {
+  font-size: 0.82em;
+  font-weight: 600;
+  color: var(--heading-color);
+}
+
+.cwc_page-research-antioxidant-testing__bar-track {
+  background: var(--track-color);
+  border-radius: 100px;
+  height: 12px;
+  overflow: hidden;
+}
+
+.cwc_page-research-antioxidant-testing__bar-fill {
+  height: 100%;
+  border-radius: 100px;
+  background: var(--bar-color);
+}
+
+.cwc_page-research-antioxidant-testing__bar-fill--alt {
+  background: var(--bar-alt-color);
+}
+
+.cwc_page-research-antioxidant-testing__bar-caption {
+  font-size: 0.75em;
+  color: #888888;
+}
+
+/* === In Vivo Timeline === */
+.cwc_page-research-antioxidant-testing__timeline {
+  display: flex;
+  flex-direction: column;
+}
+
+.cwc_page-research-antioxidant-testing__timeline-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.cwc_page-research-antioxidant-testing__timeline-row:last-child {
+  border-bottom: none;
+}
+
+.cwc_page-research-antioxidant-testing__timeline-label {
+  font-size: 0.78em;
+  font-weight: 600;
+  color: #888888;
+  width: 80px;
+  flex-shrink: 0;
+}
+
+.cwc_page-research-antioxidant-testing__timeline-track {
+  flex: 1;
+  background: var(--track-color);
+  border-radius: 100px;
+  height: 14px;
+  overflow: hidden;
+}
+
+.cwc_page-research-antioxidant-testing__timeline-fill {
+  height: 100%;
+  border-radius: 100px;
+  background: var(--bar-color);
+}
+
+.cwc_page-research-antioxidant-testing__timeline-value {
+  font-size: 0.82em;
+  font-weight: 700;
+  color: var(--bar-color);
+  width: 62px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+/* === Chart Notes === */
+.cwc_page-research-antioxidant-testing__summary {
+  margin-top: 20px;
+}
+
+.cwc_page-research-antioxidant-testing__summary p {
+  font-size: 0.88em;
+  line-height: 1.6;
+  margin: 0;
+  color: var(--text-color);
+}
+
+.cwc_page-research-antioxidant-testing__footnote {
+  margin-top: 12px;
+}
+
+.cwc_page-research-antioxidant-testing__bars + .cwc_page-research-antioxidant-testing__footnote {
+  margin-top: 20px;
+}
+
+.cwc_page-research-antioxidant-testing__footnote p {
+  font-size: 0.75em;
+  line-height: 1.5;
+  margin: 0;
+  color: #aaaaaa;
+}
+
+/* ==============================
+   Tablet Responsive
+   ============================== */
+@media screen and (max-width: 991px) {
+  .cwc_page-research-antioxidant-testing__container {
+    padding: 0 20px;
+  }
+
+  .cwc_page-research-antioxidant-testing__wrapper {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    margin-top: 36px;
+  }
+}
+
+/* ==============================
+   Mobile Responsive
+   ============================== */
+@media screen and (max-width: 768px) {
+  /* rescale the whole section from one anchor */
+  .cwc_page-research-antioxidant-testing {
+    font-size: 14px;
+    padding-top: var(--padding-top-mobile);
+    padding-bottom: var(--padding-bottom-mobile);
+  }
+
+  .cwc_page-research-antioxidant-testing__container {
+    padding: 0 16px;
+  }
+
+  .cwc_page-research-antioxidant-testing__content-heading {
+    margin-bottom: 18px;
+  }
+
+  .cwc_page-research-antioxidant-testing__card {
+    padding: 24px 20px;
+  }
+
+  .cwc_page-research-antioxidant-testing__timeline-label {
+    width: 64px;
+  }
+}

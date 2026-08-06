@@ -1,0 +1,353 @@
+{% liquid
+  assign accent = section.settings.accent_color | default: '#5BA90F'
+  assign finding_bg = accent | color_modify: 'alpha', 0.09
+%}
+
+{% style %}
+  #cwc_page-research-clinical-study-{{ section.id }} {
+    --section-bg: {{ section.settings.bg_color | default: '#ECEBE5' }};
+    --heading-color: {{ section.settings.heading_color | default: '#2A2611' }};
+    --text-color: {{ section.settings.text_color | default: '#444444' }};
+    --highlight-color: {{ section.settings.bold_color | default: '#2A2611' }};
+    --eyebrow-color: {{ section.settings.eyebrow_color | default: '#44681A' }};
+    --accent-color: {{ accent }};
+    --brand-color: {{ section.settings.brand_color | default: '#44681A' }};
+    --card-bg: {{ section.settings.card_bg_color | default: '#ffffff' }};
+    --border-color: {{ section.settings.border_color | default: '#E2E1D6' }};
+    --finding-bg: {{ finding_bg }};
+    --padding-top: {{ section.settings.padding_top | default: 110 }}px;
+    --padding-bottom: {{ section.settings.padding_bottom | default: 110 }}px;
+    --padding-top-mobile: {{ section.settings.padding_top | default: 110 | times: 0.5 }}px;
+    --padding-bottom-mobile: {{ section.settings.padding_bottom | default: 110 | times: 0.5 }}px;
+  }
+{% endstyle %}
+
+{{ 'CWC_fonts.css' | asset_url | stylesheet_tag }}
+{{ 'CWC_page-research_clinical_study.css' | asset_url | stylesheet_tag }}
+
+<section id="cwc_page-research-clinical-study-{{ section.id }}" class="cwc_page-research-clinical-study">
+  <div class="cwc_page-research-clinical-study__container">
+    {% comment %} Section Header {% endcomment %}
+    <div class="cwc_page-research-clinical-study__content">
+      {% if section.settings.eyebrow != blank %}
+        <div class="cwc_page-research-clinical-study__eyebrow">{{ section.settings.eyebrow }}</div>
+      {% endif %}
+
+      {% if section.settings.heading != blank %}
+        <div class="cwc_page-research-clinical-study__content-heading cwc-rte">
+          {{ section.settings.heading }}
+        </div>
+      {% endif %}
+
+      {% if section.settings.subtext != blank %}
+        <div class="cwc_page-research-clinical-study__content-subtext cwc-rte">
+          {{ section.settings.subtext }}
+        </div>
+      {% endif %}
+    </div>
+
+    {% comment %} Study Card {% endcomment %}
+    <div class="cwc_page-research-clinical-study__card">
+      {% if section.settings.badge_label != blank
+        or section.settings.study_title != blank
+        or section.settings.study_meta != blank
+      %}
+        <div class="cwc_page-research-clinical-study__card-header">
+          {% if section.settings.badge_label != blank %}
+            <div class="cwc_page-research-clinical-study__badge">{{ section.settings.badge_label }}</div>
+          {% endif %}
+
+          <div class="cwc_page-research-clinical-study__card-meta">
+            {% if section.settings.study_title != blank %}
+              <div class="cwc_page-research-clinical-study__card-title cwc-rte">
+                {{ section.settings.study_title }}
+              </div>
+            {% endif %}
+
+            {% if section.settings.study_meta != blank %}
+              <div class="cwc_page-research-clinical-study__card-citation cwc-rte">
+                {{ section.settings.study_meta }}
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      {% endif %}
+
+      {% comment %} Study Parameters {% endcomment %}
+      {% assign param_blocks = section.blocks | where: 'type', 'param' %}
+      {% if param_blocks.size > 0 %}
+        <div class="cwc_page-research-clinical-study__params">
+          {% for block in param_blocks %}
+            <div class="cwc_page-research-clinical-study__param" {{ block.shopify_attributes }}>
+              {% if block.settings.label != blank %}
+                <div class="cwc_page-research-clinical-study__param-label">{{ block.settings.label }}</div>
+              {% endif %}
+
+              {% if block.settings.value != blank %}
+                <div class="cwc_page-research-clinical-study__param-value">{{ block.settings.value }}</div>
+              {% endif %}
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+
+      {% comment %} Key Findings {% endcomment %}
+      {% assign finding_blocks = section.blocks | where: 'type', 'finding' %}
+      {% if finding_blocks.size > 0 %}
+        <div class="cwc_page-research-clinical-study__findings">
+          {% for block in finding_blocks %}
+            {% if block.settings.text != blank %}
+              <div class="cwc_page-research-clinical-study__finding cwc-rte" {{ block.shopify_attributes }}>
+                {{ block.settings.text }}
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      {% endif %}
+
+      {% if section.settings.compliance_note != blank %}
+        <div class="cwc_page-research-clinical-study__note cwc-rte">
+          {{ section.settings.compliance_note }}
+        </div>
+      {% endif %}
+
+      {% if section.settings.cta_text != blank and section.settings.cta_link != blank %}
+        <div class="cwc_page-research-clinical-study__button">
+          <a
+            href="{{ section.settings.cta_link }}"
+            class="cwc_page-research-clinical-study__button-link"
+            {% if section.settings.cta_new_tab %}
+              target="_blank"
+              rel="noopener"
+            {% endif %}
+          >
+            {{ section.settings.cta_text }}
+            <span class="cwc_page-research-clinical-study__button-arrow" aria-hidden="true">&rarr;</span>
+          </a>
+        </div>
+      {% endif %}
+    </div>
+
+    {% if section.settings.show_divider %}
+      <hr class="cwc_page-research-clinical-study__divider">
+    {% endif %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "CWC Research Study",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Header"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow Label",
+      "default": "Peer-Reviewed Research"
+    },
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "<p>Published in the <strong>Journal of Chiropractic Medicine<\/strong><\/p>"
+    },
+    {
+      "type": "richtext",
+      "id": "subtext",
+      "label": "Section Subtext",
+      "default": "<p>While most supplement brands borrow science from unrelated studies, NanoGreens has been the subject of its own peer-reviewed clinical research. The study was co-authored by John H. Maher, the founder of BioPharma Scientific, and published in the <em>Journal of Chiropractic Medicine<\/em> in 2009.<\/p>"
+    },
+    {
+      "type": "header",
+      "content": "Study Card"
+    },
+    {
+      "type": "text",
+      "id": "badge_label",
+      "label": "Badge Text",
+      "default": "Published Study"
+    },
+    {
+      "type": "richtext",
+      "id": "study_title",
+      "label": "Study Title",
+      "default": "<p>\"The effect of fruit and vegetable powder mix on hypertensive subjects: a pilot study\"<\/p>"
+    },
+    {
+      "type": "richtext",
+      "id": "study_meta",
+      "label": "Citation Line",
+      "info": "Authors, journal, year, reference ID.",
+      "default": "<p>Zhang J, Oxinos G, Maher JH &middot; <em>Journal of Chiropractic Medicine<\/em>, 2009 &middot; PMC2732245<\/p>"
+    },
+    {
+      "type": "richtext",
+      "id": "compliance_note",
+      "label": "Compliance Note",
+      "info": "Amber note under the findings. Leave blank to hide.",
+      "default": "<p>Note: This study measured specific cardiovascular outcomes. For regulatory compliance, we do not make disease treatment claims on this store. The full methodology and data are available in the published study.<\/p>"
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "Button Text",
+      "default": "Read the Full Study on PubMed"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "Button Link"
+    },
+    {
+      "type": "checkbox",
+      "id": "cta_new_tab",
+      "label": "Open Link in New Tab",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#ECEBE5"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "default": "#2A2611"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#444444"
+    },
+    {
+      "type": "color",
+      "id": "bold_color",
+      "label": "Heading Bold Color",
+      "default": "#2A2611"
+    },
+    {
+      "type": "color",
+      "id": "eyebrow_color",
+      "label": "Eyebrow Color",
+      "default": "#44681A"
+    },
+    {
+      "type": "color",
+      "id": "brand_color",
+      "label": "Badge & Button Color",
+      "default": "#44681A"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Finding Accent Color",
+      "default": "#5BA90F"
+    },
+    {
+      "type": "color",
+      "id": "card_bg_color",
+      "label": "Card Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Border Color",
+      "default": "#E2E1D6"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_divider",
+      "label": "Show Bottom Divider",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 160,
+      "step": 5,
+      "unit": "px",
+      "default": 110
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 160,
+      "step": 5,
+      "unit": "px",
+      "default": 110
+    }
+  ],
+  "blocks": [
+    {
+      "type": "param",
+      "name": "Study Parameter",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Parameter Label",
+          "default": "Duration"
+        },
+        {
+          "type": "text",
+          "id": "value",
+          "label": "Parameter Value",
+          "default": "90 Days"
+        }
+      ]
+    },
+    {
+      "type": "finding",
+      "name": "Key Finding",
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Finding",
+          "info": "Bold the opening claim so it picks up the accent color.",
+          "default": "<p><strong>Cardiovascular markers improved significantly<\/strong> in the NanoGreens treatment group after 90 days. The control group showed no significant changes over the same period.<\/p>"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 10,
+  "presets": [
+    {
+      "name": "Page Research Study",
+      "category": "CWC Custom",
+      "blocks": [
+        { "type": "param" },
+        { "type": "param" },
+        { "type": "param" },
+        { "type": "finding" },
+        { "type": "finding" },
+        { "type": "finding" }
+      ]
+    }
+  ]
+}
+{% endschema %}

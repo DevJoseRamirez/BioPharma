@@ -28,3 +28,5 @@ _sections-queue/
 _reference-components/
 .claude/
 .shopify/
+# --- Section build pipeline (local tooling) ---
+_captures/

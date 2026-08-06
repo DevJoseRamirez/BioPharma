@@ -1,0 +1,145 @@
+{% liquid
+  assign stat_columns = section.blocks.size
+  if stat_columns < 1
+    assign stat_columns = 1
+  endif
+%}
+
+{% style %}
+  #cwc_page-research-stat-strip-{{ section.id }} {
+    --section-bg: {{ section.settings.bg_color | default: '#f4f3ee' }};
+    --text-color: {{ section.settings.text_color | default: '#666666' }};
+    --highlight-color: {{ section.settings.bold_color | default: '#44681A' }};
+    --number-color: {{ section.settings.number_color | default: '#44681A' }};
+    --border-color: {{ section.settings.border_color | default: '#E2E1D6' }};
+    --stat-columns: {{ stat_columns }};
+    --padding-top: {{ section.settings.padding_top | default: 65 }}px;
+    --padding-bottom: {{ section.settings.padding_bottom | default: 65 }}px;
+    --padding-top-mobile: {{ section.settings.padding_top | default: 65 | times: 0.5 }}px;
+    --padding-bottom-mobile: {{ section.settings.padding_bottom | default: 65 | times: 0.5 }}px;
+  }
+{% endstyle %}
+
+{{ 'CWC_fonts.css' | asset_url | stylesheet_tag }}
+{{ 'CWC_page-research_stat_strip.css' | asset_url | stylesheet_tag }}
+
+<section id="cwc_page-research-stat-strip-{{ section.id }}" class="cwc_page-research-stat-strip">
+  <div class="cwc_page-research-stat-strip__container">
+    {% if section.blocks.size > 0 %}
+      <div class="cwc_page-research-stat-strip__grid">
+        {% for block in section.blocks %}
+          {% case block.type %}
+            {% when 'stat' %}
+              <div class="cwc_page-research-stat-strip__card" {{ block.shopify_attributes }}>
+                {% if block.settings.number != blank %}
+                  <div class="cwc_page-research-stat-strip__card-value">{{ block.settings.number }}</div>
+                {% endif %}
+
+                {% if block.settings.label != blank %}
+                  <div class="cwc_page-research-stat-strip__card-text cwc-rte">
+                    {{ block.settings.label }}
+                  </div>
+                {% endif %}
+              </div>
+          {% endcase %}
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "CWC Research Stats",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#f4f3ee"
+    },
+    {
+      "type": "color",
+      "id": "number_color",
+      "label": "Stat Number Color",
+      "default": "#44681A"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#666666"
+    },
+    {
+      "type": "color",
+      "id": "bold_color",
+      "label": "Bold Text Color",
+      "default": "#44681A"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Divider Color",
+      "default": "#E2E1D6"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 65
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 65
+    }
+  ],
+  "blocks": [
+    {
+      "type": "stat",
+      "name": "Stat",
+      "settings": [
+        {
+          "type": "text",
+          "id": "number",
+          "label": "Stat Number",
+          "info": "Include the symbol, e.g. 90 or 100%+.",
+          "default": "90"
+        },
+        {
+          "type": "richtext",
+          "id": "label",
+          "label": "Stat Label",
+          "default": "<p>Days studied in a peer-reviewed clinical trial at Logan College of Chiropractic</p>"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 4,
+  "presets": [
+    {
+      "name": "Page Research Stats",
+      "category": "CWC Custom",
+      "blocks": [{ "type": "stat" }, { "type": "stat" }, { "type": "stat" }]
+    }
+  ]
+}
+{% endschema %}

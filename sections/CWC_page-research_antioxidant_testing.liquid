@@ -1,0 +1,383 @@
+{% style %}
+  #cwc_page-research-antioxidant-testing-{{ section.id }} {
+    --section-bg: {{ section.settings.bg_color | default: '#ffffff' }};
+    --heading-color: {{ section.settings.heading_color | default: '#2A2611' }};
+    --text-color: {{ section.settings.text_color | default: '#444444' }};
+    --highlight-color: {{ section.settings.bold_color | default: '#2A2611' }};
+    --eyebrow-color: {{ section.settings.eyebrow_color | default: '#44681A' }};
+    --card-bg: {{ section.settings.card_bg_color | default: '#ffffff' }};
+    --border-color: {{ section.settings.border_color | default: '#E2E1D6' }};
+    --bar-color: {{ section.settings.bar_color | default: '#44681A' }};
+    --bar-alt-color: {{ section.settings.bar_alt_color | default: '#A3C781' }};
+    --track-color: {{ section.settings.track_color | default: '#E2E1D6' }};
+    --padding-top: {{ section.settings.padding_top | default: 80 }}px;
+    --padding-bottom: {{ section.settings.padding_bottom | default: 80 }}px;
+    --padding-top-mobile: {{ section.settings.padding_top | default: 80 | times: 0.5 }}px;
+    --padding-bottom-mobile: {{ section.settings.padding_bottom | default: 80 | times: 0.5 }}px;
+  }
+{% endstyle %}
+
+{{ 'CWC_fonts.css' | asset_url | stylesheet_tag }}
+{{ 'CWC_page-research_antioxidant_testing.css' | asset_url | stylesheet_tag }}
+
+<section
+  id="cwc_page-research-antioxidant-testing-{{ section.id }}"
+  class="cwc_page-research-antioxidant-testing"
+>
+  <div class="cwc_page-research-antioxidant-testing__container">
+    {% comment %} Section Header {% endcomment %}
+    <div class="cwc_page-research-antioxidant-testing__content">
+      {% if section.settings.eyebrow != blank %}
+        <div class="cwc_page-research-antioxidant-testing__eyebrow">{{ section.settings.eyebrow }}</div>
+      {% endif %}
+
+      {% if section.settings.heading != blank %}
+        <div class="cwc_page-research-antioxidant-testing__content-heading cwc-rte">
+          {{ section.settings.heading }}
+        </div>
+      {% endif %}
+
+      {% if section.settings.subtext != blank %}
+        <div class="cwc_page-research-antioxidant-testing__content-subtext cwc-rte">
+          {{ section.settings.subtext }}
+        </div>
+      {% endif %}
+    </div>
+
+    {% assign bar_blocks = section.blocks | where: 'type', 'bar' %}
+    {% assign timepoint_blocks = section.blocks | where: 'type', 'timepoint' %}
+
+    <div class="cwc_page-research-antioxidant-testing__wrapper">
+      {% comment %} In Vitro — comparison bars {% endcomment %}
+      {% if bar_blocks.size > 0 %}
+        <div class="cwc_page-research-antioxidant-testing__card">
+          {% if section.settings.chart_one_title != blank %}
+            <div class="cwc_page-research-antioxidant-testing__card-title">
+              {{ section.settings.chart_one_title }}
+            </div>
+          {% endif %}
+
+          <div class="cwc_page-research-antioxidant-testing__bars">
+            {% for block in bar_blocks %}
+              <div class="cwc_page-research-antioxidant-testing__bar-row" {{ block.shopify_attributes }}>
+                {% if block.settings.label != blank %}
+                  <div class="cwc_page-research-antioxidant-testing__bar-label">{{ block.settings.label }}</div>
+                {% endif %}
+
+                <div class="cwc_page-research-antioxidant-testing__bar-track">
+                  <div
+                    class="cwc_page-research-antioxidant-testing__bar-fill{% unless block.settings.highlight %} cwc_page-research-antioxidant-testing__bar-fill--alt{% endunless %}"
+                    style="width: {{ block.settings.fill | default: 100 }}%;"
+                  ></div>
+                </div>
+
+                {% if block.settings.caption != blank %}
+                  <div class="cwc_page-research-antioxidant-testing__bar-caption">{{ block.settings.caption }}</div>
+                {% endif %}
+              </div>
+            {% endfor %}
+          </div>
+
+          {% if section.settings.chart_one_footnote != blank %}
+            <div class="cwc_page-research-antioxidant-testing__footnote cwc-rte">
+              {{ section.settings.chart_one_footnote }}
+            </div>
+          {% endif %}
+        </div>
+      {% endif %}
+
+      {% comment %} In Vivo — timepoint rows {% endcomment %}
+      {% if timepoint_blocks.size > 0 %}
+        <div class="cwc_page-research-antioxidant-testing__card">
+          {% if section.settings.chart_two_title != blank %}
+            <div class="cwc_page-research-antioxidant-testing__card-title">
+              {{ section.settings.chart_two_title }}
+            </div>
+          {% endif %}
+
+          <div class="cwc_page-research-antioxidant-testing__timeline">
+            {% for block in timepoint_blocks %}
+              <div class="cwc_page-research-antioxidant-testing__timeline-row" {{ block.shopify_attributes }}>
+                {% if block.settings.label != blank %}
+                  <div class="cwc_page-research-antioxidant-testing__timeline-label">{{ block.settings.label }}</div>
+                {% endif %}
+
+                <div class="cwc_page-research-antioxidant-testing__timeline-track">
+                  <div
+                    class="cwc_page-research-antioxidant-testing__timeline-fill"
+                    style="width: {{ block.settings.fill | default: 100 }}%;"
+                  ></div>
+                </div>
+
+                {% if block.settings.value != blank %}
+                  <div class="cwc_page-research-antioxidant-testing__timeline-value">{{ block.settings.value }}</div>
+                {% endif %}
+              </div>
+            {% endfor %}
+          </div>
+
+          {% if section.settings.chart_two_summary != blank %}
+            <div class="cwc_page-research-antioxidant-testing__summary cwc-rte">
+              {{ section.settings.chart_two_summary }}
+            </div>
+          {% endif %}
+
+          {% if section.settings.chart_two_footnote != blank %}
+            <div class="cwc_page-research-antioxidant-testing__footnote cwc-rte">
+              {{ section.settings.chart_two_footnote }}
+            </div>
+          {% endif %}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "CWC Research Charts",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Header"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow Label",
+      "default": "Independent Lab Testing"
+    },
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "<p>More Powerful in the Canister. More <strong>Bioavailable in the Body<\/strong>.<\/p>"
+    },
+    {
+      "type": "richtext",
+      "id": "subtext",
+      "label": "Section Subtext",
+      "default": "<p>Antioxidant testing has two parts that most brands ignore. First, how much antioxidant power is in the canister (in vitro). Second, how much of that actually reaches your bloodstream (in vivo). We tested both. Testing was performed independently by Kerry Ringer, PhD (Plant Biochemistry) and Mark Saverese (Chemical Engineer) of Columbia Phytotechnology.<\/p>"
+    },
+    {
+      "type": "header",
+      "content": "Left Chart"
+    },
+    {
+      "type": "paragraph",
+      "content": "Uses the Comparison Bar blocks below."
+    },
+    {
+      "type": "text",
+      "id": "chart_one_title",
+      "label": "Chart Title",
+      "default": "In Vitro — Antioxidant Capacity per Serving"
+    },
+    {
+      "type": "richtext",
+      "id": "chart_one_footnote",
+      "label": "Chart Footnote",
+      "default": "<p>Tested by Columbia Phytotechnology, 2005. Electro-Ox&trade; method.<\/p>"
+    },
+    {
+      "type": "header",
+      "content": "Right Chart"
+    },
+    {
+      "type": "paragraph",
+      "content": "Uses the Timepoint blocks below."
+    },
+    {
+      "type": "text",
+      "id": "chart_two_title",
+      "label": "Chart Title",
+      "default": "In Vivo — Plasma Antioxidant Activity Over 3 Weeks"
+    },
+    {
+      "type": "richtext",
+      "id": "chart_two_summary",
+      "label": "Chart Summary",
+      "default": "<p>Mean antioxidant activity in blood plasma increased by over 100% over the course of the 3-week study. Individual antioxidant activity increased dramatically, especially in the first 7 days.<\/p>"
+    },
+    {
+      "type": "richtext",
+      "id": "chart_two_footnote",
+      "label": "Chart Footnote",
+      "default": "<p>In vivo plasma results using 1g\/day of NanoGreens10 ingredients with liposomes. Electro-Ox&trade; TEAC method.<\/p>"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "default": "#2A2611"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#444444"
+    },
+    {
+      "type": "color",
+      "id": "bold_color",
+      "label": "Heading Bold Color",
+      "default": "#2A2611"
+    },
+    {
+      "type": "color",
+      "id": "eyebrow_color",
+      "label": "Eyebrow Color",
+      "default": "#44681A"
+    },
+    {
+      "type": "color",
+      "id": "bar_color",
+      "label": "Bar Color",
+      "default": "#44681A"
+    },
+    {
+      "type": "color",
+      "id": "bar_alt_color",
+      "label": "Comparison Bar Color",
+      "default": "#A3C781"
+    },
+    {
+      "type": "color",
+      "id": "track_color",
+      "label": "Bar Track Color",
+      "default": "#E2E1D6"
+    },
+    {
+      "type": "header",
+      "content": "Card Colors"
+    },
+    {
+      "type": "color",
+      "id": "card_bg_color",
+      "label": "Card Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Card Border Color",
+      "default": "#E2E1D6"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 160,
+      "step": 5,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 160,
+      "step": 5,
+      "unit": "px",
+      "default": 80
+    }
+  ],
+  "blocks": [
+    {
+      "type": "bar",
+      "name": "Comparison Bar",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Bar Label",
+          "default": "NanoGreens10"
+        },
+        {
+          "type": "range",
+          "id": "fill",
+          "label": "Bar Length",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "%",
+          "default": 100
+        },
+        {
+          "type": "text",
+          "id": "caption",
+          "label": "Bar Caption",
+          "default": "Highest of all tested products"
+        },
+        {
+          "type": "checkbox",
+          "id": "highlight",
+          "label": "Use Highlight Bar Color",
+          "info": "On for our product, off for comparison brands.",
+          "default": false
+        }
+      ]
+    },
+    {
+      "type": "timepoint",
+      "name": "Timepoint",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Timepoint Label",
+          "default": "Week 1"
+        },
+        {
+          "type": "range",
+          "id": "fill",
+          "label": "Bar Length",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "%",
+          "default": 68
+        },
+        {
+          "type": "text",
+          "id": "value",
+          "label": "Result Value",
+          "default": "+72%"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 12,
+  "presets": [
+    {
+      "name": "Page Research Charts",
+      "category": "CWC Custom",
+      "blocks": [
+        { "type": "bar" },
+        { "type": "bar" },
+        { "type": "bar" },
+        { "type": "timepoint" },
+        { "type": "timepoint" },
+        { "type": "timepoint" }
+      ]
+    }
+  ]
+}
+{% endschema %}

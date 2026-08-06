@@ -291,7 +291,7 @@
         "onetime": {
           "type": "onetime",
           "settings": {
-            "text": "One-time pudrchase · $74.95 ($2.50/serving)"
+            "text": "One-time purchase · $74.95 ($2.50/serving)"
           }
         },
         "add_to_cart": {
@@ -328,7 +328,7 @@
           "type": "detail",
           "settings": {
             "title": "Quality & testing",
-            "content": "<p><strong>Made in the USA,</strong> sourced from American farms first. Every batch is tested twice — once before blending and once after. Non-GMO, no artificial sweeteners, under 1g of added sugar per serving.</p>",
+            "content": "<p><strong>Made in the USA,</strong> sourced from American farms first. Every batch is tested twice — once before blending and once after. Non-GMO, no artificial sweeteners, under 1g of added sugar per serving.<br/><br/><strong>Every batch is tested twice </strong>— once before blending and once after. NanoGreens has also been independently laboratory-tested for antioxidant capacity, both in the canister and in blood plasma, by scientists at Columbia Phytotechnology. <a href=\"/pages/research\" target=\"_blank\" title=\"The Science Behind NanoGreens\"><strong>[View Study]</strong></a></p>",
             "open": false
           }
         },
@@ -1262,12 +1262,15 @@
       "settings": {
         "eyebrow": "What's inside",
         "heading": "<p>The ingredients doing the <strong>work</strong></p>",
+        "footer_text": "<p>Every ingredient is backed by peer-reviewed research. <a href=\"https://pmc.ncbi.nlm.nih.gov/articles/PMC2732245/\" target=\"_blank\" title=\"https://pmc.ncbi.nlm.nih.gov/articles/PMC2732245/\">View the study</a></p>",
         "bg_color": "#f4f3ee",
         "text_color": "#2a2611",
         "bold_color": "#5ba90f",
         "muted_color": "#5c5842",
         "eyebrow_color": "#5ba90f",
         "border_color": "#e6e5dc",
+        "footer_color": "#5c5842",
+        "link_color": "#5ba90f",
         "icon_bg_color": "#f2f8ea",
         "icon_border_color": "#a3c781",
         "padding_top": 50,

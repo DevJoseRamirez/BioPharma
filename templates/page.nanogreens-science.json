@@ -1,0 +1,392 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "research_hero": {
+      "type": "CWC_page-research_hero",
+      "blocks": {
+        "badge_1": {
+          "type": "badge",
+          "settings": {
+            "label": "Peer-Reviewed Clinical Study"
+          }
+        },
+        "badge_2": {
+          "type": "badge",
+          "settings": {
+            "label": "Independent Lab Testing"
+          }
+        },
+        "badge_3": {
+          "type": "badge",
+          "settings": {
+            "label": "Patented Absorption Technology"
+          }
+        }
+      },
+      "block_order": [
+        "badge_1",
+        "badge_2",
+        "badge_3"
+      ],
+      "settings": {
+        "eyebrow": "Research & Science",
+        "heading": "<p>The Science Behind <strong>NanoGreens</strong></p>",
+        "subtext": "<p>Most greens powders are just barley grass and a big promise. We believe you deserve more than a promise. Here is the research that backs every scoop.</p>",
+        "bg_color": "#44681a",
+        "heading_color": "#ffffff",
+        "text_color": "#d9e7c9",
+        "bold_color": "#ffffff",
+        "eyebrow_color": "#a3c781",
+        "padding_top": 120,
+        "padding_bottom": 110
+      }
+    },
+    "research_stats": {
+      "type": "CWC_page-research_stat_strip",
+      "blocks": {
+        "stat_1": {
+          "type": "stat",
+          "settings": {
+            "number": "90",
+            "label": "<p>Days studied in a peer-reviewed clinical trial at Logan College of Chiropractic</p>"
+          }
+        },
+        "stat_2": {
+          "type": "stat",
+          "settings": {
+            "number": "100%+",
+            "label": "<p>Increase in plasma antioxidant activity measured in a 3-week in vivo study</p>"
+          }
+        },
+        "stat_3": {
+          "type": "stat",
+          "settings": {
+            "number": "20+",
+            "label": "<p>Years practitioner-recommended by chiropractors, NDs, and MDs</p>"
+          }
+        }
+      },
+      "block_order": [
+        "stat_1",
+        "stat_2",
+        "stat_3"
+      ],
+      "settings": {
+        "bg_color": "#F4F3EE",
+        "number_color": "#44681a",
+        "text_color": "#666666",
+        "bold_color": "#44681a",
+        "border_color": "#e2e1d6",
+        "padding_top": 35,
+        "padding_bottom": 25
+      }
+    },
+    "research_study": {
+      "type": "CWC_page-research_clinical_study",
+      "blocks": {
+        "param_1": {
+          "type": "param",
+          "settings": {
+            "label": "Duration",
+            "value": "90 Days"
+          }
+        },
+        "param_2": {
+          "type": "param",
+          "settings": {
+            "label": "Subjects",
+            "value": "40 Participants"
+          }
+        },
+        "param_3": {
+          "type": "param",
+          "settings": {
+            "label": "Protocol",
+            "value": "1 scoop, twice daily"
+          }
+        },
+        "finding_1": {
+          "type": "finding",
+          "settings": {
+            "text": "<p><strong>Cardiovascular markers improved significantly</strong> in the NanoGreens treatment group after 90 days. The control group showed no significant changes over the same period.</p>"
+          }
+        },
+        "finding_2": {
+          "type": "finding",
+          "settings": {
+            "text": "<p><strong>Body weight remained unchanged</strong> in the treatment group, confirming the results were not a secondary effect of weight loss.</p>"
+          }
+        },
+        "finding_3": {
+          "type": "finding",
+          "settings": {
+            "text": "<p><strong>Formulated by the researcher himself.</strong> BioPharma Scientific founder John H. Maher co-authored the study, making this one of the only greens powders with a direct founder-to-research connection.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "param_1",
+        "param_2",
+        "param_3",
+        "finding_1",
+        "finding_2",
+        "finding_3"
+      ],
+      "settings": {
+        "eyebrow": "Peer-Reviewed Research",
+        "heading": "<p>Published in the <strong>Journal of Chiropractic Medicine</strong></p>",
+        "subtext": "<p>While most supplement brands borrow science from unrelated studies, NanoGreens has been the subject of its own peer-reviewed clinical research. The study was co-authored by John H. Maher, the founder of BioPharma Scientific, and published in the <em>Journal of Chiropractic Medicine</em> in 2009.</p>",
+        "badge_label": "Published Study",
+        "study_title": "<p>\"The effect of fruit and vegetable powder mix on hypertensive subjects: a pilot study\"</p>",
+        "study_meta": "<p>Zhang J, Oxinos G, Maher JH · <em>Journal of Chiropractic Medicine</em>, 2009 · PMC2732245</p>",
+        "compliance_note": "<p>Note: This study measured specific cardiovascular outcomes. For regulatory compliance, we do not make disease treatment claims on this store. The full methodology and data are available in the published study.</p>",
+        "cta_text": "Read the Full Study on PubMed",
+        "cta_link": "https://pmc.ncbi.nlm.nih.gov/articles/PMC2732245/",
+        "cta_new_tab": true,
+        "bg_color": "#ffffff",
+        "heading_color": "#2a2611",
+        "text_color": "#444444",
+        "bold_color": "#2a2611",
+        "eyebrow_color": "#44681a",
+        "brand_color": "#44681a",
+        "accent_color": "#5ba90f",
+        "card_bg_color": "#ffffff",
+        "border_color": "#e2e1d6",
+        "show_divider": true,
+        "padding_top": 110,
+        "padding_bottom": 110
+      }
+    },
+    "research_charts": {
+      "type": "CWC_page-research_antioxidant_testing",
+      "blocks": {
+        "bar_1": {
+          "type": "bar",
+          "settings": {
+            "label": "NanoGreens10",
+            "fill": 100,
+            "caption": "Highest of all tested products",
+            "highlight": true
+          }
+        },
+        "bar_2": {
+          "type": "bar",
+          "settings": {
+            "label": "Leading Professional Brand",
+            "fill": 52,
+            "caption": "Significantly lower",
+            "highlight": false
+          }
+        },
+        "bar_3": {
+          "type": "bar",
+          "settings": {
+            "label": "Leading Retail Brand",
+            "fill": 38,
+            "caption": "Significantly lower",
+            "highlight": false
+          }
+        },
+        "bar_4": {
+          "type": "bar",
+          "settings": {
+            "label": "Leading MLM Brand",
+            "fill": 28,
+            "caption": "Significantly lower",
+            "highlight": false
+          }
+        },
+        "timepoint_1": {
+          "type": "timepoint",
+          "settings": {
+            "label": "Baseline",
+            "fill": 28,
+            "value": "Baseline"
+          }
+        },
+        "timepoint_2": {
+          "type": "timepoint",
+          "settings": {
+            "label": "Week 1",
+            "fill": 68,
+            "value": "+72%"
+          }
+        },
+        "timepoint_3": {
+          "type": "timepoint",
+          "settings": {
+            "label": "Week 3",
+            "fill": 100,
+            "value": "+100%+"
+          }
+        }
+      },
+      "block_order": [
+        "bar_1",
+        "bar_2",
+        "bar_3",
+        "bar_4",
+        "timepoint_1",
+        "timepoint_2",
+        "timepoint_3"
+      ],
+      "settings": {
+        "eyebrow": "Independent Lab Testing",
+        "heading": "<p>More Powerful in the Canister. More <strong>Bioavailable in the Body</strong>.</p>",
+        "subtext": "<p>Antioxidant testing has two parts that most brands ignore. First, how much antioxidant power is in the canister (in vitro). Second, how much of that actually reaches your bloodstream (in vivo). We tested both. Testing was performed independently by Kerry Ringer, PhD (Plant Biochemistry) and Mark Saverese (Chemical Engineer) of Columbia Phytotechnology.</p>",
+        "chart_one_title": "In Vitro — Antioxidant Capacity per Serving",
+        "chart_one_footnote": "<p>Tested by Columbia Phytotechnology, 2005. Electro-Ox™ method.</p>",
+        "chart_two_title": "In Vivo — Plasma Antioxidant Activity Over 3 Weeks",
+        "chart_two_summary": "<p>Mean antioxidant activity in blood plasma increased by over 100% over the course of the 3-week study. Individual antioxidant activity increased dramatically, especially in the first 7 days.</p>",
+        "chart_two_footnote": "<p>In vivo plasma results using 1g/day of NanoGreens10 ingredients with liposomes. Electro-Ox™ TEAC method.</p>",
+        "bg_color": "#ffffff",
+        "heading_color": "#2a2611",
+        "text_color": "#444444",
+        "bold_color": "#2a2611",
+        "eyebrow_color": "#44681a",
+        "bar_color": "#44681a",
+        "bar_alt_color": "#a3c781",
+        "track_color": "#e2e1d6",
+        "card_bg_color": "#ffffff",
+        "border_color": "#e2e1d6",
+        "padding_top": 80,
+        "padding_bottom": 80
+      }
+    },
+    "research_absorption": {
+      "type": "CWC_page-research_supersorb",
+      "blocks": {
+        "step_1": {
+          "type": "step",
+          "settings": {
+            "number": "01",
+            "title": "Liposomal Wrapping",
+            "text": "<p>Each phytonutrient is wrapped in a microscopic lipid layer made from high-quality phospholipids, the same material your cell membranes are made of.</p>"
+          }
+        },
+        "step_2": {
+          "type": "step",
+          "settings": {
+            "number": "02",
+            "title": "Stomach Protection",
+            "text": "<p>The lipid shell protects the nutrients through the harsh acidic environment of the stomach, where most standard supplements are degraded before they can absorb.</p>"
+          }
+        },
+        "step_3": {
+          "type": "step",
+          "settings": {
+            "number": "03",
+            "title": "Cellular Delivery",
+            "text": "<p>The liposome merges directly with the intestinal wall, delivering nutrients into the bloodstream and to your cells where they are actually needed.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "step_1",
+        "step_2",
+        "step_3"
+      ],
+      "settings": {
+        "eyebrow": "Patented Technology",
+        "heading": "<p>Why Absorption Is the <strong>Whole Point</strong></p>",
+        "subtext": "<p>Most powdered supplements are water-soluble. Your cell membranes are made of fat. Water and fat do not mix, which is why standard greens powders suffer from poor absorption regardless of how many ingredients they list. Our patented SuperSorb liposomal technology solves this.</p>",
+        "bg_color": "#44681a",
+        "heading_color": "#ffffff",
+        "text_color": "#d9e7c9",
+        "bold_color": "#ffffff",
+        "eyebrow_color": "#a3c781",
+        "number_color": "#a3c781",
+        "padding_top": 80,
+        "padding_bottom": 80
+      }
+    },
+    "research_quote": {
+      "type": "CWC_page-research_pull_quote",
+      "settings": {
+        "quote": "<p>\"Young and middle-aged people may be able to reduce risk of diseases of aging simply by adding high-oxygen radical antioxidant capacity to their diets.\"</p>",
+        "attribution": "Agricultural Research Service's Human Nutrition Research Center on Aging, Tufts University",
+        "bg_color": "#F4F3EE",
+        "quote_color": "#44681a",
+        "text_color": "#888888",
+        "bold_color": "#2a2611",
+        "padding_top": 75,
+        "padding_bottom": 75
+      }
+    },
+    "research_references": {
+      "type": "CWC_page-research_references",
+      "blocks": {
+        "reference_1": {
+          "type": "reference",
+          "settings": {
+            "text": "<p>[1] Zhang J, Oxinos G, Maher JH. \"The effect of fruit and vegetable powder mix on hypertensive subjects: a pilot study.\" <em>Journal of Chiropractic Medicine</em>. 2009 Sep;8(3):101-106. doi: 10.1016/j.jcm.2008.09.004.</p>",
+            "link_text": "View on PubMed Central",
+            "link": "https://pmc.ncbi.nlm.nih.gov/articles/PMC2732245/",
+            "link_new_tab": true
+          }
+        },
+        "reference_2": {
+          "type": "reference",
+          "settings": {
+            "text": "<p>[2] Ringer K (PhD, Plant Biochemistry), Saverese M (Chemical Engineer), Columbia Phytotechnology. \"NanoGreens10 InVitro and InVivo Antioxidant Study.\" Internal Testing Report, 2005. Electro-Ox&trade; antioxidant analysis method.</p>",
+            "link_text": "",
+            "link": "",
+            "link_new_tab": true
+          }
+        }
+      },
+      "block_order": [
+        "reference_1",
+        "reference_2"
+      ],
+      "settings": {
+        "heading": "<p>References</p>",
+        "bg_color": "#ffffff",
+        "heading_color": "#2a2611",
+        "text_color": "#666666",
+        "bold_color": "#2a2611",
+        "link_color": "#44681a",
+        "border_color": "#e2e1d6",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "research_cta": {
+      "type": "CWC_page-research_cta_strip",
+      "settings": {
+        "heading": "<p>Ready to <strong>experience it yourself</strong>?</p>",
+        "subtext": "<p>30-day money-back guarantee. Free shipping on subscriptions. Cancel anytime.</p>",
+        "cta_text": "Shop NanoGreens",
+        "cta_link": "/products/nanogreens-10-support",
+        "bg_color": "#F4F3EE",
+        "heading_color": "#2a2611",
+        "text_color": "#666666",
+        "bold_color": "#2a2611",
+        "border_color": "#e2e1d6",
+        "button_bg_color": "#44681a",
+        "button_hover_color": "#5ba90f",
+        "button_text_color": "#ffffff",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    }
+  },
+  "order": [
+    "research_hero",
+    "research_stats",
+    "research_study",
+    "research_charts",
+    "research_absorption",
+    "research_quote",
+    "research_references",
+    "research_cta"
+  ]
+}

@@ -1,0 +1,195 @@
+{% style %}
+  #cwc_page-research-supersorb-{{ section.id }} {
+    --section-bg: {{ section.settings.bg_color | default: '#44681A' }};
+    --heading-color: {{ section.settings.heading_color | default: '#ffffff' }};
+    --text-color: {{ section.settings.text_color | default: '#d9e7c9' }};
+    --highlight-color: {{ section.settings.bold_color | default: '#ffffff' }};
+    --eyebrow-color: {{ section.settings.eyebrow_color | default: '#A3C781' }};
+    --card-value-color: {{ section.settings.number_color | default: '#A3C781' }};
+    --padding-top: {{ section.settings.padding_top | default: 80 }}px;
+    --padding-bottom: {{ section.settings.padding_bottom | default: 80 }}px;
+    --padding-top-mobile: {{ section.settings.padding_top | default: 80 | times: 0.5 }}px;
+    --padding-bottom-mobile: {{ section.settings.padding_bottom | default: 80 | times: 0.5 }}px;
+  }
+{% endstyle %}
+
+{{ 'CWC_fonts.css' | asset_url | stylesheet_tag }}
+{{ 'CWC_page-research_supersorb.css' | asset_url | stylesheet_tag }}
+
+<section id="cwc_page-research-supersorb-{{ section.id }}" class="cwc_page-research-supersorb">
+  <div class="cwc_page-research-supersorb__container">
+    {% comment %} Section Header {% endcomment %}
+    <div class="cwc_page-research-supersorb__content">
+      {% if section.settings.eyebrow != blank %}
+        <div class="cwc_page-research-supersorb__eyebrow">{{ section.settings.eyebrow }}</div>
+      {% endif %}
+
+      {% if section.settings.heading != blank %}
+        <div class="cwc_page-research-supersorb__content-heading cwc-rte">
+          {{ section.settings.heading }}
+        </div>
+      {% endif %}
+
+      {% if section.settings.subtext != blank %}
+        <div class="cwc_page-research-supersorb__content-subtext cwc-rte">
+          {{ section.settings.subtext }}
+        </div>
+      {% endif %}
+    </div>
+
+    {% comment %} Absorption Steps {% endcomment %}
+    {% if section.blocks.size > 0 %}
+      <div class="cwc_page-research-supersorb__grid">
+        {% for block in section.blocks %}
+          {% case block.type %}
+            {% when 'step' %}
+              <div class="cwc_page-research-supersorb__card" {{ block.shopify_attributes }}>
+                {% if block.settings.number != blank %}
+                  <div class="cwc_page-research-supersorb__card-value">{{ block.settings.number }}</div>
+                {% endif %}
+
+                {% if block.settings.title != blank %}
+                  <div class="cwc_page-research-supersorb__card-title">{{ block.settings.title }}</div>
+                {% endif %}
+
+                {% if block.settings.text != blank %}
+                  <div class="cwc_page-research-supersorb__card-text cwc-rte">
+                    {{ block.settings.text }}
+                  </div>
+                {% endif %}
+              </div>
+          {% endcase %}
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "CWC Research Absorption",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Header"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow Label",
+      "default": "Patented Technology"
+    },
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "<p>Why Absorption Is the <strong>Whole Point<\/strong><\/p>"
+    },
+    {
+      "type": "richtext",
+      "id": "subtext",
+      "label": "Section Subtext",
+      "default": "<p>Most powdered supplements are water-soluble. Your cell membranes are made of fat. Water and fat do not mix, which is why standard greens powders suffer from poor absorption regardless of how many ingredients they list. Our patented SuperSorb liposomal technology solves this.<\/p>"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#44681A"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#d9e7c9"
+    },
+    {
+      "type": "color",
+      "id": "bold_color",
+      "label": "Heading Bold Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "eyebrow_color",
+      "label": "Eyebrow Color",
+      "default": "#A3C781"
+    },
+    {
+      "type": "color",
+      "id": "number_color",
+      "label": "Step Number Color",
+      "default": "#A3C781"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 160,
+      "step": 5,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 160,
+      "step": 5,
+      "unit": "px",
+      "default": 80
+    }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Step",
+      "settings": [
+        {
+          "type": "text",
+          "id": "number",
+          "label": "Step Number",
+          "default": "01"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Step Title",
+          "default": "Liposomal Wrapping"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Step Text",
+          "default": "<p>Each phytonutrient is wrapped in a microscopic lipid layer made from high-quality phospholipids, the same material your cell membranes are made of.<\/p>"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 4,
+  "presets": [
+    {
+      "name": "Page Research Absorption",
+      "category": "CWC Custom",
+      "blocks": [{ "type": "step" }, { "type": "step" }, { "type": "step" }]
+    }
+  ]
+}
+{% endschema %}

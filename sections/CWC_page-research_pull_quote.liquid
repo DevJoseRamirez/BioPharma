@@ -1,0 +1,114 @@
+{% style %}
+  #cwc_page-research-pull-quote-{{ section.id }} {
+    --section-bg: {{ section.settings.bg_color | default: '#f4f3ee' }};
+    --text-color: {{ section.settings.text_color | default: '#888888' }};
+    --highlight-color: {{ section.settings.bold_color | default: '#2A2611' }};
+    --quote-color: {{ section.settings.quote_color | default: '#44681A' }};
+    --padding-top: {{ section.settings.padding_top | default: 75 }}px;
+    --padding-bottom: {{ section.settings.padding_bottom | default: 75 }}px;
+    --padding-top-mobile: {{ section.settings.padding_top | default: 75 | times: 0.5 }}px;
+    --padding-bottom-mobile: {{ section.settings.padding_bottom | default: 75 | times: 0.5 }}px;
+  }
+{% endstyle %}
+
+{{ 'CWC_fonts.css' | asset_url | stylesheet_tag }}
+{{ 'CWC_page-research_pull_quote.css' | asset_url | stylesheet_tag }}
+
+<section id="cwc_page-research-pull-quote-{{ section.id }}" class="cwc_page-research-pull-quote">
+  <div class="cwc_page-research-pull-quote__container">
+    <div class="cwc_page-research-pull-quote__content">
+      {% if section.settings.quote != blank %}
+        <blockquote class="cwc_page-research-pull-quote__content-heading cwc-rte">
+          {{ section.settings.quote }}
+        </blockquote>
+      {% endif %}
+
+      {% if section.settings.attribution != blank %}
+        <div class="cwc_page-research-pull-quote__content-subtext">{{ section.settings.attribution }}</div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "CWC Research Quote",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Header"
+    },
+    {
+      "type": "richtext",
+      "id": "quote",
+      "label": "Quote",
+      "default": "<p>\"Young and middle-aged people may be able to reduce risk of diseases of aging simply by adding high-oxygen radical antioxidant capacity to their diets.\"<\/p>"
+    },
+    {
+      "type": "text",
+      "id": "attribution",
+      "label": "Attribution",
+      "default": "Agricultural Research Service's Human Nutrition Research Center on Aging, Tufts University"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#f4f3ee"
+    },
+    {
+      "type": "color",
+      "id": "quote_color",
+      "label": "Quote Color",
+      "default": "#44681A"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Attribution Color",
+      "default": "#888888"
+    },
+    {
+      "type": "color",
+      "id": "bold_color",
+      "label": "Quote Bold Color",
+      "default": "#2A2611"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 75
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 75
+    }
+  ],
+  "presets": [
+    {
+      "name": "Page Research Quote",
+      "category": "CWC Custom"
+    }
+  ]
+}
+{% endschema %}

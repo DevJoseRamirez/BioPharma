@@ -1,0 +1,184 @@
+{% style %}
+  #cwc_page-research-references-{{ section.id }} {
+    --section-bg: {{ section.settings.bg_color | default: '#ffffff' }};
+    --heading-color: {{ section.settings.heading_color | default: '#2A2611' }};
+    --text-color: {{ section.settings.text_color | default: '#666666' }};
+    --highlight-color: {{ section.settings.bold_color | default: '#2A2611' }};
+    --link-color: {{ section.settings.link_color | default: '#44681A' }};
+    --border-color: {{ section.settings.border_color | default: '#E2E1D6' }};
+    --padding-top: {{ section.settings.padding_top | default: 60 }}px;
+    --padding-bottom: {{ section.settings.padding_bottom | default: 60 }}px;
+    --padding-top-mobile: {{ section.settings.padding_top | default: 60 | times: 0.5 }}px;
+    --padding-bottom-mobile: {{ section.settings.padding_bottom | default: 60 | times: 0.5 }}px;
+  }
+{% endstyle %}
+
+{{ 'CWC_fonts.css' | asset_url | stylesheet_tag }}
+{{ 'CWC_page-research_references.css' | asset_url | stylesheet_tag }}
+
+<section id="cwc_page-research-references-{{ section.id }}" class="cwc_page-research-references">
+  <div class="cwc_page-research-references__container">
+    {% comment %} Section Header {% endcomment %}
+    {% if section.settings.heading != blank %}
+      <div class="cwc_page-research-references__content">
+        <div class="cwc_page-research-references__content-heading cwc-rte">
+          {{ section.settings.heading }}
+        </div>
+      </div>
+    {% endif %}
+
+    {% comment %} Citations {% endcomment %}
+    {% if section.blocks.size > 0 %}
+      <div class="cwc_page-research-references__grid">
+        {% for block in section.blocks %}
+          {% case block.type %}
+            {% when 'reference' %}
+              <div class="cwc_page-research-references__card" {{ block.shopify_attributes }}>
+                {% if block.settings.text != blank %}
+                  <div class="cwc_page-research-references__card-text cwc-rte">
+                    {{ block.settings.text }}
+                  </div>
+                {% endif %}
+
+                {% if block.settings.link_text != blank and block.settings.link != blank %}
+                  <a
+                    href="{{ block.settings.link }}"
+                    class="cwc_page-research-references__card-link"
+                    {% if block.settings.link_new_tab %}
+                      target="_blank"
+                      rel="noopener"
+                    {% endif %}
+                  >
+                    {{- block.settings.link_text -}}
+                  </a>
+                {% endif %}
+              </div>
+          {% endcase %}
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "CWC Research References",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Header"
+    },
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "<p>References<\/p>"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "default": "#2A2611"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#666666"
+    },
+    {
+      "type": "color",
+      "id": "bold_color",
+      "label": "Heading Bold Color",
+      "default": "#2A2611"
+    },
+    {
+      "type": "color",
+      "id": "link_color",
+      "label": "Link Color",
+      "default": "#44681A"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Divider Color",
+      "default": "#E2E1D6"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 60
+    }
+  ],
+  "blocks": [
+    {
+      "type": "reference",
+      "name": "Reference",
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Citation",
+          "info": "Include the reference number, e.g. [1].",
+          "default": "<p>[1] Author A, Author B. \"Study title.\" <em>Journal Name<\/em>. Year;Volume(Issue):Pages.<\/p>"
+        },
+        {
+          "type": "text",
+          "id": "link_text",
+          "label": "Link Text",
+          "info": "Optional. Shown after the citation."
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        },
+        {
+          "type": "checkbox",
+          "id": "link_new_tab",
+          "label": "Open Link in New Tab",
+          "default": true
+        }
+      ]
+    }
+  ],
+  "max_blocks": 10,
+  "presets": [
+    {
+      "name": "Page Research References",
+      "category": "CWC Custom",
+      "blocks": [{ "type": "reference" }, { "type": "reference" }]
+    }
+  ]
+}
+{% endschema %}
