@@ -207,6 +207,33 @@
     }
 
     /**
+     * The supply option's own spelling of a typed value.
+     *
+     * Merchants type the size into the section ("30-day supply"), and the
+     * variant match downstream is case-sensitive because that is how Shopify
+     * holds option values. So the typed string is only ever used to find the
+     * real value, and the real value is what gets recorded — the same rule the
+     * supply cards follow when they resolve their Name against the option.
+     *
+     * Returns '' when nothing matches, which callers read as "no supply of my
+     * own" and leave the current selection alone.
+     */
+    function resolveSupplyValue(raw) {
+      var wanted = String(raw || '').trim().toLowerCase();
+      var i, value;
+
+      if (!wanted || !supplyPosition) return '';
+
+      for (i = 0; i < variants.length; i++) {
+        if (!variants[i].options) continue;
+        value = variants[i].options[supplyPosition - 1];
+        if (value && String(value).trim().toLowerCase() === wanted) return value;
+      }
+
+      return '';
+    }
+
+    /**
      * The chosen combination, plus one override — used to ask "which variant
      * would this supply option be, keeping the flavour the shopper is on?"
      * without disturbing the actual selection.
@@ -509,6 +536,26 @@
         onetime.classList.add(SELECTED_ONETIME);
         setPlan('');
         if (quantityInput) quantityInput.value = '1';
+
+        /**
+         * Supply is a product option, so clearing the plan is only half of it:
+         * the variant is still whichever supply card was last selected, and
+         * without this the link adds a 90-day supply one-time and looks like it
+         * ignored the choice.
+         *
+         * Recording the value and re-resolving — rather than assigning a
+         * variant id outright — is what keeps the flavour: syncVariant reads
+         * every option the shopper has chosen, so only supply moves.
+         *
+         * No supply of its own, or a value that matches nothing, leaves the
+         * selection exactly as it was.
+         */
+        var onetimeValue = resolveSupplyValue(onetime.getAttribute('data-cwc-onetime-value'));
+        if (onetimeValue) {
+          chosen[supplyPosition] = onetimeValue;
+          syncVariant();
+        }
+
         announce();
         addOneTimeToCart();
       });

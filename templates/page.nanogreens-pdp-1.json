@@ -139,7 +139,8 @@
         "onetime": {
           "type": "onetime",
           "settings": {
-            "text": "One-time purchase · $74.95 ($2.50/serving)"
+            "text": "One-time purchase · $74.95 ($2.50/serving)",
+            "supply_value": "30-Day Supply"
           }
         },
         "add_to_cart": {

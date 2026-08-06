@@ -5,8 +5,19 @@
   selling plan, sets quantity to 1, and submits the surrounding product form, so
   the plain product goes to the cart on its own.
 
+  Supply is a product option, so the variant is a function of flavour AND supply
+  — dropping the plan alone is not enough. Without a supply of its own this link
+  would add whichever supply card was last selected, one-time, which reads to a
+  shopper as the choice being ignored. Supply Option Value names the size a
+  one-time purchase is, and the script resolves it against the flavour the
+  shopper is on rather than pinning a variant, so the flavour survives.
+
+  Left blank the link keeps the previously selected supply, which is the old
+  behaviour — right for a product whose supply is not a real option.
+
   Accepts:
-  - block {Object} - the onetime block. Reads settings.text.
+  - block {Object} - the onetime block. Reads settings.text and
+    settings.supply_value.
 
   Usage:
   {% render 'CWC_pdp-onetime__block', block: block %}
@@ -14,7 +25,14 @@
 
 {%- if block.settings.text != blank -%}
   <div class="cwc_product-hero-buy-box__onetime" {{ block.shopify_attributes }}>
-    <button type="button" class="cwc_product-hero-buy-box__onetime-button" data-cwc-onetime>
+    <button
+      type="button"
+      class="cwc_product-hero-buy-box__onetime-button"
+      data-cwc-onetime
+      {% if block.settings.supply_value != blank %}
+        data-cwc-onetime-value="{{ block.settings.supply_value | strip | escape }}"
+      {% endif %}
+    >
       {{ block.settings.text }}
     </button>
   </div>
