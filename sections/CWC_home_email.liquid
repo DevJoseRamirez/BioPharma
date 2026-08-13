@@ -1,18 +1,18 @@
 {% style %}
   #cwc_home-email-{{ section.id }} {
     --section-bg: {{ section.settings.bg_color | default: '#44681A' }};
-    --text-color: {{ section.settings.text_color | default: '#C7CEB9' }};
-    --heading-color: {{ section.settings.heading_color | default: '#ECEBE5' }};
-    --highlight-color: {{ section.settings.bold_color | default: '#ffffff' }};
+    --text-color: {{ section.settings.text_color | default: '#d9e7c9' }};
+    --heading-color: {{ section.settings.heading_color | default: '#ffffff' }};
+    --highlight-color: {{ section.settings.bold_color | default: '#A3C781' }};
     --input-bg: {{ section.settings.input_bg_color | default: '#4C7024' }};
-    --border-color: {{ section.settings.border_color | default: '#7C9760' }};
-    --placeholder-color: {{ section.settings.placeholder_color | default: '#A5B394' }};
+    --border-color: {{ section.settings.border_color | default: '#577B2F' }};
+    --placeholder-color: {{ section.settings.placeholder_color | default: '#c9dab6' }};
     --button-bg: {{ section.settings.button_color | default: '#5BA90F' }};
     --button-text: {{ section.settings.button_text_color | default: '#ffffff' }};
-    --padding-top: {{ section.settings.padding_top | default: 70 }}px;
-    --padding-bottom: {{ section.settings.padding_bottom | default: 70 }}px;
-    --padding-top-mobile: {{ section.settings.padding_top | default: 70 | times: 0.5 }}px;
-    --padding-bottom-mobile: {{ section.settings.padding_bottom | default: 70 | times: 0.5 }}px;
+    --padding-top: {{ section.settings.padding_top | default: 50 }}px;
+    --padding-bottom: {{ section.settings.padding_bottom | default: 50 }}px;
+    --padding-top-mobile: {{ section.settings.padding_top | default: 50 | times: 0.5 }}px;
+    --padding-bottom-mobile: {{ section.settings.padding_bottom | default: 50 | times: 0.5 }}px;
   }
 {% endstyle %}
 
@@ -217,19 +217,19 @@
       "type": "color",
       "id": "text_color",
       "label": "Text Color",
-      "default": "#C7CEB9"
+      "default": "#d9e7c9"
     },
     {
       "type": "color",
       "id": "heading_color",
       "label": "Heading Color",
-      "default": "#ECEBE5"
+      "default": "#ffffff"
     },
     {
       "type": "color",
       "id": "bold_color",
       "label": "Heading Bold Color",
-      "default": "#ffffff"
+      "default": "#A3C781"
     },
     {
       "type": "color",
@@ -241,13 +241,13 @@
       "type": "color",
       "id": "border_color",
       "label": "Input Border Color",
-      "default": "#7C9760"
+      "default": "#577B2F"
     },
     {
       "type": "color",
       "id": "placeholder_color",
       "label": "Placeholder Color",
-      "default": "#A5B394"
+      "default": "#c9dab6"
     },
     {
       "type": "color",
@@ -273,7 +273,7 @@
       "max": 120,
       "step": 5,
       "unit": "px",
-      "default": 70
+      "default": 50
     },
     {
       "type": "range",
@@ -283,7 +283,7 @@
       "max": 120,
       "step": 5,
       "unit": "px",
-      "default": 70
+      "default": 50
     }
   ],
   "presets": [

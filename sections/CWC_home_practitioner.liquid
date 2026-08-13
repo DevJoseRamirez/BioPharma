@@ -1,19 +1,19 @@
 {% style %}
   #cwc_home-practitioner-{{ section.id }} {
     --section-bg: {{ section.settings.bg_color | default: '#44681A' }};
-    --text-color: {{ section.settings.text_color | default: '#C7CEB9' }};
-    --heading-color: {{ section.settings.heading_color | default: '#ECEBE5' }};
-    --highlight-color: {{ section.settings.bold_color | default: '#ffffff' }};
-    --eyebrow-color: {{ section.settings.eyebrow_color | default: '#A3B8E2' }};
-    --card-bg: {{ section.settings.card_bg_color | default: '#4C6F26' }};
-    --border-color: {{ section.settings.border_color | default: '#62803F' }};
-    --quote-color: {{ section.settings.quote_color | default: '#E5E5DC' }};
-    --credential-color: {{ section.settings.credential_color | default: '#A9B396' }};
-    --accent-color: {{ section.settings.accent_color | default: '#A3B8E2' }};
-    --padding-top: {{ section.settings.padding_top | default: 95 }}px;
-    --padding-bottom: {{ section.settings.padding_bottom | default: 95 }}px;
-    --padding-top-mobile: {{ section.settings.padding_top | default: 95 | times: 0.5 }}px;
-    --padding-bottom-mobile: {{ section.settings.padding_bottom | default: 95 | times: 0.5 }}px;
+    --text-color: {{ section.settings.text_color | default: '#d9e7c9' }};
+    --heading-color: {{ section.settings.heading_color | default: '#ffffff' }};
+    --highlight-color: {{ section.settings.bold_color | default: '#A3C781' }};
+    --eyebrow-color: {{ section.settings.eyebrow_color | default: '#A3C781' }};
+    --card-bg: {{ section.settings.card_bg_color | default: '#4C7024' }};
+    --border-color: {{ section.settings.border_color | default: '#577B2F' }};
+    --quote-color: {{ section.settings.quote_color | default: '#d9e7c9' }};
+    --credential-color: {{ section.settings.credential_color | default: '#c9dab6' }};
+    --accent-color: {{ section.settings.accent_color | default: '#A3C781' }};
+    --padding-top: {{ section.settings.padding_top | default: 50 }}px;
+    --padding-bottom: {{ section.settings.padding_bottom | default: 50 }}px;
+    --padding-top-mobile: {{ section.settings.padding_top | default: 50 | times: 0.5 }}px;
+    --padding-bottom-mobile: {{ section.settings.padding_bottom | default: 50 | times: 0.5 }}px;
   }
 {% endstyle %}
 
@@ -167,31 +167,31 @@
       "type": "color",
       "id": "text_color",
       "label": "Text Color",
-      "default": "#C7CEB9"
+      "default": "#d9e7c9"
     },
     {
       "type": "color",
       "id": "heading_color",
       "label": "Heading Color",
-      "default": "#ECEBE5"
+      "default": "#ffffff"
     },
     {
       "type": "color",
       "id": "bold_color",
       "label": "Heading Bold Color",
-      "default": "#ffffff"
+      "default": "#A3C781"
     },
     {
       "type": "color",
       "id": "eyebrow_color",
       "label": "Eyebrow Color",
-      "default": "#A3B8E2"
+      "default": "#A3C781"
     },
     {
       "type": "color",
       "id": "accent_color",
       "label": "Stat Number Color",
-      "default": "#A3B8E2"
+      "default": "#A3C781"
     },
     {
       "type": "header",
@@ -201,25 +201,25 @@
       "type": "color",
       "id": "card_bg_color",
       "label": "Quote Card Background",
-      "default": "#4C6F26"
+      "default": "#4C7024"
     },
     {
       "type": "color",
       "id": "border_color",
       "label": "Border Color",
-      "default": "#62803F"
+      "default": "#577B2F"
     },
     {
       "type": "color",
       "id": "quote_color",
       "label": "Quote Text Color",
-      "default": "#E5E5DC"
+      "default": "#d9e7c9"
     },
     {
       "type": "color",
       "id": "credential_color",
       "label": "Credential Line Color",
-      "default": "#A9B396"
+      "default": "#c9dab6"
     },
     {
       "type": "header",
@@ -233,7 +233,7 @@
       "max": 120,
       "step": 5,
       "unit": "px",
-      "default": 95
+      "default": 50
     },
     {
       "type": "range",
@@ -243,7 +243,7 @@
       "max": 120,
       "step": 5,
       "unit": "px",
-      "default": 95
+      "default": 50
     }
   ],
   "blocks": [

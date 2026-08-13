@@ -20,29 +20,29 @@
 .cwc_home-by-problem__container {
   max-width: 1300px;
   margin: 0 auto;
-  padding: 0 2rem;
+  padding: 0 32px;
 }
 
 /* === Section Header === */
 .cwc_home-by-problem__content {
   max-width: 900px;
-  margin: 0 auto 2.75rem;
+  margin: 0 auto 20px;
   width: 100%;
   text-align: center;
 }
 
 .cwc_home-by-problem__eyebrow {
-  font-size: 0.75em;
+  font-size: 0.78em;
+  /* 12.48px */
   font-weight: var(--cwc-weight-label);
-  letter-spacing: 0.14em;
+  letter-spacing: 2px;
   text-transform: uppercase;
   color: var(--eyebrow-color);
-  margin-bottom: 0.875rem;
+  margin-bottom: 8px;
 }
 
 .cwc_home-by-problem__content-heading {
   text-align: center;
-  margin-bottom: 1rem;
 }
 
 .cwc_home-by-problem__content-heading h1,
@@ -50,30 +50,29 @@
 .cwc_home-by-problem__content-heading h3,
 .cwc_home-by-problem__content-heading p {
   font-family: var(--cwc-font-heading);
-  font-weight: 300;
-  font-size: 2.75em; /* 44px */
-  line-height: 1.12;
-  letter-spacing: -0.015em;
-  max-width: 20ch;
+  font-weight: var(--cwc-weight-heading);
+  font-size: var(--cwc-size-section-heading);
+  /* 31px */
+  line-height: 1.2;
   margin: 0 auto;
   color: inherit;
 }
 
 .cwc_home-by-problem__content-heading > * strong,
 .cwc_home-by-problem__content-heading > * b {
-  font-weight: 600;
   color: var(--highlight-color);
 }
 
 .cwc_home-by-problem__content-subtext {
   text-align: center;
-  max-width: 52ch;
-  margin: 0 auto;
+  max-width: 700px;
+  margin: 8px auto 0;
 }
 
 .cwc_home-by-problem__content-subtext p {
-  font-size: 1.06em;
-  line-height: 1.55;
+  font-size: 0.97em;
+  /* 15.52px */
+  line-height: var(--cwc-line-body);
   margin: 0;
   color: var(--muted-color);
 }
@@ -89,7 +88,7 @@
 .cwc_home-by-problem__card {
   display: block;
   background: var(--card-bg);
-  border-radius: 16px;
+  border-radius: 13px;
   padding: 1.625rem 1.25rem 1.5rem;
   text-align: center;
   border: 1px solid transparent;
@@ -124,10 +123,10 @@ a.cwc_home-by-problem__card:hover {
 }
 
 .cwc_home-by-problem__card-title {
-  font-family: var(--cwc-font-heading);
-  font-size: 1.25em; /* 20px */
-  font-weight: 500;
-  line-height: 1.2;
+  font-size: 0.97em;
+  /* 15.52px */
+  font-weight: var(--cwc-weight-name);
+  line-height: 1.3;
   margin-bottom: 0.438rem;
 }
 
@@ -150,14 +149,7 @@ a.cwc_home-by-problem__card:hover {
    ============================== */
 @media screen and (max-width: 991px) {
   .cwc_home-by-problem__container {
-    padding: 0 1.25rem;
-  }
-
-  .cwc_home-by-problem__content-heading h1,
-  .cwc_home-by-problem__content-heading h2,
-  .cwc_home-by-problem__content-heading h3,
-  .cwc_home-by-problem__content-heading p {
-    font-size: 2.25em;
+    padding: 0 20px;
   }
 
   .cwc_home-by-problem__grid {
@@ -170,48 +162,19 @@ a.cwc_home-by-problem__card:hover {
    ============================== */
 @media screen and (max-width: 768px) {
   .cwc_home-by-problem {
+
+    /* rescale the whole section from one anchor */
+    font-size: 14px;
     padding-top: var(--padding-top-mobile);
     padding-bottom: var(--padding-bottom-mobile);
   }
 
   .cwc_home-by-problem__container {
-    padding: 0 1rem;
-  }
-
-  .cwc_home-by-problem__content {
-    margin-bottom: 1.75rem;
-  }
-
-  .cwc_home-by-problem__content-heading {
-    margin-bottom: 0.75rem;
-  }
-
-  .cwc_home-by-problem__content-heading h1,
-  .cwc_home-by-problem__content-heading h2,
-  .cwc_home-by-problem__content-heading h3,
-  .cwc_home-by-problem__content-heading p {
-    font-size: 1.88em;
-    max-width: none;
-  }
-
-  .cwc_home-by-problem__content-subtext p {
-    font-size: 1em;
+    padding: 0 16px;
   }
 
   .cwc_home-by-problem__grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 0.75rem;
-  }
-}
-
-/* ==============================
-   Small Mobile Responsive
-   ============================== */
-@media screen and (max-width: 480px) {
-  .cwc_home-by-problem__content-heading h1,
-  .cwc_home-by-problem__content-heading h2,
-  .cwc_home-by-problem__content-heading h3,
-  .cwc_home-by-problem__content-heading p {
-    font-size: 1.63em;
   }
 }

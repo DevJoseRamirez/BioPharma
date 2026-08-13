@@ -2,19 +2,19 @@
   #cwc_home-reviews-{{ section.id }} {
     --section-bg: {{ section.settings.bg_color | default: '#ffffff' }};
     --text-color: {{ section.settings.text_color | default: '#2A2611' }};
-    --highlight-color: {{ section.settings.bold_color | default: '#2A2611' }};
-    --muted-color: {{ section.settings.muted_color | default: '#5F5B48' }};
-    --eyebrow-color: {{ section.settings.eyebrow_color | default: '#44681A' }};
-    --panel-bg: {{ section.settings.panel_bg_color | default: '#F5F4F0' }};
+    --highlight-color: {{ section.settings.bold_color | default: '#5BA90F' }};
+    --muted-color: {{ section.settings.muted_color | default: '#5C5842' }};
+    --eyebrow-color: {{ section.settings.eyebrow_color | default: '#5BA90F' }};
+    --panel-bg: {{ section.settings.panel_bg_color | default: '#FAF9F4' }};
     --card-bg: {{ section.settings.card_bg_color | default: '#ffffff' }};
-    --border-color: {{ section.settings.border_color | default: '#E0DED4' }};
+    --border-color: {{ section.settings.border_color | default: '#E6E5DC' }};
     --star-color: {{ section.settings.star_color | default: '#E8A317' }};
-    --bar-bg: {{ section.settings.bar_bg_color | default: '#E4E2D9' }};
+    --bar-bg: {{ section.settings.bar_bg_color | default: '#E6E5DC' }};
     --bar-fill: {{ section.settings.bar_fill_color | default: '#78AD49' }};
-    --padding-top: {{ section.settings.padding_top | default: 95 }}px;
-    --padding-bottom: {{ section.settings.padding_bottom | default: 95 }}px;
-    --padding-top-mobile: {{ section.settings.padding_top | default: 95 | times: 0.5 }}px;
-    --padding-bottom-mobile: {{ section.settings.padding_bottom | default: 95 | times: 0.5 }}px;
+    --padding-top: {{ section.settings.padding_top | default: 50 }}px;
+    --padding-bottom: {{ section.settings.padding_bottom | default: 50 }}px;
+    --padding-top-mobile: {{ section.settings.padding_top | default: 50 | times: 0.5 }}px;
+    --padding-bottom-mobile: {{ section.settings.padding_bottom | default: 50 | times: 0.5 }}px;
   }
 {% endstyle %}
 
@@ -250,19 +250,19 @@
       "type": "color",
       "id": "bold_color",
       "label": "Heading Bold Color",
-      "default": "#2A2611"
+      "default": "#5BA90F"
     },
     {
       "type": "color",
       "id": "muted_color",
       "label": "Muted Text Color",
-      "default": "#5F5B48"
+      "default": "#5C5842"
     },
     {
       "type": "color",
       "id": "eyebrow_color",
       "label": "Eyebrow Color",
-      "default": "#44681A"
+      "default": "#5BA90F"
     },
     {
       "type": "color",
@@ -278,7 +278,7 @@
       "type": "color",
       "id": "panel_bg_color",
       "label": "Aggregate Panel Background",
-      "default": "#F5F4F0"
+      "default": "#FAF9F4"
     },
     {
       "type": "color",
@@ -290,13 +290,13 @@
       "type": "color",
       "id": "border_color",
       "label": "Border Color",
-      "default": "#E0DED4"
+      "default": "#E6E5DC"
     },
     {
       "type": "color",
       "id": "bar_bg_color",
       "label": "Distribution Bar Track",
-      "default": "#E4E2D9"
+      "default": "#E6E5DC"
     },
     {
       "type": "color",
@@ -316,7 +316,7 @@
       "max": 120,
       "step": 5,
       "unit": "px",
-      "default": 95
+      "default": 50
     },
     {
       "type": "range",
@@ -326,7 +326,7 @@
       "max": 120,
       "step": 5,
       "unit": "px",
-      "default": 95
+      "default": 50
     }
   ],
   "blocks": [

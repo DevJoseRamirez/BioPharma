@@ -16,19 +16,18 @@
 .cwc_home-email__container {
   max-width: 1300px;
   margin: 0 auto;
-  padding: 0 2rem;
+  padding: 0 32px;
 }
 
 /* === Section Header === */
 .cwc_home-email__content {
   max-width: 900px;
-  margin: 0 auto;
+  margin: 0 auto 20px;
   width: 100%;
 }
 
 .cwc_home-email__content-heading {
   text-align: center;
-  margin-bottom: 0.75rem;
 }
 
 .cwc_home-email__content-heading h1,
@@ -36,24 +35,23 @@
 .cwc_home-email__content-heading h3,
 .cwc_home-email__content-heading p {
   font-family: var(--cwc-font-heading);
-  font-weight: 300;
-  font-size: 2.38em; /* 38px */
-  line-height: 1.15;
-  letter-spacing: -0.015em;
+  font-weight: var(--cwc-weight-heading);
+  font-size: var(--cwc-size-section-heading);
+  /* 31px */
+  line-height: 1.2;
   margin: 0;
   color: var(--heading-color);
 }
 
 .cwc_home-email__content-heading > * strong,
 .cwc_home-email__content-heading > * b {
-  font-weight: 600;
   color: var(--highlight-color);
 }
 
 .cwc_home-email__content-subtext {
   text-align: center;
-  max-width: 62ch;
-  margin: 0 auto 1.75rem;
+  max-width: 700px;
+  margin: 8px auto 0;
 }
 
 .cwc_home-email__content-subtext p {
@@ -91,7 +89,7 @@
   border: 1px solid var(--border-color);
   background: var(--input-bg);
   color: var(--heading-color);
-  border-radius: 999px;
+  border-radius: 12px;
   padding: 0.938rem 1.375rem;
   font-family: inherit;
   font-size: 0.91em;
@@ -112,11 +110,12 @@
   justify-content: center;
   gap: 0.5rem;
   font-family: inherit;
-  font-size: 0.94em;
-  font-weight: 600;
-  padding: 1rem 1.875rem;
+  font-size: 1.03em;
+  /* 16.48px */
+  font-weight: 800;
+  padding: 15px 32px;
   border: none;
-  border-radius: 999px;
+  border-radius: 12px;
   background: var(--button-bg);
   color: var(--button-text);
   cursor: pointer;
@@ -144,7 +143,7 @@
    ============================== */
 @media screen and (max-width: 991px) {
   .cwc_home-email__container {
-    padding: 0 1.25rem;
+    padding: 0 20px;
   }
 }
 
@@ -153,23 +152,15 @@
    ============================== */
 @media screen and (max-width: 768px) {
   .cwc_home-email {
+
+    /* rescale the whole section from one anchor */
+    font-size: 14px;
     padding-top: var(--padding-top-mobile);
     padding-bottom: var(--padding-bottom-mobile);
   }
 
   .cwc_home-email__container {
-    padding: 0 1rem;
-  }
-
-  .cwc_home-email__content-heading h1,
-  .cwc_home-email__content-heading h2,
-  .cwc_home-email__content-heading h3,
-  .cwc_home-email__content-heading p {
-    font-size: 1.81em;
-  }
-
-  .cwc_home-email__content-subtext {
-    margin-bottom: 1.5rem;
+    padding: 0 16px;
   }
 
   .cwc_home-email__form {
@@ -178,17 +169,5 @@
 
   .cwc_home-email__button {
     width: 100%;
-  }
-}
-
-/* ==============================
-   Small Mobile Responsive
-   ============================== */
-@media screen and (max-width: 480px) {
-  .cwc_home-email__content-heading h1,
-  .cwc_home-email__content-heading h2,
-  .cwc_home-email__content-heading h3,
-  .cwc_home-email__content-heading p {
-    font-size: 1.63em;
   }
 }

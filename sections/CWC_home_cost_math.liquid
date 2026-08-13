@@ -2,21 +2,21 @@
   #cwc_home-cost-math-{{ section.id }} {
     --section-bg: {{ section.settings.bg_color | default: '#ffffff' }};
     --text-color: {{ section.settings.text_color | default: '#2A2611' }};
-    --highlight-color: {{ section.settings.bold_color | default: '#2A2611' }};
-    --muted-color: {{ section.settings.muted_color | default: '#5F5B48' }};
-    --eyebrow-color: {{ section.settings.eyebrow_color | default: '#44681A' }};
-    --card-bg: {{ section.settings.card_bg_color | default: '#ECEBE5' }};
+    --highlight-color: {{ section.settings.bold_color | default: '#5BA90F' }};
+    --muted-color: {{ section.settings.muted_color | default: '#5C5842' }};
+    --eyebrow-color: {{ section.settings.eyebrow_color | default: '#5BA90F' }};
+    --card-bg: {{ section.settings.card_bg_color | default: '#F4F3EE' }};
     --media-bg: {{ section.settings.media_bg_color | default: '#ffffff' }};
-    --border-color: {{ section.settings.border_color | default: '#E0DED4' }};
+    --border-color: {{ section.settings.border_color | default: '#E6E5DC' }};
     --total-border-color: {{ section.settings.total_border_color | default: '#2A2611' }};
     --accent-color: {{ section.settings.accent_color | default: '#5BA90F' }};
-    --savings-bg: {{ section.settings.savings_bg_color | default: '#E4EFD8' }};
+    --savings-bg: {{ section.settings.savings_bg_color | default: '#F2F8EA' }};
     --button-bg: {{ section.settings.button_bg_color | default: '#5BA90F' }};
     --button-text: {{ section.settings.button_text_color | default: '#ffffff' }};
-    --padding-top: {{ section.settings.padding_top | default: 95 }}px;
-    --padding-bottom: {{ section.settings.padding_bottom | default: 95 }}px;
-    --padding-top-mobile: {{ section.settings.padding_top | default: 95 | times: 0.5 }}px;
-    --padding-bottom-mobile: {{ section.settings.padding_bottom | default: 95 | times: 0.5 }}px;
+    --padding-top: {{ section.settings.padding_top | default: 50 }}px;
+    --padding-bottom: {{ section.settings.padding_bottom | default: 50 }}px;
+    --padding-top-mobile: {{ section.settings.padding_top | default: 50 | times: 0.5 }}px;
+    --padding-bottom-mobile: {{ section.settings.padding_bottom | default: 50 | times: 0.5 }}px;
   }
 {% endstyle %}
 
@@ -304,19 +304,19 @@
       "type": "color",
       "id": "bold_color",
       "label": "Heading Bold Color",
-      "default": "#2A2611"
+      "default": "#5BA90F"
     },
     {
       "type": "color",
       "id": "muted_color",
       "label": "Muted Text Color",
-      "default": "#5F5B48"
+      "default": "#5C5842"
     },
     {
       "type": "color",
       "id": "eyebrow_color",
       "label": "Eyebrow Color",
-      "default": "#44681A"
+      "default": "#5BA90F"
     },
     {
       "type": "color",
@@ -332,7 +332,7 @@
       "type": "color",
       "id": "card_bg_color",
       "label": "Offer Card Background",
-      "default": "#ECEBE5"
+      "default": "#F4F3EE"
     },
     {
       "type": "color",
@@ -344,7 +344,7 @@
       "type": "color",
       "id": "border_color",
       "label": "List Border Color",
-      "default": "#E0DED4"
+      "default": "#E6E5DC"
     },
     {
       "type": "color",
@@ -356,7 +356,7 @@
       "type": "color",
       "id": "savings_bg_color",
       "label": "Savings Callout Background",
-      "default": "#E4EFD8"
+      "default": "#F2F8EA"
     },
     {
       "type": "color",
@@ -382,7 +382,7 @@
       "max": 120,
       "step": 5,
       "unit": "px",
-      "default": 95
+      "default": 50
     },
     {
       "type": "range",
@@ -392,7 +392,7 @@
       "max": 120,
       "step": 5,
       "unit": "px",
-      "default": 95
+      "default": 50
     }
   ],
   "blocks": [

@@ -1,23 +1,23 @@
 {% style %}
   #cwc_home-best-sellers-{{ section.id }} {
-    --section-bg: {{ section.settings.bg_color | default: '#ECEBE5' }};
+    --section-bg: {{ section.settings.bg_color | default: '#F4F3EE' }};
     --text-color: {{ section.settings.text_color | default: '#2A2611' }};
-    --highlight-color: {{ section.settings.bold_color | default: '#2A2611' }};
-    --muted-color: {{ section.settings.muted_color | default: '#5F5B48' }};
-    --eyebrow-color: {{ section.settings.eyebrow_color | default: '#44681A' }};
+    --highlight-color: {{ section.settings.bold_color | default: '#5BA90F' }};
+    --muted-color: {{ section.settings.muted_color | default: '#5C5842' }};
+    --eyebrow-color: {{ section.settings.eyebrow_color | default: '#5BA90F' }};
     --card-bg: {{ section.settings.card_bg_color | default: '#ffffff' }};
-    --media-bg: {{ section.settings.media_bg_color | default: '#F5F4F0' }};
-    --border-color: {{ section.settings.border_color | default: '#E0DED4' }};
+    --media-bg: {{ section.settings.media_bg_color | default: '#FAF9F4' }};
+    --border-color: {{ section.settings.border_color | default: '#E6E5DC' }};
     --tag-color: {{ section.settings.tag_color | default: '#78AD49' }};
     --accent-color: {{ section.settings.accent_color | default: '#5BA90F' }};
     --button-outline-color: {{ section.settings.button_outline_color | default: '#44681A' }};
     --button-hover-text: {{ section.settings.button_hover_text_color | default: '#ffffff' }};
     --star-color: {{ section.settings.star_color | default: '#E8A317' }};
     --columns-desktop: {{ section.settings.columns_desktop | default: 4 }};
-    --padding-top: {{ section.settings.padding_top | default: 95 }}px;
-    --padding-bottom: {{ section.settings.padding_bottom | default: 95 }}px;
-    --padding-top-mobile: {{ section.settings.padding_top | default: 95 | times: 0.5 }}px;
-    --padding-bottom-mobile: {{ section.settings.padding_bottom | default: 95 | times: 0.5 }}px;
+    --padding-top: {{ section.settings.padding_top | default: 50 }}px;
+    --padding-bottom: {{ section.settings.padding_bottom | default: 50 }}px;
+    --padding-top-mobile: {{ section.settings.padding_top | default: 50 | times: 0.5 }}px;
+    --padding-bottom-mobile: {{ section.settings.padding_bottom | default: 50 | times: 0.5 }}px;
   }
 {% endstyle %}
 
@@ -333,7 +333,7 @@
       "type": "color",
       "id": "bg_color",
       "label": "Background Color",
-      "default": "#ECEBE5"
+      "default": "#F4F3EE"
     },
     {
       "type": "color",
@@ -345,19 +345,19 @@
       "type": "color",
       "id": "bold_color",
       "label": "Heading Bold Color",
-      "default": "#2A2611"
+      "default": "#5BA90F"
     },
     {
       "type": "color",
       "id": "muted_color",
       "label": "Muted Text Color",
-      "default": "#5F5B48"
+      "default": "#5C5842"
     },
     {
       "type": "color",
       "id": "eyebrow_color",
       "label": "Eyebrow Color",
-      "default": "#44681A"
+      "default": "#5BA90F"
     },
     {
       "type": "color",
@@ -379,13 +379,13 @@
       "type": "color",
       "id": "media_bg_color",
       "label": "Card Image Background",
-      "default": "#F5F4F0"
+      "default": "#FAF9F4"
     },
     {
       "type": "color",
       "id": "border_color",
       "label": "Card Border Color",
-      "default": "#E0DED4"
+      "default": "#E6E5DC"
     },
     {
       "type": "color",
@@ -423,7 +423,7 @@
       "max": 120,
       "step": 5,
       "unit": "px",
-      "default": 95
+      "default": 50
     },
     {
       "type": "range",
@@ -433,7 +433,7 @@
       "max": 120,
       "step": 5,
       "unit": "px",
-      "default": 95
+      "default": 50
     }
   ],
   "blocks": [

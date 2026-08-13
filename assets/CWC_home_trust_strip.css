@@ -16,7 +16,7 @@
 .cwc_home-trust-strip__container {
   max-width: 1300px;
   margin: 0 auto;
-  padding: 0 2rem;
+  padding: 0 32px;
 }
 
 /* === Grid === */
@@ -28,7 +28,7 @@
 
 /* === Item === */
 .cwc_home-trust-strip__item {
-  border-radius: 11px;
+  border-radius: 13px;
   padding: 0.875rem 0.75rem;
   text-align: center;
 }
@@ -66,7 +66,7 @@
    ============================== */
 @media screen and (max-width: 991px) {
   .cwc_home-trust-strip__container {
-    padding: 0 1.25rem;
+    padding: 0 20px;
   }
 
   .cwc_home-trust-strip__grid {
@@ -80,12 +80,15 @@
    ============================== */
 @media screen and (max-width: 768px) {
   .cwc_home-trust-strip {
+
+    /* rescale the whole section from one anchor */
+    font-size: 14px;
     padding-top: var(--padding-top-mobile);
     padding-bottom: var(--padding-bottom-mobile);
   }
 
   .cwc_home-trust-strip__container {
-    padding: 0 1rem;
+    padding: 0 16px;
   }
 
   .cwc_home-trust-strip__grid {
