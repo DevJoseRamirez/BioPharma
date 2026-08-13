@@ -1,0 +1,483 @@
+{% style %}
+  #cwc_home-best-sellers-{{ section.id }} {
+    --section-bg: {{ section.settings.bg_color | default: '#ECEBE5' }};
+    --text-color: {{ section.settings.text_color | default: '#2A2611' }};
+    --highlight-color: {{ section.settings.bold_color | default: '#2A2611' }};
+    --muted-color: {{ section.settings.muted_color | default: '#5F5B48' }};
+    --eyebrow-color: {{ section.settings.eyebrow_color | default: '#44681A' }};
+    --card-bg: {{ section.settings.card_bg_color | default: '#ffffff' }};
+    --media-bg: {{ section.settings.media_bg_color | default: '#F5F4F0' }};
+    --border-color: {{ section.settings.border_color | default: '#E0DED4' }};
+    --tag-color: {{ section.settings.tag_color | default: '#78AD49' }};
+    --accent-color: {{ section.settings.accent_color | default: '#5BA90F' }};
+    --button-outline-color: {{ section.settings.button_outline_color | default: '#44681A' }};
+    --button-hover-text: {{ section.settings.button_hover_text_color | default: '#ffffff' }};
+    --star-color: {{ section.settings.star_color | default: '#E8A317' }};
+    --columns-desktop: {{ section.settings.columns_desktop | default: 4 }};
+    --padding-top: {{ section.settings.padding_top | default: 95 }}px;
+    --padding-bottom: {{ section.settings.padding_bottom | default: 95 }}px;
+    --padding-top-mobile: {{ section.settings.padding_top | default: 95 | times: 0.5 }}px;
+    --padding-bottom-mobile: {{ section.settings.padding_bottom | default: 95 | times: 0.5 }}px;
+  }
+{% endstyle %}
+
+{{ 'CWC_fonts.css' | asset_url | stylesheet_tag }}
+{{ 'CWC_home_best_sellers.css' | asset_url | stylesheet_tag }}
+
+{% liquid
+  assign manual_count = 0
+  for block in section.blocks
+    if block.type == 'product'
+      assign manual_count = manual_count | plus: 1
+    endif
+  endfor
+
+  assign use_blocks = false
+  if manual_count > 0
+    assign use_blocks = true
+  endif
+
+  assign source_collection = section.settings.product_source
+%}
+
+<section
+  id="cwc_home-best-sellers-{{ section.id }}"
+  class="cwc_home-best-sellers{% if section.settings.enable_carousel %} cwc_home-best-sellers--carousel{% endif %}"
+  data-section-id="{{ section.id }}"
+>
+  <div class="cwc_home-best-sellers__container">
+
+    {% comment %} Split Head Row {% endcomment %}
+    <div class="cwc_home-best-sellers__head">
+      <div class="cwc_home-best-sellers__content">
+        {% if section.settings.eyebrow != blank %}
+          <div class="cwc_home-best-sellers__eyebrow">{{ section.settings.eyebrow }}</div>
+        {% endif %}
+
+        {% if section.settings.heading != blank %}
+          <div class="cwc_home-best-sellers__content-heading cwc-rte">
+            {{ section.settings.heading }}
+          </div>
+        {% endif %}
+      </div>
+
+      {% if section.settings.view_all_label != blank %}
+        <a class="cwc_home-best-sellers__view-all" href="{{ section.settings.view_all_link | default: '#' }}">
+          {{ section.settings.view_all_label }}
+        </a>
+      {% endif %}
+    </div>
+
+    {% comment %} Product Cards {% endcomment %}
+    <div class="cwc_home-best-sellers__viewport">
+      <div class="cwc_home-best-sellers__grid" data-cwc-track>
+
+        {% if use_blocks %}
+          {% for block in section.blocks %}
+            {% case block.type %}
+              {% when 'product' %}
+                {% liquid
+                  assign card_product = block.settings.product
+                  assign card_title = block.settings.title_override | default: card_product.title
+                  assign card_link = card_product.url
+                  assign card_image = card_product.featured_image
+                  assign button_label = block.settings.button_label | default: section.settings.default_button_label
+                %}
+
+                {% if card_link != blank %}
+                  <a href="{{ card_link }}" class="cwc_home-best-sellers__card" {{ block.shopify_attributes }}>
+                {% else %}
+                  <div class="cwc_home-best-sellers__card" {{ block.shopify_attributes }}>
+                {% endif %}
+
+                  <div class="cwc_home-best-sellers__card-image">
+                    {% if card_image != blank %}
+                      <img
+                        src="{{ card_image | image_url: width: 600 }}"
+                        alt="{{ card_image.alt | default: card_title | escape }}"
+                        width="600"
+                        height="600"
+                        loading="lazy"
+                      >
+                    {% else %}
+                      <div class="cwc_home-best-sellers__placeholder">
+                        <span>Select a product</span>
+                      </div>
+                    {% endif %}
+                  </div>
+
+                  <div class="cwc_home-best-sellers__card-body">
+                    {% if block.settings.tag_label != blank %}
+                      <span class="cwc_home-best-sellers__card-tag">{{ block.settings.tag_label }}</span>
+                    {% endif %}
+
+                    {% if card_title != blank %}
+                      <div class="cwc_home-best-sellers__card-title">{{ card_title }}</div>
+                    {% endif %}
+
+                    {% if section.settings.show_rating %}
+                      {% assign rating = card_product.metafields.reviews.rating.value.rating %}
+                      {% assign rating_count = card_product.metafields.reviews.rating_count.value %}
+                      {% if rating != blank %}
+                        {% assign rating_rounded = rating | round %}
+                        <div class="cwc_home-best-sellers__card-rating">
+                          <span class="cwc_home-best-sellers__stars" aria-hidden="true">
+                            {%- for i in (1..5) -%}
+                              {%- if i <= rating_rounded -%}★{%- else -%}☆{%- endif -%}
+                            {%- endfor -%}
+                          </span>
+                          {{ rating }}{% if rating_count != blank %} · {{ rating_count }}{% endif %}
+                        </div>
+                      {% endif %}
+                    {% endif %}
+
+                    {% if section.settings.show_price and card_product != blank %}
+                      <div class="cwc_home-best-sellers__card-price">{{ card_product.price | money }}</div>
+                    {% endif %}
+
+                    {% if button_label != blank %}
+                      <span class="cwc_home-best-sellers__card-button">{{ button_label }}</span>
+                    {% endif %}
+                  </div>
+
+                {% if card_link != blank %}
+                  </a>
+                {% else %}
+                  </div>
+                {% endif %}
+            {% endcase %}
+          {% endfor %}
+
+        {% elsif source_collection != blank %}
+          {% for card_product in source_collection.products limit: section.settings.products_to_show %}
+            <a href="{{ card_product.url }}" class="cwc_home-best-sellers__card">
+              <div class="cwc_home-best-sellers__card-image">
+                {% if card_product.featured_image != blank %}
+                  <img
+                    src="{{ card_product.featured_image | image_url: width: 600 }}"
+                    alt="{{ card_product.featured_image.alt | default: card_product.title | escape }}"
+                    width="600"
+                    height="600"
+                    loading="lazy"
+                  >
+                {% else %}
+                  <div class="cwc_home-best-sellers__placeholder">
+                    <span>No product image</span>
+                  </div>
+                {% endif %}
+              </div>
+
+              <div class="cwc_home-best-sellers__card-body">
+                {% if card_product.type != blank %}
+                  <span class="cwc_home-best-sellers__card-tag">{{ card_product.type }}</span>
+                {% endif %}
+
+                <div class="cwc_home-best-sellers__card-title">{{ card_product.title }}</div>
+
+                {% if section.settings.show_rating %}
+                  {% assign rating = card_product.metafields.reviews.rating.value.rating %}
+                  {% assign rating_count = card_product.metafields.reviews.rating_count.value %}
+                  {% if rating != blank %}
+                    {% assign rating_rounded = rating | round %}
+                    <div class="cwc_home-best-sellers__card-rating">
+                      <span class="cwc_home-best-sellers__stars" aria-hidden="true">
+                        {%- for i in (1..5) -%}
+                          {%- if i <= rating_rounded -%}★{%- else -%}☆{%- endif -%}
+                        {%- endfor -%}
+                      </span>
+                      {{ rating }}{% if rating_count != blank %} · {{ rating_count }}{% endif %}
+                    </div>
+                  {% endif %}
+                {% endif %}
+
+                {% if section.settings.show_price %}
+                  <div class="cwc_home-best-sellers__card-price">{{ card_product.price | money }}</div>
+                {% endif %}
+
+                {% if section.settings.default_button_label != blank %}
+                  <span class="cwc_home-best-sellers__card-button">{{ section.settings.default_button_label }}</span>
+                {% endif %}
+              </div>
+            </a>
+          {% endfor %}
+
+        {% else %}
+          <div class="cwc_home-best-sellers__empty">
+            <p>Pick a collection, or add product blocks, to display cards.</p>
+          </div>
+        {% endif %}
+
+      </div>
+
+      {% if section.settings.enable_carousel %}
+        <button
+          class="cwc_home-best-sellers__arrow cwc_home-best-sellers__arrow--prev"
+          type="button"
+          aria-label="Previous products"
+          data-cwc-prev
+          hidden
+        >
+          <span aria-hidden="true">←</span>
+        </button>
+        <button
+          class="cwc_home-best-sellers__arrow cwc_home-best-sellers__arrow--next"
+          type="button"
+          aria-label="Next products"
+          data-cwc-next
+          hidden
+        >
+          <span aria-hidden="true">→</span>
+        </button>
+      {% endif %}
+    </div>
+
+  </div>
+</section>
+
+{{ 'CWC_home_best_sellers.js' | asset_url | script_tag }}
+
+{% schema %}
+{
+  "name": "CWC Home Best Sellers",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Header"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Start here"
+    },
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "<p>The four formulas <strong>customers come back for.</strong></p>"
+    },
+    {
+      "type": "text",
+      "id": "view_all_label",
+      "label": "View All Label",
+      "default": "View all products →"
+    },
+    {
+      "type": "url",
+      "id": "view_all_link",
+      "label": "View All Link"
+    },
+    {
+      "type": "header",
+      "content": "Products"
+    },
+    {
+      "type": "collection",
+      "id": "product_source",
+      "label": "Product Collection",
+      "info": "Used when no product blocks are added. Product blocks always win."
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "label": "Products To Show",
+      "min": 2,
+      "max": 12,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "text",
+      "id": "default_button_label",
+      "label": "Default Card Button Label",
+      "default": "View product"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_rating",
+      "label": "Show Rating Line",
+      "info": "Reads the product's review metafields. Hidden when a product has no reviews.",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_price",
+      "label": "Show Price",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "label": "Columns On Desktop",
+      "min": 2,
+      "max": 5,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_carousel",
+      "label": "Scroll Cards Instead Of Wrapping",
+      "info": "Turns the grid into a swipeable track with arrows.",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#ECEBE5"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#2A2611"
+    },
+    {
+      "type": "color",
+      "id": "bold_color",
+      "label": "Heading Bold Color",
+      "default": "#2A2611"
+    },
+    {
+      "type": "color",
+      "id": "muted_color",
+      "label": "Muted Text Color",
+      "default": "#5F5B48"
+    },
+    {
+      "type": "color",
+      "id": "eyebrow_color",
+      "label": "Eyebrow Color",
+      "default": "#44681A"
+    },
+    {
+      "type": "color",
+      "id": "star_color",
+      "label": "Star Color",
+      "default": "#E8A317"
+    },
+    {
+      "type": "header",
+      "content": "Card Colors"
+    },
+    {
+      "type": "color",
+      "id": "card_bg_color",
+      "label": "Card Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "media_bg_color",
+      "label": "Card Image Background",
+      "default": "#F5F4F0"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Card Border Color",
+      "default": "#E0DED4"
+    },
+    {
+      "type": "color",
+      "id": "tag_color",
+      "label": "Category Tag Color",
+      "default": "#78AD49"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Button Hover Background",
+      "default": "#5BA90F"
+    },
+    {
+      "type": "color",
+      "id": "button_outline_color",
+      "label": "Button Outline Color",
+      "default": "#44681A"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_text_color",
+      "label": "Button Hover Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 95
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 95
+    }
+  ],
+  "blocks": [
+    {
+      "type": "product",
+      "name": "Product Card",
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Product"
+        },
+        {
+          "type": "text",
+          "id": "title_override",
+          "label": "Title Override"
+        },
+        {
+          "type": "text",
+          "id": "tag_label",
+          "label": "Category Tag",
+          "default": "Daily greens"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button Label",
+          "default": "Choose a flavor"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 8,
+  "presets": [
+    {
+      "name": "Home Best Sellers",
+      "category": "CWC Custom",
+      "blocks": [
+        { "type": "product" },
+        { "type": "product" },
+        { "type": "product" },
+        { "type": "product" }
+      ]
+    }
+  ]
+}
+{% endschema %}

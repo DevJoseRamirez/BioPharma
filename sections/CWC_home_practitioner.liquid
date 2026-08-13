@@ -1,0 +1,322 @@
+{% style %}
+  #cwc_home-practitioner-{{ section.id }} {
+    --section-bg: {{ section.settings.bg_color | default: '#44681A' }};
+    --text-color: {{ section.settings.text_color | default: '#C7CEB9' }};
+    --heading-color: {{ section.settings.heading_color | default: '#ECEBE5' }};
+    --highlight-color: {{ section.settings.bold_color | default: '#ffffff' }};
+    --eyebrow-color: {{ section.settings.eyebrow_color | default: '#A3B8E2' }};
+    --card-bg: {{ section.settings.card_bg_color | default: '#4C6F26' }};
+    --border-color: {{ section.settings.border_color | default: '#62803F' }};
+    --quote-color: {{ section.settings.quote_color | default: '#E5E5DC' }};
+    --credential-color: {{ section.settings.credential_color | default: '#A9B396' }};
+    --accent-color: {{ section.settings.accent_color | default: '#A3B8E2' }};
+    --padding-top: {{ section.settings.padding_top | default: 95 }}px;
+    --padding-bottom: {{ section.settings.padding_bottom | default: 95 }}px;
+    --padding-top-mobile: {{ section.settings.padding_top | default: 95 | times: 0.5 }}px;
+    --padding-bottom-mobile: {{ section.settings.padding_bottom | default: 95 | times: 0.5 }}px;
+  }
+{% endstyle %}
+
+{{ 'CWC_fonts.css' | asset_url | stylesheet_tag }}
+{{ 'CWC_home_practitioner.css' | asset_url | stylesheet_tag }}
+
+{% liquid
+  assign doctor_count = 0
+  assign stat_count = 0
+  for block in section.blocks
+    if block.type == 'doctor'
+      assign doctor_count = doctor_count | plus: 1
+    endif
+    if block.type == 'stat'
+      assign stat_count = stat_count | plus: 1
+    endif
+  endfor
+%}
+
+<section id="cwc_home-practitioner-{{ section.id }}" class="cwc_home-practitioner">
+  <div class="cwc_home-practitioner__container">
+
+    {% comment %} Section Header {% endcomment %}
+    <div class="cwc_home-practitioner__content">
+      {% if section.settings.eyebrow != blank %}
+        <div class="cwc_home-practitioner__eyebrow">{{ section.settings.eyebrow }}</div>
+      {% endif %}
+
+      {% if section.settings.heading != blank %}
+        <div class="cwc_home-practitioner__content-heading cwc-rte">
+          {{ section.settings.heading }}
+        </div>
+      {% endif %}
+
+      {% if section.settings.subtext != blank %}
+        <div class="cwc_home-practitioner__content-subtext cwc-rte">
+          {{ section.settings.subtext }}
+        </div>
+      {% endif %}
+    </div>
+
+    {% comment %} Practitioner Quote Cards {% endcomment %}
+    {% if doctor_count > 0 %}
+      <div class="cwc_home-practitioner__grid">
+        {% for block in section.blocks %}
+          {% case block.type %}
+            {% when 'doctor' %}
+              <div class="cwc_home-practitioner__card" {{ block.shopify_attributes }}>
+                <div class="cwc_home-practitioner__card-head">
+                  {% if block.settings.avatar != blank %}
+                    <img
+                      class="cwc_home-practitioner__card-image"
+                      src="{{ block.settings.avatar | image_url: width: 120 }}"
+                      alt="{{ block.settings.avatar_alt | default: block.settings.name | escape }}"
+                      width="46"
+                      height="46"
+                      loading="lazy"
+                    >
+                  {% endif %}
+
+                  <div class="cwc_home-practitioner__card-meta">
+                    {% if block.settings.name != blank %}
+                      <b class="cwc_home-practitioner__card-title">{{ block.settings.name }}</b>
+                    {% endif %}
+
+                    {% if block.settings.credential_line != blank %}
+                      <span class="cwc_home-practitioner__card-text">{{ block.settings.credential_line }}</span>
+                    {% endif %}
+                  </div>
+                </div>
+
+                {% if block.settings.quote != blank %}
+                  <q class="cwc_home-practitioner__card-quote">{{ block.settings.quote }}</q>
+                {% endif %}
+              </div>
+          {% endcase %}
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    {% comment %} Stat Row {% endcomment %}
+    {% if section.settings.show_stats and stat_count > 0 %}
+      <div class="cwc_home-practitioner__stats">
+        {% for block in section.blocks %}
+          {% case block.type %}
+            {% when 'stat' %}
+              <div class="cwc_home-practitioner__stat" {{ block.shopify_attributes }}>
+                {% if block.settings.value != blank %}
+                  <div class="cwc_home-practitioner__stat-value">{{ block.settings.value }}</div>
+                {% endif %}
+
+                {% if block.settings.label != blank %}
+                  <div class="cwc_home-practitioner__stat-label">{{ block.settings.label }}</div>
+                {% endif %}
+              </div>
+          {% endcase %}
+        {% endfor %}
+      </div>
+    {% endif %}
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "CWC Home Practitioner",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Header"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Recommended in practice"
+    },
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "<p>The people who recommend it <strong>see patients all day.</strong></p>"
+    },
+    {
+      "type": "richtext",
+      "id": "subtext",
+      "label": "Section Subtext",
+      "default": "<p>NanoGreens was developed for and distributed through doctors, chiropractors and naturopaths for years before it was ever sold direct. Many still stock it today. That history is why the formula has never been reformulated to hit a price.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Stat Row"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_stats",
+      "label": "Show Stat Row",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#44681A"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#C7CEB9"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "default": "#ECEBE5"
+    },
+    {
+      "type": "color",
+      "id": "bold_color",
+      "label": "Heading Bold Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "eyebrow_color",
+      "label": "Eyebrow Color",
+      "default": "#A3B8E2"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Stat Number Color",
+      "default": "#A3B8E2"
+    },
+    {
+      "type": "header",
+      "content": "Card Colors"
+    },
+    {
+      "type": "color",
+      "id": "card_bg_color",
+      "label": "Quote Card Background",
+      "default": "#4C6F26"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Border Color",
+      "default": "#62803F"
+    },
+    {
+      "type": "color",
+      "id": "quote_color",
+      "label": "Quote Text Color",
+      "default": "#E5E5DC"
+    },
+    {
+      "type": "color",
+      "id": "credential_color",
+      "label": "Credential Line Color",
+      "default": "#A9B396"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 95
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 95
+    }
+  ],
+  "blocks": [
+    {
+      "type": "doctor",
+      "name": "Practitioner Quote",
+      "limit": 6,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "avatar",
+          "label": "Portrait"
+        },
+        {
+          "type": "text",
+          "id": "avatar_alt",
+          "label": "Portrait Alt Text"
+        },
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Name",
+          "default": "Dr. Lauren Calloway, DC"
+        },
+        {
+          "type": "text",
+          "id": "credential_line",
+          "label": "Credential And Location",
+          "default": "Chiropractor · Scottsdale, AZ"
+        },
+        {
+          "type": "textarea",
+          "id": "quote",
+          "label": "Quote",
+          "default": "When someone isn't getting enough produce, this is the simplest thing I can hand them that they'll actually stick with."
+        }
+      ]
+    },
+    {
+      "type": "stat",
+      "name": "Stat",
+      "limit": 6,
+      "settings": [
+        {
+          "type": "text",
+          "id": "value",
+          "label": "Value",
+          "default": "20+"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "years recommended in practitioner clinics"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 12,
+  "presets": [
+    {
+      "name": "Home Practitioner",
+      "category": "CWC Custom",
+      "blocks": [
+        { "type": "doctor" },
+        { "type": "doctor" },
+        { "type": "doctor" },
+        { "type": "stat" },
+        { "type": "stat" },
+        { "type": "stat" },
+        { "type": "stat" }
+      ]
+    }
+  ]
+}
+{% endschema %}

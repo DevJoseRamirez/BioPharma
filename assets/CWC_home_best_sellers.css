@@ -1,0 +1,353 @@
+/* ==============================
+   CWC Home Best Sellers
+   ============================== */
+
+/* === Section Wrapper === */
+.cwc_home-best-sellers {
+  font-size: 16px; /* section anchor — type below is em relative to this */
+  background-color: var(--section-bg);
+  color: var(--text-color);
+  padding-top: var(--padding-top);
+  padding-bottom: var(--padding-bottom);
+  font-family: var(--cwc-font-body);
+}
+
+.cwc_home-best-sellers__container {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+/* === Split Head Row === */
+.cwc_home-best-sellers__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 2rem;
+  margin-bottom: 2.75rem;
+}
+
+.cwc_home-best-sellers__content {
+  min-width: 0;
+}
+
+.cwc_home-best-sellers__eyebrow {
+  font-size: 0.75em;
+  font-weight: var(--cwc-weight-label);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--eyebrow-color);
+  margin-bottom: 0.875rem;
+}
+
+.cwc_home-best-sellers__content-heading h1,
+.cwc_home-best-sellers__content-heading h2,
+.cwc_home-best-sellers__content-heading h3,
+.cwc_home-best-sellers__content-heading p {
+  font-family: var(--cwc-font-heading);
+  font-weight: 300;
+  font-size: 2.75em; /* 44px */
+  line-height: 1.12;
+  letter-spacing: -0.015em;
+  max-width: 18ch;
+  margin: 0;
+  color: inherit;
+}
+
+.cwc_home-best-sellers__content-heading > * strong,
+.cwc_home-best-sellers__content-heading > * b {
+  font-weight: 600;
+  color: var(--highlight-color);
+}
+
+.cwc_home-best-sellers__view-all {
+  font-size: 0.88em;
+  font-weight: 600;
+  color: var(--eyebrow-color);
+  text-decoration: none;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 3px;
+  white-space: nowrap;
+  transition: border-color 0.18s ease;
+}
+
+.cwc_home-best-sellers__view-all:hover {
+  border-bottom-color: var(--eyebrow-color);
+  color: var(--eyebrow-color);
+}
+
+/* === Card Grid === */
+.cwc_home-best-sellers__viewport {
+  position: relative;
+}
+
+.cwc_home-best-sellers__grid {
+  display: grid;
+  grid-template-columns: repeat(var(--columns-desktop), 1fr);
+  gap: 1.25rem;
+}
+
+/* === Card === */
+.cwc_home-best-sellers__card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  color: inherit;
+  text-decoration: none;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+a.cwc_home-best-sellers__card:hover {
+  box-shadow: 0 12px 28px rgba(42, 38, 17, 0.08);
+  transform: translateY(-2px);
+  color: inherit;
+}
+
+.cwc_home-best-sellers__card-image {
+  background: var(--media-bg);
+  height: 210px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.125rem;
+}
+
+.cwc_home-best-sellers__card-image img {
+  max-height: 175px;
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;
+  display: block;
+}
+
+.cwc_home-best-sellers__placeholder {
+  width: 100%;
+  height: 100%;
+  background: #f5f5f5;
+  border: 2px dashed #ddd;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #999;
+  font-size: 0.8em;
+  text-align: center;
+}
+
+.cwc_home-best-sellers__card-body {
+  padding: 1.125rem 1.125rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.438rem;
+  flex: 1;
+}
+
+.cwc_home-best-sellers__card-tag {
+  font-size: 0.69em;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--tag-color);
+  font-weight: 600;
+}
+
+.cwc_home-best-sellers__card-title {
+  font-family: var(--cwc-font-heading);
+  font-size: 1.25em; /* 20px */
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.cwc_home-best-sellers__card-rating {
+  font-size: 0.78em;
+  color: var(--muted-color);
+}
+
+.cwc_home-best-sellers__stars {
+  color: var(--star-color);
+  letter-spacing: 1px;
+  font-size: 1.1em;
+}
+
+.cwc_home-best-sellers__card-price {
+  font-size: 1em;
+  font-weight: 600;
+  margin-top: 2px;
+}
+
+.cwc_home-best-sellers__card-button {
+  display: block;
+  text-align: center;
+  font-size: 0.81em;
+  font-weight: 600;
+  padding: 0.688rem 1.25rem;
+  border-radius: 999px;
+  box-shadow: inset 0 0 0 1.5px var(--button-outline-color);
+  color: var(--button-outline-color);
+  margin-top: auto;
+  transition: background-color 0.18s ease, color 0.18s ease, box-shadow 0.18s ease;
+}
+
+a.cwc_home-best-sellers__card:hover .cwc_home-best-sellers__card-button {
+  background: var(--accent-color);
+  color: var(--button-hover-text);
+  box-shadow: none;
+}
+
+/* === Carousel (native scroll-snap) === */
+.cwc_home-best-sellers--carousel .cwc_home-best-sellers__grid {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  scroll-padding-left: 0;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding-bottom: 0.25rem;
+}
+
+.cwc_home-best-sellers--carousel .cwc_home-best-sellers__grid::-webkit-scrollbar {
+  display: none;
+}
+
+.cwc_home-best-sellers--carousel .cwc_home-best-sellers__card {
+  scroll-snap-align: start;
+  flex: 0 0 calc((100% - (var(--columns-desktop) - 1) * 1.25rem) / var(--columns-desktop));
+}
+
+.cwc_home-best-sellers__arrow {
+  position: absolute;
+  top: 105px;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid var(--border-color);
+  background: var(--card-bg);
+  color: var(--text-color);
+  font-size: 1em;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 16px rgba(42, 38, 17, 0.1);
+  z-index: 2;
+}
+
+.cwc_home-best-sellers__arrow[hidden] {
+  display: none;
+}
+
+.cwc_home-best-sellers__arrow--prev {
+  left: -0.75rem;
+}
+
+.cwc_home-best-sellers__arrow--next {
+  right: -0.75rem;
+}
+
+/* === Empty State === */
+.cwc_home-best-sellers__empty {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 2rem;
+  color: #999;
+}
+
+/* ==============================
+   Tablet Responsive
+   ============================== */
+@media screen and (max-width: 991px) {
+  .cwc_home-best-sellers__container {
+    padding: 0 1.25rem;
+  }
+
+  .cwc_home-best-sellers__content-heading h1,
+  .cwc_home-best-sellers__content-heading h2,
+  .cwc_home-best-sellers__content-heading h3,
+  .cwc_home-best-sellers__content-heading p {
+    font-size: 2.25em;
+  }
+
+  .cwc_home-best-sellers__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .cwc_home-best-sellers--carousel .cwc_home-best-sellers__card {
+    flex-basis: calc((100% - 1.25rem) / 2);
+  }
+}
+
+/* ==============================
+   Mobile Responsive
+   ============================== */
+@media screen and (max-width: 768px) {
+  .cwc_home-best-sellers {
+    padding-top: var(--padding-top-mobile);
+    padding-bottom: var(--padding-bottom-mobile);
+  }
+
+  .cwc_home-best-sellers__container {
+    padding: 0 1rem;
+  }
+
+  .cwc_home-best-sellers__head {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.875rem;
+    margin-bottom: 1.875rem;
+  }
+
+  .cwc_home-best-sellers__content-heading h1,
+  .cwc_home-best-sellers__content-heading h2,
+  .cwc_home-best-sellers__content-heading h3,
+  .cwc_home-best-sellers__content-heading p {
+    font-size: 1.88em;
+    max-width: none;
+  }
+
+  .cwc_home-best-sellers__grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.875rem;
+  }
+
+  .cwc_home-best-sellers--carousel .cwc_home-best-sellers__card {
+    flex-basis: calc((100% - 0.875rem) / 2);
+  }
+
+  .cwc_home-best-sellers__card-image {
+    height: 160px;
+  }
+
+  .cwc_home-best-sellers__card-image img {
+    max-height: 130px;
+  }
+
+  .cwc_home-best-sellers__arrow {
+    display: none;
+  }
+}
+
+/* ==============================
+   Small Mobile Responsive
+   ============================== */
+@media screen and (max-width: 480px) {
+  .cwc_home-best-sellers__content-heading h1,
+  .cwc_home-best-sellers__content-heading h2,
+  .cwc_home-best-sellers__content-heading h3,
+  .cwc_home-best-sellers__content-heading p {
+    font-size: 1.63em;
+  }
+
+  .cwc_home-best-sellers__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .cwc_home-best-sellers--carousel .cwc_home-best-sellers__card {
+    flex-basis: 82%;
+  }
+}

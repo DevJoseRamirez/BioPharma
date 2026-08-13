@@ -1,0 +1,296 @@
+{% style %}
+  #cwc_home-email-{{ section.id }} {
+    --section-bg: {{ section.settings.bg_color | default: '#44681A' }};
+    --text-color: {{ section.settings.text_color | default: '#C7CEB9' }};
+    --heading-color: {{ section.settings.heading_color | default: '#ECEBE5' }};
+    --highlight-color: {{ section.settings.bold_color | default: '#ffffff' }};
+    --input-bg: {{ section.settings.input_bg_color | default: '#4C7024' }};
+    --border-color: {{ section.settings.border_color | default: '#7C9760' }};
+    --placeholder-color: {{ section.settings.placeholder_color | default: '#A5B394' }};
+    --button-bg: {{ section.settings.button_color | default: '#5BA90F' }};
+    --button-text: {{ section.settings.button_text_color | default: '#ffffff' }};
+    --padding-top: {{ section.settings.padding_top | default: 70 }}px;
+    --padding-bottom: {{ section.settings.padding_bottom | default: 70 }}px;
+    --padding-top-mobile: {{ section.settings.padding_top | default: 70 | times: 0.5 }}px;
+    --padding-bottom-mobile: {{ section.settings.padding_bottom | default: 70 | times: 0.5 }}px;
+  }
+{% endstyle %}
+
+{{ 'CWC_fonts.css' | asset_url | stylesheet_tag }}
+{{ 'CWC_home_email.css' | asset_url | stylesheet_tag }}
+
+<section id="cwc_home-email-{{ section.id }}" class="cwc_home-email">
+  <div class="cwc_home-email__container">
+
+    {% comment %} Section Header {% endcomment %}
+    <div class="cwc_home-email__content">
+      {% if section.settings.heading != blank %}
+        <div class="cwc_home-email__content-heading cwc-rte">
+          {{ section.settings.heading }}
+        </div>
+      {% endif %}
+
+      {% if section.settings.subtext != blank %}
+        <div class="cwc_home-email__content-subtext cwc-rte">
+          {{ section.settings.subtext }}
+        </div>
+      {% endif %}
+    </div>
+
+    {% comment %} Capture Form {% endcomment %}
+    {% case section.settings.form_action %}
+      {% when 'shopify_customer' %}
+        {% form 'customer', class: 'cwc_home-email__form' %}
+          <input type="hidden" name="contact[tags]" value="{{ section.settings.customer_tag | default: 'newsletter' }}">
+
+          {% if form.posted_successfully? %}
+            <p class="cwc_home-email__message">{{ section.settings.success_message }}</p>
+          {% else %}
+            <label class="cwc_home-email__label" for="cwc_home-email-input-{{ section.id }}">
+              {{ section.settings.input_placeholder | default: 'Email address' }}
+            </label>
+            <input
+              id="cwc_home-email-input-{{ section.id }}"
+              class="cwc_home-email__input"
+              type="email"
+              name="contact[email]"
+              placeholder="{{ section.settings.input_placeholder | escape }}"
+              autocomplete="email"
+              required
+            >
+            <button class="cwc_home-email__button" type="submit">
+              {{ section.settings.button_label }}
+            </button>
+          {% endif %}
+
+          {% if form.errors %}
+            <p class="cwc_home-email__message cwc_home-email__message--error">
+              {{ form.errors.translated_fields.email | capitalize }} {{ form.errors.messages.email }}
+            </p>
+          {% endif %}
+        {% endform %}
+
+      {% when 'klaviyo' %}
+        <form
+          class="cwc_home-email__form"
+          method="post"
+          action="https://manage.kmail-lists.com/subscriptions/subscribe"
+          target="_blank"
+          rel="noopener"
+        >
+          <input type="hidden" name="g" value="{{ section.settings.klaviyo_list_id }}">
+          <input type="hidden" name="$fields" value="$source">
+          <input type="hidden" name="$source" value="{{ shop.name | escape }} homepage">
+
+          <label class="cwc_home-email__label" for="cwc_home-email-input-{{ section.id }}">
+            {{ section.settings.input_placeholder | default: 'Email address' }}
+          </label>
+          <input
+            id="cwc_home-email-input-{{ section.id }}"
+            class="cwc_home-email__input"
+            type="email"
+            name="email"
+            placeholder="{{ section.settings.input_placeholder | escape }}"
+            autocomplete="email"
+            required
+          >
+          <button class="cwc_home-email__button" type="submit">
+            {{ section.settings.button_label }}
+          </button>
+        </form>
+
+      {% else %}
+        <form
+          class="cwc_home-email__form"
+          method="post"
+          action="{{ section.settings.custom_form_action | default: '#' }}"
+        >
+          <label class="cwc_home-email__label" for="cwc_home-email-input-{{ section.id }}">
+            {{ section.settings.input_placeholder | default: 'Email address' }}
+          </label>
+          <input
+            id="cwc_home-email-input-{{ section.id }}"
+            class="cwc_home-email__input"
+            type="email"
+            name="{{ section.settings.custom_field_name | default: 'email' }}"
+            placeholder="{{ section.settings.input_placeholder | escape }}"
+            autocomplete="email"
+            required
+          >
+          <button class="cwc_home-email__button" type="submit">
+            {{ section.settings.button_label }}
+          </button>
+        </form>
+    {% endcase %}
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "CWC Home Email",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Header"
+    },
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "<p>Get <strong>10% off</strong> your first order.</p>"
+    },
+    {
+      "type": "richtext",
+      "id": "subtext",
+      "label": "Section Subtext",
+      "default": "<p>Plus the label guide — the three things worth checking on a greens panel, and the two that don’t matter.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Form"
+    },
+    {
+      "type": "select",
+      "id": "form_action",
+      "label": "Form Handler",
+      "options": [
+        { "value": "shopify_customer", "label": "Shopify customer form" },
+        { "value": "klaviyo", "label": "Klaviyo list" },
+        { "value": "custom", "label": "Custom endpoint" }
+      ],
+      "default": "shopify_customer"
+    },
+    {
+      "type": "text",
+      "id": "input_placeholder",
+      "label": "Input Placeholder",
+      "default": "you@email.com"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button Label",
+      "default": "Get the code"
+    },
+    {
+      "type": "text",
+      "id": "success_message",
+      "label": "Success Message",
+      "info": "Shown after a successful Shopify customer signup.",
+      "default": "Thanks — check your inbox for the code."
+    },
+    {
+      "type": "text",
+      "id": "customer_tag",
+      "label": "Shopify Customer Tag",
+      "default": "newsletter"
+    },
+    {
+      "type": "text",
+      "id": "klaviyo_list_id",
+      "label": "Klaviyo List ID",
+      "info": "Only used when the handler is set to Klaviyo."
+    },
+    {
+      "type": "url",
+      "id": "custom_form_action",
+      "label": "Custom Form Action URL"
+    },
+    {
+      "type": "text",
+      "id": "custom_field_name",
+      "label": "Custom Email Field Name",
+      "default": "email"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#44681A"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#C7CEB9"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "default": "#ECEBE5"
+    },
+    {
+      "type": "color",
+      "id": "bold_color",
+      "label": "Heading Bold Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "input_bg_color",
+      "label": "Input Background",
+      "default": "#4C7024"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Input Border Color",
+      "default": "#7C9760"
+    },
+    {
+      "type": "color",
+      "id": "placeholder_color",
+      "label": "Placeholder Color",
+      "default": "#A5B394"
+    },
+    {
+      "type": "color",
+      "id": "button_color",
+      "label": "Button Background",
+      "default": "#5BA90F"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 70
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 70
+    }
+  ],
+  "presets": [
+    {
+      "name": "Home Email",
+      "category": "CWC Custom"
+    }
+  ]
+}
+{% endschema %}

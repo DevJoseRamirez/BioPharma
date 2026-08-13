@@ -1,0 +1,381 @@
+{% style %}
+  #cwc_home-reviews-{{ section.id }} {
+    --section-bg: {{ section.settings.bg_color | default: '#ffffff' }};
+    --text-color: {{ section.settings.text_color | default: '#2A2611' }};
+    --highlight-color: {{ section.settings.bold_color | default: '#2A2611' }};
+    --muted-color: {{ section.settings.muted_color | default: '#5F5B48' }};
+    --eyebrow-color: {{ section.settings.eyebrow_color | default: '#44681A' }};
+    --panel-bg: {{ section.settings.panel_bg_color | default: '#F5F4F0' }};
+    --card-bg: {{ section.settings.card_bg_color | default: '#ffffff' }};
+    --border-color: {{ section.settings.border_color | default: '#E0DED4' }};
+    --star-color: {{ section.settings.star_color | default: '#E8A317' }};
+    --bar-bg: {{ section.settings.bar_bg_color | default: '#E4E2D9' }};
+    --bar-fill: {{ section.settings.bar_fill_color | default: '#78AD49' }};
+    --padding-top: {{ section.settings.padding_top | default: 95 }}px;
+    --padding-bottom: {{ section.settings.padding_bottom | default: 95 }}px;
+    --padding-top-mobile: {{ section.settings.padding_top | default: 95 | times: 0.5 }}px;
+    --padding-bottom-mobile: {{ section.settings.padding_bottom | default: 95 | times: 0.5 }}px;
+  }
+{% endstyle %}
+
+{{ 'CWC_fonts.css' | asset_url | stylesheet_tag }}
+{{ 'CWC_home_reviews.css' | asset_url | stylesheet_tag }}
+
+<section id="cwc_home-reviews-{{ section.id }}" class="cwc_home-reviews">
+  <div class="cwc_home-reviews__container">
+
+    {% comment %} Split Head Row {% endcomment %}
+    <div class="cwc_home-reviews__head">
+      <div class="cwc_home-reviews__content">
+        {% if section.settings.eyebrow != blank %}
+          <div class="cwc_home-reviews__eyebrow">{{ section.settings.eyebrow }}</div>
+        {% endif %}
+
+        {% if section.settings.heading != blank %}
+          <div class="cwc_home-reviews__content-heading cwc-rte">
+            {{ section.settings.heading }}
+          </div>
+        {% endif %}
+      </div>
+
+      {% if section.settings.view_all_label != blank %}
+        <a class="cwc_home-reviews__view-all" href="{{ section.settings.view_all_link | default: '#' }}">
+          {{ section.settings.view_all_label }}
+        </a>
+      {% endif %}
+    </div>
+
+    <div class="cwc_home-reviews__wrapper">
+
+      {% comment %} Aggregate Panel {% endcomment %}
+      <div class="cwc_home-reviews__panel">
+        {% assign rating_rounded = section.settings.rating_value | round %}
+        <div class="cwc_home-reviews__panel-stars" aria-hidden="true">
+          {%- for i in (1..5) -%}
+            {%- if i <= rating_rounded -%}★{%- else -%}☆{%- endif -%}
+          {%- endfor -%}
+        </div>
+
+        <div class="cwc_home-reviews__panel-value">{{ section.settings.rating_value }}</div>
+
+        {% if section.settings.rating_count != blank %}
+          <div class="cwc_home-reviews__panel-count">{{ section.settings.rating_count }}</div>
+        {% endif %}
+
+        {% if section.settings.show_distribution %}
+          {% capture bar_values %}{{ section.settings.pct_5 }},{{ section.settings.pct_4 }},{{ section.settings.pct_3 }},{{ section.settings.pct_2 }},{{ section.settings.pct_1 }}{% endcapture %}
+          {% assign bar_list = bar_values | split: ',' %}
+          {% assign star_labels = '5,4,3,2,1' | split: ',' %}
+
+          <div class="cwc_home-reviews__bars">
+            {% for pct in bar_list %}
+              <div class="cwc_home-reviews__bar">
+                <span class="cwc_home-reviews__bar-label">{{ star_labels[forloop.index0] }}★</span>
+                <span class="cwc_home-reviews__bar-track">
+                  <span class="cwc_home-reviews__bar-fill" style="width: {{ pct }}%;"></span>
+                </span>
+                <span class="cwc_home-reviews__bar-value">{{ pct }}%</span>
+              </div>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+
+      {% comment %} Review Cards {% endcomment %}
+      {% if section.blocks.size > 0 %}
+        <div class="cwc_home-reviews__grid">
+          {% for block in section.blocks %}
+            {% case block.type %}
+              {% when 'review' %}
+                <div class="cwc_home-reviews__card" {{ block.shopify_attributes }}>
+                  {% assign block_rating = block.settings.rating | round %}
+                  <div class="cwc_home-reviews__card-stars" aria-hidden="true">
+                    {%- for i in (1..5) -%}
+                      {%- if i <= block_rating -%}★{%- else -%}☆{%- endif -%}
+                    {%- endfor -%}
+                  </div>
+
+                  {% if block.settings.quote != blank %}
+                    <p class="cwc_home-reviews__card-text">{{ block.settings.quote }}</p>
+                  {% endif %}
+
+                  {% if block.settings.author_name != blank or block.settings.verified_label != blank %}
+                    <div class="cwc_home-reviews__card-title">
+                      {%- if block.settings.author_name != blank -%}
+                        {{ block.settings.author_name }}
+                      {%- endif -%}
+                      {%- if block.settings.verified_label != blank -%}
+                        {{ ' ' }}<span>· {{ block.settings.verified_label }}</span>
+                      {%- endif -%}
+                    </div>
+                  {% endif %}
+                </div>
+            {% endcase %}
+          {% endfor %}
+        </div>
+      {% else %}
+        <div class="cwc_home-reviews__empty">
+          <p>Add review blocks to display content.</p>
+        </div>
+      {% endif %}
+
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "CWC Home Reviews",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Header"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "614 verified buyers"
+    },
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "<p>The routines people <strong>have kept.</strong></p>"
+    },
+    {
+      "type": "text",
+      "id": "view_all_label",
+      "label": "View All Label",
+      "default": "Read all reviews →"
+    },
+    {
+      "type": "url",
+      "id": "view_all_link",
+      "label": "View All Link"
+    },
+    {
+      "type": "header",
+      "content": "Aggregate Panel"
+    },
+    {
+      "type": "range",
+      "id": "rating_value",
+      "label": "Rating Value",
+      "min": 0,
+      "max": 5,
+      "step": 0.1,
+      "default": 4.8
+    },
+    {
+      "type": "text",
+      "id": "rating_count",
+      "label": "Review Count Text",
+      "default": "614 verified reviews"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_distribution",
+      "label": "Show Distribution Bars",
+      "info": "Replace these with live values if a reviews app owns this data.",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "pct_5",
+      "label": "5 Star Percent",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "default": 84
+    },
+    {
+      "type": "range",
+      "id": "pct_4",
+      "label": "4 Star Percent",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "pct_3",
+      "label": "3 Star Percent",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "pct_2",
+      "label": "2 Star Percent",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "default": 2
+    },
+    {
+      "type": "range",
+      "id": "pct_1",
+      "label": "1 Star Percent",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "default": 1
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#2A2611"
+    },
+    {
+      "type": "color",
+      "id": "bold_color",
+      "label": "Heading Bold Color",
+      "default": "#2A2611"
+    },
+    {
+      "type": "color",
+      "id": "muted_color",
+      "label": "Muted Text Color",
+      "default": "#5F5B48"
+    },
+    {
+      "type": "color",
+      "id": "eyebrow_color",
+      "label": "Eyebrow Color",
+      "default": "#44681A"
+    },
+    {
+      "type": "color",
+      "id": "star_color",
+      "label": "Star Color",
+      "default": "#E8A317"
+    },
+    {
+      "type": "header",
+      "content": "Card Colors"
+    },
+    {
+      "type": "color",
+      "id": "panel_bg_color",
+      "label": "Aggregate Panel Background",
+      "default": "#F5F4F0"
+    },
+    {
+      "type": "color",
+      "id": "card_bg_color",
+      "label": "Review Card Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Border Color",
+      "default": "#E0DED4"
+    },
+    {
+      "type": "color",
+      "id": "bar_bg_color",
+      "label": "Distribution Bar Track",
+      "default": "#E4E2D9"
+    },
+    {
+      "type": "color",
+      "id": "bar_fill_color",
+      "label": "Distribution Bar Fill",
+      "default": "#78AD49"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 95
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 95
+    }
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Review",
+      "settings": [
+        {
+          "type": "range",
+          "id": "rating",
+          "label": "Rating",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "default": 5
+        },
+        {
+          "type": "textarea",
+          "id": "quote",
+          "label": "Review Text",
+          "default": "I've taken NanoGreens for years after my naturopath suggested it. More energy, better digestion. It's a non-negotiable part of my morning now."
+        },
+        {
+          "type": "text",
+          "id": "author_name",
+          "label": "Author Name",
+          "default": "Jennifer M."
+        },
+        {
+          "type": "text",
+          "id": "verified_label",
+          "label": "Verified Label",
+          "default": "Verified buyer"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 8,
+  "presets": [
+    {
+      "name": "Home Reviews",
+      "category": "CWC Custom",
+      "blocks": [
+        { "type": "review" },
+        { "type": "review" },
+        { "type": "review" },
+        { "type": "review" }
+      ]
+    }
+  ]
+}
+{% endschema %}

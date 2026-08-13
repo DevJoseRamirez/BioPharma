@@ -1,0 +1,356 @@
+{% style %}
+  #cwc_home-learn-{{ section.id }} {
+    --section-bg: {{ section.settings.bg_color | default: '#ECEBE5' }};
+    --text-color: {{ section.settings.text_color | default: '#2A2611' }};
+    --highlight-color: {{ section.settings.bold_color | default: '#2A2611' }};
+    --muted-color: {{ section.settings.muted_color | default: '#5F5B48' }};
+    --eyebrow-color: {{ section.settings.eyebrow_color | default: '#44681A' }};
+    --card-bg: {{ section.settings.card_bg_color | default: '#ffffff' }};
+    --media-bg: {{ section.settings.media_bg_color | default: '#F5F4F0' }};
+    --border-color: {{ section.settings.border_color | default: '#E0DED4' }};
+    --category-color: {{ section.settings.category_color | default: '#78AD49' }};
+    --columns-desktop: {{ section.settings.columns_desktop | default: 3 }};
+    --padding-top: {{ section.settings.padding_top | default: 95 }}px;
+    --padding-bottom: {{ section.settings.padding_bottom | default: 95 }}px;
+    --padding-top-mobile: {{ section.settings.padding_top | default: 95 | times: 0.5 }}px;
+    --padding-bottom-mobile: {{ section.settings.padding_bottom | default: 95 | times: 0.5 }}px;
+  }
+{% endstyle %}
+
+{{ 'CWC_fonts.css' | asset_url | stylesheet_tag }}
+{{ 'CWC_home_learn.css' | asset_url | stylesheet_tag }}
+
+{% assign source_blog = section.settings.blog_source %}
+
+<section id="cwc_home-learn-{{ section.id }}" class="cwc_home-learn">
+  {% if section.settings.section_id != blank %}
+    <span id="{{ section.settings.section_id | handleize }}" class="cwc_home-learn__anchor"></span>
+  {% endif %}
+
+  <div class="cwc_home-learn__container">
+
+    {% comment %} Split Head Row {% endcomment %}
+    <div class="cwc_home-learn__head">
+      <div class="cwc_home-learn__content">
+        {% if section.settings.eyebrow != blank %}
+          <div class="cwc_home-learn__eyebrow">{{ section.settings.eyebrow }}</div>
+        {% endif %}
+
+        {% if section.settings.heading != blank %}
+          <div class="cwc_home-learn__content-heading cwc-rte">
+            {{ section.settings.heading }}
+          </div>
+        {% endif %}
+      </div>
+
+      {% if section.settings.view_all_label != blank %}
+        <a
+          class="cwc_home-learn__view-all"
+          href="{{ section.settings.view_all_link | default: source_blog.url | default: '#' }}"
+        >
+          {{ section.settings.view_all_label }}
+        </a>
+      {% endif %}
+    </div>
+
+    {% comment %} Article Cards {% endcomment %}
+    <div class="cwc_home-learn__grid">
+      {% if source_blog != blank and source_blog.articles_count > 0 %}
+        {% for article in source_blog.articles limit: section.settings.articles_to_show %}
+          <a href="{{ article.url }}" class="cwc_home-learn__card">
+            <div
+              class="cwc_home-learn__card-image"
+              {% if article.image != blank %}
+                style="background-image: url('{{ article.image | image_url: width: 700 }}');"
+              {% endif %}
+            ></div>
+
+            <div class="cwc_home-learn__card-body">
+              {% if article.tags.size > 0 %}
+                <div class="cwc_home-learn__card-category">{{ article.tags.first }}</div>
+              {% endif %}
+
+              <div class="cwc_home-learn__card-title">{{ article.title }}</div>
+
+              {% if section.settings.show_read_time %}
+                {% assign read_time = article.metafields.custom.read_time %}
+                {% if read_time != blank %}
+                  <div class="cwc_home-learn__card-text">{{ read_time }}</div>
+                {% endif %}
+              {% endif %}
+            </div>
+          </a>
+        {% endfor %}
+
+      {% elsif section.blocks.size > 0 %}
+        {% for block in section.blocks %}
+          {% case block.type %}
+            {% when 'article' %}
+              {% if block.settings.link != blank %}
+                <a href="{{ block.settings.link }}" class="cwc_home-learn__card" {{ block.shopify_attributes }}>
+              {% else %}
+                <div class="cwc_home-learn__card" {{ block.shopify_attributes }}>
+              {% endif %}
+
+                <div
+                  class="cwc_home-learn__card-image"
+                  {% if block.settings.image != blank %}
+                    style="background-image: url('{{ block.settings.image | image_url: width: 700 }}');"
+                  {% endif %}
+                  {% if block.settings.image_alt != blank %}
+                    role="img"
+                    aria-label="{{ block.settings.image_alt | escape }}"
+                  {% endif %}
+                ></div>
+
+                <div class="cwc_home-learn__card-body">
+                  {% if block.settings.category_label != blank %}
+                    <div class="cwc_home-learn__card-category">{{ block.settings.category_label }}</div>
+                  {% endif %}
+
+                  {% if block.settings.title != blank %}
+                    <div class="cwc_home-learn__card-title">{{ block.settings.title }}</div>
+                  {% endif %}
+
+                  {% if section.settings.show_read_time and block.settings.read_time_text != blank %}
+                    <div class="cwc_home-learn__card-text">{{ block.settings.read_time_text }}</div>
+                  {% endif %}
+                </div>
+
+              {% if block.settings.link != blank %}
+                </a>
+              {% else %}
+                </div>
+              {% endif %}
+          {% endcase %}
+        {% endfor %}
+
+      {% else %}
+        <div class="cwc_home-learn__empty">
+          <p>Pick a blog, or add article blocks, to display cards.</p>
+        </div>
+      {% endif %}
+    </div>
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "CWC Home Learn",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Header"
+    },
+    {
+      "type": "text",
+      "id": "section_id",
+      "label": "Anchor ID",
+      "default": "learn"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "No purchase required"
+    },
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "<p>Read this before you buy anything — <strong>ours included.</strong></p>"
+    },
+    {
+      "type": "text",
+      "id": "view_all_label",
+      "label": "View All Label",
+      "default": "All articles →"
+    },
+    {
+      "type": "url",
+      "id": "view_all_link",
+      "label": "View All Link",
+      "info": "Falls back to the selected blog's URL."
+    },
+    {
+      "type": "header",
+      "content": "Articles"
+    },
+    {
+      "type": "blog",
+      "id": "blog_source",
+      "label": "Blog",
+      "info": "When set, articles come from this blog and the manual blocks below are ignored."
+    },
+    {
+      "type": "range",
+      "id": "articles_to_show",
+      "label": "Articles To Show",
+      "min": 2,
+      "max": 6,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "checkbox",
+      "id": "show_read_time",
+      "label": "Show Read Time",
+      "info": "Blog articles read this from the custom.read_time metafield.",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "label": "Columns On Desktop",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#ECEBE5"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#2A2611"
+    },
+    {
+      "type": "color",
+      "id": "bold_color",
+      "label": "Heading Bold Color",
+      "default": "#2A2611"
+    },
+    {
+      "type": "color",
+      "id": "muted_color",
+      "label": "Muted Text Color",
+      "default": "#5F5B48"
+    },
+    {
+      "type": "color",
+      "id": "eyebrow_color",
+      "label": "Eyebrow Color",
+      "default": "#44681A"
+    },
+    {
+      "type": "header",
+      "content": "Card Colors"
+    },
+    {
+      "type": "color",
+      "id": "card_bg_color",
+      "label": "Card Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "media_bg_color",
+      "label": "Card Image Background",
+      "default": "#F5F4F0"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Card Border Color",
+      "default": "#E0DED4"
+    },
+    {
+      "type": "color",
+      "id": "category_color",
+      "label": "Category Label Color",
+      "default": "#78AD49"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 95
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 95
+    }
+  ],
+  "blocks": [
+    {
+      "type": "article",
+      "name": "Article Card",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Card Image"
+        },
+        {
+          "type": "text",
+          "id": "image_alt",
+          "label": "Card Image Alt Text"
+        },
+        {
+          "type": "text",
+          "id": "category_label",
+          "label": "Category Label",
+          "default": "Buying guide"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Seven greens powders, compared without flinching"
+        },
+        {
+          "type": "text",
+          "id": "read_time_text",
+          "label": "Read Time Text",
+          "default": "6 min read"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Card Link"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 6,
+  "presets": [
+    {
+      "name": "Home Learn",
+      "category": "CWC Custom",
+      "blocks": [
+        { "type": "article" },
+        { "type": "article" },
+        { "type": "article" }
+      ]
+    }
+  ]
+}
+{% endschema %}

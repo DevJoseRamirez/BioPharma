@@ -1,0 +1,400 @@
+{% style %}
+  #cwc_home-absorption-{{ section.id }} {
+    --section-bg: {{ section.settings.bg_color | default: '#44681A' }};
+    --text-color: {{ section.settings.text_color | default: '#C7CEB9' }};
+    --heading-color: {{ section.settings.heading_color | default: '#ECEBE5' }};
+    --highlight-color: {{ section.settings.bold_color | default: '#ffffff' }};
+    --eyebrow-color: {{ section.settings.eyebrow_color | default: '#A3B8E2' }};
+    --card-bg: {{ section.settings.card_bg_color | default: '#4B6E24' }};
+    --card-text-color: {{ section.settings.card_text_color | default: '#BDC6AC' }};
+    --border-color: {{ section.settings.border_color | default: '#62803F' }};
+    --icon-color: {{ section.settings.icon_color | default: '#A3B8E2' }};
+    --pill-color: {{ section.settings.pill_color | default: '#A3B8E2' }};
+    --pill-border-color: {{ section.settings.pill_border_color | default: '#6B896E' }};
+    --button-bg: {{ section.settings.button_bg_color | default: '#5BA90F' }};
+    --button-text: {{ section.settings.button_text_color | default: '#ffffff' }};
+    --button-outline-color: {{ section.settings.button_outline_color | default: '#98A97F' }};
+    --padding-top: {{ section.settings.padding_top | default: 95 }}px;
+    --padding-bottom: {{ section.settings.padding_bottom | default: 95 }}px;
+    --padding-top-mobile: {{ section.settings.padding_top | default: 95 | times: 0.5 }}px;
+    --padding-bottom-mobile: {{ section.settings.padding_bottom | default: 95 | times: 0.5 }}px;
+  }
+{% endstyle %}
+
+{{ 'CWC_fonts.css' | asset_url | stylesheet_tag }}
+{{ 'CWC_home_absorption.css' | asset_url | stylesheet_tag }}
+
+<section id="cwc_home-absorption-{{ section.id }}" class="cwc_home-absorption">
+  <div class="cwc_home-absorption__container">
+
+    {% comment %} Section Header {% endcomment %}
+    <div class="cwc_home-absorption__content">
+      {% if section.settings.eyebrow != blank %}
+        <div class="cwc_home-absorption__eyebrow">{{ section.settings.eyebrow }}</div>
+      {% endif %}
+
+      {% if section.settings.heading != blank %}
+        <div class="cwc_home-absorption__content-heading cwc-rte">
+          {{ section.settings.heading }}
+        </div>
+      {% endif %}
+
+      {% if section.settings.subtext != blank %}
+        <div class="cwc_home-absorption__content-subtext cwc-rte">
+          {{ section.settings.subtext }}
+        </div>
+      {% endif %}
+    </div>
+
+    {% comment %} Steps + Enzymes {% endcomment %}
+    {% assign step_index = 0 %}
+    {% assign enzyme_count = 0 %}
+    {% for block in section.blocks %}
+      {% if block.type == 'enzyme' %}
+        {% assign enzyme_count = enzyme_count | plus: 1 %}
+      {% endif %}
+    {% endfor %}
+
+    {% if section.blocks.size > 0 %}
+      <div class="cwc_home-absorption__grid">
+        {% for block in section.blocks %}
+          {% case block.type %}
+            {% when 'step' %}
+              {% assign step_index = step_index | plus: 1 %}
+              <div class="cwc_home-absorption__card" {{ block.shopify_attributes }}>
+                {% if block.settings.stage_label != blank %}
+                  <span class="cwc_home-absorption__card-stage">{{ block.settings.stage_label }}</span>
+                {% endif %}
+
+                <div class="cwc_home-absorption__card-icon">
+                  {% if block.settings.icon != blank %}
+                    <img
+                      src="{{ block.settings.icon | image_url: width: 144 }}"
+                      alt="{{ block.settings.icon_alt | default: block.settings.title | escape }}"
+                      width="72"
+                      height="46"
+                      loading="lazy"
+                    >
+                  {% else %}
+                    {% case step_index %}
+                      {% when 1 %}
+                        <svg width="72" height="46" viewBox="0 0 72 46" fill="none" aria-hidden="true" focusable="false">
+                          <circle cx="24" cy="23" r="14" stroke="currentColor" stroke-width="1.4" opacity=".55"/>
+                          <circle cx="24" cy="23" r="7" fill="currentColor" opacity=".85"/>
+                          <path d="M46 23h20M60 17l6 6-6 6" stroke="currentColor" stroke-width="1.4" opacity=".5"/>
+                        </svg>
+                      {% when 2 %}
+                        <svg width="72" height="46" viewBox="0 0 72 46" fill="none" aria-hidden="true" focusable="false">
+                          <path d="M6 23c8-13 16 13 24 0s16 13 24 0" stroke="currentColor" stroke-width="1.4" opacity=".55"/>
+                          <circle cx="18" cy="16" r="3.2" fill="currentColor" opacity=".8"/>
+                          <circle cx="42" cy="30" r="3.2" fill="currentColor" opacity=".8"/>
+                          <circle cx="60" cy="16" r="3.2" fill="currentColor" opacity=".8"/>
+                        </svg>
+                      {% else %}
+                        <svg width="72" height="46" viewBox="0 0 72 46" fill="none" aria-hidden="true" focusable="false">
+                          <path d="M8 34h56" stroke="currentColor" stroke-width="1.4" opacity=".4"/>
+                          <path d="M18 34V16M32 34V10M46 34V19M60 34V13" stroke="currentColor" stroke-width="1.6" opacity=".75" stroke-linecap="round"/>
+                        </svg>
+                    {% endcase %}
+                  {% endif %}
+                </div>
+
+                {% if block.settings.title != blank %}
+                  <div class="cwc_home-absorption__card-title">{{ block.settings.title }}</div>
+                {% endif %}
+
+                {% if block.settings.description != blank %}
+                  <div class="cwc_home-absorption__card-text cwc-rte">
+                    {{ block.settings.description }}
+                  </div>
+                {% endif %}
+              </div>
+          {% endcase %}
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    {% if section.settings.show_enzyme_row and enzyme_count > 0 %}
+      <div class="cwc_home-absorption__enzymes">
+        {% for block in section.blocks %}
+          {% case block.type %}
+            {% when 'enzyme' %}
+              {% if block.settings.name != blank %}
+                <span class="cwc_home-absorption__enzyme" {{ block.shopify_attributes }}>
+                  {{ block.settings.name }}
+                </span>
+              {% endif %}
+          {% endcase %}
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    {% if section.settings.cta_label != blank or section.settings.secondary_label != blank %}
+      <div class="cwc_home-absorption__actions">
+        {% if section.settings.cta_label != blank %}
+          <a class="cwc_home-absorption__button" href="{{ section.settings.cta_link | default: '#' }}">
+            {{ section.settings.cta_label }}
+          </a>
+        {% endif %}
+
+        {% if section.settings.secondary_label != blank %}
+          <a
+            class="cwc_home-absorption__button cwc_home-absorption__button--outline"
+            href="{{ section.settings.secondary_link | default: '#' }}"
+          >
+            {{ section.settings.secondary_label }}
+          </a>
+        {% endif %}
+      </div>
+    {% endif %}
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "CWC Home Absorption",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Header"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "The expensive part everyone skips"
+    },
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "<p>You are what you <strong>absorb</strong>.</p>"
+    },
+    {
+      "type": "richtext",
+      "id": "subtext",
+      "label": "Section Subtext",
+      "default": "<p>An ingredient list only counts for what your body can take up. Enzymes are what break the formula down so it can be used — and they are the expensive line on a spec sheet. Blend 32000B is in every product we make.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Enzyme Row"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_enzyme_row",
+      "label": "Show Enzyme Pills",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Buttons"
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "Primary Button Label",
+      "default": "Shop NanoGreens — from $56/mo"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "Primary Button Link"
+    },
+    {
+      "type": "text",
+      "id": "secondary_label",
+      "label": "Outline Button Label",
+      "default": "See the ingredient panel"
+    },
+    {
+      "type": "url",
+      "id": "secondary_link",
+      "label": "Outline Button Link"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#44681A"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#C7CEB9"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "default": "#ECEBE5"
+    },
+    {
+      "type": "color",
+      "id": "bold_color",
+      "label": "Heading Bold Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "eyebrow_color",
+      "label": "Eyebrow Color",
+      "default": "#A3B8E2"
+    },
+    {
+      "type": "color",
+      "id": "icon_color",
+      "label": "Icon Color",
+      "default": "#A3B8E2"
+    },
+    {
+      "type": "header",
+      "content": "Card Colors"
+    },
+    {
+      "type": "color",
+      "id": "card_bg_color",
+      "label": "Step Card Background",
+      "default": "#4B6E24"
+    },
+    {
+      "type": "color",
+      "id": "card_text_color",
+      "label": "Step Card Text Color",
+      "default": "#BDC6AC"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Step Card Border Color",
+      "default": "#62803F"
+    },
+    {
+      "type": "color",
+      "id": "pill_color",
+      "label": "Enzyme Pill Text Color",
+      "default": "#A3B8E2"
+    },
+    {
+      "type": "color",
+      "id": "pill_border_color",
+      "label": "Enzyme Pill Border Color",
+      "default": "#6B896E"
+    },
+    {
+      "type": "color",
+      "id": "button_bg_color",
+      "label": "Primary Button Background",
+      "default": "#5BA90F"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Primary Button Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "button_outline_color",
+      "label": "Outline Button Border Color",
+      "default": "#98A97F"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 95
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 95
+    }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Step",
+      "limit": 4,
+      "settings": [
+        {
+          "type": "text",
+          "id": "stage_label",
+          "label": "Stage Label",
+          "default": "Stage one"
+        },
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Step Icon",
+          "info": "Leave empty to use the built-in line-art icon for this step position."
+        },
+        {
+          "type": "text",
+          "id": "icon_alt",
+          "label": "Step Icon Alt Text"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Encapsulated"
+        },
+        {
+          "type": "richtext",
+          "id": "description",
+          "label": "Description",
+          "default": "<p>Supersorb wraps key nutrients in natural plant fats so they survive the stomach instead of breaking down in it.</p>"
+        }
+      ]
+    },
+    {
+      "type": "enzyme",
+      "name": "Enzyme Pill",
+      "limit": 12,
+      "settings": [
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Enzyme Name",
+          "default": "Protease"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 16,
+  "presets": [
+    {
+      "name": "Home Absorption",
+      "category": "CWC Custom",
+      "blocks": [
+        { "type": "step" },
+        { "type": "step" },
+        { "type": "step" },
+        { "type": "enzyme" },
+        { "type": "enzyme" },
+        { "type": "enzyme" }
+      ]
+    }
+  ]
+}
+{% endschema %}

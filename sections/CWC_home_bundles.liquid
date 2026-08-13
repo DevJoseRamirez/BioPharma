@@ -1,0 +1,471 @@
+{% style %}
+  #cwc_home-bundles-{{ section.id }} {
+    --section-bg: {{ section.settings.bg_color | default: '#ffffff' }};
+    --text-color: {{ section.settings.text_color | default: '#2A2611' }};
+    --highlight-color: {{ section.settings.bold_color | default: '#2A2611' }};
+    --muted-color: {{ section.settings.muted_color | default: '#5F5B48' }};
+    --eyebrow-color: {{ section.settings.eyebrow_color | default: '#44681A' }};
+    --card-bg: {{ section.settings.card_bg_color | default: '#ffffff' }};
+    --media-bg: {{ section.settings.media_bg_color | default: '#F5F4F0' }};
+    --border-color: {{ section.settings.border_color | default: '#E0DED4' }};
+    --accent-color: {{ section.settings.accent_color | default: '#5BA90F' }};
+    --marker-color: {{ section.settings.marker_color | default: '#78AD49' }};
+    --badge-bg: {{ section.settings.badge_bg_color | default: '#E4EFD8' }};
+    --button-text: {{ section.settings.button_text_color | default: '#ffffff' }};
+    --button-outline-color: {{ section.settings.button_outline_color | default: '#44681A' }};
+    --columns-desktop: {{ section.settings.columns_desktop | default: 3 }};
+    --padding-top: {{ section.settings.padding_top | default: 95 }}px;
+    --padding-bottom: {{ section.settings.padding_bottom | default: 95 }}px;
+    --padding-top-mobile: {{ section.settings.padding_top | default: 95 | times: 0.5 }}px;
+    --padding-bottom-mobile: {{ section.settings.padding_bottom | default: 95 | times: 0.5 }}px;
+  }
+{% endstyle %}
+
+{{ 'CWC_fonts.css' | asset_url | stylesheet_tag }}
+{{ 'CWC_home_bundles.css' | asset_url | stylesheet_tag }}
+
+<section id="cwc_home-bundles-{{ section.id }}" class="cwc_home-bundles">
+  {% if section.settings.section_id != blank %}
+    <span id="{{ section.settings.section_id | handleize }}" class="cwc_home-bundles__anchor"></span>
+  {% endif %}
+
+  <div class="cwc_home-bundles__container">
+
+    {% comment %} Section Header {% endcomment %}
+    <div class="cwc_home-bundles__content">
+      {% if section.settings.eyebrow != blank %}
+        <div class="cwc_home-bundles__eyebrow">{{ section.settings.eyebrow }}</div>
+      {% endif %}
+
+      {% if section.settings.heading != blank %}
+        <div class="cwc_home-bundles__content-heading cwc-rte">
+          {{ section.settings.heading }}
+        </div>
+      {% endif %}
+
+      {% if section.settings.subtext != blank %}
+        <div class="cwc_home-bundles__content-subtext cwc-rte">
+          {{ section.settings.subtext }}
+        </div>
+      {% endif %}
+    </div>
+
+    {% comment %} Kit Cards {% endcomment %}
+    {% if section.blocks.size > 0 %}
+      <div class="cwc_home-bundles__grid">
+        {% for block in section.blocks %}
+          {% case block.type %}
+            {% when 'kit' %}
+              <div
+                class="cwc_home-bundles__card{% if block.settings.is_featured %} cwc_home-bundles__card--featured{% endif %}"
+                {{ block.shopify_attributes }}
+              >
+                <div class="cwc_home-bundles__card-image">
+                  {% if block.settings.is_featured and block.settings.flag_label != blank %}
+                    <span class="cwc_home-bundles__card-flag">{{ block.settings.flag_label }}</span>
+                  {% endif %}
+
+                  {% if block.settings.image_1 != blank %}
+                    <img
+                      src="{{ block.settings.image_1 | image_url: width: 400 }}"
+                      alt="{{ block.settings.image_1_alt | default: block.settings.title | escape }}"
+                      width="400"
+                      height="400"
+                      loading="lazy"
+                    >
+                  {% endif %}
+
+                  {% if block.settings.image_2 != blank %}
+                    <img
+                      src="{{ block.settings.image_2 | image_url: width: 400 }}"
+                      alt="{{ block.settings.image_2_alt | default: block.settings.title | escape }}"
+                      width="400"
+                      height="400"
+                      loading="lazy"
+                    >
+                  {% endif %}
+
+                  {% if block.settings.image_1 == blank and block.settings.image_2 == blank %}
+                    <div class="cwc_home-bundles__placeholder">
+                      <span>Add kit images</span>
+                    </div>
+                  {% endif %}
+                </div>
+
+                <div class="cwc_home-bundles__card-body">
+                  {% if block.settings.title != blank %}
+                    <div class="cwc_home-bundles__card-title">{{ block.settings.title }}</div>
+                  {% endif %}
+
+                  {% if block.settings.for_line != blank %}
+                    <p class="cwc_home-bundles__card-for">{{ block.settings.for_line }}</p>
+                  {% endif %}
+
+                  {% if block.settings.contents != blank %}
+                    <div class="cwc_home-bundles__card-list cwc-rte">
+                      {{ block.settings.contents }}
+                    </div>
+                  {% endif %}
+
+                  {% if block.settings.price_now != blank
+                    or block.settings.price_was != blank
+                    or block.settings.save_badge != blank
+                  %}
+                    <div class="cwc_home-bundles__card-price">
+                      {% if block.settings.price_now != blank %}
+                        <span class="cwc_home-bundles__card-price-now">{{ block.settings.price_now }}</span>
+                      {% endif %}
+
+                      {% if block.settings.price_was != blank %}
+                        <span class="cwc_home-bundles__card-price-was">{{ block.settings.price_was }}</span>
+                      {% endif %}
+
+                      {% if block.settings.save_badge != blank %}
+                        <span class="cwc_home-bundles__card-badge">{{ block.settings.save_badge }}</span>
+                      {% endif %}
+                    </div>
+                  {% endif %}
+
+                  {% if block.settings.cta_label != blank %}
+                    <a
+                      class="cwc_home-bundles__button{% if block.settings.button_style == 'outline' %} cwc_home-bundles__button--outline{% endif %}"
+                      href="{{ block.settings.cta_link | default: '#' }}"
+                    >
+                      {{ block.settings.cta_label }}
+                    </a>
+                  {% endif %}
+                </div>
+              </div>
+          {% endcase %}
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="cwc_home-bundles__empty">
+        <p>Add kit blocks to display content.</p>
+      </div>
+    {% endif %}
+
+    {% if section.settings.footer_text != blank or section.settings.footer_link_label != blank %}
+      <p class="cwc_home-bundles__footer">
+        {%- if section.settings.footer_text != blank -%}
+          {{ section.settings.footer_text }}{{ ' ' }}
+        {%- endif -%}
+        {%- if section.settings.footer_link_label != blank -%}
+          <a class="cwc_home-bundles__footer-link" href="{{ section.settings.footer_link | default: '#' }}">
+            {{- section.settings.footer_link_label -}}
+          </a>
+        {%- endif -%}
+      </p>
+    {% endif %}
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "CWC Home Bundles",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Header"
+    },
+    {
+      "type": "text",
+      "id": "section_id",
+      "label": "Anchor ID",
+      "info": "Lets other sections link straight here, e.g. #kits",
+      "default": "kits"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Fewer decisions"
+    },
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "<p>Three kits. <strong>One delivery.</strong></p>"
+    },
+    {
+      "type": "richtext",
+      "id": "subtext",
+      "label": "Section Subtext",
+      "default": "<p>Cheaper than the same products bought separately, and they turn up on the same day instead of three different ones.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Closing Line"
+    },
+    {
+      "type": "text",
+      "id": "footer_text",
+      "label": "Closing Text",
+      "default": "Already know what you want?"
+    },
+    {
+      "type": "text",
+      "id": "footer_link_label",
+      "label": "Closing Link Label",
+      "default": "Build your own bundle"
+    },
+    {
+      "type": "url",
+      "id": "footer_link",
+      "label": "Closing Link URL"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "label": "Columns On Desktop",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#2A2611"
+    },
+    {
+      "type": "color",
+      "id": "bold_color",
+      "label": "Heading Bold Color",
+      "default": "#2A2611"
+    },
+    {
+      "type": "color",
+      "id": "muted_color",
+      "label": "Muted Text Color",
+      "default": "#5F5B48"
+    },
+    {
+      "type": "color",
+      "id": "eyebrow_color",
+      "label": "Eyebrow Color",
+      "default": "#44681A"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent Color",
+      "info": "Featured card ring, ribbon and primary button.",
+      "default": "#5BA90F"
+    },
+    {
+      "type": "header",
+      "content": "Card Colors"
+    },
+    {
+      "type": "color",
+      "id": "card_bg_color",
+      "label": "Card Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "media_bg_color",
+      "label": "Card Image Background",
+      "default": "#F5F4F0"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Card Border Color",
+      "default": "#E0DED4"
+    },
+    {
+      "type": "color",
+      "id": "marker_color",
+      "label": "Contents Marker Color",
+      "default": "#78AD49"
+    },
+    {
+      "type": "color",
+      "id": "badge_bg_color",
+      "label": "Save Badge Background",
+      "default": "#E4EFD8"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Primary Button Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "button_outline_color",
+      "label": "Outline Button Color",
+      "default": "#44681A"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 95
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 95
+    }
+  ],
+  "blocks": [
+    {
+      "type": "kit",
+      "name": "Kit Card",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image_1",
+          "label": "Kit Image One"
+        },
+        {
+          "type": "text",
+          "id": "image_1_alt",
+          "label": "Kit Image One Alt Text"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_2",
+          "label": "Kit Image Two"
+        },
+        {
+          "type": "text",
+          "id": "image_2_alt",
+          "label": "Kit Image Two Alt Text"
+        },
+        {
+          "type": "header",
+          "content": "Content"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Daily Foundation Kit"
+        },
+        {
+          "type": "text",
+          "id": "for_line",
+          "label": "Who It Is For",
+          "default": "A practical place to begin — greens, omegas and minerals."
+        },
+        {
+          "type": "richtext",
+          "id": "contents",
+          "label": "Kit Contents",
+          "info": "One product per line, or use the bullet list button.",
+          "default": "<p>NanoGreens¹⁰</p><p>NanoMega</p><p>NanoMinerals</p>"
+        },
+        {
+          "type": "header",
+          "content": "Price"
+        },
+        {
+          "type": "text",
+          "id": "price_now",
+          "label": "Price Now",
+          "default": "$149"
+        },
+        {
+          "type": "text",
+          "id": "price_was",
+          "label": "Price Was",
+          "default": "$189.85"
+        },
+        {
+          "type": "text",
+          "id": "save_badge",
+          "label": "Save Badge",
+          "default": "Save 22%"
+        },
+        {
+          "type": "header",
+          "content": "Emphasis"
+        },
+        {
+          "type": "checkbox",
+          "id": "is_featured",
+          "label": "Feature This Kit",
+          "default": false
+        },
+        {
+          "type": "text",
+          "id": "flag_label",
+          "label": "Ribbon Label",
+          "info": "Only shown on the featured kit.",
+          "default": "Start here"
+        },
+        {
+          "type": "header",
+          "content": "Button"
+        },
+        {
+          "type": "text",
+          "id": "cta_label",
+          "label": "Button Label",
+          "default": "Shop the kit"
+        },
+        {
+          "type": "url",
+          "id": "cta_link",
+          "label": "Button Link"
+        },
+        {
+          "type": "select",
+          "id": "button_style",
+          "label": "Button Style",
+          "options": [
+            { "value": "primary", "label": "Primary" },
+            { "value": "outline", "label": "Outline" }
+          ],
+          "default": "outline"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 4,
+  "presets": [
+    {
+      "name": "Home Bundles",
+      "category": "CWC Custom",
+      "blocks": [
+        { "type": "kit" },
+        { "type": "kit" },
+        { "type": "kit" }
+      ]
+    }
+  ]
+}
+{% endschema %}

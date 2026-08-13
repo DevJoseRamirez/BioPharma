@@ -1,0 +1,276 @@
+{% style %}
+  #cwc_home-by-problem-{{ section.id }} {
+    --section-bg: {{ section.settings.bg_color | default: '#ECEBE5' }};
+    --text-color: {{ section.settings.text_color | default: '#2A2611' }};
+    --highlight-color: {{ section.settings.bold_color | default: '#2A2611' }};
+    --muted-color: {{ section.settings.muted_color | default: '#5F5B48' }};
+    --eyebrow-color: {{ section.settings.eyebrow_color | default: '#44681A' }};
+    --card-bg: {{ section.settings.card_bg_color | default: '#ffffff' }};
+    --icon-bg: {{ section.settings.icon_bg_color | default: '#F5F4F0' }};
+    --border-color: {{ section.settings.border_color | default: '#E0DED4' }};
+    --columns-desktop: {{ section.settings.columns_desktop | default: 5 }};
+    --padding-top: {{ section.settings.padding_top | default: 95 }}px;
+    --padding-bottom: {{ section.settings.padding_bottom | default: 95 }}px;
+    --padding-top-mobile: {{ section.settings.padding_top | default: 95 | times: 0.5 }}px;
+    --padding-bottom-mobile: {{ section.settings.padding_bottom | default: 95 | times: 0.5 }}px;
+  }
+{% endstyle %}
+
+{{ 'CWC_fonts.css' | asset_url | stylesheet_tag }}
+{{ 'CWC_home_by_problem.css' | asset_url | stylesheet_tag }}
+
+<section id="cwc_home-by-problem-{{ section.id }}" class="cwc_home-by-problem">
+  {% if section.settings.section_id != blank %}
+    <span id="{{ section.settings.section_id | handleize }}" class="cwc_home-by-problem__anchor"></span>
+  {% endif %}
+
+  <div class="cwc_home-by-problem__container">
+
+    {% comment %} Section Header {% endcomment %}
+    <div class="cwc_home-by-problem__content">
+      {% if section.settings.eyebrow != blank %}
+        <div class="cwc_home-by-problem__eyebrow">{{ section.settings.eyebrow }}</div>
+      {% endif %}
+
+      {% if section.settings.heading != blank %}
+        <div class="cwc_home-by-problem__content-heading cwc-rte">
+          {{ section.settings.heading }}
+        </div>
+      {% endif %}
+
+      {% if section.settings.subtext != blank %}
+        <div class="cwc_home-by-problem__content-subtext cwc-rte">
+          {{ section.settings.subtext }}
+        </div>
+      {% endif %}
+    </div>
+
+    {% comment %} Need Cards {% endcomment %}
+    {% if section.blocks.size > 0 %}
+      <div class="cwc_home-by-problem__grid">
+        {% for block in section.blocks %}
+          {% case block.type %}
+            {% when 'need' %}
+              {% if block.settings.link != blank %}
+                <a href="{{ block.settings.link }}" class="cwc_home-by-problem__card" {{ block.shopify_attributes }}>
+              {% else %}
+                <div class="cwc_home-by-problem__card" {{ block.shopify_attributes }}>
+              {% endif %}
+
+                <div class="cwc_home-by-problem__card-image">
+                  {% if block.settings.icon != blank %}
+                    <img
+                      src="{{ block.settings.icon | image_url: width: 80 }}"
+                      alt="{{ block.settings.icon_alt | default: block.settings.title | escape }}"
+                      width="32"
+                      height="32"
+                      loading="lazy"
+                    >
+                  {% endif %}
+                </div>
+
+                {% if block.settings.title != blank %}
+                  <div class="cwc_home-by-problem__card-title">{{ block.settings.title }}</div>
+                {% endif %}
+
+                {% if block.settings.description != blank %}
+                  <div class="cwc_home-by-problem__card-text cwc-rte">
+                    {{ block.settings.description }}
+                  </div>
+                {% endif %}
+
+              {% if block.settings.link != blank %}
+                </a>
+              {% else %}
+                </div>
+              {% endif %}
+          {% endcase %}
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="cwc_home-by-problem__empty">
+        <p>Add need blocks to display content.</p>
+      </div>
+    {% endif %}
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "CWC Home By Problem",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Header"
+    },
+    {
+      "type": "text",
+      "id": "section_id",
+      "label": "Anchor ID",
+      "info": "Lets other sections link straight here, e.g. #needs",
+      "default": "needs"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Start with your routine"
+    },
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "<p>Pick the part of your day <strong>that isn’t working.</strong></p>"
+    },
+    {
+      "type": "richtext",
+      "id": "subtext",
+      "label": "Section Subtext",
+      "default": "<p>Five places people usually start. Choose the one that sounds like your week and we’ll narrow the range for you.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "label": "Columns On Desktop",
+      "min": 3,
+      "max": 5,
+      "step": 1,
+      "default": 5
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#ECEBE5"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#2A2611"
+    },
+    {
+      "type": "color",
+      "id": "bold_color",
+      "label": "Heading Bold Color",
+      "default": "#2A2611"
+    },
+    {
+      "type": "color",
+      "id": "muted_color",
+      "label": "Muted Text Color",
+      "default": "#5F5B48"
+    },
+    {
+      "type": "color",
+      "id": "eyebrow_color",
+      "label": "Eyebrow Color",
+      "default": "#44681A"
+    },
+    {
+      "type": "header",
+      "content": "Card Colors"
+    },
+    {
+      "type": "color",
+      "id": "card_bg_color",
+      "label": "Card Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "icon_bg_color",
+      "label": "Icon Circle Background",
+      "default": "#F5F4F0"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Card Hover Border Color",
+      "default": "#E0DED4"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 95
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 95
+    }
+  ],
+  "blocks": [
+    {
+      "type": "need",
+      "name": "Need Card",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Card Icon"
+        },
+        {
+          "type": "text",
+          "id": "icon_alt",
+          "label": "Card Icon Alt Text"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Daily Foundation"
+        },
+        {
+          "type": "richtext",
+          "id": "description",
+          "label": "Description",
+          "default": "<p>You eat fine. Just not thirteen-servings-a-day fine.</p>"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Card Link"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 8,
+  "presets": [
+    {
+      "name": "Home By Problem",
+      "category": "CWC Custom",
+      "blocks": [
+        { "type": "need" },
+        { "type": "need" },
+        { "type": "need" },
+        { "type": "need" },
+        { "type": "need" }
+      ]
+    }
+  ]
+}
+{% endschema %}

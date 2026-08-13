@@ -1,0 +1,603 @@
+{% style %}
+  #cwc_home-hero-{{ section.id }} {
+    --section-bg: {{ section.settings.bg_color | default: '#ECEBE5' }};
+    --text-color: {{ section.settings.text_color | default: '#2A2611' }};
+    --highlight-color: {{ section.settings.bold_color | default: '#2A2611' }};
+    --muted-color: {{ section.settings.muted_color | default: '#5F5B48' }};
+    --eyebrow-color: {{ section.settings.eyebrow_color | default: '#44681A' }};
+    --card-bg: {{ section.settings.card_bg_color | default: '#ffffff' }};
+    --border-color: {{ section.settings.border_color | default: '#E0DED4' }};
+    --accent-color: {{ section.settings.accent_color | default: '#5BA90F' }};
+    --button-bg: {{ section.settings.button_bg_color | default: '#5BA90F' }};
+    --button-text: {{ section.settings.button_text_color | default: '#ffffff' }};
+    --star-color: {{ section.settings.star_color | default: '#E8A317' }};
+    --media-bg: {{ section.settings.media_bg_color | default: '#ffffff' }};
+    --pill-bg: {{ section.settings.pill_bg_color | default: '#ffffff' }};
+    --stat-color: {{ section.settings.stat_color | default: '#44681A' }};
+    --padding-top: {{ section.settings.padding_top | default: 65 }}px;
+    --padding-bottom: {{ section.settings.padding_bottom | default: 80 }}px;
+    --padding-top-mobile: {{ section.settings.padding_top | default: 65 | times: 0.5 }}px;
+    --padding-bottom-mobile: {{ section.settings.padding_bottom | default: 80 | times: 0.5 }}px;
+  }
+{% endstyle %}
+
+{{ 'CWC_fonts.css' | asset_url | stylesheet_tag }}
+{{ 'CWC_home_hero.css' | asset_url | stylesheet_tag }}
+
+{%- comment -%}
+  HEADLINE TEST VARIANTS — paste into the "Headline" setting to swap:
+  B · Mechanism: <p>Ten servings of produce. <strong>Nine enzymes that get them in.</strong></p>
+  C · Problem:   <p>Most of a greens powder <strong>passes right through you.</strong></p>
+  D · Habit:     <p>The greens powder <strong>people actually finish.</strong></p>
+{%- endcomment -%}
+
+{%- liquid
+  assign stat_count = 0
+  for block in section.blocks
+    if block.type == 'stat'
+      assign stat_count = stat_count | plus: 1
+    endif
+  endfor
+
+  assign offer_pos_class = 'cwc_home-hero__offer--above'
+  if section.settings.offer_position == 'below_cta'
+    assign offer_pos_class = 'cwc_home-hero__offer--below'
+  endif
+
+  assign rating_pos_class = 'cwc_home-hero__rating--below'
+  if section.settings.rating_position == 'above_cta'
+    assign rating_pos_class = 'cwc_home-hero__rating--above'
+  endif
+-%}
+
+{%- comment -%} Offer callout — card or inline line, placed either side of the CTA row {%- endcomment -%}
+{%- capture offer_html -%}
+  {%- if section.settings.show_offer -%}
+    {%- if section.settings.offer_price_text != blank
+      or section.settings.offer_save_badge != blank
+      or section.settings.offer_per_serving != blank
+      or section.settings.offer_fine_print != blank
+    -%}
+      {%- if section.settings.offer_style == 'inline' -%}
+        {%- liquid
+          assign offer_bits = ''
+          if section.settings.offer_price_text != blank
+            assign offer_bits = offer_bits | append: section.settings.offer_price_text | append: '||'
+          endif
+          if section.settings.offer_save_badge != blank
+            assign offer_bits = offer_bits | append: section.settings.offer_save_badge | append: '||'
+          endif
+          if section.settings.offer_per_serving != blank
+            assign offer_bits = offer_bits | append: section.settings.offer_per_serving | append: '||'
+          endif
+          if section.settings.offer_fine_print != blank
+            assign offer_bits = offer_bits | append: section.settings.offer_fine_print | append: '||'
+          endif
+          assign offer_list = offer_bits | split: '||'
+        -%}
+        <div class="cwc_home-hero__offer cwc_home-hero__offer--inline {{ offer_pos_class }}">
+          {{ offer_list | join: ' · ' }}
+        </div>
+      {%- else -%}
+        <div class="cwc_home-hero__offer {{ offer_pos_class }}">
+          <div class="cwc_home-hero__offer-top">
+            {%- if section.settings.offer_price_text != blank -%}
+              <span class="cwc_home-hero__offer-price">{{ section.settings.offer_price_text }}</span>
+            {%- endif -%}
+
+            {%- if section.settings.offer_save_badge != blank -%}
+              <span class="cwc_home-hero__offer-badge">{{ section.settings.offer_save_badge }}</span>
+            {%- endif -%}
+
+            {%- if section.settings.offer_per_serving != blank -%}
+              <span class="cwc_home-hero__offer-serving">{{ section.settings.offer_per_serving }}</span>
+            {%- endif -%}
+          </div>
+
+          {%- if section.settings.offer_fine_print != blank -%}
+            <div class="cwc_home-hero__offer-note">{{ section.settings.offer_fine_print }}</div>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    {%- endif -%}
+  {%- endif -%}
+{%- endcapture -%}
+
+{%- comment -%} Rating line — placed either side of the CTA row {%- endcomment -%}
+{%- capture rating_html -%}
+  {%- if section.settings.show_rating -%}
+    {%- assign rating_rounded = section.settings.rating_value | round -%}
+    <div class="cwc_home-hero__rating {{ rating_pos_class }}">
+      <span class="cwc_home-hero__stars" aria-hidden="true">
+        {%- for i in (1..5) -%}
+          {%- if i <= rating_rounded -%}★{%- else -%}☆{%- endif -%}
+        {%- endfor -%}
+      </span>
+
+      <span class="cwc_home-hero__rating-value">{{ section.settings.rating_value }}</span>
+
+      {%- if section.settings.rating_count != blank or section.settings.rating_extra_text != blank -%}
+        <span class="cwc_home-hero__rating-text">
+          {%- if section.settings.rating_count != blank -%}
+            {{ section.settings.rating_count }}
+          {%- endif -%}
+          {%- if section.settings.rating_count != blank and section.settings.rating_extra_text != blank -%}
+            {{ ' · ' }}
+          {%- endif -%}
+          {%- if section.settings.rating_extra_text != blank -%}
+            {{ section.settings.rating_extra_text }}
+          {%- endif -%}
+        </span>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+{%- endcapture -%}
+
+<section
+  id="cwc_home-hero-{{ section.id }}"
+  class="cwc_home-hero{% if section.settings.image_position == 'left' %} cwc_home-hero--reverse{% endif %}"
+>
+  <div class="cwc_home-hero__container">
+    <div class="cwc_home-hero__wrapper">
+
+      {% comment %} Text column {% endcomment %}
+      <div class="cwc_home-hero__content">
+        {% if section.settings.eyebrow != blank %}
+          {% if section.settings.eyebrow_style == 'pill' %}
+            <div class="cwc_home-hero__eyebrow cwc_home-hero__eyebrow--pill">
+              <span class="cwc_home-hero__eyebrow-label">{{ section.settings.eyebrow }}</span>
+
+              {% if section.settings.eyebrow_detail != blank %}
+                <span class="cwc_home-hero__eyebrow-detail">{{ section.settings.eyebrow_detail }}</span>
+              {% endif %}
+            </div>
+          {% else %}
+            <div class="cwc_home-hero__eyebrow">{{ section.settings.eyebrow }}</div>
+          {% endif %}
+        {% endif %}
+
+        {% if section.settings.heading != blank %}
+          <div class="cwc_home-hero__content-heading cwc-rte">
+            {{ section.settings.heading }}
+          </div>
+        {% endif %}
+
+        {% if section.settings.lede != blank %}
+          <div class="cwc_home-hero__lede cwc-rte">
+            {{ section.settings.lede }}
+          </div>
+        {% endif %}
+
+        {% if section.settings.rating_position == 'above_cta' %}
+          {{ rating_html }}
+        {% endif %}
+
+        {% if section.settings.offer_position != 'below_cta' %}
+          {{ offer_html }}
+        {% endif %}
+
+        {% if section.settings.cta_label != blank or section.settings.secondary_label != blank %}
+          <div class="cwc_home-hero__cta">
+            {% if section.settings.cta_label != blank %}
+              <a
+                class="cwc_home-hero__button"
+                href="{{ section.settings.cta_link | default: '#' }}"
+              >
+                {{ section.settings.cta_label }}
+              </a>
+            {% endif %}
+
+            {% if section.settings.secondary_label != blank %}
+              <a
+                class="cwc_home-hero__link"
+                href="{{ section.settings.secondary_link | default: '#' }}"
+              >
+                {{ section.settings.secondary_label }}
+              </a>
+            {% endif %}
+          </div>
+        {% endif %}
+
+        {% if section.settings.offer_position == 'below_cta' %}
+          {{ offer_html }}
+        {% endif %}
+
+        {% if section.settings.rating_position != 'above_cta' %}
+          {{ rating_html }}
+        {% endif %}
+
+        {% if section.settings.show_stats and stat_count > 0 %}
+          <div class="cwc_home-hero__stats">
+            {% for block in section.blocks %}
+              {% case block.type %}
+                {% when 'stat' %}
+                  <div class="cwc_home-hero__stat" {{ block.shopify_attributes }}>
+                    {% if block.settings.value != blank %}
+                      <div class="cwc_home-hero__stat-value">{{ block.settings.value }}</div>
+                    {% endif %}
+
+                    {% if block.settings.label != blank %}
+                      <div class="cwc_home-hero__stat-label">{{ block.settings.label }}</div>
+                    {% endif %}
+                  </div>
+              {% endcase %}
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+
+      {% comment %} Media column {% endcomment %}
+      <div class="cwc_home-hero__media">
+        {% if section.settings.hero_image != blank %}
+          <img
+            src="{{ section.settings.hero_image | image_url: width: 1000 }}"
+            alt="{{ section.settings.image_alt | default: 'Product image' | escape }}"
+            width="1000"
+            height="1000"
+            loading="eager"
+            fetchpriority="high"
+          >
+        {% else %}
+          <div class="cwc_home-hero__placeholder">
+            <span>Add hero image</span>
+          </div>
+        {% endif %}
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "CWC Home Hero",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Header"
+    },
+    {
+      "type": "select",
+      "id": "eyebrow_style",
+      "label": "Eyebrow Style",
+      "info": "Pill shows the eyebrow as a bold label with a supporting note beside it.",
+      "options": [
+        { "value": "text", "label": "Plain uppercase text" },
+        { "value": "pill", "label": "Credential pill" }
+      ],
+      "default": "text"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Recommended in practice for 20+ years"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow_detail",
+      "label": "Eyebrow Supporting Note",
+      "info": "Pill style only — sits to the right of the divider.",
+      "default": "Developed for and sold through clinics for 20+ years before it was offered direct."
+    },
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "Headline",
+      "info": "Bold text is rendered in the heavy display weight. Alternate headline variants are listed in a comment at the top of the section file.",
+      "default": "<p>The greens powder <strong>doctors were recommending before anyone called it wellness.</strong></p>"
+    },
+    {
+      "type": "richtext",
+      "id": "lede",
+      "label": "Lede Paragraph",
+      "default": "<p>55 organic fruits and vegetables, juiced at peak ripeness and freeze-dried cold, with a nine-enzyme blend built into the formula. One scoop, ten seconds.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Offer Callout"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_offer",
+      "label": "Show Offer Callout",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "offer_style",
+      "label": "Offer Style",
+      "options": [
+        { "value": "card", "label": "Bordered card" },
+        { "value": "inline", "label": "Inline fine-print line" }
+      ],
+      "default": "card"
+    },
+    {
+      "type": "select",
+      "id": "offer_position",
+      "label": "Offer Position",
+      "options": [
+        { "value": "above_cta", "label": "Above the buttons" },
+        { "value": "below_cta", "label": "Below the buttons" }
+      ],
+      "default": "above_cta"
+    },
+    {
+      "type": "text",
+      "id": "offer_price_text",
+      "label": "Price Text",
+      "default": "From $56.21/mo"
+    },
+    {
+      "type": "text",
+      "id": "offer_save_badge",
+      "label": "Save Badge",
+      "default": "Save 25%"
+    },
+    {
+      "type": "text",
+      "id": "offer_per_serving",
+      "label": "Per Serving Text",
+      "default": "$1.87 a serving"
+    },
+    {
+      "type": "text",
+      "id": "offer_fine_print",
+      "label": "Fine Print",
+      "default": "Free blender bottle with your first 90-day order · Cancel or pause anytime"
+    },
+    {
+      "type": "header",
+      "content": "Buttons"
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "Primary Button Label",
+      "default": "Start with NanoGreens"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "Primary Button Link"
+    },
+    {
+      "type": "text",
+      "id": "secondary_label",
+      "label": "Secondary Link Label",
+      "default": "or find what fits you →"
+    },
+    {
+      "type": "url",
+      "id": "secondary_link",
+      "label": "Secondary Link URL",
+      "info": "Point this at the \"Shop by need\" section anchor, for example #needs"
+    },
+    {
+      "type": "header",
+      "content": "Rating"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_rating",
+      "label": "Show Rating Line",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "rating_position",
+      "label": "Rating Position",
+      "options": [
+        { "value": "above_cta", "label": "Above the buttons" },
+        { "value": "below_cta", "label": "Below the buttons" }
+      ],
+      "default": "below_cta"
+    },
+    {
+      "type": "range",
+      "id": "rating_value",
+      "label": "Rating Value",
+      "min": 0,
+      "max": 5,
+      "step": 0.1,
+      "default": 4.8
+    },
+    {
+      "type": "text",
+      "id": "rating_count",
+      "label": "Review Count Text",
+      "default": "from 614 reviews"
+    },
+    {
+      "type": "text",
+      "id": "rating_extra_text",
+      "label": "Extra Proof Text",
+      "default": "19K+ servings poured · 33 say a clinician recommended it"
+    },
+    {
+      "type": "header",
+      "content": "Stat Row"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_stats",
+      "label": "Show Stat Row",
+      "info": "Add Stat blocks to fill it. Sits at the bottom of the text column, above a hairline rule.",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Hero Product Image"
+    },
+    {
+      "type": "text",
+      "id": "image_alt",
+      "label": "Hero Image Alt Text",
+      "default": "NanoGreens green apple"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "Image Position",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "right"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#ECEBE5"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#2A2611"
+    },
+    {
+      "type": "color",
+      "id": "bold_color",
+      "label": "Heading Bold Color",
+      "default": "#2A2611"
+    },
+    {
+      "type": "color",
+      "id": "muted_color",
+      "label": "Muted Text Color",
+      "default": "#5F5B48"
+    },
+    {
+      "type": "color",
+      "id": "eyebrow_color",
+      "label": "Eyebrow Color",
+      "default": "#44681A"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent Color",
+      "default": "#5BA90F"
+    },
+    {
+      "type": "color",
+      "id": "star_color",
+      "label": "Star Color",
+      "default": "#E8A317"
+    },
+    {
+      "type": "color",
+      "id": "stat_color",
+      "label": "Stat Number Color",
+      "default": "#44681A"
+    },
+    {
+      "type": "header",
+      "content": "Card Colors"
+    },
+    {
+      "type": "color",
+      "id": "pill_bg_color",
+      "label": "Credential Pill Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "card_bg_color",
+      "label": "Offer Card Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Border Color",
+      "default": "#E0DED4"
+    },
+    {
+      "type": "color",
+      "id": "media_bg_color",
+      "label": "Image Panel Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "button_bg_color",
+      "label": "Button Background",
+      "default": "#5BA90F"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 65
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 80
+    }
+  ],
+  "blocks": [
+    {
+      "type": "stat",
+      "name": "Stat",
+      "settings": [
+        {
+          "type": "text",
+          "id": "value",
+          "label": "Value",
+          "default": "55"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "organic fruits and vegetables"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 4,
+  "presets": [
+    {
+      "name": "Home Hero",
+      "category": "CWC Custom"
+    }
+  ]
+}
+{% endschema %}
