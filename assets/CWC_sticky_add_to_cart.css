@@ -228,7 +228,7 @@
   background: var(--button-bg);
   color: var(--button-text);
   border: none;
-  border-radius: 26px;
+  border-radius: 40px;
   padding: 15px 30px;
   font-size: 0.97em;
   /* 15.52px */
@@ -355,7 +355,7 @@
     flex: 0 0 auto;
     min-height: 46px;
     padding: 0 26px;
-    border-radius: 999px;
+    border-radius: 40px;
     font-size: 0.93em;
     /* 13px */
     font-weight: 800;

@@ -202,7 +202,7 @@
   font-weight: 600;
   color: var(--brand-color);
   border: 1.5px solid var(--brand-color);
-  border-radius: 100px;
+  border-radius: 40px;
   padding: 10px 22px;
   text-decoration: none;
   transition:

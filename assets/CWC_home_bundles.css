@@ -240,7 +240,7 @@
   font-size: 0.94em;
   font-weight: 800;
   padding: 12px 20px;
-  border-radius: 12px;
+  border-radius: 40px;
   background: var(--accent-color);
   color: var(--button-text);
   text-decoration: none;

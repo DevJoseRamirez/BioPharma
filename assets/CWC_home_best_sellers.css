@@ -183,7 +183,7 @@ a.cwc_home-best-sellers__card:hover {
   font-size: 0.94em;
   font-weight: 800;
   padding: 12px 20px;
-  border-radius: 12px;
+  border-radius: 40px;
   box-shadow: inset 0 0 0 1.5px var(--button-outline-color);
   color: var(--button-outline-color);
   margin-top: auto;

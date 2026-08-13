@@ -89,7 +89,7 @@
   border: 1px solid var(--border-color);
   background: var(--input-bg);
   color: var(--heading-color);
-  border-radius: 12px;
+  border-radius: 40px;
   padding: 0.938rem 1.375rem;
   font-family: inherit;
   font-size: 0.91em;
@@ -115,7 +115,7 @@
   font-weight: 800;
   padding: 15px 32px;
   border: none;
-  border-radius: 12px;
+  border-radius: 40px;
   background: var(--button-bg);
   color: var(--button-text);
   cursor: pointer;

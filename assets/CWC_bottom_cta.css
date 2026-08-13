@@ -58,7 +58,7 @@
   max-width: 340px;
   background: var(--button-bg);
   color: var(--button-text);
-  border-radius: 13px;
+  border-radius: 40px;
   padding: 18px;
   font-size: 1.125em; /* 18px */
   font-weight: 800;
