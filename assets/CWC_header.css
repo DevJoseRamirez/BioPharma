@@ -212,6 +212,36 @@
   display: none;
 }
 
+/* === Logo-Left Layout (wholesale) ===
+
+   Same markup as the default bar — only the flex order and the share of free
+   space change, so the dropdowns, search panel and JS are untouched.
+
+   Default bar (retail): links | wordmark | utility, outer zones equal so the
+   wordmark sits centred on the bar itself.
+   This bar (wholesale): wordmark | links | utility, wordmark and utility sized
+   to their content so the nav centres in the gap between them.
+
+   Desktop only. Below 992px the mobile rules take over for both audiences. */
+@media screen and (min-width: 992px) {
+  .cwc_header--logo-left .cwc_header__logo {
+    order: 1;
+    flex: 0 0 auto;
+    justify-content: flex-start;
+  }
+
+  .cwc_header--logo-left .cwc_header__links {
+    order: 2;
+    flex: 1 1 0;
+    justify-content: center;
+  }
+
+  .cwc_header--logo-left .cwc_header__utility {
+    order: 3;
+    flex: 0 0 auto;
+  }
+}
+
 .cwc_header__toggle {
   display: flex;
   flex-direction: column;

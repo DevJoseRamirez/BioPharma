@@ -35,9 +35,41 @@
 {{ 'CWC_fonts.css' | asset_url | stylesheet_tag }}
 {{ 'CWC_header.css' | asset_url | stylesheet_tag }}
 
+{% comment %}
+  Audience split. 'wholesale' is the tag the rest of the theme keys off
+  (sections/header.liquid, sections/main-product.liquid, snippets/product-card.liquid);
+  everyone else — including logged-out visitors — is retail.
+
+  Each audience picks its own bar layout, so the wholesale storefront reads as
+  visually distinct from the retail one:
+    retail    — menu left, wordmark centred on the bar (the standard header)
+    wholesale — wordmark left, menu centred between wordmark and icons
+{% endcomment %}
+{% liquid
+  assign nav_menu = section.settings.menu
+  assign is_wholesale_customer = false
+
+  for tag in customer.tags
+    assign customer_tag = tag | strip | downcase
+    if customer_tag == 'wholesale'
+      assign is_wholesale_customer = true
+      break
+    endif
+  endfor
+
+  if is_wholesale_customer
+    assign header_layout = section.settings.layout_wholesale | default: 'logo_left'
+    if section.settings.menu_wholesale != blank
+      assign nav_menu = section.settings.menu_wholesale
+    endif
+  else
+    assign header_layout = section.settings.layout_retail | default: 'logo_center'
+  endif
+%}
+
 <section
   id="cwc_header-{{ section.id }}"
-  class="cwc_header{% if section.settings.enable_sticky %} cwc_header--sticky{% endif %}"
+  class="cwc_header{% if section.settings.enable_sticky %} cwc_header--sticky{% endif %}{% if header_layout == 'logo_left' %} cwc_header--logo-left{% endif %}"
 >
   <div class="cwc_header__bar">
     <div class="cwc_header__container">
@@ -56,25 +88,8 @@
 
       {% comment %}
         Primary links — Shopify menu first, manual blocks as fallback.
-        Wholesale customers get their own menu, matching the tag check in sections/header.liquid.
+        nav_menu is resolved above, alongside the audience layout.
       {% endcomment %}
-      {% liquid
-        assign nav_menu = section.settings.menu
-        assign is_wholesale_customer = false
-
-        for tag in customer.tags
-          assign customer_tag = tag | strip | downcase
-          if customer_tag == 'wholesale'
-            assign is_wholesale_customer = true
-            break
-          endif
-        endfor
-
-        if is_wholesale_customer and section.settings.menu_wholesale != blank
-          assign nav_menu = section.settings.menu_wholesale
-        endif
-      %}
-
       {% if nav_menu != blank and nav_menu.links.size > 0 %}
         <nav class="cwc_header__links" data-cwc-menu>
           {% for link in nav_menu.links %}
@@ -208,6 +223,36 @@
   "name": "CWC Header",
   "tag": "section",
   "settings": [
+    {
+      "type": "header",
+      "content": "Bar Layout"
+    },
+    {
+      "type": "paragraph",
+      "content": "Retail and wholesale each get their own bar arrangement, so the two storefronts read as visually distinct. Customers tagged 'wholesale' see the wholesale layout; everyone else, including logged-out visitors, sees the retail one. Below 992px both share the same mobile drawer."
+    },
+    {
+      "type": "select",
+      "id": "layout_retail",
+      "label": "Retail Layout",
+      "info": "Standard visitors. Leave as-is to keep today's header.",
+      "options": [
+        { "value": "logo_center", "label": "Logo centered, menu left" },
+        { "value": "logo_left", "label": "Logo left, menu centered" }
+      ],
+      "default": "logo_center"
+    },
+    {
+      "type": "select",
+      "id": "layout_wholesale",
+      "label": "Wholesale Layout",
+      "info": "Only seen by logged-in customers tagged 'wholesale'. The theme editor always previews the retail layout, so switch Retail Layout temporarily to check this one.",
+      "options": [
+        { "value": "logo_left", "label": "Logo left, menu centered" },
+        { "value": "logo_center", "label": "Logo centered, menu left" }
+      ],
+      "default": "logo_left"
+    },
     {
       "type": "header",
       "content": "Navigation"

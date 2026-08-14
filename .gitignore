@@ -26,6 +26,7 @@ CLAUDE.md
 _conventions/
 _sections-queue/
 _reference-components/
+_Image-reference
 .claude/
 .shopify/
 # --- Section build pipeline (local tooling) ---
