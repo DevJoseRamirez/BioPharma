@@ -4,7 +4,8 @@
 
 /* === Section Wrapper === */
 .cwc_collection-links {
-  font-size: 16px; /* section anchor — all type below is em relative to this */
+  font-size: 16px;
+  /* section anchor — all type below is em relative to this */
   background-color: var(--section-bg);
   font-family: var(--cwc-font-body);
   padding-top: var(--padding-top);
@@ -22,7 +23,7 @@
 /* === Container === */
 .cwc_collection-links__container {
   width: 100%;
-  max-width: 1300px;
+  max-width: 1400px;
   margin: 0 auto;
   padding: 0 32px;
 }
@@ -123,7 +124,8 @@
   border: 1px solid var(--pill-border);
   border-radius: 999px;
   padding: 11px 22px;
-  font-size: 0.8125em; /* 13px */
+  font-size: 0.8125em;
+  /* 13px */
   font-weight: var(--cwc-weight-label);
   letter-spacing: 1.2px;
   line-height: 1;
@@ -205,7 +207,8 @@
 
   .cwc_collection-links__pill {
     padding: 9px 16px;
-    font-size: 0.75em; /* 12px */
+    font-size: 0.75em;
+    /* 12px */
     letter-spacing: 1px;
   }
 }

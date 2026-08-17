@@ -14,7 +14,7 @@
 }
 
 .cwc_collection-grid__container {
-  max-width: 1300px;
+  max-width: 1400px;
   margin: 0 auto;
   padding: 0 32px;
 }
@@ -113,7 +113,7 @@
   min-width: min(320px, 86vw);
 }
 
-.cwc_collection-grid__filter-group + .cwc_collection-grid__filter-group {
+.cwc_collection-grid__filter-group+.cwc_collection-grid__filter-group {
   margin-top: 12px;
   padding-top: 12px;
   border-top: 1px solid var(--border-soft-color);

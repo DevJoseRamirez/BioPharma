@@ -14,7 +14,7 @@
 }
 
 .cwc_collection-footer__container {
-  max-width: 1300px;
+  max-width: 1400px;
   margin: 0 auto;
   padding: 0 32px;
 }
@@ -46,8 +46,8 @@
   color: var(--heading-color);
 }
 
-.cwc_collection-footer__content-heading > * strong,
-.cwc_collection-footer__content-heading > * b {
+.cwc_collection-footer__content-heading>* strong,
+.cwc_collection-footer__content-heading>* b {
   color: var(--highlight-color);
   font-weight: inherit;
 }

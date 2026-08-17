@@ -50,7 +50,7 @@
   position: relative;
   z-index: 1;
   width: 100%;
-  max-width: 1300px;
+  max-width: 1400px;
   margin: 0 auto;
   padding: 0 32px;
 }
@@ -225,4 +225,4 @@
     /* 16px */
   }
 
-  }
+}

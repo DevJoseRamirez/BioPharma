@@ -24,7 +24,7 @@
 .cwc_about-hero__copy {
   padding-top: var(--padding-top);
   padding-bottom: var(--padding-bottom);
-  padding-left: max(32px, calc((100vw - 1300px) / 2 + 32px));
+  padding-left: max(32px, calc((100vw - 1400px) / 2 + 32px));
   padding-right: 56px;
 }
 
@@ -71,14 +71,14 @@
   color: var(--heading-color);
 }
 
-.cwc_about-hero__content-heading > * strong,
-.cwc_about-hero__content-heading > * b {
+.cwc_about-hero__content-heading>* strong,
+.cwc_about-hero__content-heading>* b {
   color: var(--highlight-color);
   font-weight: inherit;
 }
 
-.cwc_about-hero__content-heading > * em,
-.cwc_about-hero__content-heading > * i {
+.cwc_about-hero__content-heading>* em,
+.cwc_about-hero__content-heading>* i {
   color: var(--accent-color);
   font-style: italic;
 }
@@ -115,7 +115,7 @@
   padding-right: 16px;
 }
 
-.cwc_about-hero__meta-item + .cwc_about-hero__meta-item {
+.cwc_about-hero__meta-item+.cwc_about-hero__meta-item {
   border-left: 1px solid var(--border-color);
   padding-left: 18px;
 }
@@ -208,6 +208,7 @@
    Mobile Responsive
    ============================== */
 @media screen and (max-width: 768px) {
+
   .cwc_about-hero__copy,
   .cwc_about-hero--reverse .cwc_about-hero__copy {
     padding-top: var(--padding-top-mobile);
@@ -249,7 +250,7 @@
     padding-right: 10px;
   }
 
-  .cwc_about-hero__meta-item + .cwc_about-hero__meta-item {
+  .cwc_about-hero__meta-item+.cwc_about-hero__meta-item {
     padding-left: 12px;
   }
 

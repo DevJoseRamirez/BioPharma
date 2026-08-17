@@ -16,10 +16,10 @@
     --media-min-height: {{ section.settings.media_min_height | default: 540 }}px;
     --pill-bg: {{ section.settings.pill_bg_color | default: '#ffffff' }};
     --stat-color: {{ section.settings.stat_color | default: '#44681A' }};
-    --padding-top: {{ section.settings.padding_top | default: 50 }}px;
-    --padding-bottom: {{ section.settings.padding_bottom | default: 50 }}px;
-    --padding-top-mobile: {{ section.settings.padding_top | default: 50 | times: 0.5 }}px;
-    --padding-bottom-mobile: {{ section.settings.padding_bottom | default: 50 | times: 0.5 }}px;
+    --padding-top: {{ section.settings.padding_top | default: 90 }}px;
+    --padding-bottom: {{ section.settings.padding_bottom | default: 90 }}px;
+    --padding-top-mobile: {{ section.settings.padding_top | default: 90 | times: 0.5 }}px;
+    --padding-bottom-mobile: {{ section.settings.padding_bottom | default: 90 | times: 0.5 }}px;
   }
 {% endstyle %}
 
@@ -582,7 +582,7 @@
       "max": 120,
       "step": 5,
       "unit": "px",
-      "default": 50
+      "default": 90
     },
     {
       "type": "range",
@@ -592,7 +592,7 @@
       "max": 120,
       "step": 5,
       "unit": "px",
-      "default": 50
+      "default": 90
     }
   ],
   "blocks": [
