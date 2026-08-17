@@ -1,0 +1,250 @@
+{% style %}
+  #cwc_about-timeline-{{ section.id }} {
+    --section-bg: {{ section.settings.bg_color | default: '#ECEBE5' }};
+    --text-color: {{ section.settings.text_color | default: '#2A2611' }};
+    --heading-color: {{ section.settings.heading_color | default: '#2A2611' }};
+    --highlight-color: {{ section.settings.bold_color | default: '#44681A' }};
+    --eyebrow-color: {{ section.settings.eyebrow_color | default: '#44681A' }};
+    --year-color: {{ section.settings.year_color | default: '#44681A' }};
+    --body-color: {{ section.settings.body_color | default: '#6E6A57' }};
+    --line-color: {{ section.settings.line_color | default: '#C9C6BB' }};
+    --divider-color: {{ section.settings.divider_color | default: '#DCD9CE' }};
+    --marker-color: {{ section.settings.marker_color | default: '#5BA90F' }};
+    --node-count: {{ section.blocks.size | default: 5 }};
+    --padding-top: {{ section.settings.padding_top | default: 90 }}px;
+    --padding-bottom: {{ section.settings.padding_bottom | default: 90 }}px;
+    --padding-top-mobile: {{ section.settings.padding_top | default: 90 | times: 0.5 }}px;
+    --padding-bottom-mobile: {{ section.settings.padding_bottom | default: 90 | times: 0.5 }}px;
+  }
+{% endstyle %}
+
+{{ 'CWC_fonts.css' | asset_url | stylesheet_tag }}
+{{ 'CWC_about_timeline.css' | asset_url | stylesheet_tag }}
+
+<section
+  id="cwc_about-timeline-{{ section.id }}"
+  class="cwc_about-timeline cwc_about-timeline--{{ section.settings.layout | default: 'horizontal' }} cwc_about-timeline--mobile-{{ section.settings.mobile_behavior | default: 'stack' }}"
+>
+  <div class="cwc_about-timeline__container">
+
+    {% comment %} Section Header {% endcomment %}
+    <div class="cwc_about-timeline__content">
+      {% if section.settings.eyebrow != blank %}
+        <div class="cwc_about-timeline__eyebrow">{{ section.settings.eyebrow }}</div>
+      {% endif %}
+
+      {% if section.settings.heading != blank %}
+        <div class="cwc_about-timeline__content-heading cwc-rte">
+          {{ section.settings.heading }}
+        </div>
+      {% endif %}
+
+      {% if section.settings.subtext != blank %}
+        <div class="cwc_about-timeline__content-subtext cwc-rte">
+          {{ section.settings.subtext }}
+        </div>
+      {% endif %}
+    </div>
+
+    {% comment %} Milestone Track {% endcomment %}
+    {% if section.blocks.size > 0 %}
+      <div class="cwc_about-timeline__track">
+        {% for block in section.blocks %}
+          {% case block.type %}
+            {% when 'milestone' %}
+              <div class="cwc_about-timeline__node" {{ block.shopify_attributes }}>
+                {% if block.settings.year_label != blank %}
+                  <span class="cwc_about-timeline__year">{{ block.settings.year_label }}</span>
+                {% endif %}
+
+                {% if block.settings.description != blank %}
+                  <div class="cwc_about-timeline__node-text cwc-rte">
+                    {{ block.settings.description }}
+                  </div>
+                {% endif %}
+              </div>
+          {% endcase %}
+        {% endfor %}
+      </div>
+    {% endif %}
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "CWC About Timeline",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Header"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "How we got here"
+    },
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "<p>Twenty years, one formula philosophy</p>"
+    },
+    {
+      "type": "richtext",
+      "id": "subtext",
+      "label": "Section Subtext"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Desktop Layout",
+      "options": [
+        { "value": "horizontal", "label": "Horizontal track" },
+        { "value": "vertical", "label": "Vertical list" }
+      ],
+      "default": "horizontal"
+    },
+    {
+      "type": "select",
+      "id": "mobile_behavior",
+      "label": "Mobile Behavior",
+      "info": "Scroll keeps the track horizontal and swipeable on small screens.",
+      "options": [
+        { "value": "stack", "label": "Stack" },
+        { "value": "scroll", "label": "Horizontal scroll" }
+      ],
+      "default": "stack"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#ECEBE5"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#2A2611"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "default": "#2A2611"
+    },
+    {
+      "type": "color",
+      "id": "bold_color",
+      "label": "Heading Bold Color",
+      "default": "#44681A"
+    },
+    {
+      "type": "color",
+      "id": "eyebrow_color",
+      "label": "Eyebrow Color",
+      "default": "#44681A"
+    },
+    {
+      "type": "color",
+      "id": "year_color",
+      "label": "Year Color",
+      "default": "#44681A"
+    },
+    {
+      "type": "color",
+      "id": "body_color",
+      "label": "Milestone Text Color",
+      "default": "#6E6A57"
+    },
+    {
+      "type": "color",
+      "id": "line_color",
+      "label": "Timeline Line Color",
+      "default": "#C9C6BB"
+    },
+    {
+      "type": "color",
+      "id": "divider_color",
+      "label": "Node Divider Color",
+      "default": "#DCD9CE"
+    },
+    {
+      "type": "color",
+      "id": "marker_color",
+      "label": "Marker Dot Color",
+      "default": "#5BA90F"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 90
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 90
+    }
+  ],
+  "blocks": [
+    {
+      "type": "milestone",
+      "name": "Milestone",
+      "limit": 8,
+      "settings": [
+        {
+          "type": "text",
+          "id": "year_label",
+          "label": "Year Label",
+          "info": "Free text — accepts a year or a word such as \"Today\".",
+          "default": "2004"
+        },
+        {
+          "type": "richtext",
+          "id": "description",
+          "label": "Description",
+          "default": "<p>Founded in San Diego to make whole-food nutrition that people would actually finish.</p>"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 8,
+  "presets": [
+    {
+      "name": "About Timeline",
+      "category": "CWC Custom",
+      "blocks": [
+        { "type": "milestone" },
+        { "type": "milestone" },
+        { "type": "milestone" },
+        { "type": "milestone" },
+        { "type": "milestone" }
+      ]
+    }
+  ]
+}
+{% endschema %}

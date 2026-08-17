@@ -11,7 +11,9 @@
     --button-bg: {{ section.settings.button_bg_color | default: '#5BA90F' }};
     --button-text: {{ section.settings.button_text_color | default: '#ffffff' }};
     --star-color: {{ section.settings.star_color | default: '#E8A317' }};
-    --media-bg: {{ section.settings.media_bg_color | default: '#ffffff' }};
+    --media-bg: {{ section.settings.media_bg_color | default: '#ECEBE5' }};
+    --media-fit: {{ section.settings.image_fit | default: 'cover' }};
+    --media-min-height: {{ section.settings.media_min_height | default: 540 }}px;
     --pill-bg: {{ section.settings.pill_bg_color | default: '#ffffff' }};
     --stat-color: {{ section.settings.stat_color | default: '#44681A' }};
     --padding-top: {{ section.settings.padding_top | default: 50 }}px;
@@ -230,10 +232,10 @@
       <div class="cwc_home-hero__media">
         {% if section.settings.hero_image != blank %}
           <img
-            src="{{ section.settings.hero_image | image_url: width: 1000 }}"
+            src="{{ section.settings.hero_image | image_url: width: 1400 }}"
             alt="{{ section.settings.image_alt | default: 'Product image' | escape }}"
-            width="1000"
-            height="1000"
+            width="1400"
+            height="1200"
             loading="eager"
             fetchpriority="high"
           >
@@ -442,8 +444,29 @@
       "default": "NanoGreens green apple"
     },
     {
+      "type": "select",
+      "id": "image_fit",
+      "label": "Image Fit",
+      "info": "Fill crops the image to cover the full panel. Fit shows the whole image against the panel background — use it for pack shots that shouldn't be cropped.",
+      "options": [
+        { "value": "cover", "label": "Fill panel" },
+        { "value": "contain", "label": "Fit whole image" }
+      ],
+      "default": "cover"
+    },
+    {
       "type": "header",
       "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "media_min_height",
+      "label": "Image Panel Minimum Height",
+      "min": 320,
+      "max": 720,
+      "step": 20,
+      "unit": "px",
+      "default": 540
     },
     {
       "type": "select",
@@ -533,7 +556,7 @@
       "type": "color",
       "id": "media_bg_color",
       "label": "Image Panel Background",
-      "default": "#ffffff"
+      "default": "#ECEBE5"
     },
     {
       "type": "color",

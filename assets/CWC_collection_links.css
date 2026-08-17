@@ -104,6 +104,15 @@
 }
 
 /* === Pill === */
+/* === Group Divider === */
+.cwc_collection-links__divider {
+  flex: 0 0 auto;
+  align-self: stretch;
+  width: 1px;
+  background-color: var(--divider-color);
+  margin: 2px 6px;
+}
+
 .cwc_collection-links__pill {
   display: inline-block;
   /* never shrink or wrap — the row scrolls instead */

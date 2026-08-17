@@ -1,0 +1,291 @@
+{% style %}
+  #cwc_about-founder-{{ section.id }} {
+    --section-bg: {{ section.settings.bg_color | default: '#2A2611' }};
+    --text-color: {{ section.settings.text_color | default: '#CFCCC0' }};
+    --heading-color: {{ section.settings.heading_color | default: '#ffffff' }};
+    --highlight-color: {{ section.settings.bold_color | default: '#78AD49' }};
+    --eyebrow-color: {{ section.settings.eyebrow_color | default: '#78AD49' }};
+    --accent-color: {{ section.settings.accent_color | default: '#5BA90F' }};
+    --quote-color: {{ section.settings.quote_color | default: '#ffffff' }};
+    --role-color: {{ section.settings.role_color | default: '#9C998C' }};
+    --border-color: {{ section.settings.border_color | default: '#443F2C' }};
+    --portrait-bg: {{ section.settings.portrait_bg_color | default: '#332F1D' }};
+    --portrait-width: {{ section.settings.portrait_width | default: 340 }}px;
+    --padding-top: {{ section.settings.padding_top | default: 100 }}px;
+    --padding-bottom: {{ section.settings.padding_bottom | default: 100 }}px;
+    --padding-top-mobile: {{ section.settings.padding_top | default: 100 | times: 0.5 }}px;
+    --padding-bottom-mobile: {{ section.settings.padding_bottom | default: 100 | times: 0.5 }}px;
+  }
+{% endstyle %}
+
+{{ 'CWC_fonts.css' | asset_url | stylesheet_tag }}
+{{ 'CWC_about_founder.css' | asset_url | stylesheet_tag }}
+
+<section
+  id="cwc_about-founder-{{ section.id }}"
+  class="cwc_about-founder{% if section.settings.image_position == 'right' %} cwc_about-founder--reverse{% endif %}"
+>
+  <div class="cwc_about-founder__container">
+    <div class="cwc_about-founder__wrapper">
+
+      {% comment %} Portrait {% endcomment %}
+      <div class="cwc_about-founder__image">
+        {% if section.settings.portrait_image != blank %}
+          <img
+            class="cwc_about-founder__image-media"
+            src="{{ section.settings.portrait_image | image_url: width: 800 }}"
+            alt="{{ section.settings.portrait_alt | default: 'Founder portrait' | escape }}"
+            width="680"
+            height="906"
+            loading="lazy"
+          >
+        {% else %}
+          <div class="cwc_about-founder__placeholder">
+            <span>{{ section.settings.portrait_placeholder_text | default: 'Founder portrait' }}</span>
+          </div>
+        {% endif %}
+      </div>
+
+      {% comment %} Letter {% endcomment %}
+      <div class="cwc_about-founder__letter">
+        {% if section.settings.eyebrow != blank %}
+          <div class="cwc_about-founder__eyebrow">{{ section.settings.eyebrow }}</div>
+        {% endif %}
+
+        {% if section.settings.heading != blank %}
+          <div class="cwc_about-founder__content-heading cwc-rte">
+            {{ section.settings.heading }}
+          </div>
+        {% endif %}
+
+        {% if section.settings.body_intro != blank %}
+          <div class="cwc_about-founder__content-subtext cwc-rte">
+            {{ section.settings.body_intro }}
+          </div>
+        {% endif %}
+
+        {% if section.settings.pull_quote != blank %}
+          <blockquote class="cwc_about-founder__quote">{{ section.settings.pull_quote }}</blockquote>
+        {% endif %}
+
+        {% if section.settings.body_rest != blank %}
+          <div class="cwc_about-founder__content-subtext cwc-rte">
+            {{ section.settings.body_rest }}
+          </div>
+        {% endif %}
+
+        {% if section.settings.signature_name != blank or section.settings.signature_role != blank %}
+          <div class="cwc_about-founder__signature">
+            {% if section.settings.signature_name != blank %}
+              <b class="cwc_about-founder__signature-name">{{ section.settings.signature_name }}</b>
+            {% endif %}
+
+            {% if section.settings.signature_role != blank %}
+              <span class="cwc_about-founder__signature-role">{{ section.settings.signature_role }}</span>
+            {% endif %}
+          </div>
+        {% endif %}
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "CWC About Founder",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Header"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "From the founder"
+    },
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "<p>I've seen what gets left out</p>"
+    },
+    {
+      "type": "header",
+      "content": "Letter"
+    },
+    {
+      "type": "richtext",
+      "id": "body_intro",
+      "label": "Opening Copy",
+      "default": "<p>I've stood in the rooms where a lot of supplements get made. I've seen what goes into them, and I've seen what gets left out when someone decides the margin matters more than the product.</p>"
+    },
+    {
+      "type": "textarea",
+      "id": "pull_quote",
+      "label": "Pull Quote",
+      "info": "Set apart from the body copy with a rule and larger type.",
+      "default": "The enzyme blend is expensive. Most companies skip it, because you can't see it on a label the way you can see a long ingredient list."
+    },
+    {
+      "type": "richtext",
+      "id": "body_rest",
+      "label": "Closing Copy",
+      "default": "<p>That's why our products cost what they cost. We started by selling to practitioners, and practitioners ask harder questions than anyone — they want to know the dose, the source, and whether it changed since last year. Building for that audience set the standard we've kept ever since.</p><p>If you try something of ours and it isn't for you, send it back and we'll refund you. I'd rather do that than have you keep something you don't want.</p>"
+    },
+    {
+      "type": "text",
+      "id": "signature_name",
+      "label": "Signature Name",
+      "default": "Rick Thornton"
+    },
+    {
+      "type": "text",
+      "id": "signature_role",
+      "label": "Signature Role And Location",
+      "default": "Founder, BioPharma Scientific · San Diego, CA"
+    },
+    {
+      "type": "header",
+      "content": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "portrait_image",
+      "label": "Founder Portrait"
+    },
+    {
+      "type": "text",
+      "id": "portrait_alt",
+      "label": "Portrait Alt Text",
+      "default": "Founder portrait"
+    },
+    {
+      "type": "text",
+      "id": "portrait_placeholder_text",
+      "label": "Placeholder Label",
+      "info": "Shown only while no portrait is selected.",
+      "default": "Founder portrait"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "Portrait Position",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "range",
+      "id": "portrait_width",
+      "label": "Portrait Column Width",
+      "min": 240,
+      "max": 480,
+      "step": 20,
+      "unit": "px",
+      "default": 340
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#2A2611"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#CFCCC0"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "bold_color",
+      "label": "Heading Bold Color",
+      "default": "#78AD49"
+    },
+    {
+      "type": "color",
+      "id": "eyebrow_color",
+      "label": "Eyebrow Color",
+      "default": "#78AD49"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Pull Quote Rule Color",
+      "default": "#5BA90F"
+    },
+    {
+      "type": "color",
+      "id": "quote_color",
+      "label": "Pull Quote Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "role_color",
+      "label": "Signature Role Color",
+      "default": "#9C998C"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Divider Color",
+      "default": "#443F2C"
+    },
+    {
+      "type": "color",
+      "id": "portrait_bg_color",
+      "label": "Portrait Panel Background",
+      "default": "#332F1D"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 100
+    }
+  ],
+  "presets": [
+    {
+      "name": "About Founder",
+      "category": "CWC Custom"
+    }
+  ]
+}
+{% endschema %}

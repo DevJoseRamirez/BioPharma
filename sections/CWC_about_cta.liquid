@@ -1,0 +1,239 @@
+{% style %}
+  #cwc_about-cta-{{ section.id }} {
+    --section-bg: {{ section.settings.bg_color | default: '#44681A' }};
+    --text-color: {{ section.settings.text_color | default: '#E1E8D5' }};
+    --heading-color: {{ section.settings.heading_color | default: '#ffffff' }};
+    --highlight-color: {{ section.settings.bold_color | default: '#C7E39B' }};
+    --button-bg: {{ section.settings.button_bg | default: '#5BA90F' }};
+    --button-hover-bg: {{ section.settings.button_hover_bg | default: '#6BC012' }};
+    --button-text-color: {{ section.settings.button_text_color | default: '#ffffff' }};
+    --trust-color: {{ section.settings.trust_color | default: '#C9D8B5' }};
+    --measure: {{ section.settings.max_width | default: 640 }}px;
+    --padding-top: {{ section.settings.padding_top | default: 90 }}px;
+    --padding-bottom: {{ section.settings.padding_bottom | default: 90 }}px;
+    --padding-top-mobile: {{ section.settings.padding_top | default: 90 | times: 0.5 }}px;
+    --padding-bottom-mobile: {{ section.settings.padding_bottom | default: 90 | times: 0.5 }}px;
+  }
+{% endstyle %}
+
+{{ 'CWC_fonts.css' | asset_url | stylesheet_tag }}
+{{ 'CWC_about_cta.css' | asset_url | stylesheet_tag }}
+
+<section id="cwc_about-cta-{{ section.id }}" class="cwc_about-cta">
+  <div class="cwc_about-cta__container">
+    <div class="cwc_about-cta__content">
+
+      {% if section.settings.heading != blank %}
+        <div class="cwc_about-cta__content-heading cwc-rte">
+          {{ section.settings.heading }}
+        </div>
+      {% endif %}
+
+      {% if section.settings.body != blank %}
+        <div class="cwc_about-cta__content-subtext cwc-rte">
+          {{ section.settings.body }}
+        </div>
+      {% endif %}
+
+      {% if section.settings.button_label != blank %}
+        <a
+          class="cwc_about-cta__button"
+          {% if section.settings.button_link != blank %}
+            href="{{ section.settings.button_link }}"
+          {% else %}
+            href="#"
+          {% endif %}
+        >
+          {{ section.settings.button_label }}
+        </a>
+      {% endif %}
+
+      {% if section.settings.show_trust_row and section.blocks.size > 0 %}
+        <div class="cwc_about-cta__trust">
+          {% for block in section.blocks %}
+            {% case block.type %}
+              {% when 'trust_item' %}
+                {% if block.settings.text != blank %}
+                  <span class="cwc_about-cta__trust-item" {{ block.shopify_attributes }}>
+                    {{ block.settings.text }}
+                  </span>
+                {% endif %}
+            {% endcase %}
+          {% endfor %}
+        </div>
+      {% endif %}
+
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "CWC About CTA",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Header"
+    },
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "<p>Try it for thirty days</p>"
+    },
+    {
+      "type": "richtext",
+      "id": "body",
+      "label": "Supporting Copy",
+      "info": "Refund and guarantee wording — edit here rather than in code.",
+      "default": "<p>If it isn't for you, send it back for a full refund. That's been the policy since the beginning.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Button"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button Label",
+      "default": "Shop NanoGreens¹⁰"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button Link"
+    },
+    {
+      "type": "header",
+      "content": "Trust Row"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_trust_row",
+      "label": "Show Trust Row",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "label": "Content Width",
+      "min": 480,
+      "max": 900,
+      "step": 20,
+      "unit": "px",
+      "default": 640
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#44681A"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#E1E8D5"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "bold_color",
+      "label": "Heading Bold Color",
+      "default": "#C7E39B"
+    },
+    {
+      "type": "color",
+      "id": "trust_color",
+      "label": "Trust Row Color",
+      "default": "#C9D8B5"
+    },
+    {
+      "type": "header",
+      "content": "Button Colors"
+    },
+    {
+      "type": "color",
+      "id": "button_bg",
+      "label": "Button Background Color",
+      "default": "#5BA90F"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_bg",
+      "label": "Button Hover Background Color",
+      "default": "#6BC012"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 90
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 90
+    }
+  ],
+  "blocks": [
+    {
+      "type": "trust_item",
+      "name": "Trust Item",
+      "limit": 4,
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "30-day money-back guarantee"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 4,
+  "presets": [
+    {
+      "name": "About CTA",
+      "category": "CWC Custom",
+      "blocks": [
+        { "type": "trust_item" },
+        { "type": "trust_item" },
+        { "type": "trust_item" }
+      ]
+    }
+  ]
+}
+{% endschema %}

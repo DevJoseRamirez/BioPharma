@@ -1,0 +1,285 @@
+{% style %}
+  #cwc_about-hero-{{ section.id }} {
+    --section-bg: {{ section.settings.bg_color | default: '#ffffff' }};
+    --text-color: {{ section.settings.text_color | default: '#2A2611' }};
+    --heading-color: {{ section.settings.heading_color | default: '#2A2611' }};
+    --highlight-color: {{ section.settings.bold_color | default: '#44681A' }};
+    --accent-color: {{ section.settings.accent_color | default: '#44681A' }};
+    --eyebrow-color: {{ section.settings.eyebrow_color | default: '#44681A' }};
+    --lede-color: {{ section.settings.lede_color | default: '#514D3D' }};
+    --label-color: {{ section.settings.label_color | default: '#7B7869' }};
+    --border-color: {{ section.settings.border_color | default: '#E1E0DE' }};
+    --image-bg: {{ section.settings.image_bg_color | default: '#ECEBE5' }};
+    --image-min-height: {{ section.settings.image_min_height | default: 520 }}px;
+    --padding-top: {{ section.settings.padding_top | default: 90 }}px;
+    --padding-bottom: {{ section.settings.padding_bottom | default: 90 }}px;
+    --padding-top-mobile: {{ section.settings.padding_top | default: 90 | times: 0.5 }}px;
+    --padding-bottom-mobile: {{ section.settings.padding_bottom | default: 90 | times: 0.5 }}px;
+  }
+{% endstyle %}
+
+{{ 'CWC_fonts.css' | asset_url | stylesheet_tag }}
+{{ 'CWC_about_hero.css' | asset_url | stylesheet_tag }}
+
+<section
+  id="cwc_about-hero-{{ section.id }}"
+  class="cwc_about-hero{% if section.settings.image_position == 'left' %} cwc_about-hero--reverse{% endif %}"
+>
+  <div class="cwc_about-hero__grid">
+
+    {% comment %} Copy Column {% endcomment %}
+    <div class="cwc_about-hero__copy">
+      {% if section.settings.eyebrow != blank %}
+        <div class="cwc_about-hero__eyebrow">{{ section.settings.eyebrow }}</div>
+      {% endif %}
+
+      {% if section.settings.heading != blank %}
+        <div class="cwc_about-hero__content-heading cwc-rte">
+          {{ section.settings.heading }}
+        </div>
+      {% endif %}
+
+      {% if section.settings.lede != blank %}
+        <div class="cwc_about-hero__content-subtext cwc-rte">
+          {{ section.settings.lede }}
+        </div>
+      {% endif %}
+
+      {% if section.blocks.size > 0 %}
+        <div class="cwc_about-hero__meta">
+          {% for block in section.blocks %}
+            {% case block.type %}
+              {% when 'meta_stat' %}
+                <div class="cwc_about-hero__meta-item" {{ block.shopify_attributes }}>
+                  {% if block.settings.value != blank %}
+                    <span class="cwc_about-hero__meta-value">{{ block.settings.value }}</span>
+                  {% endif %}
+
+                  {% if block.settings.label != blank %}
+                    <span class="cwc_about-hero__meta-label">{{ block.settings.label }}</span>
+                  {% endif %}
+                </div>
+            {% endcase %}
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+
+    {% comment %} Image Column {% endcomment %}
+    <div class="cwc_about-hero__image">
+      {% if section.settings.hero_image != blank %}
+        <img
+          class="cwc_about-hero__image-media"
+          src="{{ section.settings.hero_image | image_url: width: 1200 }}"
+          alt="{{ section.settings.image_alt | default: 'Founder and facility' | escape }}"
+          width="1200"
+          height="1000"
+          loading="lazy"
+        >
+      {% else %}
+        <div class="cwc_about-hero__placeholder">
+          <span>{{ section.settings.image_placeholder_text | default: 'Founder / facility image' }}</span>
+        </div>
+      {% endif %}
+    </div>
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "CWC About Hero",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Header"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "San Diego · Since 2004"
+    },
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "Section Heading",
+      "info": "Wrap words in italics to tint them with the accent color.",
+      "default": "<p>We were on clinic shelves <em>before</em> greens went viral.</p>"
+    },
+    {
+      "type": "richtext",
+      "id": "lede",
+      "label": "Lede Paragraph",
+      "default": "<p>BioPharma Scientific started in a San Diego lab, formulating for doctors and naturopaths who needed something their patients would actually take every day. Two decades later, we still make it the same way.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Hero Image"
+    },
+    {
+      "type": "text",
+      "id": "image_alt",
+      "label": "Hero Image Alt Text",
+      "default": "Founder and facility"
+    },
+    {
+      "type": "text",
+      "id": "image_placeholder_text",
+      "label": "Placeholder Label",
+      "info": "Shown only while no hero image is selected.",
+      "default": "Founder / facility image"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "Image Position",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "right"
+    },
+    {
+      "type": "range",
+      "id": "image_min_height",
+      "label": "Image Minimum Height",
+      "min": 320,
+      "max": 720,
+      "step": 20,
+      "unit": "px",
+      "default": 520
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#2A2611"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "default": "#2A2611"
+    },
+    {
+      "type": "color",
+      "id": "bold_color",
+      "label": "Heading Bold Color",
+      "default": "#44681A"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Heading Italic Color",
+      "default": "#44681A"
+    },
+    {
+      "type": "color",
+      "id": "eyebrow_color",
+      "label": "Eyebrow Color",
+      "default": "#44681A"
+    },
+    {
+      "type": "color",
+      "id": "lede_color",
+      "label": "Lede Text Color",
+      "default": "#514D3D"
+    },
+    {
+      "type": "color",
+      "id": "label_color",
+      "label": "Stat Label Color",
+      "default": "#7B7869"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Divider Color",
+      "default": "#E1E0DE"
+    },
+    {
+      "type": "color",
+      "id": "image_bg_color",
+      "label": "Image Panel Background",
+      "default": "#ECEBE5"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 90
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 90
+    }
+  ],
+  "blocks": [
+    {
+      "type": "meta_stat",
+      "name": "Meta Stat",
+      "limit": 4,
+      "settings": [
+        {
+          "type": "text",
+          "id": "value",
+          "label": "Value",
+          "default": "2004"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Founded in San Diego"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 4,
+  "presets": [
+    {
+      "name": "About Hero",
+      "category": "CWC Custom",
+      "blocks": [
+        { "type": "meta_stat" },
+        { "type": "meta_stat" },
+        { "type": "meta_stat" }
+      ]
+    }
+  ]
+}
+{% endschema %}

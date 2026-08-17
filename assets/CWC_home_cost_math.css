@@ -4,7 +4,8 @@
 
 /* === Section Wrapper === */
 .cwc_home-cost-math {
-  font-size: 16px; /* section anchor — type below is em relative to this */
+  font-size: 16px;
+  /* section anchor — type below is em relative to this */
   background-color: var(--section-bg);
   color: var(--text-color);
   padding-top: var(--padding-top);
@@ -13,7 +14,7 @@
 }
 
 .cwc_home-cost-math__container {
-  max-width: 1300px;
+  max-width: 1400px;
   margin: 0 auto;
   padding: 0 32px;
 }
@@ -53,8 +54,8 @@
   color: inherit;
 }
 
-.cwc_home-cost-math__content-heading > * strong,
-.cwc_home-cost-math__content-heading > * b {
+.cwc_home-cost-math__content-heading>* strong,
+.cwc_home-cost-math__content-heading>* b {
   color: var(--highlight-color);
 }
 
@@ -78,6 +79,8 @@
   grid-template-columns: 1.15fr 0.85fr;
   gap: 1.75rem;
   align-items: start;
+  max-width: 900px;
+  margin: auto;
 }
 
 /* === Cost List === */

@@ -145,6 +145,30 @@
   text-decoration: underline;
 }
 
+/* === Breadcrumb === */
+.cwc_collection-banner__crumb {
+  font-size: 0.78em;
+  /* 12.5px */
+  line-height: 1.4;
+  color: var(--text-color);
+  opacity: 0.72;
+  margin-bottom: 12px;
+}
+
+.cwc_collection-banner__crumb-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.cwc_collection-banner__crumb-link:hover {
+  text-decoration: underline;
+}
+
+.cwc_collection-banner__crumb-sep {
+  margin: 0 7px;
+  opacity: 0.5;
+}
+
 /* === Product Count === */
 .cwc_collection-banner__count {
   margin-top: 12px;

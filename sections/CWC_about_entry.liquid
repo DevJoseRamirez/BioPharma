@@ -1,0 +1,305 @@
+{% style %}
+  #cwc_about-entry-{{ section.id }} {
+    --section-bg: {{ section.settings.bg_color | default: '#ECEBE5' }};
+    --text-color: {{ section.settings.text_color | default: '#2A2611' }};
+    --heading-color: {{ section.settings.heading_color | default: '#2A2611' }};
+    --highlight-color: {{ section.settings.bold_color | default: '#44681A' }};
+    --eyebrow-color: {{ section.settings.eyebrow_color | default: '#44681A' }};
+    --body-color: {{ section.settings.body_color | default: '#6E6A57' }};
+    --link-color: {{ section.settings.link_color | default: '#44681A' }};
+    --card-bg: {{ section.settings.card_bg_color | default: '#ffffff' }};
+    --border-color: {{ section.settings.border_color | default: '#E4E2DB' }};
+    --border-hover-color: {{ section.settings.border_hover_color | default: '#78AD49' }};
+    --thumb-bg: {{ section.settings.thumb_bg_color | default: '#F5F4F0' }};
+    --columns: {{ section.settings.columns_desktop | default: 3 }};
+    --padding-top: {{ section.settings.padding_top | default: 100 }}px;
+    --padding-bottom: {{ section.settings.padding_bottom | default: 100 }}px;
+    --padding-top-mobile: {{ section.settings.padding_top | default: 100 | times: 0.5 }}px;
+    --padding-bottom-mobile: {{ section.settings.padding_bottom | default: 100 | times: 0.5 }}px;
+  }
+{% endstyle %}
+
+{{ 'CWC_fonts.css' | asset_url | stylesheet_tag }}
+{{ 'CWC_about_entry.css' | asset_url | stylesheet_tag }}
+
+<section id="cwc_about-entry-{{ section.id }}" class="cwc_about-entry">
+  <div class="cwc_about-entry__container">
+
+    {% comment %} Section Header {% endcomment %}
+    <div class="cwc_about-entry__content">
+      {% if section.settings.eyebrow != blank %}
+        <div class="cwc_about-entry__eyebrow">{{ section.settings.eyebrow }}</div>
+      {% endif %}
+
+      {% if section.settings.heading != blank %}
+        <div class="cwc_about-entry__content-heading cwc-rte">
+          {{ section.settings.heading }}
+        </div>
+      {% endif %}
+
+      {% if section.settings.subtext != blank %}
+        <div class="cwc_about-entry__content-subtext cwc-rte">
+          {{ section.settings.subtext }}
+        </div>
+      {% endif %}
+    </div>
+
+    {% comment %} Entry Cards {% endcomment %}
+    {% if section.blocks.size > 0 %}
+      <div class="cwc_about-entry__grid">
+        {% for block in section.blocks %}
+          {% case block.type %}
+            {% when 'entry' %}
+              {% if block.settings.link != blank %}
+                <a class="cwc_about-entry__card" href="{{ block.settings.link }}" {{ block.shopify_attributes }}>
+              {% else %}
+                <div class="cwc_about-entry__card" {{ block.shopify_attributes }}>
+              {% endif %}
+
+                <div class="cwc_about-entry__card-image">
+                  {% if block.settings.image != blank %}
+                    <img
+                      class="cwc_about-entry__card-media"
+                      src="{{ block.settings.image | image_url: width: 800 }}"
+                      alt="{{ block.settings.image_alt | default: block.settings.title | escape }}"
+                      width="800"
+                      height="600"
+                      loading="lazy"
+                    >
+                  {% else %}
+                    <div class="cwc_about-entry__placeholder">
+                      <span>{{ block.settings.image_placeholder_text | default: 'Product image' }}</span>
+                    </div>
+                  {% endif %}
+                </div>
+
+                <div class="cwc_about-entry__card-body">
+                  {% if block.settings.title != blank %}
+                    <b class="cwc_about-entry__card-title">{{ block.settings.title }}</b>
+                  {% endif %}
+
+                  {% if block.settings.description != blank %}
+                    <div class="cwc_about-entry__card-text cwc-rte">
+                      {{ block.settings.description }}
+                    </div>
+                  {% endif %}
+
+                  {% if block.settings.link_label != blank %}
+                    <span class="cwc_about-entry__card-link">{{ block.settings.link_label }} →</span>
+                  {% endif %}
+                </div>
+
+              {% if block.settings.link != blank %}
+                </a>
+              {% else %}
+                </div>
+              {% endif %}
+          {% endcase %}
+        {% endfor %}
+      </div>
+    {% endif %}
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "CWC About Entry",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Header"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Where to start"
+    },
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "<p>Three ways in</p>"
+    },
+    {
+      "type": "richtext",
+      "id": "subtext",
+      "label": "Section Subtext"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "label": "Columns On Desktop",
+      "min": 1,
+      "max": 4,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#ECEBE5"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#2A2611"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "default": "#2A2611"
+    },
+    {
+      "type": "color",
+      "id": "bold_color",
+      "label": "Heading Bold Color",
+      "default": "#44681A"
+    },
+    {
+      "type": "color",
+      "id": "eyebrow_color",
+      "label": "Eyebrow Color",
+      "default": "#44681A"
+    },
+    {
+      "type": "color",
+      "id": "body_color",
+      "label": "Body Text Color",
+      "default": "#6E6A57"
+    },
+    {
+      "type": "color",
+      "id": "link_color",
+      "label": "Link Label Color",
+      "default": "#44681A"
+    },
+    {
+      "type": "header",
+      "content": "Card Colors"
+    },
+    {
+      "type": "color",
+      "id": "card_bg_color",
+      "label": "Card Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "thumb_bg_color",
+      "label": "Card Image Background",
+      "default": "#F5F4F0"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Card Border Color",
+      "default": "#E4E2DB"
+    },
+    {
+      "type": "color",
+      "id": "border_hover_color",
+      "label": "Card Border Hover Color",
+      "default": "#78AD49"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 100
+    }
+  ],
+  "blocks": [
+    {
+      "type": "entry",
+      "name": "Entry",
+      "limit": 4,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Card Image"
+        },
+        {
+          "type": "text",
+          "id": "image_alt",
+          "label": "Card Image Alt Text"
+        },
+        {
+          "type": "text",
+          "id": "image_placeholder_text",
+          "label": "Placeholder Label",
+          "info": "Shown only while no card image is selected.",
+          "default": "Product image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Start with the flagship"
+        },
+        {
+          "type": "richtext",
+          "id": "description",
+          "label": "Description",
+          "default": "<p>NanoGreens¹⁰ — 55 organic fruits and vegetables, one scoop a morning.</p>"
+        },
+        {
+          "type": "text",
+          "id": "link_label",
+          "label": "Link Label",
+          "info": "An arrow is appended automatically.",
+          "default": "Shop NanoGreens"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 4,
+  "presets": [
+    {
+      "name": "About Entry",
+      "category": "CWC Custom",
+      "blocks": [
+        { "type": "entry" },
+        { "type": "entry" },
+        { "type": "entry" }
+      ]
+    }
+  ]
+}
+{% endschema %}

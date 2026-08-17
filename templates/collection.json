@@ -17,7 +17,14 @@
         "heading_tag": "h1",
         "eyebrow": "",
         "subtext": "",
-        "show_product_count": false,
+        "use_collection_description": true,
+        "show_breadcrumb": true,
+        "crumb_home_label": "Home",
+        "crumb_parent_label": "Shop",
+        "crumb_parent_link": "",
+        "count_suffix_text": "products",
+        "count_suffix_singular": "product",
+        "show_product_count": true,
         "use_collection_image": false,
         "image": "shopify://shop_images/pdp-image-frame-06.png",
         "alt_text": "",
@@ -74,7 +81,8 @@
             "collection": "fish-oil",
             "title": "",
             "link": "",
-            "force_active": false
+            "force_active": false,
+            "divider_after": true
           }
         },
         "pill_tFcqpe": {
@@ -116,6 +124,8 @@
       ],
       "name": "Collection Links",
       "settings": {
+        "show_divider": true,
+        "divider_color": "#E6E5DC",
         "bg_color": "#ffffff",
         "pill_bg_color": "#44681A",
         "pill_text_color": "#FFFFFF",
@@ -157,6 +167,7 @@
     },
     "main": {
       "type": "main-collection",
+      "disabled": true,
       "settings": {
         "color_scheme": "scheme-f23b3a5a-1f3c-4d6a-94eb-96f8fab0ad49",
         "hide_product_information": false,
@@ -177,12 +188,127 @@
         "show_color_swatch": true,
         "open_filters_by_default": true
       }
+    },
+    "cwc_collection_grid": {
+      "type": "CWC_collection_grid",
+      "blocks": {
+        "badge_best": {
+          "type": "badge_rule",
+          "settings": {
+            "badge_label": "Best seller",
+            "condition_tag": "best-seller",
+            "badge_color": "#5BA90F",
+            "badge_text_color": "#ffffff"
+          }
+        },
+        "badge_practitioner": {
+          "type": "badge_rule",
+          "settings": {
+            "badge_label": "Practitioner favorite",
+            "condition_tag": "practitioner-favorite",
+            "badge_color": "#A3B8E2",
+            "badge_text_color": "#1E2B4A"
+          }
+        },
+        "badge_bundle": {
+          "type": "badge_rule",
+          "settings": {
+            "badge_label": "Bundle",
+            "condition_tag": "bundle",
+            "badge_color": "#2A2611",
+            "badge_text_color": "#ffffff"
+          }
+        },
+        "badge_new": {
+          "type": "badge_rule",
+          "settings": {
+            "badge_label": "New",
+            "condition_tag": "new",
+            "badge_color": "#44681A",
+            "badge_text_color": "#ffffff"
+          }
+        }
+      },
+      "block_order": ["badge_best", "badge_practitioner", "badge_bundle", "badge_new"],
+      "settings": {
+        "show_filters": true,
+        "filter_source": "shopify_filters",
+        "show_sort": true,
+        "show_product_count": true,
+        "show_active_chips": true,
+        "products_per_page": 8,
+        "columns_desktop": 4,
+        "columns_mobile": "2",
+        "show_secondary_image_on_hover": true,
+        "show_quick_add": true,
+        "show_rating": true,
+        "show_variant_swatches": true,
+        "swatch_option_name": "Flavor",
+        "show_per_serving_price": true,
+        "show_subscription_line": true,
+        "max_badges": 2,
+        "show_save_badge": true,
+        "low_stock_threshold": 10,
+        "pagination_type": "load_more",
+        "load_more_label": "Load more",
+        "show_showing_count": true,
+        "padding_top": 30,
+        "padding_bottom": 80
+      }
+    },
+    "cwc_collection_footer": {
+      "type": "CWC_collection_footer",
+      "blocks": {
+        "qa_1": {
+          "type": "qa_row",
+          "settings": {
+            "question": "How many servings per container?",
+            "answer_value": "30"
+          }
+        },
+        "qa_2": {
+          "type": "qa_row",
+          "settings": {
+            "question": "Do these need refrigeration?",
+            "answer_value": "Optional"
+          }
+        },
+        "qa_3": {
+          "type": "qa_row",
+          "settings": {
+            "question": "Are they vegan?",
+            "answer_value": "Yes"
+          }
+        },
+        "qa_4": {
+          "type": "qa_row",
+          "settings": {
+            "question": "Can I take them together?",
+            "answer_value": "Yes"
+          }
+        },
+        "qa_5": {
+          "type": "qa_row",
+          "settings": {
+            "question": "Subscription discount",
+            "answer_value": "15–25%"
+          }
+        }
+      },
+      "block_order": ["qa_1", "qa_2", "qa_3", "qa_4", "qa_5"],
+      "settings": {
+        "heading": "<p>How the line fits together</p>",
+        "padding_top": 70,
+        "padding_bottom": 70
+      }
     }
   },
   "order": [
     "cwc_collection_banner_AkgWnL",
     "cwc_collection_links_hQQ4rc",
     "collection-banner",
-    "main"
+    "main",
+    "cwc_collection_grid",
+    "cwc_collection_footer"
   ]
 }

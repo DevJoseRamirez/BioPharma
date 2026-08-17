@@ -1,0 +1,259 @@
+{% style %}
+  #cwc_about-practitioner-{{ section.id }} {
+    --section-bg: {{ section.settings.bg_color | default: '#ffffff' }};
+    --text-color: {{ section.settings.text_color | default: '#2A2611' }};
+    --heading-color: {{ section.settings.heading_color | default: '#2A2611' }};
+    --highlight-color: {{ section.settings.bold_color | default: '#44681A' }};
+    --eyebrow-color: {{ section.settings.eyebrow_color | default: '#6A80B4' }};
+    --accent-color: {{ section.settings.accent_color | default: '#44681A' }};
+    --body-color: {{ section.settings.body_color | default: '#514D3D' }};
+    --label-color: {{ section.settings.label_color | default: '#7B7869' }};
+    --note-color: {{ section.settings.note_color | default: '#94917F' }};
+    --card-bg: {{ section.settings.card_bg_color | default: '#ffffff' }};
+    --border-color: {{ section.settings.border_color | default: '#E1E0DE' }};
+    --stat-columns: {{ section.settings.stat_columns | default: 2 }};
+    --padding-top: {{ section.settings.padding_top | default: 100 }}px;
+    --padding-bottom: {{ section.settings.padding_bottom | default: 100 }}px;
+    --padding-top-mobile: {{ section.settings.padding_top | default: 100 | times: 0.5 }}px;
+    --padding-bottom-mobile: {{ section.settings.padding_bottom | default: 100 | times: 0.5 }}px;
+  }
+{% endstyle %}
+
+{{ 'CWC_fonts.css' | asset_url | stylesheet_tag }}
+{{ 'CWC_about_practitioner.css' | asset_url | stylesheet_tag }}
+
+<section id="cwc_about-practitioner-{{ section.id }}" class="cwc_about-practitioner">
+  <div class="cwc_about-practitioner__container">
+    <div class="cwc_about-practitioner__wrapper">
+
+      {% comment %} Copy Column {% endcomment %}
+      <div class="cwc_about-practitioner__content">
+        {% if section.settings.eyebrow != blank %}
+          <div class="cwc_about-practitioner__eyebrow">{{ section.settings.eyebrow }}</div>
+        {% endif %}
+
+        {% if section.settings.heading != blank %}
+          <div class="cwc_about-practitioner__content-heading cwc-rte">
+            {{ section.settings.heading }}
+          </div>
+        {% endif %}
+
+        {% if section.settings.body != blank %}
+          <div class="cwc_about-practitioner__content-subtext cwc-rte">
+            {{ section.settings.body }}
+          </div>
+        {% endif %}
+      </div>
+
+      {% comment %} Stat Grid {% endcomment %}
+      <div class="cwc_about-practitioner__aside">
+        {% if section.blocks.size > 0 %}
+          <div class="cwc_about-practitioner__grid">
+            {% for block in section.blocks %}
+              {% case block.type %}
+                {% when 'stat' %}
+                  <div class="cwc_about-practitioner__card" {{ block.shopify_attributes }}>
+                    {% if block.settings.value != blank %}
+                      <span class="cwc_about-practitioner__card-value">{{ block.settings.value }}</span>
+                    {% endif %}
+
+                    {% if block.settings.label != blank %}
+                      <span class="cwc_about-practitioner__card-label">{{ block.settings.label }}</span>
+                    {% endif %}
+                  </div>
+              {% endcase %}
+            {% endfor %}
+          </div>
+        {% endif %}
+
+        {% if section.settings.disclaimer_note != blank %}
+          <p class="cwc_about-practitioner__note">{{ section.settings.disclaimer_note }}</p>
+        {% endif %}
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "CWC About Practitioner",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Header"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Where we started"
+    },
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "<p>Sold through practices long before it was sold online</p>"
+    },
+    {
+      "type": "richtext",
+      "id": "body",
+      "label": "Body Copy",
+      "default": "<p>For most of our history, the only way to get NanoGreens¹⁰ was from a practitioner who stocked it. No ads, no influencers — just clinicians handing it to patients who weren't getting enough produce.</p><p>That channel shaped the formulas. It's also why many of the people reordering today first heard about us in an exam room.</p>"
+    },
+    {
+      "type": "textarea",
+      "id": "disclaimer_note",
+      "label": "Disclaimer Note",
+      "info": "Compliance copy shown beneath the stat grid.",
+      "default": "Figures reflect company history and current formulation. Individual results vary."
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "stat_columns",
+      "label": "Stat Columns",
+      "options": [
+        { "value": "1", "label": "1" },
+        { "value": "2", "label": "2" }
+      ],
+      "default": "2"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#2A2611"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "default": "#2A2611"
+    },
+    {
+      "type": "color",
+      "id": "bold_color",
+      "label": "Heading Bold Color",
+      "default": "#44681A"
+    },
+    {
+      "type": "color",
+      "id": "eyebrow_color",
+      "label": "Eyebrow Color",
+      "default": "#6A80B4"
+    },
+    {
+      "type": "color",
+      "id": "body_color",
+      "label": "Body Text Color",
+      "default": "#514D3D"
+    },
+    {
+      "type": "color",
+      "id": "note_color",
+      "label": "Disclaimer Note Color",
+      "default": "#94917F"
+    },
+    {
+      "type": "header",
+      "content": "Card Colors"
+    },
+    {
+      "type": "color",
+      "id": "card_bg_color",
+      "label": "Stat Card Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Stat Value Color",
+      "default": "#44681A"
+    },
+    {
+      "type": "color",
+      "id": "label_color",
+      "label": "Stat Label Color",
+      "default": "#7B7869"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Stat Border Color",
+      "default": "#E1E0DE"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 100
+    }
+  ],
+  "blocks": [
+    {
+      "type": "stat",
+      "name": "Stat",
+      "limit": 6,
+      "settings": [
+        {
+          "type": "text",
+          "id": "value",
+          "label": "Value",
+          "default": "20+"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Years recommended in practitioner clinics"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 6,
+  "presets": [
+    {
+      "name": "About Practitioner Origin",
+      "category": "CWC Custom",
+      "blocks": [
+        { "type": "stat" },
+        { "type": "stat" },
+        { "type": "stat" },
+        { "type": "stat" }
+      ]
+    }
+  ]
+}
+{% endschema %}

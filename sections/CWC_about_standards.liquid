@@ -1,0 +1,247 @@
+{% style %}
+  #cwc_about-standards-{{ section.id }} {
+    --section-bg: {{ section.settings.bg_color | default: '#ffffff' }};
+    --text-color: {{ section.settings.text_color | default: '#2A2611' }};
+    --heading-color: {{ section.settings.heading_color | default: '#2A2611' }};
+    --highlight-color: {{ section.settings.bold_color | default: '#44681A' }};
+    --eyebrow-color: {{ section.settings.eyebrow_color | default: '#44681A' }};
+    --number-color: {{ section.settings.number_color | default: '#78AD49' }};
+    --body-color: {{ section.settings.body_color | default: '#6E6A57' }};
+    --card-bg: {{ section.settings.card_bg_color | default: '#ffffff' }};
+    --border-color: {{ section.settings.border_color | default: '#E1E0DE' }};
+    --columns: {{ section.settings.columns_desktop | default: 3 }};
+    --padding-top: {{ section.settings.padding_top | default: 100 }}px;
+    --padding-bottom: {{ section.settings.padding_bottom | default: 100 }}px;
+    --padding-top-mobile: {{ section.settings.padding_top | default: 100 | times: 0.5 }}px;
+    --padding-bottom-mobile: {{ section.settings.padding_bottom | default: 100 | times: 0.5 }}px;
+  }
+{% endstyle %}
+
+{{ 'CWC_fonts.css' | asset_url | stylesheet_tag }}
+{{ 'CWC_about_standards.css' | asset_url | stylesheet_tag }}
+
+<section id="cwc_about-standards-{{ section.id }}" class="cwc_about-standards">
+  <div class="cwc_about-standards__container">
+
+    {% comment %} Section Header {% endcomment %}
+    <div class="cwc_about-standards__content">
+      {% if section.settings.eyebrow != blank %}
+        <div class="cwc_about-standards__eyebrow">{{ section.settings.eyebrow }}</div>
+      {% endif %}
+
+      {% if section.settings.heading != blank %}
+        <div class="cwc_about-standards__content-heading cwc-rte">
+          {{ section.settings.heading }}
+        </div>
+      {% endif %}
+
+      {% if section.settings.subtext != blank %}
+        <div class="cwc_about-standards__content-subtext cwc-rte">
+          {{ section.settings.subtext }}
+        </div>
+      {% endif %}
+    </div>
+
+    {% comment %} Standards Grid {% endcomment %}
+    {% if section.blocks.size > 0 %}
+      <div class="cwc_about-standards__grid">
+        {% for block in section.blocks %}
+          {% case block.type %}
+            {% when 'standard' %}
+              <div class="cwc_about-standards__card" {{ block.shopify_attributes }}>
+                {% if section.settings.auto_number %}
+                  {% liquid
+                    assign card_number = forloop.index | prepend: '0' | slice: -2, 2
+                  %}
+                  <span class="cwc_about-standards__card-number">{{ card_number }}</span>
+                {% endif %}
+
+                {% if block.settings.title != blank %}
+                  <b class="cwc_about-standards__card-title">{{ block.settings.title }}</b>
+                {% endif %}
+
+                {% if block.settings.description != blank %}
+                  <div class="cwc_about-standards__card-text cwc-rte">
+                    {{ block.settings.description }}
+                  </div>
+                {% endif %}
+              </div>
+          {% endcase %}
+        {% endfor %}
+      </div>
+    {% endif %}
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "CWC About Standards",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Header"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "How we make it"
+    },
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "<p>Six things we don't compromise on</p>"
+    },
+    {
+      "type": "richtext",
+      "id": "subtext",
+      "label": "Section Subtext",
+      "default": "<p>These apply to every product we make, not just the flagship.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "label": "Columns On Desktop",
+      "min": 1,
+      "max": 4,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "checkbox",
+      "id": "auto_number",
+      "label": "Show Numbers",
+      "info": "Numbers are generated from block order, so reordering renumbers automatically.",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#2A2611"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "default": "#2A2611"
+    },
+    {
+      "type": "color",
+      "id": "bold_color",
+      "label": "Heading Bold Color",
+      "default": "#44681A"
+    },
+    {
+      "type": "color",
+      "id": "eyebrow_color",
+      "label": "Eyebrow Color",
+      "default": "#44681A"
+    },
+    {
+      "type": "color",
+      "id": "body_color",
+      "label": "Body Text Color",
+      "default": "#6E6A57"
+    },
+    {
+      "type": "header",
+      "content": "Card Colors"
+    },
+    {
+      "type": "color",
+      "id": "card_bg_color",
+      "label": "Card Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "number_color",
+      "label": "Card Number Color",
+      "default": "#78AD49"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Card Border Color",
+      "default": "#E1E0DE"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 100
+    }
+  ],
+  "blocks": [
+    {
+      "type": "standard",
+      "name": "Standard",
+      "limit": 9,
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Organic wherever it exists"
+        },
+        {
+          "type": "richtext",
+          "id": "description",
+          "label": "Description",
+          "default": "<p>We source organic for every ingredient available that way.</p>"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 9,
+  "presets": [
+    {
+      "name": "About Standards",
+      "category": "CWC Custom",
+      "blocks": [
+        { "type": "standard" },
+        { "type": "standard" },
+        { "type": "standard" },
+        { "type": "standard" },
+        { "type": "standard" },
+        { "type": "standard" }
+      ]
+    }
+  ]
+}
+{% endschema %}

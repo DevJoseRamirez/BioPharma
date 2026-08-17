@@ -1,0 +1,1181 @@
+{% style %}
+  #cwc_collection-grid-{{ section.id }} {
+    --section-bg: {{ section.settings.bg_color | default: '#ffffff' }};
+    --text-color: {{ section.settings.text_color | default: '#2A2611' }};
+    --muted-color: {{ section.settings.muted_color | default: '#7B7869' }};
+    --heading-color: {{ section.settings.heading_color | default: '#2A2611' }};
+    --accent-color: {{ section.settings.accent_color | default: '#5BA90F' }};
+    --olive-color: {{ section.settings.olive_color | default: '#44681A' }};
+    --format-color: {{ section.settings.format_color | default: '#78AD49' }};
+    --star-color: {{ section.settings.star_color | default: '#5BA90F' }};
+    --card-bg: {{ section.settings.card_bg_color | default: '#F5F4F0' }};
+    --card-hover-bg: {{ section.settings.card_hover_bg_color | default: '#ECEBE5' }};
+    --border-color: {{ section.settings.border_color | default: '#DCD9CE' }};
+    --border-soft-color: {{ section.settings.border_soft_color | default: '#EDECE6' }};
+    --chip-bg: {{ section.settings.chip_bg_color | default: '#ECEBE5' }};
+    --quick-add-bg: {{ section.settings.quick_add_bg_color | default: '#2A2611' }};
+    --quick-add-text: {{ section.settings.quick_add_text_color | default: '#ffffff' }};
+    --badge-save-bg: {{ section.settings.badge_save_bg_color | default: '#ffffff' }};
+    --badge-save-text: {{ section.settings.badge_save_text_color | default: '#44681A' }};
+    --badge-low-bg: {{ section.settings.badge_low_bg_color | default: '#B4501E' }};
+    --badge-sold-bg: {{ section.settings.badge_sold_bg_color | default: '#8A8677' }};
+    --badge-text: {{ section.settings.badge_text_color | default: '#ffffff' }};
+    --columns: {{ section.settings.columns_desktop | default: 4 }};
+    --columns-mobile: {{ section.settings.columns_mobile | default: '2' }};
+    --padding-top: {{ section.settings.padding_top | default: 30 }}px;
+    --padding-bottom: {{ section.settings.padding_bottom | default: 80 }}px;
+    --padding-top-mobile: {{ section.settings.padding_top | default: 30 | times: 0.5 }}px;
+    --padding-bottom-mobile: {{ section.settings.padding_bottom | default: 80 | times: 0.5 }}px;
+  }
+{% endstyle %}
+
+{{ 'CWC_fonts.css' | asset_url | stylesheet_tag }}
+{{ 'CWC_collection_grid.css' | asset_url | stylesheet_tag }}
+
+{% liquid
+  assign per_page = section.settings.products_per_page | default: 8
+
+  # Metafield paths are editable so the section can follow the shop's own schema.
+  assign format_path = section.settings.format_metafield | default: 'custom.format' | split: '.'
+  assign servings_path = section.settings.servings_metafield | default: 'custom.servings' | split: '.'
+  assign serving_price_path = section.settings.serving_price_metafield | default: 'custom.price_per_serving' | split: '.'
+  assign card_text_path = section.settings.card_text_metafield | default: 'custom.card_description' | split: '.'
+  assign rating_path = section.settings.rating_metafield | default: 'reviews.rating' | split: '.'
+  assign rating_count_path = section.settings.rating_count_metafield | default: 'reviews.rating_count' | split: '.'
+%}
+
+<section id="cwc_collection-grid-{{ section.id }}" class="cwc_collection-grid" data-cwc-grid-section>
+  <div class="cwc_collection-grid__container">
+
+    {% comment %} Toolbar — filters, count, sort {% endcomment %}
+    {% if section.settings.show_filters or section.settings.show_sort or section.settings.show_product_count %}
+      <div class="cwc_collection-grid__tools">
+
+        {% if section.settings.show_filters %}
+          {% comment %} Desktop: one dropdown per filter group {% endcomment %}
+          <div class="cwc_collection-grid__filters">
+            {% if section.settings.filter_source == 'manual' %}
+              {% for block in section.blocks %}
+                {% case block.type %}
+                  {% when 'filter_group' %}
+                    {% if block.settings.label != blank %}
+                      <a
+                        class="cwc_collection-grid__filter-button"
+                        href="{{ collection.url }}?filter.p.tag={{ block.settings.filter_handle | escape }}"
+                        {{ block.shopify_attributes }}
+                      >
+                        {{ block.settings.label }}
+                        <span class="cwc_collection-grid__caret" aria-hidden="true">▼</span>
+                      </a>
+                    {% endif %}
+                {% endcase %}
+              {% endfor %}
+            {% else %}
+              {% for filter in collection.filters %}
+                {% if filter.type == 'price_range' %}
+                  {% continue %}
+                {% endif %}
+
+                <details class="cwc_collection-grid__filter" data-cwc-filter>
+                  <summary class="cwc_collection-grid__filter-button">
+                    {{ filter.label }}
+
+                    {% if filter.active_values.size > 0 %}
+                      <span class="cwc_collection-grid__filter-count">{{ filter.active_values.size }}</span>
+                    {% endif %}
+
+                    <span class="cwc_collection-grid__caret" aria-hidden="true">▼</span>
+                  </summary>
+
+                  <div class="cwc_collection-grid__filter-panel">
+                    <ul class="cwc_collection-grid__filter-list" role="list">
+                      {% for value in filter.values %}
+                        <li class="cwc_collection-grid__filter-item">
+                          <a
+                            class="cwc_collection-grid__filter-value{% if value.active %} cwc_collection-grid__filter-value--active{% endif %}"
+                            href="{% if value.active %}{{ value.url_to_remove }}{% else %}{{ value.url_to_add }}{% endif %}"
+                            {% if value.count == 0 and value.active == false %}aria-disabled="true"{% endif %}
+                          >
+                            <span class="cwc_collection-grid__filter-label">{{ value.label }}</span>
+                            <span class="cwc_collection-grid__filter-tally">{{ value.count }}</span>
+                          </a>
+                        </li>
+                      {% endfor %}
+                    </ul>
+                  </div>
+                </details>
+              {% endfor %}
+            {% endif %}
+          </div>
+
+          {% comment %} Mobile: compact Filter / Sort pair {% endcomment %}
+          <div class="cwc_collection-grid__tools-mobile">
+            <details class="cwc_collection-grid__filter" data-cwc-filter>
+              <summary class="cwc_collection-grid__filter-button">
+                {{ section.settings.mobile_filter_label | default: 'Filter' }}
+
+                {% if collection.filters.size > 0 %}
+                  {% liquid
+                    assign active_total = 0
+                    for filter in collection.filters
+                      assign active_total = active_total | plus: filter.active_values.size
+                    endfor
+                  %}
+                  {% if active_total > 0 %}
+                    <span class="cwc_collection-grid__filter-count">{{ active_total }}</span>
+                  {% endif %}
+                {% endif %}
+              </summary>
+
+              <div class="cwc_collection-grid__filter-panel cwc_collection-grid__filter-panel--stacked">
+                {% for filter in collection.filters %}
+                  {% if filter.type == 'price_range' %}
+                    {% continue %}
+                  {% endif %}
+
+                  <div class="cwc_collection-grid__filter-group">
+                    <b class="cwc_collection-grid__filter-group-label">{{ filter.label }}</b>
+
+                    <ul class="cwc_collection-grid__filter-list" role="list">
+                      {% for value in filter.values %}
+                        <li class="cwc_collection-grid__filter-item">
+                          <a
+                            class="cwc_collection-grid__filter-value{% if value.active %} cwc_collection-grid__filter-value--active{% endif %}"
+                            href="{% if value.active %}{{ value.url_to_remove }}{% else %}{{ value.url_to_add }}{% endif %}"
+                          >
+                            <span class="cwc_collection-grid__filter-label">{{ value.label }}</span>
+                            <span class="cwc_collection-grid__filter-tally">{{ value.count }}</span>
+                          </a>
+                        </li>
+                      {% endfor %}
+                    </ul>
+                  </div>
+                {% endfor %}
+              </div>
+            </details>
+
+            {% if section.settings.show_sort %}
+              <details class="cwc_collection-grid__filter" data-cwc-filter>
+                <summary class="cwc_collection-grid__filter-button">
+                  {{ section.settings.mobile_sort_label | default: 'Sort' }}
+                </summary>
+
+                <div class="cwc_collection-grid__filter-panel">
+                  <ul class="cwc_collection-grid__filter-list" role="list">
+                    {% liquid
+                      assign current_sort = collection.sort_by | default: collection.default_sort_by
+                    %}
+                    {% for option in collection.sort_options %}
+                      <li class="cwc_collection-grid__filter-item">
+                        <a
+                          class="cwc_collection-grid__filter-value{% if option.value == current_sort %} cwc_collection-grid__filter-value--active{% endif %}"
+                          href="{{ collection.url }}?sort_by={{ option.value }}"
+                        >
+                          <span class="cwc_collection-grid__filter-label">{{ option.name }}</span>
+                        </a>
+                      </li>
+                    {% endfor %}
+                  </ul>
+                </div>
+              </details>
+            {% endif %}
+          </div>
+        {% endif %}
+
+        <div class="cwc_collection-grid__tools-right">
+          {% if section.settings.show_product_count %}
+            <span class="cwc_collection-grid__count">
+              {{ collection.products_count }}
+              {% if collection.products_count == 1 %}
+                {{ section.settings.count_suffix_singular | default: 'product' }}
+              {% else %}
+                {{ section.settings.count_suffix_text | default: 'products' }}
+              {% endif %}
+            </span>
+          {% endif %}
+
+          {% if section.settings.show_product_count and section.settings.show_sort %}
+            <span class="cwc_collection-grid__tools-sep" aria-hidden="true">·</span>
+          {% endif %}
+
+          {% if section.settings.show_sort %}
+            {% liquid
+              assign current_sort = collection.sort_by | default: collection.default_sort_by
+            %}
+            <form class="cwc_collection-grid__sort" method="get" action="{{ collection.url }}" data-cwc-sort-form>
+              {% comment %} Keep the active filters when the sort changes {% endcomment %}
+              {% for filter in collection.filters %}
+                {% for value in filter.active_values %}
+                  <input type="hidden" name="{{ value.param_name }}" value="{{ value.value | escape }}">
+                {% endfor %}
+              {% endfor %}
+
+              <label class="cwc_collection-grid__sort-label" for="cwc-sort-{{ section.id }}">
+                {{- section.settings.sort_label | default: 'Sort:' -}}
+              </label>
+
+              <select
+                class="cwc_collection-grid__sort-select"
+                id="cwc-sort-{{ section.id }}"
+                name="sort_by"
+                data-cwc-sort-select
+              >
+                {% for option in collection.sort_options %}
+                  <option value="{{ option.value }}" {% if option.value == current_sort %}selected{% endif %}>
+                    {{ option.name }}
+                  </option>
+                {% endfor %}
+              </select>
+
+              <noscript>
+                <button class="cwc_collection-grid__sort-apply" type="submit">
+                  {{ section.settings.sort_apply_label | default: 'Apply' }}
+                </button>
+              </noscript>
+            </form>
+          {% endif %}
+        </div>
+
+      </div>
+    {% endif %}
+
+    {% comment %} Active filter chips {% endcomment %}
+    {% if section.settings.show_active_chips %}
+      {% liquid
+        assign chip_total = 0
+        for filter in collection.filters
+          assign chip_total = chip_total | plus: filter.active_values.size
+        endfor
+      %}
+
+      {% if chip_total > 0 %}
+        <div class="cwc_collection-grid__chips">
+          {% for filter in collection.filters %}
+            {% for value in filter.active_values %}
+              <a class="cwc_collection-grid__chip" href="{{ value.url_to_remove }}">
+                <b class="cwc_collection-grid__chip-label">{{ value.label }}</b>
+                <span class="cwc_collection-grid__chip-remove" aria-hidden="true">✕</span>
+                <span class="cwc_collection-grid__visually-hidden">
+                  {{- section.settings.chip_remove_label | default: 'Remove filter' -}}
+                </span>
+              </a>
+            {% endfor %}
+          {% endfor %}
+
+          <a class="cwc_collection-grid__chips-clear" href="{{ collection.url }}">
+            {{- section.settings.clear_all_label | default: 'Clear all' -}}
+          </a>
+        </div>
+      {% endif %}
+    {% endif %}
+
+    {% comment %} Product grid {% endcomment %}
+    {% paginate collection.products by per_page %}
+      {% if collection.products.size > 0 %}
+        <div class="cwc_collection-grid__grid" data-cwc-grid-items>
+          {% for product in collection.products %}
+            {% liquid
+              assign card_variant = product.selected_or_first_available_variant
+              assign card_price = card_variant.price
+              assign card_compare = card_variant.compare_at_price
+
+              assign on_sale = false
+              if card_compare > card_price
+                assign on_sale = true
+                assign save_percent = card_compare | minus: card_price | times: 100.0 | divided_by: card_compare | round
+              endif
+
+              # Low stock only when Shopify is actually tracking inventory.
+              assign low_stock = false
+              if product.available and card_variant.inventory_management != blank and card_variant.inventory_policy == 'deny'
+                if card_variant.inventory_quantity > 0 and card_variant.inventory_quantity <= section.settings.low_stock_threshold
+                  assign low_stock = true
+                endif
+              endif
+
+              assign format_value = product.metafields[format_path[0]][format_path[1]].value | default: product.type
+              assign servings_value = product.metafields[servings_path[0]][servings_path[1]].value
+              # Coerce to a number — the metafield may be typed as text.
+              assign servings_number = servings_value | plus: 0
+              assign serving_price_value = product.metafields[serving_price_path[0]][serving_price_path[1]].value
+              assign card_text = product.metafields[card_text_path[0]][card_text_path[1]].value
+
+              if card_text == blank
+                assign card_text = product.description | strip_html | truncatewords: 16
+              endif
+
+              assign rating_raw = product.metafields[rating_path[0]][rating_path[1]].value
+              assign rating_value = rating_raw.rating | default: rating_raw
+              assign rating_count = product.metafields[rating_count_path[0]][rating_count_path[1]].value
+            %}
+
+            <article
+              class="cwc_collection-grid__card{% unless product.available %} cwc_collection-grid__card--sold-out{% endunless %}"
+              data-cwc-card
+            >
+              <div class="cwc_collection-grid__card-media">
+
+                {% comment %} Badge stack {% endcomment %}
+                {% liquid
+                  assign badges_shown = 0
+                  assign max_badges = section.settings.max_badges | default: 2
+                %}
+                <div class="cwc_collection-grid__badges">
+                  {% unless product.available %}
+                    <span class="cwc_collection-grid__badge cwc_collection-grid__badge--sold-out">
+                      {{- section.settings.sold_out_label | default: 'Sold out' -}}
+                    </span>
+                    {% assign badges_shown = badges_shown | plus: 1 %}
+                  {% endunless %}
+
+                  {% if low_stock and badges_shown < max_badges %}
+                    <span class="cwc_collection-grid__badge cwc_collection-grid__badge--low-stock">
+                      {{- section.settings.low_stock_label | default: 'Low stock' -}}
+                    </span>
+                    {% assign badges_shown = badges_shown | plus: 1 %}
+                  {% endif %}
+
+                  {% for block in section.blocks %}
+                    {% case block.type %}
+                      {% when 'badge_rule' %}
+                        {% if badges_shown < max_badges and block.settings.badge_label != blank %}
+                          {% liquid
+                            assign rule_matches = false
+                            if block.settings.condition_tag != blank and product.tags contains block.settings.condition_tag
+                              assign rule_matches = true
+                            endif
+                          %}
+
+                          {% if rule_matches %}
+                            <span
+                              class="cwc_collection-grid__badge"
+                              style="background-color: {{ block.settings.badge_color }}; color: {{ block.settings.badge_text_color }};"
+                              {{ block.shopify_attributes }}
+                            >
+                              {{- block.settings.badge_label -}}
+                            </span>
+                            {% assign badges_shown = badges_shown | plus: 1 %}
+                          {% endif %}
+                        {% endif %}
+                    {% endcase %}
+                  {% endfor %}
+
+                  {% if on_sale and section.settings.show_save_badge and badges_shown < max_badges %}
+                    <span class="cwc_collection-grid__badge cwc_collection-grid__badge--save">
+                      {{ section.settings.save_badge_prefix | default: 'Save' }} {{ save_percent }}%
+                    </span>
+                    {% assign badges_shown = badges_shown | plus: 1 %}
+                  {% endif %}
+                </div>
+
+                <a class="cwc_collection-grid__card-link" href="{{ product.url }}">
+                  {% if product.featured_image != blank %}
+                    <img
+                      class="cwc_collection-grid__card-image"
+                      src="{{ product.featured_image | image_url: width: 700 }}"
+                      alt="{{ product.featured_image.alt | default: product.title | escape }}"
+                      width="700"
+                      height="700"
+                      loading="lazy"
+                    >
+                  {% else %}
+                    <div class="cwc_collection-grid__placeholder">
+                      <span>{{ product.title }}</span>
+                    </div>
+                  {% endif %}
+
+                  {% if section.settings.show_secondary_image_on_hover and product.images[1] != blank %}
+                    <img
+                      class="cwc_collection-grid__card-image cwc_collection-grid__card-image--hover"
+                      src="{{ product.images[1] | image_url: width: 700 }}"
+                      alt=""
+                      width="700"
+                      height="700"
+                      loading="lazy"
+                      aria-hidden="true"
+                    >
+                  {% endif %}
+
+                  <span class="cwc_collection-grid__visually-hidden">{{ product.title }}</span>
+                </a>
+
+                {% comment %} Quick add — a real form, so it works without JS {% endcomment %}
+                {% if section.settings.show_quick_add %}
+                  {% if product.available == false %}
+                    <a class="cwc_collection-grid__quick-add cwc_collection-grid__quick-add--notify" href="{{ product.url }}">
+                      {{- section.settings.notify_label | default: 'Notify me' -}}
+                    </a>
+                  {% elsif product.variants.size > 1 %}
+                    <a class="cwc_collection-grid__quick-add" href="{{ product.url }}">
+                      {{- section.settings.choose_label | default: 'Choose options' -}}
+                    </a>
+                  {% else %}
+                    {% form 'product', product, class: 'cwc_collection-grid__quick-add-form', data-cwc-quick-add: '' %}
+                      <input type="hidden" name="id" value="{{ card_variant.id }}">
+                      <input type="hidden" name="quantity" value="1">
+                      <button class="cwc_collection-grid__quick-add" type="submit">
+                        {{- section.settings.quick_add_label | default: 'Quick add' -}}
+                      </button>
+                    {% endform %}
+                  {% endif %}
+                {% endif %}
+              </div>
+
+              <div class="cwc_collection-grid__card-body">
+                {% if format_value != blank %}
+                  <div class="cwc_collection-grid__card-format">
+                    {{ format_value }}
+                    {% if servings_value != blank %}
+                      ·
+                      {{ servings_value }}
+                      {{ section.settings.servings_suffix | default: 'servings' }}
+                    {% endif %}
+                  </div>
+                {% endif %}
+
+                <h3 class="cwc_collection-grid__card-title">
+                  <a class="cwc_collection-grid__card-title-link" href="{{ product.url }}">{{ product.title }}</a>
+                </h3>
+
+                {% if card_text != blank %}
+                  <p class="cwc_collection-grid__card-text">{{ card_text }}</p>
+                {% endif %}
+
+                {% if section.settings.show_rating and rating_value != blank %}
+                  {% liquid
+                    assign rating_rounded = rating_value | round
+                  %}
+                  <div class="cwc_collection-grid__rating">
+                    <span class="cwc_collection-grid__stars" aria-hidden="true">
+                      {%- for i in (1..5) -%}
+                        {%- if i <= rating_rounded -%}★{%- else -%}☆{%- endif -%}
+                      {%- endfor -%}
+                    </span>
+
+                    <span class="cwc_collection-grid__rating-value">{{ rating_value }}</span>
+
+                    {% if rating_count != blank %}
+                      <span class="cwc_collection-grid__rating-count">({{ rating_count }})</span>
+                    {% endif %}
+                  </div>
+                {% endif %}
+
+                {% if section.settings.show_variant_swatches %}
+                  {% for option in product.options_with_values %}
+                    {% if option.name == section.settings.swatch_option_name %}
+                      <div class="cwc_collection-grid__swatches">
+                        {% for value in option.values %}
+                          {% if value.swatch.color != blank %}
+                            <span
+                              class="cwc_collection-grid__swatch{% if value.selected %} cwc_collection-grid__swatch--active{% endif %}"
+                              style="background-color: {{ value.swatch.color }};"
+                              title="{{ value | escape }}"
+                            ></span>
+                          {% endif %}
+                        {% endfor %}
+                      </div>
+                    {% endif %}
+                  {% endfor %}
+                {% endif %}
+
+                <div class="cwc_collection-grid__price">
+                  <span class="cwc_collection-grid__price-now">{{ card_price | money }}</span>
+
+                  {% if on_sale %}
+                    <s class="cwc_collection-grid__price-was">{{ card_compare | money }}</s>
+                  {% endif %}
+                </div>
+
+                {% if section.settings.show_per_serving_price %}
+                  {% liquid
+                    assign per_serving = blank
+                    if serving_price_value != blank
+                      assign per_serving = serving_price_value
+                    elsif servings_number > 0
+                      assign per_serving = card_price | divided_by: servings_number | money
+                    endif
+                  %}
+
+                  {% if per_serving != blank %}
+                    <div class="cwc_collection-grid__per-serving">
+                      {{ per_serving }} {{ section.settings.per_serving_suffix | default: '/ serving' }}
+                    </div>
+                  {% endif %}
+                {% endif %}
+
+                {% if section.settings.show_subscription_line and product.selling_plan_groups.size > 0 %}
+                  {% liquid
+                    assign allocation = card_variant.selling_plan_allocations.first
+                  %}
+
+                  {% if allocation != blank and allocation.price < card_price %}
+                    {% liquid
+                      assign sub_percent = card_price | minus: allocation.price | times: 100.0 | divided_by: card_price | round
+                    %}
+                    <div class="cwc_collection-grid__subscription">
+                      {{ section.settings.subscription_prefix | default: 'Subscribe from' }}
+                      {{ allocation.price | money }}
+                      {{ section.settings.subscription_save_text | default: '— save' }}
+                      {{ sub_percent }}%
+                    </div>
+                  {% endif %}
+                {% endif %}
+              </div>
+            </article>
+          {% endfor %}
+        </div>
+
+        {% comment %} Pagination {% endcomment %}
+        <div class="cwc_collection-grid__more">
+          {% if section.settings.pagination_type == 'paginate' %}
+            {% if paginate.pages > 1 %}
+              <nav class="cwc_collection-grid__pagination" aria-label="Pagination">
+                {% if paginate.previous %}
+                  <a class="cwc_collection-grid__page-link" href="{{ paginate.previous.url }}">
+                    {{- section.settings.previous_label | default: 'Previous' -}}
+                  </a>
+                {% endif %}
+
+                {% for part in paginate.parts %}
+                  {% if part.is_link %}
+                    <a class="cwc_collection-grid__page-link" href="{{ part.url }}">{{ part.title }}</a>
+                  {% else %}
+                    <span class="cwc_collection-grid__page-link cwc_collection-grid__page-link--current">
+                      {{- part.title -}}
+                    </span>
+                  {% endif %}
+                {% endfor %}
+
+                {% if paginate.next %}
+                  <a class="cwc_collection-grid__page-link" href="{{ paginate.next.url }}">
+                    {{- section.settings.next_label | default: 'Next' -}}
+                  </a>
+                {% endif %}
+              </nav>
+            {% endif %}
+          {% else %}
+            {% if section.settings.show_showing_count %}
+              <p class="cwc_collection-grid__showing" data-cwc-showing>
+                {{ section.settings.showing_prefix | default: 'Showing' }}
+                <span data-cwc-showing-current>{{ paginate.current_offset | plus: collection.products.size }}</span>
+                {{ section.settings.showing_join | default: 'of' }}
+                {{ paginate.items }}
+              </p>
+            {% endif %}
+
+            {% if paginate.next %}
+              <a
+                class="cwc_collection-grid__load-more"
+                href="{{ paginate.next.url }}"
+                data-cwc-load-more
+                data-cwc-section-id="{{ section.id }}"
+                data-cwc-auto="{% if section.settings.pagination_type == 'infinite' %}true{% else %}false{% endif %}"
+              >
+                {{- section.settings.load_more_label | default: 'Load more' -}}
+              </a>
+            {% endif %}
+          {% endif %}
+        </div>
+      {% else %}
+        <div class="cwc_collection-grid__empty">
+          <p>{{ section.settings.empty_text | default: 'No products match these filters.' }}</p>
+
+          <a class="cwc_collection-grid__chips-clear" href="{{ collection.url }}">
+            {{- section.settings.clear_all_label | default: 'Clear all' -}}
+          </a>
+        </div>
+      {% endif %}
+    {% endpaginate %}
+
+  </div>
+</section>
+
+{{ 'CWC_collection_grid.js' | asset_url | script_tag }}
+
+{% schema %}
+{
+  "name": "CWC Collection Grid",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Toolbar"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_filters",
+      "label": "Show Filters",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "filter_source",
+      "label": "Filter Source",
+      "info": "Shopify filters come from Search & Discovery. Manual groups are a fallback only.",
+      "options": [
+        { "value": "shopify_filters", "label": "Shopify filters" },
+        { "value": "manual", "label": "Manual groups" }
+      ],
+      "default": "shopify_filters"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_sort",
+      "label": "Show Sort",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "sort_label",
+      "label": "Sort Label",
+      "default": "Sort:"
+    },
+    {
+      "type": "text",
+      "id": "sort_apply_label",
+      "label": "Sort Apply Label",
+      "info": "Only shown when JavaScript is unavailable.",
+      "default": "Apply"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_product_count",
+      "label": "Show Product Count",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "count_suffix_text",
+      "label": "Product Count Suffix",
+      "default": "products"
+    },
+    {
+      "type": "text",
+      "id": "count_suffix_singular",
+      "label": "Product Count Suffix (Singular)",
+      "default": "product"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_active_chips",
+      "label": "Show Active Filter Chips",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "clear_all_label",
+      "label": "Clear All Label",
+      "default": "Clear all"
+    },
+    {
+      "type": "text",
+      "id": "chip_remove_label",
+      "label": "Chip Remove Label",
+      "info": "Read out by screen readers on the ✕.",
+      "default": "Remove filter"
+    },
+    {
+      "type": "text",
+      "id": "mobile_filter_label",
+      "label": "Mobile Filter Label",
+      "default": "Filter"
+    },
+    {
+      "type": "text",
+      "id": "mobile_sort_label",
+      "label": "Mobile Sort Label",
+      "default": "Sort"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "products_per_page",
+      "label": "Products Per Page",
+      "min": 4,
+      "max": 48,
+      "step": 4,
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "label": "Columns On Desktop",
+      "min": 2,
+      "max": 5,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "select",
+      "id": "columns_mobile",
+      "label": "Columns On Mobile",
+      "options": [
+        { "value": "1", "label": "1" },
+        { "value": "2", "label": "2" }
+      ],
+      "default": "2"
+    },
+    {
+      "type": "header",
+      "content": "Product Card"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_secondary_image_on_hover",
+      "label": "Swap To Second Image On Hover",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_quick_add",
+      "label": "Show Quick Add",
+      "info": "Single-variant products add straight to cart. Everything else links to the product page.",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "quick_add_label",
+      "label": "Quick Add Label",
+      "default": "Quick add"
+    },
+    {
+      "type": "text",
+      "id": "choose_label",
+      "label": "Multi-Variant Label",
+      "default": "Choose options"
+    },
+    {
+      "type": "text",
+      "id": "notify_label",
+      "label": "Sold Out Label",
+      "default": "Notify me"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_rating",
+      "label": "Show Rating",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_variant_swatches",
+      "label": "Show Variant Swatches",
+      "info": "Uses the swatch colors set on the option values in Shopify.",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "swatch_option_name",
+      "label": "Swatch Option Name",
+      "info": "The product option the swatches come from, e.g. Flavor.",
+      "default": "Flavor"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_per_serving_price",
+      "label": "Show Per-Serving Price",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "per_serving_suffix",
+      "label": "Per-Serving Suffix",
+      "default": "/ serving"
+    },
+    {
+      "type": "text",
+      "id": "servings_suffix",
+      "label": "Servings Suffix",
+      "default": "servings"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_subscription_line",
+      "label": "Show Subscription Line",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "subscription_prefix",
+      "label": "Subscription Prefix",
+      "default": "Subscribe from"
+    },
+    {
+      "type": "text",
+      "id": "subscription_save_text",
+      "label": "Subscription Save Text",
+      "default": "— save"
+    },
+    {
+      "type": "header",
+      "content": "Badges"
+    },
+    {
+      "type": "range",
+      "id": "max_badges",
+      "label": "Maximum Badges Per Card",
+      "min": 1,
+      "max": 4,
+      "step": 1,
+      "default": 2
+    },
+    {
+      "type": "checkbox",
+      "id": "show_save_badge",
+      "label": "Show Save Badge On Sale Items",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "save_badge_prefix",
+      "label": "Save Badge Prefix",
+      "default": "Save"
+    },
+    {
+      "type": "range",
+      "id": "low_stock_threshold",
+      "label": "Low Stock Threshold",
+      "info": "Shows the low stock badge at or below this quantity. Applies only to tracked inventory.",
+      "min": 0,
+      "max": 50,
+      "step": 5,
+      "default": 10
+    },
+    {
+      "type": "text",
+      "id": "low_stock_label",
+      "label": "Low Stock Label",
+      "default": "Low stock"
+    },
+    {
+      "type": "text",
+      "id": "sold_out_label",
+      "label": "Sold Out Label",
+      "default": "Sold out"
+    },
+    {
+      "type": "header",
+      "content": "Pagination"
+    },
+    {
+      "type": "select",
+      "id": "pagination_type",
+      "label": "Pagination Type",
+      "options": [
+        { "value": "load_more", "label": "Load more button" },
+        { "value": "paginate", "label": "Numbered pages" },
+        { "value": "infinite", "label": "Infinite scroll" }
+      ],
+      "default": "load_more"
+    },
+    {
+      "type": "text",
+      "id": "load_more_label",
+      "label": "Load More Label",
+      "default": "Load more"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_showing_count",
+      "label": "Show \"Showing X of Y\"",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "showing_prefix",
+      "label": "Showing Prefix",
+      "default": "Showing"
+    },
+    {
+      "type": "text",
+      "id": "showing_join",
+      "label": "Showing Join Word",
+      "default": "of"
+    },
+    {
+      "type": "text",
+      "id": "previous_label",
+      "label": "Previous Page Label",
+      "default": "Previous"
+    },
+    {
+      "type": "text",
+      "id": "next_label",
+      "label": "Next Page Label",
+      "default": "Next"
+    },
+    {
+      "type": "text",
+      "id": "empty_text",
+      "label": "No Results Text",
+      "default": "No products match these filters."
+    },
+    {
+      "type": "header",
+      "content": "Data Sources"
+    },
+    {
+      "type": "paragraph",
+      "content": "Metafield paths in namespace.key form. Leave the defaults unless the shop uses a different schema."
+    },
+    {
+      "type": "text",
+      "id": "format_metafield",
+      "label": "Format Metafield",
+      "info": "Falls back to the product type.",
+      "default": "custom.format"
+    },
+    {
+      "type": "text",
+      "id": "servings_metafield",
+      "label": "Servings Metafield",
+      "default": "custom.servings"
+    },
+    {
+      "type": "text",
+      "id": "serving_price_metafield",
+      "label": "Per-Serving Price Metafield",
+      "info": "Optional. Calculated from price ÷ servings when blank.",
+      "default": "custom.price_per_serving"
+    },
+    {
+      "type": "text",
+      "id": "card_text_metafield",
+      "label": "Card Description Metafield",
+      "info": "Falls back to a trimmed product description.",
+      "default": "custom.card_description"
+    },
+    {
+      "type": "text",
+      "id": "rating_metafield",
+      "label": "Rating Metafield",
+      "default": "reviews.rating"
+    },
+    {
+      "type": "text",
+      "id": "rating_count_metafield",
+      "label": "Rating Count Metafield",
+      "default": "reviews.rating_count"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#2A2611"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Product Title Color",
+      "default": "#2A2611"
+    },
+    {
+      "type": "color",
+      "id": "muted_color",
+      "label": "Muted Text Color",
+      "default": "#7B7869"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent Color",
+      "default": "#5BA90F"
+    },
+    {
+      "type": "color",
+      "id": "olive_color",
+      "label": "Subscription Line Color",
+      "default": "#44681A"
+    },
+    {
+      "type": "color",
+      "id": "format_color",
+      "label": "Format Line Color",
+      "default": "#78AD49"
+    },
+    {
+      "type": "color",
+      "id": "star_color",
+      "label": "Star Color",
+      "default": "#5BA90F"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Border Color",
+      "default": "#DCD9CE"
+    },
+    {
+      "type": "color",
+      "id": "border_soft_color",
+      "label": "Soft Border Color",
+      "default": "#EDECE6"
+    },
+    {
+      "type": "color",
+      "id": "chip_bg_color",
+      "label": "Filter Chip Background",
+      "default": "#ECEBE5"
+    },
+    {
+      "type": "header",
+      "content": "Card Colors"
+    },
+    {
+      "type": "color",
+      "id": "card_bg_color",
+      "label": "Card Image Background",
+      "default": "#F5F4F0"
+    },
+    {
+      "type": "color",
+      "id": "card_hover_bg_color",
+      "label": "Card Hover Background",
+      "default": "#ECEBE5"
+    },
+    {
+      "type": "color",
+      "id": "quick_add_bg_color",
+      "label": "Quick Add Background",
+      "default": "#2A2611"
+    },
+    {
+      "type": "color",
+      "id": "quick_add_text_color",
+      "label": "Quick Add Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "badge_text_color",
+      "label": "Badge Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "badge_save_bg_color",
+      "label": "Save Badge Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "badge_save_text_color",
+      "label": "Save Badge Text Color",
+      "default": "#44681A"
+    },
+    {
+      "type": "color",
+      "id": "badge_low_bg_color",
+      "label": "Low Stock Badge Background",
+      "default": "#B4501E"
+    },
+    {
+      "type": "color",
+      "id": "badge_sold_bg_color",
+      "label": "Sold Out Badge Background",
+      "default": "#8A8677"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "default": 80
+    }
+  ],
+  "blocks": [
+    {
+      "type": "badge_rule",
+      "name": "Badge Rule",
+      "limit": 6,
+      "settings": [
+        {
+          "type": "text",
+          "id": "badge_label",
+          "label": "Badge Label",
+          "default": "Best seller"
+        },
+        {
+          "type": "text",
+          "id": "condition_tag",
+          "label": "Product Tag",
+          "info": "The badge shows on products carrying this tag.",
+          "default": "best-seller"
+        },
+        {
+          "type": "color",
+          "id": "badge_color",
+          "label": "Badge Background Color",
+          "default": "#5BA90F"
+        },
+        {
+          "type": "color",
+          "id": "badge_text_color",
+          "label": "Badge Text Color",
+          "default": "#ffffff"
+        }
+      ]
+    },
+    {
+      "type": "filter_group",
+      "name": "Manual Filter Group",
+      "limit": 6,
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Fallback only — used when Filter Source is set to Manual groups."
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Goal"
+        },
+        {
+          "type": "text",
+          "id": "filter_handle",
+          "label": "Product Tag",
+          "default": "goal"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 12,
+  "presets": [
+    {
+      "name": "Collection Grid",
+      "category": "CWC Custom",
+      "blocks": [
+        { "type": "badge_rule" }
+      ]
+    }
+  ]
+}
+{% endschema %}

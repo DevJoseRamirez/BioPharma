@@ -48,6 +48,15 @@
 
   assign heading_tag = section.settings.heading_tag | default: 'h1'
 
+  # Description: the richtext override wins, then the collection's own description.
+  if section.settings.subtext != blank
+    assign banner_description = section.settings.subtext
+  elsif section.settings.use_collection_description and collection != blank and collection.description != blank
+    assign banner_description = collection.description
+  else
+    assign banner_description = blank
+  endif
+
   assign banner_classes = 'cwc_collection-banner'
   assign banner_classes = banner_classes | append: ' cwc_collection-banner--align-' | append: section.settings.text_align
   if bg_image != blank
@@ -99,6 +108,29 @@
   <div class="cwc_collection-banner__container">
     <div class="cwc_collection-banner__content">
 
+      {% comment %} Breadcrumb — built from the live collection, not settings {% endcomment %}
+      {% if section.settings.show_breadcrumb %}
+        <nav class="cwc_collection-banner__crumb" aria-label="Breadcrumb">
+          <a class="cwc_collection-banner__crumb-link" href="{{ routes.root_url }}">
+            {{- section.settings.crumb_home_label | default: 'Home' -}}
+          </a>
+
+          {% if section.settings.crumb_parent_label != blank %}
+            <span class="cwc_collection-banner__crumb-sep" aria-hidden="true">/</span>
+            {% if section.settings.crumb_parent_link != blank %}
+              <a class="cwc_collection-banner__crumb-link" href="{{ section.settings.crumb_parent_link }}">
+                {{- section.settings.crumb_parent_label -}}
+              </a>
+            {% else %}
+              <span class="cwc_collection-banner__crumb-link">{{ section.settings.crumb_parent_label }}</span>
+            {% endif %}
+          {% endif %}
+
+          <span class="cwc_collection-banner__crumb-sep" aria-hidden="true">/</span>
+          <span class="cwc_collection-banner__crumb-current" aria-current="page">{{ banner_title }}</span>
+        </nav>
+      {% endif %}
+
       {% if section.settings.eyebrow != blank %}
         <div class="cwc_collection-banner__eyebrow">{{ section.settings.eyebrow }}</div>
       {% endif %}
@@ -109,16 +141,20 @@
         </{{ heading_tag }}>
       {% endif %}
 
-      {% if section.settings.subtext != blank %}
+      {% if banner_description != blank %}
         <div class="cwc_collection-banner__content-subtext cwc-rte">
-          {{ section.settings.subtext }}
+          {{ banner_description }}
         </div>
       {% endif %}
 
       {% if section.settings.show_product_count and collection != blank %}
         <div class="cwc_collection-banner__count">
           {{ collection.all_products_count }}
-          {% if collection.all_products_count == 1 %}product{% else %}products{% endif %}
+          {% if collection.all_products_count == 1 %}
+            {{ section.settings.count_suffix_singular | default: 'product' }}
+          {% else %}
+            {{ section.settings.count_suffix_text | default: 'products' }}
+          {% endif %}
         </div>
       {% endif %}
 
@@ -129,7 +165,6 @@
 {% schema %}
 {
   "name": "CWC Collection Banner",
-  "tag": "section",
   "settings": [
     {
       "type": "header",
@@ -166,13 +201,63 @@
     {
       "type": "richtext",
       "id": "subtext",
-      "label": "Subtext"
+      "label": "Subtext",
+      "info": "Leave blank to fall back to the collection description below."
+    },
+    {
+      "type": "checkbox",
+      "id": "use_collection_description",
+      "label": "Fall Back To Collection Description",
+      "info": "Used only when Subtext is blank.",
+      "default": true
     },
     {
       "type": "checkbox",
       "id": "show_product_count",
       "label": "Show Product Count",
       "default": false
+    },
+    {
+      "type": "text",
+      "id": "count_suffix_text",
+      "label": "Product Count Suffix",
+      "info": "Word after the number when there is more than one product.",
+      "default": "products"
+    },
+    {
+      "type": "text",
+      "id": "count_suffix_singular",
+      "label": "Product Count Suffix (Singular)",
+      "default": "product"
+    },
+    {
+      "type": "header",
+      "content": "Breadcrumb"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_breadcrumb",
+      "label": "Show Breadcrumb",
+      "info": "Home and the current collection title are generated automatically.",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "crumb_home_label",
+      "label": "Home Label",
+      "default": "Home"
+    },
+    {
+      "type": "text",
+      "id": "crumb_parent_label",
+      "label": "Middle Crumb Label",
+      "info": "Optional level between Home and the collection, e.g. Shop.",
+      "default": "Shop"
+    },
+    {
+      "type": "url",
+      "id": "crumb_parent_link",
+      "label": "Middle Crumb Link"
     },
     {
       "type": "header",

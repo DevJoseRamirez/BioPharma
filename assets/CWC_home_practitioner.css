@@ -4,7 +4,8 @@
 
 /* === Section Wrapper === */
 .cwc_home-practitioner {
-  font-size: 16px; /* section anchor — type below is em relative to this */
+  font-size: 16px;
+  /* section anchor — type below is em relative to this */
   background-color: var(--section-bg);
   color: var(--text-color);
   padding-top: var(--padding-top);
@@ -13,7 +14,8 @@
 }
 
 .cwc_home-practitioner__container {
-  max-width: 1300px;
+  max-width: 1400px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 0 32px;
 }
@@ -53,8 +55,8 @@
   color: var(--heading-color);
 }
 
-.cwc_home-practitioner__content-heading > * strong,
-.cwc_home-practitioner__content-heading > * b {
+.cwc_home-practitioner__content-heading>* strong,
+.cwc_home-practitioner__content-heading>* b {
   color: var(--highlight-color);
 }
 

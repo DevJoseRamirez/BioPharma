@@ -1,0 +1,260 @@
+/* ==============================
+   CWC About Hero
+   ============================== */
+
+/* === Section Wrapper === */
+.cwc_about-hero {
+  font-size: 16px;
+  /* section anchor — type below is em relative to this */
+  background-color: var(--section-bg);
+  color: var(--text-color);
+  font-family: var(--cwc-font-body);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.cwc_about-hero__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+}
+
+/* === Copy Column === */
+/* Vertical padding sits on the copy column, not the section root, so the
+   image panel stays full-bleed to the section edges. */
+.cwc_about-hero__copy {
+  padding-top: var(--padding-top);
+  padding-bottom: var(--padding-bottom);
+  padding-left: max(32px, calc((100vw - 1300px) / 2 + 32px));
+  padding-right: 56px;
+}
+
+.cwc_about-hero--reverse .cwc_about-hero__grid {
+  direction: rtl;
+}
+
+.cwc_about-hero--reverse .cwc_about-hero__copy,
+.cwc_about-hero--reverse .cwc_about-hero__image {
+  direction: ltr;
+}
+
+.cwc_about-hero--reverse .cwc_about-hero__copy {
+  padding-left: 56px;
+  padding-right: max(32px, calc((100vw - 1300px) / 2 + 32px));
+}
+
+.cwc_about-hero__eyebrow {
+  font-size: 0.75em;
+  /* 12px */
+  font-weight: var(--cwc-weight-label);
+  letter-spacing: var(--cwc-tracking-label);
+  text-transform: uppercase;
+  color: var(--eyebrow-color);
+  margin-bottom: 18px;
+}
+
+/* === Heading === */
+.cwc_about-hero__content-heading {
+  margin-bottom: 22px;
+}
+
+.cwc_about-hero__content-heading h1,
+.cwc_about-hero__content-heading h2,
+.cwc_about-hero__content-heading h3,
+.cwc_about-hero__content-heading p {
+  font-family: var(--cwc-font-heading);
+  font-weight: var(--cwc-weight-heading);
+  font-size: 3.25em;
+  /* 52px */
+  line-height: 1.08;
+  letter-spacing: -0.015em;
+  margin: 0;
+  color: var(--heading-color);
+}
+
+.cwc_about-hero__content-heading > * strong,
+.cwc_about-hero__content-heading > * b {
+  color: var(--highlight-color);
+  font-weight: inherit;
+}
+
+.cwc_about-hero__content-heading > * em,
+.cwc_about-hero__content-heading > * i {
+  color: var(--accent-color);
+  font-style: italic;
+}
+
+/* === Lede === */
+.cwc_about-hero__content-subtext {
+  max-width: 44ch;
+  margin-bottom: 32px;
+}
+
+.cwc_about-hero__content-subtext p {
+  font-size: 1.06em;
+  /* 17px */
+  line-height: var(--cwc-line-body);
+  color: var(--lede-color);
+  margin: 0 0 0.9em;
+}
+
+.cwc_about-hero__content-subtext p:last-child {
+  margin-bottom: 0;
+}
+
+/* === Meta Stat Row === */
+.cwc_about-hero__meta {
+  display: flex;
+  max-width: 46ch;
+  border-top: 1px solid var(--border-color);
+  padding-top: 20px;
+}
+
+.cwc_about-hero__meta-item {
+  flex: 1;
+  min-width: 0;
+  padding-right: 16px;
+}
+
+.cwc_about-hero__meta-item + .cwc_about-hero__meta-item {
+  border-left: 1px solid var(--border-color);
+  padding-left: 18px;
+}
+
+.cwc_about-hero__meta-value {
+  display: block;
+  font-family: var(--cwc-font-heading);
+  font-weight: var(--cwc-weight-heading);
+  font-size: 1.88em;
+  /* 30px */
+  line-height: 1;
+  margin-bottom: 6px;
+  color: var(--heading-color);
+}
+
+.cwc_about-hero__meta-label {
+  display: block;
+  font-size: 0.75em;
+  /* 12px */
+  line-height: 1.4;
+  color: var(--label-color);
+}
+
+/* === Image Column === */
+.cwc_about-hero__image {
+  background-color: var(--image-bg);
+  min-height: var(--image-min-height);
+  display: flex;
+  align-self: stretch;
+}
+
+.cwc_about-hero__image-media {
+  width: 100%;
+  height: 100%;
+  min-height: var(--image-min-height);
+  object-fit: cover;
+  display: block;
+}
+
+.cwc_about-hero__placeholder {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 24px;
+  font-size: 0.81em;
+  /* 13px */
+  letter-spacing: var(--cwc-tracking-label);
+  text-transform: uppercase;
+  color: var(--label-color);
+}
+
+/* ==============================
+   Tablet Responsive
+   ============================== */
+@media screen and (max-width: 991px) {
+  .cwc_about-hero__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .cwc_about-hero--reverse .cwc_about-hero__grid {
+    direction: ltr;
+  }
+
+  .cwc_about-hero__copy,
+  .cwc_about-hero--reverse .cwc_about-hero__copy {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .cwc_about-hero__content-heading h1,
+  .cwc_about-hero__content-heading h2,
+  .cwc_about-hero__content-heading h3,
+  .cwc_about-hero__content-heading p {
+    font-size: 2.63em;
+    /* 42px */
+  }
+
+  .cwc_about-hero__image {
+    min-height: 380px;
+  }
+
+  .cwc_about-hero__image-media {
+    min-height: 380px;
+  }
+}
+
+/* ==============================
+   Mobile Responsive
+   ============================== */
+@media screen and (max-width: 768px) {
+  .cwc_about-hero__copy,
+  .cwc_about-hero--reverse .cwc_about-hero__copy {
+    padding-top: var(--padding-top-mobile);
+    padding-bottom: var(--padding-bottom-mobile);
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .cwc_about-hero__content-heading {
+    margin-bottom: 16px;
+  }
+
+  .cwc_about-hero__content-heading h1,
+  .cwc_about-hero__content-heading h2,
+  .cwc_about-hero__content-heading h3,
+  .cwc_about-hero__content-heading p {
+    font-size: 2.25em;
+    /* 36px */
+  }
+
+  .cwc_about-hero__content-subtext {
+    margin-bottom: 26px;
+  }
+
+  .cwc_about-hero__content-subtext p {
+    font-size: 1em;
+  }
+
+  .cwc_about-hero__meta {
+    padding-top: 16px;
+  }
+
+  .cwc_about-hero__meta-value {
+    font-size: 1.5em;
+    /* 24px */
+  }
+
+  .cwc_about-hero__meta-item {
+    padding-right: 10px;
+  }
+
+  .cwc_about-hero__meta-item + .cwc_about-hero__meta-item {
+    padding-left: 12px;
+  }
+
+  .cwc_about-hero__image,
+  .cwc_about-hero__image-media {
+    min-height: 300px;
+  }
+}

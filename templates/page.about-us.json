@@ -9,102 +9,323 @@
  */
 {
   "sections": {
-    "029a3859-68e8-4eac-b938-c3d24c72da0c": {
-      "type": "image-with-text",
+    "about_hero": {
+      "type": "CWC_about_hero",
       "blocks": {
-        "template--16872426733826__029a3859-68e8-4eac-b938-c3d24c72da0c-subheading-1": {
-          "type": "subheading",
+        "meta_1": {
+          "type": "meta_stat",
           "settings": {
-            "text": "Welcome to Biopharma Scientific"
+            "value": "2004",
+            "label": "Founded in San Diego"
           }
         },
-        "template--16872426733826__029a3859-68e8-4eac-b938-c3d24c72da0c-heading-1": {
-          "type": "heading",
+        "meta_2": {
+          "type": "meta_stat",
           "settings": {
-            "text": "Who we ARe:",
-            "heading_tag": "h1"
+            "value": "20+",
+            "label": "Years in practitioner clinics"
           }
         },
-        "template--16872426733826__029a3859-68e8-4eac-b938-c3d24c72da0c-richtext-1": {
-          "type": "richtext",
+        "meta_3": {
+          "type": "meta_stat",
           "settings": {
-            "content": "<p>In today’s fast-paced world, the need for a holistic wellness solution has never been greater. Chronic diseases like diabetes, heart disease, and stroke are on the rise, while daily stress, relentless schedules, and financial barriers often make it difficult to maintain optimal health. At Biopharma Scientific, we are committed to changing this reality.</p><p>Our mission is to make superior nutrition easily accessible, ensuring your body receives the essential nutrients it needs to thrive. We meticulously source the highest-quality ingredients from the purest regions worldwide, formulating them for optimal synergy with your body. With a focus on exceptional quality and maximum absorption, our products are designed to support your health at every level.</p><p></p><p></p>"
+            "value": "USA",
+            "label": "Made, farms sourced first"
+          }
+        }
+      },
+      "block_order": ["meta_1", "meta_2", "meta_3"],
+      "settings": {
+        "eyebrow": "San Diego · Since 2004",
+        "heading": "<p>We were on clinic shelves <em>before</em> greens went viral.</p>",
+        "lede": "<p>BioPharma Scientific started in a San Diego lab, formulating for doctors and naturopaths who needed something their patients would actually take every day. Two decades later, we still make it the same way.</p>",
+        "image_alt": "Founder and facility",
+        "image_placeholder_text": "Founder / facility image",
+        "image_position": "right",
+        "image_min_height": 520,
+        "padding_top": 90,
+        "padding_bottom": 90
+      }
+    },
+    "about_why": {
+      "type": "CWC_about_why",
+      "settings": {
+        "eyebrow": "Why we exist",
+        "heading": "<p>Most supplements are built to a price. Ours isn't.</p>",
+        "max_width": 760,
+        "text_align": "left",
+        "padding_top": 100,
+        "padding_bottom": 100
+      }
+    },
+    "about_timeline": {
+      "type": "CWC_about_timeline",
+      "blocks": {
+        "milestone_1": {
+          "type": "milestone",
+          "settings": {
+            "year_label": "2004",
+            "description": "<p>Founded in San Diego to make whole-food nutrition that people would actually finish.</p>"
+          }
+        },
+        "milestone_2": {
+          "type": "milestone",
+          "settings": {
+            "year_label": "2006",
+            "description": "<p>NanoGreens¹⁰ launches through practitioner offices — doctors, chiropractors, naturopaths.</p>"
+          }
+        },
+        "milestone_3": {
+          "type": "milestone",
+          "settings": {
+            "year_label": "2011",
+            "description": "<p>Supersorb absorption approach applied across the line. The enzyme blend becomes standard.</p>"
+          }
+        },
+        "milestone_4": {
+          "type": "milestone",
+          "settings": {
+            "year_label": "2016",
+            "description": "<p>Line expands beyond greens — protein, omegas, gummies, and daily kits.</p>"
+          }
+        },
+        "milestone_5": {
+          "type": "milestone",
+          "settings": {
+            "year_label": "Today",
+            "description": "<p>Still made in California. Still stocked in the practices that started us.</p>"
           }
         }
       },
       "block_order": [
-        "template--16872426733826__029a3859-68e8-4eac-b938-c3d24c72da0c-subheading-1",
-        "template--16872426733826__029a3859-68e8-4eac-b938-c3d24c72da0c-heading-1",
-        "template--16872426733826__029a3859-68e8-4eac-b938-c3d24c72da0c-richtext-1"
+        "milestone_1",
+        "milestone_2",
+        "milestone_3",
+        "milestone_4",
+        "milestone_5"
       ],
       "settings": {
-        "color_scheme": "",
-        "separate_section_with_border": true,
-        "image": "shopify://shop_images/Untitled_design_-_2023-11-08T155857.153.png",
-        "reveal_on_scroll": true,
-        "image_position": "start",
-        "content_width": "sm",
-        "remove_vertical_spacing": true
+        "eyebrow": "How we got here",
+        "heading": "<p>Twenty years, one formula philosophy</p>",
+        "layout": "horizontal",
+        "mobile_behavior": "stack",
+        "padding_top": 90,
+        "padding_bottom": 90
       }
-    },
-    "main": {
-      "type": "main-page",
-      "disabled": true,
-      "settings": {
-        "color_scheme": "",
-        "show_title": true,
-        "page_width": "xs"
-      }
-    },
-    "779347ef-d01a-4844-998d-69651d5338c7": {
-      "type": "slideshow",
+    }
+    ,
+    "about_standards": {
+      "type": "CWC_about_standards",
       "blocks": {
-        "template--16872426733826__779347ef-d01a-4844-998d-69651d5338c7-image-1": {
-          "type": "image",
-          "disabled": true,
+        "standard_1": {
+          "type": "standard",
           "settings": {
-            "subheading": "",
-            "title": "",
-            "mobile_text_position": "place-self-center text-center",
-            "desktop_text_position": "sm:place-self-center sm:text-center",
-            "content_max_width": 780,
-            "button_1_text": "",
-            "button_1_link": "",
-            "button_1_style": "solid",
-            "button_1_background": "#ffffff",
-            "button_1_text_color": "#000000",
-            "button_2_text": "",
-            "button_2_link": "",
-            "button_2_style": "outline",
-            "button_2_background": "#ffffff",
-            "button_2_text_color": "#000000",
-            "background": "",
-            "background_opacity": 50,
-            "text_color": "#ffffff",
-            "border_color": "",
-            "gradient_overlay": ""
+            "title": "Organic wherever it exists",
+            "description": "<p>We source organic for every ingredient available that way. Where it isn't, we source non-GMO and all-natural with no artificial ingredients.</p>"
+          }
+        },
+        "standard_2": {
+          "type": "standard",
+          "settings": {
+            "title": "Tested twice",
+            "description": "<p>Raw materials are tested on arrival, and again after blending. Two checkpoints, not one.</p>"
+          }
+        },
+        "standard_3": {
+          "type": "standard",
+          "settings": {
+            "title": "Cold, not heated",
+            "description": "<p>Produce is juiced at peak ripeness and low-temperature freeze-dried, rather than heat-processed into powder.</p>"
+          }
+        },
+        "standard_4": {
+          "type": "standard",
+          "settings": {
+            "title": "American farms first",
+            "description": "<p>Manufactured in California. We source domestically where the ingredient allows, and disclose where it doesn't.</p>"
+          }
+        },
+        "standard_5": {
+          "type": "standard",
+          "settings": {
+            "title": "Doses you can see",
+            "description": "<p>Blend weights are printed on the panel. If an ingredient is in there at a token amount, you'll be able to tell.</p>"
+          }
+        },
+        "standard_6": {
+          "type": "standard",
+          "settings": {
+            "title": "Formulas that don't drift",
+            "description": "<p>We don't quietly reformulate to protect margin. The product you reorder is the product you bought.</p>"
           }
         }
       },
       "block_order": [
-        "template--16872426733826__779347ef-d01a-4844-998d-69651d5338c7-image-1"
+        "standard_1",
+        "standard_2",
+        "standard_3",
+        "standard_4",
+        "standard_5",
+        "standard_6"
       ],
-      "disabled": true,
       "settings": {
-        "allow_transparent_header": true,
-        "show_next_section_button": true,
-        "media_size": "auto",
-        "autoplay": true,
-        "autoplay_pause_on_video": true,
-        "cycle_speed": 5,
-        "background": "#000000",
-        "controls_color": "#ffffff"
+        "eyebrow": "How we make it",
+        "heading": "<p>Six things we don't compromise on</p>",
+        "subtext": "<p>These apply to every product we make, not just the flagship.</p>",
+        "columns_desktop": 3,
+        "auto_number": true,
+        "padding_top": 100,
+        "padding_bottom": 100
+      }
+    }
+    ,
+    "about_founder": {
+      "type": "CWC_about_founder",
+      "settings": {
+        "eyebrow": "From the founder",
+        "heading": "<p>I've seen what gets left out</p>",
+        "pull_quote": "The enzyme blend is expensive. Most companies skip it, because you can't see it on a label the way you can see a long ingredient list.",
+        "signature_name": "Rick Thornton",
+        "signature_role": "Founder, BioPharma Scientific · San Diego, CA",
+        "portrait_alt": "Founder portrait",
+        "portrait_placeholder_text": "Founder portrait",
+        "image_position": "left",
+        "portrait_width": 340,
+        "padding_top": 100,
+        "padding_bottom": 100
+      }
+    }
+    ,
+    "about_practitioner": {
+      "type": "CWC_about_practitioner",
+      "blocks": {
+        "stat_1": {
+          "type": "stat",
+          "settings": {
+            "value": "20+",
+            "label": "Years recommended in practitioner clinics"
+          }
+        },
+        "stat_2": {
+          "type": "stat",
+          "settings": {
+            "value": "2004",
+            "label": "First formula developed in San Diego"
+          }
+        },
+        "stat_3": {
+          "type": "stat",
+          "settings": {
+            "value": "2×",
+            "label": "Tested — before and after blending"
+          }
+        },
+        "stat_4": {
+          "type": "stat",
+          "settings": {
+            "value": "55",
+            "label": "Organic ingredients in the flagship formula"
+          }
+        }
+      },
+      "block_order": ["stat_1", "stat_2", "stat_3", "stat_4"],
+      "settings": {
+        "eyebrow": "Where we started",
+        "heading": "<p>Sold through practices long before it was sold online</p>",
+        "disclaimer_note": "Figures reflect company history and current formulation. Individual results vary.",
+        "stat_columns": "2",
+        "padding_top": 100,
+        "padding_bottom": 100
+      }
+    }
+    ,
+    "about_entry": {
+      "type": "CWC_about_entry",
+      "blocks": {
+        "entry_1": {
+          "type": "entry",
+          "settings": {
+            "image_placeholder_text": "NanoGreens¹⁰ pack",
+            "title": "Start with the flagship",
+            "description": "<p>NanoGreens¹⁰ — 55 organic fruits and vegetables, one scoop a morning.</p>",
+            "link_label": "Shop NanoGreens",
+            "link": ""
+          }
+        },
+        "entry_2": {
+          "type": "entry",
+          "settings": {
+            "image_placeholder_text": "Kit lineup",
+            "title": "Build a daily routine",
+            "description": "<p>Kits that pair greens with protein and omegas at a lower combined price.</p>",
+            "link_label": "Browse kits",
+            "link": ""
+          }
+        },
+        "entry_3": {
+          "type": "entry",
+          "settings": {
+            "image_placeholder_text": "Goal collections",
+            "title": "Shop by what you need",
+            "description": "<p>Daily foundation, gut, performance, and more — sorted by goal instead of format.</p>",
+            "link_label": "Shop by goal",
+            "link": ""
+          }
+        }
+      },
+      "block_order": ["entry_1", "entry_2", "entry_3"],
+      "settings": {
+        "eyebrow": "Where to start",
+        "heading": "<p>Three ways in</p>",
+        "columns_desktop": 3,
+        "padding_top": 100,
+        "padding_bottom": 100
+      }
+    }
+    ,
+    "about_cta": {
+      "type": "CWC_about_cta",
+      "blocks": {
+        "trust_1": {
+          "type": "trust_item",
+          "settings": {
+            "text": "30-day money-back guarantee"
+          }
+        },
+        "trust_2": {
+          "type": "trust_item",
+          "settings": {
+            "text": "Free shipping on subscriptions"
+          }
+        },
+        "trust_3": {
+          "type": "trust_item",
+          "settings": {
+            "text": "Cancel or pause anytime"
+          }
+        }
+      },
+      "block_order": ["trust_1", "trust_2", "trust_3"],
+      "settings": {
+        "heading": "<p>Try it for thirty days</p>",
+        "body": "<p>If it isn't for you, send it back for a full refund. That's been the policy since the beginning.</p>",
+        "button_label": "Shop NanoGreens¹⁰",
+        "button_link": "",
+        "show_trust_row": true,
+        "max_width": 640,
+        "padding_top": 90,
+        "padding_bottom": 90
       }
     }
   },
   "order": [
-    "029a3859-68e8-4eac-b938-c3d24c72da0c",
-    "main",
-    "779347ef-d01a-4844-998d-69651d5338c7"
+    "about_hero",
+    "about_why",
+    "about_timeline",
+    "about_standards",
+    "about_founder",
+    "about_practitioner",
+    "about_entry",
+    "about_cta"
   ]
 }

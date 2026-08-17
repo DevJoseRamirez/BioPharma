@@ -1,0 +1,203 @@
+{% style %}
+  #cwc_collection-footer-{{ section.id }} {
+    --section-bg: {{ section.settings.bg_color | default: '#ECEBE5' }};
+    --text-color: {{ section.settings.text_color | default: '#2A2611' }};
+    --heading-color: {{ section.settings.heading_color | default: '#2A2611' }};
+    --highlight-color: {{ section.settings.bold_color | default: '#44681A' }};
+    --body-color: {{ section.settings.body_color | default: '#57533F' }};
+    --answer-color: {{ section.settings.answer_color | default: '#7B7869' }};
+    --divider-color: {{ section.settings.divider_color | default: '#D5D2C6' }};
+    --padding-top: {{ section.settings.padding_top | default: 70 }}px;
+    --padding-bottom: {{ section.settings.padding_bottom | default: 70 }}px;
+    --padding-top-mobile: {{ section.settings.padding_top | default: 70 | times: 0.5 }}px;
+    --padding-bottom-mobile: {{ section.settings.padding_bottom | default: 70 | times: 0.5 }}px;
+  }
+{% endstyle %}
+
+{{ 'CWC_fonts.css' | asset_url | stylesheet_tag }}
+{{ 'CWC_collection_footer.css' | asset_url | stylesheet_tag }}
+
+<section id="cwc_collection-footer-{{ section.id }}" class="cwc_collection-footer">
+  <div class="cwc_collection-footer__container">
+    <div class="cwc_collection-footer__wrapper">
+
+      {% comment %} Editorial copy {% endcomment %}
+      <div class="cwc_collection-footer__content">
+        {% if section.settings.heading != blank %}
+          <div class="cwc_collection-footer__content-heading cwc-rte">
+            {{ section.settings.heading }}
+          </div>
+        {% endif %}
+
+        {% if section.settings.body != blank %}
+          <div class="cwc_collection-footer__content-subtext cwc-rte">
+            {{ section.settings.body }}
+          </div>
+        {% endif %}
+      </div>
+
+      {% comment %} Question and answer values {% endcomment %}
+      {% if section.blocks.size > 0 %}
+        <div class="cwc_collection-footer__aside">
+          {% if section.settings.qa_heading != blank %}
+            <b class="cwc_collection-footer__aside-heading">{{ section.settings.qa_heading }}</b>
+          {% endif %}
+
+          <dl class="cwc_collection-footer__list">
+            {% for block in section.blocks %}
+              {% case block.type %}
+                {% when 'qa_row' %}
+                  <div class="cwc_collection-footer__row" {{ block.shopify_attributes }}>
+                    {% if block.settings.question != blank %}
+                      <dt class="cwc_collection-footer__question">{{ block.settings.question }}</dt>
+                    {% endif %}
+
+                    {% if block.settings.answer_value != blank %}
+                      <dd class="cwc_collection-footer__answer">{{ block.settings.answer_value }}</dd>
+                    {% endif %}
+                  </div>
+              {% endcase %}
+            {% endfor %}
+          </dl>
+        </div>
+      {% endif %}
+
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "CWC Collection Footer",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Header"
+    },
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "<p>How the line fits together</p>"
+    },
+    {
+      "type": "richtext",
+      "id": "body",
+      "label": "Body Copy",
+      "default": "<p>Every formula starts the same way: produce juiced at peak ripeness, freeze-dried cold rather than heat-processed, and tested twice before it ships. The difference is what you're reaching for.</p><p>NanoGreens¹⁰ is the daily foundation and the one practitioners have stocked for two decades. NanoReds layers in berry and root polyphenols. Gummies exist for the people who won't mix a powder — usually kids, sometimes not.</p>"
+    },
+    {
+      "type": "text",
+      "id": "qa_heading",
+      "label": "Question List Heading",
+      "info": "Optional label above the question rows."
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#ECEBE5"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#2A2611"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "default": "#2A2611"
+    },
+    {
+      "type": "color",
+      "id": "bold_color",
+      "label": "Heading Bold Color",
+      "default": "#44681A"
+    },
+    {
+      "type": "color",
+      "id": "body_color",
+      "label": "Body Text Color",
+      "default": "#57533F"
+    },
+    {
+      "type": "color",
+      "id": "answer_color",
+      "label": "Answer Value Color",
+      "default": "#7B7869"
+    },
+    {
+      "type": "color",
+      "id": "divider_color",
+      "label": "Divider Color",
+      "default": "#D5D2C6"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 70
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 70
+    }
+  ],
+  "blocks": [
+    {
+      "type": "qa_row",
+      "name": "Question Row",
+      "limit": 8,
+      "settings": [
+        {
+          "type": "text",
+          "id": "question",
+          "label": "Question",
+          "default": "How many servings per container?"
+        },
+        {
+          "type": "text",
+          "id": "answer_value",
+          "label": "Answer Value",
+          "info": "Short value shown on the right, e.g. 30 or Yes.",
+          "default": "30"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 8,
+  "presets": [
+    {
+      "name": "Collection Footer",
+      "category": "CWC Custom",
+      "blocks": [
+        { "type": "qa_row" },
+        { "type": "qa_row" },
+        { "type": "qa_row" },
+        { "type": "qa_row" },
+        { "type": "qa_row" }
+      ]
+    }
+  ]
+}
+{% endschema %}

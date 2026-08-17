@@ -10,6 +10,7 @@
     --scrollbar-track: {{ section.settings.scrollbar_track_color | default: '#A3C781' | color_modify: 'alpha', 0.3 }};
     --scrollbar-thumb: {{ section.settings.scrollbar_thumb_color | default: '#5BA90F' }};
     --border-color: {{ section.settings.border_color | default: '#E6E5DC' }};
+    --divider-color: {{ section.settings.divider_color | default: '#E6E5DC' }};
     --padding-top: {{ section.settings.padding_top | default: 24 }}px;
     --padding-bottom: {{ section.settings.padding_bottom | default: 24 }}px;
     --padding-top-mobile: {{ section.settings.padding_top | default: 24 | times: 0.5 }}px;
@@ -95,6 +96,11 @@
                   {{- pill_title -}}
                 </span>
               {% endif %}
+
+              {% comment %} Divider splitting format pills from goal pills {% endcomment %}
+              {% if section.settings.show_divider and block.settings.divider_after and forloop.last == false %}
+                <span class="cwc_collection-links__divider" aria-hidden="true"></span>
+              {% endif %}
           {% endcase %}
         {% endfor %}
       </nav>
@@ -112,7 +118,6 @@
 {% schema %}
 {
   "name": "CWC Collection Links",
-  "tag": "section",
   "settings": [
     {
       "type": "header",
@@ -241,6 +246,19 @@
       "default": "#E6E5DC"
     },
     {
+      "type": "checkbox",
+      "id": "show_divider",
+      "label": "Show Pill Dividers",
+      "info": "Turn on, then tick \"Divider After This Pill\" on the pill the separator should follow.",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "divider_color",
+      "label": "Pill Divider Color",
+      "default": "#E6E5DC"
+    },
+    {
       "type": "header",
       "content": "Spacing"
     },
@@ -295,6 +313,13 @@
           "id": "force_active",
           "label": "Always Highlight",
           "info": "Force the active style, e.g. on a Shop All pill.",
+          "default": false
+        },
+        {
+          "type": "checkbox",
+          "id": "divider_after",
+          "label": "Divider After This Pill",
+          "info": "Draws a separator after this pill, e.g. between format pills and goal pills.",
           "default": false
         }
       ]

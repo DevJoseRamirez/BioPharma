@@ -1,0 +1,188 @@
+/* ==============================
+   CWC About Practitioner Origin
+   ============================== */
+
+/* === Section Wrapper === */
+.cwc_about-practitioner {
+  font-size: 16px;
+  /* section anchor — type below is em relative to this */
+  background-color: var(--section-bg);
+  color: var(--text-color);
+  font-family: var(--cwc-font-body);
+  padding-top: var(--padding-top);
+  padding-bottom: var(--padding-bottom);
+}
+
+.cwc_about-practitioner__container {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+.cwc_about-practitioner__wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 72px;
+  align-items: center;
+}
+
+/* === Copy Column === */
+.cwc_about-practitioner__eyebrow {
+  font-size: 0.75em;
+  /* 12px */
+  font-weight: var(--cwc-weight-label);
+  letter-spacing: var(--cwc-tracking-label);
+  text-transform: uppercase;
+  color: var(--eyebrow-color);
+  margin-bottom: 18px;
+}
+
+.cwc_about-practitioner__content-heading {
+  margin-bottom: 20px;
+}
+
+.cwc_about-practitioner__content-heading h1,
+.cwc_about-practitioner__content-heading h2,
+.cwc_about-practitioner__content-heading h3,
+.cwc_about-practitioner__content-heading p {
+  font-family: var(--cwc-font-heading);
+  font-weight: var(--cwc-weight-heading);
+  font-size: 2.75em;
+  /* 44px */
+  line-height: 1.12;
+  letter-spacing: -0.015em;
+  margin: 0;
+  max-width: 15ch;
+  color: var(--heading-color);
+}
+
+.cwc_about-practitioner__content-heading > * strong,
+.cwc_about-practitioner__content-heading > * b {
+  color: var(--highlight-color);
+  font-weight: inherit;
+}
+
+.cwc_about-practitioner__content-subtext p {
+  font-size: 1.09em;
+  /* 17.5px */
+  line-height: var(--cwc-line-body);
+  color: var(--body-color);
+  margin: 0 0 1.1em;
+}
+
+.cwc_about-practitioner__content-subtext p:last-child {
+  margin-bottom: 0;
+}
+
+/* === Stat Grid === */
+.cwc_about-practitioner__grid {
+  display: grid;
+  grid-template-columns: repeat(var(--stat-columns), 1fr);
+  gap: 1px;
+  background-color: var(--border-color);
+  border: 1px solid var(--border-color);
+}
+
+.cwc_about-practitioner__card {
+  background-color: var(--card-bg);
+  padding: 30px 26px;
+}
+
+.cwc_about-practitioner__card-value {
+  display: block;
+  font-family: var(--cwc-font-heading);
+  font-weight: var(--cwc-weight-heading);
+  font-size: 2.75em;
+  /* 44px */
+  line-height: 1;
+  color: var(--accent-color);
+  margin-bottom: 10px;
+}
+
+.cwc_about-practitioner__card-label {
+  display: block;
+  font-size: 0.84em;
+  /* 13.5px */
+  line-height: 1.45;
+  color: var(--label-color);
+}
+
+/* === Disclaimer Note === */
+.cwc_about-practitioner__note {
+  font-size: 0.78em;
+  /* 12.5px */
+  line-height: 1.5;
+  color: var(--note-color);
+  margin: 16px 0 0;
+}
+
+/* ==============================
+   Tablet Responsive
+   ============================== */
+@media screen and (max-width: 991px) {
+  .cwc_about-practitioner__container {
+    padding: 0 20px;
+  }
+
+  .cwc_about-practitioner__wrapper {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+
+  .cwc_about-practitioner__content-heading h1,
+  .cwc_about-practitioner__content-heading h2,
+  .cwc_about-practitioner__content-heading h3,
+  .cwc_about-practitioner__content-heading p {
+    font-size: 2.25em;
+    /* 36px */
+    max-width: none;
+  }
+}
+
+/* ==============================
+   Mobile Responsive
+   ============================== */
+@media screen and (max-width: 768px) {
+  .cwc_about-practitioner {
+    padding-top: var(--padding-top-mobile);
+    padding-bottom: var(--padding-bottom-mobile);
+  }
+
+  .cwc_about-practitioner__container {
+    padding: 0 16px;
+  }
+
+  .cwc_about-practitioner__content-heading {
+    margin-bottom: 16px;
+  }
+
+  .cwc_about-practitioner__content-heading h1,
+  .cwc_about-practitioner__content-heading h2,
+  .cwc_about-practitioner__content-heading h3,
+  .cwc_about-practitioner__content-heading p {
+    font-size: 1.94em;
+    /* 31px */
+  }
+
+  .cwc_about-practitioner__content-subtext p {
+    font-size: 1em;
+  }
+
+  .cwc_about-practitioner__card {
+    padding: 22px 18px;
+  }
+
+  .cwc_about-practitioner__card-value {
+    font-size: 2.13em;
+    /* 34px */
+  }
+}
+
+/* ==============================
+   Small Mobile
+   ============================== */
+@media screen and (max-width: 380px) {
+  .cwc_about-practitioner__grid {
+    grid-template-columns: 1fr;
+  }
+}
