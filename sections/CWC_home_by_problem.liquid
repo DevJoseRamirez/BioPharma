@@ -51,17 +51,55 @@
         {% for block in section.blocks %}
           {% case block.type %}
             {% when 'need' %}
-              {% if block.settings.link != blank %}
-                <a href="{{ block.settings.link }}" class="cwc_home-by-problem__card" {{ block.shopify_attributes }}>
+              {% liquid
+                # Override → collection → nothing, for every field on the card.
+                assign card_collection = block.settings.collection
+
+                if card_collection != blank
+                  assign card_link = card_collection.url
+                elsif block.settings.link != blank
+                  assign card_link = block.settings.link
+                else
+                  assign card_link = nil
+                endif
+
+                if block.settings.icon != blank
+                  assign card_image = block.settings.icon
+                elsif card_collection != blank and card_collection.image != blank
+                  assign card_image = card_collection.image
+                else
+                  assign card_image = nil
+                endif
+
+                if block.settings.title != blank
+                  assign card_title = block.settings.title
+                elsif card_collection != blank
+                  assign card_title = card_collection.title
+                else
+                  assign card_title = blank
+                endif
+
+                if block.settings.description != blank
+                  assign card_description = block.settings.description
+                elsif card_collection != blank and card_collection.description != blank
+                  # Trimmed so a long collection description can't stretch the card.
+                  assign card_description = card_collection.description | strip_html | truncatewords: 20
+                else
+                  assign card_description = blank
+                endif
+              %}
+
+              {% if card_link != blank %}
+                <a href="{{ card_link }}" class="cwc_home-by-problem__card" {{ block.shopify_attributes }}>
               {% else %}
                 <div class="cwc_home-by-problem__card" {{ block.shopify_attributes }}>
               {% endif %}
 
                 <div class="cwc_home-by-problem__card-image">
-                  {% if block.settings.icon != blank %}
+                  {% if card_image != blank %}
                     <img
-                      src="{{ block.settings.icon | image_url: width: 80 }}"
-                      alt="{{ block.settings.icon_alt | default: block.settings.title | escape }}"
+                      src="{{ card_image | image_url: width: 80 }}"
+                      alt="{{ block.settings.icon_alt | default: card_title | escape }}"
                       width="32"
                       height="32"
                       loading="lazy"
@@ -69,17 +107,17 @@
                   {% endif %}
                 </div>
 
-                {% if block.settings.title != blank %}
-                  <div class="cwc_home-by-problem__card-title">{{ block.settings.title }}</div>
+                {% if card_title != blank %}
+                  <div class="cwc_home-by-problem__card-title">{{ card_title }}</div>
                 {% endif %}
 
-                {% if block.settings.description != blank %}
+                {% if card_description != blank %}
                   <div class="cwc_home-by-problem__card-text cwc-rte">
-                    {{ block.settings.description }}
+                    {{ card_description }}
                   </div>
                 {% endif %}
 
-              {% if block.settings.link != blank %}
+              {% if card_link != blank %}
                 </a>
               {% else %}
                 </div>
@@ -229,9 +267,20 @@
       "name": "Need Card",
       "settings": [
         {
+          "type": "collection",
+          "id": "collection",
+          "label": "Card Collection",
+          "info": "The card takes its link, image, title and description from this collection."
+        },
+        {
+          "type": "header",
+          "content": "Overrides (Optional)"
+        },
+        {
           "type": "image_picker",
           "id": "icon",
-          "label": "Card Icon"
+          "label": "Card Icon",
+          "info": "Falls back to the collection image."
         },
         {
           "type": "text",
@@ -242,18 +291,21 @@
           "type": "text",
           "id": "title",
           "label": "Title",
+          "info": "Falls back to the collection title.",
           "default": "Daily Foundation"
         },
         {
           "type": "richtext",
           "id": "description",
           "label": "Description",
+          "info": "Falls back to a trimmed collection description.",
           "default": "<p>You eat fine. Just not thirteen-servings-a-day fine.</p>"
         },
         {
           "type": "url",
           "id": "link",
-          "label": "Card Link"
+          "label": "Custom Link",
+          "info": "Used only when no collection is selected."
         }
       ]
     }

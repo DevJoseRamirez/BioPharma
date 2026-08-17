@@ -4,8 +4,6 @@
 
 /* === Section Wrapper === */
 .cwc_about-timeline {
-  font-size: 16px;
-  /* section anchor — type below is em relative to this */
   background-color: var(--section-bg);
   color: var(--text-color);
   font-family: var(--cwc-font-body);
@@ -26,7 +24,7 @@
 }
 
 .cwc_about-timeline__eyebrow {
-  font-size: 0.75em;
+  font-size: 0.75rem;
   /* 12px */
   font-weight: var(--cwc-weight-label);
   letter-spacing: var(--cwc-tracking-label);
@@ -41,10 +39,10 @@
 .cwc_about-timeline__content-heading p {
   font-family: var(--cwc-font-heading);
   font-weight: var(--cwc-weight-heading);
-  font-size: 2.75em;
+  font-size: 2.75rem;
   /* 44px */
   line-height: 1.12;
-  letter-spacing: -0.015em;
+  letter-spacing: -0.0412rem;
   margin: 0;
   color: var(--heading-color);
 }
@@ -60,7 +58,7 @@
 }
 
 .cwc_about-timeline__content-subtext p {
-  font-size: 1em;
+  font-size: 1rem;
   line-height: var(--cwc-line-body);
   color: var(--body-color);
   margin: 0;
@@ -102,7 +100,7 @@
   display: block;
   font-family: var(--cwc-font-heading);
   font-weight: var(--cwc-weight-heading);
-  font-size: 1.63em;
+  font-size: 1.63rem;
   /* 26px */
   line-height: 1;
   margin-bottom: 10px;
@@ -110,11 +108,11 @@
 }
 
 .cwc_about-timeline__node-text p {
-  font-size: 0.91em;
+  font-size: 0.91rem;
   /* 14.5px */
   line-height: 1.55;
   color: var(--body-color);
-  margin: 0 0 0.6em;
+  margin: 0 0 0.546rem;
 }
 
 .cwc_about-timeline__node-text p:last-child {
@@ -160,7 +158,7 @@
   .cwc_about-timeline__content-heading h2,
   .cwc_about-timeline__content-heading h3,
   .cwc_about-timeline__content-heading p {
-    font-size: 2.25em;
+    font-size: 2.25rem;
     /* 36px */
   }
 
@@ -205,7 +203,7 @@
   .cwc_about-timeline__content-heading h2,
   .cwc_about-timeline__content-heading h3,
   .cwc_about-timeline__content-heading p {
-    font-size: 1.94em;
+    font-size: 1.94rem;
     /* 31px */
   }
 

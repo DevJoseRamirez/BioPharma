@@ -37,7 +37,7 @@
   elsif section.settings.use_collection_image and collection != blank and collection.image != blank
     assign bg_image = collection.image
   else
-    assign bg_image = nil
+    assign bg_image = null
   endif
 
   if section.settings.image_mobile != blank
@@ -107,7 +107,6 @@
 
   <div class="cwc_collection-banner__container">
     <div class="cwc_collection-banner__content">
-
       {% comment %} Breadcrumb — built from the live collection, not settings {% endcomment %}
       {% if section.settings.show_breadcrumb %}
         <nav class="cwc_collection-banner__crumb" aria-label="Breadcrumb">
@@ -141,11 +140,13 @@
         </{{ heading_tag }}>
       {% endif %}
 
-      {% if banner_description != blank %}
-        <div class="cwc_collection-banner__content-subtext cwc-rte">
-          {{ banner_description }}
-        </div>
-      {% endif %}
+      {% comment %}
+        {% if banner_description != blank %}
+          <div class="cwc_collection-banner__content-subtext cwc-rte">
+            {{ banner_description }}
+          </div>
+        {% endif %}
+      {% endcomment %}
 
       {% if section.settings.show_product_count and collection != blank %}
         <div class="cwc_collection-banner__count">
@@ -157,7 +158,6 @@
           {% endif %}
         </div>
       {% endif %}
-
     </div>
   </div>
 </section>

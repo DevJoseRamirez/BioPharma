@@ -4,8 +4,6 @@
 
 /* === Section Wrapper === */
 .cwc_page-research-pull-quote {
-  font-size: 16px;
-  /* section anchor — all type below is em relative to this */
   background-color: var(--section-bg);
   color: var(--text-color);
   padding-top: var(--padding-top);
@@ -35,7 +33,7 @@
   font-family: var(--cwc-font-heading);
   font-weight: var(--cwc-weight-heading);
   font-style: italic;
-  font-size: clamp(1.4em, 3vw, 2em);
+  font-size: clamp(1.4rem, 3vw, 2rem);
   line-height: 1.5;
   margin: 0;
   color: var(--quote-color);
@@ -47,9 +45,9 @@
 }
 
 .cwc_page-research-pull-quote__content-subtext {
-  font-size: 0.82em;
+  font-size: 0.82rem;
   line-height: 1.6;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.0492rem;
   color: var(--text-color);
 }
 
@@ -68,7 +66,6 @@
 @media screen and (max-width: 768px) {
   /* rescale the whole section from one anchor */
   .cwc_page-research-pull-quote {
-    font-size: 14px;
     padding-top: var(--padding-top-mobile);
     padding-bottom: var(--padding-bottom-mobile);
   }

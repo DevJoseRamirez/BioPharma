@@ -4,7 +4,6 @@
 
 /* === Section Wrapper === */
 .cwc_guarantee {
-  font-size: 16px; /* section anchor — all type below is em relative to this */
   background-color: var(--section-bg);
   color: var(--text-color);
   padding-top: var(--padding-top);
@@ -41,14 +40,14 @@
 }
 
 .cwc_guarantee__badge-number {
-  font-size: 1.78em; /* 28.48px */
+  font-size: 1.78rem; /* 28.48px */
   font-weight: 900;
   color: var(--highlight-color);
   line-height: 1;
 }
 
 .cwc_guarantee__badge-label {
-  font-size: 0.72em; /* 11.52px */
+  font-size: 0.72rem; /* 11.52px */
   font-weight: 700;
   letter-spacing: 1px;
   color: var(--badge-text);
@@ -83,7 +82,7 @@
 }
 
 .cwc_guarantee__body p {
-  font-size: 1em; /* 16px */
+  font-size: 1rem; /* 16px */
   color: var(--card-text);
   line-height: var(--cwc-line-body);
   margin: 0;
@@ -98,7 +97,7 @@
 }
 
 .cwc_guarantee__pill {
-  font-size: 0.84em; /* 13.44px */
+  font-size: 0.84rem; /* 13.44px */
   font-weight: 600;
   color: #eaf3df;
   background: rgba(255, 255, 255, 0.1);
@@ -122,7 +121,6 @@
 @media screen and (max-width: 768px) {
   /* rescale the whole section from one anchor */
   .cwc_guarantee {
-    font-size: 14px;
     padding-top: var(--padding-top-mobile);
     padding-bottom: var(--padding-bottom-mobile);
   }
@@ -135,4 +133,11 @@
     padding: 32px 20px;
     border-radius: 14px;
   }
+
+  /* Display type steps down on mobile — the px anchor used to do this. */
+
+  .cwc_guarantee__badge-number {
+    font-size: 1.5575rem;
+  }
+
 }

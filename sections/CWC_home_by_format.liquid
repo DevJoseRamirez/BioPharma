@@ -46,17 +46,60 @@
         {% for block in section.blocks %}
           {% case block.type %}
             {% when 'format' %}
-              {% if block.settings.link != blank %}
-                <a href="{{ block.settings.link }}" class="cwc_home-by-format__card" {{ block.shopify_attributes }}>
+              {% liquid
+                # Override → collection → nothing, for every field on the card.
+                assign card_collection = block.settings.collection
+
+                if card_collection != blank
+                  assign card_link = card_collection.url
+                elsif block.settings.link != blank
+                  assign card_link = block.settings.link
+                else
+                  assign card_link = nil
+                endif
+
+                if block.settings.image != blank
+                  assign card_image = block.settings.image
+                elsif card_collection != blank and card_collection.image != blank
+                  assign card_image = card_collection.image
+                else
+                  assign card_image = nil
+                endif
+
+                if block.settings.title != blank
+                  assign card_title = block.settings.title
+                elsif card_collection != blank
+                  assign card_title = card_collection.title
+                else
+                  assign card_title = blank
+                endif
+
+                if block.settings.count_text != blank
+                  assign card_count = block.settings.count_text
+                elsif card_collection != blank
+                  assign product_total = card_collection.all_products_count
+                  if product_total == 1
+                    assign count_suffix = section.settings.count_suffix_singular | default: 'product'
+                  else
+                    assign count_suffix = section.settings.count_suffix_text | default: 'products'
+                  endif
+                  assign card_count = product_total | append: ' ' | append: count_suffix
+                else
+                  assign card_count = blank
+                endif
+              %}
+
+              {% if card_link != blank %}
+                <a href="{{ card_link }}" class="cwc_home-by-format__card" {{ block.shopify_attributes }}>
               {% else %}
                 <div class="cwc_home-by-format__card" {{ block.shopify_attributes }}>
               {% endif %}
 
                 <div class="cwc_home-by-format__card-image">
-                  {% if block.settings.image != blank %}
+                  {% if card_image != blank %}
                     <img
-                      src="{{ block.settings.image | image_url: width: 300 }}"
-                      alt="{{ block.settings.image_alt | default: block.settings.title | escape }}"
+                      src="{{ card_image | image_url: width: 300 }}"
+                      alt="{{ block.settings.image_alt | default: card_title | escape }}"
                       width="300"
                       height="300"
                       loading="lazy"
@@ -68,15 +111,15 @@
                   {% endif %}
                 </div>
 
-                {% if block.settings.title != blank %}
-                  <div class="cwc_home-by-format__card-title">{{ block.settings.title }}</div>
+                {% if card_title != blank %}
+                  <div class="cwc_home-by-format__card-title">{{ card_title }}</div>
                 {% endif %}
 
-                {% if block.settings.count_text != blank %}
-                  <span class="cwc_home-by-format__card-text">{{ block.settings.count_text }}</span>
+                {% if card_count != blank %}
+                  <span class="cwc_home-by-format__card-text">{{ card_count }}</span>
                 {% endif %}
 
-              {% if block.settings.link != blank %}
+              {% if card_link != blank %}
                 </a>
               {% else %}
                 </div>
@@ -184,6 +227,23 @@
     },
     {
       "type": "header",
+      "content": "Product Count"
+    },
+    {
+      "type": "text",
+      "id": "count_suffix_text",
+      "label": "Product Count Suffix",
+      "info": "Used when a card's count comes from its collection.",
+      "default": "products"
+    },
+    {
+      "type": "text",
+      "id": "count_suffix_singular",
+      "label": "Product Count Suffix (Singular)",
+      "default": "product"
+    },
+    {
+      "type": "header",
       "content": "Spacing"
     },
     {
@@ -213,9 +273,20 @@
       "name": "Format Card",
       "settings": [
         {
+          "type": "collection",
+          "id": "collection",
+          "label": "Card Collection",
+          "info": "The card takes its link, image, title and product count from this collection."
+        },
+        {
+          "type": "header",
+          "content": "Overrides (Optional)"
+        },
+        {
           "type": "image_picker",
           "id": "image",
-          "label": "Product Image"
+          "label": "Product Image",
+          "info": "Falls back to the collection image."
         },
         {
           "type": "text",
@@ -226,18 +297,21 @@
           "type": "text",
           "id": "title",
           "label": "Title",
+          "info": "Falls back to the collection title.",
           "default": "Greens & Reds"
         },
         {
           "type": "text",
           "id": "count_text",
           "label": "Product Count Text",
+          "info": "Falls back to the collection's product count.",
           "default": "5 products"
         },
         {
           "type": "url",
           "id": "link",
-          "label": "Card Link"
+          "label": "Custom Link",
+          "info": "Used only when no collection is selected."
         }
       ]
     }

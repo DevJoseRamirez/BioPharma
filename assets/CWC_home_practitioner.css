@@ -4,8 +4,6 @@
 
 /* === Section Wrapper === */
 .cwc_home-practitioner {
-  font-size: 16px;
-  /* section anchor — type below is em relative to this */
   background-color: var(--section-bg);
   color: var(--text-color);
   padding-top: var(--padding-top);
@@ -29,7 +27,7 @@
 }
 
 .cwc_home-practitioner__eyebrow {
-  font-size: 0.78em;
+  font-size: 0.78rem;
   /* 12.48px */
   font-weight: var(--cwc-weight-label);
   letter-spacing: 2px;
@@ -67,7 +65,7 @@
 }
 
 .cwc_home-practitioner__content-subtext p {
-  font-size: 0.97em;
+  font-size: 0.97rem;
   /* 15.52px */
   line-height: var(--cwc-line-body);
   margin: 0;
@@ -112,20 +110,20 @@
 
 .cwc_home-practitioner__card-title {
   display: block;
-  font-size: 0.91em;
+  font-size: 0.91rem;
   font-weight: 600;
   color: var(--heading-color);
 }
 
 .cwc_home-practitioner__card-text {
-  font-size: 0.78em;
+  font-size: 0.78rem;
   color: var(--credential-color);
 }
 
 .cwc_home-practitioner__card-quote {
   display: block;
   font-style: italic;
-  font-size: 0.9375em;
+  font-size: 0.9375rem;
   /* 15px */
   line-height: var(--cwc-line-body);
   color: var(--quote-color);
@@ -146,7 +144,7 @@
 }
 
 .cwc_home-practitioner__stat-value {
-  font-size: 1.66em;
+  font-size: 1.66rem;
   /* 26.56px */
   font-weight: var(--cwc-weight-stat-strong);
   line-height: 1.1;
@@ -155,7 +153,7 @@
 }
 
 .cwc_home-practitioner__stat-label {
-  font-size: 0.81em;
+  font-size: 0.81rem;
   color: var(--text-color);
   line-height: 1.45;
   max-width: 19ch;
@@ -186,9 +184,6 @@
    ============================== */
 @media screen and (max-width: 768px) {
   .cwc_home-practitioner {
-
-    /* rescale the whole section from one anchor */
-    font-size: 14px;
     padding-top: var(--padding-top-mobile);
     padding-bottom: var(--padding-bottom-mobile);
   }
@@ -210,5 +205,11 @@
 @media screen and (max-width: 480px) {
   .cwc_home-practitioner__stats {
     grid-template-columns: 1fr;
+  }
+
+  /* Display type steps down on mobile — the px anchor used to do this. */
+
+  .cwc_home-practitioner__stat-value {
+    font-size: 1.4525rem;
   }
 }

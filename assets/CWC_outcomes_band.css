@@ -4,8 +4,6 @@
 
 /* === Section Wrapper === */
 .cwc_outcomes-band {
-  font-size: 16px;
-  /* section anchor — all type below is em relative to this */
   position: relative;
   isolation: isolate;
   background-color: var(--section-bg);
@@ -54,7 +52,7 @@
 }
 
 .cwc_outcomes-band__eyebrow {
-  font-size: 0.78em;
+  font-size: 0.78rem;
   /* 12.48px */
   font-weight: var(--cwc-weight-label);
   letter-spacing: 2px;
@@ -90,7 +88,7 @@
 }
 
 .cwc_outcomes-band__content-subtext p {
-  font-size: 0.94em;
+  font-size: 0.94rem;
   /* 15.04px */
   line-height: var(--cwc-line-body);
   margin: 0;
@@ -107,7 +105,7 @@
   display: inline-block;
   background: var(--button-bg);
   color: var(--button-text);
-  font-size: 0.81em;
+  font-size: 0.81rem;
   /* 12.96px */
   font-weight: 800;
   letter-spacing: 1.6px;
@@ -142,7 +140,7 @@ a.cwc_outcomes-band__button-link:hover {
 .cwc_outcomes-band__card-title {
   font-family: var(--cwc-font-body);
   font-weight: var(--cwc-weight-subheading);
-  font-size: 1.25em;
+  font-size: 1.25rem;
   /* 20px */
   line-height: 1.25;
   color: var(--card-title-color);
@@ -153,14 +151,14 @@ a.cwc_outcomes-band__button-link:hover {
   font-family: var(--cwc-font-heading);
   font-weight: var(--cwc-weight-heading);
   font-style: italic;
-  font-size: 1.4em; /* 22.4px */
+  font-size: 1.4rem; /* 22.4px */
 }
 
 /* big stat number role */
 .cwc_outcomes-band__card-value {
   font-family: var(--cwc-font-body);
   font-weight: var(--cwc-weight-stat);
-  font-size: 3em;
+  font-size: 3rem;
   /* 48px */
   line-height: 1.1;
   letter-spacing: -1px;
@@ -169,7 +167,7 @@ a.cwc_outcomes-band__button-link:hover {
 }
 
 .cwc_outcomes-band__card-text {
-  font-size: 0.84em;
+  font-size: 0.84rem;
   /* 13.44px */
   line-height: 1.45;
   color: var(--card-text-color);
@@ -181,7 +179,7 @@ a.cwc_outcomes-band__button-link:hover {
 }
 
 .cwc_outcomes-band__footnote p {
-  font-size: 0.75em;
+  font-size: 0.75rem;
   /* 12px */
   line-height: 1.5;
   margin: 0;
@@ -215,7 +213,6 @@ a.cwc_outcomes-band__button-link:hover {
 @media screen and (max-width: 768px) {
   /* rescale the whole section from one anchor */
   .cwc_outcomes-band {
-    font-size: 14px;
     padding-top: var(--padding-top-mobile);
     padding-bottom: var(--padding-bottom-mobile);
   }
@@ -231,4 +228,19 @@ a.cwc_outcomes-band__button-link:hover {
   .cwc_outcomes-band__card {
     padding: 22px 18px 20px;
   }
+
+  /* Display type steps down on mobile — the px anchor used to do this. */
+
+  .cwc_outcomes-band__card-title {
+    font-size: 1.0938rem;
+  }
+
+  .cwc_outcomes-band--serif-titles .cwc_outcomes-band__card-title {
+    font-size: 1.225rem;
+  }
+
+  .cwc_outcomes-band__card-value {
+    font-size: 2.625rem;
+  }
+
 }

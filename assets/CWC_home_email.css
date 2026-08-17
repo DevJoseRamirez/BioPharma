@@ -4,7 +4,6 @@
 
 /* === Section Wrapper === */
 .cwc_home-email {
-  font-size: 16px; /* section anchor — type below is em relative to this */
   background-color: var(--section-bg);
   color: var(--text-color);
   padding-top: var(--padding-top);
@@ -55,7 +54,7 @@
 }
 
 .cwc_home-email__content-subtext p {
-  font-size: 0.97em;
+  font-size: 0.97rem;
   line-height: 1.55;
   margin: 0;
   color: var(--text-color);
@@ -92,7 +91,7 @@
   border-radius: 40px;
   padding: 0.938rem 1.375rem;
   font-family: inherit;
-  font-size: 0.91em;
+  font-size: 0.91rem;
 }
 
 .cwc_home-email__input::placeholder {
@@ -110,7 +109,7 @@
   justify-content: center;
   gap: 0.5rem;
   font-family: inherit;
-  font-size: 1.03em;
+  font-size: 1.03rem;
   /* 16.48px */
   font-weight: 800;
   padding: 15px 32px;
@@ -128,7 +127,7 @@
 
 .cwc_home-email__message {
   flex: 1 1 100%;
-  font-size: 0.94em;
+  font-size: 0.94rem;
   color: var(--heading-color);
   margin: 0;
 }
@@ -152,9 +151,6 @@
    ============================== */
 @media screen and (max-width: 768px) {
   .cwc_home-email {
-
-    /* rescale the whole section from one anchor */
-    font-size: 14px;
     padding-top: var(--padding-top-mobile);
     padding-bottom: var(--padding-bottom-mobile);
   }

@@ -4,8 +4,6 @@
 
 /* === Section Wrapper === */
 .cwc_taste {
-  font-size: 16px;
-  /* section anchor — all type below is em relative to this */
   background-color: var(--section-bg);
   color: var(--text-color);
   padding-top: var(--padding-top);
@@ -63,7 +61,7 @@
 }
 
 .cwc_taste__placeholder-label {
-  font-size: 0.75em;
+  font-size: 0.75rem;
   /* 12px */
   font-weight: 800;
   color: #a9a897;
@@ -71,14 +69,14 @@
 }
 
 .cwc_taste__placeholder-note {
-  font-size: 0.72em;
+  font-size: 0.72rem;
   /* 11.52px */
   color: #b8b7a8;
 }
 
 /* === Content === */
 .cwc_taste__eyebrow {
-  font-size: 0.78em;
+  font-size: 0.78rem;
   /* 12.48px */
   font-weight: var(--cwc-weight-label);
   letter-spacing: 2px;
@@ -105,7 +103,7 @@
 }
 
 .cwc_taste__body p {
-  font-size: 1em;
+  font-size: 1rem;
   /* 16px */
   color: var(--muted-color);
   line-height: 1.7;
@@ -125,7 +123,7 @@
 }
 
 .cwc_taste__stat-value {
-  font-size: 1.875em;
+  font-size: 1.875rem;
   /* 30px */
   font-weight: var(--cwc-weight-stat-strong);
   color: var(--stat-value-color);
@@ -133,7 +131,7 @@
 }
 
 .cwc_taste__stat-text {
-  font-size: 0.875em;
+  font-size: 0.875rem;
   /* 14px */
   color: var(--muted-color);
   line-height: 1.4;
@@ -141,7 +139,7 @@
 
 /* === Guarantee Line === */
 .cwc_taste__guarantee {
-  font-size: 0.84em;
+  font-size: 0.84rem;
   /* 13.44px */
   color: var(--muted-color);
   margin-top: 14px;
@@ -175,7 +173,6 @@
 
   /* rescale the whole section from one anchor */
   .cwc_taste {
-    font-size: 14px;
     padding-top: var(--padding-top-mobile);
     padding-bottom: var(--padding-bottom-mobile);
   }
@@ -183,4 +180,11 @@
   .cwc_taste__container {
     padding: 0 16px;
   }
+
+  /* Display type steps down on mobile — the px anchor used to do this. */
+
+  .cwc_taste__stat-value {
+    font-size: 1.6406rem;
+  }
+
 }

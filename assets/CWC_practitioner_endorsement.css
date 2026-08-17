@@ -4,8 +4,6 @@
 
 /* === Section Wrapper === */
 .cwc_practitioner-endorsement {
-  font-size: 16px;
-  /* section anchor — all type below is em relative to this */
   background-color: var(--section-bg);
   color: var(--text-color);
   padding-top: var(--padding-top);
@@ -27,7 +25,7 @@
 }
 
 .cwc_practitioner-endorsement__eyebrow {
-  font-size: 0.78em;
+  font-size: 0.78rem;
   /* 12.48px */
   font-weight: var(--cwc-weight-label);
   letter-spacing: 2px;
@@ -59,7 +57,7 @@
 }
 
 .cwc_practitioner-endorsement__content-subtext p {
-  font-size: 0.97em;
+  font-size: 0.97rem;
   /* 15.52px */
   line-height: var(--cwc-line-body);
   margin: 0;
@@ -94,7 +92,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.6em;
+  font-size: 0.6rem;
   /* 9.6px */
   font-weight: 800;
   color: var(--accent-color);
@@ -105,7 +103,7 @@
 }
 
 .cwc_practitioner-endorsement__clinician-text p {
-  font-size: 0.875em;
+  font-size: 0.875rem;
   /* 14px */
   color: var(--text-color);
   line-height: 1.45;
@@ -138,7 +136,7 @@
 }
 
 .cwc_practitioner-endorsement__quote p {
-  font-size: 0.9375em;
+  font-size: 0.9375rem;
   /* 15px */
   line-height: var(--cwc-line-body);
   color: var(--text-color);
@@ -164,7 +162,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.66em;
+  font-size: 0.66rem;
   /* 10.56px */
   font-weight: 800;
   color: var(--accent-color);
@@ -178,13 +176,13 @@
 }
 
 .cwc_practitioner-endorsement__name {
-  font-size: 0.9em;
+  font-size: 0.9rem;
   /* 14.4px */
   font-weight: 800;
 }
 
 .cwc_practitioner-endorsement__role {
-  font-size: 0.81em;
+  font-size: 0.81rem;
   /* 12.96px */
   color: var(--muted-color);
   line-height: 1.35;
@@ -207,14 +205,14 @@
 }
 
 .cwc_practitioner-endorsement__stat-value {
-  font-size: 1.66em;
+  font-size: 1.66rem;
   /* 26.56px */
   font-weight: var(--cwc-weight-stat-strong);
   color: var(--accent-color);
 }
 
 .cwc_practitioner-endorsement__stat-label {
-  font-size: 0.81em;
+  font-size: 0.81rem;
   /* 12.96px */
   color: var(--muted-color);
   margin-top: 4px;
@@ -241,7 +239,6 @@
 
   /* rescale the whole section from one anchor */
   .cwc_practitioner-endorsement {
-    font-size: 14px;
     padding-top: var(--padding-top-mobile);
     padding-bottom: var(--padding-bottom-mobile);
   }
@@ -268,4 +265,11 @@
   .cwc_practitioner-endorsement__stat {
     flex: 1 1 100%;
   }
+
+  /* Display type steps down on mobile — the px anchor used to do this. */
+
+  .cwc_practitioner-endorsement__stat-value {
+    font-size: 1.4525rem;
+  }
+
 }

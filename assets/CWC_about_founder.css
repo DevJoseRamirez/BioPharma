@@ -4,8 +4,6 @@
 
 /* === Section Wrapper === */
 .cwc_about-founder {
-  font-size: 16px;
-  /* section anchor — type below is em relative to this */
   background-color: var(--section-bg);
   color: var(--text-color);
   font-family: var(--cwc-font-body);
@@ -59,7 +57,7 @@
   justify-content: center;
   text-align: center;
   padding: 20px;
-  font-size: 0.75em;
+  font-size: 0.75rem;
   /* 12px */
   letter-spacing: var(--cwc-tracking-label);
   text-transform: uppercase;
@@ -68,7 +66,7 @@
 
 /* === Letter === */
 .cwc_about-founder__eyebrow {
-  font-size: 0.75em;
+  font-size: 0.75rem;
   /* 12px */
   font-weight: var(--cwc-weight-label);
   letter-spacing: var(--cwc-tracking-label);
@@ -87,10 +85,10 @@
 .cwc_about-founder__content-heading p {
   font-family: var(--cwc-font-heading);
   font-weight: var(--cwc-weight-heading);
-  font-size: 2.75em;
+  font-size: 2.75rem;
   /* 44px */
   line-height: 1.12;
-  letter-spacing: -0.015em;
+  letter-spacing: -0.0412rem;
   margin: 0;
   max-width: 16ch;
   color: var(--heading-color);
@@ -103,11 +101,11 @@
 }
 
 .cwc_about-founder__content-subtext p {
-  font-size: 1.09em;
+  font-size: 1.09rem;
   /* 17.5px */
   line-height: var(--cwc-line-body);
   color: var(--text-color);
-  margin: 0 0 1.1em;
+  margin: 0 0 1.199rem;
 }
 
 .cwc_about-founder__content-subtext p:last-child {
@@ -118,7 +116,7 @@
 .cwc_about-founder__quote {
   font-family: var(--cwc-font-heading);
   font-weight: var(--cwc-weight-heading);
-  font-size: 1.69em;
+  font-size: 1.69rem;
   /* 27px */
   line-height: 1.4;
   color: var(--quote-color);
@@ -138,7 +136,7 @@
   display: block;
   font-family: var(--cwc-font-heading);
   font-weight: var(--cwc-weight-heading);
-  font-size: 1.38em;
+  font-size: 1.38rem;
   /* 22px */
   line-height: 1.2;
   color: var(--heading-color);
@@ -147,7 +145,7 @@
 
 .cwc_about-founder__signature-role {
   display: block;
-  font-size: 0.84em;
+  font-size: 0.84rem;
   /* 13.5px */
   line-height: 1.5;
   color: var(--role-color);
@@ -181,7 +179,7 @@
   .cwc_about-founder__content-heading h2,
   .cwc_about-founder__content-heading h3,
   .cwc_about-founder__content-heading p {
-    font-size: 2.25em;
+    font-size: 2.25rem;
     /* 36px */
   }
 }
@@ -211,17 +209,17 @@
   .cwc_about-founder__content-heading h2,
   .cwc_about-founder__content-heading h3,
   .cwc_about-founder__content-heading p {
-    font-size: 1.94em;
+    font-size: 1.94rem;
     /* 31px */
     max-width: none;
   }
 
   .cwc_about-founder__content-subtext p {
-    font-size: 1em;
+    font-size: 1rem;
   }
 
   .cwc_about-founder__quote {
-    font-size: 1.38em;
+    font-size: 1.38rem;
     /* 22px */
     padding-left: 18px;
     margin: 24px 0;

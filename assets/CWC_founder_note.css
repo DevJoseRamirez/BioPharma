@@ -4,8 +4,6 @@
 
 /* === Section Wrapper === */
 .cwc_founder-note {
-  font-size: 16px;
-  /* section anchor — all type below is em relative to this */
   background-color: var(--section-bg);
   color: var(--text-color);
   padding-top: var(--padding-top);
@@ -53,7 +51,7 @@
 }
 
 .cwc_founder-note__photo-label {
-  font-size: 0.78em;
+  font-size: 0.78rem;
   /* 12.48px */
   font-weight: 700;
   color: #a9a897;
@@ -61,14 +59,14 @@
 }
 
 .cwc_founder-note__photo-caption {
-  font-size: 0.75em;
+  font-size: 0.75rem;
   /* 12px */
   color: #b8b7a8;
 }
 
 /* === Body === */
 .cwc_founder-note__eyebrow {
-  font-size: 0.78em;
+  font-size: 0.78rem;
   /* 12.48px */
   font-weight: var(--cwc-weight-label);
   letter-spacing: 2px;
@@ -99,7 +97,7 @@
 }
 
 .cwc_founder-note__note p {
-  font-size: 1.03em;
+  font-size: 1.03rem;
   /* 16.48px */
   line-height: 1.75;
   color: var(--text-color);
@@ -121,13 +119,13 @@
 .cwc_founder-note__signature-name {
   font-family: var(--cwc-font-body);
   font-weight: var(--cwc-weight-name);
-  font-size: 1.15em;
+  font-size: 1.15rem;
   /* 18.4px */
   color: var(--text-color);
 }
 
 .cwc_founder-note__signature-role {
-  font-size: 0.875em;
+  font-size: 0.875rem;
   /* 14px */
   color: var(--muted-color);
   margin-top: 3px;
@@ -159,7 +157,6 @@
 
   /* rescale the whole section from one anchor */
   .cwc_founder-note {
-    font-size: 14px;
     padding-top: var(--padding-top-mobile);
     padding-bottom: var(--padding-bottom-mobile);
   }

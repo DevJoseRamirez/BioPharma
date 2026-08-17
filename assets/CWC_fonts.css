@@ -15,8 +15,8 @@
 
    Type roles
    ----------
-   Hero product title ....... Fraunces 400, 3.25em (52px)
-   Section headlines ........ Fraunces 400, 1.94em (31px) — ~60% of hero
+   Hero product title ....... Fraunces 400, 3.25rem (52px)
+   Section headlines ........ Fraunces 400, 1.94rem (31px) — ~60% of hero
    Sub-headings / names ..... Inter 700–800
    Body ..................... Inter 400, line-height 1.7
    Labels / eyebrows ........ Inter 700, uppercase, letterspaced, small
@@ -41,8 +41,8 @@
   --cwc-weight-stat-strong: 900;
 
   /* === Sizes (em, relative to each section's 16px anchor) === */
-  --cwc-size-hero-title: 3.25em;
-  --cwc-size-section-heading: 1.94em;
+  --cwc-size-hero-title: 3.25rem;
+  --cwc-size-section-heading: 1.94rem;
 
   /* === Rhythm === */
   --cwc-line-body: 1.7;

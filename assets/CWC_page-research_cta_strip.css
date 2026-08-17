@@ -4,8 +4,6 @@
 
 /* === Section Wrapper === */
 .cwc_page-research-cta-strip {
-  font-size: 16px;
-  /* section anchor — all type below is em relative to this */
   background-color: var(--section-bg);
   color: var(--text-color);
   border-top: 1px solid var(--border-color);
@@ -38,7 +36,7 @@
 .cwc_page-research-cta-strip__content-heading p {
   font-family: var(--cwc-font-heading);
   font-weight: 500;
-  font-size: 2em;
+  font-size: 2rem;
   line-height: 1.2;
   margin: 0;
   color: var(--heading-color);
@@ -54,7 +52,7 @@
 }
 
 .cwc_page-research-cta-strip__content-subtext p {
-  font-size: 0.95em;
+  font-size: 0.95rem;
   line-height: 1.6;
   margin: 0;
   color: var(--text-color);
@@ -67,9 +65,9 @@
   gap: 8px;
   background: var(--button-bg);
   color: var(--button-text);
-  font-size: 0.9em;
+  font-size: 0.9rem;
   font-weight: 600;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.018rem;
   padding: 14px 32px;
   border-radius: 40px;
   text-decoration: none;
@@ -96,7 +94,6 @@ a.cwc_page-research-cta-strip__button-link:focus-visible {
 @media screen and (max-width: 768px) {
   /* rescale the whole section from one anchor */
   .cwc_page-research-cta-strip {
-    font-size: 14px;
     padding-top: var(--padding-top-mobile);
     padding-bottom: var(--padding-bottom-mobile);
   }
@@ -107,5 +104,14 @@ a.cwc_page-research-cta-strip__button-link:focus-visible {
 
   .cwc_page-research-cta-strip__content-subtext {
     margin-bottom: 22px;
+  }
+
+  /* Display type steps down on mobile — the px anchor used to do this. */
+
+  .cwc_page-research-cta-strip__content-heading h1,
+  .cwc_page-research-cta-strip__content-heading h2,
+  .cwc_page-research-cta-strip__content-heading h3,
+  .cwc_page-research-cta-strip__content-heading p {
+    font-size: 1.75rem;
   }
 }

@@ -4,8 +4,6 @@
 
 /* === Section Wrapper === */
 .cwc_page-research-hero {
-  font-size: 16px;
-  /* section anchor — all type below is em relative to this */
   background-color: var(--section-bg);
   color: var(--text-color);
   padding-top: var(--padding-top);
@@ -28,7 +26,7 @@
 }
 
 .cwc_page-research-hero__eyebrow {
-  font-size: 0.72em;
+  font-size: 0.72rem;
   font-weight: var(--cwc-weight-label);
   letter-spacing: 3px;
   text-transform: uppercase;
@@ -46,9 +44,9 @@
 .cwc_page-research-hero__content-heading p {
   font-family: var(--cwc-font-heading);
   font-weight: var(--cwc-weight-heading);
-  font-size: clamp(2.4em, 5.4vw, 4.2em);
+  font-size: clamp(2.4rem, 5.4vw, 4.2rem);
   line-height: 1.08;
-  letter-spacing: -0.015em;
+  letter-spacing: -0.015rem;
   margin: 0;
   color: var(--heading-color);
   max-width: 22ch;
@@ -67,7 +65,7 @@
 }
 
 .cwc_page-research-hero__content-subtext p {
-  font-size: 1.05em;
+  font-size: 1.05rem;
   line-height: var(--cwc-line-body);
   margin: 0;
   color: var(--text-color);
@@ -87,10 +85,10 @@
   border: 1px solid rgba(255, 255, 255, 0.25);
   border-radius: 100px;
   padding: 8px 18px;
-  font-size: 0.8em;
+  font-size: 0.8rem;
   font-weight: 500;
   line-height: 1.4;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.016rem;
   color: var(--heading-color);
 }
 
@@ -113,7 +111,6 @@
 @media screen and (max-width: 768px) {
   /* rescale the whole section from one anchor */
   .cwc_page-research-hero {
-    font-size: 14px;
     padding-top: var(--padding-top-mobile);
     padding-bottom: var(--padding-bottom-mobile);
   }

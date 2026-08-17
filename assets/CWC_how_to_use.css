@@ -4,8 +4,6 @@
 
 /* === Section Wrapper === */
 .cwc_how-to-use {
-  font-size: 16px;
-  /* section anchor — all type below is em relative to this */
   background-color: var(--section-bg);
   color: var(--text-color);
   padding-top: var(--padding-top);
@@ -27,7 +25,7 @@
 }
 
 .cwc_how-to-use__eyebrow {
-  font-size: 0.78em;
+  font-size: 0.78rem;
   /* 12.48px */
   font-weight: var(--cwc-weight-label);
   letter-spacing: 2px;
@@ -59,7 +57,7 @@
 }
 
 .cwc_how-to-use__content-subtext p {
-  font-size: 0.97em;
+  font-size: 0.97rem;
   /* 15.52px */
   line-height: var(--cwc-line-body);
   margin: 0;
@@ -106,7 +104,7 @@
   border-radius: 50%;
   background: var(--step-bg);
   color: #ffffff;
-  font-size: 1.03em;
+  font-size: 1.03rem;
   /* 16.48px */
   font-weight: 900;
   display: flex;
@@ -116,14 +114,14 @@
 }
 
 .cwc_how-to-use__step-title {
-  font-size: 1.03em;
+  font-size: 1.03rem;
   /* 16.48px */
   font-weight: 800;
   margin-bottom: 6px;
 }
 
 .cwc_how-to-use__step-text p {
-  font-size: 0.9em;
+  font-size: 0.9rem;
   /* 14.4px */
   color: var(--muted-color);
   line-height: 1.55;
@@ -145,7 +143,7 @@
 }
 
 .cwc_how-to-use__tips-heading {
-  font-size: 0.84em;
+  font-size: 0.84rem;
   /* 13.44px */
   font-weight: 800;
   letter-spacing: 1.5px;
@@ -164,7 +162,7 @@
 }
 
 .cwc_how-to-use__tip {
-  font-size: 0.9em;
+  font-size: 0.9rem;
   /* 14.4px */
   color: var(--muted-color);
   /* padding-left: 17.6px; */
@@ -201,7 +199,6 @@
 
   /* rescale the whole section from one anchor */
   .cwc_how-to-use {
-    font-size: 14px;
     padding-top: var(--padding-top-mobile);
     padding-bottom: var(--padding-bottom-mobile);
   }

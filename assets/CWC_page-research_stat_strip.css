@@ -4,8 +4,6 @@
 
 /* === Section Wrapper === */
 .cwc_page-research-stat-strip {
-  font-size: 16px;
-  /* section anchor — all type below is em relative to this */
   background-color: var(--section-bg);
   color: var(--text-color);
   border-bottom: 1px solid var(--border-color);
@@ -42,15 +40,15 @@
 .cwc_page-research-stat-strip__card-value {
   font-family: var(--cwc-font-heading);
   font-weight: var(--cwc-weight-heading);
-  font-size: 3.9em;
+  font-size: 3.9rem;
   line-height: 1;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.078rem;
   color: var(--number-color);
   margin-bottom: 12px;
 }
 
 .cwc_page-research-stat-strip__card-text p {
-  font-size: 0.85em;
+  font-size: 0.85rem;
   line-height: 1.5;
   margin: 0;
   color: var(--text-color);
@@ -85,7 +83,6 @@
 @media screen and (max-width: 768px) {
   /* rescale the whole section from one anchor */
   .cwc_page-research-stat-strip {
-    font-size: 14px;
     padding-top: var(--padding-top-mobile);
     padding-bottom: var(--padding-bottom-mobile);
   }
@@ -96,5 +93,11 @@
 
   .cwc_page-research-stat-strip__grid {
     gap: 26px;
+  }
+
+  /* Display type steps down on mobile — the px anchor used to do this. */
+
+  .cwc_page-research-stat-strip__card-value {
+    font-size: 3.4125rem;
   }
 }

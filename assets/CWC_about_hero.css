@@ -4,8 +4,6 @@
 
 /* === Section Wrapper === */
 .cwc_about-hero {
-  font-size: 16px;
-  /* section anchor — type below is em relative to this */
   background-color: var(--section-bg);
   color: var(--text-color);
   font-family: var(--cwc-font-body);
@@ -43,7 +41,7 @@
 }
 
 .cwc_about-hero__eyebrow {
-  font-size: 0.75em;
+  font-size: 0.75rem;
   /* 12px */
   font-weight: var(--cwc-weight-label);
   letter-spacing: var(--cwc-tracking-label);
@@ -63,10 +61,10 @@
 .cwc_about-hero__content-heading p {
   font-family: var(--cwc-font-heading);
   font-weight: var(--cwc-weight-heading);
-  font-size: 3.25em;
+  font-size: 3.25rem;
   /* 52px */
   line-height: 1.08;
-  letter-spacing: -0.015em;
+  letter-spacing: -0.0488rem;
   margin: 0;
   color: var(--heading-color);
 }
@@ -90,11 +88,11 @@
 }
 
 .cwc_about-hero__content-subtext p {
-  font-size: 1.06em;
+  font-size: 1.06rem;
   /* 17px */
   line-height: var(--cwc-line-body);
   color: var(--lede-color);
-  margin: 0 0 0.9em;
+  margin: 0 0 0.954rem;
 }
 
 .cwc_about-hero__content-subtext p:last-child {
@@ -124,7 +122,7 @@
   display: block;
   font-family: var(--cwc-font-heading);
   font-weight: var(--cwc-weight-heading);
-  font-size: 1.88em;
+  font-size: 1.88rem;
   /* 30px */
   line-height: 1;
   margin-bottom: 6px;
@@ -133,7 +131,7 @@
 
 .cwc_about-hero__meta-label {
   display: block;
-  font-size: 0.75em;
+  font-size: 0.75rem;
   /* 12px */
   line-height: 1.4;
   color: var(--label-color);
@@ -162,7 +160,7 @@
   justify-content: center;
   text-align: center;
   padding: 24px;
-  font-size: 0.81em;
+  font-size: 0.81rem;
   /* 13px */
   letter-spacing: var(--cwc-tracking-label);
   text-transform: uppercase;
@@ -191,7 +189,7 @@
   .cwc_about-hero__content-heading h2,
   .cwc_about-hero__content-heading h3,
   .cwc_about-hero__content-heading p {
-    font-size: 2.63em;
+    font-size: 2.63rem;
     /* 42px */
   }
 
@@ -225,7 +223,7 @@
   .cwc_about-hero__content-heading h2,
   .cwc_about-hero__content-heading h3,
   .cwc_about-hero__content-heading p {
-    font-size: 2.25em;
+    font-size: 2.25rem;
     /* 36px */
   }
 
@@ -234,7 +232,7 @@
   }
 
   .cwc_about-hero__content-subtext p {
-    font-size: 1em;
+    font-size: 1rem;
   }
 
   .cwc_about-hero__meta {
@@ -242,7 +240,7 @@
   }
 
   .cwc_about-hero__meta-value {
-    font-size: 1.5em;
+    font-size: 1.5rem;
     /* 24px */
   }
 

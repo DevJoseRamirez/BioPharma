@@ -4,8 +4,6 @@
 
 /* === Section Wrapper === */
 .cwc_page-research-supersorb {
-  font-size: 16px;
-  /* section anchor — all type below is em relative to this */
   background-color: var(--section-bg);
   color: var(--text-color);
   padding-top: var(--padding-top);
@@ -25,7 +23,7 @@
 }
 
 .cwc_page-research-supersorb__eyebrow {
-  font-size: 0.72em;
+  font-size: 0.72rem;
   font-weight: var(--cwc-weight-label);
   letter-spacing: 3px;
   text-transform: uppercase;
@@ -43,9 +41,9 @@
 .cwc_page-research-supersorb__content-heading p {
   font-family: var(--cwc-font-heading);
   font-weight: var(--cwc-weight-heading);
-  font-size: clamp(2em, 3.8vw, 3em);
+  font-size: clamp(2rem, 3.8vw, 3rem);
   line-height: 1.12;
-  letter-spacing: -0.015em;
+  letter-spacing: -0.015rem;
   margin: 0;
   color: var(--heading-color);
   max-width: 30ch;
@@ -61,7 +59,7 @@
 }
 
 .cwc_page-research-supersorb__content-subtext p {
-  font-size: 1em;
+  font-size: 1rem;
   line-height: 1.75;
   margin: 0;
   color: var(--text-color);
@@ -85,14 +83,14 @@
 .cwc_page-research-supersorb__card-value {
   font-family: var(--cwc-font-heading);
   font-weight: 500;
-  font-size: 2.4em;
+  font-size: 2.4rem;
   line-height: 1;
   color: var(--card-value-color);
   margin-bottom: 12px;
 }
 
 .cwc_page-research-supersorb__card-title {
-  font-size: 1em;
+  font-size: 1rem;
   font-weight: 600;
   line-height: 1.4;
   color: var(--heading-color);
@@ -100,7 +98,7 @@
 }
 
 .cwc_page-research-supersorb__card-text p {
-  font-size: 0.88em;
+  font-size: 0.88rem;
   line-height: 1.65;
   margin: 0;
   color: var(--text-color);
@@ -127,7 +125,6 @@
 @media screen and (max-width: 768px) {
   /* rescale the whole section from one anchor */
   .cwc_page-research-supersorb {
-    font-size: 14px;
     padding-top: var(--padding-top-mobile);
     padding-bottom: var(--padding-bottom-mobile);
   }
@@ -142,5 +139,11 @@
 
   .cwc_page-research-supersorb__card {
     padding: 24px 20px;
+  }
+
+  /* Display type steps down on mobile — the px anchor used to do this. */
+
+  .cwc_page-research-supersorb__card-value {
+    font-size: 2.1rem;
   }
 }

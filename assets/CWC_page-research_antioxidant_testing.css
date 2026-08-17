@@ -4,8 +4,6 @@
 
 /* === Section Wrapper === */
 .cwc_page-research-antioxidant-testing {
-  font-size: 16px;
-  /* section anchor — all type below is em relative to this */
   background-color: var(--section-bg);
   color: var(--text-color);
   padding-top: var(--padding-top);
@@ -25,7 +23,7 @@
 }
 
 .cwc_page-research-antioxidant-testing__eyebrow {
-  font-size: 0.72em;
+  font-size: 0.72rem;
   font-weight: var(--cwc-weight-label);
   letter-spacing: 3px;
   text-transform: uppercase;
@@ -43,9 +41,9 @@
 .cwc_page-research-antioxidant-testing__content-heading p {
   font-family: var(--cwc-font-heading);
   font-weight: var(--cwc-weight-heading);
-  font-size: clamp(2em, 3.8vw, 3em);
+  font-size: clamp(2rem, 3.8vw, 3rem);
   line-height: 1.12;
-  letter-spacing: -0.015em;
+  letter-spacing: -0.015rem;
   margin: 0;
   color: var(--heading-color);
   max-width: 30ch;
@@ -61,7 +59,7 @@
 }
 
 .cwc_page-research-antioxidant-testing__content-subtext p {
-  font-size: 1em;
+  font-size: 1rem;
   line-height: 1.75;
   margin: 0;
   color: var(--text-color);
@@ -86,7 +84,7 @@
 }
 
 .cwc_page-research-antioxidant-testing__card-title {
-  font-size: 0.78em;
+  font-size: 0.78rem;
   font-weight: var(--cwc-weight-label);
   letter-spacing: 1.5px;
   text-transform: uppercase;
@@ -109,7 +107,7 @@
 }
 
 .cwc_page-research-antioxidant-testing__bar-label {
-  font-size: 0.82em;
+  font-size: 0.82rem;
   font-weight: 600;
   color: var(--heading-color);
 }
@@ -132,7 +130,7 @@
 }
 
 .cwc_page-research-antioxidant-testing__bar-caption {
-  font-size: 0.75em;
+  font-size: 0.75rem;
   color: #888888;
 }
 
@@ -155,7 +153,7 @@
 }
 
 .cwc_page-research-antioxidant-testing__timeline-label {
-  font-size: 0.78em;
+  font-size: 0.78rem;
   font-weight: 600;
   color: #888888;
   width: 80px;
@@ -177,7 +175,7 @@
 }
 
 .cwc_page-research-antioxidant-testing__timeline-value {
-  font-size: 0.82em;
+  font-size: 0.82rem;
   font-weight: 700;
   color: var(--bar-color);
   width: 62px;
@@ -191,7 +189,7 @@
 }
 
 .cwc_page-research-antioxidant-testing__summary p {
-  font-size: 0.88em;
+  font-size: 0.88rem;
   line-height: 1.6;
   margin: 0;
   color: var(--text-color);
@@ -206,7 +204,7 @@
 }
 
 .cwc_page-research-antioxidant-testing__footnote p {
-  font-size: 0.75em;
+  font-size: 0.75rem;
   line-height: 1.5;
   margin: 0;
   color: #aaaaaa;
@@ -233,7 +231,6 @@
 @media screen and (max-width: 768px) {
   /* rescale the whole section from one anchor */
   .cwc_page-research-antioxidant-testing {
-    font-size: 14px;
     padding-top: var(--padding-top-mobile);
     padding-bottom: var(--padding-bottom-mobile);
   }

@@ -4,7 +4,6 @@
 
 /* === Section Wrapper === */
 .cwc_home-trust-strip {
-  font-size: 16px; /* section anchor — type below is em relative to this */
   background-color: var(--section-bg);
   color: var(--text-color);
   padding-top: var(--padding-top);
@@ -39,9 +38,9 @@
 
 .cwc_home-trust-strip__item-label {
   display: block;
-  font-size: 0.78em;
+  font-size: 0.78rem;
   font-weight: 700;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.0312rem;
   text-transform: uppercase;
   color: var(--label-color);
   margin-bottom: 3px;
@@ -49,7 +48,7 @@
 
 .cwc_home-trust-strip__item-text {
   display: block;
-  font-size: 0.75em;
+  font-size: 0.75rem;
   line-height: 1.35;
   color: var(--text-color);
 }
@@ -80,9 +79,6 @@
    ============================== */
 @media screen and (max-width: 768px) {
   .cwc_home-trust-strip {
-
-    /* rescale the whole section from one anchor */
-    font-size: 14px;
     padding-top: var(--padding-top-mobile);
     padding-bottom: var(--padding-bottom-mobile);
   }

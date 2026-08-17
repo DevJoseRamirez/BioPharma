@@ -4,7 +4,6 @@
 
 /* === Section Wrapper === */
 .cwc_bottom-cta {
-  font-size: 16px; /* section anchor — all type below is em relative to this */
   color: var(--text-color);
   font-family: var(--cwc-font-body);
 }
@@ -46,7 +45,7 @@
 }
 
 .cwc_bottom-cta__content-subtext p {
-  font-size: 0.97em; /* 15.52px */
+  font-size: 0.97rem; /* 15.52px */
   line-height: var(--cwc-line-body);
   margin: 0;
   color: var(--text-color);
@@ -60,7 +59,7 @@
   color: var(--button-text);
   border-radius: 40px;
   padding: 18px;
-  font-size: 1.125em; /* 18px */
+  font-size: 1.125rem; /* 18px */
   font-weight: 800;
   text-align: center;
   text-decoration: none;
@@ -71,7 +70,7 @@
 }
 
 .cwc_bottom-cta__micro {
-  font-size: 0.875em; /* 14px */
+  font-size: 0.875rem; /* 14px */
   color: var(--micro-color);
   margin-top: 12px;
 }
@@ -89,7 +88,7 @@
 }
 
 .cwc_bottom-cta__disclaimer-inner p {
-  font-size: 0.78em; /* 12.48px */
+  font-size: 0.78rem; /* 12.48px */
   color: var(--disclaimer-color);
   line-height: 1.6;
   margin: 0;
@@ -110,7 +109,6 @@
 @media screen and (max-width: 768px) {
   /* rescale the whole section from one anchor */
   .cwc_bottom-cta {
-    font-size: 14px;
   }
 
   .cwc_bottom-cta__band {

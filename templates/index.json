@@ -11,7 +11,51 @@
   "sections": {
     "home_hero": {
       "type": "CWC_home_hero",
-      "settings": {}
+      "settings": {
+        "eyebrow_style": "text",
+        "eyebrow": "Recommended in practice for 20+ years",
+        "eyebrow_detail": "Developed for and sold through clinics for 20+ years before it was offered direct.",
+        "heading": "<p>The greens powder <strong>doctors were recommending before anyone called it wellness.</strong></p>",
+        "lede": "<p>55 organic fruits and vegetables, juiced at peak ripeness and freeze-dried cold, with a nine-enzyme blend built into the formula. One scoop, ten seconds.</p>",
+        "show_offer": true,
+        "offer_style": "card",
+        "offer_position": "above_cta",
+        "offer_price_text": "From $56.21/mo",
+        "offer_save_badge": "Save 25%",
+        "offer_per_serving": "$1.87 a serving",
+        "offer_fine_print": "Free blender bottle with your first 90-day order · Cancel or pause anytime",
+        "cta_label": "Start with NanoGreens",
+        "cta_link": "shopify://products/nanogreens-10-support",
+        "secondary_label": "or find what fits you →",
+        "secondary_link": "",
+        "show_rating": true,
+        "rating_position": "below_cta",
+        "rating_value": 4.8,
+        "rating_count": "from 614 reviews",
+        "rating_extra_text": "19K+ servings poured · 33 say a clinician recommended it",
+        "show_stats": true,
+        "hero_image": "shopify://shop_images/hero-staging4.png",
+        "image_alt": "NanoGreens green apple",
+        "image_fit": "cover",
+        "media_min_height": 540,
+        "image_position": "right",
+        "bg_color": "#ffffff",
+        "text_color": "#2a2611",
+        "bold_color": "#5ba90f",
+        "muted_color": "#5c5842",
+        "eyebrow_color": "#5ba90f",
+        "accent_color": "#5ba90f",
+        "star_color": "#e8a317",
+        "stat_color": "#44681a",
+        "pill_bg_color": "#ffffff",
+        "card_bg_color": "#ffffff",
+        "border_color": "#e6e5dc",
+        "media_bg_color": "#ecebe5",
+        "button_bg_color": "#5ba90f",
+        "button_text_color": "#ffffff",
+        "padding_top": 90,
+        "padding_bottom": 90
+      }
     },
     "home_trust_strip": {
       "type": "CWC_home_trust_strip",
@@ -59,7 +103,18 @@
         "item_4",
         "item_5"
       ],
-      "settings": {}
+      "settings": {
+        "columns_desktop": 5,
+        "show_dividers": true,
+        "hide_extra_on_mobile": true,
+        "bg_color": "#ffffff",
+        "text_color": "#5c5842",
+        "label_color": "#44681a",
+        "bold_color": "#5ba90f",
+        "divider_color": "#e6e5dc",
+        "padding_top": 25,
+        "padding_bottom": 25
+      }
     },
     "home_absorption": {
       "type": "CWC_home_absorption",
@@ -68,6 +123,7 @@
           "type": "step",
           "settings": {
             "stage_label": "Stage one",
+            "icon_alt": "",
             "title": "Encapsulated",
             "description": "<p>Supersorb wraps key nutrients in natural plant fats so they survive the stomach instead of breaking down in it.</p>"
           }
@@ -76,6 +132,7 @@
           "type": "step",
           "settings": {
             "stage_label": "Stage two",
+            "icon_alt": "",
             "title": "Broken down",
             "description": "<p>Blend 32000B — nine digestive enzymes — cleaves the proteins, starches, fibers and fats that whole-food powders are locked inside.</p>"
           }
@@ -84,6 +141,7 @@
           "type": "step",
           "settings": {
             "stage_label": "Stage three",
+            "icon_alt": "",
             "title": "Absorbed",
             "description": "<p>Nutrients reach the small intestine intact, where the body takes them up — rather than passing through unused.</p>"
           }
@@ -157,7 +215,32 @@
         "enz_8",
         "enz_9"
       ],
-      "settings": {}
+      "settings": {
+        "eyebrow": "The expensive part everyone skips",
+        "heading": "<p>You are what you <strong>absorb</strong>.</p>",
+        "subtext": "<p>An ingredient list only counts for what your body can take up. Enzymes are what break the formula down so it can be used — and they are the expensive line on a spec sheet. Blend 32000B is in every product we make.</p>",
+        "show_enzyme_row": true,
+        "cta_label": "Shop NanoGreens — from $56/mo",
+        "cta_link": "shopify://products/nanogreens-10-support",
+        "secondary_label": "See the ingredient panel",
+        "secondary_link": "shopify://products/nanogreens-10-support",
+        "bg_color": "#44681a",
+        "text_color": "#d9e7c9",
+        "heading_color": "#ffffff",
+        "bold_color": "#a3c781",
+        "eyebrow_color": "#a3c781",
+        "icon_color": "#a3c781",
+        "card_bg_color": "#4c7024",
+        "card_text_color": "#c9dab6",
+        "border_color": "#577b2f",
+        "pill_color": "#a3c781",
+        "pill_border_color": "#577b2f",
+        "button_bg_color": "#5ba90f",
+        "button_text_color": "#ffffff",
+        "button_outline_color": "#a3c781",
+        "padding_top": 50,
+        "padding_bottom": 50
+      }
     },
     "home_by_problem": {
       "type": "CWC_home_by_problem",
@@ -165,36 +248,51 @@
         "need_1": {
           "type": "need",
           "settings": {
+            "collection": "",
+            "icon_alt": "",
             "title": "Daily Foundation",
-            "description": "<p>You eat fine. Just not thirteen-servings-a-day fine.</p>"
+            "description": "<p>You eat fine. Just not thirteen-servings-a-day fine.</p>",
+            "link": "shopify://collections/best-selling"
           }
         },
         "need_2": {
           "type": "need",
           "settings": {
+            "collection": "",
+            "icon_alt": "",
             "title": "Digestion & Gut",
-            "description": "<p>Enzymes, probiotics, and soluble fiber that pulls its weight.</p>"
+            "description": "<p>Enzymes, probiotics, and soluble fiber that pulls its weight.</p>",
+            "link": "shopify://collections/best-selling"
           }
         },
         "need_3": {
           "type": "need",
           "settings": {
+            "collection": "",
+            "icon_alt": "",
             "title": "Energy & Vitality",
-            "description": "<p>Steady. No stimulants, no three o’clock cliff.</p>"
+            "description": "<p>Steady. No stimulants, no three o’clock cliff.</p>",
+            "link": "shopify://collections/best-selling"
           }
         },
         "need_4": {
           "type": "need",
           "settings": {
+            "collection": "",
+            "icon_alt": "",
             "title": "Strength & Performance",
-            "description": "<p>Protein, creatine, and getting back out tomorrow.</p>"
+            "description": "<p>Protein, creatine, and getting back out tomorrow.</p>",
+            "link": "shopify://collections/best-selling"
           }
         },
         "need_5": {
           "type": "need",
           "settings": {
+            "collection": "",
+            "icon_alt": "",
             "title": "Focus & Clarity",
-            "description": "<p>Omegas and the foundational nutrients behind a steady day.</p>"
+            "description": "<p>Omegas and the foundational nutrients behind a steady day.</p>",
+            "link": "shopify://collections/best-selling"
           }
         }
       },
@@ -205,7 +303,23 @@
         "need_4",
         "need_5"
       ],
-      "settings": {}
+      "settings": {
+        "section_id": "needs",
+        "eyebrow": "Start with your routine",
+        "heading": "<p>Pick the part of your day <strong>that isn’t working.</strong></p>",
+        "subtext": "<p>Five places people usually start. Choose the one that sounds like your week and we’ll narrow the range for you.</p>",
+        "columns_desktop": 5,
+        "bg_color": "#f4f3ee",
+        "text_color": "#2a2611",
+        "bold_color": "#5ba90f",
+        "muted_color": "#5c5842",
+        "eyebrow_color": "#5ba90f",
+        "card_bg_color": "#ffffff",
+        "icon_bg_color": "#faf9f4",
+        "border_color": "#e6e5dc",
+        "padding_top": 50,
+        "padding_bottom": 50
+      }
     },
     "home_by_format": {
       "type": "CWC_home_by_format",
@@ -213,43 +327,61 @@
         "fmt_1": {
           "type": "format",
           "settings": {
+            "collection": "",
+            "image_alt": "",
             "title": "Greens & Reds",
-            "count_text": "5 products"
+            "count_text": "5 products",
+            "link": ""
           }
         },
         "fmt_2": {
           "type": "format",
           "settings": {
+            "collection": "",
+            "image_alt": "",
             "title": "Protein & Meal",
-            "count_text": "3 products"
+            "count_text": "3 products",
+            "link": ""
           }
         },
         "fmt_3": {
           "type": "format",
           "settings": {
+            "collection": "",
+            "image_alt": "",
             "title": "Omegas",
-            "count_text": "2 products"
+            "count_text": "2 products",
+            "link": ""
           }
         },
         "fmt_4": {
           "type": "format",
           "settings": {
+            "collection": "",
+            "image_alt": "",
             "title": "Gummies",
-            "count_text": "2 products"
+            "count_text": "2 products",
+            "link": ""
           }
         },
         "fmt_5": {
           "type": "format",
           "settings": {
+            "collection": "",
+            "image_alt": "",
             "title": "Capsules",
-            "count_text": "4 products"
+            "count_text": "4 products",
+            "link": ""
           }
         },
         "fmt_6": {
           "type": "format",
           "settings": {
+            "collection": "",
+            "image_alt": "",
             "title": "Performance",
-            "count_text": "2 products"
+            "count_text": "2 products",
+            "link": ""
           }
         }
       },
@@ -261,7 +393,23 @@
         "fmt_5",
         "fmt_6"
       ],
-      "settings": {}
+      "settings": {
+        "eyebrow": "Or start with the shelf",
+        "heading": "<p>However you’d <strong>rather take it.</strong></p>",
+        "subtext": "<p>Powders, capsules, gummies and liquids — seventeen products, the same formulation approach behind all of them.</p>",
+        "columns_desktop": 6,
+        "bg_color": "#ffffff",
+        "text_color": "#2a2611",
+        "bold_color": "#5ba90f",
+        "muted_color": "#5c5842",
+        "eyebrow_color": "#5ba90f",
+        "card_bg_color": "#ffffff",
+        "border_color": "#e6e5dc",
+        "count_suffix_text": "products",
+        "count_suffix_singular": "product",
+        "padding_top": 50,
+        "padding_bottom": 50
+      }
     },
     "home_best_sellers": {
       "type": "CWC_home_best_sellers",
@@ -309,7 +457,34 @@
         "prod_3",
         "prod_4"
       ],
-      "settings": {}
+      "settings": {
+        "eyebrow": "Start here",
+        "heading": "<p>The four formulas <strong>customers come back for.</strong></p>",
+        "view_all_label": "View all products →",
+        "view_all_link": "",
+        "product_source": "",
+        "products_to_show": 4,
+        "default_button_label": "View product",
+        "show_rating": true,
+        "show_price": true,
+        "columns_desktop": 4,
+        "enable_carousel": false,
+        "bg_color": "#f4f3ee",
+        "text_color": "#2a2611",
+        "bold_color": "#5ba90f",
+        "muted_color": "#5c5842",
+        "eyebrow_color": "#5ba90f",
+        "star_color": "#e8a317",
+        "card_bg_color": "#ffffff",
+        "media_bg_color": "#faf9f4",
+        "border_color": "#e6e5dc",
+        "tag_color": "#78ad49",
+        "accent_color": "#5ba90f",
+        "button_outline_color": "#44681a",
+        "button_hover_text_color": "#ffffff",
+        "padding_top": 50,
+        "padding_bottom": 50
+      }
     },
     "home_cost_math": {
       "type": "CWC_home_cost_math",
@@ -362,7 +537,40 @@
         "row_4",
         "row_5"
       ],
-      "settings": {}
+      "settings": {
+        "eyebrow": "The real cost of doing it yourself",
+        "heading": "<p>One scoop replaces <strong>five separate supplements.</strong></p>",
+        "subtext": "<p>NanoGreens isn’t only a greens powder. Here’s what each part costs bought on its own.</p>",
+        "list_header_text": "Buying it separately",
+        "total_label": "Five products, five subscriptions",
+        "total_price": "$133",
+        "total_suffix": "/mo",
+        "card_image_alt": "",
+        "card_label": "All of it, in one scoop",
+        "card_price": "$56",
+        "card_price_suffix": "/mo",
+        "card_sub_line": "$168.64 billed every 90 days · $1.87 per serving",
+        "savings_amount": "$921",
+        "savings_text": "saved a year versus buying the five separately",
+        "cta_label": "Start the 90-day supply",
+        "cta_link": "shopify://products/nanogreens-10-support",
+        "footnote": "<p>Comparison prices are category averages for standalone supplements at comparable dosages — not any specific brand or product.</p>",
+        "bg_color": "#ffffff",
+        "text_color": "#2a2611",
+        "bold_color": "#5ba90f",
+        "muted_color": "#5c5842",
+        "eyebrow_color": "#5ba90f",
+        "accent_color": "#5ba90f",
+        "card_bg_color": "#f4f3ee",
+        "media_bg_color": "#ffffff",
+        "border_color": "#e6e5dc",
+        "total_border_color": "#2a2611",
+        "savings_bg_color": "#f2f8ea",
+        "button_bg_color": "#5ba90f",
+        "button_text_color": "#ffffff",
+        "padding_top": 50,
+        "padding_bottom": 50
+      }
     },
     "home_practitioner": {
       "type": "CWC_home_practitioner",
@@ -370,6 +578,7 @@
         "doc_1": {
           "type": "doctor",
           "settings": {
+            "avatar_alt": "",
             "name": "Dr. Lauren Calloway, DC",
             "credential_line": "Chiropractor · Scottsdale, AZ",
             "quote": "When someone isn't getting enough produce, this is the simplest thing I can hand them that they'll actually stick with."
@@ -378,6 +587,7 @@
         "doc_2": {
           "type": "doctor",
           "settings": {
+            "avatar_alt": "",
             "name": "Dr. Michael Torres, MD",
             "credential_line": "Integrative Medicine · Austin, TX",
             "quote": "I've been stocking it since 2011. The formula hasn't been cheapened, which is rare in this industry."
@@ -386,6 +596,7 @@
         "doc_3": {
           "type": "doctor",
           "settings": {
+            "avatar_alt": "",
             "name": "Dr. Sarah Whitfield, ND",
             "credential_line": "Naturopathic Doctor · San Diego, CA",
             "quote": "Absorption is the whole point — a powder your body passes through isn't doing anything for you."
@@ -429,7 +640,24 @@
         "stat_3",
         "stat_4"
       ],
-      "settings": {}
+      "settings": {
+        "eyebrow": "Recommended in practice",
+        "heading": "<p>The people who recommend it <strong>see patients all day.</strong></p>",
+        "subtext": "<p>NanoGreens was developed for and distributed through doctors, chiropractors and naturopaths for years before it was ever sold direct. Many still stock it today. That history is why the formula has never been reformulated to hit a price.</p>",
+        "show_stats": true,
+        "bg_color": "#44681a",
+        "text_color": "#d9e7c9",
+        "heading_color": "#ffffff",
+        "bold_color": "#a3c781",
+        "eyebrow_color": "#a3c781",
+        "accent_color": "#a3c781",
+        "card_bg_color": "#4c7024",
+        "border_color": "#577b2f",
+        "quote_color": "#d9e7c9",
+        "credential_color": "#c9dab6",
+        "padding_top": 50,
+        "padding_bottom": 50
+      }
     },
     "home_bundles": {
       "type": "CWC_home_bundles",
@@ -437,45 +665,54 @@
         "kit_1": {
           "type": "kit",
           "settings": {
-            "is_featured": true,
-            "flag_label": "Start here",
+            "image_1_alt": "",
+            "image_2_alt": "",
             "title": "Daily Foundation Kit",
             "for_line": "A practical place to begin — greens, omegas and minerals.",
             "contents": "<p>NanoGreens¹⁰</p><p>NanoMega</p><p>NanoMinerals</p>",
             "price_now": "$149",
             "price_was": "$189.85",
             "save_badge": "Save 22%",
+            "is_featured": true,
+            "flag_label": "Start here",
             "cta_label": "Shop the Daily Foundation Kit",
+            "cta_link": "",
             "button_style": "primary"
           }
         },
         "kit_2": {
           "type": "kit",
           "settings": {
-            "is_featured": false,
-            "flag_label": "",
+            "image_1_alt": "",
+            "image_2_alt": "",
             "title": "Performance Kit",
             "for_line": "Foundational nutrition plus protein and creatine for training days.",
             "contents": "<p>NanoPro</p><p>NanoCreatine</p><p>NanoGreens¹⁰</p>",
             "price_now": "$169",
             "price_was": "$199.85",
             "save_badge": "Save 15%",
+            "is_featured": false,
+            "flag_label": "",
             "cta_label": "Shop the Performance Kit",
+            "cta_link": "",
             "button_style": "outline"
           }
         },
         "kit_3": {
           "type": "kit",
           "settings": {
-            "is_featured": false,
-            "flag_label": "",
+            "image_1_alt": "",
+            "image_2_alt": "",
             "title": "Gut Kit",
             "for_line": "A simple pairing for a digestion-focused daily routine.",
             "contents": "<p>NanoGreens + Probiotic</p><p>NanoProbiotic Gummies</p>",
             "price_now": "$115",
             "price_was": "$129.90",
             "save_badge": "Save 11%",
+            "is_featured": false,
+            "flag_label": "",
             "cta_label": "Shop the Gut Kit",
+            "cta_link": "",
             "button_style": "outline"
           }
         }
@@ -485,7 +722,31 @@
         "kit_2",
         "kit_3"
       ],
-      "settings": {}
+      "settings": {
+        "section_id": "kits",
+        "eyebrow": "Fewer decisions",
+        "heading": "<p>Three kits. <strong>One delivery.</strong></p>",
+        "subtext": "<p>Cheaper than the same products bought separately, and they turn up on the same day instead of three different ones.</p>",
+        "footer_text": "Already know what you want?",
+        "footer_link_label": "Build your own bundle",
+        "footer_link": "",
+        "columns_desktop": 3,
+        "bg_color": "#ffffff",
+        "text_color": "#2a2611",
+        "bold_color": "#5ba90f",
+        "muted_color": "#5c5842",
+        "eyebrow_color": "#5ba90f",
+        "accent_color": "#5ba90f",
+        "card_bg_color": "#ffffff",
+        "media_bg_color": "#faf9f4",
+        "border_color": "#e6e5dc",
+        "marker_color": "#78ad49",
+        "badge_bg_color": "#f2f8ea",
+        "button_text_color": "#ffffff",
+        "button_outline_color": "#44681a",
+        "padding_top": 50,
+        "padding_bottom": 50
+      }
     },
     "home_subscribe": {
       "type": "CWC_home_subscribe",
@@ -521,7 +782,8 @@
             "sub_label": "$1.87 per serving · best value",
             "amount": "$56.21",
             "amount_suffix": "/mo",
-            "is_active": true
+            "is_active": true,
+            "cta_link": ""
           }
         },
         "tier_2": {
@@ -531,7 +793,8 @@
             "sub_label": "$2.13 per serving",
             "amount": "$63.71",
             "amount_suffix": "/mo",
-            "is_active": false
+            "is_active": false,
+            "cta_link": ""
           }
         },
         "tier_3": {
@@ -541,7 +804,8 @@
             "sub_label": "$2.50 per serving",
             "amount": "$74.95",
             "amount_suffix": "",
-            "is_active": false
+            "is_active": false,
+            "cta_link": ""
           }
         }
       },
@@ -554,7 +818,27 @@
         "tier_2",
         "tier_3"
       ],
-      "settings": {}
+      "settings": {
+        "eyebrow": "Subscribe & save",
+        "heading": "<p>The easiest way to <strong>keep the routine stocked.</strong></p>",
+        "cta_label": "Choose a subscription",
+        "cta_link": "shopify://products/nanogreens-10-support",
+        "tiers_interactive": true,
+        "bg_color": "#f2f8ea",
+        "bg_color_end": "#faf9f4",
+        "text_color": "#2a2611",
+        "bold_color": "#5ba90f",
+        "muted_color": "#5c5842",
+        "eyebrow_color": "#5ba90f",
+        "accent_color": "#5ba90f",
+        "card_bg_color": "#ffffff",
+        "border_color": "#e6e5dc",
+        "tier_active_bg_color": "#f2f8ea",
+        "button_bg_color": "#5ba90f",
+        "button_text_color": "#ffffff",
+        "padding_top": 50,
+        "padding_bottom": 50
+      }
     },
     "home_reviews": {
       "type": "CWC_home_reviews",
@@ -602,7 +886,33 @@
         "rev_3",
         "rev_4"
       ],
-      "settings": {}
+      "settings": {
+        "eyebrow": "614 verified buyers",
+        "heading": "<p>The routines people <strong>have kept.</strong></p>",
+        "view_all_label": "Read all reviews →",
+        "view_all_link": "",
+        "rating_value": 4.8,
+        "rating_count": "614 verified reviews",
+        "show_distribution": true,
+        "pct_5": 84,
+        "pct_4": 10,
+        "pct_3": 3,
+        "pct_2": 2,
+        "pct_1": 1,
+        "bg_color": "#ffffff",
+        "text_color": "#2a2611",
+        "bold_color": "#5ba90f",
+        "muted_color": "#5c5842",
+        "eyebrow_color": "#5ba90f",
+        "star_color": "#e8a317",
+        "panel_bg_color": "#faf9f4",
+        "card_bg_color": "#ffffff",
+        "border_color": "#e6e5dc",
+        "bar_bg_color": "#e6e5dc",
+        "bar_fill_color": "#78ad49",
+        "padding_top": 50,
+        "padding_bottom": 50
+      }
     },
     "home_learn": {
       "type": "CWC_home_learn",
@@ -610,25 +920,31 @@
         "art_1": {
           "type": "article",
           "settings": {
+            "image_alt": "",
             "category_label": "Buying guide",
             "title": "Seven greens powders, compared without flinching",
-            "read_time_text": "6 min read"
+            "read_time_text": "6 min read",
+            "link": ""
           }
         },
         "art_2": {
           "type": "article",
           "settings": {
+            "image_alt": "",
             "category_label": "The science",
             "title": "Why the enzyme line is the one worth reading",
-            "read_time_text": "4 min read"
+            "read_time_text": "4 min read",
+            "link": ""
           }
         },
         "art_3": {
           "type": "article",
           "settings": {
+            "image_alt": "",
             "category_label": "Quiz",
             "title": "Which of the seventeen is actually for you?",
-            "read_time_text": "2 minutes"
+            "read_time_text": "2 minutes",
+            "link": ""
           }
         }
       },
@@ -637,11 +953,54 @@
         "art_2",
         "art_3"
       ],
-      "settings": {}
+      "settings": {
+        "section_id": "learn",
+        "eyebrow": "No purchase required",
+        "heading": "<p>Read this before you buy anything — <strong>ours included.</strong></p>",
+        "view_all_label": "All articles →",
+        "view_all_link": "",
+        "blog_source": "lifelong-wellness-made-easy",
+        "articles_to_show": 3,
+        "show_read_time": true,
+        "columns_desktop": 3,
+        "bg_color": "#f4f3ee",
+        "text_color": "#2a2611",
+        "bold_color": "#5ba90f",
+        "muted_color": "#5c5842",
+        "eyebrow_color": "#5ba90f",
+        "card_bg_color": "#ffffff",
+        "media_bg_color": "#faf9f4",
+        "border_color": "#e6e5dc",
+        "category_color": "#78ad49",
+        "padding_top": 50,
+        "padding_bottom": 50
+      }
     },
     "home_email": {
       "type": "CWC_home_email",
-      "settings": {}
+      "settings": {
+        "heading": "<p>Get <strong>10% off</strong> your first order.</p>",
+        "subtext": "<p>Plus the label guide — the three things worth checking on a greens panel, and the two that don’t matter.</p>",
+        "form_action": "shopify_customer",
+        "input_placeholder": "you@email.com",
+        "button_label": "Get the code",
+        "success_message": "Thanks — check your inbox for the code.",
+        "customer_tag": "newsletter",
+        "klaviyo_list_id": "",
+        "custom_form_action": "",
+        "custom_field_name": "email",
+        "bg_color": "#44681a",
+        "text_color": "#d9e7c9",
+        "heading_color": "#ffffff",
+        "bold_color": "#a3c781",
+        "input_bg_color": "#4c7024",
+        "border_color": "#577b2f",
+        "placeholder_color": "#c9dab6",
+        "button_color": "#5ba90f",
+        "button_text_color": "#ffffff",
+        "padding_top": 50,
+        "padding_bottom": 50
+      }
     }
   },
   "order": [

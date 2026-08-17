@@ -4,8 +4,6 @@
 
 /* === Section Wrapper === */
 .cwc_announcement {
-  font-size: 16px;
-  /* section anchor — all type below is em relative to this */
   background-color: var(--section-bg);
   color: var(--text-color);
   font-family: var(--cwc-font-body);
@@ -48,7 +46,7 @@
 
 /* === Announcement Text === */
 .cwc_announcement__text p {
-  font-size: 0.875em;
+  font-size: 0.875rem;
   /* 14px */
   letter-spacing: 0.2px;
   line-height: 1.4;
@@ -71,7 +69,6 @@
 @media screen and (max-width: 768px) {
   /* rescale the whole section from one anchor */
   .cwc_announcement {
-    font-size: 14px;
   }
 
   .cwc_announcement__container {

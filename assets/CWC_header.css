@@ -4,8 +4,6 @@
 
 /* === Section Wrapper === */
 .cwc_header {
-  font-size: 16px;
-  /* section anchor — all type below is em relative to this */
   background-color: var(--section-bg);
   color: var(--text-color);
   font-family: var(--cwc-font-body);
@@ -90,7 +88,7 @@
 }
 
 .cwc_header__link {
-  font-size: 0.9375em;
+  font-size: 0.9375rem;
   font-size: 1rem;
   /* 15px */
   font-weight: 600;
@@ -157,8 +155,8 @@
 }
 
 .cwc_header__dropdown-link {
-  font-size: 0.875em;
-  font-size: .9em;
+  font-size: 0.875rem;
+  font-size: 0.9rem;
   /* 14px */
   font-weight: 500;
   color: var(--text-color);
@@ -374,7 +372,6 @@
 
   /* rescale the whole section from one anchor */
   .cwc_header {
-    font-size: 14px;
   }
 
   .cwc_header__bar {

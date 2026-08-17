@@ -4,8 +4,6 @@
 
 /* === Section Wrapper === */
 .cwc_cost-calculator {
-  font-size: 16px;
-  /* section anchor — all type below is em relative to this */
   background-color: var(--section-bg);
   color: var(--text-color);
   padding-top: var(--padding-top);
@@ -26,7 +24,7 @@
 }
 
 .cwc_cost-calculator__eyebrow {
-  font-size: 0.78em;
+  font-size: 0.78rem;
   /* 12.48px */
   font-weight: var(--cwc-weight-label);
   letter-spacing: 2px;
@@ -58,7 +56,7 @@
 }
 
 .cwc_cost-calculator__content-subtext p {
-  font-size: 0.97em;
+  font-size: 0.97rem;
   /* 15.52px */
   line-height: var(--cwc-line-body);
   margin: 0;
@@ -89,13 +87,13 @@
 }
 
 .cwc_cost-calculator__box-title {
-  font-size: 1.03em;
+  font-size: 1.03rem;
   /* 16.48px */
   font-weight: var(--cwc-weight-label);
 }
 
 .cwc_cost-calculator__box-subtitle {
-  font-size: 0.84em;
+  font-size: 0.84rem;
   /* 13.44px */
   color: var(--muted-color);
   margin-top: 2px;
@@ -110,21 +108,21 @@
 }
 
 .cwc_cost-calculator__line-name {
-  font-size: 0.9375em;
+  font-size: 0.9375rem;
   /* 15px */
   color: var(--text-color);
 }
 
 .cwc_cost-calculator__line-note {
   display: block;
-  font-size: 0.864em;
+  font-size: 0.864rem;
   /* 12.96px, relative to 15px line-name */
   color: #9a9989;
   margin-top: 1px;
 }
 
 .cwc_cost-calculator__line-price {
-  font-size: 0.9375em;
+  font-size: 0.9375rem;
   /* 15px */
   font-weight: 700;
   color: var(--muted-color);
@@ -138,13 +136,13 @@
   align-items: center;
   padding: 16px 22px;
   background: var(--total-bg);
-  font-size: 1.03em;
+  font-size: 1.03rem;
   /* 16.48px — feeds the unclassed label span */
   font-weight: 800;
 }
 
 .cwc_cost-calculator__total-value {
-  font-size: 1.2427em;
+  font-size: 1.2427rem;
   /* 20.48px, relative to 16.48px total row */
 }
 
@@ -159,7 +157,7 @@
 }
 
 .cwc_cost-calculator__win-eyebrow {
-  font-size: 0.78em;
+  font-size: 0.78rem;
   /* 12.48px */
   font-weight: var(--cwc-weight-label);
   letter-spacing: 1.5px;
@@ -172,7 +170,7 @@
 .cwc_cost-calculator__win-title p {
   font-family: var(--cwc-font-body);
   font-weight: var(--cwc-weight-name);
-  font-size: 1.31em;
+  font-size: 1.31rem;
   /* 21px */
   line-height: 1.25;
   margin: 0 0 14px;
@@ -187,7 +185,7 @@
 }
 
 .cwc_cost-calculator__win-price-value {
-  font-size: 2.5em;
+  font-size: 2.5rem;
   /* 40px */
   font-weight: var(--cwc-weight-stat-strong);
   color: var(--win-accent);
@@ -195,13 +193,13 @@
 }
 
 .cwc_cost-calculator__win-price-unit {
-  font-size: 0.97em;
+  font-size: 0.97rem;
   /* 15.52px */
   color: var(--win-muted);
 }
 
 .cwc_cost-calculator__win-sub {
-  font-size: 0.875em;
+  font-size: 0.875rem;
   /* 14px */
   color: var(--win-muted);
   margin-bottom: 18px;
@@ -215,7 +213,7 @@
 }
 
 .cwc_cost-calculator__win-save-value {
-  font-size: 1.72em;
+  font-size: 1.72rem;
   /* 27.52px */
   font-weight: var(--cwc-weight-stat-strong);
   color: #ffffff;
@@ -223,7 +221,7 @@
 }
 
 .cwc_cost-calculator__win-save-label {
-  font-size: 0.84em;
+  font-size: 0.84rem;
   /* 13.44px */
   color: var(--win-muted);
   margin-top: 4px;
@@ -236,7 +234,7 @@
   color: var(--button-text);
   border-radius: 40px;
   padding: 15px;
-  font-size: 1em;
+  font-size: 1rem;
   /* 16px */
   font-weight: 800;
   text-align: center;
@@ -249,7 +247,7 @@
 
 /* === Footnote === */
 .cwc_cost-calculator__footnote {
-  font-size: 0.78em;
+  font-size: 0.78rem;
   /* 12.48px */
   color: #8b8a7a;
   line-height: 1.6;
@@ -282,7 +280,6 @@
 
   /* rescale the whole section from one anchor */
   .cwc_cost-calculator {
-    font-size: 14px;
     padding-top: var(--padding-top-mobile);
     padding-bottom: var(--padding-bottom-mobile);
   }
@@ -311,4 +308,19 @@
   .cwc_cost-calculator__win {
     padding: 22px;
   }
+
+  /* Display type steps down on mobile — the px anchor used to do this. */
+
+  .cwc_cost-calculator__win-title p {
+    font-size: 1.1462rem;
+  }
+
+  .cwc_cost-calculator__win-price-value {
+    font-size: 2.1875rem;
+  }
+
+  .cwc_cost-calculator__win-save-value {
+    font-size: 1.505rem;
+  }
+
 }
