@@ -105,12 +105,12 @@ a.cwc_home-best-sellers__card:hover {
 }
 
 .cwc_home-best-sellers__card-image {
-  background: var(--media-bg);
-  height: 210px;
+  /* background: var(--media-bg); */
+  /* height: 210px; */
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 1.125rem;
+  /* padding: 1.125rem; */
   /* testing */
   overflow: hidden;
 }
@@ -124,6 +124,7 @@ a.cwc_home-best-sellers__card:hover {
   display: block;
   /* testing */
   object-fit: cover;
+  /* aspect-ratio: 4/3; */
 }
 
 .cwc_home-best-sellers__placeholder {
@@ -307,11 +308,11 @@ a.cwc_home-best-sellers__card:hover .cwc_home-best-sellers__card-button {
   }
 
   .cwc_home-best-sellers__card-image {
-    height: 160px;
+    /* height: 160px; */
   }
 
   .cwc_home-best-sellers__card-image img {
-    max-height: 130px;
+    /* max-height: 130px; */
   }
 
   .cwc_home-best-sellers__arrow {

@@ -27,7 +27,7 @@
         "cta_label": "Start with NanoGreens",
         "cta_link": "shopify://products/nanogreens-10-support",
         "secondary_label": "or find what fits you →",
-        "secondary_link": "",
+        "secondary_link": "shopify://collections/best-selling",
         "show_rating": true,
         "rating_position": "below_cta",
         "rating_value": 4.8,
@@ -249,6 +249,7 @@
           "type": "need",
           "settings": {
             "collection": "",
+            "icon": "shopify://shop_images/cat_icon_daily_foundation_apple_100px_1.png",
             "icon_alt": "",
             "title": "Daily Foundation",
             "description": "<p>You eat fine. Just not thirteen-servings-a-day fine.</p>",
@@ -259,6 +260,7 @@
           "type": "need",
           "settings": {
             "collection": "",
+            "icon": "shopify://shop_images/cat_icon_digestion_gut_100px_1.png",
             "icon_alt": "",
             "title": "Digestion & Gut",
             "description": "<p>Enzymes, probiotics, and soluble fiber that pulls its weight.</p>",
@@ -269,6 +271,7 @@
           "type": "need",
           "settings": {
             "collection": "",
+            "icon": "shopify://shop_images/cat_icon_energy_vitality_100px_1.png",
             "icon_alt": "",
             "title": "Energy & Vitality",
             "description": "<p>Steady. No stimulants, no three o’clock cliff.</p>",
@@ -279,6 +282,7 @@
           "type": "need",
           "settings": {
             "collection": "",
+            "icon": "shopify://shop_images/cat_icon_strength_performance_peak_100px_1.png",
             "icon_alt": "",
             "title": "Strength & Performance",
             "description": "<p>Protein, creatine, and getting back out tomorrow.</p>",
@@ -289,6 +293,7 @@
           "type": "need",
           "settings": {
             "collection": "",
+            "icon": "shopify://shop_images/cat_icon_focus_clarity_100px_2.png",
             "icon_alt": "",
             "title": "Focus & Clarity",
             "description": "<p>Omegas and the foundational nutrients behind a steady day.</p>",
@@ -327,7 +332,8 @@
         "fmt_1": {
           "type": "format",
           "settings": {
-            "collection": "",
+            "collection": "best-selling",
+            "image": "shopify://shop_images/By-Form-Greens_Reds.png",
             "image_alt": "",
             "title": "Greens & Reds",
             "count_text": "5 products",
@@ -337,7 +343,8 @@
         "fmt_2": {
           "type": "format",
           "settings": {
-            "collection": "",
+            "collection": "best-selling",
+            "image": "shopify://shop_images/By-Form-Protein_Meal.png",
             "image_alt": "",
             "title": "Protein & Meal",
             "count_text": "3 products",
@@ -347,7 +354,8 @@
         "fmt_3": {
           "type": "format",
           "settings": {
-            "collection": "",
+            "collection": "best-selling",
+            "image": "shopify://shop_images/By-Form-Omegas.png",
             "image_alt": "",
             "title": "Omegas",
             "count_text": "2 products",
@@ -357,7 +365,8 @@
         "fmt_4": {
           "type": "format",
           "settings": {
-            "collection": "",
+            "collection": "best-selling",
+            "image": "shopify://shop_images/By-Form-Gummies.png",
             "image_alt": "",
             "title": "Gummies",
             "count_text": "2 products",
@@ -367,7 +376,8 @@
         "fmt_5": {
           "type": "format",
           "settings": {
-            "collection": "",
+            "collection": "best-selling",
+            "image": "shopify://shop_images/By-Form-Capsules.png",
             "image_alt": "",
             "title": "Capsules",
             "count_text": "4 products",
@@ -376,6 +386,7 @@
         },
         "fmt_6": {
           "type": "format",
+          "disabled": true,
           "settings": {
             "collection": "",
             "image_alt": "",
@@ -397,7 +408,7 @@
         "eyebrow": "Or start with the shelf",
         "heading": "<p>However you’d <strong>rather take it.</strong></p>",
         "subtext": "<p>Powders, capsules, gummies and liquids — seventeen products, the same formulation approach behind all of them.</p>",
-        "columns_desktop": 6,
+        "columns_desktop": 5,
         "bg_color": "#ffffff",
         "text_color": "#2a2611",
         "bold_color": "#5ba90f",
@@ -417,19 +428,10 @@
         "prod_1": {
           "type": "product",
           "settings": {
-            "product": "nanogreens-green-apple",
+            "product": "nanogreens-10-support",
             "title_override": "NanoGreens¹⁰",
             "tag_label": "Daily greens",
             "button_label": "Choose a flavor"
-          }
-        },
-        "prod_2": {
-          "type": "product",
-          "settings": {
-            "product": "nanoreds",
-            "title_override": "",
-            "tag_label": "Antioxidant reds",
-            "button_label": "View NanoReds"
           }
         },
         "prod_3": {
@@ -441,10 +443,19 @@
             "button_label": "Choose a flavor"
           }
         },
+        "prod_2": {
+          "type": "product",
+          "settings": {
+            "product": "nanoreds-natural-berry",
+            "title_override": "",
+            "tag_label": "Antioxidant reds",
+            "button_label": "View NanoReds"
+          }
+        },
         "prod_4": {
           "type": "product",
           "settings": {
-            "product": "nanocreatine",
+            "product": "nanomega-pineapple-orange",
             "title_override": "",
             "tag_label": "New",
             "button_label": "Add NanoCreatine"
@@ -453,8 +464,8 @@
       },
       "block_order": [
         "prod_1",
-        "prod_2",
         "prod_3",
+        "prod_2",
         "prod_4"
       ],
       "settings": {
@@ -545,6 +556,7 @@
         "total_label": "Five products, five subscriptions",
         "total_price": "$133",
         "total_suffix": "/mo",
+        "card_image": "shopify://shop_images/hero-staging2.png",
         "card_image_alt": "",
         "card_label": "All of it, in one scoop",
         "card_price": "$56",
@@ -578,28 +590,31 @@
         "doc_1": {
           "type": "doctor",
           "settings": {
+            "avatar": "shopify://shop_images/doc-profile-01.png",
             "avatar_alt": "",
             "name": "Dr. Lauren Calloway, DC",
             "credential_line": "Chiropractor · Scottsdale, AZ",
-            "quote": "When someone isn't getting enough produce, this is the simplest thing I can hand them that they'll actually stick with."
+            "quote": "\"I've recommended NanoGreens to patients for years. When someone isn't getting enough produce, this is the simplest thing I can hand them that they'll actually stick with.\""
           }
         },
         "doc_2": {
           "type": "doctor",
           "settings": {
+            "avatar": "shopify://shop_images/doc-profile-02.png",
             "avatar_alt": "",
             "name": "Dr. Michael Torres, MD",
             "credential_line": "Integrative Medicine · Austin, TX",
-            "quote": "I've been stocking it since 2011. The formula hasn't been cheapened, which is rare in this industry."
+            "quote": "\"I've been stocking it in my practice since 2011. The formula hasn't been cheapened, which is rare in this industry. That consistency is why I keep recommending it.\""
           }
         },
         "doc_3": {
           "type": "doctor",
           "settings": {
+            "avatar": "shopify://shop_images/doc-profile-03.png",
             "avatar_alt": "",
             "name": "Dr. Sarah Whitfield, ND",
             "credential_line": "Naturopathic Doctor · San Diego, CA",
-            "quote": "Absorption is the whole point — a powder your body passes through isn't doing anything for you."
+            "quote": "\"The enzyme blend is why I choose it over cheaper greens. Absorption is the whole point — a powder your body passes through isn't doing anything for you.\""
           }
         },
         "stat_1": {
@@ -665,6 +680,7 @@
         "kit_1": {
           "type": "kit",
           "settings": {
+            "image_1": "shopify://shop_images/By-Form-Protein_Meal.png",
             "image_1_alt": "",
             "image_2_alt": "",
             "title": "Daily Foundation Kit",
@@ -683,6 +699,7 @@
         "kit_2": {
           "type": "kit",
           "settings": {
+            "image_1": "shopify://shop_images/By-Form-Omegas.png",
             "image_1_alt": "",
             "image_2_alt": "",
             "title": "Performance Kit",
@@ -701,6 +718,7 @@
         "kit_3": {
           "type": "kit",
           "settings": {
+            "image_1": "shopify://shop_images/By-Form-Gummies.png",
             "image_1_alt": "",
             "image_2_alt": "",
             "title": "Gut Kit",

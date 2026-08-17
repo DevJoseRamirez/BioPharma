@@ -20,7 +20,6 @@
 
 <section id="cwc_home-by-format-{{ section.id }}" class="cwc_home-by-format">
   <div class="cwc_home-by-format__container">
-
     {% comment %} Section Header {% endcomment %}
     <div class="cwc_home-by-format__content">
       {% if section.settings.eyebrow != blank %}
@@ -55,7 +54,7 @@
                 elsif block.settings.link != blank
                   assign card_link = block.settings.link
                 else
-                  assign card_link = nil
+                  assign card_link = null
                 endif
 
                 if block.settings.image != blank
@@ -63,7 +62,7 @@
                 elsif card_collection != blank and card_collection.image != blank
                   assign card_image = card_collection.image
                 else
-                  assign card_image = nil
+                  assign card_image = null
                 endif
 
                 if block.settings.title != blank
@@ -95,29 +94,29 @@
                 <div class="cwc_home-by-format__card" {{ block.shopify_attributes }}>
               {% endif %}
 
-                <div class="cwc_home-by-format__card-image">
-                  {% if card_image != blank %}
-                    <img
-                      src="{{ card_image | image_url: width: 300 }}"
-                      alt="{{ block.settings.image_alt | default: card_title | escape }}"
-                      width="300"
-                      height="300"
-                      loading="lazy"
-                    >
-                  {% else %}
-                    <div class="cwc_home-by-format__placeholder">
-                      <span>Add image</span>
-                    </div>
-                  {% endif %}
-                </div>
-
-                {% if card_title != blank %}
-                  <div class="cwc_home-by-format__card-title">{{ card_title }}</div>
+              <div class="cwc_home-by-format__card-image">
+                {% if card_image != blank %}
+                  <img
+                    src="{{ card_image | image_url: width: 300 }}"
+                    alt="{{ block.settings.image_alt | default: card_title | escape }}"
+                    width="300"
+                    height="300"
+                    loading="lazy"
+                  >
+                {% else %}
+                  <div class="cwc_home-by-format__placeholder">
+                    <span>Add image</span>
+                  </div>
                 {% endif %}
+              </div>
 
-                {% if card_count != blank %}
-                  <span class="cwc_home-by-format__card-text">{{ card_count }}</span>
-                {% endif %}
+              {% if card_title != blank %}
+                <div class="cwc_home-by-format__card-title">{{ card_title }}</div>
+              {% endif %}
+
+              {% if card_count != blank %}
+                <span class="cwc_home-by-format__card-text">{{ card_count }}</span>
+              {% endif %}
 
               {% if card_link != blank %}
                 </a>
@@ -132,7 +131,6 @@
         <p>Add format blocks to display content.</p>
       </div>
     {% endif %}
-
   </div>
 </section>
 
@@ -285,7 +283,7 @@
         {
           "type": "image_picker",
           "id": "image",
-          "label": "Product Image",
+          "label": "Image",
           "info": "Falls back to the collection image."
         },
         {

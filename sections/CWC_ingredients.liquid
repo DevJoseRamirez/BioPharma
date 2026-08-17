@@ -20,9 +20,10 @@
 {{ 'CWC_fonts.css' | asset_url | stylesheet_tag }}
 {{ 'CWC_ingredients.css' | asset_url | stylesheet_tag }}
 
+<div id="cwc_ingredients--anchor"></dvi>
+
 <section id="cwc_ingredients-{{ section.id }}" class="cwc_ingredients">
   <div class="cwc_ingredients__container">
-
     <div class="cwc_ingredients__content">
       {% if section.settings.eyebrow != blank %}
         <div class="cwc_ingredients__eyebrow">{{ section.settings.eyebrow }}</div>
@@ -76,7 +77,6 @@
         {{ section.settings.footer_text }}
       </div>
     {% endif %}
-
   </div>
 </section>
 
@@ -240,11 +240,7 @@
     {
       "name": "Ingredients",
       "category": "CWC Custom",
-      "blocks": [
-        { "type": "ingredient" },
-        { "type": "ingredient" },
-        { "type": "ingredient" }
-      ]
+      "blocks": [{ "type": "ingredient" }, { "type": "ingredient" }, { "type": "ingredient" }]
     }
   ]
 }

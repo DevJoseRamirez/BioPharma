@@ -58,8 +58,8 @@
   color: inherit;
 }
 
-.cwc_home-learn__content-heading > * strong,
-.cwc_home-learn__content-heading > * b {
+.cwc_home-learn__content-heading>* strong,
+.cwc_home-learn__content-heading>* b {
   color: var(--highlight-color);
 }
 
@@ -105,7 +105,7 @@ a.cwc_home-learn__card:hover {
 }
 
 .cwc_home-learn__card-image {
-  height: 170px;
+  height: 200px;
   background-color: var(--media-bg);
   background-position: center;
   background-size: cover;
