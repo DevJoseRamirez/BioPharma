@@ -69,7 +69,7 @@
         "buy_buttons": {
           "type": "buy_buttons",
           "settings": {
-            "show_payment_button": true,
+            "show_payment_button": false,
             "show_gift_card_recipient": true,
             "atc_button_background": "",
             "atc_button_text_color": "",
@@ -160,7 +160,7 @@
         "55afab39-f126-4571-af89-3d32311cb2e6"
       ],
       "settings": {
-        "color_scheme": "scheme-2",
+        "color_scheme": "scheme-f23b3a5a-1f3c-4d6a-94eb-96f8fab0ad49",
         "container_size": "lg",
         "product_info_size": 35,
         "show_sticky_add_to_cart": false,

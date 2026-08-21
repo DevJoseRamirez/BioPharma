@@ -12,7 +12,7 @@
     "main": {
       "type": "main-page",
       "settings": {
-        "color_scheme": "",
+        "color_scheme": "scheme-f23b3a5a-1f3c-4d6a-94eb-96f8fab0ad49",
         "show_title": true,
         "page_width": "xs"
       }
