@@ -82,12 +82,41 @@
       </div>
 
       {% comment %} Review Cards {% endcomment %}
+      {%- comment -%}
+        Every review is rendered into the page. The ones past the fourth carry
+        `hidden`, so they are in the markup — which is what a reviews block is
+        for — without being tabbed into or read out until Load More reveals
+        them.
+
+        review_count is counted rather than read off section.blocks.size so
+        that a block type added to this section later cannot be mistaken for a
+        review and put a button under a grid that has nothing more to show.
+      {%- endcomment -%}
+      {%- liquid
+        assign initial_count = 4
+        assign reveal_batch = 4
+
+        assign review_count = 0
+        for block in section.blocks
+          if block.type == 'review'
+            assign review_count = review_count | plus: 1
+          endif
+        endfor
+      -%}
+
       {% if section.blocks.size > 0 %}
         <div class="cwc_home-reviews__grid">
+          {%- assign review_index = 0 -%}
           {% for block in section.blocks %}
             {% case block.type %}
               {% when 'review' %}
-                <div class="cwc_home-reviews__card" {{ block.shopify_attributes }}>
+                {%- assign review_index = review_index | plus: 1 -%}
+                <div
+                  class="cwc_home-reviews__card"
+                  data-cwc-reviews-card
+                  {% if review_index > initial_count %}hidden{% endif %}
+                  {{ block.shopify_attributes }}
+                >
                   {% assign block_rating = block.settings.rating | round %}
                   <div class="cwc_home-reviews__card-stars" aria-hidden="true">
                     {%- for i in (1..5) -%}
@@ -112,6 +141,28 @@
                 </div>
             {% endcase %}
           {% endfor %}
+
+          {%- comment -%}
+            Only rendered when there is genuinely something behind it. A button
+            that reveals nothing is worse than no button, so the test is on the
+            review count rather than on the section having blocks at all.
+
+            It lives inside the grid, spanning both card columns, so it sits
+            under the cards instead of becoming a third column of the outer
+            two-column wrapper.
+          {%- endcomment -%}
+          {% if review_count > initial_count %}
+            <div class="cwc_home-reviews__more">
+              <button
+                type="button"
+                class="cwc_home-reviews__more-button"
+                data-cwc-reviews-more
+                data-cwc-reveal-batch="{{ reveal_batch }}"
+              >
+                {{ section.settings.load_more_label | default: 'Load more reviews' }}
+              </button>
+            </div>
+          {% endif %}
         </div>
       {% else %}
         <div class="cwc_home-reviews__empty">
@@ -122,6 +173,8 @@
     </div>
   </div>
 </section>
+
+{{ 'CWC_home_reviews.js' | asset_url | script_tag }}
 
 {% schema %}
 {
@@ -153,6 +206,13 @@
       "type": "url",
       "id": "view_all_link",
       "label": "View All Link"
+    },
+    {
+      "type": "text",
+      "id": "load_more_label",
+      "label": "Load More Label",
+      "info": "Button under the cards. Only appears once there are more than 4 reviews.",
+      "default": "Load more reviews"
     },
     {
       "type": "header",

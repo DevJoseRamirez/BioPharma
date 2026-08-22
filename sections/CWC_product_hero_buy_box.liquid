@@ -301,6 +301,29 @@
         {%- capture buy_box_blocks -%}
           {% for block in section.blocks %}
             {% case block.type %}
+              {%- comment -%}
+                App blocks. Anything a merchant adds from an installed app —
+                a review widget, a subscription widget, an upsell — renders
+                here, in whatever position it was dragged to, so an app widget
+                can sit anywhere among the native blocks rather than only above
+                or below them.
+
+                No shopify_attributes on the wrapper: an app block carries its
+                own, and adding a second set here would give the editor two
+                targets for the one block.
+
+                The wrapper is only for spacing, so a widget that ships with no
+                margins of its own does not butt up against the block above it.
+
+                Note this renders inside the product form. A widget that posts
+                its own <form> cannot be nested here — put that one in its own
+                section instead.
+              {%- endcomment -%}
+              {% when '@app' %}
+                <div class="cwc_product-hero-buy-box__app-block">
+                  {% render block %}
+                </div>
+
               {% when 'rating' %}
                 {% render 'CWC_pdp-rating__block', block: block %}
 
@@ -312,6 +335,19 @@
 
               {% when 'flavors' %}
                 {% render 'CWC_pdp-flavors__block',
+                  block: block,
+                  product: hero_product,
+                  current_variant: current_variant
+                %}
+
+              {% when 'product_options' %}
+                {%- comment -%}
+                  The generic picker: it reads the product's own options rather
+                  than being told which one to show, so a template shared across
+                  products with different option sets still renders the right
+                  controls on each. Renders nothing on a single-variant product.
+                {%- endcomment -%}
+                {% render 'CWC_pdp-product-options__block',
                   block: block,
                   product: hero_product,
                   current_variant: current_variant
@@ -330,8 +366,26 @@
                   group_label: block.settings.group_label
                 %}
 
+              {% when 'purchase_plans' %}
+                {%- comment -%}
+                  The typed-nothing alternative to the supply block: one card per
+                  selling plan the product actually carries. Use one or the
+                  other — both share the radio group, so both at once would let a
+                  shopper appear to hold two selections.
+                {%- endcomment -%}
+                {% render 'CWC_pdp-purchase-plans__block',
+                  block: block,
+                  product: hero_product,
+                  current_variant: current_variant,
+                  section_id: section.id
+                %}
+
               {% when 'onetime' %}
-                {% render 'CWC_pdp-onetime__block', block: block %}
+                {% render 'CWC_pdp-onetime__block',
+                  block: block,
+                  product: hero_product,
+                  current_variant: current_variant
+                %}
 
               {% when 'add_to_cart' %}
                 {% render 'CWC_pdp-atc__block',
@@ -688,6 +742,9 @@
   ],
   "blocks": [
     {
+      "type": "@app"
+    },
+    {
       "type": "rating",
       "name": "Rating",
       "limit": 1,
@@ -948,6 +1005,70 @@
       ]
     },
     {
+      "type": "product_options",
+      "name": "Product Options (Auto)",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Renders every option the product has, with no setup. Nothing shows on a product with no options, so this block is safe to leave in a template shared across many products. Use this instead of Flavor Swatches when one template serves products with different options."
+        },
+        {
+          "type": "select",
+          "id": "layout",
+          "label": "Control Style",
+          "default": "pill",
+          "options": [
+            {
+              "value": "pill",
+              "label": "Pills (text buttons)"
+            },
+            {
+              "value": "swatch",
+              "label": "Swatches (variant image)"
+            },
+            {
+              "value": "dropdown",
+              "label": "Dropdown"
+            }
+          ],
+          "info": "Applies to every option row. Swatches use each value's variant image."
+        },
+        {
+          "type": "range",
+          "id": "dropdown_threshold",
+          "label": "Switch To Dropdown Above",
+          "min": 2,
+          "max": 16,
+          "step": 1,
+          "default": 6,
+          "info": "An option with more values than this becomes a dropdown regardless of the style above."
+        },
+        {
+          "type": "checkbox",
+          "id": "show_labels",
+          "label": "Show Option Names",
+          "default": true
+        },
+        {
+          "type": "select",
+          "id": "label_style",
+          "label": "Label Format",
+          "default": "name",
+          "options": [
+            {
+              "value": "name",
+              "label": "Option name only"
+            },
+            {
+              "value": "with_value",
+              "label": "Option name + selected value"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "type": "supply",
       "name": "Supply Options",
       "limit": 1,
@@ -1059,9 +1180,18 @@
           "id": "opt1_billing_interval_unit",
           "label": "Billing Interval Unit",
           "options": [
-            { "value": "day", "label": "Days" },
-            { "value": "week", "label": "Weeks" },
-            { "value": "month", "label": "Months" }
+            {
+              "value": "day",
+              "label": "Days"
+            },
+            {
+              "value": "week",
+              "label": "Weeks"
+            },
+            {
+              "value": "month",
+              "label": "Months"
+            }
           ],
           "default": "week"
         },
@@ -1269,9 +1399,18 @@
           "id": "opt2_billing_interval_unit",
           "label": "Billing Interval Unit",
           "options": [
-            { "value": "day", "label": "Days" },
-            { "value": "week", "label": "Weeks" },
-            { "value": "month", "label": "Months" }
+            {
+              "value": "day",
+              "label": "Days"
+            },
+            {
+              "value": "week",
+              "label": "Weeks"
+            },
+            {
+              "value": "month",
+              "label": "Months"
+            }
           ],
           "default": "week"
         },
@@ -1474,9 +1613,18 @@
           "id": "opt3_billing_interval_unit",
           "label": "Billing Interval Unit",
           "options": [
-            { "value": "day", "label": "Days" },
-            { "value": "week", "label": "Weeks" },
-            { "value": "month", "label": "Months" }
+            {
+              "value": "day",
+              "label": "Days"
+            },
+            {
+              "value": "week",
+              "label": "Weeks"
+            },
+            {
+              "value": "month",
+              "label": "Months"
+            }
           ],
           "default": "week"
         },
@@ -1678,9 +1826,18 @@
           "id": "opt4_billing_interval_unit",
           "label": "Billing Interval Unit",
           "options": [
-            { "value": "day", "label": "Days" },
-            { "value": "week", "label": "Weeks" },
-            { "value": "month", "label": "Months" }
+            {
+              "value": "day",
+              "label": "Days"
+            },
+            {
+              "value": "week",
+              "label": "Weeks"
+            },
+            {
+              "value": "month",
+              "label": "Months"
+            }
           ],
           "default": "week"
         },
@@ -1802,21 +1959,148 @@
       ]
     },
     {
+      "type": "purchase_plans",
+      "name": "Purchase Plans (Auto)",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "One card per selling plan the product actually carries — no plan IDs, prices or intervals to type. Nothing shows on a product with no subscription plans. Use this OR Supply Options, never both."
+        },
+        {
+          "type": "text",
+          "id": "group_label",
+          "label": "Group Label",
+          "default": "Choose your plan"
+        },
+        {
+          "type": "select",
+          "id": "savings_style",
+          "label": "Savings Display",
+          "default": "percent",
+          "options": [
+            {
+              "value": "percent",
+              "label": "Percent (Save 15%)"
+            },
+            {
+              "value": "amount",
+              "label": "Amount (Save $11.24)"
+            },
+            {
+              "value": "both",
+              "label": "Both"
+            },
+            {
+              "value": "none",
+              "label": "Hide savings"
+            }
+          ]
+        },
+        {
+          "type": "select",
+          "id": "default_plan",
+          "label": "Pre-Selected Plan",
+          "default": "best_value",
+          "options": [
+            {
+              "value": "best_value",
+              "label": "Deepest discount"
+            },
+            {
+              "value": "first",
+              "label": "First plan"
+            },
+            {
+              "value": "none",
+              "label": "Nothing pre-selected"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "best_value_badge",
+          "label": "Best Value Badge",
+          "default": "Best value",
+          "info": "Shown on the deepest-discount card. Hidden automatically when no plan is discounted or there is only one plan."
+        },
+        {
+          "type": "checkbox",
+          "id": "show_plan_description",
+          "label": "Show Plan Description",
+          "default": false,
+          "info": "Uses the description written on the selling plan in your subscription app."
+        },
+        {
+          "type": "richtext",
+          "id": "perks",
+          "label": "Subscription Perks",
+          "info": "Shown inside the selected card. Applies to every plan on every product using this template, so keep it about subscribing rather than about a price."
+        }
+      ]
+    },
+    {
       "type": "onetime",
-      "name": "One-Time Purchase Link",
+      "name": "One-Time Purchase",
       "limit": 1,
       "settings": [
         {
           "type": "text",
           "id": "text",
           "label": "Text",
-          "default": "One-time purchase · $74.95 ($2.50/serving)"
+          "default": "One-time purchase"
+        },
+        {
+          "type": "select",
+          "id": "style",
+          "label": "Style",
+          "default": "link",
+          "options": [
+            {
+              "value": "link",
+              "label": "Link (underlined text)"
+            },
+            {
+              "value": "card",
+              "label": "Card (looks like an option)"
+            }
+          ]
+        },
+        {
+          "type": "select",
+          "id": "behavior",
+          "label": "On Click",
+          "default": "add_immediately",
+          "options": [
+            {
+              "value": "add_immediately",
+              "label": "Add to cart immediately"
+            },
+            {
+              "value": "select_only",
+              "label": "Select only (shopper presses Add To Cart)"
+            }
+          ],
+          "info": "Pair Card style with Select Only when the card sits among selectable plans — a card that looks like a radio but buys instantly surprises shoppers."
+        },
+        {
+          "type": "text",
+          "id": "sublabel",
+          "label": "Sub-Label",
+          "info": "Card style only."
+        },
+        {
+          "type": "checkbox",
+          "id": "show_price",
+          "label": "Show Price",
+          "default": false,
+          "info": "Uses the variant's own price and follows the option pickers."
         },
         {
           "type": "text",
           "id": "supply_value",
           "label": "Supply Option Value",
-          "info": "Which supply size a one-time purchase is, e.g. 30-Day Supply. Must match a value of the supply option named in Supply Options. The shopper's flavour is kept. Leave blank to keep whichever supply card is selected."
+          "info": "Only for products where supply is a real product option (NanoGreens). Leave blank otherwise."
         }
       ]
     },
@@ -1865,13 +2149,34 @@
           "label": "Icon",
           "info": "Used when no Icon Image is set. Drawn in the section's colors.",
           "options": [
-            { "value": "shield", "label": "Shield" },
-            { "value": "truck", "label": "Truck" },
-            { "value": "pause", "label": "Pause" },
-            { "value": "check", "label": "Check" },
-            { "value": "leaf", "label": "Leaf" },
-            { "value": "return", "label": "Return arrow" },
-            { "value": "none", "label": "None \u2014 use the character below" }
+            {
+              "value": "shield",
+              "label": "Shield"
+            },
+            {
+              "value": "truck",
+              "label": "Truck"
+            },
+            {
+              "value": "pause",
+              "label": "Pause"
+            },
+            {
+              "value": "check",
+              "label": "Check"
+            },
+            {
+              "value": "leaf",
+              "label": "Leaf"
+            },
+            {
+              "value": "return",
+              "label": "Return arrow"
+            },
+            {
+              "value": "none",
+              "label": "None — use the character below"
+            }
           ],
           "default": "shield"
         },
@@ -1903,13 +2208,34 @@
           "label": "Icon",
           "info": "Used when no Icon Image is set. Drawn in the section's colors.",
           "options": [
-            { "value": "shield", "label": "Shield" },
-            { "value": "truck", "label": "Truck" },
-            { "value": "pause", "label": "Pause" },
-            { "value": "check", "label": "Check" },
-            { "value": "leaf", "label": "Leaf" },
-            { "value": "return", "label": "Return arrow" },
-            { "value": "none", "label": "None \u2014 use the character below" }
+            {
+              "value": "shield",
+              "label": "Shield"
+            },
+            {
+              "value": "truck",
+              "label": "Truck"
+            },
+            {
+              "value": "pause",
+              "label": "Pause"
+            },
+            {
+              "value": "check",
+              "label": "Check"
+            },
+            {
+              "value": "leaf",
+              "label": "Leaf"
+            },
+            {
+              "value": "return",
+              "label": "Return arrow"
+            },
+            {
+              "value": "none",
+              "label": "None — use the character below"
+            }
           ],
           "default": "truck"
         },
@@ -1941,13 +2267,34 @@
           "label": "Icon",
           "info": "Used when no Icon Image is set. Drawn in the section's colors.",
           "options": [
-            { "value": "shield", "label": "Shield" },
-            { "value": "truck", "label": "Truck" },
-            { "value": "pause", "label": "Pause" },
-            { "value": "check", "label": "Check" },
-            { "value": "leaf", "label": "Leaf" },
-            { "value": "return", "label": "Return arrow" },
-            { "value": "none", "label": "None \u2014 use the character below" }
+            {
+              "value": "shield",
+              "label": "Shield"
+            },
+            {
+              "value": "truck",
+              "label": "Truck"
+            },
+            {
+              "value": "pause",
+              "label": "Pause"
+            },
+            {
+              "value": "check",
+              "label": "Check"
+            },
+            {
+              "value": "leaf",
+              "label": "Leaf"
+            },
+            {
+              "value": "return",
+              "label": "Return arrow"
+            },
+            {
+              "value": "none",
+              "label": "None — use the character below"
+            }
           ],
           "default": "pause"
         },
@@ -2389,9 +2736,18 @@
           "id": "style",
           "label": "Button Style",
           "options": [
-            { "value": "tint", "label": "Tinted green" },
-            { "value": "outline", "label": "Outlined" },
-            { "value": "solid", "label": "Solid green" }
+            {
+              "value": "tint",
+              "label": "Tinted green"
+            },
+            {
+              "value": "outline",
+              "label": "Outlined"
+            },
+            {
+              "value": "solid",
+              "label": "Solid green"
+            }
           ],
           "default": "tint"
         }
@@ -2429,6 +2785,42 @@
         },
         {
           "type": "detail"
+        },
+        {
+          "type": "detail"
+        },
+        {
+          "type": "sticky_atc"
+        }
+      ]
+    },
+    {
+      "name": "Product Hero Buy Box (Shared Template)",
+      "category": "CWC Custom",
+      "blocks": [
+        {
+          "type": "rating"
+        },
+        {
+          "type": "title"
+        },
+        {
+          "type": "key_benefits"
+        },
+        {
+          "type": "product_options"
+        },
+        {
+          "type": "purchase_plans"
+        },
+        {
+          "type": "onetime"
+        },
+        {
+          "type": "add_to_cart"
+        },
+        {
+          "type": "trust_icons"
         },
         {
           "type": "detail"

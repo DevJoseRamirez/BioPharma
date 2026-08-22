@@ -188,6 +188,54 @@
   color: var(--muted-color);
 }
 
+/* === Load More ===
+   Cards past the initial four are rendered with `hidden`. Nothing sets a
+   display on the card, so the UA rule for [hidden] would already hold — this
+   states it anyway, because a later display rule on the card would silently
+   beat it and put every hidden review back on the page. */
+.cwc_home-reviews__card[hidden] {
+  display: none;
+}
+
+/* Spans both card columns so the button sits under the grid rather than in
+   line with a card. Collapses to the single column on mobile untouched. */
+.cwc_home-reviews__more {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: center;
+  margin-top: 0.375rem;
+}
+
+.cwc_home-reviews__more-button {
+  font-family: inherit;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text-color);
+  background: transparent;
+  border: 1px solid var(--border-color);
+  border-radius: 999px;
+  padding: 0.75rem 1.75rem;
+  cursor: pointer;
+  transition: border-color 0.18s ease, color 0.18s ease;
+}
+
+.cwc_home-reviews__more-button:hover {
+  border-color: var(--eyebrow-color);
+  color: var(--eyebrow-color);
+}
+
+.cwc_home-reviews__more-button:focus-visible {
+  outline: 2px solid var(--eyebrow-color);
+  outline-offset: 2px;
+}
+
+/* The script moves focus to the first card it reveals; this ring is the only
+   thing that tells a keyboard user where they landed. */
+.cwc_home-reviews__card:focus-visible {
+  outline: 2px solid var(--eyebrow-color);
+  outline-offset: 2px;
+}
+
 /* === Empty State === */
 .cwc_home-reviews__empty {
   text-align: center;

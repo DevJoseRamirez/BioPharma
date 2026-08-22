@@ -160,16 +160,39 @@
     var onetime = sectionEl.querySelector('[data-cwc-onetime]');
 
     /**
-     * Flavour and supply can each be a real product option, which makes the
-     * variant a function of both rather than of whichever was clicked last.
-     * These hold the 1-based option position each control drives, or 0 when
-     * that control is not bound to an option — in which case the old behaviour
-     * stands and its swatches address a variant directly.
+     * Options and supply can each be a real product option, which makes the
+     * variant a function of all of them rather than of whichever was clicked
+     * last.
+     *
+     * There can be any number of option rows now — the auto options block emits
+     * one per option the product has — so a row's position is read off the row
+     * itself rather than off a single element found once. supplyPosition stays
+     * a section-level lookup because the supply block is limited to one.
      */
-    var flavorsEl = sectionEl.querySelector('[data-cwc-flavor-position]');
+    var optionSelects = sectionEl.querySelectorAll('[data-cwc-option-select]');
     var offersEl = sectionEl.querySelector('[data-cwc-supply-position]');
-    var flavorPosition = flavorsEl ? parseInt(flavorsEl.getAttribute('data-cwc-flavor-position'), 10) : 0;
     var supplyPosition = offersEl ? parseInt(offersEl.getAttribute('data-cwc-supply-position'), 10) : 0;
+
+    /**
+     * The option row a control belongs to, and the position that row drives.
+     *
+     * Rows are identified by the position attribute itself rather than by a
+     * wrapper class, which is what lets the flavors block and the auto options
+     * block share every handler below: one puts the attribute on its swatch row,
+     * the other on a row per option, and both answer the same question.
+     */
+    function rowOf(el) {
+      return el && el.closest ? el.closest('[data-cwc-flavor-position]') : null;
+    }
+
+    function positionOf(row) {
+      if (!row) return 0;
+      return parseInt(row.getAttribute('data-cwc-flavor-position'), 10) || 0;
+    }
+
+    function optionRows() {
+      return sectionEl.querySelectorAll('[data-cwc-flavor-position]');
+    }
 
     // position -> chosen value, for the options this section actually drives
     var chosen = {};
@@ -271,12 +294,29 @@
     function announce() {
       var selected = sectionEl.querySelector('.' + SELECTED_OFFER);
       var priceEl = selected ? selected.querySelector('[data-cwc-offer-now]') : null;
+      var price = priceEl ? priceEl.textContent.trim() : '';
 
-      syncSticky(
-        selected ? selected.getAttribute('data-cwc-offer-name') : '',
-        priceEl ? priceEl.textContent.trim() : '',
-        selected ? selected.getAttribute('data-cwc-offer-sub') : ''
-      );
+      /**
+       * No plan card is selected — an options-only product with no subscription
+       * at all, or the one-time card. The bar then quotes the variant itself,
+       * which is what the button will actually charge. Without this it keeps
+       * whatever it was rendered with and does not follow a size change.
+       */
+      if (!price && variantInput) {
+        var shown = findVariant(variants, variantInput.value);
+        if (shown && shown.price) price = shown.price;
+      }
+
+      /**
+       * With no plan card live the chip would keep the last plan's name, which
+       * outright contradicts a one-time selection sitting right above it.
+       */
+      var label = selected ? selected.getAttribute('data-cwc-offer-name') : '';
+      if (!label && onetime && onetime.classList.contains(SELECTED_ONETIME)) {
+        label = onetime.getAttribute('data-cwc-onetime-label') || '';
+      }
+
+      syncSticky(label, price, selected ? selected.getAttribute('data-cwc-offer-sub') : '');
 
       sectionEl.dispatchEvent(
         new CustomEvent('cwc:buybox:change', {
@@ -286,8 +326,8 @@
             variantId: variantInput ? variantInput.value : '',
             sellingPlan: planInput ? planInput.value : '',
             quantity: quantityInput ? quantityInput.value : '1',
-            price: priceEl ? priceEl.textContent.trim() : '',
-            label: selected ? selected.getAttribute('data-cwc-offer-name') || '' : ''
+            price: price,
+            label: label
           }
         })
       );
@@ -345,7 +385,12 @@
 
     function selectOffer(offerEl) {
       clearOffers();
-      if (onetime) onetime.classList.remove(SELECTED_ONETIME);
+      if (onetime) {
+        onetime.classList.remove(SELECTED_ONETIME);
+        // The card style wears the offer card's own selected class, so picking a
+        // plan has to take that off as well or two cards read as selected.
+        onetime.classList.remove(SELECTED_OFFER);
+      }
 
       offerEl.classList.add(SELECTED_OFFER);
       var radio = offerEl.querySelector('.cwc_product-hero-buy-box__offer-input');
@@ -534,6 +579,11 @@
       onetime.addEventListener('click', function () {
         clearOffers();
         onetime.classList.add(SELECTED_ONETIME);
+        // Card style sits among the plan cards, so it has to hold the same
+        // selected state they do rather than only the link's own.
+        if (onetime.hasAttribute('data-cwc-onetime-card')) {
+          onetime.classList.add(SELECTED_OFFER);
+        }
         setPlan('');
         if (quantityInput) quantityInput.value = '1';
 
@@ -557,6 +607,15 @@
         }
 
         announce();
+
+        /**
+         * Select Only stops here. The card is now the live selection — plan
+         * cleared, variant resolved — and the shopper presses Add To Cart
+         * themselves, which is what a card sitting among selectable plans has to
+         * do to avoid looking like a radio that buys on touch.
+         */
+        if (onetime.getAttribute('data-cwc-onetime-behavior') === 'select_only') return;
+
         addOneTimeToCart();
       });
     }
@@ -587,7 +646,75 @@
       }
 
       refreshOfferPrices(variant);
+      refreshOneTimePrice(variant);
+      refreshOptionAvailability();
+      syncOptionLabels();
       announce();
+    }
+
+    /**
+     * The one-time card quotes the variant's own price rather than a plan's, so
+     * it has to follow the option pickers the way the plan cards do — a size
+     * change that re-prices every card but this one is worse than not showing
+     * the price at all.
+     */
+    function refreshOneTimePrice(variant) {
+      if (!variant) return;
+
+      var priceEl = sectionEl.querySelector('[data-cwc-onetime-price]');
+      var compareEl = sectionEl.querySelector('[data-cwc-onetime-compare]');
+
+      if (priceEl && variant.price) priceEl.textContent = variant.price;
+      if (compareEl) {
+        compareEl.textContent = variant.compare || '';
+        compareEl.style.display = variant.compare ? '' : 'none';
+      }
+    }
+
+    /**
+     * Dim the option values that are not available beside the rest of the
+     * current selection.
+     *
+     * Recomputed on every variant change rather than only at render, because
+     * "Large is sold out" is only ever true of a particular flavour — picking
+     * the other one has to bring it back.
+     *
+     * A value with no stock at all was disabled by the server and is left alone:
+     * no combination is going to change it.
+     */
+    function refreshOptionAvailability() {
+      optionRows().forEach(function (row) {
+        var position = positionOf(row);
+        if (!position) return;
+
+        row.querySelectorAll('[data-cwc-flavor-value]').forEach(function (control) {
+          // <option> has no class list worth toggling; the select's own list
+          // already carries the sold-out wording from the server.
+          if (control.tagName === 'OPTION') return;
+
+          var match = variantMatching(
+            combinationWith(position, control.getAttribute('data-cwc-flavor-value'))
+          );
+
+          control.classList.toggle(
+            'cwc_product-hero-buy-box__flavor--unavailable',
+            !match || !match.available
+          );
+        });
+      });
+    }
+
+    /**
+     * The "Size: Large" half of an option label, for the rows that show it.
+     */
+    function syncOptionLabels() {
+      optionRows().forEach(function (row) {
+        var currentEl = row.querySelector('[data-cwc-option-current]');
+        if (!currentEl) return;
+
+        var position = positionOf(row);
+        if (position && chosen[position]) currentEl.textContent = chosen[position];
+      });
     }
 
     /**
@@ -613,7 +740,21 @@
         }
 
         var pricing = variant && planId && variant.plans ? variant.plans[planId] : null;
-        if (!pricing) return;
+
+        /**
+         * A plan this variant does not carry.
+         *
+         * Supply cards resolve their own variant above and always land on one,
+         * so this only fires for the auto plan cards on a product whose variants
+         * differ in which plans they offer — where leaving the card up would
+         * quote the previous variant's price for a plan that cannot be bought.
+         */
+        if (!pricing) {
+          if (planId && offerEl.hasAttribute('data-cwc-offer-auto')) offerEl.hidden = true;
+          return;
+        }
+
+        offerEl.hidden = false;
 
         var nowEl = offerEl.querySelector('[data-cwc-offer-now]');
         var wasEl = offerEl.querySelector('[data-cwc-offer-was]');
@@ -633,6 +774,23 @@
           savingEl.style.display = pricing.save ? '' : 'none';
         }
       });
+
+      /**
+       * The selection may have just been hidden. Move it to the first card still
+       * standing rather than leaving the form pointing at a plan that is gone.
+       *
+       * Only auto plan cards are ever hidden above, and those carry no supply
+       * value, so selecting one does not re-resolve the variant — which is what
+       * keeps this from re-entering refreshOfferPrices through selectOffer.
+       */
+      var selected = sectionEl.querySelector('.' + SELECTED_OFFER);
+      if (selected && selected.hidden) {
+        var replacement = null;
+        offers.forEach(function (candidate) {
+          if (!replacement && !candidate.hidden) replacement = candidate;
+        });
+        if (replacement) selectOffer(replacement);
+      }
     }
 
     /**
@@ -648,20 +806,53 @@
     flavors.forEach(function (flavorEl) {
       flavorEl.addEventListener('click', function () {
         if (flavorEl.disabled) return;
-        flavors.forEach(function (item) {
+
+        var row = rowOf(flavorEl);
+
+        /**
+         * Selection is cleared inside the row only.
+         *
+         * Clearing it across the section — which is what this did when a single
+         * flavour row was the only possibility — would have picking a Size
+         * visually deselect the Flavor sitting above it.
+         */
+        var scope = row || sectionEl;
+        scope.querySelectorAll('[data-cwc-variant]').forEach(function (item) {
           item.classList.remove(SELECTED_FLAVOR);
         });
         flavorEl.classList.add(SELECTED_FLAVOR);
 
         // Bound to a product option: record the value and resolve against every
-        // choice, so the supply size the shopper picked survives the change.
+        // choice, so the other options the shopper picked survive the change.
         // Unbound: the swatch is a variant in its own right, as before.
+        var position = positionOf(row);
         var flavorValue = flavorEl.getAttribute('data-cwc-flavor-value');
-        if (flavorPosition && flavorValue) {
-          chosen[flavorPosition] = flavorValue;
+
+        if (position && flavorValue) {
+          chosen[position] = flavorValue;
           syncVariant();
         } else {
           applyVariant(flavorEl.getAttribute('data-cwc-variant'));
+        }
+      });
+    });
+
+    /**
+     * Dropdown rows. A long value run collapses to a select rather than a wall
+     * of pills, and it drives exactly the same state the buttons do.
+     */
+    optionSelects.forEach(function (selectEl) {
+      selectEl.addEventListener('change', function () {
+        var picked = selectEl.options[selectEl.selectedIndex];
+        if (!picked) return;
+
+        var position = positionOf(rowOf(selectEl));
+
+        if (position) {
+          chosen[position] = picked.value;
+          syncVariant();
+        } else {
+          applyVariant(picked.getAttribute('data-cwc-variant'));
         }
       });
     });
@@ -1088,26 +1279,62 @@
     initMediaPopups(sectionEl);
 
     /**
-     * Seed the option state from what the server already marked as selected.
+     * Seed the option state from what the server already marked as selected —
+     * every row, not just the first.
      *
-     * Without this the first resolve would see only the supply half of the
-     * combination — selectOffer runs below and records its own value — and
-     * would pick an arbitrary flavour for the shopper.
+     * Without this the first resolve would see only part of the combination —
+     * selectOffer runs below and records the supply value — and would pick an
+     * arbitrary value for every option the shopper has not touched yet.
      */
-    var initialFlavor = sectionEl.querySelector('.' + SELECTED_FLAVOR + '[data-cwc-flavor-value]');
-    if (!initialFlavor) {
-      initialFlavor = sectionEl.querySelector('[data-cwc-flavor-value]');
-    }
-    if (flavorPosition && initialFlavor) {
-      chosen[flavorPosition] = initialFlavor.getAttribute('data-cwc-flavor-value');
+    optionRows().forEach(function (row) {
+      var position = positionOf(row);
+      if (position === 0) return;
+
+      var selectEl = row.querySelector('[data-cwc-option-select]');
+      if (selectEl) {
+        if (selectEl.value) chosen[position] = selectEl.value;
+        return;
+      }
+
+      var seed =
+        row.querySelector('.' + SELECTED_FLAVOR + '[data-cwc-flavor-value]') ||
+        row.querySelector('[data-cwc-flavor-value]');
+
+      if (seed) chosen[position] = seed.getAttribute('data-cwc-flavor-value');
+    });
+
+    /**
+     * The auto plan block can be set to pre-select nothing, which the fallback
+     * below would otherwise undo on the next line by selecting the first card.
+     */
+    var noAutoSelect = sectionEl.querySelector('[data-cwc-no-autoselect]') !== null;
+    var initiallySelected = sectionEl.querySelector('.' + SELECTED_OFFER);
+
+    if (initiallySelected) {
+      selectOffer(initiallySelected);
+    } else if (offers.length && !noAutoSelect) {
+      selectOffer(offers[0]);
+    } else {
+      /**
+       * No plan card is live — a one-time-only product, or a deliberate "pick
+       * one" start. Nothing has resolved the variant from the seeded options or
+       * primed the sticky bar, so do both once here.
+       *
+       * Only when there is actually a seeded combination to resolve. Resolving
+       * an empty one matches every variant and returns the first available,
+       * which would throw away a variant the shopper arrived on through a
+       * ?variant= link on any product with no option row to seed from.
+       */
+      var hasSeed = false;
+      for (var seededPosition in chosen) {
+        if (Object.prototype.hasOwnProperty.call(chosen, seededPosition)) hasSeed = true;
+      }
+      if (hasSeed) syncVariant();
+
+      announce();
     }
 
-    var initiallySelected = sectionEl.querySelector('.' + SELECTED_OFFER);
-    if (!initiallySelected && offers.length) {
-      selectOffer(offers[0]);
-    } else if (initiallySelected) {
-      selectOffer(initiallySelected);
-    }
+    refreshOptionAvailability();
   }
 
   /**

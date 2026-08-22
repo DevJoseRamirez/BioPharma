@@ -1,0 +1,236 @@
+{% comment %}
+  The product's own selling plans, as cards, with nothing typed in.
+
+  The supply block asks for a plan id, an interval, a price and a saving per
+  card. That is right for NanoGreens, where each option is merchandised — gifts,
+  an add-on, a per-serving figure — and wrong for a template assigned to
+  twenty-eight products, because every one of those four values differs per
+  product and a typed one would be silently wrong on all but the product it was
+  typed for.
+
+  So this block types none of them. It walks the current variant's selling plan
+  allocations and renders a card per plan: name from the plan, price from the
+  allocation, saving computed against the allocation's own compare-at. A product
+  with no plans renders nothing, which is what makes the block safe to leave in
+  the template for the one-time-only products.
+
+  Prices are the real charge, undivided. The supply block normalises every card
+  to a 4-week rate so a quarterly plan can be compared against a monthly one;
+  that only works because the interval is typed in there, and there is no
+  reliable interval to read off a selling plan. Showing the actual amount is the
+  honest alternative, and the plan name carries the cadence — Loop writes
+  "Delivered every month" — so the card still says how often it charges.
+
+  Cards emit the same data-cwc-offer attributes the supply cards do and share
+  their radio group name, so the sticky bar's plan menu, the add-to-cart form
+  and the price refresh all treat the two interchangeably. The two blocks are
+  alternatives, not companions: use this one or that one, not both.
+
+  Accepts:
+  - block {Object} - the purchase_plans block.
+  - product {Object} - product being sold.
+  - current_variant {Object} - variant whose allocations are rendered.
+  - section_id {String} - scopes the radio group name to this section.
+
+  Usage:
+  {% render 'CWC_pdp-purchase-plans__block',
+    block: block,
+    product: product,
+    current_variant: current_variant,
+    section_id: section.id
+  %}
+{% endcomment %}
+
+{%- liquid
+  assign allocations = current_variant.selling_plan_allocations
+  assign savings_style = block.settings.savings_style | default: 'percent'
+  assign default_plan = block.settings.default_plan | default: 'best_value'
+
+  comment
+    Which card carries the badge and, unless the block says otherwise, the
+    initial selection. Decided by the deepest discount rather than by position,
+    because the plan order Shopify returns is the order they were created in and
+    has nothing to do with which is the better deal.
+
+    Held as an id, not an index: the loop below runs over the same collection,
+    so comparing ids is enough and there is no counter to keep in step.
+  endcomment
+  assign best_plan_id = 0
+  assign best_discount = 0
+
+  for allocation in allocations
+    assign alloc_compare = allocation.compare_at_price | default: 0
+    if alloc_compare > allocation.price
+      assign alloc_discount = alloc_compare | minus: allocation.price | times: 10000 | divided_by: alloc_compare
+      if alloc_discount > best_discount
+        assign best_discount = alloc_discount
+        assign best_plan_id = allocation.selling_plan.id
+      endif
+    endif
+  endfor
+
+  comment
+    Nothing is discounted — a flat subscription. The badge then has no deal to
+    point at, so it falls to the first plan only when it is being used as the
+    default marker rather than as a "best value" claim.
+  endcomment
+  if best_plan_id == 0 and allocations.size > 0
+    assign best_plan_id = allocations.first.selling_plan.id
+  endif
+-%}
+
+{%- if allocations.size > 0 -%}
+  <div {{ block.shopify_attributes }}>
+    {% if block.settings.group_label != blank %}
+      <div class="cwc_product-hero-buy-box__label">{{ block.settings.group_label }}</div>
+    {% endif %}
+
+    {%- comment -%}
+      "Nothing pre-selected" has to be announced, not just left undone: the
+      script selects the first card when it finds none selected, which would
+      quietly undo the setting on the next line.
+    {%- endcomment -%}
+    <div
+      class="cwc_product-hero-buy-box__offers"
+      data-cwc-offers
+      {% if default_plan == 'none' %}
+        data-cwc-no-autoselect
+      {% endif %}
+    >
+      {%- assign default_taken = false -%}
+
+      {%- for allocation in allocations -%}
+        {%- liquid
+          assign plan = allocation.selling_plan
+          assign plan_price = allocation.price
+          assign plan_compare = allocation.compare_at_price | default: 0
+
+          assign has_saving = false
+          if plan_compare > plan_price
+            assign has_saving = true
+            assign saving_amount = plan_compare | minus: plan_price
+            assign saving_percent = saving_amount | times: 100 | divided_by: plan_compare
+          endif
+
+          assign is_best = false
+          if plan.id == best_plan_id
+            assign is_best = true
+          endif
+
+          comment
+            One card starts selected, and only one. "None" is deliberately
+            allowed: a shopper who must pick is a shopper who read the options,
+            and on a two-card product that is a fair trade for the extra click.
+          endcomment
+          assign is_selected = false
+          if default_taken == false
+            case default_plan
+              when 'best_value'
+                if is_best
+                  assign is_selected = true
+                endif
+              when 'first'
+                if forloop.first
+                  assign is_selected = true
+                endif
+            endcase
+          endif
+          if is_selected
+            assign default_taken = true
+          endif
+
+          comment
+            The badge is a claim about price, so it is withheld when no plan is
+            discounted — labelling the only plan "Best value" says nothing.
+          endcomment
+          assign show_badge = false
+          if block.settings.best_value_badge != blank and is_best and best_discount > 0 and allocations.size > 1
+            assign show_badge = true
+          endif
+
+          assign save_label = ''
+          if has_saving
+            case savings_style
+              when 'percent'
+                assign save_label = 'Save ' | append: saving_percent | append: '%'
+              when 'amount'
+                assign save_label = 'Save ' | append: saving_amount | money
+              when 'both'
+                assign save_label = 'Save ' | append: saving_percent | append: '% · ' | append: saving_amount | money
+            endcase
+          endif
+        -%}
+
+        <label
+          class="cwc_product-hero-buy-box__offer{% if is_selected %} cwc_product-hero-buy-box__offer--selected{% endif %}"
+          data-cwc-offer
+          {%- comment -%}
+            Marks the card as generated from the product's own plans. The script
+            hides a card whose plan the selected variant cannot be bought on, and
+            that is only safe to do for cards it generated: a supply card with a
+            mistyped plan id would otherwise vanish instead of falling back to
+            its typed prices, which is a far harder mistake to spot.
+          {%- endcomment -%}
+          data-cwc-offer-auto
+          data-cwc-offer-plan="{{ plan.id }}"
+          data-cwc-offer-quantity="1"
+          data-cwc-offer-variant="{{ current_variant.id }}"
+          data-cwc-offer-name="{{ plan.name | escape }}"
+          data-cwc-offer-sub="{{ save_label | escape }}"
+        >
+          {% if show_badge %}
+            <span class="cwc_product-hero-buy-box__offer-badge">{{ block.settings.best_value_badge }}</span>
+          {% endif %}
+
+          <input
+            type="radio"
+            name="cwc_supply_{{ section_id }}"
+            class="cwc_product-hero-buy-box__offer-input"
+            value="{{ block.id }}-{{ plan.id }}"
+            {% if is_selected %}
+              checked
+            {% endif %}
+          >
+
+          <span class="cwc_product-hero-buy-box__offer-radio" aria-hidden="true"></span>
+
+          <span class="cwc_product-hero-buy-box__offer-body">
+            <span class="cwc_product-hero-buy-box__offer-name">
+              {{ plan.name }}
+              {% if save_label != blank %}
+                <span class="cwc_product-hero-buy-box__offer-save{% unless is_selected %} cwc_product-hero-buy-box__offer-save--dim{% endunless %}">
+                  {{ save_label }}
+                </span>
+              {% endif %}
+            </span>
+
+            {% if block.settings.show_plan_description and plan.description != blank %}
+              <span class="cwc_product-hero-buy-box__offer-description">{{ plan.description }}</span>
+            {% endif %}
+
+            <span class="cwc_product-hero-buy-box__offer-price">
+              <span class="cwc_product-hero-buy-box__offer-now" data-cwc-offer-now>{{ plan_price | money }}</span>
+              {% if has_saving %}
+                <span class="cwc_product-hero-buy-box__offer-was" data-cwc-offer-was>{{ plan_compare | money }}</span>
+              {% endif %}
+            </span>
+
+            {%- comment -%}
+              The perks strip is typed copy that applies to every plan on every
+              product the template serves, so it says what subscribing means
+              rather than what this plan costs. Left blank it does not render and
+              the card has no open state at all.
+            {%- endcomment -%}
+            {%- if block.settings.perks != blank -%}
+              <span class="cwc_product-hero-buy-box__offer-details" data-cwc-offer-details>
+                <span class="cwc_product-hero-buy-box__offer-details-inner">
+                  <span class="cwc_product-hero-buy-box__offer-perks cwc-rte">{{ block.settings.perks }}</span>
+                </span>
+              </span>
+            {%- endif -%}
+          </span>
+        </label>
+      {%- endfor -%}
+    </div>
+  </div>
+{%- endif -%}

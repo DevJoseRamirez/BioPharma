@@ -363,6 +363,18 @@
   border-left: 1px solid rgb(240 234 228 / 760%) !important;
 }
 
+/* === App Blocks ===
+   Wrapper for any app block dropped into the buy-box column. Nothing is styled
+   inside it — the app owns its own markup — only the gap to the block above, so
+   a widget that ships without margins does not sit flush against it. */
+.cwc_product-hero-buy-box__app-block {
+  margin: 0 0 16px;
+}
+
+.cwc_product-hero-buy-box__app-block:empty {
+  margin: 0;
+}
+
 /* === Buy Box Header === */
 .cwc_product-hero-buy-box__rating {
   display: flex;
@@ -651,6 +663,13 @@
 .cwc_product-hero-buy-box__offer--selected {
   border-color: var(--highlight-color);
   background: var(--card-selected-bg);
+}
+
+/* The script hides a card whose plan the current variant cannot be bought on.
+   __offer sets display:flex, which outranks the [hidden] attribute's own
+   display:none, so the card has to be taken out explicitly. */
+.cwc_product-hero-buy-box__offer[hidden] {
+  display: none;
 }
 
 .cwc_product-hero-buy-box__offer-badge {
@@ -1599,4 +1618,166 @@
     font-size: 1.5312rem;
   }
 
+}
+/* ==============================
+   Product Options (Auto)
+
+   The generic picker. It reads the product's own options rather than being
+   configured per product, so one template can serve a catalogue whose products
+   do not share an option set.
+
+   Selection and availability reuse the flavor block's two state modifiers
+   (--selected / --unavailable) rather than introducing a second pair, which is
+   what lets one script constant drive both blocks.
+   ============================== */
+.cwc_product-hero-buy-box__options {
+  display: flex;
+  flex-direction: column;
+}
+
+.cwc_product-hero-buy-box__option-row + .cwc_product-hero-buy-box__option-row {
+  margin-top: 4px;
+}
+
+/* The selected value, printed beside the option name. Cased and weighted apart
+   from the label so the pair reads as "Size: Large" rather than as one string. */
+.cwc_product-hero-buy-box__option-current {
+  margin-left: 6px;
+  color: var(--text-color);
+  font-weight: 700;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.cwc_product-hero-buy-box__option-values {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 4px 0;
+}
+
+/* Swatch rows sit further apart: the selection ring is drawn outside the
+   circle, so a tight gap would have neighbouring rings touch. */
+.cwc_product-hero-buy-box__option-values--swatch {
+  gap: 16px;
+}
+
+.cwc_product-hero-buy-box__option-value {
+  font-family: inherit;
+  cursor: pointer;
+  padding: 0;
+  border: 0;
+  background: none;
+}
+
+/* === Pills === */
+.cwc_product-hero-buy-box__option-value--pill {
+  border: 1px solid var(--border-color);
+  background: var(--card-bg);
+  border-radius: 999px;
+  padding: 9px 18px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-color);
+  transition: border-color 0.15s, background-color 0.15s;
+}
+
+.cwc_product-hero-buy-box__option-value--pill:hover:not(:disabled) {
+  border-color: var(--tint-border);
+}
+
+.cwc_product-hero-buy-box__option-value--pill.cwc_product-hero-buy-box__flavor--selected {
+  border-color: var(--highlight-color);
+  background: var(--card-selected-bg);
+  color: var(--deep-color);
+}
+
+/* Struck through rather than merely dimmed: on a pill the label is the whole
+   control, so the state has to be legible in the text itself. */
+.cwc_product-hero-buy-box__option-value--pill.cwc_product-hero-buy-box__flavor--unavailable
+  .cwc_product-hero-buy-box__option-value-text {
+  text-decoration: line-through;
+}
+
+/* === Swatches ===
+
+   Borrows the flavor swatch's inner markup, so only the outer button box needs
+   describing here — everything below __flavor-swatch is already styled. */
+.cwc_product-hero-buy-box__option-value--swatch {
+  flex: 1 1 0;
+  min-width: 74px;
+  max-width: 74px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  text-align: center;
+}
+
+/* === Dropdown === */
+.cwc_product-hero-buy-box__option-select {
+  width: 100%;
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-color);
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 12px 14px;
+  cursor: pointer;
+  /* the native arrow is inconsistent across platforms and sits too close to the
+     edge on Windows; drawn instead, with room reserved for it on the right */
+  appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, var(--muted-color) 50%),
+    linear-gradient(135deg, var(--muted-color) 50%, transparent 50%);
+  background-position: calc(100% - 20px) calc(50% + 2px), calc(100% - 15px) calc(50% + 2px);
+  background-size: 5px 5px, 5px 5px;
+  background-repeat: no-repeat;
+  padding-right: 38px;
+}
+
+.cwc_product-hero-buy-box__option-select:focus-visible {
+  outline: 2px solid var(--highlight-color);
+  outline-offset: 2px;
+}
+
+.cwc_product-hero-buy-box__option-value:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ==============================
+   One-Time Purchase — card style
+
+   A button wearing the offer card's chrome. Only the differences from a real
+   card belong here: a button does not inherit the label's text alignment, font
+   or width, and it has a default border box of its own to clear.
+   ============================== */
+.cwc_product-hero-buy-box__onetime-card {
+  width: 100%;
+  font-family: inherit;
+  text-align: left;
+  /* the offer card's own padding and border come from __offer; this only stops
+     the button's user-agent defaults from doubling them */
+  appearance: none;
+}
+
+/* ==============================
+   Product Options — Mobile
+   ============================== */
+@media screen and (max-width: 768px) {
+  .cwc_product-hero-buy-box__option-values--swatch {
+    gap: 10px;
+  }
+
+  .cwc_product-hero-buy-box__option-value--swatch {
+    min-width: 64px;
+    max-width: 64px;
+  }
+
+  .cwc_product-hero-buy-box__option-value--pill {
+    padding: 8px 15px;
+    font-size: 0.85rem;
+  }
 }

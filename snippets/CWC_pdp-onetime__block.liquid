@@ -1,39 +1,125 @@
 {% comment %}
-  One-time purchase escape hatch, shown under the supply options.
+  One-time purchase, shown under the subscription options.
 
-  Clicking it is a buy action, not just a selection: the script clears the
-  selling plan, sets quantity to 1, and submits the surrounding product form, so
-  the plain product goes to the cart on its own.
+  Two shapes, from one setting. As a Link it is the quiet escape hatch it has
+  always been. As a Card it borrows the offer card's chrome and sits in the
+  stack looking like one more option — which is what a product whose real choice
+  is "once or monthly" wants, without one-time having to become a selling plan
+  it is not.
 
-  Supply is a product option, so the variant is a function of flavour AND supply
-  — dropping the plan alone is not enough. Without a supply of its own this link
-  would add whichever supply card was last selected, one-time, which reads to a
-  shopper as the choice being ignored. Supply Option Value names the size a
-  one-time purchase is, and the script resolves it against the flavour the
-  shopper is on rather than pinning a variant, so the flavour survives.
+  Two behaviours, likewise. Add Immediately keeps the original contract: the
+  click clears the selling plan, sets quantity to 1 and submits the form, so the
+  plain product goes to the cart on its own. Select Only makes it a selection
+  and nothing more — the plan is cleared and the card marked, and the shopper
+  presses Add To Cart themselves.
 
-  Left blank the link keeps the previously selected supply, which is the old
-  behaviour — right for a product whose supply is not a real option.
+  Card + Add Immediately is a deliberate combination, not an accident: it looks
+  like a radio and behaves like a button. Pair Card with Select Only when the
+  card sits among selectable plans, which is the case it was added for.
+
+  Supply is a product option on NanoGreens, so clearing the plan is only half of
+  it — without a supply of its own this would add whichever supply card was last
+  selected, which reads to a shopper as the choice being ignored. Supply Option
+  Value names the size a one-time purchase is, and the script resolves it against
+  the flavour the shopper is on rather than pinning a variant, so the flavour
+  survives. Left blank the previously selected variant stands, which is right for
+  every product whose supply is not an option.
 
   Accepts:
-  - block {Object} - the onetime block. Reads settings.text and
+  - block {Object} - the onetime block. Reads settings.text, settings.style,
+    settings.behavior, settings.sublabel, settings.show_price,
     settings.supply_value.
+  - product {Object} - product being sold; blank in preview.
+  - current_variant {Object} - variant whose price is quoted on the card.
 
   Usage:
-  {% render 'CWC_pdp-onetime__block', block: block %}
+  {% render 'CWC_pdp-onetime__block',
+    block: block,
+    product: product,
+    current_variant: current_variant
+  %}
 {% endcomment %}
 
+{%- liquid
+  assign onetime_style = block.settings.style | default: 'link'
+  assign onetime_behavior = block.settings.behavior | default: 'add_immediately'
+-%}
+
 {%- if block.settings.text != blank -%}
-  <div class="cwc_product-hero-buy-box__onetime" {{ block.shopify_attributes }}>
+  {%- if onetime_style == 'card' -%}
+    {%- comment -%}
+      A button, not a label with a radio inside it. The radio in an offer card
+      belongs to the supply group, and putting a real one here would let the
+      browser's own group behaviour fight the script over which option is live —
+      on Add Immediately there is no selection to hold at all. The radio dot is
+      drawn instead, off the same class the real cards use so the two are
+      indistinguishable.
+
+      The card wears __offer and __offer--selected but carries none of the
+      data-cwc-offer* attributes, and that separation is load-bearing rather than
+      an omission. The script looks the live selection up by the selected class,
+      so this card is found — and then every attribute it reads off it comes back
+      empty, which is exactly right: no plan, no add-on, and a price that falls
+      back to the variant's own. Giving this card data-cwc-offer-now or
+      data-cwc-offer-plan would quietly make it behave like a subscription.
+    {%- endcomment -%}
     <button
       type="button"
-      class="cwc_product-hero-buy-box__onetime-button"
+      class="cwc_product-hero-buy-box__offer cwc_product-hero-buy-box__onetime-card"
       data-cwc-onetime
+      data-cwc-onetime-label="{{ block.settings.text | escape }}"
+      data-cwc-onetime-card
+      data-cwc-onetime-behavior="{{ onetime_behavior }}"
       {% if block.settings.supply_value != blank %}
         data-cwc-onetime-value="{{ block.settings.supply_value | strip | escape }}"
       {% endif %}
+      {{ block.shopify_attributes }}
     >
-      {{ block.settings.text }}
+      <span class="cwc_product-hero-buy-box__offer-radio" aria-hidden="true"></span>
+
+      <span class="cwc_product-hero-buy-box__offer-body">
+        <span class="cwc_product-hero-buy-box__offer-name">{{ block.settings.text }}</span>
+
+        {% if block.settings.sublabel != blank %}
+          <span class="cwc_product-hero-buy-box__offer-description">{{ block.settings.sublabel }}</span>
+        {% endif %}
+
+        {%- comment -%}
+          The variant's own price, not a plan's. It follows the option pickers
+          through the same data attribute the offer cards use, so a size change
+          re-prices this card along with the rest.
+        {%- endcomment -%}
+        {% if block.settings.show_price and current_variant != blank %}
+          <span class="cwc_product-hero-buy-box__offer-price">
+            <span class="cwc_product-hero-buy-box__offer-now" data-cwc-onetime-price>
+              {{- current_variant.price | money -}}
+            </span>
+            {% if current_variant.compare_at_price > current_variant.price %}
+              <span class="cwc_product-hero-buy-box__offer-was" data-cwc-onetime-compare>
+                {{- current_variant.compare_at_price | money -}}
+              </span>
+            {% endif %}
+          </span>
+        {% endif %}
+      </span>
     </button>
-  </div>
+  {%- else -%}
+    <div class="cwc_product-hero-buy-box__onetime" {{ block.shopify_attributes }}>
+      <button
+        type="button"
+        class="cwc_product-hero-buy-box__onetime-button"
+        data-cwc-onetime
+        data-cwc-onetime-label="{{ block.settings.text | escape }}"
+        data-cwc-onetime-behavior="{{ onetime_behavior }}"
+        {% if block.settings.supply_value != blank %}
+          data-cwc-onetime-value="{{ block.settings.supply_value | strip | escape }}"
+        {% endif %}
+      >
+        {{ block.settings.text }}
+        {% if block.settings.show_price and current_variant != blank %}
+          <span data-cwc-onetime-price>{{ current_variant.price | money }}</span>
+        {% endif %}
+      </button>
+    </div>
+  {%- endif -%}
 {%- endif -%}

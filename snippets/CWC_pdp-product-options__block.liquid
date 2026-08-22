@@ -1,0 +1,212 @@
+{% comment %}
+  Every product option the product actually has, rendered without being told
+  what they are.
+
+  The flavors block asks the merchant to name one option; this one names none.
+  It walks options_with_values and renders a row per option, which is what lets
+  a single template be assigned to a whole catalogue whose products do not share
+  an option set — one product has Flavor, another has Size, most have neither.
+
+  Renders nothing at all for a single-variant product (has_only_default_variant),
+  so the block can sit in the template unconditionally and simply stay quiet on
+  the products that do not need it.
+
+  Each row publishes its own option position, and the script scopes selection to
+  the row, so two rows do not deselect each other. Values carry the option value
+  rather than a pinned variant id: the variant is resolved from every row at
+  once, which is what keeps Size when Flavor changes.
+
+  Control per row is chosen by the block, not per option — a template serving
+  many products cannot know that product 12's second option wants a dropdown.
+  A row falls back to a dropdown on its own once it has more values than the
+  threshold, so a long size run does not blow the column apart.
+
+  Accepts:
+  - block {Object} - the product_options block. Reads settings.layout,
+    settings.dropdown_threshold, settings.show_labels, settings.label_style.
+  - product {Object} - product whose options are rendered.
+  - current_variant {Object} - variant currently selected.
+
+  Usage:
+  {% render 'CWC_pdp-product-options__block',
+    block: block,
+    product: product,
+    current_variant: current_variant
+  %}
+{% endcomment %}
+
+{%- liquid
+  assign layout = block.settings.layout | default: 'pill'
+  assign dropdown_threshold = block.settings.dropdown_threshold | default: 6
+  if dropdown_threshold < 1
+    assign dropdown_threshold = 1
+  endif
+-%}
+
+{%- unless product.has_only_default_variant -%}
+  <div class="cwc_product-hero-buy-box__options" {{ block.shopify_attributes }}>
+    {%- for product_option in product.options_with_values -%}
+      {%- liquid
+        assign option_position = product_option.position
+        assign option_key = 'option' | append: option_position
+        assign option_values = product_option.values
+
+        comment
+          A one-value option is not a choice. Shopify still reports it, and
+          rendering it would put a row of exactly one button in the column.
+        endcomment
+        assign has_choice = false
+        if option_values.size > 1
+          assign has_choice = true
+        endif
+
+        comment
+          Long value runs collapse to a dropdown whatever the block asked for.
+          The threshold is the only thing standing between a 14-size product and
+          a wall of pills, and the block cannot be re-configured per product.
+        endcomment
+        assign control = layout
+        if option_values.size > dropdown_threshold
+          assign control = 'dropdown'
+        endif
+
+        assign selected_value = current_variant[option_key]
+      -%}
+
+      {%- if has_choice -%}
+        <div
+          class="cwc_product-hero-buy-box__option-row"
+          data-cwc-option-row
+          data-cwc-flavor-position="{{ option_position }}"
+        >
+          {%- if block.settings.show_labels -%}
+            <div class="cwc_product-hero-buy-box__label">
+              {{- product_option.name -}}
+              {%- if block.settings.label_style == 'with_value' and selected_value != blank -%}
+                <span class="cwc_product-hero-buy-box__option-current" data-cwc-option-current>
+                  {{- selected_value -}}
+                </span>
+              {%- endif -%}
+            </div>
+          {%- endif -%}
+
+          {%- if control == 'dropdown' -%}
+            <select
+              class="cwc_product-hero-buy-box__option-select"
+              data-cwc-option-select
+              aria-label="{{ product_option.name | escape }}"
+            >
+              {%- for option_value in option_values -%}
+                {%- liquid
+                  comment
+                    The same narrowing the buttons use, so the dropdown agrees
+                    with them about what is in stock.
+                  endcomment
+                  assign candidates = product.variants | where: option_key, option_value
+                  assign in_stock = candidates | where: 'available', true
+                  assign value_variant = in_stock.first | default: candidates.first
+                -%}
+                {%- if value_variant != blank -%}
+                  <option
+                    value="{{ option_value | escape }}"
+                    data-cwc-variant="{{ value_variant.id }}"
+                    {% if selected_value == option_value %}
+                      selected
+                    {% endif %}
+                  >
+                    {{ option_value }}{% if in_stock.size == 0 %} &middot; Sold out{% endif %}
+                  </option>
+                {%- endif -%}
+              {%- endfor -%}
+            </select>
+          {%- else -%}
+            <div
+              class="cwc_product-hero-buy-box__option-values cwc_product-hero-buy-box__option-values--{{ control }}"
+            >
+              {%- for option_value in option_values -%}
+                {%- liquid
+                  comment
+                    The variant this value stands for: the one carrying it that
+                    otherwise matches what is already selected. Narrowing one
+                    position at a time — and keeping a narrowing only when it
+                    leaves something — means a value with no variant alongside
+                    the current selection still resolves to a real variant
+                    rather than to nothing.
+
+                    The id is a fallback only; the script resolves from the full
+                    combination. It matters for a no-JS render and for the
+                    unbound case.
+                  endcomment
+                  assign candidates = product.variants | where: option_key, option_value
+
+                  for narrow_position in (1..3)
+                    if narrow_position != option_position and product.options.size >= narrow_position
+                      assign other_key = 'option' | append: narrow_position
+                      assign other_value = current_variant[other_key]
+
+                      if other_value != blank
+                        assign narrowed = candidates | where: other_key, other_value
+                        if narrowed.size > 0
+                          assign candidates = narrowed
+                        endif
+                      endif
+                    endif
+                  endfor
+
+                  assign in_stock = candidates | where: 'available', true
+                  assign value_variant = in_stock.first | default: candidates.first
+
+                  comment
+                    Dimmed when this value is unavailable next to the current
+                    selection, disabled only when it has no stock anywhere. A
+                    shopper is allowed to land on a sold-out combination and be
+                    told so; they are not allowed to click a value the product
+                    has run out of entirely.
+                  endcomment
+                  assign global_matches = product.variants | where: option_key, option_value
+                  assign global_stock = global_matches | where: 'available', true
+
+                  assign swatch_image = ''
+                  if control == 'swatch'
+                    assign swatch_image = value_variant.image
+                  endif
+                -%}
+
+                {%- if value_variant != blank -%}
+                  <button
+                    type="button"
+                    class="cwc_product-hero-buy-box__option-value cwc_product-hero-buy-box__option-value--{{ control }}{% if selected_value == option_value %} cwc_product-hero-buy-box__flavor--selected{% endif %}{% if in_stock.size == 0 %} cwc_product-hero-buy-box__flavor--unavailable{% endif %}"
+                    data-cwc-variant="{{ value_variant.id }}"
+                    data-cwc-flavor-value="{{ option_value | escape }}"
+                    {% if global_stock.size == 0 %}
+                      disabled
+                    {% endif %}
+                  >
+                    {%- if control == 'swatch' -%}
+                      <span class="cwc_product-hero-buy-box__flavor-swatch{% if swatch_image == blank %} cwc_product-hero-buy-box__flavor-swatch--empty{% endif %}">
+                        {% if swatch_image != blank %}
+                          <img
+                            src="{{ swatch_image | image_url: width: 100 }}"
+                            alt="{{ option_value | escape }}"
+                            width="100"
+                            height="100"
+                            loading="lazy"
+                          >
+                        {% else %}
+                          <span class="cwc_product-hero-buy-box__flavor-empty-label">Image</span>
+                        {% endif %}
+                      </span>
+                      <span class="cwc_product-hero-buy-box__flavor-name">{{ option_value }}</span>
+                    {%- else -%}
+                      <span class="cwc_product-hero-buy-box__option-value-text">{{ option_value }}</span>
+                    {%- endif -%}
+                  </button>
+                {%- endif -%}
+              {%- endfor -%}
+            </div>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+{%- endunless -%}

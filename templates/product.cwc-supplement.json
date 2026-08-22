@@ -1,0 +1,272 @@
+{
+  "sections": {
+    "cwc_announcement": {
+      "type": "CWC_announcement",
+      "disabled": true,
+      "settings": {
+        "text": "<p>Free shipping on subscriptions · <strong>30-day money-back guarantee</strong> · Formulated with clinicians since 2010</p>",
+        "link": "",
+        "enable_gradient": true,
+        "bg_color": "#44681a",
+        "bg_end_color": "#87ce34",
+        "text_color": "#ffffff",
+        "bold_color": "#a3c781",
+        "padding_top": 10,
+        "padding_bottom": 10
+      }
+    },
+    "cwc_header": {
+      "type": "CWC_header",
+      "blocks": {
+        "link_shop": {
+          "type": "link",
+          "settings": {
+            "label": "Shop",
+            "link": ""
+          }
+        },
+        "link_subscribe": {
+          "type": "link",
+          "settings": {
+            "label": "Subscribe",
+            "link": ""
+          }
+        },
+        "link_science": {
+          "type": "link",
+          "settings": {
+            "label": "Science",
+            "link": ""
+          }
+        },
+        "link_about": {
+          "type": "link",
+          "settings": {
+            "label": "About",
+            "link": ""
+          }
+        },
+        "link_wholesale": {
+          "type": "link",
+          "settings": {
+            "label": "Wholesale",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "link_shop",
+        "link_subscribe",
+        "link_science",
+        "link_about",
+        "link_wholesale"
+      ],
+      "disabled": true,
+      "settings": {
+        "menu": "our-shop-new",
+        "menu_wholesale": "products-wholesale",
+        "logo_alt": "NanoGreens",
+        "logo_height": 34,
+        "logo_height_mobile": 28,
+        "logo_text_lead": "nano",
+        "logo_text_accent": "greens",
+        "logo_text_size": 22,
+        "logo_text_size_mobile": 20,
+        "show_account": true,
+        "show_search": true,
+        "search_placeholder": "Search products",
+        "search_popular_label": "Popular searches",
+        "search_popular": "greens, collagen, bundles, weight loss",
+        "search_limit": 6,
+        "search_min_chars": 3,
+        "search_panel_height": 60,
+        "search_bg_color": "#ffffff",
+        "search_field_bg_color": "#f4f3ee",
+        "search_accent_color": "#44681a",
+        "search_muted_color": "#5c5842",
+        "search_chip_bg_color": "#f2f8ea",
+        "search_chip_border_color": "#a3c781",
+        "search_overlay_color": "#2a2611",
+        "search_overlay_opacity": 45,
+        "show_cart": true,
+        "enable_sticky": true,
+        "bg_color": "#ffffff",
+        "text_color": "#5c5842",
+        "bold_color": "#5ba90f",
+        "logo_color": "#2a2611",
+        "border_color": "#e6e5dc",
+        "dropdown_bg_color": "#ffffff",
+        "padding_top": 15,
+        "padding_bottom": 15
+      }
+    },
+    "cwc_product_hero_buy_box": {
+      "type": "CWC_product_hero_buy_box",
+      "blocks": {
+        "rating": {
+          "type": "rating",
+          "settings": {
+            "text": "",
+            "link": ""
+          }
+        },
+        "title": {
+          "type": "title",
+          "settings": {
+            "eyebrow": "",
+            "heading": "",
+            "subtext": ""
+          }
+        },
+        "key_benefits": {
+          "type": "key_benefits",
+          "settings": {
+            "text_1": "Third-party tested for purity",
+            "tone_1": "tint",
+            "text_2": "Practitioner-formulated",
+            "tone_2": "accent",
+            "text_3": "30-day money-back guarantee",
+            "tone_3": "tint",
+            "text_4": "",
+            "tone_4": "tint",
+            "text_5": "",
+            "tone_5": "tint",
+            "text_6": "",
+            "tone_6": "tint"
+          }
+        },
+        "product_options": {
+          "type": "product_options",
+          "settings": {
+            "layout": "pill",
+            "dropdown_threshold": 6,
+            "show_labels": true,
+            "label_style": "with_value"
+          }
+        },
+        "purchase_plans": {
+          "type": "purchase_plans",
+          "settings": {
+            "group_label": "Choose your plan",
+            "savings_style": "percent",
+            "default_plan": "best_value",
+            "best_value_badge": "Best value",
+            "show_plan_description": false,
+            "perks": "<p>Free shipping on every order</p><p>Cancel, pause, or reschedule anytime</p><p>30-day money-back guarantee</p>"
+          }
+        },
+        "onetime": {
+          "type": "onetime",
+          "settings": {
+            "text": "One-time purchase",
+            "style": "card",
+            "behavior": "select_only",
+            "sublabel": "No subscription",
+            "show_price": true,
+            "supply_value": ""
+          }
+        },
+        "add_to_cart": {
+          "type": "add_to_cart",
+          "settings": {
+            "label": "Add to cart",
+            "sold_out_label": "Sold out",
+            "micro_text": "Secure checkout · Free shipping on subscriptions"
+          }
+        },
+        "trust_icons": {
+          "type": "trust_icons",
+          "settings": {
+            "icon_style_1": "shield",
+            "icon_text_1": "↩",
+            "label_1": "<p>30-Day Money Back</p>",
+            "icon_style_2": "truck",
+            "icon_text_2": "⛟",
+            "label_2": "<p>Free Shipping on Subscriptions</p>",
+            "icon_style_3": "pause",
+            "icon_text_3": "⏸",
+            "label_3": "<p>Cancel or Pause Anytime</p>"
+          }
+        },
+        "sticky_atc": {
+          "type": "sticky_atc",
+          "settings": {
+            "name_override": "",
+            "subline": "Free shipping · 30-day guarantee",
+            "plan_label": "Choose your plan",
+            "plan_sub": "",
+            "button_text": "Add to cart",
+            "button_text_mobile": "Add",
+            "show_price_in_button": true,
+            "sold_out_text": "Sold out",
+            "reveal_after": 600
+          }
+        }
+      },
+      "block_order": [
+        "rating",
+        "title",
+        "key_benefits",
+        "product_options",
+        "purchase_plans",
+        "onetime",
+        "add_to_cart",
+        "trust_icons",
+        "sticky_atc"
+      ],
+      "settings": {
+        "gallery_ratio": "1 / 1",
+        "gallery_fit": "cover",
+        "show_thumbnails": true,
+        "gallery_limit": 10,
+        "thumbs_per_view": 6,
+        "thumb_ratio": "1 / 1",
+        "bg_color": "#ffffff",
+        "text_color": "#2a2611",
+        "bold_color": "#5ba90f",
+        "muted_color": "#5c5842",
+        "deep_color": "#44681a",
+        "star_color": "#e8a317",
+        "card_bg_color": "#ffffff",
+        "card_selected_bg_color": "#fafdf6",
+        "panel_bg_color": "#faf9f4",
+        "border_color": "#e6e5dc",
+        "tint_bg_color": "#f2f8ea",
+        "tint_border_color": "#a3c781",
+        "accent_color": "#4a5e8c",
+        "accent_bg_color": "#eef1f9",
+        "accent_border_color": "#a3b8e2",
+        "button_bg_color": "#5ba90f",
+        "button_text_color": "#ffffff",
+        "padding_top": 20,
+        "padding_bottom": 40
+      }
+    },
+    "apps": {
+      "type": "apps",
+      "blocks": {
+        "yotpo_product_reviews_reviews_BxPWFb": {
+          "type": "shopify://apps/yotpo-product-reviews/blocks/reviews/eb7dfd7d-db44-4334-bc49-c893b51b36cf",
+          "settings": {
+            "product": "nanogreens-green-apple"
+          }
+        }
+      },
+      "block_order": [
+        "yotpo_product_reviews_reviews_BxPWFb"
+      ],
+      "settings": {
+        "color_scheme": "scheme-f23b3a5a-1f3c-4d6a-94eb-96f8fab0ad49",
+        "separate_section_with_border": true,
+        "remove_vertical_spacing": false,
+        "remove_horizontal_spacing": false
+      }
+    }
+  },
+  "order": [
+    "cwc_announcement",
+    "cwc_header",
+    "cwc_product_hero_buy_box",
+    "apps"
+  ]
+}
