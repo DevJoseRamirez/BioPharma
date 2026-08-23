@@ -241,22 +241,38 @@
 .cwc_collection-grid__grid {
   display: grid;
   grid-template-columns: repeat(var(--columns), 1fr);
-  gap: 28px 22px;
+  gap: 20px;
   padding: 30px 0 56px;
 }
 
-/* === Card === */
+/* === Card ===
+   The border wraps the whole card now, not just the image, so the body reads
+   as part of the same object — which is what lets the button sit on the card
+   instead of floating under it. */
 .cwc_collection-grid__card {
   position: relative;
   display: flex;
   flex-direction: column;
+  background-color: var(--section-bg);
+  border: 1px solid var(--border-soft-color);
+  border-radius: 6px;
+  overflow: hidden;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
 }
 
+.cwc_collection-grid__card:hover {
+  border-color: var(--border-color);
+  box-shadow: 0 6px 20px rgba(42, 38, 17, 0.07);
+  transform: translateY(-2px);
+}
+
+/* One background behind every product image, so a shot taken on a tinted or
+   outdoor backdrop does not break the row. Lifestyle shots go in the hover
+   slot instead. */
 .cwc_collection-grid__card-media {
   position: relative;
   aspect-ratio: 1 / 1;
   background-color: var(--card-bg);
-  border: 1px solid var(--border-soft-color);
   overflow: hidden;
 }
 
@@ -306,6 +322,9 @@
   top: 10px;
   left: 10px;
   z-index: 3;
+  /* They sit above the link overlay, so without this the top-left corner of
+     every card would be a dead patch that does not navigate. */
+  pointer-events: none;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -340,22 +359,27 @@
   color: var(--badge-text);
 }
 
-/* === Quick Add === */
+/* === Quick Add ===
+   One treatment on every card: an outlined pill that fills on hover. Nothing
+   is hidden until hover — the button is the same on a phone as on a desktop,
+   because half the shoppers have no hover to give it. */
 .cwc_collection-grid__quick-add-form {
   margin: 0;
+  position: relative;
+  z-index: 2;
 }
 
+/* Above the card-wide link overlay, or the add would navigate to the product
+   page instead of adding to the cart. */
 .cwc_collection-grid__quick-add {
-  position: absolute;
-  left: 10px;
-  right: 10px;
-  bottom: 10px;
-  z-index: 3;
+  position: relative;
+  z-index: 2;
   display: block;
-  width: calc(100% - 20px);
-  border: 0;
-  background-color: var(--quick-add-bg);
-  color: var(--quick-add-text);
+  width: 100%;
+  background-color: var(--section-bg);
+  color: var(--text-color);
+  border: 1.5px solid var(--text-color);
+  border-radius: 100px;
   font-family: inherit;
   font-size: 0.84em;
   font-weight: var(--cwc-weight-subheading);
@@ -363,25 +387,35 @@
   text-decoration: none;
   padding: 12px;
   cursor: pointer;
-  opacity: 0;
-  transform: translateY(6px);
-  transition: opacity 0.2s ease, transform 0.2s ease, background-color 0.2s ease;
+  transition: background-color 0.18s ease, color 0.18s ease, border-color 0.18s ease;
 }
 
-.cwc_collection-grid__card:hover .cwc_collection-grid__quick-add,
-.cwc_collection-grid__card:focus-within .cwc_collection-grid__quick-add {
-  opacity: 1;
-  transform: none;
+/* Hovering the card tints the button so it reads as the card's action; hovering
+   the button itself commits to the fill. */
+.cwc_collection-grid__card:hover .cwc_collection-grid__quick-add {
+  border-color: var(--accent-color);
+  color: var(--olive-color);
 }
 
-.cwc_collection-grid__quick-add:hover {
+.cwc_collection-grid__quick-add:hover,
+.cwc_collection-grid__card:hover .cwc_collection-grid__quick-add:hover {
   background-color: var(--accent-color);
+  border-color: var(--accent-color);
+  color: var(--quick-add-text);
 }
 
-.cwc_collection-grid__quick-add--notify {
-  background-color: var(--section-bg);
-  color: var(--text-color);
-  border: 1px solid var(--text-color);
+/* Sold out is a quieter outline — it leads to a page, not to a cart. */
+.cwc_collection-grid__quick-add--notify,
+.cwc_collection-grid__card:hover .cwc_collection-grid__quick-add--notify {
+  border-color: var(--border-color);
+  color: var(--muted-color);
+}
+
+.cwc_collection-grid__quick-add--notify:hover,
+.cwc_collection-grid__card:hover .cwc_collection-grid__quick-add--notify:hover {
+  background-color: var(--quick-add-bg);
+  border-color: var(--quick-add-bg);
+  color: var(--quick-add-text);
 }
 
 .cwc_collection-grid__quick-add[aria-busy="true"] {
@@ -391,7 +425,17 @@
 
 /* === Card Body === */
 .cwc_collection-grid__card-body {
-  padding: 14px 2px 0;
+  padding: 18px 18px 20px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+/* Absorbs the difference between a short card and the tallest in its row, so
+   every button lands on the same line. */
+.cwc_collection-grid__card-spacer {
+  flex: 1;
+  min-height: 14px;
 }
 
 .cwc_collection-grid__card-format {
@@ -407,10 +451,10 @@
 .cwc_collection-grid__card-title {
   font-family: var(--cwc-font-heading);
   font-weight: var(--cwc-weight-heading);
-  font-size: 1.13em;
-  /* 18px */
-  line-height: 1.22;
-  margin: 0 0 5px;
+  font-size: 1.19em;
+  /* 19px */
+  line-height: 1.2;
+  margin: 0 0 7px;
   color: var(--heading-color);
 }
 
@@ -419,16 +463,48 @@
   text-decoration: none;
 }
 
+/* The whole card is the click target. Rather than wrap the card in an anchor —
+   which cannot legally contain the quick-add form — the title link grows a
+   pseudo-element over the card it sits in. One link, named by the product
+   title, covering everything.
+   The card is the positioned ancestor here; this element must stay static for
+   the inset to measure against it. */
+.cwc_collection-grid__card-title-link::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+/* Hovering anywhere on the card is a hover on the link, since the overlay
+   belongs to it — so the title underlines from anywhere. */
 .cwc_collection-grid__card-title-link:hover {
   text-decoration: underline;
 }
 
+/* Drawn on the overlay, not on the few words of the title, so keyboard focus
+   outlines the card. Inset because the card clips its own overflow. */
+.cwc_collection-grid__card-title-link:focus-visible {
+  outline: none;
+}
+
+.cwc_collection-grid__card-title-link:focus-visible::after {
+  outline: 2px solid var(--accent-color);
+  outline-offset: -2px;
+}
+
+/* Clamped to two lines and holding that height whether it fills or not — a
+   product with no card copy still lines its price up with the rest of the row. */
 .cwc_collection-grid__card-text {
   font-size: 0.84em;
-  line-height: 1.45;
+  line-height: 1.5;
   color: var(--muted-color);
-  margin: 0 0 9px;
+  margin: 0 0 11px;
   min-height: 2.9em;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 /* === Rating === */
@@ -438,7 +514,8 @@
   gap: 6px;
   font-size: 0.78em;
   color: var(--muted-color);
-  margin-bottom: 10px;
+  margin-bottom: 11px;
+  min-height: 19px;
 }
 
 .cwc_collection-grid__stars {
@@ -449,21 +526,23 @@
 /* === Swatches === */
 .cwc_collection-grid__swatches {
   display: flex;
-  gap: 6px;
-  margin-bottom: 11px;
-  min-height: 22px;
+  gap: 5px;
+  margin-bottom: 12px;
+  min-height: 18px;
 }
 
 .cwc_collection-grid__swatch {
-  width: 22px;
-  height: 22px;
+  width: 18px;
+  height: 18px;
   border-radius: 50%;
   border: 1px solid var(--border-color);
   display: block;
 }
 
+/* Two rings, the inner one in the card background, so the marker reads on a
+   swatch of any colour without a gap opening around it. */
 .cwc_collection-grid__swatch--active {
-  box-shadow: 0 0 0 2px var(--section-bg), 0 0 0 3px var(--text-color);
+  box-shadow: 0 0 0 1.5px var(--section-bg), 0 0 0 2.5px var(--text-color);
 }
 
 /* === Price === */
@@ -471,7 +550,7 @@
   display: flex;
   align-items: baseline;
   flex-wrap: wrap;
-  gap: 9px;
+  gap: 8px;
 }
 
 .cwc_collection-grid__price-now {
@@ -483,8 +562,9 @@
 }
 
 .cwc_collection-grid__price-was {
-  font-size: 0.84em;
+  font-size: 0.81em;
   color: var(--muted-color);
+  text-decoration: line-through;
 }
 
 .cwc_collection-grid__per-serving {
@@ -623,20 +703,29 @@
 
   .cwc_collection-grid__grid {
     grid-template-columns: repeat(var(--columns-mobile), 1fr);
-    gap: 24px 14px;
+    gap: 13px;
     padding: 20px 0 40px;
   }
 
-  /* Touch has no hover — keep quick add visible and trim the badge stack */
-  .cwc_collection-grid__quick-add {
-    opacity: 1;
-    transform: none;
-    padding: 10px;
+  /* Two cards to a row leaves a narrower card, so the body tightens and the
+     type steps down. The button needs no mobile handling beyond size — it was
+     never hover-dependent. */
+  .cwc_collection-grid__card-body {
+    padding: 14px 13px 16px;
+  }
+
+  .cwc_collection-grid__card-title {
+    font-size: 1.06em;
+    /* 17px */
+  }
+
+  .cwc_collection-grid__card-text {
     font-size: 0.78em;
-    left: 8px;
-    right: 8px;
-    bottom: 8px;
-    width: calc(100% - 16px);
+  }
+
+  .cwc_collection-grid__quick-add {
+    padding: 11px;
+    font-size: 0.78em;
   }
 
   .cwc_collection-grid__badges {
@@ -659,6 +748,6 @@
    ============================== */
 @media screen and (max-width: 480px) {
   .cwc_collection-grid__grid {
-    gap: 20px 10px;
+    gap: 10px;
   }
 }

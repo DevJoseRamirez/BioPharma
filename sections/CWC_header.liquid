@@ -6,6 +6,15 @@
       --logo-color: {{ section.settings.logo_color | default: '#2A2611' }};
       --border-color: {{ section.settings.border_color | default: '#E6E5DC' }};
       --dropdown-bg: {{ section.settings.dropdown_bg_color | default: '#ffffff' }};
+      --mega-bg: {{ section.settings.mega_bg_color | default: '#ffffff' }};
+      --mega-muted: {{ section.settings.mega_muted_color | default: '#5C5842' }};
+      --mega-panel-bg: {{ section.settings.mega_panel_bg_color | default: '#F5F4F0' }};
+      --mega-promo-bg: {{ section.settings.mega_promo_bg_color | default: '#ECEBE5' }};
+      --mega-button-bg: {{ section.settings.mega_button_bg_color | default: '#5BA90F' }};
+      --mega-button-text: {{ section.settings.mega_button_text_color | default: '#ffffff' }};
+      --drawer-bg: {{ section.settings.drawer_bg_color | default: '#ffffff' }};
+      --drawer-cart-bg: {{ section.settings.drawer_cart_bg_color | default: '#1F1F1C' }};
+      --scrim-color: {{ section.settings.scrim_color | default: '#1F1F1C' }};
       --search-bg: {{ section.settings.search_bg_color | default: '#ffffff' }};
       --search-field-bg: {{ section.settings.search_field_bg_color | default: '#F4F3EE' }};
       --search-accent: {{ section.settings.search_accent_color | default: '#44681A' }};
@@ -40,10 +49,10 @@
   (sections/header.liquid, sections/main-product.liquid, snippets/product-card.liquid);
   everyone else — including logged-out visitors — is retail.
 
-  Each audience picks its own bar layout, so the wholesale storefront reads as
-  visually distinct from the retail one:
-    retail    — menu left, wordmark centred on the bar (the standard header)
-    wholesale — wordmark left, menu centred between wordmark and icons
+  The two audiences differ by MENU, not by bar arrangement. An earlier version
+  gave each its own layout; both now share the one bar — wordmark left, nav
+  centred, utilities right — because two arrangements meant two sets of
+  breakpoint rules for a distinction the menu already carries.
 {% endcomment %}
 {% liquid
   assign nav_menu = section.settings.menu
@@ -57,43 +66,161 @@
     endif
   endfor
 
-  if is_wholesale_customer
-    assign header_layout = section.settings.layout_wholesale | default: 'logo_left'
-    if section.settings.menu_wholesale != blank
-      assign nav_menu = section.settings.menu_wholesale
-    endif
-  else
-    assign header_layout = section.settings.layout_retail | default: 'logo_center'
+  if is_wholesale_customer and section.settings.menu_wholesale != blank
+    assign nav_menu = section.settings.menu_wholesale
   endif
+
+  assign show_counts = section.settings.show_menu_counts
+
+  comment
+    The promo the drawer borrows: the first mega panel that has one. Picked here
+    rather than inside the drawer so the drawer does not have to know how blocks
+    are matched to menu items.
+  endcomment
+  assign drawer_promo_block = blank
+  for header_block in section.blocks
+    if header_block.type == 'mega_panel'
+      if header_block.settings.promo_heading != blank or header_block.settings.promo_text != blank
+        assign drawer_promo_block = header_block
+        break
+      endif
+    endif
+  endfor
 %}
 
 <section
   id="cwc_header-{{ section.id }}"
-  class="cwc_header{% if section.settings.enable_sticky %} cwc_header--sticky{% endif %}{% if header_layout == 'logo_left' %} cwc_header--logo-left{% endif %}"
+  class="cwc_header{% if section.settings.enable_sticky %} cwc_header--sticky{% endif %}"
+  data-cwc-header
+  data-cwc-breakpoint="{{ section.settings.mobile_breakpoint | default: 1000 }}"
 >
   <div class="cwc_header__bar">
     <div class="cwc_header__container">
-      {% comment %} Menu toggle — mobile only, sits left of the wordmark {% endcomment %}
+      {%- comment -%}
+        Burger first in the source and far left on screen, on the side the
+        drawer arrives from. Hidden above the breakpoint.
+      {%- endcomment -%}
       <div class="cwc_header__toggle-wrap">
         <button
           type="button"
           class="cwc_header__toggle"
-          aria-label="Menu"
+          aria-label="Open menu"
           aria-expanded="false"
           data-cwc-toggle
         >
-          <span></span><span></span><span></span>
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M3 6h18M3 12h18M3 18h18"></path>
+          </svg>
         </button>
       </div>
 
-      {% comment %}
-        Primary links — Shopify menu first, manual blocks as fallback.
-        nav_menu is resolved above, alongside the audience layout.
-      {% endcomment %}
+      {% comment %} Wordmark {% endcomment %}
+      <a href="{{ routes.root_url }}" class="cwc_header__logo">
+        {% if section.settings.logo != blank %}
+          <img
+            src="{{ section.settings.logo | image_url: width: 400 }}"
+            alt="{{ section.settings.logo_alt | default: shop.name | escape }}"
+            class="cwc_header__logo-image"
+            width="200"
+            height="40"
+            loading="eager"
+          >
+        {% else %}
+          <span class="cwc_header__logo-text">
+            {%- if section.settings.logo_text_lead != blank -%}
+              <span class="cwc_header__logo-lead">{{ section.settings.logo_text_lead }}</span>
+            {%- endif -%}
+            {%- if section.settings.logo_text_accent != blank -%}
+              <span class="cwc_header__logo-accent">{{ section.settings.logo_text_accent }}</span>
+            {%- endif -%}
+          </span>
+        {% endif %}
+      </a>
+
+      {%- comment -%}
+        Primary navigation — Shopify menu first, manual Nav Link blocks as the
+        fallback for a shop that has not built a menu yet.
+
+        A Mega Menu Panel block is what makes an item a mega, not the depth of
+        its menu. The panel holds content a Shopify menu cannot — product tiles,
+        a promo card — so the item that owns one has to be declared rather than
+        inferred, and an item nobody declared is free to stay an ordinary
+        dropdown. It also means a link with no children at all can still open a
+        panel made purely of cards.
+
+        Three shapes fall out of that, in order of precedence:
+          block            → mega panel (menu columns, if any, plus cards)
+          children, no block → plain dropdown
+          neither          → plain link
+
+        The mega spans the whole bar rather than hanging off the item, so a mega
+        item is position:static and its panel anchors to the bar. A dropdown item
+        is the opposite — it is positioned, so its small panel hangs off the link
+        it belongs to.
+      {%- endcomment -%}
       {% if nav_menu != blank and nav_menu.links.size > 0 %}
-        <nav class="cwc_header__links" data-cwc-menu>
+        <nav class="cwc_header__nav" data-cwc-nav>
           {% for link in nav_menu.links %}
-            {% if link.links.size > 0 %}
+            {%- liquid
+              comment
+                The block that claims this item, matched on the item's title.
+                Matching on the title rather than on position means reordering
+                the menu cannot move a panel onto the wrong item.
+              endcomment
+              assign panel_block = blank
+              assign wanted_title = link.title | strip | downcase
+
+              for header_block in section.blocks
+                if header_block.type == 'mega_panel'
+                  assign block_title = header_block.settings.menu_item | strip | downcase
+                  if block_title != blank and block_title == wanted_title
+                    assign panel_block = header_block
+                    break
+                  endif
+                endif
+              endfor
+
+              assign is_mega = false
+              if panel_block != blank
+                assign is_mega = true
+              endif
+
+              assign is_dropdown = false
+              if is_mega == false and link.links.size > 0
+                assign is_dropdown = true
+              endif
+            -%}
+
+            {% if is_mega %}
+              <div
+                class="cwc_header__item cwc_header__item--has-mega"
+                data-cwc-nav-item
+                {{ panel_block.shopify_attributes }}
+              >
+                <a
+                  href="{{ link.url }}"
+                  class="cwc_header__link{% if link.active or link.child_active %} cwc_header__link--active{% endif %}"
+                  aria-expanded="false"
+                  data-cwc-nav-trigger
+                >
+                  {{ link.title }}
+                  <svg class="cwc_header__caret" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                    <path d="m6 9 6 6 6-6"></path>
+                  </svg>
+                </a>
+
+                {% render 'CWC_header-mega__panel',
+                  link: link,
+                  block: panel_block,
+                  show_counts: show_counts
+                %}
+              </div>
+            {% elsif is_dropdown %}
+              {%- comment -%}
+                No block claimed this item, so its children render as an ordinary
+                dropdown hanging off the link — no columns, no cards, and none of
+                the mega's full-bar chrome for what is only a short list.
+              {%- endcomment -%}
               <div class="cwc_header__item cwc_header__item--has-dropdown">
                 <a
                   href="{{ link.url }}"
@@ -129,7 +256,7 @@
           {% endfor %}
         </nav>
       {% elsif section.blocks.size > 0 %}
-        <nav class="cwc_header__links" data-cwc-menu>
+        <nav class="cwc_header__nav" data-cwc-nav>
           {% for block in section.blocks %}
             {% case block.type %}
               {% when 'link' %}
@@ -145,40 +272,8 @@
         </nav>
       {% endif %}
 
-      {% comment %} Wordmark {% endcomment %}
-      <a href="{{ routes.root_url }}" class="cwc_header__logo">
-        {% if section.settings.logo != blank %}
-          <img
-            src="{{ section.settings.logo | image_url: width: 400 }}"
-            alt="{{ section.settings.logo_alt | default: shop.name | escape }}"
-            class="cwc_header__logo-image"
-            width="200"
-            height="40"
-            loading="eager"
-          >
-        {% else %}
-          <span class="cwc_header__logo-text">
-            {%- if section.settings.logo_text_lead != blank -%}
-              <span class="cwc_header__logo-lead">{{ section.settings.logo_text_lead }}</span>
-            {%- endif -%}
-            {%- if section.settings.logo_text_accent != blank -%}
-              <span class="cwc_header__logo-accent">{{ section.settings.logo_text_accent }}</span>
-            {%- endif -%}
-          </span>
-        {% endif %}
-      </a>
-
       {% comment %} Utility links {% endcomment %}
       <div class="cwc_header__utility">
-        {% if section.settings.show_account %}
-          <a href="{{ routes.account_url }}" class="cwc_header__icon" aria-label="Account">
-            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-              <circle cx="12" cy="8" r="3.6"></circle>
-              <path d="M4.6 20c0-4 3.3-6.2 7.4-6.2s7.4 2.2 7.4 6.2"></path>
-            </svg>
-          </a>
-        {% endif %}
-
         {% if section.settings.show_search %}
           {%- comment -%}
             Stays a real link to the search page, so it still works if the script
@@ -199,12 +294,29 @@
           </a>
         {% endif %}
 
+        {% if section.settings.show_account %}
+          <a href="{{ routes.account_url }}" class="cwc_header__icon" aria-label="Account">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <circle cx="12" cy="8" r="3.6"></circle>
+              <path d="M4.6 20c0-4 3.3-6.2 7.4-6.2s7.4 2.2 7.4 6.2"></path>
+            </svg>
+          </a>
+        {% endif %}
+
         {% if section.settings.show_cart %}
-          <a href="{{ routes.cart_url }}" class="cwc_header__icon" aria-label="Cart">
+          <a href="{{ routes.cart_url }}" class="cwc_header__icon cwc_header__icon--cart" aria-label="Cart">
             <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
               <path d="M5 7h14l-1.2 12.2H6.2z"></path>
               <path d="M9 7V5.6A3 3 0 0 1 15 5.6V7"></path>
             </svg>
+            {%- comment -%}
+              Rendered only when there is something in the cart, so an empty cart
+              does not carry a zero badge. The drawer footer prints the same
+              count as text.
+            {%- endcomment -%}
+            {% if cart.item_count > 0 %}
+              <span class="cwc_header__cart-count" data-cwc-cart-count>{{ cart.item_count }}</span>
+            {% endif %}
           </a>
         {% endif %}
       </div>
@@ -214,6 +326,19 @@
   {% if section.settings.show_search %}
     {% render 'CWC_header-search__panel', section: section %}
   {% endif %}
+
+  {%- comment -%}
+    Sibling of the bar, not a child of it. The bar carries a backdrop-filter, and
+    a filtered element becomes the containing block for position:fixed
+    descendants — a drawer inside it would anchor to the bar and be clipped to
+    the height of the header.
+  {%- endcomment -%}
+  {% render 'CWC_header-drawer',
+    nav_menu: nav_menu,
+    section: section,
+    promo_block: drawer_promo_block,
+    show_counts: show_counts
+  %}
 </section>
 
 {{ 'CWC_header.js' | asset_url | script_tag }}
@@ -225,36 +350,6 @@
   "settings": [
     {
       "type": "header",
-      "content": "Bar Layout"
-    },
-    {
-      "type": "paragraph",
-      "content": "Retail and wholesale each get their own bar arrangement, so the two storefronts read as visually distinct. Customers tagged 'wholesale' see the wholesale layout; everyone else, including logged-out visitors, sees the retail one. Below 992px both share the same mobile drawer."
-    },
-    {
-      "type": "select",
-      "id": "layout_retail",
-      "label": "Retail Layout",
-      "info": "Standard visitors. Leave as-is to keep today's header.",
-      "options": [
-        { "value": "logo_center", "label": "Logo centered, menu left" },
-        { "value": "logo_left", "label": "Logo left, menu centered" }
-      ],
-      "default": "logo_center"
-    },
-    {
-      "type": "select",
-      "id": "layout_wholesale",
-      "label": "Wholesale Layout",
-      "info": "Only seen by logged-in customers tagged 'wholesale'. The theme editor always previews the retail layout, so switch Retail Layout temporarily to check this one.",
-      "options": [
-        { "value": "logo_left", "label": "Logo left, menu centered" },
-        { "value": "logo_center", "label": "Logo centered, menu left" }
-      ],
-      "default": "logo_left"
-    },
-    {
-      "type": "header",
       "content": "Navigation"
     },
     {
@@ -262,6 +357,31 @@
       "id": "menu",
       "label": "Menu",
       "info": "Select a menu from Online Store > Navigation. Dropdowns render for any item with sub-links. Leave empty to use the manual Nav Link blocks below instead."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_menu_counts",
+      "label": "Show Product Counts",
+      "default": true,
+      "info": "Prints the number of products beside any menu link that points to a collection."
+    },
+    {
+      "type": "range",
+      "id": "mobile_breakpoint",
+      "label": "Collapse To Drawer Below",
+      "min": 700,
+      "max": 1200,
+      "step": 20,
+      "unit": "px",
+      "default": 1000,
+      "info": "Above this width the nav shows in the bar; below it, the burger and drawer take over."
+    },
+    {
+      "type": "checkbox",
+      "id": "drawer_open_first",
+      "label": "Open First Menu Group In Drawer",
+      "default": true,
+      "info": "The drawer opens onto real links rather than a list of closed headings."
     },
     {
       "type": "header",
@@ -529,6 +649,64 @@
     },
     {
       "type": "header",
+      "content": "Mega Menu & Drawer Colors"
+    },
+    {
+      "type": "color",
+      "id": "mega_bg_color",
+      "label": "Panel Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "mega_muted_color",
+      "label": "Muted Text",
+      "default": "#5C5842"
+    },
+    {
+      "type": "color",
+      "id": "mega_panel_bg_color",
+      "label": "Tile Background",
+      "default": "#F5F4F0"
+    },
+    {
+      "type": "color",
+      "id": "mega_promo_bg_color",
+      "label": "Promo Card Background",
+      "default": "#ECEBE5"
+    },
+    {
+      "type": "color",
+      "id": "mega_button_bg_color",
+      "label": "Promo Button Background",
+      "default": "#5BA90F"
+    },
+    {
+      "type": "color",
+      "id": "mega_button_text_color",
+      "label": "Promo Button Text",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "drawer_bg_color",
+      "label": "Drawer Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "drawer_cart_bg_color",
+      "label": "Drawer Cart Button",
+      "default": "#1F1F1C"
+    },
+    {
+      "type": "color",
+      "id": "scrim_color",
+      "label": "Scrim",
+      "default": "#1F1F1C"
+    },
+    {
+      "type": "header",
       "content": "Spacing"
     },
     {
@@ -554,6 +732,144 @@
   ],
   "blocks": [
     {
+      "type": "mega_panel",
+      "name": "Mega Menu Panel",
+      "limit": 4,
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Adding this block is what turns a menu item into a mega menu. A menu item with children but no block stays an ordinary dropdown; a menu item with no children at all can still open a panel made only of the cards below. Link columns come from your Shopify menu — a top-level item's children become column headings and their children become the links."
+        },
+        {
+          "type": "text",
+          "id": "menu_item",
+          "label": "Menu Item",
+          "default": "Shop",
+          "info": "Required. The exact title of the top-level menu item this panel belongs to, e.g. Shop or Learn. Case does not matter. Leave it blank or misspell it and the item falls back to a plain dropdown."
+        },
+        {
+          "type": "select",
+          "id": "variant",
+          "label": "Panel Width",
+          "default": "wide",
+          "options": [
+            {
+              "value": "wide",
+              "label": "Wide — full header width"
+            },
+            {
+              "value": "narrow",
+              "label": "Narrow — centered, max 900px"
+            }
+          ]
+        },
+        {
+          "type": "header",
+          "content": "Column Footer Links"
+        },
+        {
+          "type": "paragraph",
+          "content": "Optional 'All products →' style link at the bottom of the first and second columns."
+        },
+        {
+          "type": "text",
+          "id": "col1_link_label",
+          "label": "Column 1 Link Label"
+        },
+        {
+          "type": "url",
+          "id": "col1_link_url",
+          "label": "Column 1 Link URL"
+        },
+        {
+          "type": "text",
+          "id": "col2_link_label",
+          "label": "Column 2 Link Label"
+        },
+        {
+          "type": "url",
+          "id": "col2_link_url",
+          "label": "Column 2 Link URL"
+        },
+        {
+          "type": "header",
+          "content": "Featured Products"
+        },
+        {
+          "type": "text",
+          "id": "featured_heading",
+          "label": "Featured Heading",
+          "default": "Featured"
+        },
+        {
+          "type": "checkbox",
+          "id": "featured_show_price",
+          "label": "Show Live Price",
+          "default": true,
+          "info": "Appends the product's current price to the label, so a repricing never leaves stale copy in the menu."
+        },
+        {
+          "type": "product",
+          "id": "featured_product_1",
+          "label": "Product 1"
+        },
+        {
+          "type": "text",
+          "id": "featured_label_1",
+          "label": "Label 1",
+          "info": "e.g. Best seller"
+        },
+        {
+          "type": "product",
+          "id": "featured_product_2",
+          "label": "Product 2"
+        },
+        {
+          "type": "text",
+          "id": "featured_label_2",
+          "label": "Label 2"
+        },
+        {
+          "type": "product",
+          "id": "featured_product_3",
+          "label": "Product 3"
+        },
+        {
+          "type": "text",
+          "id": "featured_label_3",
+          "label": "Label 3"
+        },
+        {
+          "type": "header",
+          "content": "Promo Card"
+        },
+        {
+          "type": "paragraph",
+          "content": "The first panel with a promo also supplies the promo shown in the mobile drawer."
+        },
+        {
+          "type": "text",
+          "id": "promo_heading",
+          "label": "Promo Heading"
+        },
+        {
+          "type": "textarea",
+          "id": "promo_text",
+          "label": "Promo Text"
+        },
+        {
+          "type": "text",
+          "id": "promo_button_label",
+          "label": "Button Label"
+        },
+        {
+          "type": "url",
+          "id": "promo_button_link",
+          "label": "Button Link"
+        }
+      ]
+    },
+    {
       "type": "link",
       "name": "Nav Link",
       "settings": [
@@ -571,12 +887,16 @@
       ]
     }
   ],
-  "max_blocks": 8,
+  "max_blocks": 12,
   "presets": [
     {
       "name": "Header",
       "category": "CWC Custom",
-      "blocks": [{ "type": "link" }, { "type": "link" }, { "type": "link" }, { "type": "link" }, { "type": "link" }]
+      "blocks": [
+        {
+          "type": "mega_panel"
+        }
+      ]
     }
   ]
 }

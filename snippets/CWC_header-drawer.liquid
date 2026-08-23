@@ -1,0 +1,205 @@
+{% comment %}
+  Mobile navigation drawer.
+
+  Slides from the left, matching the side the burger sits on — a drawer that
+  arrives from the opposite side to the control that opened it reads as a
+  different surface entirely.
+
+  Search is pinned to the top and Account / Cart to the bottom, so the two
+  things a shopper opens the menu to reach are both a thumb's distance away
+  whatever the menu itself is doing. Only the link list between them scrolls.
+
+  The accordions carry the menu's full depth: a top-level item's children become
+  sub-headings and their children the links, so the drawer shows both taxonomies
+  at once rather than making a shopper drill twice. A two-level item degrades to
+  a plain list, and an item with no children at all to a flat link.
+
+  Rendered as a sibling of the header bar, never inside it. The bar carries a
+  backdrop-filter, and a filtered ancestor becomes the containing block for
+  position:fixed descendants — the drawer would anchor to the bar and be clipped
+  to it instead of covering the viewport.
+
+  Accepts:
+  - nav_menu {Object} - the resolved menu, already audience-swapped.
+  - section {Object} - the header section, for its settings.
+  - promo_block {Object} - a mega_panel block whose promo is reused here, or blank.
+  - show_counts {Boolean} - print product counts beside collection links.
+
+  Usage:
+  {% render 'CWC_header-drawer',
+    nav_menu: nav_menu,
+    section: section,
+    promo_block: promo_block,
+    show_counts: show_counts
+  %}
+{% endcomment %}
+
+<div class="cwc_header__scrim" data-cwc-scrim hidden></div>
+
+<aside
+  class="cwc_header__drawer"
+  data-cwc-drawer
+  aria-label="Menu"
+  aria-hidden="true"
+  hidden
+>
+  <div class="cwc_header__drawer-top">
+    <span class="cwc_header__drawer-logo">
+      {% if section.settings.logo != blank %}
+        <img
+          src="{{ section.settings.logo | image_url: width: 400 }}"
+          alt="{{ section.settings.logo_alt | default: shop.name | escape }}"
+          width="160"
+          height="32"
+          loading="lazy"
+        >
+      {% else %}
+        {%- if section.settings.logo_text_lead != blank -%}
+          <span class="cwc_header__logo-lead">{{ section.settings.logo_text_lead }}</span>
+        {%- endif -%}
+        {%- if section.settings.logo_text_accent != blank -%}
+          <span class="cwc_header__logo-accent">{{ section.settings.logo_text_accent }}</span>
+        {%- endif -%}
+      {% endif %}
+    </span>
+
+    <button type="button" class="cwc_header__drawer-close" aria-label="Close menu" data-cwc-drawer-close>
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path d="M6 6l12 12M18 6L6 18"></path>
+      </svg>
+    </button>
+  </div>
+
+  {% if section.settings.show_search %}
+    {%- comment -%}
+      A real GET form to the search page rather than a hook into the predictive
+      panel. The panel lives under the header bar, which is behind the drawer —
+      opening it from in here would put results somewhere the shopper cannot see.
+    {%- endcomment -%}
+    <form class="cwc_header__drawer-search" action="{{ routes.search_url }}" method="get" role="search">
+      <input
+        type="search"
+        name="q"
+        placeholder="{{ section.settings.search_placeholder | default: 'Search products' | escape }}"
+        aria-label="Search products"
+      >
+    </form>
+  {% endif %}
+
+  <div class="cwc_header__drawer-body">
+    {%- if nav_menu != blank and nav_menu.links.size > 0 -%}
+      {%- assign accordion_index = 0 -%}
+
+      {%- for link in nav_menu.links -%}
+        {%- if link.links.size > 0 -%}
+          {%- liquid
+            assign accordion_index = accordion_index | plus: 1
+
+            comment
+              The first accordion starts open, so the drawer opens onto actual
+              products rather than onto a list of closed headings. Everything
+              else starts shut.
+            endcomment
+            assign is_open = false
+            if accordion_index == 1 and section.settings.drawer_open_first
+              assign is_open = true
+            endif
+
+            assign has_subgroups = false
+            for child in link.links
+              if child.links.size > 0
+                assign has_subgroups = true
+                break
+              endif
+            endfor
+          -%}
+
+          <div class="cwc_header__acc{% if is_open %} cwc_header__acc--open{% endif %}" data-cwc-acc>
+            <button
+              type="button"
+              class="cwc_header__acc-head"
+              aria-expanded="{% if is_open %}true{% else %}false{% endif %}"
+              data-cwc-acc-toggle
+            >
+              {{ link.title }}
+              <span class="cwc_header__acc-sign" aria-hidden="true">{% if is_open %}&minus;{% else %}+{% endif %}</span>
+            </button>
+
+            <div class="cwc_header__acc-panel" data-cwc-acc-panel {% unless is_open %}hidden{% endunless %}>
+              {%- if has_subgroups -%}
+                {%- for child in link.links -%}
+                  <div class="cwc_header__acc-group">{{ child.title }}</div>
+
+                  <ul class="cwc_header__acc-list">
+                    {%- for grandchild in child.links -%}
+                      <li>
+                        <a href="{{ grandchild.url }}">
+                          {{ grandchild.title }}
+                          {%- if show_counts and grandchild.type == 'collection_link' and grandchild.object != blank -%}
+                            <span class="cwc_header__acc-count">{{ grandchild.object.all_products_count }}</span>
+                          {%- endif -%}
+                        </a>
+                      </li>
+                    {%- endfor -%}
+                  </ul>
+                {%- endfor -%}
+              {%- else -%}
+                <ul class="cwc_header__acc-list">
+                  {%- for child in link.links -%}
+                    <li>
+                      <a href="{{ child.url }}">
+                        {{ child.title }}
+                        {%- if show_counts and child.type == 'collection_link' and child.object != blank -%}
+                          <span class="cwc_header__acc-count">{{ child.object.all_products_count }}</span>
+                        {%- endif -%}
+                      </a>
+                    </li>
+                  {%- endfor -%}
+                </ul>
+              {%- endif -%}
+            </div>
+          </div>
+        {%- else -%}
+          <a href="{{ link.url }}" class="cwc_header__drawer-flat">{{ link.title }}</a>
+        {%- endif -%}
+      {%- endfor -%}
+    {%- endif -%}
+
+    {%- comment -%}
+      The promo is borrowed from the mega panel rather than typed twice. Same
+      offer, same wording, one place to change it.
+    {%- endcomment -%}
+    {%- if promo_block.settings.promo_heading != blank or promo_block.settings.promo_text != blank -%}
+      <div class="cwc_header__drawer-promo">
+        {% if promo_block.settings.promo_heading != blank %}
+          <div class="cwc_header__mega-promo-heading">{{ promo_block.settings.promo_heading }}</div>
+        {% endif %}
+
+        {% if promo_block.settings.promo_text != blank %}
+          <p class="cwc_header__mega-promo-text">{{ promo_block.settings.promo_text }}</p>
+        {% endif %}
+
+        {% if promo_block.settings.promo_button_label != blank %}
+          <a
+            href="{{ promo_block.settings.promo_button_link | default: '#' }}"
+            class="cwc_header__mega-promo-button"
+          >
+            {{ promo_block.settings.promo_button_label }}
+          </a>
+        {% endif %}
+      </div>
+    {%- endif -%}
+  </div>
+
+  <div class="cwc_header__drawer-foot">
+    {% if section.settings.show_account %}
+      <a href="{{ routes.account_url }}">Account</a>
+    {% endif %}
+
+    {% if section.settings.show_cart %}
+      <a href="{{ routes.cart_url }}" class="cwc_header__drawer-cart">
+        Cart{% if cart.item_count > 0 %} &middot; {{ cart.item_count }}{% endif %}
+      </a>
+    {% endif %}
+  </div>
+</aside>

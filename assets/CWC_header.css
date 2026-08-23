@@ -1,5 +1,10 @@
 /* ==============================
    CWC Header
+   ------------------------------
+   One bar for every audience: wordmark left, navigation centred, utilities
+   right. Above the breakpoint the nav lives in the bar and opens full-width
+   mega panels; below it the whole nav moves into a drawer that slides in from
+   the left, on the same side as the burger that opens it.
    ============================== */
 
 /* === Section Wrapper === */
@@ -15,36 +20,42 @@
   z-index: 20;
 }
 
+/* === Header Bar ===
+
+   Translucent and blurred, so page content passing under a sticky header reads
+   as behind it rather than beside it.
+
+   The blur is the reason the drawer is a sibling of this element and not a
+   child: backdrop-filter makes an element the containing block for any
+   position:fixed descendant, which would pin the drawer to the bar. */
+.cwc_header__bar {
+  /* Opaque first: a browser without color-mix drops the second declaration and
+     would otherwise be left with no background at all under a sticky header. */
+  background-color: var(--section-bg);
+  background-color: color-mix(in srgb, var(--section-bg) 97%, transparent);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border-color);
+  position: relative;
+  z-index: 2;
+}
+
 .cwc_header__container {
   max-width: 1400px;
   margin: 0 auto;
   padding: 0 32px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
   gap: 24px;
+  min-height: 66px;
 }
 
-/* === Header Bar === */
-.cwc_header__bar {
-  background-color: var(--section-bg);
-  border-bottom: 1px solid var(--border-color);
-  padding-top: var(--padding-top);
-  padding-bottom: var(--padding-bottom);
-}
-
-/* === Wordmark ===
-
-   Middle of three zones: links, wordmark, utility. The outer two take an equal
-   share of whatever is left over, which is what centres the wordmark on the bar
-   itself rather than in the space between the links and the icons — those two
-   are never the same width. */
+/* === Wordmark === */
 .cwc_header__logo {
   text-decoration: none;
   flex: 0 0 auto;
   display: flex;
   align-items: center;
-  justify-content: center;
 }
 
 .cwc_header__logo-image {
@@ -56,41 +67,92 @@
 }
 
 .cwc_header__logo-text {
+  font-family: var(--cwc-font-heading);
   font-size: var(--logo-text-size);
-  font-weight: 800;
-  letter-spacing: -0.3px;
+  font-weight: 400;
+  letter-spacing: -0.015em;
   color: var(--logo-color);
   line-height: 1;
+  white-space: nowrap;
 }
 
 .cwc_header__logo-lead {
   font-weight: 400;
 }
 
+/* Italic and in the brand colour — the wordmark's second half is a different
+   voice, not merely a different weight. */
 .cwc_header__logo-accent {
   color: var(--highlight-color);
+  font-style: italic;
+  margin-left: 0.28em;
 }
 
-/* === Primary Links === */
-.cwc_header__links {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 26px;
+/* === Primary Navigation ===
+
+   Left of the wordmark, which is what the mega panel below asks for: that panel
+   sets its columns from the left edge of the bar, and a centred nav would have
+   the trigger sitting well to the right of the content it opens.
+
+   order, not source order — the burger and the wordmark have to stay adjacent
+   on mobile, where the nav is not rendered at all.
+
+   Nav and utility each take an equal share of the leftover space, which is what
+   centres the wordmark on the BAR rather than midway between two zones that are
+   never the same width. */
+.cwc_header__nav {
+  order: -1;
   flex: 1 1 0;
-  min-width: 0;
+  display: flex;
+  justify-content: flex-start;
+  /* Stretch, not centre. A centred row leaves several pixels of bar below each
+     link, and that strip belongs to no nav item — crossing it on the way to the
+     panel counts as leaving the menu entirely. Full-height items put the link's
+     bottom edge on the bar's, leaving only the 1px border to cross. */
+  align-self: stretch;
+  align-items: stretch;
+  gap: 4px;
+  /* Pulls the row left by one link's padding so the first item's TEXT starts on
+     the same line as the mega panel's first column, rather than the invisible
+     edge of its hit area doing so.
+
+     The matching positive margin on the right is not decoration. Margins count
+     against the free space a flex item's basis is grown from, so a lone -14px
+     would hand this item 14px that the utility zone did not get and slide the
+     wordmark 7px off the true centre of the bar. Net zero keeps the split even
+     while still shifting the row itself. */
+  margin-left: -14px;
+  margin-right: 14px;
 }
 
+/* static, not relative: the mega panel below is absolute and must anchor to the
+   bar so it can span its full width, not to the item that opened it.
+
+   display:flex so the link inside inherits the item's stretched height — the
+   item filling the bar is no use if its link still floats in the middle of it. */
 .cwc_header__item {
-  position: relative;
+  position: static;
   display: flex;
-  align-items: center;
+  align-items: stretch;
 }
 
 .cwc_header__link {
-  font-size: 0.9375rem;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  /* Vertical padding is a floor now rather than the height itself: the item
+     stretches to the bar and this link stretches with it. */
+  padding: 22px 14px;
+  font-size: 0.906rem;
+  /* 14.5px */
+  font-weight: 500;
+  line-height: 1;
+  color: inherit;
+  text-decoration: none;
+  position: relative;
+  white-space: nowrap;
+  /* testing */
   font-size: 1rem;
-  /* 15px */
   font-weight: 600;
   color: var(--text-color);
   text-decoration: none;
@@ -102,46 +164,73 @@
 
 .cwc_header__link:hover,
 .cwc_header__link--active {
-  color: var(--highlight-color);
+  color: var(--search-accent);
+}
+
+/* Underline grows from the link's own width rather than the padding box, so it
+   sits under the word and not under the gap beside it. */
+.cwc_header__link::after {
+  content: '';
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  bottom: 0;
+  height: 2px;
+  background: var(--highlight-color);
+  transform: scaleX(0);
+  transition: transform 0.18s ease;
+}
+
+.cwc_header__item--has-mega:hover .cwc_header__link::after,
+.cwc_header__item--has-mega:focus-within .cwc_header__link::after,
+.cwc_header__item:hover>.cwc_header__link::after {
+  transform: scaleX(1);
 }
 
 .cwc_header__caret {
-  width: 14px;
-  height: 14px;
-  flex-shrink: 0;
+  width: 11px;
+  height: 11px;
   fill: none;
   stroke: currentColor;
-  stroke-width: 2;
+  stroke-width: 2.4;
   stroke-linecap: round;
   stroke-linejoin: round;
-  transition: transform 0.15s ease;
+  opacity: 0.45;
+  transition: transform 0.16s ease;
 }
 
-/* === Dropdown === */
+.cwc_header__item--has-mega:hover .cwc_header__caret,
+.cwc_header__item--has-mega:focus-within .cwc_header__caret,
+.cwc_header__item--open .cwc_header__caret {
+  transform: rotate(180deg);
+}
+
+/* === Dropdown ===
+
+   The shape a menu item takes when no Mega Menu Panel block claims it: its
+   children as a short list hanging off the link.
+
+   Unlike a mega item this one IS positioned, because the panel belongs to the
+   link rather than to the bar. That is the whole difference between the two —
+   a mega spans the bar and so must anchor to it, a dropdown is the width of its
+   own contents and so must anchor to the item. */
+.cwc_header__item--has-dropdown {
+  position: relative;
+}
+
 .cwc_header__dropdown {
   display: none;
   position: absolute;
   top: 100%;
-  left: -14px;
+  left: 0;
   min-width: 190px;
   flex-direction: column;
   background-color: var(--dropdown-bg);
   border: 1px solid var(--border-color);
   border-radius: 6px;
   padding: 8px 0;
-  margin-top: 10px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
   z-index: 22;
-}
-
-/* hover bridge — keeps the dropdown open while crossing the gap */
-.cwc_header__item--has-dropdown::after {
-  content: '';
-  position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
-  height: 12px;
 }
 
 .cwc_header__item--has-dropdown:hover .cwc_header__dropdown,
@@ -155,9 +244,8 @@
 }
 
 .cwc_header__dropdown-link {
-  font-size: 0.875rem;
   font-size: 0.9rem;
-  /* 14px */
+  /* 14.4px */
   font-weight: 500;
   color: var(--text-color);
   text-decoration: none;
@@ -170,231 +258,694 @@
   color: var(--highlight-color);
 }
 
-/* === Utility Links === */
-.cwc_header__utility {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 12px;
-  flex: 1 1 0;
-  min-width: 0;
+/* === Mega Panel ===
+
+   Full bar width, anchored to the bar. Hidden with visibility rather than
+   display so it can transition, and the [hidden] attribute the script also sets
+   is overridden here for the same reason — display:none cannot animate and
+   would make the panel unmeasurable while closed. */
+.cwc_header__mega[hidden] {
+  display: block;
 }
 
-.cwc_header__icon {
+.cwc_header__mega {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 100%;
+  background: var(--mega-bg);
+  border-top: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
+  box-shadow: 0 20px 44px rgba(31, 31, 28, 0.1);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-8px);
+  /* Deliberately no transition on the closed state, so a panel LEAVES
+     instantly.
+
+     Every panel is absolutely positioned on the same strip under the bar. A
+     fading one therefore sits on top of the one taking over, and since panels
+     differ in height the taller outgoing one shows around the incoming one for
+     the whole fade. Animating only the entry means one panel is ever painted. */
+}
+
+/* The panel's own hover state is in this list on purpose. Travelling from the
+   trigger down to the panel crosses the bar's bottom border, where neither the
+   item nor the panel is hovered — without this the panel would begin closing
+   the moment the pointer left the link and be gone before it arrived. */
+.cwc_header__item--has-mega:hover .cwc_header__mega,
+.cwc_header__mega:hover,
+.cwc_header__item--has-mega:focus-within .cwc_header__mega {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  transition: opacity 0.17s ease, transform 0.17s ease;
+}
+
+/* Same max-width and horizontal padding as __container, so the first column
+   begins exactly where the first nav item does. A narrower panel would put the
+   columns tens of pixels inboard of the trigger that opened them. */
+.cwc_header__mega-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 36px 32px 40px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 40px;
+  align-items: start;
+}
+
+/* The reference proportions: two link columns, a slightly wider tile column and
+   a wider promo again. Only applied once there are enough panels to need it —
+   auto-fit above handles the shorter menus. */
+.cwc_header__mega--wide .cwc_header__mega-inner:has(.cwc_header__mega-promo) {
+  grid-template-columns: 1fr 1fr 1.05fr 1.15fr;
+}
+
+.cwc_header__mega--narrow .cwc_header__mega-inner {
+  max-width: 900px;
+}
+
+/* Only once there is a promo to be the wide third column. Without one the
+   auto-fit above shares the width evenly, rather than reserving a 1.4fr slot
+   for a panel that is not there. */
+.cwc_header__mega--narrow .cwc_header__mega-inner:has(.cwc_header__mega-promo) {
+  grid-template-columns: 1fr 1fr 1.4fr;
+}
+
+.cwc_header__mega-heading {
+  font-size: 0.656rem;
+  /* 10.5px */
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--mega-muted);
+  font-weight: var(--cwc-weight-label);
+  margin-bottom: 15px;
+}
+
+.cwc_header__mega-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.cwc_header__mega-link {
+  display: block;
+  padding: 6px 0;
+  font-size: 0.906rem;
+  /* 14.5px */
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.14s ease, padding-left 0.14s ease;
+}
+
+.cwc_header__mega-link:hover,
+.cwc_header__mega-link--active {
+  color: var(--highlight-color);
+  padding-left: 5px;
+}
+
+.cwc_header__mega-count {
+  font-size: 0.75rem;
+  /* 12px */
+  color: rgba(31, 31, 28, 0.38);
+  margin-left: 6px;
+}
+
+.cwc_header__mega-all {
+  display: block;
+  margin-top: 8px;
+  padding: 6px 0;
+  font-weight: var(--cwc-weight-subheading);
+  color: var(--search-accent);
+  font-size: 0.844rem;
+  /* 13.5px */
+  text-decoration: none;
+}
+
+.cwc_header__mega-all:hover {
+  color: var(--highlight-color);
+}
+
+/* === Featured Tiles === */
+.cwc_header__mega-col--featured {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.cwc_header__mega-tile {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  background: var(--mega-panel-bg);
+  border-radius: 8px;
+  padding: 10px 12px;
+  text-decoration: none;
+  color: inherit;
+  transition: background 0.15s ease;
+}
+
+.cwc_header__mega-tile:hover {
+  background: var(--mega-promo-bg);
+}
+
+.cwc_header__mega-tile-media {
+  width: 46px;
+  height: 46px;
+  border-radius: 5px;
+  background: #e3e1da;
+  flex: 0 0 auto;
+  overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 26px;
-  height: 26px;
-  /* the zone flexes now, the icons in it must not */
-  flex-shrink: 0;
-  color: var(--text-color);
+}
+
+.cwc_header__mega-tile-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.cwc_header__mega-tile-body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.cwc_header__mega-tile-title {
+  font-size: 0.844rem;
+  /* 13.5px */
+  font-weight: var(--cwc-weight-subheading);
+  line-height: 1.25;
+}
+
+.cwc_header__mega-tile-meta {
+  font-size: 0.719rem;
+  /* 11.5px */
+  font-weight: 400;
+  color: var(--mega-muted);
+}
+
+/* === Promo Card === */
+.cwc_header__mega-promo {
+  background: var(--mega-promo-bg);
+  border-radius: 10px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.cwc_header__mega-promo-heading {
+  font-family: var(--cwc-font-heading);
+  font-size: 1.563rem;
+  /* 25px */
+  font-weight: 400;
+  line-height: 1.14;
+  margin-bottom: 9px;
+  color: var(--logo-color);
+}
+
+.cwc_header__mega-promo-text {
+  font-size: 0.813rem;
+  /* 13px */
+  color: var(--mega-muted);
+  margin: 0;
+  line-height: 1.5;
+}
+
+.cwc_header__mega-promo-button {
+  display: inline-block;
+  align-self: flex-start;
+  background: var(--mega-button-bg);
+  color: var(--mega-button-text);
+  border-radius: 100px;
+  padding: 10px 22px;
+  font-size: 0.813rem;
+  /* 13px */
+  font-weight: var(--cwc-weight-subheading);
+  text-align: center;
+  text-decoration: none;
+}
+
+.cwc_header__mega-promo-button:hover {
+  opacity: 0.88;
+}
+
+/* === Utility Links === */
+/* The counterweight to the nav: an equal flexible share, with its own contents
+   pushed to the far edge. On mobile the nav is display:none, so this is the only
+   flexible child left and the same rule pushes the icons right of a wordmark
+   that has moved up beside the burger. */
+.cwc_header__utility {
+  flex: 1 1 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+}
+
+.cwc_header__icon {
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  color: inherit;
+  text-decoration: none;
+  flex: 0 0 auto;
+  transition: background 0.15s ease;
+  position: relative;
 }
 
 .cwc_header__icon svg {
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
   fill: none;
   stroke: currentColor;
-  stroke-width: 1.6;
+  stroke-width: 1.8;
   stroke-linecap: round;
   stroke-linejoin: round;
 }
 
 .cwc_header__icon:hover {
-  color: var(--highlight-color);
+  background: var(--mega-panel-bg);
 }
 
-/* === Mobile Toggle === */
+.cwc_header__cart-count {
+  position: absolute;
+  top: 4px;
+  right: 3px;
+  background: var(--highlight-color);
+  color: #ffffff;
+  font-size: 0.594rem;
+  /* 9.5px */
+  font-weight: var(--cwc-weight-subheading);
+  min-width: 15px;
+  height: 15px;
+  border-radius: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+}
+
+/* === Burger === */
 .cwc_header__toggle-wrap {
   display: none;
-}
-
-/* === Logo-Left Layout (wholesale) ===
-
-   Same markup as the default bar — only the flex order and the share of free
-   space change, so the dropdowns, search panel and JS are untouched.
-
-   Default bar (retail): links | wordmark | utility, outer zones equal so the
-   wordmark sits centred on the bar itself.
-   This bar (wholesale): wordmark | links | utility, wordmark and utility sized
-   to their content so the nav centres in the gap between them.
-
-   Desktop only. Below 992px the mobile rules take over for both audiences. */
-@media screen and (min-width: 992px) {
-  .cwc_header--logo-left .cwc_header__logo {
-    order: 1;
-    flex: 0 0 auto;
-    justify-content: flex-start;
-  }
-
-  .cwc_header--logo-left .cwc_header__links {
-    order: 2;
-    flex: 1 1 0;
-    justify-content: center;
-  }
-
-  .cwc_header--logo-left .cwc_header__utility {
-    order: 3;
-    flex: 0 0 auto;
-  }
+  flex: 0 0 auto;
 }
 
 .cwc_header__toggle {
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  background: none;
+  color: inherit;
+  cursor: pointer;
+  padding: 0;
+  border-radius: 50%;
+}
+
+.cwc_header__toggle svg {
+  width: 19px;
+  height: 19px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.9;
+  stroke-linecap: round;
+}
+
+.cwc_header__toggle:hover {
+  background: var(--mega-panel-bg);
+}
+
+/* === Scrim === */
+.cwc_header__scrim {
+  position: fixed;
+  inset: 0;
+  background: var(--scrim-color);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease, visibility 0.2s ease;
+  z-index: 70;
+}
+
+.cwc_header__scrim[hidden] {
+  display: block;
+}
+
+.cwc_header__scrim--visible {
+  opacity: 0.42;
+  visibility: visible;
+}
+
+/* === Drawer ===
+
+   Slides from the left. Three fixed zones — header, search, footer — with only
+   the link list between them scrolling, so Account and Cart stay reachable
+   however long the menu grows. */
+.cwc_header__drawer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: min(400px, 88vw);
+  background: var(--drawer-bg);
+  color: var(--text-color);
+  z-index: 80;
+  transform: translateX(-100%);
+  /* Visibility is transitioned alongside the slide, not instead of it. It flips
+     to visible at the start of an opening transition and holds until the end of
+     a closing one, so the panel is never invisible mid-slide — and while closed
+     it is genuinely hidden, which is what keeps the links inside it out of the
+     tab order. aria-hidden alone would not: it hides from screen readers but
+     leaves every link tabbable, so a keyboard user would land inside a drawer
+     they cannot see. */
+  visibility: hidden;
+  transition: transform 0.24s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.24s;
   display: flex;
   flex-direction: column;
+  box-shadow: 4px 0 28px rgba(31, 31, 28, 0.14);
+}
+
+/* Same reasoning as the mega panel: the attribute is kept for assistive tech,
+   but display:none would kill the slide. */
+.cwc_header__drawer[hidden] {
+  display: flex;
+}
+
+.cwc_header__drawer--open {
+  transform: none;
+  visibility: visible;
+}
+
+.cwc_header__drawer-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--border-color);
+  flex: 0 0 auto;
+}
+
+.cwc_header__drawer-logo {
+  font-family: var(--cwc-font-heading);
+  font-size: 1.125rem;
+  /* 18px */
+  color: var(--logo-color);
+  line-height: 1;
+}
+
+.cwc_header__drawer-logo img {
+  display: block;
+  height: var(--logo-height-mobile);
+  width: auto;
+  object-fit: contain;
+}
+
+.cwc_header__drawer-close {
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
   justify-content: center;
-  gap: 4px;
-  width: 26px;
-  height: 26px;
-  padding: 0;
+  border: 0;
   background: none;
-  border: none;
+  color: inherit;
+  cursor: pointer;
+  padding: 0;
+}
+
+.cwc_header__drawer-close svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.9;
+  stroke-linecap: round;
+}
+
+.cwc_header__drawer-search {
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--border-color);
+  flex: 0 0 auto;
+}
+
+.cwc_header__drawer-search input {
+  width: 100%;
+  border: 1px solid var(--border-color);
+  border-radius: 100px;
+  padding: 11px 16px;
+  font-family: inherit;
+  font-size: 0.906rem;
+  /* 14.5px */
+  background: var(--mega-panel-bg);
+  color: inherit;
+}
+
+.cwc_header__drawer-search input::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+}
+
+.cwc_header__drawer-body {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 6px 0 20px;
+}
+
+/* === Drawer Accordions === */
+.cwc_header__acc {
+  border-bottom: 1px solid var(--border-color);
+}
+
+.cwc_header__acc-head {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 18px;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 500;
+  text-align: left;
+  border: 0;
+  background: none;
+  color: inherit;
   cursor: pointer;
 }
 
-.cwc_header__toggle span {
+.cwc_header__acc--open .cwc_header__acc-head {
+  color: var(--search-accent);
+}
+
+.cwc_header__acc-sign {
+  font-size: 1rem;
+  color: var(--mega-muted);
+  font-weight: 400;
+}
+
+.cwc_header__acc-panel {
+  padding: 0 18px 14px;
+}
+
+.cwc_header__acc-panel[hidden] {
+  display: none;
+}
+
+.cwc_header__acc-group {
+  font-size: 0.656rem;
+  /* 10.5px */
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--mega-muted);
+  font-weight: var(--cwc-weight-label);
+  margin: 8px 0;
+}
+
+.cwc_header__acc-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* The rule down the left edge is what ties an indented link back to the
+   sub-heading above it, in place of a bullet. */
+.cwc_header__acc-list a {
   display: block;
-  width: 20px;
-  height: 2px;
-  border-radius: 2px;
-  background-color: var(--text-color);
+  padding: 9px 0 9px 12px;
+  font-size: 0.906rem;
+  /* 14.5px */
+  color: inherit;
+  text-decoration: none;
+  border-left: 2px solid var(--border-color);
+}
+
+.cwc_header__acc-list a:active,
+.cwc_header__acc-list a:hover {
+  color: var(--highlight-color);
+}
+
+.cwc_header__acc-count {
+  font-size: 0.75rem;
+  /* 12px */
+  color: rgba(31, 31, 28, 0.36);
+  margin-left: 5px;
+}
+
+.cwc_header__drawer-flat {
+  display: block;
+  padding: 16px 18px;
+  font-size: 1rem;
+  font-weight: 500;
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.cwc_header__drawer-promo {
+  margin: 16px 18px 0;
+  background: var(--mega-promo-bg);
+  border-radius: 10px;
+  padding: 18px;
+}
+
+.cwc_header__drawer-promo .cwc_header__mega-promo-heading {
+  font-size: 1.313rem;
+  /* 21px */
+  margin-bottom: 6px;
+}
+
+.cwc_header__drawer-promo .cwc_header__mega-promo-text {
+  font-size: 0.781rem;
+  /* 12.5px */
+  margin-bottom: 14px;
+}
+
+.cwc_header__drawer-foot {
+  border-top: 1px solid var(--border-color);
+  padding: 14px 18px;
+  display: flex;
+  gap: 10px;
+  flex: 0 0 auto;
+}
+
+.cwc_header__drawer-foot a {
+  flex: 1;
+  text-align: center;
+  padding: 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 100px;
+  font-size: 0.844rem;
+  /* 13.5px */
+  font-weight: var(--cwc-weight-subheading);
+  color: inherit;
+  text-decoration: none;
+}
+
+.cwc_header__drawer-cart {
+  background: var(--drawer-cart-bg);
+  color: #ffffff;
+  border-color: var(--drawer-cart-bg);
 }
 
 /* ==============================
-   Tablet Responsive
+   Header — Drawer Breakpoint
+   ------------------------------
+   Written as a max-width query at the schema default. The setting is published
+   on the section as a data attribute and the script mirrors it, so a merchant
+   who moves the breakpoint gets the burger at the new width even though this
+   query cannot be re-written at runtime.
    ============================== */
-@media screen and (max-width: 991px) {
-  .cwc_header__container {
-    padding: 0 20px;
-    gap: 12px;
+@media screen and (max-width: 1000px) {
+  .cwc_header__nav {
+    display: none;
   }
 
-  /* three zones: toggle left, wordmark centered, utility right.
-     equal flex on the outer zones is what keeps the wordmark optically centered */
   .cwc_header__toggle-wrap {
     display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    flex: 1 1 0;
-    min-width: 0;
   }
 
-  .cwc_header__logo {
-    flex: 0 0 auto;
-    max-width: 55%;
-    justify-content: center;
-  }
-
-  .cwc_header__logo-image {
-    max-width: 100%;
-  }
-
-  .cwc_header__logo-text {
-    white-space: nowrap;
-  }
-
-  .cwc_header__utility {
-    flex: 1 1 0;
-    min-width: 0;
-    justify-content: flex-end;
-  }
-
-  .cwc_header__links {
-    display: none;
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 100%;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0;
-    background-color: var(--section-bg);
-    border-bottom: 1px solid var(--border-color);
-    padding: 8px 20px 16px;
-    z-index: 21;
-  }
-
-  .cwc_header__links--open {
-    display: flex;
-  }
-
-  .cwc_header__item {
-    width: 100%;
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .cwc_header__link {
-    width: 100%;
-    padding: 12px 0;
-    border-bottom: 1px solid var(--border-color);
-  }
-
-  /* dropdowns flatten into an indented list — no hover on touch */
-  .cwc_header__item--has-dropdown::after {
-    display: none;
-  }
-
-  .cwc_header__caret {
-    display: none;
-  }
-
-  .cwc_header__dropdown {
-    display: flex;
-    position: static;
-    width: 100%;
-    min-width: 0;
-    border: none;
-    border-radius: 0;
-    box-shadow: none;
-    background: none;
-    margin: 0;
-    padding: 0;
-  }
-
-  .cwc_header__dropdown-link {
-    width: 100%;
-    padding: 10px 0 10px 16px;
-    border-bottom: 1px solid var(--border-color);
-    white-space: normal;
-  }
-
-  .cwc_header__bar {
-    position: relative;
-  }
-}
-
-/* ==============================
-   Mobile Responsive
-   ============================== */
-@media screen and (max-width: 768px) {
-
-  /* rescale the whole section from one anchor */
-  .cwc_header {
-  }
-
-  .cwc_header__bar {
-    padding-top: var(--padding-top-mobile);
-    padding-bottom: var(--padding-bottom-mobile);
-  }
-
-  .cwc_header__logo-image {
-    height: var(--logo-height-mobile);
+  .cwc_header__container {
+    min-height: 58px;
+    gap: 6px;
+    padding: 0 16px;
   }
 
   .cwc_header__logo-text {
     font-size: var(--logo-text-size-mobile);
   }
 
-  .cwc_header__container {
-    padding: 0 16px;
-  }
-
-  .cwc_header__links {
-    padding: 8px 16px 16px;
+  .cwc_header__logo-image {
+    height: var(--logo-height-mobile);
   }
 }
+
+/* The script adds this when the merchant's breakpoint differs from the query
+   above, so the two can never disagree at the boundary. */
+.cwc_header--collapsed .cwc_header__nav {
+  display: none;
+}
+
+.cwc_header--collapsed .cwc_header__toggle-wrap {
+  display: flex;
+}
+
+.cwc_header--expanded .cwc_header__nav {
+  display: flex;
+}
+
+.cwc_header--expanded .cwc_header__toggle-wrap {
+  display: none;
+}
+
+/* ==============================
+   Header — Mobile
+   ============================== */
+@media screen and (max-width: 768px) {
+  .cwc_header__container {
+    padding: 0 12px;
+  }
+
+  .cwc_header__utility {
+    gap: 0;
+  }
+
+  .cwc_header__icon {
+    width: 34px;
+    height: 34px;
+  }
+}
+
+/* ==============================
+   Header — Reduced Motion
+   ============================== */
+@media (prefers-reduced-motion: reduce) {
+
+  .cwc_header__mega,
+  .cwc_header__drawer,
+  .cwc_header__scrim,
+  .cwc_header__mega-link,
+  .cwc_header__link::after {
+    transition: none;
+  }
+}
+
 
 /* ==============================
    Search Panel

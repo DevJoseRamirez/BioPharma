@@ -306,15 +306,23 @@
 /* Full-bleed panel — runs to the section edge and fills the full column height. */
 .cwc_home-hero__media {
   background: var(--media-bg);
-  min-height: var(--media-min-height);
+  /* The minimum is taken against the cap rather than set outright: a bare
+     min-height beats a max-height in the cascade, so on a laptop short enough
+     that 90vh falls under the 540px minimum the panel would have ignored the
+     cap and pushed the fold off the screen — which is the one case the cap
+     exists for. */
+  min-height: min(var(--media-min-height), var(--media-max-height));
+  max-height: var(--media-max-height);
   display: flex;
   align-self: stretch;
+  overflow: hidden;
 }
 
 .cwc_home-hero__media img {
   width: 100%;
   height: 100%;
-  min-height: var(--media-min-height);
+  min-height: min(var(--media-min-height), var(--media-max-height));
+  max-height: var(--media-max-height);
   object-fit: var(--media-fit);
   display: block;
 }
@@ -363,11 +371,11 @@
   .cwc_home-hero__media,
   .cwc_home-hero--reverse .cwc_home-hero__media {
     order: 2;
-    min-height: 320px;
+    min-height: min(320px, var(--media-max-height));
   }
 
   .cwc_home-hero__media img {
-    min-height: 320px;
+    min-height: min(320px, var(--media-max-height));
   }
 }
 

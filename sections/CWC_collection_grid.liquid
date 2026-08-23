@@ -307,6 +307,22 @@
               assign rating_raw = product.metafields[rating_path[0]][rating_path[1]].value
               assign rating_value = rating_raw.rating | default: rating_raw
               assign rating_count = product.metafields[rating_count_path[0]][rating_count_path[1]].value
+              # May be typed as text, so it is coerced before it is compared.
+              assign rating_count_number = rating_count | plus: 0
+
+              # A card never shows "5.0 (0)" — a rating with no reviews behind it
+              # reads as a real score. The row is dropped instead.
+              #
+              # A blank count is not the same as a zero one: the count metafield
+              # is a configurable path and a shop may simply not fill it, so an
+              # unset count still shows the stars rather than hiding a rating the
+              # shop does have.
+              assign has_rating = false
+              if rating_value != blank
+                if rating_count == blank or rating_count_number > 0
+                  assign has_rating = true
+                endif
+              endif
             %}
 
             <article
@@ -368,7 +384,12 @@
                   {% endif %}
                 </div>
 
-                <a class="cwc_collection-grid__card-link" href="{{ product.url }}">
+                {%- comment -%}
+                  Not an anchor any more. The title link below stretches over the
+                  whole card, so a second link to the same product would only be
+                  a duplicate for anyone tabbing or listening through the grid.
+                {%- endcomment -%}
+                <div class="cwc_collection-grid__card-link">
                   {% if product.featured_image != blank %}
                     <img
                       class="cwc_collection-grid__card-image"
@@ -396,29 +417,8 @@
                     >
                   {% endif %}
 
-                  <span class="cwc_collection-grid__visually-hidden">{{ product.title }}</span>
-                </a>
+                </div>
 
-                {% comment %} Quick add — a real form, so it works without JS {% endcomment %}
-                {% if section.settings.show_quick_add %}
-                  {% if product.available == false %}
-                    <a class="cwc_collection-grid__quick-add cwc_collection-grid__quick-add--notify" href="{{ product.url }}">
-                      {{- section.settings.notify_label | default: 'Notify me' -}}
-                    </a>
-                  {% elsif product.variants.size > 1 %}
-                    <a class="cwc_collection-grid__quick-add" href="{{ product.url }}">
-                      {{- section.settings.choose_label | default: 'Choose options' -}}
-                    </a>
-                  {% else %}
-                    {% form 'product', product, class: 'cwc_collection-grid__quick-add-form', data-cwc-quick-add: '' %}
-                      <input type="hidden" name="id" value="{{ card_variant.id }}">
-                      <input type="hidden" name="quantity" value="1">
-                      <button class="cwc_collection-grid__quick-add" type="submit">
-                        {{- section.settings.quick_add_label | default: 'Quick add' -}}
-                      </button>
-                    {% endform %}
-                  {% endif %}
-                {% endif %}
               </div>
 
               <div class="cwc_collection-grid__card-body">
@@ -441,7 +441,7 @@
                   <p class="cwc_collection-grid__card-text">{{ card_text }}</p>
                 {% endif %}
 
-                {% if section.settings.show_rating and rating_value != blank %}
+                {% if section.settings.show_rating and has_rating %}
                   {% liquid
                     assign rating_rounded = rating_value | round
                   %}
@@ -460,10 +460,16 @@
                   </div>
                 {% endif %}
 
+                {%- comment -%}
+                  Captured first, then the row is printed whether or not it
+                  filled — the empty row still holds its height, which is what
+                  keeps a single-variant card's price on the same line as the
+                  multi-variant card beside it.
+                {%- endcomment -%}
                 {% if section.settings.show_variant_swatches %}
-                  {% for option in product.options_with_values %}
-                    {% if option.name == section.settings.swatch_option_name %}
-                      <div class="cwc_collection-grid__swatches">
+                  {%- capture card_swatches -%}
+                    {% for option in product.options_with_values %}
+                      {% if option.name == section.settings.swatch_option_name %}
                         {% for value in option.values %}
                           {% if value.swatch.color != blank %}
                             <span
@@ -473,9 +479,11 @@
                             ></span>
                           {% endif %}
                         {% endfor %}
-                      </div>
-                    {% endif %}
-                  {% endfor %}
+                      {% endif %}
+                    {% endfor %}
+                  {%- endcapture -%}
+
+                  <div class="cwc_collection-grid__swatches">{{ card_swatches }}</div>
                 {% endif %}
 
                 <div class="cwc_collection-grid__price">
@@ -518,6 +526,44 @@
                       {{ section.settings.subscription_save_text | default: '— save' }}
                       {{ sub_percent }}%
                     </div>
+                  {% endif %}
+                {% endif %}
+
+                {%- comment -%}
+                  The spacer eats whatever height the card is short of its
+                  tallest sibling, so every button in a row sits on one line no
+                  matter how much copy is above it.
+                {%- endcomment -%}
+                <div class="cwc_collection-grid__card-spacer"></div>
+
+                {%- comment -%}
+                  Add to cart lives at the foot of the card, on the card, always
+                  visible — not floated over the image on hover. Touch has no
+                  hover, so an overlay button is a button half the shoppers
+                  never see.
+
+                  Still a real form for the single-variant case, so the add
+                  works with JS off. Anything with options, and anything sold
+                  out, links to the product page instead: the choice cannot be
+                  made from a card.
+                {%- endcomment -%}
+                {% if section.settings.show_quick_add %}
+                  {% if product.available == false %}
+                    <a class="cwc_collection-grid__quick-add cwc_collection-grid__quick-add--notify" href="{{ product.url }}">
+                      {{- section.settings.notify_label | default: 'Notify me' -}}
+                    </a>
+                  {% elsif product.variants.size > 1 %}
+                    <a class="cwc_collection-grid__quick-add" href="{{ product.url }}">
+                      {{- section.settings.choose_label | default: 'Choose a flavor' -}}
+                    </a>
+                  {% else %}
+                    {% form 'product', product, class: 'cwc_collection-grid__quick-add-form', data-cwc-quick-add: '' %}
+                      <input type="hidden" name="id" value="{{ card_variant.id }}">
+                      <input type="hidden" name="quantity" value="1">
+                      <button class="cwc_collection-grid__quick-add" type="submit">
+                        {{- section.settings.quick_add_label | default: 'Add to cart' -}}
+                      </button>
+                    {% endform %}
                   {% endif %}
                 {% endif %}
               </div>
@@ -738,13 +784,13 @@
       "type": "text",
       "id": "quick_add_label",
       "label": "Quick Add Label",
-      "default": "Quick add"
+      "default": "Add to cart"
     },
     {
       "type": "text",
       "id": "choose_label",
       "label": "Multi-Variant Label",
-      "default": "Choose options"
+      "default": "Choose a flavor"
     },
     {
       "type": "text",

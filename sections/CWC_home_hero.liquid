@@ -14,6 +14,7 @@
     --media-bg: {{ section.settings.media_bg_color | default: '#ECEBE5' }};
     --media-fit: {{ section.settings.image_fit | default: 'cover' }};
     --media-min-height: {{ section.settings.media_min_height | default: 540 }}px;
+    --media-max-height: {{ section.settings.media_max_height | default: 90 }}vh;
     --pill-bg: {{ section.settings.pill_bg_color | default: '#ffffff' }};
     --stat-color: {{ section.settings.stat_color | default: '#44681A' }};
     --padding-top: {{ section.settings.padding_top | default: 90 }}px;
@@ -467,6 +468,17 @@
       "step": 20,
       "unit": "px",
       "default": 540
+    },
+    {
+      "type": "range",
+      "id": "media_max_height",
+      "label": "Image Panel Maximum Height",
+      "info": "Share of the screen height the hero can take. Wins over the minimum above on a short screen, so the whole hero stays in view.",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "vh",
+      "default": 90
     },
     {
       "type": "select",
