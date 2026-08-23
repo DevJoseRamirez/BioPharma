@@ -362,6 +362,14 @@
   color: var(--mega-muted);
   font-weight: var(--cwc-weight-label);
   margin-bottom: 18px;
+  margin-bottom: 15px;
+  /* testing */
+  font-size: 10.5px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: #1f1f1c99;
+  font-weight: 600;
+  margin: 0 0 15px;
 }
 
 .cwc_header__mega-list {
@@ -385,8 +393,12 @@
   font-size: 0.906rem;
   /* 14.5px */
   color: inherit;
+  font-weight: 500;
   text-decoration: none;
   transition: color 0.14s ease, padding-left 0.14s ease;
+  /* testing */
+  font-weight: 600;
+  color: var(--text-color);
 }
 
 .cwc_header__mega-link:hover,
@@ -522,6 +534,7 @@
 
 .cwc_header__mega-promo-text {
   font-size: 0.813rem;
+  font-size: 0.9rem;
   /* 13px */
   color: var(--mega-muted);
   margin: 0;
@@ -822,12 +835,16 @@
   margin: 8px 0;
 }
 
+
+
 .cwc_header__acc-list {
   list-style: none;
   margin: 0;
   padding: 0;
   display: flex;
   flex-direction: column;
+  /*  */
+  margin-bottom: 20px;
 }
 
 /* The rule down the left edge is what ties an indented link back to the
@@ -889,6 +906,8 @@
   display: flex;
   gap: 10px;
   flex: 0 0 auto;
+  /* testing */
+  display: none;
 }
 
 .cwc_header__drawer-foot a {

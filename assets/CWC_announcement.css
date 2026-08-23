@@ -67,9 +67,15 @@
    Mobile Responsive
    ============================== */
 @media screen and (max-width: 768px) {
+
   /* rescale the whole section from one anchor */
-  .cwc_announcement {
+  .cwc_announcement {}
+
+  .cwc_announcement__text p {
+    font-size: 13px;
   }
+
+
 
   .cwc_announcement__container {
     padding: 0 12px;

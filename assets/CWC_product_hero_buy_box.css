@@ -1029,7 +1029,7 @@
   cursor: pointer;
   margin-top: 15px;
   font-family: inherit;
-  line-height: 1;
+  /* line-height: 1; */
 }
 
 .cwc_product-hero-buy-box__cta:hover {
@@ -1143,6 +1143,8 @@
   font-size: 1.06rem;
   /* 16.96px */
   overflow: hidden;
+  /* testing */
+  background: #f4f3ee;
 }
 
 .cwc_product-hero-buy-box__trust-icon svg {
@@ -1458,6 +1460,16 @@
    Mobile Responsive
    ============================== */
 @media screen and (max-width: 768px) {
+  .cwc_product-hero-buy-box__cta {
+    /* line-height: normal; */
+  }
+
+  .cwc_product-hero-buy-box__content-heading h1,
+  .cwc_product-hero-buy-box__content-heading h2,
+  .cwc_product-hero-buy-box__content-heading h3,
+  .cwc_product-hero-buy-box__content-heading p {
+    font-size: 2rem;
+  }
 
   .cwc_product-hero-buy-box__media-popup {
     padding: 12px;
@@ -1619,6 +1631,7 @@
   }
 
 }
+
 /* ==============================
    Product Options (Auto)
 
@@ -1635,7 +1648,7 @@
   flex-direction: column;
 }
 
-.cwc_product-hero-buy-box__option-row + .cwc_product-hero-buy-box__option-row {
+.cwc_product-hero-buy-box__option-row+.cwc_product-hero-buy-box__option-row {
   margin-top: 4px;
 }
 
@@ -1694,8 +1707,7 @@
 
 /* Struck through rather than merely dimmed: on a pill the label is the whole
    control, so the state has to be legible in the text itself. */
-.cwc_product-hero-buy-box__option-value--pill.cwc_product-hero-buy-box__flavor--unavailable
-  .cwc_product-hero-buy-box__option-value-text {
+.cwc_product-hero-buy-box__option-value--pill.cwc_product-hero-buy-box__flavor--unavailable .cwc_product-hero-buy-box__option-value-text {
   text-decoration: line-through;
 }
 

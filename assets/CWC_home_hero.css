@@ -355,7 +355,7 @@
      what lands above the fold, not the product shot. */
   .cwc_home-hero__content,
   .cwc_home-hero--reverse .cwc_home-hero__content {
-    order: 1;
+    order: 2;
     padding-left: 20px;
     padding-right: 20px;
   }
@@ -370,7 +370,7 @@
 
   .cwc_home-hero__media,
   .cwc_home-hero--reverse .cwc_home-hero__media {
-    order: 2;
+    order: 1;
     min-height: min(320px, var(--media-max-height));
   }
 
@@ -393,6 +393,8 @@
     padding-bottom: calc(var(--padding-bottom-mobile) * 0.8);
     padding-left: 16px;
     padding-right: 16px;
+    /*  */
+    padding-top: 4px;
   }
 
   /* === Eyebrow === */
@@ -446,6 +448,8 @@
 
   .cwc_home-hero__offer--above {
     margin-bottom: 1rem;
+    /* temp - testing */
+    display: none;
   }
 
   .cwc_home-hero__offer-price {
@@ -501,10 +505,17 @@
   .cwc_home-hero__media,
   .cwc_home-hero--reverse .cwc_home-hero__media {
     min-height: 260px;
+    /*  */
+    padding: 1rem;
+    background-color: var(--section-bg);
   }
 
   .cwc_home-hero__media img {
     min-height: 260px;
+    /* testign temp */
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    border-radius: 12px;
   }
 }
 
