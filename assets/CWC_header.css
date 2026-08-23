@@ -302,45 +302,66 @@
   transition: opacity 0.17s ease, transform 0.17s ease;
 }
 
-/* Same max-width and horizontal padding as __container, so the first column
-   begins exactly where the first nav item does. A narrower panel would put the
-   columns tens of pixels inboard of the trigger that opened them. */
+/* Debug only — nothing in the theme ever applies this.
+
+   Put it on ONE panel from devtools to pin it open while you inspect it.
+   --open, which the script does set, is deliberately absent from the rule above:
+   holding it after mouseleave is what used to leave an outgoing panel painted
+   over the one arriving.
+
+   One panel at a time. Every panel is absolutely positioned on the same strip
+   under the bar, so pinning two just stacks them. */
+.cwc_header__mega--debug {
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: none !important;
+  transition: none !important;
+}
+
+/* The columns are centred as a group rather than stretched across the bar, so a
+   panel of three closes up around the middle instead of leaving a third of the
+   bar as a gap.
+
+   Wrapping rather than a fixed set of tracks: the nav is still on screen down
+   to 1000px, and four panels at their natural widths do not fit that — they
+   drop a row and stay centred instead of running off the side.
+
+   This is a deliberate trade: the first column no longer starts exactly under
+   the first nav item, which is what the old 1fr tracks bought. */
 .cwc_header__mega-inner {
   max-width: 1400px;
   margin: 0 auto;
   padding: 36px 32px 40px;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 40px;
-  align-items: start;
+  align-items: flex-start;
 }
 
-/* The reference proportions: two link columns, a slightly wider tile column and
-   a wider promo again. Only applied once there are enough panels to need it —
-   auto-fit above handles the shorter menus. */
-.cwc_header__mega--wide .cwc_header__mega-inner:has(.cwc_header__mega-promo) {
-  grid-template-columns: 1fr 1fr 1.05fr 1.15fr;
+/* Sized to their own content over a floor, so a column of short category names
+   does not hold the width of the longest one in the panel. */
+.cwc_header__mega-col {
+  flex: 0 1 auto;
+  min-width: 180px;
+  min-width: 200px;
 }
 
 .cwc_header__mega--narrow .cwc_header__mega-inner {
   max-width: 900px;
 }
 
-/* Only once there is a promo to be the wide third column. Without one the
-   auto-fit above shares the width evenly, rather than reserving a 1.4fr slot
-   for a panel that is not there. */
-.cwc_header__mega--narrow .cwc_header__mega-inner:has(.cwc_header__mega-promo) {
-  grid-template-columns: 1fr 1fr 1.4fr;
-}
-
+/* The in-panel column title: the same small caps label the reference uses over
+   every column, tile group and promo — one treatment, so nothing in the panel
+   competes with the nav item that opened it. */
 .cwc_header__mega-heading {
-  font-size: 0.656rem;
-  /* 10.5px */
-  letter-spacing: 0.14em;
+  font-size: 0.719rem;
+  /* 11.5px */
+  letter-spacing: 0.13em;
   text-transform: uppercase;
   color: var(--mega-muted);
   font-weight: var(--cwc-weight-label);
-  margin-bottom: 15px;
+  margin-bottom: 18px;
 }
 
 .cwc_header__mega-list {
@@ -351,6 +372,12 @@
   flex-direction: column;
   gap: 2px;
 }
+
+.cwc_header__mega-list li {
+  padding-left: 0px;
+
+}
+
 
 .cwc_header__mega-link {
   display: block;
@@ -375,23 +402,37 @@
   margin-left: 6px;
 }
 
+/* The last link in a column is the way out of it — to the full collection
+   rather than to one more slice of it. It carries the accent and the arrow so
+   it reads as a different kind of link than the ones above, and takes a wider
+   gap so it separates from the list rather than closing it. */
 .cwc_header__mega-all {
   display: block;
-  margin-top: 8px;
+  margin-top: 14px;
   padding: 6px 0;
   font-weight: var(--cwc-weight-subheading);
   color: var(--search-accent);
-  font-size: 0.844rem;
-  /* 13.5px */
+  font-size: 0.906rem;
+  /* 14.5px — the list's own size, so it sits with them rather than under them */
   text-decoration: none;
+  /* testing */
+  margin: auto;
+  transition: color 0.14s ease, padding-left 0.14s ease;
+
 }
 
 .cwc_header__mega-all:hover {
   color: var(--highlight-color);
+  padding-left: 5px;
 }
 
 /* === Featured Tiles === */
+/* Widths rather than fractions, because the tracks are content-sized now: left
+   to itself a tile column would measure whatever its longest product title
+   happens to be, and the link columns beside it would shift every time a
+   merchant swapped a featured product. */
 .cwc_header__mega-col--featured {
+  width: 340px;
   display: flex;
   flex-direction: column;
   gap: 9px;
@@ -455,6 +496,7 @@
 
 /* === Promo Card === */
 .cwc_header__mega-promo {
+  width: 380px;
   background: var(--mega-promo-bg);
   border-radius: 10px;
   padding: 24px;
@@ -462,6 +504,10 @@
   flex-direction: column;
   justify-content: space-between;
   gap: 18px;
+  /* testing */
+  height: 100%;
+  height: stretch;
+
 }
 
 .cwc_header__mega-promo-heading {
@@ -867,24 +913,45 @@
 /* ==============================
    Header — Drawer Breakpoint
    ------------------------------
-   Written as a max-width query at the schema default. The setting is published
-   on the section as a data attribute and the script mirrors it, so a merchant
-   who moves the breakpoint gets the burger at the new width even though this
-   query cannot be re-written at runtime.
+   Below the breakpoint the bar becomes three zones: burger left, wordmark
+   centred, utilities right.
+
+   The layout is written twice on purpose. The media query carries the schema
+   default, so the collapse works before any script has run and keeps working if
+   none ever does. The --collapsed class repeats it for a merchant who moved the
+   breakpoint, because a media query cannot be rewritten at runtime — and being
+   one class more specific, it wins wherever the two disagree. --expanded undoes
+   it in the other direction, for a breakpoint set below 1000.
    ============================== */
 @media screen and (max-width: 1000px) {
   .cwc_header__nav {
     display: none;
   }
 
+  /* Left zone. Equal flexible share with the utilities opposite, which is what
+     centres the wordmark on the BAR — the burger and the icon row are never the
+     same width, so centring between them would not be centring at all.
+
+     min-width:0 lets the zone be squeezed below its contents on a very narrow
+     screen instead of shoving the wordmark off centre. */
   .cwc_header__toggle-wrap {
     display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex: 1 1 0;
+    min-width: 0;
   }
 
-  .cwc_header__container {
-    min-height: 58px;
-    gap: 6px;
-    padding: 0 16px;
+  .cwc_header__utility {
+    min-width: 0;
+  }
+
+  /* Capped so a long wordmark yields to the zones either side rather than
+     pushing them out of the bar. */
+  .cwc_header__logo {
+    flex: 0 0 auto;
+    max-width: 55%;
+    justify-content: center;
   }
 
   .cwc_header__logo-text {
@@ -893,19 +960,63 @@
 
   .cwc_header__logo-image {
     height: var(--logo-height-mobile);
+    max-width: 100%;
+  }
+
+  .cwc_header__container {
+    min-height: 58px;
+    gap: 6px;
+    padding: 0 16px;
   }
 }
 
-/* The script adds this when the merchant's breakpoint differs from the query
-   above, so the two can never disagree at the boundary. */
 .cwc_header--collapsed .cwc_header__nav {
   display: none;
 }
 
+/* Left zone. Equal flexible share with the utilities opposite, which is what
+   centres the wordmark on the BAR — the burger and the icon row are never the
+   same width, so centring between them would not be centring at all.
+
+   min-width:0 lets the zone be squeezed below its contents on a very narrow
+   screen instead of shoving the wordmark off centre. */
 .cwc_header--collapsed .cwc_header__toggle-wrap {
   display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex: 1 1 0;
+  min-width: 0;
 }
 
+.cwc_header--collapsed .cwc_header__utility {
+  min-width: 0;
+}
+
+/* Capped so a long wordmark yields to the zones either side rather than
+   pushing them out of the bar. */
+.cwc_header--collapsed .cwc_header__logo {
+  flex: 0 0 auto;
+  max-width: 55%;
+  justify-content: center;
+}
+
+.cwc_header--collapsed .cwc_header__logo-text {
+  font-size: var(--logo-text-size-mobile);
+}
+
+.cwc_header--collapsed .cwc_header__logo-image {
+  height: var(--logo-height-mobile);
+  max-width: 100%;
+}
+
+.cwc_header--collapsed .cwc_header__container {
+  min-height: 58px;
+  gap: 6px;
+  padding: 0 16px;
+}
+
+/* Breakpoint raised above 1000px: the media query has already switched this bar
+   to its collapsed layout and every rule of it has to be handed back. */
 .cwc_header--expanded .cwc_header__nav {
   display: flex;
 }
@@ -914,11 +1025,35 @@
   display: none;
 }
 
+.cwc_header--expanded .cwc_header__logo {
+  max-width: none;
+}
+
+.cwc_header--expanded .cwc_header__logo-text {
+  font-size: var(--logo-text-size);
+}
+
+.cwc_header--expanded .cwc_header__logo-image {
+  height: var(--logo-height);
+}
+
+.cwc_header--expanded .cwc_header__container {
+  min-height: 66px;
+  gap: 24px;
+  padding: 0 32px;
+}
+
 /* ==============================
    Header — Mobile
    ============================== */
 @media screen and (max-width: 768px) {
-  .cwc_header__container {
+
+  /* The --collapsed variant is repeated here for specificity, not for effect.
+     It carries one more class than the bare selector, so without a matching
+     rule it would keep imposing the 16px padding from the breakpoint block on
+     any shop that moved the breakpoint off its default. */
+  .cwc_header__container,
+  .cwc_header--collapsed .cwc_header__container {
     padding: 0 12px;
   }
 

@@ -86,19 +86,25 @@
       {%- for child in link.links -%}
         {%- liquid
           comment
-            Which footer link belongs to this column. Only the first two carry
-            one, which is what the reference layout asks for — a third column of
-            links would be an unusual menu and can do without.
+            The footer link for this column — the "All products →" that closes a
+            list off.
+
+            Read by column number rather than matched by a chain of conditions,
+            so adding a fourth column to the schema is a schema edit alone. It is
+            a block setting rather than a menu entry on purpose: as a menu entry
+            it would be one more link in the list, styled like the rest and
+            impossible to treat differently, and it would exist for every panel
+            that shares the menu instead of only the one that wants it.
+
+            A column past the last numbered slot simply gets none, which is the
+            right failure: the list still renders, it just does not close with a
+            link.
           endcomment
-          assign footer_label = ''
-          assign footer_url = ''
-          if forloop.index == 1
-            assign footer_label = block.settings.col1_link_label
-            assign footer_url = block.settings.col1_link_url
-          elsif forloop.index == 2
-            assign footer_label = block.settings.col2_link_label
-            assign footer_url = block.settings.col2_link_url
-          endif
+          assign key = 'col' | append: forloop.index | append: '_link_label'
+          assign footer_label = block.settings[key]
+
+          assign key = 'col' | append: forloop.index | append: '_link_url'
+          assign footer_url = block.settings[key]
         -%}
 
         <div class="cwc_header__mega-col">

@@ -29,52 +29,71 @@
     "cwc_header_L77DAi": {
       "type": "CWC_header",
       "blocks": {
-        "link_McigqG": {
-          "type": "link",
+        "mega_panel_R4wNHQ": {
+          "type": "mega_panel",
           "settings": {
-            "label": "Greens + Reds",
-            "link": "shopify://collections/greens"
+            "menu_item": "Shop",
+            "variant": "wide",
+            "col1_link_label": "All Products",
+            "col1_link_url": "shopify://collections/all",
+            "col2_link_label": "Kits & Bundles",
+            "col2_link_url": "shopify://collections/best-selling",
+            "col3_link_label": "test",
+            "col3_link_url": "",
+            "col4_link_label": "test",
+            "col4_link_url": "",
+            "featured_heading": "Featured",
+            "featured_show_price": true,
+            "featured_product_1": "nanogreens-10-support",
+            "featured_label_1": "Most Popular",
+            "featured_product_2": "nanopro-vanilla",
+            "featured_label_2": "Performance",
+            "featured_product_3": "nanoreds-natural-berry",
+            "featured_label_3": "Daily Nutrition",
+            "promo_heading": "Not sure whereto start?",
+            "promo_text": "Three questions and we'll narrow seventeen products down to the two or three worth your time.",
+            "promo_button_label": "Take the quiz",
+            "promo_button_link": "shopify://products/nanogreens-10-support"
           }
         },
-        "link_RL7LF4": {
-          "type": "link",
+        "mega_panel_bhDBgq": {
+          "type": "mega_panel",
           "settings": {
-            "label": "Shop",
-            "link": ""
-          }
-        },
-        "link_3UpfDg": {
-          "type": "link",
-          "settings": {
-            "label": "Shop",
-            "link": ""
-          }
-        },
-        "link_x7WRXd": {
-          "type": "link",
-          "settings": {
-            "label": "Shop",
-            "link": ""
-          }
-        },
-        "link_AXAdBa": {
-          "type": "link",
-          "settings": {
-            "label": "Shop",
-            "link": ""
+            "menu_item": "Learn",
+            "variant": "wide",
+            "col1_link_label": "",
+            "col1_link_url": "",
+            "col2_link_label": "",
+            "col2_link_url": "",
+            "col3_link_label": "",
+            "col3_link_url": "",
+            "col4_link_label": "",
+            "col4_link_url": "",
+            "featured_heading": "Featured",
+            "featured_show_price": true,
+            "featured_product_1": "",
+            "featured_label_1": "",
+            "featured_product_2": "",
+            "featured_label_2": "",
+            "featured_product_3": "",
+            "featured_label_3": "",
+            "promo_heading": "You are what you absorb",
+            "promo_text": "Why nine enzymes matter more than a long ingredient list.",
+            "promo_button_label": "Read the science",
+            "promo_button_link": "shopify://pages/research"
           }
         }
       },
       "block_order": [
-        "link_McigqG",
-        "link_RL7LF4",
-        "link_3UpfDg",
-        "link_x7WRXd",
-        "link_AXAdBa"
+        "mega_panel_R4wNHQ",
+        "mega_panel_bhDBgq"
       ],
       "name": "Header",
       "settings": {
-        "menu": "header-menu-v1",
+        "menu": "header-menu-v2",
+        "show_menu_counts": true,
+        "mobile_breakpoint": 1000,
+        "drawer_open_first": true,
         "menu_wholesale": "products-wholesale",
         "logo": "shopify://shop_images/logo-biopharma-sci.png",
         "logo_alt": "NanoGreens",
@@ -108,6 +127,15 @@
         "logo_color": "#2a2611",
         "border_color": "#e6e5dc",
         "dropdown_bg_color": "#ffffff",
+        "mega_bg_color": "#ffffff",
+        "mega_muted_color": "#5c5842",
+        "mega_panel_bg_color": "#f5f4f0",
+        "mega_promo_bg_color": "#ecebe5",
+        "mega_button_bg_color": "#5ba90f",
+        "mega_button_text_color": "#ffffff",
+        "drawer_bg_color": "#ffffff",
+        "drawer_cart_bg_color": "#1f1f1c",
+        "scrim_color": "#1f1f1c",
         "padding_top": 15,
         "padding_bottom": 15
       }
