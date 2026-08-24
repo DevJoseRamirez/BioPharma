@@ -163,6 +163,23 @@
     flex-direction: column;
   }
 
+  /* The flex-basis on this input is 14rem, which is a WIDTH in the desktop row
+     and a HEIGHT the moment the form turns into a column — flex-basis follows
+     the main axis, and the main axis has just rotated. Left alone it renders a
+     224px-tall input.
+
+     Reset to auto so the height comes from padding and line-height as it would
+     anywhere else, and take the full width explicitly since there is no longer a
+     row to share. */
+  .cwc_home-email__input {
+    flex: 0 0 auto;
+    width: 100%;
+    /* 16px is the threshold below which iOS Safari zooms the page on focus.
+       The desktop 0.91rem would trip it and leave the shopper zoomed in on a
+       form they then have to pinch back out of. */
+    font-size: 1rem;
+  }
+
   .cwc_home-email__button {
     width: 100%;
   }

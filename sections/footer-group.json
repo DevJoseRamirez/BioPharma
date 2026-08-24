@@ -24,15 +24,15 @@
         "info_links": {
           "type": "link_column",
           "settings": {
-            "heading": "Info",
-            "menu": "footer"
+            "heading": "Shop",
+            "menu": "footer-shop-v2"
           }
         },
         "account_links": {
           "type": "link_column",
           "settings": {
-            "heading": "My Account",
-            "menu": "my-account"
+            "heading": "Quick links",
+            "menu": "footer-account-v2"
           }
         },
         "newsletter": {

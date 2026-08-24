@@ -148,15 +148,25 @@
             assign show_badge = true
           endif
 
+          comment
+            The amount is formatted before it is joined to anything, not after.
+            Filters chain left to right, so `'Save ' | append: amount | money`
+            hands money a string that already reads "Save 1874" — it has no cents
+            left to format and returns nothing, which would blank the whole
+            label. Only the percent style escaped it, having no money filter to
+            mis-order.
+          endcomment
           assign save_label = ''
           if has_saving
+            assign saving_money = saving_amount | money
+
             case savings_style
               when 'percent'
                 assign save_label = 'Save ' | append: saving_percent | append: '%'
               when 'amount'
-                assign save_label = 'Save ' | append: saving_amount | money
+                assign save_label = 'Save ' | append: saving_money
               when 'both'
-                assign save_label = 'Save ' | append: saving_percent | append: '% · ' | append: saving_amount | money
+                assign save_label = 'Save ' | append: saving_percent | append: '% · ' | append: saving_money
             endcase
           endif
         -%}

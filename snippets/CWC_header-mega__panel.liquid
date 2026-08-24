@@ -187,8 +187,21 @@
               endcomment
               assign tile_price = ''
               if block.settings.featured_show_price
+                comment
+                  price_min, not price: a product whose options carry different
+                  prices should quote the cheapest way in, which is what a
+                  shopper reads "from" as promising.
+
+                  The money filter runs BEFORE the prefix is attached, and that
+                  ordering is the whole point. Filters chain left to right, so
+                  `'from ' | append: price_min | money` hands money a string that
+                  already reads "from 5621" — it has no cents to format and comes
+                  back empty, which silently dropped the price from every
+                  multi-option product while single-option ones priced fine.
+                endcomment
                 if tile_product.price_varies
-                  assign tile_price = 'from ' | append: tile_product.price_min | money
+                  assign tile_amount = tile_product.price_min | money
+                  assign tile_price = 'from ' | append: tile_amount
                 else
                   assign tile_price = tile_product.price | money
                 endif

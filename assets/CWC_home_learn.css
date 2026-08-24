@@ -138,6 +138,13 @@ a.cwc_home-learn__card:hover {
   color: var(--muted-color);
 }
 
+/* === Carousel Dots ===
+   In the markup at every width, shown only on mobile — on desktop every card is
+   already on screen. */
+.cwc_home-learn__dots {
+  display: none;
+}
+
 /* === Empty State === */
 .cwc_home-learn__empty {
   grid-column: 1 / -1;
@@ -179,8 +186,81 @@ a.cwc_home-learn__card:hover {
     margin-bottom: 1.875rem;
   }
 
+  /* === Card Carousel (mobile only) ===
+
+     Same element as the desktop grid, re-declared as a snap track. The swipe is
+     native scrolling, which is what gives it real momentum and snapping without
+     a line of script. */
   .cwc_home-learn__grid {
-    grid-template-columns: 1fr;
+    display: flex;
+    grid-template-columns: none;
+    /* stretch keeps every card the height of the tallest, so the track does not
+       jump as you swipe between titles of different lengths */
+    align-items: stretch;
     gap: 1rem;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    /* the browser drives the horizontal swipe; vertical stays with the page */
+    overscroll-behavior-x: contain;
+    /* bleed to the viewport edges so a card can sit flush against the screen
+       while the container's own 16px gutter still frames the first one */
+    margin-left: -16px;
+    margin-right: -16px;
+    padding-left: 16px;
+    padding-right: 16px;
+    /* snapport inset — without this the padding above would leave every card
+       snapping 16px short of where it visually belongs */
+    scroll-padding-left: 16px;
+  }
+
+  .cwc_home-learn__grid::-webkit-scrollbar {
+    display: none;
+  }
+
+  .cwc_home-learn__card {
+    /* a sliver of the next card is what tells the reader there is more to
+       swipe — the only spacing change from the stacked layout */
+    flex: 0 0 87%;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
+
+  /* Added by script only when there is more than one card, so a single-article
+     section never advertises a drag that would do nothing. */
+  .cwc_home-learn__grid--draggable {
+    cursor: grab;
+  }
+
+  .cwc_home-learn__grid--dragging {
+    cursor: grabbing;
+    user-select: none;
+  }
+
+  .cwc_home-learn__dots {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin-top: 14px;
+  }
+
+  .cwc_home-learn__dot {
+    width: 7px;
+    height: 7px;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background: var(--border-color);
+    cursor: pointer;
+    transition: background 0.18s ease, transform 0.18s ease;
+  }
+
+  .cwc_home-learn__dot--active {
+    background: var(--highlight-color);
+    transform: scale(1.25);
   }
 }

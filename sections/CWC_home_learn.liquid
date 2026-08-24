@@ -20,7 +20,30 @@
 {{ 'CWC_fonts.css' | asset_url | stylesheet_tag }}
 {{ 'CWC_home_learn.css' | asset_url | stylesheet_tag }}
 
-{% assign source_blog = section.settings.blog_source %}
+{%- liquid
+  assign source_blog = section.settings.blog_source
+
+  comment
+    Cards come from a blog or from blocks, never both, and the dots below have to
+    be printed before either loop has run. So the source is decided once here and
+    the count taken from whichever won, rather than each branch counting itself.
+  endcomment
+  assign uses_blog = false
+  if source_blog != blank and source_blog.articles_count > 0
+    assign uses_blog = true
+  endif
+
+  if uses_blog
+    assign card_count = source_blog.articles_count
+    assign shown_limit = section.settings.articles_to_show | default: 3
+    if shown_limit < card_count
+      assign card_count = shown_limit
+    endif
+  else
+    assign article_blocks = section.blocks | where: 'type', 'article'
+    assign card_count = article_blocks.size
+  endif
+-%}
 
 <section id="cwc_home-learn-{{ section.id }}" class="cwc_home-learn">
   {% if section.settings.section_id != blank %}
@@ -53,11 +76,18 @@
       {% endif %}
     </div>
 
-    {% comment %} Article Cards {% endcomment %}
-    <div class="cwc_home-learn__grid">
-      {% if source_blog != blank and source_blog.articles_count > 0 %}
+    {%- comment -%}
+      Article Cards.
+
+      One element, two layouts: a grid on desktop and a scroll-snap carousel
+      below 768px. The swipe is native scrolling — the script only mirrors the
+      position onto the dots and adds mouse drag for the editor's mobile preview,
+      where there is no touch.
+    {%- endcomment -%}
+    <div class="cwc_home-learn__grid" data-cwc-learn-track>
+      {% if uses_blog %}
         {% for article in source_blog.articles limit: section.settings.articles_to_show %}
-          <a href="{{ article.url }}" class="cwc_home-learn__card">
+          <a href="{{ article.url }}" class="cwc_home-learn__card" data-cwc-learn-slide>
             <div
               class="cwc_home-learn__card-image"
               {% if article.image != blank %}
@@ -87,9 +117,9 @@
           {% case block.type %}
             {% when 'article' %}
               {% if block.settings.link != blank %}
-                <a href="{{ block.settings.link }}" class="cwc_home-learn__card" {{ block.shopify_attributes }}>
+                <a href="{{ block.settings.link }}" class="cwc_home-learn__card" data-cwc-learn-slide {{ block.shopify_attributes }}>
               {% else %}
-                <div class="cwc_home-learn__card" {{ block.shopify_attributes }}>
+                <div class="cwc_home-learn__card" data-cwc-learn-slide {{ block.shopify_attributes }}>
               {% endif %}
 
                 <div
@@ -132,8 +162,30 @@
       {% endif %}
     </div>
 
+    {%- comment -%}
+      Dots are mobile-only in CSS — on desktop every card is already on screen
+      and there is nothing to page through. Printed only when there are at least
+      two, so a single-article section does not advertise a swipe that would go
+      nowhere.
+    {%- endcomment -%}
+    {% if card_count > 1 %}
+      <div class="cwc_home-learn__dots" data-cwc-learn-dots>
+        {% for slot in (1..card_count) %}
+          <button
+            type="button"
+            class="cwc_home-learn__dot{% if forloop.first %} cwc_home-learn__dot--active{% endif %}"
+            data-cwc-learn-dot="{{ forloop.index0 }}"
+            aria-label="Show article {{ forloop.index }} of {{ card_count }}"
+            {% if forloop.first %}aria-current="true"{% endif %}
+          ></button>
+        {% endfor %}
+      </div>
+    {% endif %}
+
   </div>
 </section>
+
+{{ 'CWC_home_learn.js' | asset_url | script_tag }}
 
 {% schema %}
 {

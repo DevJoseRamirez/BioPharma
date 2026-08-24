@@ -179,29 +179,39 @@
    to everything above it rather than as another band of content. The divider
    lives here rather than on the bar above because the bar now comes first. */
 .cwc_footer__disclaimer {
-  margin-top: 24px;
-  padding-top: 24px;
-  border-top: 1px solid var(--border-color);
+  /* No rule of its own. The divider now sits above the copyright row, so the
+     copyright, the policy links and this small print read as one closing band
+     rather than as two separated by a line. */
+  margin-top: 20px;
 }
 
 .cwc_footer__disclaimer p {
-  font-size: 0.75em;
-  /* 12px */
   font-size: 0.7em;
+  /* 11.2px */
   line-height: 1.6;
   margin: 0;
   opacity: 0.75;
-  /* centred to sit with the copyright row it now follows */
-  text-align: center;
+  /* Centred across the full container width, against a copyright row that is
+     pinned to both edges — the small print is addressed to nobody in particular
+     and reads better as a block than as a third column of that row. */
+  text-align: left;
+  /* testing */
+  width: 80ch;
 }
 
-/* === Bottom Bar === */
+/* === Bottom Bar ===
+
+   Copyright pinned left, policy links pinned right, with the divider that opens
+   the closing band. space-between rather than a spacer element, so hiding the
+   policy links leaves the copyright where it was instead of centring it. */
 .cwc_footer__bottom {
   margin-top: 60px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border-color);
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: space-between;
   gap: 8px 16px;
 }
 
@@ -267,10 +277,17 @@
     gap: 6px;
   }
 
+  /* Pinning to opposite edges needs a row wide enough to have edges. Stacked
+     and centred instead, which also puts the copyright directly above the
+     centred disclaimer it belongs with. */
   .cwc_footer__bottom {
     margin-top: 32px;
+    padding-top: 20px;
+    flex-direction: column;
+    align-items: center;
     justify-content: center;
-
+    gap: 12px;
+    text-align: center;
   }
 
   .cwc_footer__disclaimer p {
