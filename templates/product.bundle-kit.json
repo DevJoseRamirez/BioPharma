@@ -151,6 +151,15 @@
             "tone_6": "tint"
           }
         },
+        "price_display": {
+          "type": "price_display",
+          "settings": {
+            "savings_display": "percent",
+            "save_label": "Save",
+            "show_compare": true,
+            "show_dividers": true
+          }
+        },
         "add_to_cart": {
           "type": "add_to_cart",
           "settings": {
@@ -229,6 +238,7 @@
         "title",
         "desc_xCeXUX",
         "key_benefits",
+        "price_display",
         "add_to_cart",
         "trust_icons",
         "sticky_atc",

@@ -117,6 +117,15 @@
       "options": [{{ variant.option1 | json }}, {{ variant.option2 | json }}, {{ variant.option3 | json }}],
       "price": {{ variant.price | money | json }},
       "compare": {%- if variant.compare_at_price > variant.price -%}{{ variant.compare_at_price | money | json }}{%- else -%}""{%- endif -%},
+      {%- comment -%}
+        Savings are worked out here rather than in the script, because the money
+        strings above are already formatted and subtracting two of them in JS
+        would mean parsing a currency the merchant is free to change. Both
+        shapes ship — the price display block picks the one its setting asks
+        for, and neither costs anything when the block is not used.
+      {%- endcomment -%}
+      "save": {%- if variant.compare_at_price > variant.price -%}{{ variant.compare_at_price | minus: variant.price | money | json }}{%- else -%}""{%- endif -%},
+      "save_pct": {%- if variant.compare_at_price > variant.price -%}{{ variant.compare_at_price | minus: variant.price | times: 100 | divided_by: variant.compare_at_price | round | json }}{%- else -%}""{%- endif -%},
       "image": {%- if variant.image != blank -%}{{ variant.image | image_url: width: 900 | json }}{%- else -%}""{%- endif -%},
       "media_id": {%- if variant.featured_media != blank -%}{{ variant.featured_media.id }}{%- else -%}0{%- endif -%},
       "plans": {
@@ -355,6 +364,17 @@
 
               {% when 'key_benefits' %}
                 {% render 'CWC_pdp-key-benefits__block', block: block %}
+
+              {%- comment -%}
+                The plain price row. Every other number in this buy box comes
+                off a selling plan, so a product with no plans renders with no
+                price at all without this block.
+              {%- endcomment -%}
+              {% when 'price_display' %}
+                {% render 'CWC_pdp-price-display__block',
+                  block: block,
+                  current_variant: current_variant
+                %}
 
               {% when 'flavors' %}
                 {% render 'CWC_pdp-flavors__block',
@@ -1222,6 +1242,47 @@
             }
           ],
           "default": "tint"
+        }
+      ]
+    },
+    {
+      "type": "price_display",
+      "name": "Price",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "The variant's own price, on its own row. Add this on products with no subscription plans — every other price in this section is quoted by a plan card, so without it those products show no price at all. On a product that does have plans the row follows whichever card is selected."
+        },
+        {
+          "type": "select",
+          "id": "savings_display",
+          "label": "Savings Badge",
+          "options": [
+            { "value": "percent", "label": "Percent off" },
+            { "value": "dollar", "label": "Amount off" },
+            { "value": "none", "label": "Hide" }
+          ],
+          "default": "percent",
+          "info": "Only ever shown when the variant has a higher compare-at price."
+        },
+        {
+          "type": "text",
+          "id": "save_label",
+          "label": "Savings Word",
+          "default": "Save"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_compare",
+          "label": "Show Compare-At Price",
+          "default": true
+        },
+        {
+          "type": "checkbox",
+          "id": "show_dividers",
+          "label": "Hairline Rules Above And Below",
+          "default": true
         }
       ]
     },

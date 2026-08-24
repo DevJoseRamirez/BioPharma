@@ -256,6 +256,7 @@
   background-color: var(--section-bg);
   border: 1px solid var(--border-soft-color);
   border-radius: 6px;
+  border-radius: 12px;
   overflow: hidden;
   transition: border-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
 }

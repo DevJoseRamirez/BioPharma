@@ -516,6 +516,72 @@
   font-weight: 800;
 }
 
+/* === Price Row ===
+
+   For products with no selling plans, where no offer card is around to quote a
+   number. One row: the price, the struck-out compare-at, and a savings chip.
+
+   Hairline rules top and bottom are optional because the row sits in different
+   company depending on the product — under a title it wants the rules, directly
+   above an offer stack it does not, and a second set of borders there would read
+   as the cards' own frame. */
+.cwc_product-hero-buy-box__price {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 14px 0;
+}
+
+.cwc_product-hero-buy-box__price--divided {
+  border-top: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
+  padding: 11px 0;
+}
+
+.cwc_product-hero-buy-box__price-current {
+  font-size: 1.66rem;
+  /* 26.56px — the same step as an offer card's price, so a product with plans
+     and one without read at the same weight */
+  font-weight: 900;
+  line-height: 1.1;
+  color: var(--deep-color);
+}
+
+.cwc_product-hero-buy-box__price-compare {
+  font-size: 1rem;
+  /* 16px */
+  font-weight: 500;
+  color: var(--muted-color);
+  text-decoration: line-through;
+}
+
+.cwc_product-hero-buy-box__price-save {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.7358rem;
+  /* 11.77px, matching the offer card's savings chip */
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 20px;
+  background: #eef6e4;
+  color: var(--deep-color);
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  white-space: nowrap;
+}
+
+@media screen and (max-width: 768px) {
+  .cwc_product-hero-buy-box__price {
+    gap: 10px;
+  }
+
+  .cwc_product-hero-buy-box__price-current {
+    font-size: 1.4525rem;
+  }
+}
+
 /* === Labels === */
 .cwc_product-hero-buy-box__label {
   font-size: 0.78rem;

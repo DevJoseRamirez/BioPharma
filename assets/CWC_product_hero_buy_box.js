@@ -177,6 +177,7 @@
     var thumbs = sectionEl.querySelectorAll('[data-cwc-thumb]');
     var mainImage = sectionEl.querySelector('[data-cwc-gallery-image]');
     var onetime = sectionEl.querySelector('[data-cwc-onetime]');
+    var priceDisplay = sectionEl.querySelector('[data-cwc-price-display]');
 
     /**
      * Options and supply can each be a real product option, which makes the
@@ -336,6 +337,34 @@
       }
 
       syncSticky(label, price, selected ? selected.getAttribute('data-cwc-offer-sub') : '');
+
+      /**
+       * The price row, when there is one, says what the button is about to
+       * charge. With a plan card live that is the card's own number, mirrored
+       * off its rendered spans rather than recomputed — the card has already
+       * done the per-4-week scaling, and doing it twice from two places is how
+       * the two end up disagreeing. With no card live the variant stands, which
+       * is the plain-product case the block was added for.
+       */
+      if (priceDisplay) {
+        /**
+         * priceEl, not selected: the one-time card wears the selected class too
+         * but quotes no plan, so keying off the class would blank its compare-at
+         * and savings. Having no offer-now inside it is exactly what marks it as
+         * the variant case.
+         */
+        if (priceEl) {
+          var wasEl = selected.querySelector('[data-cwc-offer-was]');
+          var was = wasEl && wasEl.style.display !== 'none' ? wasEl.textContent.trim() : '';
+
+          // No pre-formatted savings to borrow from a card, so the chip is
+          // dropped for the plan case rather than shown holding a stale number
+          // from the variant it is no longer quoting.
+          writePriceDisplay(price, was, '', '');
+        } else {
+          refreshPriceDisplay(findVariant(variants, variantInput ? variantInput.value : ''));
+        }
+      }
 
       sectionEl.dispatchEvent(
         new CustomEvent('cwc:buybox:change', {
@@ -687,6 +716,7 @@
 
       refreshOfferPrices(variant);
       refreshOneTimePrice(variant);
+      refreshPriceDisplay(variant);
       refreshOptionAvailability();
       syncOptionLabels();
       announce();
@@ -708,6 +738,60 @@
       if (compareEl) {
         compareEl.textContent = variant.compare || '';
         compareEl.style.display = variant.compare ? '' : 'none';
+      }
+    }
+
+    /**
+     * The standalone price row.
+     *
+     * It exists for products with no selling plans, where no offer card is
+     * around to quote a number — so the variant is what it prices off, and a
+     * size or flavour change has to move it the way it moves the cards.
+     *
+     * On a product that DOES carry plans the row still has to agree with the
+     * live selection rather than sit under it saying something else, so
+     * announce() overwrites it with the selected card's own numbers. This
+     * function is the no-card case and the reset the card case falls back to.
+     */
+    function refreshPriceDisplay(variant) {
+      if (!priceDisplay || !variant) return;
+
+      writePriceDisplay(variant.price, variant.compare, variant.save, variant.save_pct);
+    }
+
+    /**
+     * Paint the row. Savings arrive pre-formatted from the variant payload —
+     * both the money amount and the percentage — because the price strings are
+     * already rendered in the merchant's currency and subtracting two of those
+     * here would mean parsing it back out.
+     *
+     * Empty compare-at hides the strikeout AND the chip together: a struck-out
+     * price with no discount beside it, or a "Save" with nothing after it, both
+     * read as a bug rather than as a full-price product.
+     */
+    function writePriceDisplay(price, compare, save, savePct) {
+      if (!priceDisplay) return;
+
+      var currentEl = priceDisplay.querySelector('[data-cwc-price-current]');
+      var compareEl = priceDisplay.querySelector('[data-cwc-price-compare]');
+      var saveEl = priceDisplay.querySelector('[data-cwc-price-save]');
+      var saveAmountEl = priceDisplay.querySelector('[data-cwc-price-save-amount]');
+
+      if (currentEl && price) currentEl.textContent = price;
+
+      if (compareEl) {
+        compareEl.textContent = compare || '';
+        compareEl.style.display = compare ? '' : 'none';
+      }
+
+      if (saveEl) {
+        // Percent is the default because it is the only one of the two that
+        // still means something when the price it is measured against changes.
+        var mode = saveEl.getAttribute('data-cwc-price-save-mode') || 'percent';
+        var amount = mode === 'dollar' ? save : savePct === '' || savePct == null ? '' : savePct + '%';
+
+        if (saveAmountEl) saveAmountEl.textContent = compare && amount ? amount : '';
+        saveEl.style.display = compare && amount ? '' : 'none';
       }
     }
 

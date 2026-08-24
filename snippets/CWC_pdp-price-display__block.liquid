@@ -1,0 +1,109 @@
+{% comment %}
+  The product's price, on its own row.
+
+  Every other place a number appears in this buy box hangs off a selling plan —
+  the supply cards, the purchase plan cards, the simple offer. A product that
+  carries no plans therefore renders a buy box with no price in it at all, which
+  is the gap this block fills. It quotes the variant itself, so it is correct on
+  a plain product and needs nothing configured to be right.
+
+  On a product that DOES carry plans it still belongs, and follows the live
+  selection rather than contradicting it: the script mirrors the selected card's
+  own price and compare-at into this row, and falls back to the variant's when
+  no card is selected. So the row always says what the Add To Cart button is
+  about to charge.
+
+  Savings are read off the variant payload rather than subtracted here at
+  runtime, because those numbers arrive already formatted as money — see the
+  section's variant payload.
+
+  Accepts:
+  - block {Object} - the price_display block. Reads settings.savings_display,
+    settings.save_label, settings.show_compare, settings.show_dividers.
+  - current_variant {Object} - variant whose price is quoted; blank in preview.
+
+  Usage:
+  {% render 'CWC_pdp-price-display__block',
+    block: block,
+    current_variant: current_variant
+  %}
+{% endcomment %}
+
+{%- liquid
+  assign savings_display = block.settings.savings_display | default: 'percent'
+  assign show_compare = block.settings.show_compare
+  assign save_label = block.settings.save_label | default: 'Save'
+
+  assign price = current_variant.price
+  assign compare_price = current_variant.compare_at_price
+
+  comment
+    "On sale" is the one condition the whole row keys off: no compare-at, or one
+    that is not actually higher, means no strikeout and no badge — a "Save $0"
+    chip beside a full-price product reads as a broken discount.
+  endcomment
+  assign on_sale = false
+  if compare_price > price
+    assign on_sale = true
+  endif
+
+  assign save_amount = compare_price | minus: price
+  assign save_percent = save_amount | times: 100 | divided_by: compare_price | round
+-%}
+
+{%- comment -%}
+  Rendered even with no product bound, so the theme editor shows the row where
+  it will sit instead of a gap the merchant has to guess at. The placeholder
+  numbers never reach a shopper — a live product always resolves a variant.
+{%- endcomment -%}
+<div
+  class="cwc_product-hero-buy-box__price{% if block.settings.show_dividers %} cwc_product-hero-buy-box__price--divided{% endif %}"
+  data-cwc-price-display
+  {{ block.shopify_attributes }}
+>
+  <span class="cwc_product-hero-buy-box__price-current" data-cwc-price-current>
+    {%- if current_variant != blank -%}
+      {{- price | money -}}
+    {%- else -%}
+      {{- 4900 | money -}}
+    {%- endif -%}
+  </span>
+
+  {%- comment -%}
+    Both the strikeout and the badge are always in the DOM, hidden rather than
+    omitted when the variant is not on sale. The script only ever flips their
+    display, so a size change from a full-price variant to a discounted one can
+    bring them back — markup that was never rendered could not be revived.
+  {%- endcomment -%}
+  {%- if show_compare -%}
+    <span
+      class="cwc_product-hero-buy-box__price-compare"
+      data-cwc-price-compare
+      {% unless on_sale %}style="display: none;"{% endunless %}
+    >
+      {%- if on_sale -%}{{ compare_price | money }}{%- endif -%}
+    </span>
+  {%- endif -%}
+
+  {%- if savings_display != 'none' -%}
+    <span
+      class="cwc_product-hero-buy-box__price-save"
+      data-cwc-price-save
+      data-cwc-price-save-mode="{{ savings_display }}"
+      {% unless on_sale %}style="display: none;"{% endunless %}
+    >
+      {%- if save_label != blank -%}
+        <span class="cwc_product-hero-buy-box__price-save-label">{{ save_label }}</span>
+      {%- endif -%}
+      <span class="cwc_product-hero-buy-box__price-save-amount" data-cwc-price-save-amount>
+        {%- if on_sale -%}
+          {%- if savings_display == 'dollar' -%}
+            {{- save_amount | money_without_trailing_zeros -}}
+          {%- else -%}
+            {{- save_percent }}%
+          {%- endif -%}
+        {%- endif -%}
+      </span>
+    </span>
+  {%- endif -%}
+</div>
