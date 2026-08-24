@@ -1,0 +1,24 @@
+{% comment %}
+  Product description for the buy box.
+
+  Typed copy wins over the product's own description, which is what lets a
+  shared template run a short buy-box line while the full description stays on
+  the product record for the tabs further down the page.
+
+  Accepts:
+  - block {Object} - the desc block. Reads settings.desc.
+  - product {Object} - product used for the fallback copy.
+
+  Usage:
+  {% render 'CWC_pdp-desc__block', block: block, product: hero_product %}
+{% endcomment %}
+
+{%- if block.settings.desc != blank or product.description != blank -%}
+  <div class="cwc_product-hero-buy-box__desc cwc-rte" {{ block.shopify_attributes }}>
+    {%- if block.settings.desc != blank -%}
+      {{ block.settings.desc }}
+    {%- else -%}
+      {{ product.description }}
+    {%- endif -%}
+  </div>
+{%- endif -%}

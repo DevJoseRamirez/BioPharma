@@ -171,16 +171,22 @@
           endif
         -%}
 
+        {%- comment -%}
+          data-cwc-offer puts the card in the script's offer list, which is what
+          clears every other card when this one is chosen.
+
+          data-cwc-offer-auto marks it as generated from the product's own plans.
+          The script hides a card whose plan the selected variant cannot be
+          bought on, and that is only safe for cards it generated: a supply card
+          with a mistyped plan id would otherwise vanish instead of falling back
+          to its typed prices, which is a far harder mistake to spot.
+
+          Nothing may come between the two on the tag — a whitespace-stripping
+          tag there fuses them into one dead attribute.
+        {%- endcomment -%}
         <label
           class="cwc_product-hero-buy-box__offer{% if is_selected %} cwc_product-hero-buy-box__offer--selected{% endif %}"
           data-cwc-offer
-          {%- comment -%}
-            Marks the card as generated from the product's own plans. The script
-            hides a card whose plan the selected variant cannot be bought on, and
-            that is only safe to do for cards it generated: a supply card with a
-            mistyped plan id would otherwise vanish instead of falling back to
-            its typed prices, which is a far harder mistake to spot.
-          {%- endcomment -%}
           data-cwc-offer-auto
           data-cwc-offer-plan="{{ plan.id }}"
           data-cwc-offer-quantity="1"

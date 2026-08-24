@@ -1,0 +1,75 @@
+{% comment %}
+  Social-proof pill for the buy box: overlapping customer avatars, a verified
+  badge, and two lines of copy on a rounded chip.
+
+  The chip is pulled left underneath the avatars so the two read as one object
+  rather than as a row of images next to a box. That overlap is why the avatars
+  carry a white ring — without it the stack loses its edges against the chip.
+
+  Renders nothing until at least one of the two copy lines is set: a chip with
+  avatars and no claim says nothing.
+
+  Accepts:
+  - block {Object} - the trusted_by block. Reads settings.image_1 … image_3,
+    .title, .subtext, .bg_color and .text_color.
+
+  Usage:
+  {% render 'CWC_pdp-trusted-by__block', block: block %}
+{% endcomment %}
+
+{%- liquid
+  assign image_keys = 'image_1,image_2,image_3' | split: ','
+  assign chip_bg = block.settings.bg_color | default: '#EFEFEF'
+  assign chip_text = block.settings.text_color | default: '#282828'
+-%}
+
+{%- if block.settings.title != blank or block.settings.subtext != blank -%}
+  <div
+    class="cwc_product-hero-buy-box__trusted"
+    style="--trusted-bg: {{ chip_bg }}; --trusted-text: {{ chip_text }};"
+    {{ block.shopify_attributes }}
+  >
+    <div class="cwc_product-hero-buy-box__trusted-avatars">
+      {%- for image_key in image_keys -%}
+        {%- assign avatar = block.settings[image_key] -%}
+        {%- if avatar != blank -%}
+          <span class="cwc_product-hero-buy-box__trusted-avatar">
+            <img
+              src="{{ avatar | image_url: width: 120 }}"
+              alt=""
+              width="120"
+              height="120"
+              loading="lazy"
+            >
+          </span>
+        {%- endif -%}
+      {%- endfor -%}
+
+      {%- comment -%}
+        The verified mark sits at the end of the stack, on the same overlap, so
+        it reads as the last "face" in the row rather than as a loose icon.
+      {%- endcomment -%}
+      <span class="cwc_product-hero-buy-box__trusted-check" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" focusable="false">
+          <circle cx="12" cy="12" r="11" fill="currentColor"></circle>
+          <path
+            d="m7.6 12.3 3 3 5.8-6.4"
+            stroke="#ffffff"
+            stroke-width="2.2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          ></path>
+        </svg>
+      </span>
+    </div>
+
+    <div class="cwc_product-hero-buy-box__trusted-content">
+      {%- if block.settings.title != blank -%}
+        <div class="cwc_product-hero-buy-box__trusted-title cwc-rte">{{ block.settings.title }}</div>
+      {%- endif -%}
+      {%- if block.settings.subtext != blank -%}
+        <div class="cwc_product-hero-buy-box__trusted-subtext cwc-rte">{{ block.settings.subtext }}</div>
+      {%- endif -%}
+    </div>
+  </div>
+{%- endif -%}

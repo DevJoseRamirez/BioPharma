@@ -146,6 +146,25 @@
     onScroll();
   }
 
+  /**
+   * Delivery estimate: today plus the block's max shipping days.
+   *
+   * Liquid already printed a date in the store's timezone, which is what a
+   * no-JS shopper sees. This recomputes it in the shopper's own clock so a page
+   * served from cache cannot go on promising a date that has already passed.
+   */
+  function initDeliveryEstimate(sectionEl) {
+    sectionEl.querySelectorAll('[data-cwc-delivery-date]').forEach(function (dateEl) {
+      var days = parseInt(dateEl.getAttribute('data-cwc-delivery-days'), 10);
+      if (!days || days < 1) return;
+
+      var delivery = new Date();
+      delivery.setDate(delivery.getDate() + days);
+
+      dateEl.textContent = delivery.toLocaleDateString(undefined, { month: 'long', day: 'numeric' });
+    });
+  }
+
   function initSection(sectionEl) {
     if (!sectionEl) return;
 
@@ -362,11 +381,26 @@
      * left to animate.
      */
     function syncOfferDetails() {
-      offers.forEach(function (item) {
-        var details = item.querySelector('[data-cwc-offer-details]');
-        if (!details) return;
+      /**
+       * Every detail strip in the section, not only the ones on plan cards: the
+       * one-time card can carry its own now, and it is not in `offers`. The
+       * card each strip belongs to is read off the strip rather than the other
+       * way round, so any card wearing __offer is covered without listing them.
+       */
+      sectionEl.querySelectorAll('[data-cwc-offer-details]').forEach(function (details) {
+        /**
+         * A strip set to stand permanently is never closed, so marking it inert
+         * would hide from a screen reader the one thing still plainly on screen.
+         */
+        if (details.getAttribute('data-cwc-offer-details') === 'static') {
+          details.removeAttribute('inert');
+          return;
+        }
 
-        if (item.classList.contains(SELECTED_OFFER)) {
+        var card = details.closest('.cwc_product-hero-buy-box__offer');
+        if (!card) return;
+
+        if (card.classList.contains(SELECTED_OFFER)) {
           details.removeAttribute('inert');
         } else {
           details.setAttribute('inert', '');
@@ -584,6 +618,12 @@
         if (onetime.hasAttribute('data-cwc-onetime-card')) {
           onetime.classList.add(SELECTED_OFFER);
         }
+
+        // clearOffers() ran before the class went on, so the strip this card
+        // just opened is still marked inert. Re-read them now the selection is
+        // settled.
+        syncOfferDetails();
+
         setPlan('');
         if (quantityInput) quantityInput.value = '1';
 
@@ -1234,6 +1274,7 @@
 
     initThumbScroller(sectionEl);
     initStickyBar(sectionEl);
+    initDeliveryEstimate(sectionEl);
     initCartErrors();
 
     sectionEl.querySelectorAll('[data-cwc-detail-toggle]').forEach(function (toggle) {

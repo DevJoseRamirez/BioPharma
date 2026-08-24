@@ -255,7 +255,7 @@
         "chip_remove_label": "Remove filter",
         "mobile_filter_label": "Filter",
         "mobile_sort_label": "Sort",
-        "products_per_page": 8,
+        "products_per_page": 20,
         "columns_desktop": 4,
         "columns_mobile": "2",
         "show_secondary_image_on_hover": true,

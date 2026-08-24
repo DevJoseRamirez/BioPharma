@@ -1,5 +1,14 @@
 /* ==============================
    CWC Home Practitioner
+   ------------------------------
+   The home-page twin of CWC Practitioner Endorsement. Same reading order —
+   header, clinicians band, quote cards, stat tiles — and the same light
+   treatment, so a shopper meets one practitioner section on the site rather
+   than two that happen to say the same thing.
+
+   Class names stay under this section's own BEM block: the two sections carry
+   different content and different block limits, and sharing a stylesheet would
+   tie every home-page tweak to the PDP.
    ============================== */
 
 /* === Section Wrapper === */
@@ -12,7 +21,6 @@
 }
 
 .cwc_home-practitioner__container {
-  max-width: 1400px;
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 32px;
@@ -30,14 +38,10 @@
   font-size: 0.78rem;
   /* 12.48px */
   font-weight: var(--cwc-weight-label);
-  letter-spacing: 2px;
+  letter-spacing: var(--cwc-tracking-label);
   text-transform: uppercase;
   color: var(--eyebrow-color);
   margin-bottom: 8px;
-}
-
-.cwc_home-practitioner__content-heading {
-  text-align: center;
 }
 
 .cwc_home-practitioner__content-heading h1,
@@ -56,10 +60,10 @@
 .cwc_home-practitioner__content-heading>* strong,
 .cwc_home-practitioner__content-heading>* b {
   color: var(--highlight-color);
+  font-weight: 400;
 }
 
 .cwc_home-practitioner__content-subtext {
-  text-align: center;
   max-width: 700px;
   margin: 8px auto 0;
 }
@@ -69,38 +73,112 @@
   /* 15.52px */
   line-height: var(--cwc-line-body);
   margin: 0;
-  color: var(--text-color);
+  color: var(--muted-color);
 }
 
-/* === Quote Card Grid === */
+/* ==============================
+   Clinicians Band
+   ============================== */
+.cwc_home-practitioner__clinician {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 14px 16px;
+  background: var(--accent-bg);
+  border: 1px solid var(--accent-border);
+  border-radius: 12px;
+  margin-top: 24px;
+}
+
+.cwc_home-practitioner__clinician-avatars {
+  display: flex;
+  flex-shrink: 0;
+}
+
+.cwc_home-practitioner__clinician-avatar {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 2px solid var(--accent-border);
+  /* the chips overlap into a stack; the white ring is what keeps their
+     edges readable against each other */
+  margin-left: -8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.6rem;
+  /* 9.6px */
+  font-weight: var(--cwc-weight-name);
+  color: var(--accent-color);
+}
+
+.cwc_home-practitioner__clinician-avatar:first-child {
+  margin-left: 0;
+}
+
+.cwc_home-practitioner__clinician-text p {
+  font-size: 0.875rem;
+  /* 14px */
+  color: var(--text-color);
+  line-height: 1.45;
+  margin: 0;
+}
+
+.cwc_home-practitioner__clinician-text strong {
+  color: var(--accent-color);
+}
+
+.cwc_home-practitioner__clinician-text a {
+  color: var(--accent-color);
+  font-weight: var(--cwc-weight-label);
+  text-decoration: underline;
+}
+
+/* ==============================
+   Quote Card Grid
+   ============================== */
 .cwc_home-practitioner__grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 1.25rem;
-  margin: 3rem 0 2.75rem;
+  gap: 16px;
+  margin-top: 24px;
 }
 
 .cwc_home-practitioner__card {
   background: var(--card-bg);
   border: 1px solid var(--border-color);
-  border-radius: 13px;
-  padding: 1.625rem 1.5rem;
+  border-radius: 14px;
+  padding: 22px;
 }
 
 .cwc_home-practitioner__card-head {
   display: flex;
-  gap: 0.813rem;
+  gap: 12px;
   align-items: center;
-  margin-bottom: 1rem;
 }
 
 .cwc_home-practitioner__card-image {
-  width: 46px;
-  height: 46px;
+  width: 54px;
+  height: 54px;
   border-radius: 50%;
-  object-fit: cover;
-  background: var(--heading-color);
+  background: var(--accent-bg);
+  border: 1px solid var(--accent-border);
   flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.66rem;
+  /* 10.56px — only ever shows on the empty-state placeholder */
+  font-weight: var(--cwc-weight-name);
+  color: var(--accent-color);
+  overflow: hidden;
+}
+
+.cwc_home-practitioner__card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
   display: block;
 }
 
@@ -110,14 +188,17 @@
 
 .cwc_home-practitioner__card-title {
   display: block;
-  font-size: 0.91rem;
-  font-weight: 600;
+  font-size: 0.9rem;
+  /* 14.4px */
+  font-weight: var(--cwc-weight-name);
   color: var(--heading-color);
 }
 
 .cwc_home-practitioner__card-text {
-  font-size: 0.78rem;
+  font-size: 0.81rem;
+  /* 12.96px */
   color: var(--credential-color);
+  line-height: 1.35;
 }
 
 .cwc_home-practitioner__card-quote {
@@ -127,19 +208,26 @@
   /* 15px */
   line-height: var(--cwc-line-body);
   color: var(--quote-color);
+  margin-top: 16px;
+  /* <q> draws its own curly quotes, and the copy already carries them */
   quotes: none;
 }
 
-/* === Stat Row === */
+/* ==============================
+   Stat Tiles
+   ============================== */
 .cwc_home-practitioner__stats {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1.25rem;
-  border-top: 1px solid var(--border-color);
-  padding-top: 2.25rem;
+  display: flex;
+  gap: 14px;
+  margin-top: 20px;
 }
 
 .cwc_home-practitioner__stat {
+  flex: 1;
+  background: var(--accent-bg);
+  border: 1px solid var(--accent-border);
+  border-radius: 12px;
+  padding: 18px;
   text-align: center;
 }
 
@@ -149,15 +237,14 @@
   font-weight: var(--cwc-weight-stat-strong);
   line-height: 1.1;
   color: var(--accent-color);
-  margin-bottom: 0.563rem;
 }
 
 .cwc_home-practitioner__stat-label {
   font-size: 0.81rem;
-  color: var(--text-color);
-  line-height: 1.45;
-  max-width: 19ch;
-  margin: 0 auto;
+  /* 12.96px */
+  color: var(--muted-color);
+  margin-top: 4px;
+  line-height: 1.4;
 }
 
 /* ==============================
@@ -169,13 +256,7 @@
   }
 
   .cwc_home-practitioner__grid {
-    grid-template-columns: repeat(2, 1fr);
-    margin: 2.5rem 0 2.25rem;
-  }
-
-  .cwc_home-practitioner__stats {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1.75rem;
+    grid-template-columns: 1fr;
   }
 }
 
@@ -183,6 +264,8 @@
    Mobile Responsive
    ============================== */
 @media screen and (max-width: 768px) {
+
+  /* rescale the whole section from one anchor */
   .cwc_home-practitioner {
     padding-top: var(--padding-top-mobile);
     padding-bottom: var(--padding-bottom-mobile);
@@ -192,10 +275,14 @@
     padding: 0 16px;
   }
 
-  .cwc_home-practitioner__grid {
-    grid-template-columns: 1fr;
-    gap: 0.875rem;
-    margin: 2rem 0;
+  .cwc_home-practitioner__stats {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .cwc_home-practitioner__stat {
+    flex: 1 1 calc(50% - 5px);
+    padding: 14px;
   }
 }
 
@@ -203,8 +290,8 @@
    Small Mobile Responsive
    ============================== */
 @media screen and (max-width: 480px) {
-  .cwc_home-practitioner__stats {
-    grid-template-columns: 1fr;
+  .cwc_home-practitioner__stat {
+    flex: 1 1 100%;
   }
 
   /* Display type steps down on mobile — the px anchor used to do this. */

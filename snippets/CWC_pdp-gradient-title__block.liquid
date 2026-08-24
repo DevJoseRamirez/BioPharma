@@ -1,0 +1,39 @@
+{% comment %}
+  Gradient product title for the buy box.
+
+  A single heading whose text is painted with a left-to-right gradient rather
+  than a flat colour. The two stops are block settings so the same section can
+  carry a different accent per product without a new stylesheet.
+
+  This is the alternative to the standard title block, not a companion to it —
+  that one carries eyebrow, heading and subtext. Use one or the other, or the
+  product's name prints twice.
+
+  Falls back to the product title so the block still reads on a product that has
+  no custom copy yet.
+
+  Accepts:
+  - block {Object} - the gradient_title block. Reads settings.title,
+    .text_color and .highlight_color.
+  - product {Object} - product used for the heading fallback.
+
+  Usage:
+  {% render 'CWC_pdp-gradient-title__block', block: block, product: hero_product %}
+{% endcomment %}
+
+{%- liquid
+  assign title_color = block.settings.text_color | default: '#2D2D2D'
+  assign highlight_color = block.settings.highlight_color | default: '#45B5B7'
+-%}
+
+<div
+  class="cwc_product-hero-buy-box__gradient-title cwc-rte"
+  style="--gradient-title-color: {{ title_color }}; --gradient-title-highlight: {{ highlight_color }};"
+  {{ block.shopify_attributes }}
+>
+  {%- if block.settings.title != blank -%}
+    {{ block.settings.title }}
+  {%- else -%}
+    <p>{{ product.title | default: 'Product title' }}</p>
+  {%- endif -%}
+</div>

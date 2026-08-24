@@ -444,6 +444,10 @@
   line-height: 1.08;
   margin: 0;
   color: inherit;
+  /*  */
+  /* font-size: 3rem; */
+  /* color: inherit; */
+  text-transform: capitalize;
 }
 
 .cwc_product-hero-buy-box__content-heading>* strong {
@@ -891,6 +895,14 @@
   left: 0;
   color: var(--highlight-color);
   font-weight: 800;
+}
+
+/* The mirror of the perks list, for what an option gives up rather than what it
+   includes. Same rhythm and indent so the two read as one comparison across the
+   two cards, with only the marker and its colour reversed. */
+.cwc_product-hero-buy-box__offer-perks--cons p::before {
+  content: '\2715';
+  color: var(--warn-color);
 }
 
 /* === Gift Strip ===
@@ -1792,4 +1804,345 @@
     padding: 8px 15px;
     font-size: 0.85rem;
   }
+}
+
+/* ==============================
+   Title (Gradient)
+
+   The heading is painted rather than coloured: the gradient is a background on
+   the text box, clipped to the glyphs. `width: max-content` keeps the gradient
+   spanning the words themselves — on a full-width box the middle stop would
+   land in the trailing whitespace and the accent would never be seen.
+   ============================== */
+.cwc_product-hero-buy-box__gradient-title>* {
+  font-family: var(--cwc-font-heading);
+  font-weight: var(--cwc-weight-heading);
+  font-size: var(--cwc-size-hero-title);
+  line-height: 1.08;
+  margin: 0;
+  width: max-content;
+  max-width: 100%;
+  background: linear-gradient(90deg,
+      var(--gradient-title-color, var(--text-color)) 0%,
+      var(--gradient-title-highlight, var(--highlight-color)) 52.4%,
+      var(--gradient-title-color, var(--text-color)) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+/* The superscript treatment the standard title gives <strong> — kept here so
+   the same typed heading reads the same in either title block. */
+.cwc_product-hero-buy-box__gradient-title>* strong {
+  font-size: 0.44rem;
+  font-weight: 400;
+  vertical-align: super;
+}
+
+/* ==============================
+   Description / free text
+   ============================== */
+.cwc_product-hero-buy-box__desc,
+.cwc_product-hero-buy-box__text {
+  margin-top: 9px;
+}
+
+.cwc_product-hero-buy-box__desc p,
+.cwc_product-hero-buy-box__text p {
+  font-size: 0.9rem;
+  line-height: 1.4;
+  margin: 0 0 8px;
+  color: var(--muted-color);
+}
+
+.cwc_product-hero-buy-box__desc p:last-child,
+.cwc_product-hero-buy-box__text p:last-child {
+  margin-bottom: 0;
+}
+
+.cwc_product-hero-buy-box__desc a,
+.cwc_product-hero-buy-box__text a {
+  color: var(--accent-color);
+  text-decoration: underline;
+}
+
+/* ==============================
+   Benefits List
+
+   One row per benefit, full width, so a long claim wraps under its own text
+   rather than under the icon. The icon column is fixed so the text edges line
+   up down the list even when the uploaded marks differ in width.
+   ============================== */
+.cwc_product-hero-buy-box__benefits {
+  display: flex;
+  flex-direction: column;
+  margin: 14px 0;
+}
+
+.cwc_product-hero-buy-box__benefit {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 0;
+  font-size: 0.9rem;
+  font-weight: var(--cwc-weight-label);
+  line-height: 1.3;
+  color: var(--deep-color);
+}
+
+.cwc_product-hero-buy-box__benefit-icon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  object-fit: contain;
+}
+
+/* ==============================
+   Trusted By
+
+   The chip slides left under the avatar stack so the two read as one object.
+   That overlap is what the white ring on each avatar is for, and why the chip
+   carries left padding wide enough to clear the stack.
+   ============================== */
+.cwc_product-hero-buy-box__trusted {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin: 14px 0;
+}
+
+.cwc_product-hero-buy-box__trusted-avatars {
+  display: flex;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+  flex-shrink: 0;
+}
+
+.cwc_product-hero-buy-box__trusted-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid #ffffff;
+  margin-right: -14px;
+  flex-shrink: 0;
+}
+
+.cwc_product-hero-buy-box__trusted-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.cwc_product-hero-buy-box__trusted-check {
+  display: flex;
+  align-items: center;
+  position: relative;
+  left: -3px;
+  width: 24px;
+  height: 24px;
+  color: var(--deep-color);
+  /* the badge's own circle is opaque; the white plate stops an avatar edge
+     showing through the antialiased rim */
+  background: #ffffff;
+  border-radius: 999px;
+  flex-shrink: 0;
+}
+
+.cwc_product-hero-buy-box__trusted-check svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.cwc_product-hero-buy-box__trusted-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: 1 1 auto;
+  min-height: 38px;
+  min-width: 0;
+  margin-left: -42.5px;
+  padding: 8px 14px 8px 42px;
+  border-radius: 999px;
+  background-color: var(--trusted-bg, var(--panel-bg));
+  color: var(--trusted-text, var(--text-color));
+  z-index: 1;
+}
+
+.cwc_product-hero-buy-box__trusted-title>* {
+  font-size: 0.83rem;
+  font-weight: var(--cwc-weight-label);
+  line-height: 1.1;
+  margin: 0;
+  color: inherit;
+}
+
+.cwc_product-hero-buy-box__trusted-subtext>* {
+  font-size: 0.7rem;
+  font-weight: 400;
+  line-height: 1.4;
+  margin: 2px 0 0;
+  color: inherit;
+}
+
+/* ==============================
+   Delivery Estimate
+   ============================== */
+.cwc_product-hero-buy-box__delivery {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  margin: 6px 0 14px;
+  padding: 6px;
+  border-radius: 6px;
+  background: var(--delivery-bg, var(--tint-bg));
+  color: var(--delivery-text, var(--deep-color));
+  font-size: 0.89rem;
+}
+
+.cwc_product-hero-buy-box__delivery-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.cwc_product-hero-buy-box__delivery-icon svg {
+  width: 18px;
+  height: 18px;
+  display: block;
+}
+
+.cwc_product-hero-buy-box__delivery-copy {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+}
+
+.cwc_product-hero-buy-box__delivery-date {
+  font-weight: var(--cwc-weight-label);
+  text-decoration: underline;
+}
+
+/* ==============================
+   Reference Blocks — Mobile
+   ============================== */
+@media screen and (max-width: 768px) {
+  .cwc_product-hero-buy-box__benefit {
+    font-size: 0.85rem;
+    padding: 2px 0;
+  }
+
+  .cwc_product-hero-buy-box__trusted-content {
+    margin-left: -38.5px;
+    padding-left: 38px;
+  }
+
+  .cwc_product-hero-buy-box__delivery {
+    font-size: 0.78rem;
+  }
+}
+
+/* ==============================
+   Subscribe or Buy Once
+
+   The single-plan offer pair. It reuses the offer card's own chrome — border,
+   radius, radio dot, price type — and only adds what that card has no shape
+   for: a promo strip fused to the card's top edge, and a head row that puts the
+   price opposite the title instead of under it.
+   ============================== */
+.cwc_product-hero-buy-box__simple-offer {
+  margin-bottom: 4px;
+}
+
+/* Title left, price right, both on the card's first line. The offer card stacks
+   these by default, which reads well against a supply grid where the names are
+   long; on a two-card choice the prices are the comparison and belong level
+   with each other. */
+.cwc_product-hero-buy-box__simple-offer-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.cwc_product-hero-buy-box__simple-offer-row .cwc_product-hero-buy-box__offer-price {
+  /* the stacked card's gap above the price; not wanted on one line */
+  margin-top: 0;
+  flex-shrink: 0;
+}
+
+.cwc_product-hero-buy-box__simple-offer-row .cwc_product-hero-buy-box__offer-now {
+  font-size: 1.32rem;
+  /* 21.12px — a step down from the supply card's, which has a whole row to
+     itself and can afford the weight */
+}
+
+/* === Promo strip === */
+.cwc_product-hero-buy-box__simple-offer-promo {
+  border: 1px solid var(--border-color);
+  border-radius: 14px 14px 0 0;
+  padding: 9px 14px;
+  text-align: center;
+  font-size: 0.8rem;
+  /* 12.8px */
+  font-weight: var(--cwc-weight-label);
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  line-height: 1.35;
+}
+
+.cwc_product-hero-buy-box__simple-offer-promo--soft {
+  background: var(--tint-bg);
+  border-color: var(--tint-border);
+  color: var(--deep-color);
+}
+
+.cwc_product-hero-buy-box__simple-offer-promo--bold {
+  background: var(--highlight-color);
+  border-color: var(--highlight-color);
+  color: var(--button-text);
+}
+
+/* The card under a promo strip gives up its top corners and pulls up by a
+   pixel, so the two borders collapse into one rule rather than stacking into a
+   visible double line. */
+.cwc_product-hero-buy-box__simple-offer-card--joined {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  margin-top: -1px;
+}
+
+@media screen and (max-width: 480px) {
+  .cwc_product-hero-buy-box__simple-offer-row {
+    /* at this width the title and price stop fitting on one line; letting them
+       wrap keeps the price whole instead of breaking the digits */
+    gap: 4px;
+  }
+
+  .cwc_product-hero-buy-box__simple-offer-row .cwc_product-hero-buy-box__offer-now {
+    font-size: 1.18rem;
+  }
+}
+
+/* A detail strip that does not answer to the selection.
+
+   The perks and notes on the two-way offer card are the case for each option,
+   and a shopper comparing them wants both in front of them — closing the one
+   they have not picked hides the copy most likely to change their mind. Which
+   option is live is still plain from the card's own border, fill and radio.
+
+   Overrides the 0fr in the base rule by winning on order, and the transition
+   goes with it: there is nothing left to animate. */
+.cwc_product-hero-buy-box__offer-details--static {
+  grid-template-rows: 1fr;
+  transition: none;
 }

@@ -9,6 +9,81 @@
  */
 {
   "sections": {
+    "cwc_scrolling_banner_JhBYmK": {
+      "type": "CWC_scrolling_banner",
+      "blocks": {
+        "item_mNymdt": {
+          "type": "item",
+          "settings": {
+            "text": "Doctor Formulated",
+            "icon_style": "flask"
+          }
+        },
+        "item_HdrHWb": {
+          "type": "item",
+          "settings": {
+            "text": "Third-Party Tested",
+            "icon_style": "shield"
+          }
+        },
+        "item_egcAVa": {
+          "type": "item",
+          "settings": {
+            "text": "No Fillers or Binders",
+            "icon_style": "leaf"
+          }
+        },
+        "item_6U4EGC": {
+          "type": "item",
+          "settings": {
+            "text": "30-Day Money Back",
+            "icon_style": "return"
+          }
+        },
+        "item_MUYDMV": {
+          "type": "item",
+          "settings": {
+            "text": "Free Shipping on Subscriptions",
+            "icon_style": "truck"
+          }
+        },
+        "item_r9KJfr": {
+          "type": "item",
+          "settings": {
+            "text": "Cancel or Pause Anytime",
+            "icon_style": "pause"
+          }
+        }
+      },
+      "block_order": [
+        "item_mNymdt",
+        "item_HdrHWb",
+        "item_egcAVa",
+        "item_6U4EGC",
+        "item_MUYDMV",
+        "item_r9KJfr"
+      ],
+      "disabled": true,
+      "name": "Scrolling Banner",
+      "settings": {
+        "scroll_speed": 50,
+        "direction": "left",
+        "pause_on_hover": true,
+        "repeat": 3,
+        "text_style": "label",
+        "separator": "dot",
+        "item_gap": 48,
+        "icon_size": 18,
+        "show_borders": true,
+        "bg_color": "#ffffff",
+        "text_color": "#44681a",
+        "icon_color": "#5ba90f",
+        "separator_color": "#a3c781",
+        "border_color": "#a3c781",
+        "padding_top": 6,
+        "padding_bottom": 6
+      }
+    },
     "home_hero": {
       "type": "CWC_home_hero",
       "settings": {
@@ -28,11 +103,11 @@
         "cta_link": "shopify://products/nanogreens-10-support",
         "secondary_label": "or find what fits you →",
         "secondary_link": "#cwc_home-by-problem--anchor",
-        "show_rating": true,
+        "show_rating": false,
         "rating_position": "below_cta",
         "rating_value": 4.8,
-        "rating_count": "from 614 reviews",
-        "rating_extra_text": "19K+ servings poured · 33 say a clinician recommended it",
+        "rating_count": "",
+        "rating_extra_text": "from Hundreds Of Happy & Healthy Customers",
         "show_stats": true,
         "hero_image": "shopify://shop_images/hero-staging4.png",
         "image_alt": "NanoGreens green apple",
@@ -61,11 +136,25 @@
     "home_trust_strip": {
       "type": "CWC_home_trust_strip",
       "blocks": {
+        "item_3": {
+          "type": "trust_item",
+          "settings": {
+            "label": "USA Made",
+            "description": "Blended and packed domestically"
+          }
+        },
         "item_1": {
           "type": "trust_item",
           "settings": {
             "label": "Tested twice",
             "description": "Before and after blending"
+          }
+        },
+        "item_5": {
+          "type": "trust_item",
+          "settings": {
+            "label": "30-day guarantee",
+            "description": "Full refund within 30 days"
           }
         },
         "item_2": {
@@ -75,34 +164,20 @@
             "description": "No artificial sweeteners"
           }
         },
-        "item_3": {
-          "type": "trust_item",
-          "settings": {
-            "label": "Made in the USA",
-            "description": "Blended and packed domestically"
-          }
-        },
         "item_4": {
           "type": "trust_item",
           "settings": {
             "label": "<1g sugar",
             "description": "Sweetened with stevia leaf"
           }
-        },
-        "item_5": {
-          "type": "trust_item",
-          "settings": {
-            "label": "30-day guarantee",
-            "description": "Full refund within 30 days"
-          }
         }
       },
       "block_order": [
-        "item_1",
-        "item_2",
         "item_3",
-        "item_4",
-        "item_5"
+        "item_1",
+        "item_5",
+        "item_2",
+        "item_4"
       ],
       "settings": {
         "columns_desktop": 5,
@@ -113,8 +188,106 @@
         "label_color": "#44681a",
         "bold_color": "#5ba90f",
         "divider_color": "#e6e5dc",
-        "padding_top": 25,
-        "padding_bottom": 25
+        "padding_top": 15,
+        "padding_bottom": 15
+      }
+    },
+    "home_bundles": {
+      "type": "CWC_home_bundles",
+      "blocks": {
+        "kit_1": {
+          "type": "kit",
+          "settings": {
+            "product": "daily-foundation-kit",
+            "image_1": "shopify://shop_images/By-Form-Greens_Reds.png",
+            "image_1_alt": "",
+            "image_2_alt": "",
+            "title": "Daily Foundation Kit",
+            "for_line": "A practical place to begin — greens, omegas and minerals.",
+            "contents": "<p>NanoGreens¹⁰</p><p>NanoMega</p><p>NanoMinerals</p>",
+            "price_now": "",
+            "price_was": "",
+            "save_badge": "",
+            "savings_style": "percent",
+            "is_featured": true,
+            "flag_label": "Start here",
+            "cta_label": "Shop the Daily Foundation Kit",
+            "cta_link": "shopify://products/daily-foundation-kit",
+            "button_style": "primary"
+          }
+        },
+        "kit_2": {
+          "type": "kit",
+          "settings": {
+            "product": "performance-kit",
+            "image_1": "shopify://shop_images/By-Form-Protein_Meal.png",
+            "image_1_alt": "",
+            "image_2_alt": "",
+            "title": "Performance Kit",
+            "for_line": "Foundational nutrition plus protein and creatine for training days.",
+            "contents": "<p>NanoPro</p><p>NanoCreatine</p><p>NanoGreens¹⁰</p>",
+            "price_now": "",
+            "price_was": "",
+            "save_badge": "",
+            "savings_style": "percent",
+            "is_featured": false,
+            "flag_label": "",
+            "cta_label": "Shop the Performance Kit",
+            "cta_link": "shopify://products/performance-kit",
+            "button_style": "outline"
+          }
+        },
+        "kit_3": {
+          "type": "kit",
+          "settings": {
+            "product": "gut-kit",
+            "image_1": "shopify://shop_images/By-Form-Gummies.png",
+            "image_1_alt": "",
+            "image_2_alt": "",
+            "title": "Gut Kit",
+            "for_line": "A simple pairing for a digestion-focused daily routine.",
+            "contents": "<p>NanoGreens + Probiotic</p><p>NanoProbiotic Gummies</p>",
+            "price_now": "",
+            "price_was": "",
+            "save_badge": "",
+            "savings_style": "percent",
+            "is_featured": false,
+            "flag_label": "",
+            "cta_label": "Shop the Gut Kit",
+            "cta_link": "shopify://products/gut-kit",
+            "button_style": "outline"
+          }
+        }
+      },
+      "block_order": [
+        "kit_1",
+        "kit_2",
+        "kit_3"
+      ],
+      "settings": {
+        "section_id": "kits",
+        "eyebrow": "Fewer decisions",
+        "heading": "<p>Three kits. <strong>One delivery.</strong></p>",
+        "subtext": "<p>Cheaper than the same products bought separately, and they turn up on the same day instead of three different ones.</p>",
+        "footer_text": "",
+        "footer_link_label": "",
+        "footer_link": "",
+        "columns_desktop": 3,
+        "bg_color": "#ffffff",
+        "text_color": "#2a2611",
+        "bold_color": "#5ba90f",
+        "muted_color": "#5c5842",
+        "eyebrow_color": "#5ba90f",
+        "accent_color": "#5ba90f",
+        "card_bg_color": "#ffffff",
+        "media_bg_color": "#f5f4f0",
+        "border_color": "#e6e5dc",
+        "marker_color": "#78ad49",
+        "badge_bg_color": "#f2f8ea",
+        "button_text_color": "#ffffff",
+        "button_outline_color": "#44681a",
+        "padding_top": 50,
+        "padding_bottom": 50
       }
     },
     "home_absorption": {
@@ -221,10 +394,10 @@
         "heading": "<p>You are what you <strong>absorb</strong>.</p>",
         "subtext": "<p>An ingredient list only counts for what your body can take up. Enzymes are what break the formula down so it can be used — and they are the expensive line on a spec sheet. Blend 32000B is in every product we make.</p>",
         "show_enzyme_row": true,
-        "cta_label": "Shop NanoGreens — from $56/mo",
+        "cta_label": "Shop NanoGreens",
         "cta_link": "shopify://products/nanogreens-10-support",
         "secondary_label": "See the ingredient panel",
-        "secondary_link": "shopify://products/nanogreens-10-support",
+        "secondary_link": "https://biopharmasci.com/products/nanogreens-10-support#cwc_ingredients--anchor",
         "bg_color": "#44681a",
         "text_color": "#d9e7c9",
         "heading_color": "#ffffff",
@@ -239,90 +412,6 @@
         "button_bg_color": "#5ba90f",
         "button_text_color": "#ffffff",
         "button_outline_color": "#a3c781",
-        "padding_top": 50,
-        "padding_bottom": 50
-      }
-    },
-    "home_by_problem": {
-      "type": "CWC_home_by_problem",
-      "blocks": {
-        "need_1": {
-          "type": "need",
-          "settings": {
-            "collection": "",
-            "icon": "shopify://shop_images/cat_icon_daily_foundation_apple_100px_1.png",
-            "icon_alt": "",
-            "title": "Daily Foundation",
-            "description": "<p>You eat fine. Just not thirteen-servings-a-day fine.</p>",
-            "link": "shopify://collections/best-selling"
-          }
-        },
-        "need_2": {
-          "type": "need",
-          "settings": {
-            "collection": "",
-            "icon": "shopify://shop_images/cat_icon_digestion_gut_100px_1.png",
-            "icon_alt": "",
-            "title": "Digestion & Gut",
-            "description": "<p>Enzymes, probiotics, and soluble fiber that pulls its weight.</p>",
-            "link": "shopify://collections/best-selling"
-          }
-        },
-        "need_3": {
-          "type": "need",
-          "settings": {
-            "collection": "",
-            "icon": "shopify://shop_images/cat_icon_energy_vitality_100px_1.png",
-            "icon_alt": "",
-            "title": "Energy & Vitality",
-            "description": "<p>Steady. No stimulants, no three o’clock cliff.</p>",
-            "link": "shopify://collections/best-selling"
-          }
-        },
-        "need_4": {
-          "type": "need",
-          "settings": {
-            "collection": "",
-            "icon": "shopify://shop_images/cat_icon_strength_performance_peak_100px_1.png",
-            "icon_alt": "",
-            "title": "Strength & Performance",
-            "description": "<p>Protein, creatine, and getting back out tomorrow.</p>",
-            "link": "shopify://collections/best-selling"
-          }
-        },
-        "need_5": {
-          "type": "need",
-          "settings": {
-            "collection": "",
-            "icon": "shopify://shop_images/cat_icon_focus_clarity_100px_2.png",
-            "icon_alt": "",
-            "title": "Focus & Clarity",
-            "description": "<p>Omegas and the foundational nutrients behind a steady day.</p>",
-            "link": "shopify://collections/best-selling"
-          }
-        }
-      },
-      "block_order": [
-        "need_1",
-        "need_2",
-        "need_3",
-        "need_4",
-        "need_5"
-      ],
-      "settings": {
-        "section_id": "needs",
-        "eyebrow": "Start with your routine",
-        "heading": "<p>Pick the part of your day <strong>that isn’t working.</strong></p>",
-        "subtext": "<p>Five places people usually start. Choose the one that sounds like your week and we’ll narrow the range for you.</p>",
-        "columns_desktop": 5,
-        "bg_color": "#f4f3ee",
-        "text_color": "#2a2611",
-        "bold_color": "#5ba90f",
-        "muted_color": "#5c5842",
-        "eyebrow_color": "#5ba90f",
-        "card_bg_color": "#ffffff",
-        "icon_bg_color": "#faf9f4",
-        "border_color": "#e6e5dc",
         "padding_top": 50,
         "padding_bottom": 50
       }
@@ -402,17 +491,107 @@
         "eyebrow": "Recommended in practice",
         "heading": "<p>The people who recommend it <strong>see patients all day.</strong></p>",
         "subtext": "<p>NanoGreens was developed for and distributed through doctors, chiropractors and naturopaths for years before it was ever sold direct. Many still stock it today. That history is why the formula has never been reformulated to hit a price.</p>",
+        "show_clinician": true,
+        "clinician_initials": "DC, ND, MD",
+        "clinician_text": "<p><strong>Clinicians' choice.</strong> Recommended in practice for over 20 years, before it was ever sold online.</p>",
         "show_stats": true,
-        "bg_color": "#44681a",
-        "text_color": "#d9e7c9",
-        "heading_color": "#ffffff",
-        "bold_color": "#a3c781",
-        "eyebrow_color": "#a3c781",
-        "accent_color": "#a3c781",
-        "card_bg_color": "#4c7024",
-        "border_color": "#577b2f",
-        "quote_color": "#d9e7c9",
-        "credential_color": "#c9dab6",
+        "bg_color": "#ffffff",
+        "text_color": "#2a2611",
+        "heading_color": "#2a2611",
+        "bold_color": "#78ad49",
+        "muted_color": "#5c5842",
+        "eyebrow_color": "#4a5e8c",
+        "accent_color": "#4a5e8c",
+        "accent_bg_color": "#eef1f9",
+        "accent_border_color": "#a3b8e2",
+        "card_bg_color": "#ffffff",
+        "border_color": "#e6e5dc",
+        "quote_color": "#2a2611",
+        "credential_color": "#5c5842",
+        "padding_top": 50,
+        "padding_bottom": 50
+      }
+    },
+    "home_by_problem": {
+      "type": "CWC_home_by_problem",
+      "blocks": {
+        "need_1": {
+          "type": "need",
+          "settings": {
+            "collection": "",
+            "icon": "shopify://shop_images/cat_icon_daily_foundation_apple_100px_1.png",
+            "icon_alt": "",
+            "title": "Daily Foundation",
+            "description": "<p>You eat fine. Just not thirteen-servings-a-day fine.</p>",
+            "link": "shopify://collections/daily-foundation"
+          }
+        },
+        "need_2": {
+          "type": "need",
+          "settings": {
+            "collection": "",
+            "icon": "shopify://shop_images/cat_icon_digestion_gut_100px_1.png",
+            "icon_alt": "",
+            "title": "Digestion & Gut",
+            "description": "<p>Enzymes, probiotics, and soluble fiber that pulls its weight.</p>",
+            "link": "shopify://collections/digestion-gut"
+          }
+        },
+        "need_3": {
+          "type": "need",
+          "settings": {
+            "collection": "",
+            "icon": "shopify://shop_images/cat_icon_energy_vitality_100px_1.png",
+            "icon_alt": "",
+            "title": "Everyday Energy",
+            "description": "<p>Steady. No stimulants, no three o’clock cliff.</p>",
+            "link": "shopify://collections/everyday-energy"
+          }
+        },
+        "need_4": {
+          "type": "need",
+          "settings": {
+            "collection": "",
+            "icon": "shopify://shop_images/cat_icon_strength_performance_peak_100px_1.png",
+            "icon_alt": "",
+            "title": "Training & Recovery",
+            "description": "<p>Protein, creatine, and getting back out tomorrow.</p>",
+            "link": "shopify://collections/training-recovery"
+          }
+        },
+        "need_5": {
+          "type": "need",
+          "settings": {
+            "collection": "",
+            "icon": "shopify://shop_images/cat_icon_focus_clarity_100px_2.png",
+            "icon_alt": "",
+            "title": "Focus & Clarity",
+            "description": "<p>Omegas and the foundational nutrients behind a steady day.</p>",
+            "link": "shopify://collections/focus-clarity"
+          }
+        }
+      },
+      "block_order": [
+        "need_1",
+        "need_2",
+        "need_3",
+        "need_4",
+        "need_5"
+      ],
+      "settings": {
+        "section_id": "needs",
+        "eyebrow": "Start with your routine",
+        "heading": "<p>Pick the part of your day <strong>that isn’t working.</strong></p>",
+        "subtext": "<p>Five places people usually start. Choose the one that sounds like your week and we’ll narrow the range for you.</p>",
+        "columns_desktop": 5,
+        "bg_color": "#f4f3ee",
+        "text_color": "#2a2611",
+        "bold_color": "#5ba90f",
+        "muted_color": "#5c5842",
+        "eyebrow_color": "#5ba90f",
+        "card_bg_color": "#ffffff",
+        "icon_bg_color": "#faf9f4",
+        "border_color": "#e6e5dc",
         "padding_top": 50,
         "padding_bottom": 50
       }
@@ -495,6 +674,7 @@
         "fmt_5",
         "fmt_6"
       ],
+      "disabled": true,
       "settings": {
         "eyebrow": "Or start with the shelf",
         "heading": "<p>However you’d <strong>rather take it.</strong></p>",
@@ -588,6 +768,101 @@
         "padding_bottom": 50
       }
     },
+    "home_reviews": {
+      "type": "CWC_home_reviews",
+      "blocks": {
+        "rev_1": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "quote": "I've taken NanoGreens for years after my naturopath suggested it. More energy, better digestion. It's a non-negotiable part of my morning now.",
+            "author_name": "Jennifer M.",
+            "verified_label": "Verified buyer"
+          }
+        },
+        "rev_2": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "quote": "The green apple flavor actually tastes good — that alone sets it apart. I've quit four or five other greens powders. This one I look forward to.",
+            "author_name": "Ashley W.",
+            "verified_label": "Verified buyer"
+          }
+        },
+        "rev_3": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "quote": "Excellent for the digestive tract. I recommend it for athletes and seniors alike. The enzyme blend is something you don't find in most greens.",
+            "author_name": "David R.",
+            "verified_label": "Verified buyer"
+          }
+        },
+        "rev_4": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "quote": "I mix it every afternoon when I start getting hungry and it keeps me going. I order on subscription — that's the only way to do it.",
+            "author_name": "Karen T.",
+            "verified_label": "Verified buyer"
+          }
+        },
+        "review_gmtJkQ": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "quote": "I bought this for my husband after his doctor recommended a greens supplement. He's been on it for six months and won't go without it now. We both take it. Worth every penny.",
+            "author_name": "Linda H.",
+            "verified_label": "Verified buyer"
+          }
+        },
+        "review_934PVG": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "quote": "I was skeptical at first — I've wasted money on supplements before. But NanoGreens actually delivers. My gut feels better, my energy is steadier, and I don't get that mid-afternoon crash anymore. Reordered three times.",
+            "author_name": "Marcus B.",
+            "verified_label": "Verified buyer"
+          }
+        }
+      },
+      "block_order": [
+        "rev_1",
+        "rev_2",
+        "rev_3",
+        "rev_4",
+        "review_gmtJkQ",
+        "review_934PVG"
+      ],
+      "settings": {
+        "eyebrow": "614 verified buyers",
+        "heading": "<p>The routines people <strong>have kept.</strong></p>",
+        "view_all_label": "Read all reviews →",
+        "view_all_link": "",
+        "load_more_label": "Load more reviews",
+        "rating_value": 4.8,
+        "rating_count": "614 verified reviews",
+        "show_distribution": true,
+        "pct_5": 84,
+        "pct_4": 10,
+        "pct_3": 3,
+        "pct_2": 2,
+        "pct_1": 1,
+        "bg_color": "#ffffff",
+        "text_color": "#2a2611",
+        "bold_color": "#5ba90f",
+        "muted_color": "#5c5842",
+        "eyebrow_color": "#5ba90f",
+        "star_color": "#e8a317",
+        "panel_bg_color": "#faf9f4",
+        "card_bg_color": "#ffffff",
+        "border_color": "#e6e5dc",
+        "bar_bg_color": "#e6e5dc",
+        "bar_fill_color": "#78ad49",
+        "padding_top": 50,
+        "padding_bottom": 50
+      }
+    },
     "home_cost_math": {
       "type": "CWC_home_cost_math",
       "blocks": {
@@ -671,98 +946,6 @@
         "savings_bg_color": "#f2f8ea",
         "button_bg_color": "#5ba90f",
         "button_text_color": "#ffffff",
-        "padding_top": 50,
-        "padding_bottom": 50
-      }
-    },
-    "home_bundles": {
-      "type": "CWC_home_bundles",
-      "blocks": {
-        "kit_1": {
-          "type": "kit",
-          "settings": {
-            "image_1": "shopify://shop_images/By-Form-Protein_Meal.png",
-            "image_1_alt": "",
-            "image_2_alt": "",
-            "title": "Daily Foundation Kit",
-            "for_line": "A practical place to begin — greens, omegas and minerals.",
-            "contents": "<p>NanoGreens¹⁰</p><p>NanoMega</p><p>NanoMinerals</p>",
-            "price_now": "$149",
-            "price_was": "$189.85",
-            "save_badge": "Save 22%",
-            "is_featured": true,
-            "flag_label": "Start here",
-            "cta_label": "Shop the Daily Foundation Kit",
-            "cta_link": "",
-            "button_style": "primary"
-          }
-        },
-        "kit_2": {
-          "type": "kit",
-          "settings": {
-            "image_1": "shopify://shop_images/By-Form-Omegas.png",
-            "image_1_alt": "",
-            "image_2_alt": "",
-            "title": "Performance Kit",
-            "for_line": "Foundational nutrition plus protein and creatine for training days.",
-            "contents": "<p>NanoPro</p><p>NanoCreatine</p><p>NanoGreens¹⁰</p>",
-            "price_now": "$169",
-            "price_was": "$199.85",
-            "save_badge": "Save 15%",
-            "is_featured": false,
-            "flag_label": "",
-            "cta_label": "Shop the Performance Kit",
-            "cta_link": "",
-            "button_style": "outline"
-          }
-        },
-        "kit_3": {
-          "type": "kit",
-          "settings": {
-            "image_1": "shopify://shop_images/By-Form-Gummies.png",
-            "image_1_alt": "",
-            "image_2_alt": "",
-            "title": "Gut Kit",
-            "for_line": "A simple pairing for a digestion-focused daily routine.",
-            "contents": "<p>NanoGreens + Probiotic</p><p>NanoProbiotic Gummies</p>",
-            "price_now": "$115",
-            "price_was": "$129.90",
-            "save_badge": "Save 11%",
-            "is_featured": false,
-            "flag_label": "",
-            "cta_label": "Shop the Gut Kit",
-            "cta_link": "",
-            "button_style": "outline"
-          }
-        }
-      },
-      "block_order": [
-        "kit_1",
-        "kit_2",
-        "kit_3"
-      ],
-      "settings": {
-        "section_id": "kits",
-        "eyebrow": "Fewer decisions",
-        "heading": "<p>Three kits. <strong>One delivery.</strong></p>",
-        "subtext": "<p>Cheaper than the same products bought separately, and they turn up on the same day instead of three different ones.</p>",
-        "footer_text": "Already know what you want?",
-        "footer_link_label": "Build your own bundle",
-        "footer_link": "",
-        "columns_desktop": 3,
-        "bg_color": "#ffffff",
-        "text_color": "#2a2611",
-        "bold_color": "#5ba90f",
-        "muted_color": "#5c5842",
-        "eyebrow_color": "#5ba90f",
-        "accent_color": "#5ba90f",
-        "card_bg_color": "#ffffff",
-        "media_bg_color": "#f5f4f0",
-        "border_color": "#e6e5dc",
-        "marker_color": "#78ad49",
-        "badge_bg_color": "#f2f8ea",
-        "button_text_color": "#ffffff",
-        "button_outline_color": "#44681a",
         "padding_top": 50,
         "padding_bottom": 50
       }
@@ -859,81 +1042,6 @@
         "padding_bottom": 50
       }
     },
-    "home_reviews": {
-      "type": "CWC_home_reviews",
-      "blocks": {
-        "rev_1": {
-          "type": "review",
-          "settings": {
-            "rating": 5,
-            "quote": "I've taken NanoGreens for years after my naturopath suggested it. More energy, better digestion. It's a non-negotiable part of my morning now.",
-            "author_name": "Jennifer M.",
-            "verified_label": "Verified buyer"
-          }
-        },
-        "rev_2": {
-          "type": "review",
-          "settings": {
-            "rating": 5,
-            "quote": "The green apple flavor actually tastes good — that alone sets it apart. I've quit four or five other greens powders. This one I look forward to.",
-            "author_name": "Ashley W.",
-            "verified_label": "Verified buyer"
-          }
-        },
-        "rev_3": {
-          "type": "review",
-          "settings": {
-            "rating": 5,
-            "quote": "Excellent for the digestive tract. I recommend it for athletes and seniors alike. The enzyme blend is something you don't find in most greens.",
-            "author_name": "David R.",
-            "verified_label": "Verified buyer"
-          }
-        },
-        "rev_4": {
-          "type": "review",
-          "settings": {
-            "rating": 5,
-            "quote": "I mix it every afternoon when I start getting hungry and it keeps me going. I order on subscription — that's the only way to do it.",
-            "author_name": "Karen T.",
-            "verified_label": "Verified buyer"
-          }
-        }
-      },
-      "block_order": [
-        "rev_1",
-        "rev_2",
-        "rev_3",
-        "rev_4"
-      ],
-      "settings": {
-        "eyebrow": "614 verified buyers",
-        "heading": "<p>The routines people <strong>have kept.</strong></p>",
-        "view_all_label": "Read all reviews →",
-        "view_all_link": "",
-        "load_more_label": "Load more reviews",
-        "rating_value": 4.8,
-        "rating_count": "614 verified reviews",
-        "show_distribution": true,
-        "pct_5": 84,
-        "pct_4": 10,
-        "pct_3": 3,
-        "pct_2": 2,
-        "pct_1": 1,
-        "bg_color": "#ffffff",
-        "text_color": "#2a2611",
-        "bold_color": "#5ba90f",
-        "muted_color": "#5c5842",
-        "eyebrow_color": "#5ba90f",
-        "star_color": "#e8a317",
-        "panel_bg_color": "#faf9f4",
-        "card_bg_color": "#ffffff",
-        "border_color": "#e6e5dc",
-        "bar_bg_color": "#e6e5dc",
-        "bar_fill_color": "#78ad49",
-        "padding_top": 50,
-        "padding_bottom": 50
-      }
-    },
     "home_learn": {
       "type": "CWC_home_learn",
       "blocks": {
@@ -1025,17 +1133,18 @@
     }
   },
   "order": [
+    "cwc_scrolling_banner_JhBYmK",
     "home_hero",
     "home_trust_strip",
-    "home_absorption",
     "home_bundles",
-    "home_by_problem",
+    "home_absorption",
     "home_practitioner",
+    "home_by_problem",
     "home_by_format",
     "home_best_sellers",
+    "home_reviews",
     "home_cost_math",
     "home_subscribe",
-    "home_reviews",
     "home_learn",
     "home_email"
   ]

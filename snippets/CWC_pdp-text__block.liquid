@@ -1,0 +1,20 @@
+{% comment %}
+  Free rich text for the buy box.
+
+  Unlimited and position-free: it is the block to reach for when a product needs
+  one more line — a dosage note, a sourcing claim, a seasonal message — that no
+  other block covers. Nothing is inferred from the product, so an empty block
+  renders nothing at all.
+
+  Accepts:
+  - block {Object} - the text block. Reads settings.content.
+
+  Usage:
+  {% render 'CWC_pdp-text__block', block: block %}
+{% endcomment %}
+
+{%- if block.settings.content != blank -%}
+  <div class="cwc_product-hero-buy-box__text cwc-rte" {{ block.shopify_attributes }}>
+    {{ block.settings.content }}
+  </div>
+{%- endif -%}

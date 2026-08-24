@@ -43,32 +43,34 @@
   aria-hidden="true"
   hidden
 >
-  <div class="cwc_header__drawer-top">
-    <span class="cwc_header__drawer-logo">
-      {% if section.settings.logo != blank %}
-        <img
-          src="{{ section.settings.logo | image_url: width: 400 }}"
-          alt="{{ section.settings.logo_alt | default: shop.name | escape }}"
-          width="160"
-          height="32"
-          loading="lazy"
-        >
-      {% else %}
-        {%- if section.settings.logo_text_lead != blank -%}
-          <span class="cwc_header__logo-lead">{{ section.settings.logo_text_lead }}</span>
-        {%- endif -%}
-        {%- if section.settings.logo_text_accent != blank -%}
-          <span class="cwc_header__logo-accent">{{ section.settings.logo_text_accent }}</span>
-        {%- endif -%}
-      {% endif %}
-    </span>
+  {% comment %}
+    <div class="cwc_header__drawer-top">
+      <span class="cwc_header__drawer-logo">
+        {% if section.settings.logo != blank %}
+          <img
+            src="{{ section.settings.logo | image_url: width: 400 }}"
+            alt="{{ section.settings.logo_alt | default: shop.name | escape }}"
+            width="160"
+            height="32"
+            loading="lazy"
+          >
+        {% else %}
+          {%- if section.settings.logo_text_lead != blank -%}
+            <span class="cwc_header__logo-lead">{{ section.settings.logo_text_lead }}</span>
+          {%- endif -%}
+          {%- if section.settings.logo_text_accent != blank -%}
+            <span class="cwc_header__logo-accent">{{ section.settings.logo_text_accent }}</span>
+          {%- endif -%}
+        {% endif %}
+      </span>
 
-    <button type="button" class="cwc_header__drawer-close" aria-label="Close menu" data-cwc-drawer-close>
-      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-        <path d="M6 6l12 12M18 6L6 18"></path>
-      </svg>
-    </button>
-  </div>
+      <button type="button" class="cwc_header__drawer-close" aria-label="Close menu" data-cwc-drawer-close>
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M6 6l12 12M18 6L6 18"></path>
+        </svg>
+      </button>
+    </div>
+  {% endcomment %}
 
   {% if section.settings.show_search %}
     {%- comment -%}
@@ -122,10 +124,18 @@
               data-cwc-acc-toggle
             >
               {{ link.title }}
-              <span class="cwc_header__acc-sign" aria-hidden="true">{% if is_open %}&minus;{% else %}+{% endif %}</span>
+              <span class="cwc_header__acc-sign" aria-hidden="true">
+                {%- if is_open %}&minus;{% else %}+{% endif -%}
+              </span>
             </button>
 
-            <div class="cwc_header__acc-panel" data-cwc-acc-panel {% unless is_open %}hidden{% endunless %}>
+            <div
+              class="cwc_header__acc-panel"
+              data-cwc-acc-panel
+              {% unless is_open %}
+                hidden
+              {% endunless %}
+            >
               {%- if has_subgroups -%}
                 {%- for child in link.links -%}
                   <div class="cwc_header__acc-group">{{ child.title }}</div>

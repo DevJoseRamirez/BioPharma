@@ -125,7 +125,7 @@
           "settings": {
             "eyebrow": "",
             "heading": "<p>{{ section.settings.product.title }}</p>",
-            "subtext": ""
+            "subtext": "{{ section.settings.product.description }}"
           }
         },
         "desc_xCeXUX": {
@@ -151,26 +151,6 @@
             "tone_6": "tint"
           }
         },
-        "simple_offer_3Y9rq6": {
-          "type": "simple_offer",
-          "settings": {
-            "group_label": "Pick your offer:",
-            "selling_plan_id": "1861517570",
-            "subscribe_label": "Subscribe & Save",
-            "subscribe_sublabel": "",
-            "savings_style": "percent",
-            "perks": "<p>Save on every subscription order</p><p>Pause Or Cancel Any Time</p><p>30-Day Money-Back Guarantee</p>",
-            "perks_visibility": "always",
-            "promo_text": "",
-            "promo_style": "soft",
-            "show_onetime": true,
-            "onetime_label": "Buy Once",
-            "onetime_sublabel": "",
-            "onetime_notes": "<p>Discount on first order only</p><p>No free shipping </p>",
-            "notes_visibility": "selected",
-            "default_choice": "subscribe"
-          }
-        },
         "add_to_cart": {
           "type": "add_to_cart",
           "settings": {
@@ -181,13 +161,14 @@
         },
         "trust_icons": {
           "type": "trust_icons",
+          "disabled": true,
           "settings": {
             "icon_style_1": "shield",
             "icon_text_1": "↩",
             "label_1": "<p>30-Day Money Back</p>",
             "icon_style_2": "truck",
             "icon_text_2": "⛟",
-            "label_2": "<p>Refills Ship Monthly</p>",
+            "label_2": "<p>refills ship every 4 weeks</p>",
             "icon_style_3": "pause",
             "icon_text_3": "⏸",
             "label_3": "<p>Cancel or Pause Anytime</p>"
@@ -206,6 +187,41 @@
             "sold_out_text": "Sold out",
             "reveal_after": 600
           }
+        },
+        "detail_i3dCYX": {
+          "type": "detail",
+          "settings": {
+            "title": "Quality & testing",
+            "content": "<p><strong>Made in the USA,</strong>sourced from American farms first. Every batch is tested twice — once before blending and once after. Non-GMO, no artificial sweeteners, under 1g of added sugar per serving.<br/><br/><strong>Every batch is tested twice</strong>— once before blending and once after. NanoGreens has also been independently laboratory-tested for antioxidant capacity, both in the canister and in blood plasma, by scientists at Columbia Phytotechnology.<a href=\"https://biopharmasci.com/pages/research\" target=\"_blank\" title=\"The Science Behind NanoGreens\"><strong>[View Study]</strong></a>Describe what sits behind this row.</p>",
+            "open": false
+          }
+        },
+        "detail_FKQYPG": {
+          "type": "detail",
+          "disabled": true,
+          "settings": {
+            "title": "Ingredients",
+            "content": "<p>Describe what sits behind this row.</p>",
+            "open": false
+          }
+        },
+        "detail_ic8j6q": {
+          "type": "detail",
+          "disabled": true,
+          "settings": {
+            "title": "Ingredients",
+            "content": "<p>Describe what sits behind this row.</p>",
+            "open": false
+          }
+        },
+        "detail_TkrDjA": {
+          "type": "detail",
+          "disabled": true,
+          "settings": {
+            "title": "Ingredients",
+            "content": "<p>Describe what sits behind this row.</p>",
+            "open": false
+          }
         }
       },
       "block_order": [
@@ -213,10 +229,13 @@
         "title",
         "desc_xCeXUX",
         "key_benefits",
-        "simple_offer_3Y9rq6",
         "add_to_cart",
         "trust_icons",
-        "sticky_atc"
+        "sticky_atc",
+        "detail_i3dCYX",
+        "detail_FKQYPG",
+        "detail_ic8j6q",
+        "detail_TkrDjA"
       ],
       "settings": {
         "product": "",

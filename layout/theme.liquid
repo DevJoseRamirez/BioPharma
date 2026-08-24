@@ -1,4 +1,4 @@
-{% include 'shogun-content-handler' %}
+{% comment %} {% include 'shogun-content-handler' %} {% endcomment %}
 {%- comment %}<locksmith:094f>{%- endcomment %}
 {%- render 'locksmith' -%}
 {%- comment %}</locksmith:094f>{%- endcomment %}
@@ -94,7 +94,7 @@
     {{ 'daa.css' | asset_url | stylesheet_tag }}
     {{ 'dda.js' | asset_url | script_tag }}
   
-  {% render 'shogun-head' %}
+  {% comment %} {% render 'shogun-head' %} {% endcomment %}
 </head>
 
   {% liquid

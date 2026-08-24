@@ -1,0 +1,58 @@
+{% comment %}
+  Delivery estimate strip for the buy box: "Order now for delivery by <date>".
+
+  The date is printed by Liquid first, so it is right in the page source for a
+  shopper with no JavaScript and for anything that reads the markup. The script
+  in the section's JS then recomputes it in the shopper's own clock, which is
+  what keeps a cached page from promising a date that has already passed.
+
+  Accepts:
+  - block {Object} - the delivery_estimate block. Reads settings.text,
+    .max_shipping_days, .text_color and .bg_color.
+
+  Usage:
+  {% render 'CWC_pdp-delivery-estimate__block', block: block %}
+{% endcomment %}
+
+{%- liquid
+  assign max_days = block.settings.max_shipping_days | default: 7
+  if max_days < 1
+    assign max_days = 1
+  endif
+
+  assign delivery_offset = max_days | times: 86400
+  assign delivery_stamp = 'now' | date: '%s' | plus: delivery_offset
+  assign delivery_date = delivery_stamp | date: '%B %-d'
+
+  assign strip_text = block.settings.text | default: 'Order now for delivery by'
+  assign strip_bg = block.settings.bg_color | default: '#D8FFF4'
+  assign strip_color = block.settings.text_color | default: '#125657'
+-%}
+
+<div
+  class="cwc_product-hero-buy-box__delivery"
+  style="--delivery-bg: {{ strip_bg }}; --delivery-text: {{ strip_color }};"
+  {{ block.shopify_attributes }}
+>
+  <span class="cwc_product-hero-buy-box__delivery-icon" aria-hidden="true">
+    <svg viewBox="0 0 24 24" fill="none" focusable="false">
+      <path
+        d="M2.9 6.6h10.9v9.1H2.9zM13.8 10h3.6l3.2 3.2v2.5h-6.8z"
+        stroke="currentColor"
+        stroke-width="1.6"
+        stroke-linejoin="round"
+      ></path>
+      <circle cx="7.1" cy="17.6" r="1.9" stroke="currentColor" stroke-width="1.6"></circle>
+      <circle cx="17.1" cy="17.6" r="1.9" stroke="currentColor" stroke-width="1.6"></circle>
+    </svg>
+  </span>
+
+  <span class="cwc_product-hero-buy-box__delivery-copy">
+    <span class="cwc_product-hero-buy-box__delivery-text">{{ strip_text }}:</span>
+    <span
+      class="cwc_product-hero-buy-box__delivery-date"
+      data-cwc-delivery-date
+      data-cwc-delivery-days="{{ max_days }}"
+    >{{ delivery_date }}</span>
+  </span>
+</div>

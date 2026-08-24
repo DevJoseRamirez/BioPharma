@@ -16,6 +16,7 @@
     --button-bg: {{ section.settings.button_bg_color | default: '#5BA90F' }};
     --button-text: {{ section.settings.button_text_color | default: '#ffffff' }};
     --star-color: {{ section.settings.star_color | default: '#E8A317' }};
+    --warn-color: {{ section.settings.warn_color | default: '#9F3F3F' }};
     --panel-bg: {{ section.settings.panel_bg_color | default: '#FAF9F4' }};
     --gallery-ratio: {{ section.settings.gallery_ratio | default: '1 / 1' }};
     --gallery-fit: {{ section.settings.gallery_fit | default: 'cover' }};
@@ -330,6 +331,28 @@
               {% when 'title' %}
                 {% render 'CWC_pdp-title__block', block: block, product: hero_product %}
 
+              {%- comment -%}
+                The gradient alternative to the block above: one heading, no
+                eyebrow, painted with the block's own two colours.
+              {%- endcomment -%}
+              {% when 'gradient_title' %}
+                {% render 'CWC_pdp-gradient-title__block', block: block, product: hero_product %}
+
+              {% when 'desc' %}
+                {% render 'CWC_pdp-desc__block', block: block, product: hero_product %}
+
+              {% when 'text' %}
+                {% render 'CWC_pdp-text__block', block: block %}
+
+              {% when 'benefits' %}
+                {% render 'CWC_pdp-benefits__block', block: block %}
+
+              {% when 'trusted_by' %}
+                {% render 'CWC_pdp-trusted-by__block', block: block %}
+
+              {% when 'delivery_estimate' %}
+                {% render 'CWC_pdp-delivery-estimate__block', block: block %}
+
               {% when 'key_benefits' %}
                 {% render 'CWC_pdp-key-benefits__block', block: block %}
 
@@ -374,6 +397,19 @@
                   shopper appear to hold two selections.
                 {%- endcomment -%}
                 {% render 'CWC_pdp-purchase-plans__block',
+                  block: block,
+                  product: hero_product,
+                  current_variant: current_variant,
+                  section_id: section.id
+                %}
+
+              {%- comment -%}
+                The single-plan alternative to purchase_plans + onetime. It
+                renders both cards itself, so it replaces the pair rather than
+                joining them — see the snippet's header.
+              {%- endcomment -%}
+              {% when 'simple_offer' %}
+                {% render 'CWC_pdp-simple-offer__block',
                   block: block,
                   product: hero_product,
                   current_variant: current_variant,
@@ -641,6 +677,13 @@
     },
     {
       "type": "color",
+      "id": "warn_color",
+      "label": "Warning Color",
+      "info": "The ✕ markers on the Buy Once notes.",
+      "default": "#9F3F3F"
+    },
+    {
+      "type": "color",
       "id": "star_color",
       "label": "Star Color",
       "default": "#E8A317"
@@ -785,6 +828,239 @@
           "id": "subtext",
           "label": "Subtext",
           "default": "<p>55 organic fruits and vegetables, juiced at peak ripeness and freeze-dried cold. One scoop, ten seconds, every morning.</p>"
+        }
+      ]
+    },
+    {
+      "type": "gradient_title",
+      "name": "Title (Gradient)",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "title",
+          "label": "Title",
+          "info": "Leave empty to use the product title. Use instead of the Title block, not alongside it."
+        },
+        {
+          "type": "color",
+          "id": "text_color",
+          "label": "Text Color",
+          "default": "#2D2D2D"
+        },
+        {
+          "type": "color",
+          "id": "highlight_color",
+          "label": "Highlight Color",
+          "info": "The middle stop of the gradient painted across the title.",
+          "default": "#45B5B7"
+        }
+      ]
+    },
+    {
+      "type": "desc",
+      "name": "Description",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "desc",
+          "label": "Description",
+          "info": "Leave empty to use the product's own description."
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "Text",
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Content"
+        }
+      ]
+    },
+    {
+      "type": "benefits",
+      "name": "Benefits List",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "header",
+          "content": "Benefit 1"
+        },
+        {
+          "type": "image_picker",
+          "id": "icon1",
+          "label": "Icon 1"
+        },
+        {
+          "type": "text",
+          "id": "text1",
+          "label": "Text 1",
+          "default": "Doctor formulated, third-party tested"
+        },
+        {
+          "type": "header",
+          "content": "Benefit 2"
+        },
+        {
+          "type": "image_picker",
+          "id": "icon2",
+          "label": "Icon 2"
+        },
+        {
+          "type": "text",
+          "id": "text2",
+          "label": "Text 2",
+          "default": "No fillers, binders or artificial flavors"
+        },
+        {
+          "type": "header",
+          "content": "Benefit 3"
+        },
+        {
+          "type": "image_picker",
+          "id": "icon3",
+          "label": "Icon 3"
+        },
+        {
+          "type": "text",
+          "id": "text3",
+          "label": "Text 3"
+        },
+        {
+          "type": "header",
+          "content": "Benefit 4"
+        },
+        {
+          "type": "image_picker",
+          "id": "icon4",
+          "label": "Icon 4"
+        },
+        {
+          "type": "text",
+          "id": "text4",
+          "label": "Text 4"
+        },
+        {
+          "type": "header",
+          "content": "Benefit 5"
+        },
+        {
+          "type": "image_picker",
+          "id": "icon5",
+          "label": "Icon 5"
+        },
+        {
+          "type": "text",
+          "id": "text5",
+          "label": "Text 5"
+        },
+        {
+          "type": "header",
+          "content": "Benefit 6"
+        },
+        {
+          "type": "image_picker",
+          "id": "icon6",
+          "label": "Icon 6"
+        },
+        {
+          "type": "text",
+          "id": "text6",
+          "label": "Text 6"
+        }
+      ]
+    },
+    {
+      "type": "trusted_by",
+      "name": "Trusted By",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "header",
+          "content": "Images"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_1",
+          "label": "Avatar Image 1"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_2",
+          "label": "Avatar Image 2"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_3",
+          "label": "Avatar Image 3"
+        },
+        {
+          "type": "header",
+          "content": "Content"
+        },
+        {
+          "type": "richtext",
+          "id": "title",
+          "label": "Title",
+          "default": "<p>Trusted by 100K+ customers</p>"
+        },
+        {
+          "type": "richtext",
+          "id": "subtext",
+          "label": "Subtext",
+          "default": "<p>who choose us for consistent, long-term wellness support.</p>"
+        },
+        {
+          "type": "header",
+          "content": "Colors"
+        },
+        {
+          "type": "color",
+          "id": "bg_color",
+          "label": "Block Background Color",
+          "default": "#EFEFEF"
+        },
+        {
+          "type": "color",
+          "id": "text_color",
+          "label": "Text Color",
+          "default": "#282828"
+        }
+      ]
+    },
+    {
+      "type": "delivery_estimate",
+      "name": "Delivery Estimate",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Estimate Text",
+          "default": "Order now for delivery by"
+        },
+        {
+          "type": "number",
+          "id": "max_shipping_days",
+          "label": "Max shipping days",
+          "info": "Days added to today to produce the estimated date.",
+          "default": 7
+        },
+        {
+          "type": "color",
+          "id": "text_color",
+          "label": "Text color",
+          "default": "#125657"
+        },
+        {
+          "type": "color",
+          "id": "bg_color",
+          "label": "Background color",
+          "default": "#D8FFF4"
         }
       ]
     },
@@ -2036,6 +2312,145 @@
           "id": "perks",
           "label": "Subscription Perks",
           "info": "Shown inside the selected card. Applies to every plan on every product using this template, so keep it about subscribing rather than about a price."
+        }
+      ]
+    },
+    {
+      "type": "simple_offer",
+      "name": "Subscribe or Buy Once",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "group_label",
+          "label": "Group Label",
+          "default": "Pick your offer:"
+        },
+        {
+          "type": "header",
+          "content": "Subscription"
+        },
+        {
+          "type": "text",
+          "id": "selling_plan_id",
+          "label": "Selling Plan ID",
+          "info": "The one plan sold here — paste its numeric id (or its gid:// URL) from the subscription app. Every other plan on the product stays hidden."
+        },
+        {
+          "type": "text",
+          "id": "subscribe_label",
+          "label": "Subscribe Label",
+          "default": "Subscribe & Save"
+        },
+        {
+          "type": "text",
+          "id": "subscribe_sublabel",
+          "label": "Subscribe Sublabel",
+          "info": "Optional line under the title, e.g. \"Delivered every month\"."
+        },
+        {
+          "type": "select",
+          "id": "savings_style",
+          "label": "Savings Badge",
+          "options": [
+            { "value": "percent", "label": "Percent" },
+            { "value": "amount", "label": "Amount" },
+            { "value": "both", "label": "Percent and amount" },
+            { "value": "none", "label": "No badge" }
+          ],
+          "default": "percent",
+          "info": "Read from the plan's own discount. Nothing shows when the plan is not discounted."
+        },
+        {
+          "type": "richtext",
+          "id": "perks",
+          "label": "Subscription Perks",
+          "info": "One paragraph per line, marked with a ✓.",
+          "default": "<p>Save on every subscription order</p><p>Free shipping on every delivery</p><p>Modify, pause or cancel anytime</p>"
+        },
+        {
+          "type": "select",
+          "id": "perks_visibility",
+          "label": "Perks Visibility",
+          "options": [
+            { "value": "always", "label": "Always visible" },
+            { "value": "selected", "label": "Only when subscribing is selected" }
+          ],
+          "default": "always"
+        },
+        {
+          "type": "header",
+          "content": "Promo Strip"
+        },
+        {
+          "type": "text",
+          "id": "promo_text",
+          "label": "Promo Text",
+          "info": "Optional banner across the top of the subscription card. Leave blank to hide it."
+        },
+        {
+          "type": "select",
+          "id": "promo_style",
+          "label": "Promo Style",
+          "options": [
+            { "value": "soft", "label": "Soft (tinted)" },
+            { "value": "bold", "label": "Bold (filled)" }
+          ],
+          "default": "soft"
+        },
+        {
+          "type": "header",
+          "content": "One-Time Purchase"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_onetime",
+          "label": "Show Buy Once Card",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "onetime_label",
+          "label": "Buy Once Label",
+          "default": "Buy Once"
+        },
+        {
+          "type": "text",
+          "id": "onetime_sublabel",
+          "label": "Buy Once Sublabel",
+          "info": "Optional, e.g. \"No subscription\"."
+        },
+        {
+          "type": "richtext",
+          "id": "onetime_notes",
+          "label": "Buy Once Notes",
+          "info": "One paragraph per line, marked with a ✕. What buying once gives up.",
+          "default": "<p>No free shipping</p><p>Discount applies to the first order only</p>"
+        },
+        {
+          "type": "select",
+          "id": "notes_visibility",
+          "label": "Notes Visibility",
+          "options": [
+            { "value": "selected", "label": "Only when Buy Once is selected" },
+            { "value": "always", "label": "Always visible" }
+          ],
+          "default": "selected"
+        },
+        {
+          "type": "header",
+          "content": "Selection"
+        },
+        {
+          "type": "select",
+          "id": "default_choice",
+          "label": "Pre-Selected Option",
+          "options": [
+            { "value": "subscribe", "label": "Subscribe & Save" },
+            { "value": "onetime", "label": "Buy Once" },
+            { "value": "none", "label": "Nothing — shopper must pick" }
+          ],
+          "default": "subscribe"
         }
       ]
     },

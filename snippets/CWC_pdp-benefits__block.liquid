@@ -1,0 +1,56 @@
+{% comment %}
+  Icon-and-text benefits list for the buy box.
+
+  Six slots in one block rather than six blocks, so the list keeps its order and
+  its spacing no matter how many slots a product fills. A row prints as soon as
+  either its icon or its text is set — an icon-less row still reads as a line
+  item, which is what keeps a half-configured list from collapsing.
+
+  Accepts:
+  - block {Object} - the benefits block. Reads settings.icon1 … icon6 and
+    settings.text1 … text6.
+
+  Usage:
+  {% render 'CWC_pdp-benefits__block', block: block %}
+{% endcomment %}
+
+{%- liquid
+  assign slot_numbers = '1,2,3,4,5,6' | split: ','
+
+  assign filled_count = 0
+  for slot_number in slot_numbers
+    assign icon_key = 'icon' | append: slot_number
+    assign text_key = 'text' | append: slot_number
+    if block.settings[icon_key] != blank or block.settings[text_key] != blank
+      assign filled_count = filled_count | plus: 1
+    endif
+  endfor
+-%}
+
+{%- if filled_count > 0 -%}
+  <div class="cwc_product-hero-buy-box__benefits" {{ block.shopify_attributes }}>
+    {%- for slot_number in slot_numbers -%}
+      {%- liquid
+        assign icon_key = 'icon' | append: slot_number
+        assign text_key = 'text' | append: slot_number
+        assign slot_icon = block.settings[icon_key]
+        assign slot_text = block.settings[text_key]
+      -%}
+      {%- if slot_icon != blank or slot_text != blank -%}
+        <div class="cwc_product-hero-buy-box__benefit">
+          {%- if slot_icon != blank -%}
+            <img
+              class="cwc_product-hero-buy-box__benefit-icon"
+              src="{{ slot_icon | image_url: width: 40 }}"
+              alt=""
+              width="40"
+              height="40"
+              loading="lazy"
+            >
+          {%- endif -%}
+          <span class="cwc_product-hero-buy-box__benefit-text">{{ slot_text }}</span>
+        </div>
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+{%- endif -%}

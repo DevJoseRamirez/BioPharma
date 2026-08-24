@@ -196,7 +196,7 @@
      and reads better as a block than as a third column of that row. */
   text-align: left;
   /* testing */
-  width: 80ch;
+  max-width: 80ch;
 }
 
 /* === Bottom Bar ===

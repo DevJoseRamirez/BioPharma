@@ -461,6 +461,8 @@
 .cwc_collection-grid__card-title-link {
   color: inherit;
   text-decoration: none;
+  /* testing */
+  text-transform: capitalize;
 }
 
 /* The whole card is the click target. Rather than wrap the card in an anchor —
@@ -479,7 +481,7 @@
 /* Hovering anywhere on the card is a hover on the link, since the overlay
    belongs to it — so the title underlines from anywhere. */
 .cwc_collection-grid__card-title-link:hover {
-  text-decoration: underline;
+  /* text-decoration: underline; */
 }
 
 /* Drawn on the overlay, not on the few words of the title, so keyboard focus

@@ -10,6 +10,7 @@
   padding-bottom: var(--padding-bottom);
   font-family: var(--cwc-font-body);
   border-bottom: 1px solid var(--divider-color);
+  border-top: 1px solid var(--divider-color);
 }
 
 .cwc_home-trust-strip__container {
@@ -34,6 +35,8 @@
 
 .cwc_home-trust-strip--bordered .cwc_home-trust-strip__item {
   border: 1px solid var(--divider-color);
+  /* testing */
+  margin: auto;
 }
 
 .cwc_home-trust-strip__item-label {

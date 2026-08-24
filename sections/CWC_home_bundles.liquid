@@ -56,6 +56,84 @@
         {% for block in section.blocks %}
           {% case block.type %}
             {% when 'kit' %}
+              {%- liquid
+                comment
+                  Everything the card shows is read off the chosen product, and
+                  anything typed into the block overrides it. That ordering is
+                  what makes the block safe to point at a real bundle product:
+                  the price and the saving follow the product record, so a change
+                  in the admin reaches the home page without anyone remembering
+                  to retype it here — while a kit that is not a product yet, or
+                  one being priced differently on purpose, still works exactly as
+                  it did.
+
+                  Every value is re-read from the block first, before the product
+                  is consulted. Liquid keeps assignments across loop iterations,
+                  so a card that types a price would otherwise lend it to the
+                  next card that leaves the field empty.
+                endcomment
+                assign kit_product = block.settings.product
+                assign kit_variant = kit_product.selected_or_first_available_variant
+
+                assign kit_title = block.settings.title
+                if kit_title == blank
+                  assign kit_title = kit_product.title
+                endif
+
+                assign kit_link = block.settings.cta_link
+                if kit_link == blank
+                  assign kit_link = kit_product.url
+                endif
+
+                assign kit_image = block.settings.image_1
+                if kit_image == blank
+                  assign kit_image = kit_product.featured_image
+                endif
+
+                assign kit_price_now = block.settings.price_now
+                if kit_price_now == blank and kit_variant != blank
+                  assign kit_price_now = kit_variant.price | money
+                endif
+
+                comment
+                  A compare-at below the price is a stale one left on the variant
+                  after a sale ended, so it is only an anchor while it is above.
+                endcomment
+                assign kit_has_discount = false
+                if kit_variant != blank and kit_variant.compare_at_price > kit_variant.price
+                  assign kit_has_discount = true
+                endif
+
+                assign kit_price_was = block.settings.price_was
+                if kit_price_was == blank and kit_has_discount
+                  assign kit_price_was = kit_variant.compare_at_price | money
+                endif
+
+                assign kit_badge = block.settings.save_badge
+                if kit_badge == blank and kit_has_discount
+                  assign kit_saving = kit_variant.compare_at_price | minus: kit_variant.price
+                  assign kit_saving_percent = kit_saving | times: 100 | divided_by: kit_variant.compare_at_price
+
+                  comment
+                    Formatted before it is joined to anything: filters chain left
+                    to right, so 'Save ' | append: amount | money hands money a
+                    string it cannot format and the label comes back empty.
+                  endcomment
+                  assign kit_saving_money = kit_saving | money
+
+                  case block.settings.savings_style
+                    when 'amount'
+                      assign kit_badge = 'Save ' | append: kit_saving_money
+                    when 'both'
+                      assign kit_badge = 'Save ' | append: kit_saving_percent | append: '% · ' | append: kit_saving_money
+                    when 'none'
+                      assign kit_badge = ''
+                    else
+                      assign kit_badge = 'Save ' | append: kit_saving_percent | append: '%'
+                  endcase
+                endif
+              -%}
+
               <div
                 class="cwc_home-bundles__card{% if block.settings.is_featured %} cwc_home-bundles__card--featured{% endif %}"
                 {{ block.shopify_attributes }}
@@ -65,10 +143,10 @@
                     <span class="cwc_home-bundles__card-flag">{{ block.settings.flag_label }}</span>
                   {% endif %}
 
-                  {% if block.settings.image_1 != blank %}
+                  {% if kit_image != blank %}
                     <img
-                      src="{{ block.settings.image_1 | image_url: width: 400 }}"
-                      alt="{{ block.settings.image_1_alt | default: block.settings.title | escape }}"
+                      src="{{ kit_image | image_url: width: 400 }}"
+                      alt="{{ block.settings.image_1_alt | default: kit_title | escape }}"
                       width="400"
                       height="400"
                       loading="lazy"
@@ -78,14 +156,14 @@
                   {% if block.settings.image_2 != blank %}
                     <img
                       src="{{ block.settings.image_2 | image_url: width: 400 }}"
-                      alt="{{ block.settings.image_2_alt | default: block.settings.title | escape }}"
+                      alt="{{ block.settings.image_2_alt | default: kit_title | escape }}"
                       width="400"
                       height="400"
                       loading="lazy"
                     >
                   {% endif %}
 
-                  {% if block.settings.image_1 == blank and block.settings.image_2 == blank %}
+                  {% if kit_image == blank and block.settings.image_2 == blank %}
                     <div class="cwc_home-bundles__placeholder">
                       <span>Add kit images</span>
                     </div>
@@ -93,8 +171,8 @@
                 </div>
 
                 <div class="cwc_home-bundles__card-body">
-                  {% if block.settings.title != blank %}
-                    <div class="cwc_home-bundles__card-title">{{ block.settings.title }}</div>
+                  {% if kit_title != blank %}
+                    <div class="cwc_home-bundles__card-title">{{ kit_title }}</div>
                   {% endif %}
 
                   {% if block.settings.for_line != blank %}
@@ -107,29 +185,39 @@
                     </div>
                   {% endif %}
 
-                  {% if block.settings.price_now != blank
-                    or block.settings.price_was != blank
-                    or block.settings.save_badge != blank
-                  %}
+                  {% if kit_price_now != blank or kit_price_was != blank or kit_badge != blank %}
                     <div class="cwc_home-bundles__card-price">
-                      {% if block.settings.price_now != blank %}
-                        <span class="cwc_home-bundles__card-price-now">{{ block.settings.price_now }}</span>
+                      {% if kit_price_now != blank %}
+                        <span class="cwc_home-bundles__card-price-now">{{ kit_price_now }}</span>
                       {% endif %}
 
-                      {% if block.settings.price_was != blank %}
-                        <span class="cwc_home-bundles__card-price-was">{{ block.settings.price_was }}</span>
+                      {% if kit_price_was != blank %}
+                        <span class="cwc_home-bundles__card-price-was">{{ kit_price_was }}</span>
                       {% endif %}
 
-                      {% if block.settings.save_badge != blank %}
-                        <span class="cwc_home-bundles__card-badge">{{ block.settings.save_badge }}</span>
+                      {% if kit_badge != blank %}
+                        <span class="cwc_home-bundles__card-badge">{{ kit_badge }}</span>
                       {% endif %}
                     </div>
                   {% endif %}
 
                   {% if block.settings.cta_label != blank %}
+                    {%- comment -%}
+                      The card is made clickable by stretching this one link over
+                      it rather than by wrapping the card in a second anchor: one
+                      link per card is what keeps the tab order, the right-click
+                      menu and the screen-reader announcement to a single
+                      destination. Only stretched when there is somewhere to go —
+                      a card covered by a link to "#" would look interactive and
+                      do nothing.
+                    {%- endcomment -%}
                     <a
-                      class="cwc_home-bundles__button{% if block.settings.button_style == 'outline' %} cwc_home-bundles__button--outline{% endif %}"
-                      href="{{ block.settings.cta_link | default: '#' }}"
+                      class="
+                        cwc_home-bundles__button
+                        {% if block.settings.button_style == 'outline' %}cwc_home-bundles__button--outline{% endif %}
+                        {% if kit_link != blank %}cwc_home-bundles__button--stretched{% endif %}
+                      "
+                      href="{{ kit_link | default: '#' }}"
                     >
                       {{ block.settings.cta_label }}
                     </a>
@@ -346,9 +434,20 @@
       "name": "Kit Card",
       "settings": [
         {
+          "type": "header",
+          "content": "Product"
+        },
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Kit Product",
+          "info": "Fills the price, the saving, the link, the title and the image from the product record. Anything typed below overrides what is read from it."
+        },
+        {
           "type": "image_picker",
           "id": "image_1",
-          "label": "Kit Image One"
+          "label": "Kit Image One",
+          "info": "Leave blank to use the product's featured image."
         },
         {
           "type": "text",
@@ -373,7 +472,7 @@
           "type": "text",
           "id": "title",
           "label": "Title",
-          "default": "Daily Foundation Kit"
+          "info": "Leave blank to use the product's title."
         },
         {
           "type": "text",
@@ -396,19 +495,32 @@
           "type": "text",
           "id": "price_now",
           "label": "Price Now",
-          "default": "$149"
+          "info": "Leave blank to use the product's price."
         },
         {
           "type": "text",
           "id": "price_was",
           "label": "Price Was",
-          "default": "$189.85"
+          "info": "Leave blank to use the product's compare-at price. Nothing shows when it is not above the price."
         },
         {
           "type": "text",
           "id": "save_badge",
           "label": "Save Badge",
-          "default": "Save 22%"
+          "info": "Leave blank to compute it from the product's discount."
+        },
+        {
+          "type": "select",
+          "id": "savings_style",
+          "label": "Save Badge Style",
+          "info": "Used only when Save Badge is left blank.",
+          "options": [
+            { "value": "percent", "label": "Percent" },
+            { "value": "amount", "label": "Amount" },
+            { "value": "both", "label": "Percent and amount" },
+            { "value": "none", "label": "No badge" }
+          ],
+          "default": "percent"
         },
         {
           "type": "header",
@@ -440,7 +552,8 @@
         {
           "type": "url",
           "id": "cta_link",
-          "label": "Button Link"
+          "label": "Button Link",
+          "info": "Leave blank to link to the product."
         },
         {
           "type": "select",

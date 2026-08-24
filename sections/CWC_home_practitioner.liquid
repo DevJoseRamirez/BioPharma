@@ -1,15 +1,18 @@
 {% style %}
   #cwc_home-practitioner-{{ section.id }} {
-    --section-bg: {{ section.settings.bg_color | default: '#44681A' }};
-    --text-color: {{ section.settings.text_color | default: '#d9e7c9' }};
-    --heading-color: {{ section.settings.heading_color | default: '#ffffff' }};
-    --highlight-color: {{ section.settings.bold_color | default: '#A3C781' }};
-    --eyebrow-color: {{ section.settings.eyebrow_color | default: '#A3C781' }};
-    --card-bg: {{ section.settings.card_bg_color | default: '#4C7024' }};
-    --border-color: {{ section.settings.border_color | default: '#577B2F' }};
-    --quote-color: {{ section.settings.quote_color | default: '#d9e7c9' }};
-    --credential-color: {{ section.settings.credential_color | default: '#c9dab6' }};
-    --accent-color: {{ section.settings.accent_color | default: '#A3C781' }};
+    --section-bg: {{ section.settings.bg_color | default: '#ffffff' }};
+    --text-color: {{ section.settings.text_color | default: '#2A2611' }};
+    --heading-color: {{ section.settings.heading_color | default: '#2A2611' }};
+    --highlight-color: {{ section.settings.bold_color | default: '#78AD49' }};
+    --muted-color: {{ section.settings.muted_color | default: '#5C5842' }};
+    --eyebrow-color: {{ section.settings.eyebrow_color | default: '#4A5E8C' }};
+    --card-bg: {{ section.settings.card_bg_color | default: '#ffffff' }};
+    --border-color: {{ section.settings.border_color | default: '#E6E5DC' }};
+    --quote-color: {{ section.settings.quote_color | default: '#2A2611' }};
+    --credential-color: {{ section.settings.credential_color | default: '#5C5842' }};
+    --accent-color: {{ section.settings.accent_color | default: '#4A5E8C' }};
+    --accent-bg: {{ section.settings.accent_bg_color | default: '#EEF1F9' }};
+    --accent-border: {{ section.settings.accent_border_color | default: '#A3B8E2' }};
     --padding-top: {{ section.settings.padding_top | default: 50 }}px;
     --padding-bottom: {{ section.settings.padding_bottom | default: 50 }}px;
     --padding-top-mobile: {{ section.settings.padding_top | default: 50 | times: 0.5 }}px;
@@ -55,6 +58,27 @@
       {% endif %}
     </div>
 
+    {% comment %}
+      Clinicians band. One line of standing before any individual is quoted —
+      the claim the three cards below then evidence. The initials are drawn as
+      chips rather than typed into the sentence so the band reads at a glance.
+    {% endcomment %}
+    {% if section.settings.show_clinician and section.settings.clinician_text != blank %}
+      <div class="cwc_home-practitioner__clinician">
+        {% if section.settings.clinician_initials != blank %}
+          <span class="cwc_home-practitioner__clinician-avatars" aria-hidden="true">
+            {% assign initials = section.settings.clinician_initials | split: ',' %}
+            {% for initial in initials %}
+              <span class="cwc_home-practitioner__clinician-avatar">{{ initial | strip }}</span>
+            {% endfor %}
+          </span>
+        {% endif %}
+        <span class="cwc_home-practitioner__clinician-text cwc-rte">
+          {{ section.settings.clinician_text }}
+        </span>
+      </div>
+    {% endif %}
+
     {% comment %} Practitioner Quote Cards {% endcomment %}
     {% if doctor_count > 0 %}
       <div class="cwc_home-practitioner__grid">
@@ -63,16 +87,24 @@
             {% when 'doctor' %}
               <div class="cwc_home-practitioner__card" {{ block.shopify_attributes }}>
                 <div class="cwc_home-practitioner__card-head">
-                  {% if block.settings.avatar != blank %}
-                    <img
-                      class="cwc_home-practitioner__card-image"
-                      src="{{ block.settings.avatar | image_url: width: 120 }}"
-                      alt="{{ block.settings.avatar_alt | default: block.settings.name | escape }}"
-                      width="46"
-                      height="46"
-                      loading="lazy"
-                    >
-                  {% endif %}
+                  {% comment %}
+                    The frame is drawn whether or not a portrait is set, so a
+                    card with no photo yet still holds the same shape in the
+                    editor as the ones beside it.
+                  {% endcomment %}
+                  <span class="cwc_home-practitioner__card-image">
+                    {% if block.settings.avatar != blank %}
+                      <img
+                        src="{{ block.settings.avatar | image_url: width: 120 }}"
+                        alt="{{ block.settings.avatar_alt | default: block.settings.name | escape }}"
+                        width="120"
+                        height="120"
+                        loading="lazy"
+                      >
+                    {% else %}
+                      PHOTO
+                    {% endif %}
+                  </span>
 
                   <div class="cwc_home-practitioner__card-meta">
                     {% if block.settings.name != blank %}
@@ -145,6 +177,29 @@
     },
     {
       "type": "header",
+      "content": "Clinicians Band"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_clinician",
+      "label": "Show Clinicians Band",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "clinician_initials",
+      "label": "Clinician Initials",
+      "info": "Comma separated, e.g. DC, ND, MD",
+      "default": "DC, ND, MD"
+    },
+    {
+      "type": "richtext",
+      "id": "clinician_text",
+      "label": "Clinicians Text",
+      "default": "<p><strong>Clinicians' choice.</strong> Recommended in practice for over 20 years, before it was ever sold online.</p>"
+    },
+    {
+      "type": "header",
       "content": "Stat Row"
     },
     {
@@ -161,37 +216,61 @@
       "type": "color",
       "id": "bg_color",
       "label": "Background Color",
-      "default": "#44681A"
+      "default": "#ffffff"
     },
     {
       "type": "color",
       "id": "text_color",
       "label": "Text Color",
-      "default": "#d9e7c9"
+      "default": "#2A2611"
     },
     {
       "type": "color",
       "id": "heading_color",
       "label": "Heading Color",
-      "default": "#ffffff"
+      "default": "#2A2611"
     },
     {
       "type": "color",
       "id": "bold_color",
       "label": "Heading Bold Color",
-      "default": "#A3C781"
+      "default": "#78AD49"
+    },
+    {
+      "type": "color",
+      "id": "muted_color",
+      "label": "Muted Text Color",
+      "default": "#5C5842"
+    },
+    {
+      "type": "header",
+      "content": "Accent Colors"
     },
     {
       "type": "color",
       "id": "eyebrow_color",
       "label": "Eyebrow Color",
-      "default": "#A3C781"
+      "default": "#4A5E8C"
     },
     {
       "type": "color",
       "id": "accent_color",
-      "label": "Stat Number Color",
-      "default": "#A3C781"
+      "label": "Accent Color",
+      "info": "Stat numbers, clinician chips and the bold word in the clinicians band.",
+      "default": "#4A5E8C"
+    },
+    {
+      "type": "color",
+      "id": "accent_bg_color",
+      "label": "Accent Background",
+      "info": "Fill behind the clinicians band and the stat tiles.",
+      "default": "#EEF1F9"
+    },
+    {
+      "type": "color",
+      "id": "accent_border_color",
+      "label": "Accent Border",
+      "default": "#A3B8E2"
     },
     {
       "type": "header",
@@ -201,25 +280,25 @@
       "type": "color",
       "id": "card_bg_color",
       "label": "Quote Card Background",
-      "default": "#4C7024"
+      "default": "#ffffff"
     },
     {
       "type": "color",
       "id": "border_color",
       "label": "Border Color",
-      "default": "#577B2F"
+      "default": "#E6E5DC"
     },
     {
       "type": "color",
       "id": "quote_color",
       "label": "Quote Text Color",
-      "default": "#d9e7c9"
+      "default": "#2A2611"
     },
     {
       "type": "color",
       "id": "credential_color",
       "label": "Credential Line Color",
-      "default": "#c9dab6"
+      "default": "#5C5842"
     },
     {
       "type": "header",

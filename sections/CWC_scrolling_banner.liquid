@@ -1,0 +1,425 @@
+{% style %}
+  #cwc_scrolling-banner-{{ section.id }} {
+    --section-bg: {{ section.settings.bg_color | default: '#F2F8EA' }};
+    --text-color: {{ section.settings.text_color | default: '#44681A' }};
+    --icon-color: {{ section.settings.icon_color | default: '#5BA90F' }};
+    --border-color: {{ section.settings.border_color | default: '#A3C781' }};
+    --separator-color: {{ section.settings.separator_color | default: '#A3C781' }};
+    --item-gap: {{ section.settings.item_gap | default: 48 }}px;
+    --icon-size: {{ section.settings.icon_size | default: 18 }}px;
+    --scroll-speed: {{ section.settings.scroll_speed | default: 30 }}s;
+    {%- comment -%}
+      Drives the keyframe: the strip travels exactly one copy per cycle, so the
+      number of copies has to be readable from CSS. See the stylesheet.
+    {%- endcomment -%}
+    --repeat: {{ section.settings.repeat | default: 3 }};
+    --padding-top: {{ section.settings.padding_top | default: 12 }}px;
+    --padding-bottom: {{ section.settings.padding_bottom | default: 12 }}px;
+    --padding-top-mobile: {{ section.settings.padding_top | default: 12 | times: 0.5 }}px;
+    --padding-bottom-mobile: {{ section.settings.padding_bottom | default: 12 | times: 0.5 }}px;
+  }
+{% endstyle %}
+
+{{ 'CWC_fonts.css' | asset_url | stylesheet_tag }}
+{{ 'CWC_scrolling_banner.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign repeat_count = section.settings.repeat | default: 3
+  if repeat_count < 2
+    assign repeat_count = 2
+  endif
+
+  assign text_style = section.settings.text_style | default: 'label'
+  assign separator = section.settings.separator | default: 'dot'
+-%}
+
+{%- if section.blocks.size > 0 -%}
+  <section
+    id="cwc_scrolling-banner-{{ section.id }}"
+    class="
+      cwc_scrolling-banner
+      cwc_scrolling-banner--{{ text_style }}
+      {% if separator != 'none' %}cwc_scrolling-banner--separated cwc_scrolling-banner--separator-{{ separator }}{% endif %}
+      {% if section.settings.direction == 'right' %}cwc_scrolling-banner--reverse{% endif %}
+      {% if section.settings.pause_on_hover %}cwc_scrolling-banner--pause-hover{% endif %}
+      {% if section.settings.show_borders %}cwc_scrolling-banner--bordered{% endif %}
+    "
+  >
+    <div class="cwc_scrolling-banner__viewport">
+      {%- comment -%}
+        The strip is the same list of items repeated N times, and the animation
+        moves it left by exactly one copy — 100% / N of the track — before
+        snapping back. Travelling any other distance lands the loop mid-list and
+        shows as a jump on every cycle.
+
+        The copies are what fills the far side of the screen while the first
+        list is still walking off the near side, so N is a setting: a short list
+        on a wide monitor needs more copies than a long one.
+
+        Only the first copy carries shopify_attributes and is exposed to
+        assistive tech. The rest are decoration — a screen reader that read all
+        of them would announce the same claims N times over.
+      {%- endcomment -%}
+      <div class="cwc_scrolling-banner__track">
+        {%- for copy_number in (1..repeat_count) -%}
+          {%- assign is_original = forloop.first -%}
+          <div
+            class="cwc_scrolling-banner__group"
+            {% unless is_original %}
+              aria-hidden="true"
+            {% endunless %}
+          >
+            {%- for block in section.blocks -%}
+              {%- if block.type == 'item' -%}
+                {%- liquid
+                  assign item_icon = block.settings.icon
+                  assign item_icon_style = block.settings.icon_style | default: 'none'
+                  assign item_text = block.settings.text
+                -%}
+                {%- if item_icon != blank or item_icon_style != 'none' or item_text != blank -%}
+                  <div
+                    class="cwc_scrolling-banner__item"
+                    {% if is_original %}{{ block.shopify_attributes }}{% endif %}
+                  >
+                    {%- if item_icon != blank -%}
+                      <img
+                        class="cwc_scrolling-banner__icon"
+                        src="{{ item_icon | image_url: width: 72 }}"
+                        alt=""
+                        width="72"
+                        height="72"
+                        loading="lazy"
+                      >
+                    {%- elsif item_icon_style != 'none' -%}
+                      {%- comment -%}
+                        The built-in marks share one stroke weight and one box,
+                        so a row of them reads as a set. A font's own glyphs for
+                        a truck or a shield rarely match each other in weight,
+                        and a mismatched row reads as an accident.
+                      {%- endcomment -%}
+                      <span class="cwc_scrolling-banner__icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" focusable="false">
+                          {%- case item_icon_style -%}
+                            {%- when 'check' -%}
+                              <circle cx="12" cy="12" r="8.4" stroke="currentColor" stroke-width="1.6"></circle>
+                              <path
+                                d="m8.3 12.2 2.6 2.6 4.8-5.2"
+                                stroke="currentColor"
+                                stroke-width="1.6"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                              ></path>
+                            {%- when 'shield' -%}
+                              <path
+                                d="M12 3.2 19 6v5c0 4.2-2.9 7.6-7 8.8C7.9 18.6 5 15.2 5 11V6l7-2.8Z"
+                                stroke="currentColor"
+                                stroke-width="1.6"
+                                stroke-linejoin="round"
+                              ></path>
+                            {%- when 'leaf' -%}
+                              <path
+                                d="M19.8 4.2c0 8-4.5 12-9.5 12A4.5 4.5 0 0 1 5.8 11.7c0-5 6-7.5 14-7.5Z"
+                                stroke="currentColor"
+                                stroke-width="1.6"
+                                stroke-linejoin="round"
+                              ></path>
+                              <path
+                                d="M14.6 9.2c-3.9 1.6-6.8 4.7-8.8 10.6"
+                                stroke="currentColor"
+                                stroke-width="1.6"
+                                stroke-linecap="round"
+                              ></path>
+                            {%- when 'truck' -%}
+                              <path
+                                d="M3.2 7.2h10.3v8.1H3.2zM13.5 10.4h3.4l3 3v1.9h-6.4z"
+                                stroke="currentColor"
+                                stroke-width="1.6"
+                                stroke-linejoin="round"
+                              ></path>
+                              <circle cx="7" cy="17.4" r="1.8" stroke="currentColor" stroke-width="1.6"></circle>
+                              <circle cx="16.6" cy="17.4" r="1.8" stroke="currentColor" stroke-width="1.6"></circle>
+                            {%- when 'return' -%}
+                              <path
+                                d="M19.8 12a7.8 7.8 0 1 1-2.3-5.5"
+                                stroke="currentColor"
+                                stroke-width="1.6"
+                                stroke-linecap="round"
+                              ></path>
+                              <path
+                                d="M19.8 4.4v4.5h-4.5"
+                                stroke="currentColor"
+                                stroke-width="1.6"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                              ></path>
+                            {%- when 'pause' -%}
+                              <circle cx="12" cy="12" r="8.4" stroke="currentColor" stroke-width="1.6"></circle>
+                              <path
+                                d="M10.2 9.3v5.4M13.8 9.3v5.4"
+                                stroke="currentColor"
+                                stroke-width="1.6"
+                                stroke-linecap="round"
+                              ></path>
+                            {%- when 'star' -%}
+                              <path
+                                d="m12 3.9 2.5 5.1 5.6.8-4.1 4 1 5.6-5-2.7-5 2.7 1-5.6-4.1-4 5.6-.8z"
+                                stroke="currentColor"
+                                stroke-width="1.6"
+                                stroke-linejoin="round"
+                              ></path>
+                            {%- when 'flask' -%}
+                              <path
+                                d="M10.2 3.9v5.2L5.4 17a2 2 0 0 0 1.7 3h9.8a2 2 0 0 0 1.7-3l-4.8-7.9V3.9"
+                                stroke="currentColor"
+                                stroke-width="1.6"
+                                stroke-linejoin="round"
+                              ></path>
+                              <path d="M9.1 3.9h5.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path>
+                            {%- endcase -%}
+                        </svg>
+                      </span>
+                    {%- endif -%}
+
+                    {%- if item_text != blank -%}
+                      <span class="cwc_scrolling-banner__text">{{ item_text }}</span>
+                    {%- endif -%}
+                  </div>
+                {%- endif -%}
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+        {%- endfor -%}
+      </div>
+    </div>
+  </section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "CWC Scrolling Banner",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Motion"
+    },
+    {
+      "type": "range",
+      "id": "scroll_speed",
+      "label": "Scroll Speed",
+      "min": 10,
+      "max": 60,
+      "step": 5,
+      "unit": "s",
+      "default": 30,
+      "info": "Seconds for one full pass. Lower numbers scroll faster."
+    },
+    {
+      "type": "select",
+      "id": "direction",
+      "label": "Direction",
+      "options": [
+        { "value": "left", "label": "Right to left" },
+        { "value": "right", "label": "Left to right" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "checkbox",
+      "id": "pause_on_hover",
+      "label": "Pause on hover",
+      "default": true,
+      "info": "Lets a shopper stop the strip to read a claim. Also pauses on keyboard focus."
+    },
+    {
+      "type": "range",
+      "id": "repeat",
+      "label": "List Copies",
+      "min": 2,
+      "max": 6,
+      "step": 1,
+      "default": 3,
+      "info": "How many times the list repeats across the strip. Raise it if a gap appears on wide screens with only a few items."
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "text_style",
+      "label": "Text Style",
+      "options": [
+        { "value": "label", "label": "Label (uppercase)" },
+        { "value": "body", "label": "Body (sentence case)" }
+      ],
+      "default": "label"
+    },
+    {
+      "type": "select",
+      "id": "separator",
+      "label": "Separator",
+      "options": [
+        { "value": "dot", "label": "Dot" },
+        { "value": "slash", "label": "Slash" },
+        { "value": "none", "label": "None" }
+      ],
+      "default": "dot"
+    },
+    {
+      "type": "range",
+      "id": "item_gap",
+      "label": "Space Between Items",
+      "min": 16,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "icon_size",
+      "label": "Icon Size",
+      "min": 12,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "default": 18
+    },
+    {
+      "type": "checkbox",
+      "id": "show_borders",
+      "label": "Show top and bottom rules",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#F2F8EA"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#44681A"
+    },
+    {
+      "type": "color",
+      "id": "icon_color",
+      "label": "Icon Color",
+      "default": "#5BA90F"
+    },
+    {
+      "type": "color",
+      "id": "separator_color",
+      "label": "Separator Color",
+      "default": "#A3C781"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Rule Color",
+      "default": "#A3C781"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "default": 12
+    }
+  ],
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Banner Item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "Third-Party Tested"
+        },
+        {
+          "type": "select",
+          "id": "icon_style",
+          "label": "Built-in Icon",
+          "info": "Ignored when an icon image is uploaded below.",
+          "options": [
+            { "value": "none", "label": "None" },
+            { "value": "check", "label": "Check" },
+            { "value": "shield", "label": "Shield" },
+            { "value": "leaf", "label": "Leaf" },
+            { "value": "truck", "label": "Truck" },
+            { "value": "return", "label": "Return" },
+            { "value": "pause", "label": "Pause" },
+            { "value": "star", "label": "Star" },
+            { "value": "flask", "label": "Flask" }
+          ],
+          "default": "check"
+        },
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Icon Image",
+          "info": "Optional. Overrides the built-in icon."
+        }
+      ]
+    }
+  ],
+  "max_blocks": 12,
+  "presets": [
+    {
+      "name": "Scrolling Banner",
+      "category": "CWC Custom",
+      "blocks": [
+        {
+          "type": "item",
+          "settings": { "text": "Doctor Formulated", "icon_style": "flask" }
+        },
+        {
+          "type": "item",
+          "settings": { "text": "Third-Party Tested", "icon_style": "shield" }
+        },
+        {
+          "type": "item",
+          "settings": { "text": "No Fillers or Binders", "icon_style": "leaf" }
+        },
+        {
+          "type": "item",
+          "settings": { "text": "30-Day Money Back", "icon_style": "return" }
+        },
+        {
+          "type": "item",
+          "settings": { "text": "Free Shipping on Subscriptions", "icon_style": "truck" }
+        },
+        {
+          "type": "item",
+          "settings": { "text": "Cancel or Pause Anytime", "icon_style": "pause" }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

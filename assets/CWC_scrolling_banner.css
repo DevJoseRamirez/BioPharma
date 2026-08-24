@@ -1,0 +1,211 @@
+/* ==============================
+   CWC Scrolling Banner
+   ------------------------------
+   A full-bleed trust marquee for the top or bottom of any page.
+
+   The loop works by repeating the same list N times inside the track and
+   sliding the track left by exactly one copy — 100% / N — per cycle. At the end
+   of the cycle the strip snaps back to zero, and because it has travelled one
+   whole copy, the list that lands under the viewport is identical to the one
+   that started there. Any other travel distance lands mid-list and reads as a
+   jump.
+
+   That is also why nothing here uses `gap`. A gap between items but not across
+   the seam between copies would make one join wider than the rest and give the
+   snap away. Instead every item carries half the gap on each side, so the space
+   between any two items — inside a copy or across the join — is the same.
+   ============================== */
+
+.cwc_scrolling-banner {
+  background: var(--section-bg);
+  color: var(--text-color);
+  padding-top: var(--padding-top);
+  padding-bottom: var(--padding-bottom);
+  position: relative;
+  overflow: hidden;
+}
+
+.cwc_scrolling-banner--bordered {
+  border-top: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.cwc_scrolling-banner__viewport {
+  width: 100%;
+  overflow: hidden;
+}
+
+.cwc_scrolling-banner__track {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+  animation: cwc_scrolling-banner-scroll var(--scroll-speed) linear infinite;
+}
+
+.cwc_scrolling-banner--reverse .cwc_scrolling-banner__track {
+  animation-direction: reverse;
+}
+
+/* Hover pauses so a shopper can finish reading a claim; focus-within does the
+   same for a keyboard, which cannot hover. */
+.cwc_scrolling-banner--pause-hover:hover .cwc_scrolling-banner__track,
+.cwc_scrolling-banner--pause-hover:focus-within .cwc_scrolling-banner__track {
+  animation-play-state: paused;
+}
+
+.cwc_scrolling-banner__group {
+  display: flex;
+  align-items: center;
+  flex: 0 0 auto;
+}
+
+.cwc_scrolling-banner__item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+  white-space: nowrap;
+  /* half the gap each side — see the note at the top of this file */
+  padding-left: calc(var(--item-gap) / 2);
+  padding-right: calc(var(--item-gap) / 2);
+  position: relative;
+}
+
+.cwc_scrolling-banner__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--icon-size);
+  height: var(--icon-size);
+  flex-shrink: 0;
+  object-fit: contain;
+  color: var(--icon-color);
+}
+
+.cwc_scrolling-banner__icon svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.cwc_scrolling-banner__text {
+  font-family: var(--cwc-font-body);
+  line-height: 1;
+}
+
+.cwc_scrolling-banner--label .cwc_scrolling-banner__text {
+  font-size: 0.82rem;
+  /* 13.12px */
+  font-weight: var(--cwc-weight-label);
+  text-transform: uppercase;
+  letter-spacing: var(--cwc-tracking-label);
+}
+
+.cwc_scrolling-banner--body .cwc_scrolling-banner__text {
+  font-size: 1rem;
+  /* 16px */
+  font-weight: 500;
+}
+
+/* ==============================
+   Separator
+
+   Absolutely positioned so it adds no width: every copy has to measure exactly
+   the same, or the travel distance above stops matching one copy. Sitting on
+   the item's right border edge puts it midway between the two items' text,
+   since each carries half the gap.
+   ============================== */
+.cwc_scrolling-banner--separated .cwc_scrolling-banner__item::after {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translate(50%, -50%);
+  color: var(--separator-color);
+  font-size: 0.9rem;
+  line-height: 1;
+  pointer-events: none;
+}
+
+.cwc_scrolling-banner--separator-dot .cwc_scrolling-banner__item::after {
+  content: '\00B7';
+  font-size: 1.4rem;
+}
+
+.cwc_scrolling-banner--separator-slash .cwc_scrolling-banner__item::after {
+  content: '/';
+}
+
+/* ==============================
+   Animation Keyframes
+
+   The end stop reads --repeat off the section, so the travel always matches
+   however many copies the merchant asked for.
+   ============================== */
+@keyframes cwc_scrolling-banner-scroll {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+
+  to {
+    transform: translate3d(calc(-100% / var(--repeat, 3)), 0, 0);
+  }
+}
+
+/* ==============================
+   Reduced Motion
+
+   Moving text that cannot be stopped is a barrier, so the strip stops being a
+   marquee entirely: one copy, centred, scrollable by hand if it overflows.
+   `safe center` keeps the left edge reachable when it does — plain centring
+   would push the start of the list out of the scrollable area.
+   ============================== */
+@media screen and (prefers-reduced-motion: reduce) {
+  .cwc_scrolling-banner__viewport {
+    overflow-x: auto;
+  }
+
+  .cwc_scrolling-banner__track {
+    animation: none;
+    width: 100%;
+    justify-content: center;
+    justify-content: safe center;
+  }
+
+  .cwc_scrolling-banner__group:not(:first-child) {
+    display: none;
+  }
+
+  /* With the loop gone the list has a real end, so the trailing separator has
+     nothing to separate. */
+  .cwc_scrolling-banner--separated .cwc_scrolling-banner__item:last-child::after {
+    content: none;
+  }
+}
+
+/* ==============================
+   Mobile
+   ============================== */
+@media screen and (max-width: 991px) {
+  .cwc_scrolling-banner--label .cwc_scrolling-banner__text {
+    font-size: 0.75rem;
+    letter-spacing: 1.4px;
+  }
+
+  .cwc_scrolling-banner--body .cwc_scrolling-banner__text {
+    font-size: 0.86rem;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .cwc_scrolling-banner {
+    padding-top: var(--padding-top-mobile);
+    padding-bottom: var(--padding-bottom-mobile);
+  }
+
+  .cwc_scrolling-banner__item {
+    /* the gap is set for a desktop row; at this width it costs more than it
+       buys, so it is scaled back rather than re-typed by the merchant */
+    padding-left: calc(var(--item-gap) / 3);
+    padding-right: calc(var(--item-gap) / 3);
+  }
+}

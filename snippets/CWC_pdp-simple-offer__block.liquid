@@ -1,0 +1,359 @@
+{% comment %}
+  A two-way offer: one named subscription, or buy it once.
+
+  The purchase-plans block renders a card per selling plan the product carries.
+  That is right for a product whose plans are the choice — 1, 2 and 3 month
+  deliveries lined up to be compared. It is wrong for a product merchandised as
+  "subscribe or don't", where those same three plans exist on the product but
+  only one of them is being sold on the page: the shopper is handed a menu when
+  the pitch is a single decision.
+
+  So this block takes the plan id instead of discovering it. Everything else is
+  read off the product: the price, the compare-at and the saving all come from
+  the selected variant's own allocation for that plan, so a template shared
+  across products stays right on each of them. The only thing typed is which
+  plan, which is the one fact that cannot be inferred.
+
+  A plan id that matches nothing on the current variant renders no subscribe
+  card at all — the shopper sees the one-time card and can still buy. The editor
+  gets a note saying why, since a silently missing card on a page that looks
+  otherwise complete is the hardest kind of mistake to find.
+
+  Replaces both purchase_plans and onetime. It emits the same data-cwc-offer
+  attributes the plan cards do and the same data-cwc-onetime attributes the
+  one-time card does, so the sticky bar, the price refresh and the add-to-cart
+  all treat it as the cards they already know. That is also why it cannot sit
+  beside them: the script binds one one-time control per section, and a second
+  would be left dead.
+
+  Accepts:
+  - block {Object} - the simple_offer block.
+  - product {Object} - product being sold.
+  - current_variant {Object} - variant whose allocation is priced.
+  - section_id {String} - scopes the radio group name to this section.
+
+  Usage:
+  {% render 'CWC_pdp-simple-offer__block',
+    block: block,
+    product: product,
+    current_variant: current_variant,
+    section_id: section.id
+  %}
+{% endcomment %}
+
+{%- liquid
+  comment
+    The id as typed. A merchant copying from the Shopify admin can land on a
+    bare number or on a gid:// URL, and the trailing segment is the number in
+    both, so the last path part is taken rather than asking for a particular
+    format. `plus: 0` makes it an integer — anything non-numeric becomes 0,
+    which matches no allocation and falls through to the note below.
+  endcomment
+  assign wanted_plan = block.settings.selling_plan_id | strip | split: '/' | last | strip | plus: 0
+
+  comment
+    Nothing found is the normal case for a template shared across products, so
+    every value the card needs is seeded first and the loop only overwrites them
+    on a hit. That keeps the markup below reading one flag rather than guarding
+    each figure.
+  endcomment
+  assign has_plan = false
+  assign plan_id = 0
+  assign plan_price = 0
+  assign plan_compare = 0
+
+  for allocation in current_variant.selling_plan_allocations
+    if allocation.selling_plan.id == wanted_plan
+      assign has_plan = true
+      assign plan_id = allocation.selling_plan.id
+      assign plan_price = allocation.price
+      assign plan_compare = allocation.compare_at_price | default: 0
+    endif
+  endfor
+
+  assign has_saving = false
+
+  if has_plan
+
+    comment
+      The compare-at on the allocation is what the plan discounts against. When
+      the plan carries none, the variant's own compare-at is the next best
+      anchor — a product on sale still has a price to strike through.
+    endcomment
+    if plan_compare <= plan_price
+      assign plan_compare = current_variant.price
+    endif
+
+    if plan_compare > plan_price
+      assign has_saving = true
+      assign saving_amount = plan_compare | minus: plan_price
+      assign saving_percent = saving_amount | times: 100 | divided_by: plan_compare
+    endif
+  endif
+
+  assign savings_style = block.settings.savings_style | default: 'percent'
+  assign save_label = ''
+  if has_saving and savings_style != 'none'
+    comment
+      Formatted before it is joined to anything: filters chain left to right, so
+      'Save ' | append: amount | money hands money a string it cannot format and
+      the whole label comes back blank.
+    endcomment
+    assign saving_money = saving_amount | money
+
+    case savings_style
+      when 'percent'
+        assign save_label = 'Save ' | append: saving_percent | append: '%'
+      when 'amount'
+        assign save_label = 'Save ' | append: saving_money
+      when 'both'
+        assign save_label = 'Save ' | append: saving_percent | append: '% · ' | append: saving_money
+    endcase
+  endif
+
+  assign default_choice = block.settings.default_choice | default: 'subscribe'
+  assign show_onetime = block.settings.show_onetime
+
+  comment
+    Only one of the two can start selected, and the subscribe card can only take
+    it if it rendered at all.
+  endcomment
+  assign subscribe_selected = false
+  assign onetime_selected = false
+  if default_choice == 'subscribe' and has_plan
+    assign subscribe_selected = true
+  elsif default_choice == 'onetime' and show_onetime
+    assign onetime_selected = true
+  endif
+
+  assign promo_style = block.settings.promo_style | default: 'soft'
+
+  comment
+    Whether each list stands permanently or opens with its card.
+
+    The two default differently on purpose. The subscription perks are the
+    pitch — the reason to take the plan at all — and a shopper weighing the two
+    options wants them in front of them whether or not they have committed yet,
+    so that list stands. The one-time notes are what that choice gives up, which
+    is worth saying to a shopper who has just chosen it and is nagging shown to
+    one who has not, so that list opens with its card.
+
+    Static strips are marked in the markup rather than inferred, because the
+    script has to know too: it marks a closed strip inert, and doing that to one
+    that is plainly visible would hide it from a screen reader alone.
+  endcomment
+  assign perks_static = true
+  if block.settings.perks_visibility == 'selected'
+    assign perks_static = false
+  endif
+
+  assign notes_static = false
+  if block.settings.notes_visibility == 'always'
+    assign notes_static = true
+  endif
+-%}
+
+<div class="cwc_product-hero-buy-box__simple-offer" {{ block.shopify_attributes }}>
+  {%- if request.design_mode and has_plan == false -%}
+    <div class="cwc_product-hero-buy-box__editor-note">
+      <strong>No subscription card is showing.</strong>
+      {%- if block.settings.selling_plan_id == blank -%}
+        Set Selling Plan ID to the plan you want sold here.
+      {%- else -%}
+        “{{ block.settings.selling_plan_id }}” does not match a selling plan the
+        selected variant can be bought on.
+        {%- if current_variant.selling_plan_allocations.size > 0 -%}
+          Plans available on this variant:
+          <ul>
+            {%- for allocation in current_variant.selling_plan_allocations -%}
+              <li>{{ allocation.selling_plan.id }} — {{ allocation.selling_plan.name }}</li>
+            {%- endfor -%}
+          </ul>
+        {%- else -%}
+          This variant carries no selling plans at all.
+        {%- endif -%}
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+
+  {%- if block.settings.group_label != blank -%}
+    <div class="cwc_product-hero-buy-box__label">{{ block.settings.group_label }}</div>
+  {%- endif -%}
+
+  {%- comment -%}
+    "Nothing pre-selected" has to be announced rather than just left undone: the
+    script selects the first card when it finds none selected, which would
+    quietly undo the setting.
+  {%- endcomment -%}
+  <div
+    class="cwc_product-hero-buy-box__offers"
+    data-cwc-offers
+    {% if default_choice == 'none' %}
+      data-cwc-no-autoselect
+    {% endif %}
+  >
+    {%- if has_plan -%}
+      {%- comment -%}
+        The promo strip is the card's own header rather than a banner above it,
+        so the claim belongs to the offer it qualifies. It joins the card by
+        pulling the two borders together — see the stylesheet.
+      {%- endcomment -%}
+      {%- if block.settings.promo_text != blank -%}
+        <div class="cwc_product-hero-buy-box__simple-offer-promo cwc_product-hero-buy-box__simple-offer-promo--{{ promo_style }}">
+          {{ block.settings.promo_text }}
+        </div>
+      {%- endif -%}
+
+      {%- comment -%}
+        data-cwc-offer puts the card in the script's offer list — that list is
+        what clears every other card's selected state, so a card missing the
+        attribute stays lit while another is chosen.
+
+        data-cwc-offer-auto marks it as generated from the product's own
+        allocations, which lets the script hide it when the shopper switches to a
+        variant this plan cannot be bought on. Safe here for the same reason it
+        is safe on the auto cards: the price came off the allocation, so there is
+        no typed price left standing to fall back to.
+
+        Both live on the tag itself and nothing may come between them: a
+        whitespace-stripping tag there fuses the two into one dead attribute.
+      {%- endcomment -%}
+      <label
+        class="
+          cwc_product-hero-buy-box__offer
+          cwc_product-hero-buy-box__simple-offer-card
+          {% if block.settings.promo_text != blank %}cwc_product-hero-buy-box__simple-offer-card--joined{% endif %}
+          {% if subscribe_selected %}cwc_product-hero-buy-box__offer--selected{% endif %}
+        "
+        data-cwc-offer
+        data-cwc-offer-auto
+        data-cwc-offer-plan="{{ plan_id }}"
+        data-cwc-offer-quantity="1"
+        data-cwc-offer-variant="{{ current_variant.id }}"
+        data-cwc-offer-name="{{ block.settings.subscribe_label | default: 'Subscribe & Save' | escape }}"
+        data-cwc-offer-sub="{{ save_label | escape }}"
+      >
+        <input
+          type="radio"
+          name="cwc_supply_{{ section_id }}"
+          class="cwc_product-hero-buy-box__offer-input"
+          value="{{ block.id }}-{{ plan_id }}"
+          {% if subscribe_selected %}
+            checked
+          {% endif %}
+        >
+
+        <span class="cwc_product-hero-buy-box__offer-radio" aria-hidden="true"></span>
+
+        <span class="cwc_product-hero-buy-box__offer-body">
+          <span class="cwc_product-hero-buy-box__simple-offer-row">
+            <span class="cwc_product-hero-buy-box__offer-name">
+              {{ block.settings.subscribe_label | default: 'Subscribe & Save' }}
+              {% if save_label != blank %}
+                <span class="cwc_product-hero-buy-box__offer-save{% unless subscribe_selected %} cwc_product-hero-buy-box__offer-save--dim{% endunless %}">
+                  {{ save_label }}
+                </span>
+              {% endif %}
+            </span>
+
+            <span class="cwc_product-hero-buy-box__offer-price">
+              {% if has_saving %}
+                <span class="cwc_product-hero-buy-box__offer-was" data-cwc-offer-was>{{ plan_compare | money }}</span>
+              {% endif %}
+              <span class="cwc_product-hero-buy-box__offer-now" data-cwc-offer-now>{{ plan_price | money }}</span>
+            </span>
+          </span>
+
+          {% if block.settings.subscribe_sublabel != blank %}
+            <span class="cwc_product-hero-buy-box__offer-description">{{ block.settings.subscribe_sublabel }}</span>
+          {% endif %}
+
+          {%- comment -%}
+            The case for subscribing, which by default stands whether or not
+            the card is the live choice — see perks_static above.
+          {%- endcomment -%}
+          {%- if block.settings.perks != blank -%}
+            <span
+              class="cwc_product-hero-buy-box__offer-details{% if perks_static %} cwc_product-hero-buy-box__offer-details--static{% endif %}"
+              data-cwc-offer-details="{% if perks_static %}static{% endif %}"
+            >
+              <span class="cwc_product-hero-buy-box__offer-details-inner">
+                <span class="cwc_product-hero-buy-box__offer-perks cwc-rte">{{ block.settings.perks }}</span>
+              </span>
+            </span>
+          {%- endif -%}
+        </span>
+      </label>
+    {%- endif -%}
+
+    {%- if show_onetime and block.settings.onetime_label != blank -%}
+      {%- comment -%}
+        A button, not a label with a radio in it. The radio belongs to the group
+        above, and a real one here would let the browser's own group behaviour
+        fight the script over which option is live. The dot is drawn from the
+        same class the real cards use, so the two are indistinguishable.
+
+        It carries no data-cwc-offer-* attributes on purpose: the script finds
+        the live selection by its class and then reads plan and quantity off it,
+        and every one of those coming back empty is exactly right for a one-time
+        purchase.
+      {%- endcomment -%}
+      <button
+        type="button"
+        class="
+          cwc_product-hero-buy-box__offer
+          cwc_product-hero-buy-box__onetime-card
+          cwc_product-hero-buy-box__simple-offer-card
+          {% if onetime_selected %}cwc_product-hero-buy-box__offer--selected{% endif %}
+        "
+        data-cwc-onetime
+        data-cwc-onetime-card
+        data-cwc-onetime-behavior="select_only"
+        data-cwc-onetime-label="{{ block.settings.onetime_label | escape }}"
+      >
+        <span class="cwc_product-hero-buy-box__offer-radio" aria-hidden="true"></span>
+
+        <span class="cwc_product-hero-buy-box__offer-body">
+          <span class="cwc_product-hero-buy-box__simple-offer-row">
+            <span class="cwc_product-hero-buy-box__offer-name">{{ block.settings.onetime_label }}</span>
+
+            {% if current_variant != blank %}
+              <span class="cwc_product-hero-buy-box__offer-price">
+                {% comment %} {% if current_variant.compare_at_price > current_variant.price %}
+                  <span class="cwc_product-hero-buy-box__offer-was" data-cwc-onetime-compare>
+                    {{- current_variant.compare_at_price | money -}}
+                  </span>
+                {% endif %} {% endcomment %}
+                <span class="cwc_product-hero-buy-box__offer-now" data-cwc-onetime-price>
+                  {{- current_variant.price | money -}}
+                </span>
+              </span>
+            {% endif %}
+          </span>
+
+          {% if block.settings.onetime_sublabel != blank %}
+            <span class="cwc_product-hero-buy-box__offer-description">{{ block.settings.onetime_sublabel }}</span>
+          {% endif %}
+
+          {%- comment -%}
+            What buying once costs the shopper. Unlike the perks above this
+            opens and closes with the card by default: it is a caveat, and a
+            caveat aimed at a shopper who has not chosen the option is nagging.
+          {%- endcomment -%}
+          {%- if block.settings.onetime_notes != blank -%}
+            <span
+              class="cwc_product-hero-buy-box__offer-details{% if notes_static %} cwc_product-hero-buy-box__offer-details--static{% endif %}"
+              data-cwc-offer-details="{% if notes_static %}static{% endif %}"
+            >
+              <span class="cwc_product-hero-buy-box__offer-details-inner">
+                <span class="cwc_product-hero-buy-box__offer-perks cwc_product-hero-buy-box__offer-perks--cons cwc-rte">
+                  {{- block.settings.onetime_notes -}}
+                </span>
+              </span>
+            </span>
+          {%- endif -%}
+        </span>
+      </button>
+    {%- endif -%}
+  </div>
+</div>

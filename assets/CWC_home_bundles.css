@@ -91,6 +91,8 @@
   display: flex;
   flex-direction: column;
   background: var(--card-bg);
+  /* the anchor point the stretched link below measures itself against */
+  position: relative;
 }
 
 .cwc_home-bundles__card--featured {
@@ -210,12 +212,27 @@
   margin-right: 8px;
 }
 
+/* The price is pushed to the foot of the body rather than sitting straight under
+   the contents list, so it lands at the same height on every card however many
+   items each kit lists. The button under it is one fixed-height row, so
+   levelling the price levels the whole foot of the card.
+
+   The button keeps an auto margin of its own for a card that has no price at
+   all — nothing would otherwise push it down. Two auto margins in one flex
+   column split the slack between them, which would leave neither at the bottom,
+   so the button gives its up whenever a price precedes it. */
 .cwc_home-bundles__card-price {
   display: flex;
   align-items: baseline;
   flex-wrap: wrap;
   gap: 0.625rem;
-  margin-top: 0.25rem;
+  margin-top: auto;
+  /* clears the list by at least this much before the slack is added */
+  padding-top: 0.25rem;
+}
+
+.cwc_home-bundles__card-price ~ .cwc_home-bundles__button {
+  margin-top: 0;
 }
 
 .cwc_home-bundles__card-price-now {
@@ -262,6 +279,33 @@
   color: var(--button-text);
 }
 
+/* === Whole-Card Link ===
+
+   The card is clickable without becoming a second link: the button's own
+   ::after is stretched over the card, so every click inside it lands on the one
+   anchor that was already there. Wrapping the card in another anchor would give
+   each card two links to the same place — two tab stops, and two
+   announcements from a screen reader reading through the section.
+
+   No radius needed on the overlay: the card clips to its own.
+
+   The trade-off is text selection — the overlay sits above the copy, so a
+   shopper cannot drag-select the kit contents. Worth it on a card whose whole
+   job is to be clicked.  */
+.cwc_home-bundles__button--stretched::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+/* Hovering anywhere on the card IS hovering the link now, so the button has to
+   answer — the cursor changes on the whole card, and a button that stayed inert
+   would read as the click having missed. */
+.cwc_home-bundles__card:hover .cwc_home-bundles__button--stretched {
+  filter: brightness(0.92);
+}
+
 .cwc_home-bundles__button--outline {
   background: transparent;
   color: var(--button-outline-color);
@@ -269,7 +313,8 @@
   filter: none;
 }
 
-.cwc_home-bundles__button--outline:hover {
+.cwc_home-bundles__button--outline:hover,
+.cwc_home-bundles__card:hover .cwc_home-bundles__button--outline.cwc_home-bundles__button--stretched {
   filter: none;
   color: var(--button-outline-color);
   background: color-mix(in srgb, var(--button-outline-color) 8%, transparent);
