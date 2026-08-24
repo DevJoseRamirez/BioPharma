@@ -18,24 +18,24 @@
         "eyebrow": "",
         "subtext": "",
         "use_collection_description": true,
+        "show_product_count": true,
+        "count_suffix_text": "products",
+        "count_suffix_singular": "product",
         "show_breadcrumb": true,
         "crumb_home_label": "Home",
         "crumb_parent_label": "Shop",
         "crumb_parent_link": "",
-        "count_suffix_text": "products",
-        "count_suffix_singular": "product",
-        "show_product_count": true,
         "use_collection_image": false,
         "image": "shopify://shop_images/pdp-image-frame-06.png",
         "alt_text": "",
         "lazy_load": false,
-        "overlay_color": "#2A2611",
+        "overlay_color": "#2a2611",
         "overlay_opacity": 55,
-        "bg_color": "#44681A",
+        "bg_color": "#44681a",
         "heading_color": "#ffffff",
         "text_color": "#ffffff",
-        "bold_color": "#A3C781",
-        "eyebrow_color": "#A3C781",
+        "bold_color": "#a3c781",
+        "eyebrow_color": "#a3c781",
         "text_align": "center",
         "full_width": false,
         "heading_size": 44,
@@ -54,7 +54,8 @@
             "collection": "greens",
             "title": "",
             "link": "",
-            "force_active": false
+            "force_active": false,
+            "divider_after": false
           }
         },
         "pill_cwfymV": {
@@ -63,7 +64,8 @@
             "collection": "gummies",
             "title": "",
             "link": "",
-            "force_active": false
+            "force_active": false,
+            "divider_after": false
           }
         },
         "pill_EwqwHC": {
@@ -72,7 +74,8 @@
             "collection": "protein",
             "title": "",
             "link": "",
-            "force_active": false
+            "force_active": false,
+            "divider_after": false
           }
         },
         "pill_H9ACdN": {
@@ -91,7 +94,8 @@
             "collection": "brain",
             "title": "",
             "link": "",
-            "force_active": false
+            "force_active": false,
+            "divider_after": false
           }
         },
         "pill_6kRBRE": {
@@ -100,7 +104,8 @@
             "collection": "active-lifestyle",
             "title": "",
             "link": "",
-            "force_active": false
+            "force_active": false,
+            "divider_after": false
           }
         },
         "pill_4apqNL": {
@@ -109,7 +114,8 @@
             "collection": "blood-sugar",
             "title": "",
             "link": "",
-            "force_active": false
+            "force_active": false,
+            "divider_after": false
           }
         }
       },
@@ -124,24 +130,24 @@
       ],
       "name": "Collection Links",
       "settings": {
-        "show_divider": true,
-        "divider_color": "#E6E5DC",
         "bg_color": "#ffffff",
-        "pill_bg_color": "#44681A",
-        "pill_text_color": "#FFFFFF",
-        "pill_border_color": "#A3C781",
-        "pill_bg_active_color": "#5BA90F",
+        "pill_bg_color": "#44681a",
+        "pill_text_color": "#ffffff",
+        "pill_border_color": "#a3c781",
+        "pill_bg_active_color": "#5ba90f",
         "pill_text_active_color": "#ffffff",
-        "pill_border_active_color": "#5BA90F",
+        "pill_border_active_color": "#5ba90f",
         "show_scrollbar": true,
-        "scrollbar_track_color": "#A3C781",
-        "scrollbar_thumb_color": "#5BA90F",
+        "scrollbar_track_color": "#a3c781",
+        "scrollbar_thumb_color": "#5ba90f",
         "text_align": "center",
         "full_width": false,
         "nav_label": "Collection links",
         "show_top_border": false,
         "show_bottom_border": false,
-        "border_color": "#E6E5DC",
+        "border_color": "#e6e5dc",
+        "show_divider": true,
+        "divider_color": "#e6e5dc",
         "padding_top": 25,
         "padding_bottom": 25
       }
@@ -197,7 +203,7 @@
           "settings": {
             "badge_label": "Best seller",
             "condition_tag": "best-seller",
-            "badge_color": "#5BA90F",
+            "badge_color": "#5ba90f",
             "badge_text_color": "#ffffff"
           }
         },
@@ -206,8 +212,8 @@
           "settings": {
             "badge_label": "Practitioner favorite",
             "condition_tag": "practitioner-favorite",
-            "badge_color": "#A3B8E2",
-            "badge_text_color": "#1E2B4A"
+            "badge_color": "#a3b8e2",
+            "badge_text_color": "#1e2b4a"
           }
         },
         "badge_bundle": {
@@ -215,7 +221,7 @@
           "settings": {
             "badge_label": "Bundle",
             "condition_tag": "bundle",
-            "badge_color": "#2A2611",
+            "badge_color": "#2a2611",
             "badge_text_color": "#ffffff"
           }
         },
@@ -224,34 +230,88 @@
           "settings": {
             "badge_label": "New",
             "condition_tag": "new",
-            "badge_color": "#44681A",
+            "badge_color": "#44681a",
             "badge_text_color": "#ffffff"
           }
         }
       },
-      "block_order": ["badge_best", "badge_practitioner", "badge_bundle", "badge_new"],
+      "block_order": [
+        "badge_best",
+        "badge_practitioner",
+        "badge_bundle",
+        "badge_new"
+      ],
       "settings": {
         "show_filters": true,
         "filter_source": "shopify_filters",
         "show_sort": true,
+        "sort_label": "Sort:",
+        "sort_apply_label": "Apply",
         "show_product_count": true,
+        "count_suffix_text": "products",
+        "count_suffix_singular": "product",
         "show_active_chips": true,
+        "clear_all_label": "Clear all",
+        "chip_remove_label": "Remove filter",
+        "mobile_filter_label": "Filter",
+        "mobile_sort_label": "Sort",
         "products_per_page": 8,
         "columns_desktop": 4,
         "columns_mobile": "2",
         "show_secondary_image_on_hover": true,
         "show_quick_add": true,
+        "quick_add_label": "Add to cart",
+        "choose_label": "Choose a flavor",
+        "notify_label": "Notify me",
         "show_rating": true,
         "show_variant_swatches": true,
         "swatch_option_name": "Flavor",
         "show_per_serving_price": true,
+        "per_serving_suffix": "/ serving",
+        "servings_suffix": "servings",
         "show_subscription_line": true,
+        "subscription_prefix": "Subscribe from",
+        "subscription_save_text": "— save",
         "max_badges": 2,
         "show_save_badge": true,
+        "save_badge_prefix": "Save",
         "low_stock_threshold": 10,
+        "low_stock_label": "Low stock",
+        "sold_out_label": "Sold out",
         "pagination_type": "load_more",
         "load_more_label": "Load more",
         "show_showing_count": true,
+        "showing_prefix": "Showing",
+        "showing_join": "of",
+        "previous_label": "Previous",
+        "next_label": "Next",
+        "empty_text": "No products match these filters.",
+        "format_metafield": "custom.format",
+        "servings_metafield": "custom.servings",
+        "serving_price_metafield": "custom.price_per_serving",
+        "card_text_metafield": "custom.card_description",
+        "rating_metafield": "reviews.rating",
+        "rating_count_metafield": "reviews.rating_count",
+        "bg_color": "#ffffff",
+        "text_color": "#2a2611",
+        "heading_color": "#2a2611",
+        "muted_color": "#7b7869",
+        "accent_color": "#5ba90f",
+        "olive_color": "#44681a",
+        "format_color": "#78ad49",
+        "star_color": "#5ba90f",
+        "border_color": "#dcd9ce",
+        "border_soft_color": "#edece6",
+        "chip_bg_color": "#ecebe5",
+        "card_bg_color": "#f5f4f0",
+        "card_hover_bg_color": "#ecebe5",
+        "quick_add_bg_color": "#2a2611",
+        "quick_add_text_color": "#ffffff",
+        "badge_text_color": "#ffffff",
+        "badge_save_bg_color": "#ffffff",
+        "badge_save_text_color": "#44681a",
+        "badge_low_bg_color": "#b4501e",
+        "badge_sold_bg_color": "#8a8677",
         "padding_top": 30,
         "padding_bottom": 80
       }
@@ -295,9 +355,25 @@
           }
         }
       },
-      "block_order": ["qa_1", "qa_2", "qa_3", "qa_4", "qa_5"],
+      "block_order": [
+        "qa_1",
+        "qa_2",
+        "qa_3",
+        "qa_4",
+        "qa_5"
+      ],
+      "disabled": true,
       "settings": {
         "heading": "<p>How the line fits together</p>",
+        "body": "<p>Every formula starts the same way: produce juiced at peak ripeness, freeze-dried cold rather than heat-processed, and tested twice before it ships. The difference is what you're reaching for.</p><p>NanoGreens¹⁰ is the daily foundation and the one practitioners have stocked for two decades. NanoReds layers in berry and root polyphenols. Gummies exist for the people who won't mix a powder — usually kids, sometimes not.</p>",
+        "qa_heading": "",
+        "bg_color": "#ecebe5",
+        "text_color": "#2a2611",
+        "heading_color": "#2a2611",
+        "bold_color": "#44681a",
+        "body_color": "#57533f",
+        "answer_color": "#7b7869",
+        "divider_color": "#d5d2c6",
         "padding_top": 70,
         "padding_bottom": 70
       }

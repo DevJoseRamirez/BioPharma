@@ -327,6 +327,96 @@
         "padding_bottom": 50
       }
     },
+    "home_practitioner": {
+      "type": "CWC_home_practitioner",
+      "blocks": {
+        "doc_1": {
+          "type": "doctor",
+          "settings": {
+            "avatar": "shopify://shop_images/doc-profile-01.png",
+            "avatar_alt": "",
+            "name": "Dr. Lauren Calloway, DC",
+            "credential_line": "Chiropractor · Scottsdale, AZ",
+            "quote": "\"I've recommended NanoGreens to patients for years. When someone isn't getting enough produce, this is the simplest thing I can hand them that they'll actually stick with.\""
+          }
+        },
+        "doc_2": {
+          "type": "doctor",
+          "settings": {
+            "avatar": "shopify://shop_images/doc-profile-02.png",
+            "avatar_alt": "",
+            "name": "Dr. Michael Torres, MD",
+            "credential_line": "Integrative Medicine · Austin, TX",
+            "quote": "\"I've been stocking it in my practice since 2011. The formula hasn't been cheapened, which is rare in this industry. That consistency is why I keep recommending it.\""
+          }
+        },
+        "doc_3": {
+          "type": "doctor",
+          "settings": {
+            "avatar": "shopify://shop_images/doc-profile-03.png",
+            "avatar_alt": "",
+            "name": "Dr. Sarah Whitfield, ND",
+            "credential_line": "Naturopathic Doctor · San Diego, CA",
+            "quote": "\"The enzyme blend is why I choose it over cheaper greens. Absorption is the whole point — a powder your body passes through isn't doing anything for you.\""
+          }
+        },
+        "stat_1": {
+          "type": "stat",
+          "settings": {
+            "value": "20+",
+            "label": "years recommended in practitioner clinics"
+          }
+        },
+        "stat_2": {
+          "type": "stat",
+          "settings": {
+            "value": "33",
+            "label": "reviews mention a clinician recommended it"
+          }
+        },
+        "stat_3": {
+          "type": "stat",
+          "settings": {
+            "value": "2×",
+            "label": "tested — before and after blending"
+          }
+        },
+        "stat_4": {
+          "type": "stat",
+          "settings": {
+            "value": "USA",
+            "label": "made, American farms sourced first"
+          }
+        }
+      },
+      "block_order": [
+        "doc_1",
+        "doc_2",
+        "doc_3",
+        "stat_1",
+        "stat_2",
+        "stat_3",
+        "stat_4"
+      ],
+      "settings": {
+        "eyebrow": "Recommended in practice",
+        "heading": "<p>The people who recommend it <strong>see patients all day.</strong></p>",
+        "subtext": "<p>NanoGreens was developed for and distributed through doctors, chiropractors and naturopaths for years before it was ever sold direct. Many still stock it today. That history is why the formula has never been reformulated to hit a price.</p>",
+        "show_stats": true,
+        "bg_color": "#44681a",
+        "text_color": "#d9e7c9",
+        "heading_color": "#ffffff",
+        "bold_color": "#a3c781",
+        "eyebrow_color": "#a3c781",
+        "accent_color": "#a3c781",
+        "card_bg_color": "#4c7024",
+        "border_color": "#577b2f",
+        "quote_color": "#d9e7c9",
+        "credential_color": "#c9dab6",
+        "padding_top": 50,
+        "padding_bottom": 50
+      }
+    },
     "home_by_format": {
       "type": "CWC_home_by_format",
       "blocks": {
@@ -581,96 +671,6 @@
         "savings_bg_color": "#f2f8ea",
         "button_bg_color": "#5ba90f",
         "button_text_color": "#ffffff",
-        "padding_top": 50,
-        "padding_bottom": 50
-      }
-    },
-    "home_practitioner": {
-      "type": "CWC_home_practitioner",
-      "blocks": {
-        "doc_1": {
-          "type": "doctor",
-          "settings": {
-            "avatar": "shopify://shop_images/doc-profile-01.png",
-            "avatar_alt": "",
-            "name": "Dr. Lauren Calloway, DC",
-            "credential_line": "Chiropractor · Scottsdale, AZ",
-            "quote": "\"I've recommended NanoGreens to patients for years. When someone isn't getting enough produce, this is the simplest thing I can hand them that they'll actually stick with.\""
-          }
-        },
-        "doc_2": {
-          "type": "doctor",
-          "settings": {
-            "avatar": "shopify://shop_images/doc-profile-02.png",
-            "avatar_alt": "",
-            "name": "Dr. Michael Torres, MD",
-            "credential_line": "Integrative Medicine · Austin, TX",
-            "quote": "\"I've been stocking it in my practice since 2011. The formula hasn't been cheapened, which is rare in this industry. That consistency is why I keep recommending it.\""
-          }
-        },
-        "doc_3": {
-          "type": "doctor",
-          "settings": {
-            "avatar": "shopify://shop_images/doc-profile-03.png",
-            "avatar_alt": "",
-            "name": "Dr. Sarah Whitfield, ND",
-            "credential_line": "Naturopathic Doctor · San Diego, CA",
-            "quote": "\"The enzyme blend is why I choose it over cheaper greens. Absorption is the whole point — a powder your body passes through isn't doing anything for you.\""
-          }
-        },
-        "stat_1": {
-          "type": "stat",
-          "settings": {
-            "value": "20+",
-            "label": "years recommended in practitioner clinics"
-          }
-        },
-        "stat_2": {
-          "type": "stat",
-          "settings": {
-            "value": "33",
-            "label": "reviews mention a clinician recommended it"
-          }
-        },
-        "stat_3": {
-          "type": "stat",
-          "settings": {
-            "value": "2×",
-            "label": "tested — before and after blending"
-          }
-        },
-        "stat_4": {
-          "type": "stat",
-          "settings": {
-            "value": "USA",
-            "label": "made, American farms sourced first"
-          }
-        }
-      },
-      "block_order": [
-        "doc_1",
-        "doc_2",
-        "doc_3",
-        "stat_1",
-        "stat_2",
-        "stat_3",
-        "stat_4"
-      ],
-      "settings": {
-        "eyebrow": "Recommended in practice",
-        "heading": "<p>The people who recommend it <strong>see patients all day.</strong></p>",
-        "subtext": "<p>NanoGreens was developed for and distributed through doctors, chiropractors and naturopaths for years before it was ever sold direct. Many still stock it today. That history is why the formula has never been reformulated to hit a price.</p>",
-        "show_stats": true,
-        "bg_color": "#44681a",
-        "text_color": "#d9e7c9",
-        "heading_color": "#ffffff",
-        "bold_color": "#a3c781",
-        "eyebrow_color": "#a3c781",
-        "accent_color": "#a3c781",
-        "card_bg_color": "#4c7024",
-        "border_color": "#577b2f",
-        "quote_color": "#d9e7c9",
-        "credential_color": "#c9dab6",
         "padding_top": 50,
         "padding_bottom": 50
       }
@@ -998,6 +998,7 @@
     },
     "home_email": {
       "type": "CWC_home_email",
+      "disabled": true,
       "settings": {
         "heading": "<p>Get <strong>10% off</strong> your first order.</p>",
         "subtext": "<p>Plus the label guide — the three things worth checking on a greens panel, and the two that don’t matter.</p>",
@@ -1027,12 +1028,12 @@
     "home_hero",
     "home_trust_strip",
     "home_absorption",
+    "home_bundles",
     "home_by_problem",
+    "home_practitioner",
     "home_by_format",
     "home_best_sellers",
     "home_cost_math",
-    "home_practitioner",
-    "home_bundles",
     "home_subscribe",
     "home_reviews",
     "home_learn",

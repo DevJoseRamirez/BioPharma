@@ -24,13 +24,13 @@
 {{ 'CWC_fonts.css' | asset_url | stylesheet_tag }}
 {{ 'CWC_home_bundles.css' | asset_url | stylesheet_tag }}
 
+<div id="cwc_home-bundles--anchor"></div>
 <section id="cwc_home-bundles-{{ section.id }}" class="cwc_home-bundles">
   {% if section.settings.section_id != blank %}
     <span id="{{ section.settings.section_id | handleize }}" class="cwc_home-bundles__anchor"></span>
   {% endif %}
 
   <div class="cwc_home-bundles__container">
-
     {% comment %} Section Header {% endcomment %}
     <div class="cwc_home-bundles__content">
       {% if section.settings.eyebrow != blank %}
@@ -148,7 +148,8 @@
     {% if section.settings.footer_text != blank or section.settings.footer_link_label != blank %}
       <p class="cwc_home-bundles__footer">
         {%- if section.settings.footer_text != blank -%}
-          {{ section.settings.footer_text }}{{ ' ' }}
+          {{ section.settings.footer_text -}}
+          {{- ' ' }}
         {%- endif -%}
         {%- if section.settings.footer_link_label != blank -%}
           <a class="cwc_home-bundles__footer-link" href="{{ section.settings.footer_link | default: '#' }}">
@@ -157,7 +158,6 @@
         {%- endif -%}
       </p>
     {% endif %}
-
   </div>
 </section>
 
@@ -460,11 +460,7 @@
     {
       "name": "Home Bundles",
       "category": "CWC Custom",
-      "blocks": [
-        { "type": "kit" },
-        { "type": "kit" },
-        { "type": "kit" }
-      ]
+      "blocks": [{ "type": "kit" }, { "type": "kit" }, { "type": "kit" }]
     }
   ]
 }
