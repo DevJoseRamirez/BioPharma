@@ -1,0 +1,233 @@
+{%- liquid
+  assign tiles = product.metafields.custom.benefit_tiles.value
+-%}
+
+{%- if tiles.size >= 3 -%}
+  {% style %}
+    #cwc_meta_benefits-{{ section.id }} {
+      --section-bg: {{ section.settings.bg_color | default: '#FAFAF8' }};
+      --text-color: {{ section.settings.text_color | default: '#1F1F1C' }};
+      --highlight-color: {{ section.settings.bold_color | default: '#5BA90F' }};
+      --eyebrow-color: {{ section.settings.eyebrow_color | default: '#78AD49' }};
+      --body-color: {{ section.settings.body_color | default: '#6B6B65' }};
+      --tile-bg: {{ section.settings.tile_bg | default: '#ffffff' }};
+      --accent-tile-bg: {{ section.settings.accent_tile_bg | default: '#ffffff' }};
+      --tile-border-color: {{ section.settings.tile_border_color | default: '#EAE9E3' }};
+      --marker-green: {{ section.settings.marker_color | default: '#EAF3E0' }};
+      --marker-periwinkle: {{ section.settings.accent_marker_color | default: '#E4EAF6' }};
+      --border-color: {{ section.settings.border_color | default: '#EAE9E3' }};
+      --columns-desktop: {{ section.settings.columns_desktop | default: 3 }};
+      --padding-top: {{ section.settings.padding_top | default: 80 }}px;
+      --padding-bottom: {{ section.settings.padding_bottom | default: 80 }}px;
+      --padding-top-mobile: {{ section.settings.padding_top | default: 80 | times: 0.5 }}px;
+      --padding-bottom-mobile: {{ section.settings.padding_bottom | default: 80 | times: 0.5 }}px;
+    }
+  {% endstyle %}
+
+  {{ 'CWC_fonts.css' | asset_url | stylesheet_tag }}
+  {{ 'CWC_meta_benefits.css' | asset_url | stylesheet_tag }}
+
+  <section
+    id="cwc_meta_benefits-{{ section.id }}"
+    class="cwc_meta_benefits{% if section.settings.show_edges %} cwc_meta_benefits--edged{% endif %}"
+  >
+    <div class="cwc_meta_benefits__container">
+
+      {% comment %} Section Header {% endcomment %}
+      <div class="cwc_meta_benefits__content">
+        {% if section.settings.eyebrow_text != blank %}
+          <p class="cwc_meta_benefits__eyebrow">{{ section.settings.eyebrow_text }}</p>
+        {% endif %}
+
+        {% if section.settings.heading != blank %}
+          <div class="cwc_meta_benefits__content-heading cwc-rte">
+            {{ section.settings.heading }}
+          </div>
+        {% endif %}
+
+        {% if section.settings.subheading != blank %}
+          <div class="cwc_meta_benefits__content-subtext cwc-rte">
+            {{ section.settings.subheading }}
+          </div>
+        {% endif %}
+      </div>
+
+      {% comment %} Tiles — accent comes from the entry, never from its position {% endcomment %}
+      <div class="cwc_meta_benefits__grid">
+        {% for tile in tiles %}
+          {% assign accent = tile.accent | default: 'green' | strip | downcase %}
+          <div class="cwc_meta_benefits__tile cwc_meta_benefits__tile--{{ accent }}">
+            <span class="cwc_meta_benefits__marker" aria-hidden="true"></span>
+
+            {% if tile.title != blank %}
+              <h3 class="cwc_meta_benefits__tile-title">{{ tile.title }}</h3>
+            {% endif %}
+
+            {% if tile.body != blank %}
+              <p class="cwc_meta_benefits__tile-text">{{ tile.body | newline_to_br }}</p>
+            {% endif %}
+          </div>
+        {% endfor %}
+      </div>
+
+    </div>
+  </section>
+{%- elsif request.design_mode -%}
+  <p style="margin:0;padding:2rem;text-align:center;font-size:0.875rem;color:#767676;background:#F6F6F4;">
+    Meta Benefits — add three or more benefit tiles to this product to display this section.
+  </p>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Meta Benefit Tiles",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Header"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow_text",
+      "label": "Eyebrow",
+      "default": "What it supports"
+    },
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "<p>What one serving <strong>covers</strong></p>"
+    },
+    {
+      "type": "richtext",
+      "id": "subheading",
+      "label": "Section Subheading",
+      "default": "<p>The support this formula is built to give.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "label": "Columns On Desktop",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "checkbox",
+      "id": "show_edges",
+      "label": "Show Top And Bottom Rules",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#FAFAF8"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#1F1F1C"
+    },
+    {
+      "type": "color",
+      "id": "bold_color",
+      "label": "Heading Bold Color",
+      "default": "#5BA90F"
+    },
+    {
+      "type": "color",
+      "id": "eyebrow_color",
+      "label": "Eyebrow Color",
+      "default": "#78AD49"
+    },
+    {
+      "type": "color",
+      "id": "body_color",
+      "label": "Body Text Color",
+      "default": "#6B6B65"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Top / Bottom Rule Color",
+      "default": "#EAE9E3"
+    },
+    {
+      "type": "header",
+      "content": "Tile Colors"
+    },
+    {
+      "type": "color",
+      "id": "tile_bg",
+      "label": "Tile Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "accent_tile_bg",
+      "label": "Periwinkle Tile Background Color",
+      "info": "Applies to tiles whose accent field is set to periwinkle.",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "tile_border_color",
+      "label": "Tile Border Color",
+      "default": "#EAE9E3"
+    },
+    {
+      "type": "color",
+      "id": "marker_color",
+      "label": "Green Marker Color",
+      "default": "#EAF3E0"
+    },
+    {
+      "type": "color",
+      "id": "accent_marker_color",
+      "label": "Periwinkle Marker Color",
+      "default": "#E4EAF6"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 80
+    }
+  ],
+  "presets": [
+    {
+      "name": "Meta Benefit Tiles",
+      "category": "CWC Custom"
+    }
+  ]
+}
+{% endschema %}

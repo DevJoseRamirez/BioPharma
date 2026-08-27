@@ -1,0 +1,117 @@
+/* ==============================
+   CWC Meta Trust Bar
+   ============================== */
+
+/* === Section Wrapper === */
+.cwc_meta_trust {
+  background-color: var(--section-bg);
+  color: var(--text-color);
+  padding-top: var(--padding-top);
+  padding-bottom: var(--padding-bottom);
+}
+
+.cwc_meta_trust--edged {
+  border-top: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.cwc_meta_trust__container {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+/* === Grid === */
+.cwc_meta_trust__grid {
+  display: grid;
+  grid-template-columns: repeat(var(--columns-desktop), minmax(0, 1fr));
+}
+
+/* === Item === */
+.cwc_meta_trust__item {
+  padding: var(--item-padding) 0.875rem;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cwc_meta_trust__item-text {
+  font-family: var(--cwc-font-body);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  line-height: 1.4;
+  color: inherit;
+  opacity: 0.78;
+}
+
+.cwc_meta_trust--divided .cwc_meta_trust__item + .cwc_meta_trust__item {
+  border-left: 1px solid var(--divider-color);
+}
+
+/* === Empty State (Theme Editor only) === */
+.cwc_meta_trust__empty {
+  text-align: center;
+  padding: 1.5rem;
+  color: #999;
+  font-family: var(--cwc-font-body);
+  font-size: 0.9rem;
+}
+
+.cwc_meta_trust__empty p {
+  margin: 0;
+}
+
+/* ==============================
+   Tablet Responsive
+   ============================== */
+@media screen and (max-width: 991px) {
+  .cwc_meta_trust__container {
+    padding: 0 1.25rem;
+  }
+
+  .cwc_meta_trust__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .cwc_meta_trust__item {
+    padding: calc(var(--item-padding) * 0.7) 0.75rem;
+  }
+
+  /* Once the strip wraps, rows need their own rules */
+  .cwc_meta_trust--divided .cwc_meta_trust__item {
+    border-top: 1px solid var(--divider-color);
+  }
+
+  /* First row sits under the section's own top rule */
+  .cwc_meta_trust--divided .cwc_meta_trust__item:nth-child(-n + 2) {
+    border-top: 0;
+  }
+
+  .cwc_meta_trust--divided .cwc_meta_trust__item:nth-child(odd) {
+    border-left: 0;
+  }
+
+  /* An odd item left over spans the full row */
+  .cwc_meta_trust__item:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+  }
+}
+
+/* ==============================
+   Mobile Responsive
+   ============================== */
+@media screen and (max-width: 768px) {
+  .cwc_meta_trust {
+    padding-top: var(--padding-top-mobile);
+    padding-bottom: var(--padding-bottom-mobile);
+  }
+
+  .cwc_meta_trust__container {
+    padding: 0 1rem;
+  }
+
+  .cwc_meta_trust__item-text {
+    font-size: 0.78125rem;
+  }
+}

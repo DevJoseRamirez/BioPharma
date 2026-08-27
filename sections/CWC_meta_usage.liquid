@@ -1,0 +1,290 @@
+{%- liquid
+  assign steps = product.metafields.custom.usage_steps.value
+  assign tips = product.metafields.custom.usage_tips.value
+  assign has_steps = false
+  assign has_tips = false
+  if steps.size >= 2
+    assign has_steps = true
+  endif
+  if tips.size > 0
+    assign has_tips = true
+  endif
+  assign columns = section.settings.columns | default: 3
+  if steps.size > 0
+    assign columns = columns | at_most: steps.size
+  endif
+-%}
+
+{%- if has_steps or has_tips -%}
+  {% style %}
+    #cwc_meta_usage-{{ section.id }} {
+      --section-bg: {{ section.settings.bg_color | default: '#ECEBE5' }};
+      --text-color: {{ section.settings.text_color | default: '#1F1F1C' }};
+      --highlight-color: {{ section.settings.bold_color | default: '#5BA90F' }};
+      --eyebrow-color: {{ section.settings.eyebrow_color | default: '#78AD49' }};
+      --body-color: {{ section.settings.body_color | default: '#6B6B65' }};
+      --card-bg: {{ section.settings.card_bg | default: '#ffffff' }};
+      --number-color: {{ section.settings.number_color | default: '#78AD49' }};
+      --badge-bg: {{ section.settings.badge_bg | default: '#EAF3E0' }};
+      --badge-color: {{ section.settings.badge_color | default: '#44681A' }};
+      --bullet-color: {{ section.settings.bullet_color | default: '#78AD49' }};
+      --image-bg: {{ section.settings.image_bg | default: '#F5F4F0' }};
+      --columns-desktop: {{ columns }};
+      --padding-top: {{ section.settings.padding_top | default: 80 }}px;
+      --padding-bottom: {{ section.settings.padding_bottom | default: 80 }}px;
+      --padding-top-mobile: {{ section.settings.padding_top | default: 80 | times: 0.5 }}px;
+      --padding-bottom-mobile: {{ section.settings.padding_bottom | default: 80 | times: 0.5 }}px;
+    }
+  {% endstyle %}
+
+  {{ 'CWC_fonts.css' | asset_url | stylesheet_tag }}
+  {{ 'CWC_meta_usage.css' | asset_url | stylesheet_tag }}
+
+  <section id="cwc_meta_usage-{{ section.id }}" class="cwc_meta_usage">
+    <div class="cwc_meta_usage__container">
+
+      {% comment %} Section Header {% endcomment %}
+      <div class="cwc_meta_usage__content">
+        {% if section.settings.eyebrow_text != blank %}
+          <p class="cwc_meta_usage__eyebrow">{{ section.settings.eyebrow_text }}</p>
+        {% endif %}
+
+        {% if section.settings.heading != blank %}
+          <div class="cwc_meta_usage__content-heading cwc-rte">
+            {{ section.settings.heading }}
+          </div>
+        {% endif %}
+
+        {% if section.settings.subheading != blank %}
+          <div class="cwc_meta_usage__content-subtext cwc-rte">
+            {{ section.settings.subheading }}
+          </div>
+        {% endif %}
+      </div>
+
+      {% comment %} Steps — numbers derive from the loop, never from data {% endcomment %}
+      {% if has_steps %}
+        <div class="cwc_meta_usage__steps">
+          {% for step in steps %}
+            <div class="cwc_meta_usage__step">
+              {% if step.image %}
+                <div class="cwc_meta_usage__step-image">
+                  {{
+                    step.image
+                    | image_url: width: 800
+                    | image_tag:
+                      loading: 'lazy',
+                      sizes: '(max-width: 768px) 100vw, 380px',
+                      widths: '300, 400, 600, 800',
+                      class: 'cwc_meta_usage__step-image-el',
+                      alt: step.step_title
+                  }}
+                </div>
+              {% endif %}
+
+              <div class="cwc_meta_usage__step-body">
+                <span class="cwc_meta_usage__step-number">
+                  {%- if forloop.index < 10 -%}0{%- endif -%}{{ forloop.index }}
+                </span>
+
+                {% if step.step_title != blank %}
+                  <h3 class="cwc_meta_usage__step-title">{{ step.step_title }}</h3>
+                {% endif %}
+
+                {% if step.instruction != blank %}
+                  <p class="cwc_meta_usage__step-text">{{ step.instruction | newline_to_br }}</p>
+                {% endif %}
+
+                {% if section.settings.show_time_markers and step.timing != blank %}
+                  <span class="cwc_meta_usage__step-timing">{{ step.timing }}</span>
+                {% endif %}
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+
+      {% comment %} Pro tips — independent of the steps {% endcomment %}
+      {% if has_tips %}
+        <div class="cwc_meta_usage__tips">
+          {% if section.settings.tips_label != blank %}
+            <p class="cwc_meta_usage__tips-label">{{ section.settings.tips_label }}</p>
+          {% endif %}
+
+          <ul class="cwc_meta_usage__tips-list">
+            {% for tip in tips %}
+              {% if tip != blank %}
+                <li class="cwc_meta_usage__tips-item">{{ tip }}</li>
+              {% endif %}
+            {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
+
+    </div>
+  </section>
+{%- elsif request.design_mode -%}
+  <p style="margin:0;padding:2rem;text-align:center;font-size:0.875rem;color:#767676;background:#F6F6F4;">
+    Meta Usage — add two or more usage steps, or some usage tips, to this product to display this section.
+  </p>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Meta Usage",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Header"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow_text",
+      "label": "Eyebrow",
+      "default": "How to take it"
+    },
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "<p>How to <strong>take it</strong></p>"
+    },
+    {
+      "type": "richtext",
+      "id": "subheading",
+      "label": "Section Subheading",
+      "default": "<p>The whole routine, start to finish.</p>"
+    },
+    {
+      "type": "text",
+      "id": "tips_label",
+      "label": "Tips Panel Label",
+      "default": "Pro tips"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "columns",
+      "label": "Columns On Desktop",
+      "info": "Automatically reduced when the product has fewer steps.",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "checkbox",
+      "id": "show_time_markers",
+      "label": "Show Timing Badges",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#ECEBE5"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#1F1F1C"
+    },
+    {
+      "type": "color",
+      "id": "bold_color",
+      "label": "Heading Bold Color",
+      "default": "#5BA90F"
+    },
+    {
+      "type": "color",
+      "id": "eyebrow_color",
+      "label": "Eyebrow Color",
+      "default": "#78AD49"
+    },
+    {
+      "type": "color",
+      "id": "body_color",
+      "label": "Body Text Color",
+      "default": "#6B6B65"
+    },
+    {
+      "type": "color",
+      "id": "bullet_color",
+      "label": "Tip Bullet Color",
+      "default": "#78AD49"
+    },
+    {
+      "type": "header",
+      "content": "Card Colors"
+    },
+    {
+      "type": "color",
+      "id": "card_bg",
+      "label": "Card Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "number_color",
+      "label": "Step Number Color",
+      "default": "#78AD49"
+    },
+    {
+      "type": "color",
+      "id": "badge_bg",
+      "label": "Timing Badge Background Color",
+      "default": "#EAF3E0"
+    },
+    {
+      "type": "color",
+      "id": "badge_color",
+      "label": "Timing Badge Text Color",
+      "default": "#44681A"
+    },
+    {
+      "type": "color",
+      "id": "image_bg",
+      "label": "Step Image Surface Color",
+      "default": "#F5F4F0"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 80
+    }
+  ],
+  "presets": [
+    {
+      "name": "Meta Usage",
+      "category": "CWC Custom"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,263 @@
+{%- liquid
+  assign pairs = product.metafields.custom.pairs_with.value
+  assign source = pairs
+  assign is_fallback = false
+
+  if pairs.size == 0
+    assign fallback_collection = section.settings.fallback_collection
+    if fallback_collection != blank and fallback_collection.products.size > 0
+      assign source = fallback_collection.products
+      assign is_fallback = true
+    endif
+  endif
+
+  assign limit = section.settings.products_to_show | default: 4
+-%}
+
+{%- if source.size > 0 -%}
+  {% style %}
+    #cwc_meta_pairs-{{ section.id }} {
+      --section-bg: {{ section.settings.bg_color | default: '#ffffff' }};
+      --text-color: {{ section.settings.text_color | default: '#1F1F1C' }};
+      --highlight-color: {{ section.settings.bold_color | default: '#5BA90F' }};
+      --eyebrow-color: {{ section.settings.eyebrow_color | default: '#78AD49' }};
+      --label-color: {{ section.settings.label_color | default: '#78AD49' }};
+      --card-bg: {{ section.settings.card_bg | default: '#ffffff' }};
+      --card-border-color: {{ section.settings.card_border_color | default: '#EAE9E3' }};
+      --image-bg: {{ section.settings.image_bg | default: '#F5F4F0' }};
+      --columns-desktop: {{ section.settings.columns_desktop | default: 4 }};
+      --padding-top: {{ section.settings.padding_top | default: 70 }}px;
+      --padding-bottom: {{ section.settings.padding_bottom | default: 70 }}px;
+      --padding-top-mobile: {{ section.settings.padding_top | default: 70 | times: 0.5 }}px;
+      --padding-bottom-mobile: {{ section.settings.padding_bottom | default: 70 | times: 0.5 }}px;
+    }
+  {% endstyle %}
+
+  {{ 'CWC_fonts.css' | asset_url | stylesheet_tag }}
+  {{ 'CWC_meta_pairs.css' | asset_url | stylesheet_tag }}
+
+  <section id="cwc_meta_pairs-{{ section.id }}" class="cwc_meta_pairs">
+    <div class="cwc_meta_pairs__container">
+
+      {% comment %} Section Header {% endcomment %}
+      <div class="cwc_meta_pairs__content">
+        {% if section.settings.eyebrow_text != blank %}
+          <p class="cwc_meta_pairs__eyebrow">{{ section.settings.eyebrow_text }}</p>
+        {% endif %}
+
+        {% if section.settings.heading != blank %}
+          <div class="cwc_meta_pairs__content-heading cwc-rte">
+            {{ section.settings.heading }}
+          </div>
+        {% endif %}
+      </div>
+
+      {% comment %} Cards read live product data — never a stored copy {% endcomment %}
+      <div class="cwc_meta_pairs__grid">
+        {% assign rendered = 0 %}
+        {% for pair in source %}
+          {% if rendered >= limit %}
+            {% break %}
+          {% endif %}
+
+          {% if is_fallback and pair.id == product.id %}
+            {% continue %}
+          {% endif %}
+
+          {% assign rendered = rendered | plus: 1 %}
+          {% assign snippet = pair.metafields.custom.card_snippet %}
+
+          <a class="cwc_meta_pairs__card" href="{{ pair.url }}">
+            <div class="cwc_meta_pairs__card-image">
+              {% if pair.featured_image %}
+                {{
+                  pair.featured_image
+                  | image_url: width: 600
+                  | image_tag:
+                    loading: 'lazy',
+                    sizes: '(max-width: 768px) 50vw, 300px',
+                    widths: '200, 300, 400, 600',
+                    class: 'cwc_meta_pairs__card-image-el',
+                    alt: pair.title
+                }}
+              {% else %}
+                {{ 'product-1' | placeholder_svg_tag: 'cwc_meta_pairs__card-image-el' }}
+              {% endif %}
+            </div>
+
+            <div class="cwc_meta_pairs__card-body">
+              {% if snippet != blank %}
+                <span class="cwc_meta_pairs__card-label">{{ snippet }}</span>
+              {% elsif pair.type != blank %}
+                <span class="cwc_meta_pairs__card-label">{{ pair.type }}</span>
+              {% endif %}
+
+              <h3 class="cwc_meta_pairs__card-title">{{ pair.title }}</h3>
+
+              {% if section.settings.show_price %}
+                <span class="cwc_meta_pairs__card-price">{{ pair.price | money }}</span>
+              {% endif %}
+            </div>
+          </a>
+        {% endfor %}
+      </div>
+
+    </div>
+  </section>
+{%- elsif request.design_mode -%}
+  <p style="margin:0;padding:2rem;text-align:center;font-size:0.875rem;color:#767676;background:#F6F6F4;">
+    Meta Pairs Well With — add products to this product's pairs_with metafield, or pick a fallback collection.
+  </p>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Meta Pairs Well With",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Header"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow_text",
+      "label": "Eyebrow",
+      "default": "Goes with"
+    },
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "<p>What people take <strong>alongside it</strong></p>"
+    },
+    {
+      "type": "header",
+      "content": "Products"
+    },
+    {
+      "type": "paragraph",
+      "content": "Cards come from the product's pairs_with metafield. The collection below is only used when that metafield is empty."
+    },
+    {
+      "type": "collection",
+      "id": "fallback_collection",
+      "label": "Fallback Collection"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "label": "Products To Show",
+      "min": 1,
+      "max": 8,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "checkbox",
+      "id": "show_price",
+      "label": "Show Price",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "label": "Columns On Desktop",
+      "info": "Fewer products than columns is fine — the row stays left-aligned at card size.",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#1F1F1C"
+    },
+    {
+      "type": "color",
+      "id": "bold_color",
+      "label": "Heading Bold Color",
+      "default": "#5BA90F"
+    },
+    {
+      "type": "color",
+      "id": "eyebrow_color",
+      "label": "Eyebrow Color",
+      "default": "#78AD49"
+    },
+    {
+      "type": "color",
+      "id": "label_color",
+      "label": "Card Label Color",
+      "default": "#78AD49"
+    },
+    {
+      "type": "header",
+      "content": "Card Colors"
+    },
+    {
+      "type": "color",
+      "id": "card_bg",
+      "label": "Card Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "card_border_color",
+      "label": "Card Border Color",
+      "default": "#EAE9E3"
+    },
+    {
+      "type": "color",
+      "id": "image_bg",
+      "label": "Card Image Surface Color",
+      "default": "#F5F4F0"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 70
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 70
+    }
+  ],
+  "presets": [
+    {
+      "name": "Meta Pairs Well With",
+      "category": "CWC Custom"
+    }
+  ]
+}
+{% endschema %}

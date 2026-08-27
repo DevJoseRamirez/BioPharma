@@ -1,0 +1,749 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "title": {
+          "type": "title",
+          "settings": {
+            "heading_tag": "h3"
+          }
+        },
+        "e5eae85b-1e9a-4732-9c53-e8c283312891": {
+          "type": "rating",
+          "settings": {
+            "show_empty": false,
+            "rating_mode": "rating"
+          }
+        },
+        "price": {
+          "type": "price",
+          "settings": {
+            "show_taxes_notice": false
+          }
+        },
+        "cd1c614d-685b-4401-8008-351ee86c6f8e": {
+          "type": "reviews",
+          "disabled": true,
+          "settings": {
+            "show_star_icon": false,
+            "liquid": "<div id=\"shopify-product-reviews\" data-id=\"{{ product.id }}\">{{ product.metafields.spr.reviews }}</div>"
+          }
+        },
+        "payment_terms": {
+          "type": "payment_terms",
+          "settings": {}
+        },
+        "separator": {
+          "type": "separator",
+          "settings": {}
+        },
+        "description": {
+          "type": "description",
+          "settings": {
+            "collapse_content": true,
+            "show_below_gallery": true
+          }
+        },
+        "variant_picker": {
+          "type": "variant_picker",
+          "disabled": true,
+          "settings": {
+            "hide_sold_out_variants": false,
+            "selector_type": "block",
+            "color_selector_type": "color",
+            "size_chart_page": ""
+          }
+        },
+        "quantity_selector": {
+          "type": "quantity_selector",
+          "settings": {}
+        },
+        "buy_buttons": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_payment_button": false,
+            "show_gift_card_recipient": true,
+            "atc_button_background": "",
+            "atc_button_text_color": "",
+            "payment_button_background": "",
+            "payment_button_text_color": ""
+          }
+        },
+        "complementary_products": {
+          "type": "complementary_products",
+          "settings": {
+            "title": "Pairs well with",
+            "products_count": 2,
+            "show_below_gallery": true,
+            "stack_products": false,
+            "show_quick_buy": true
+          }
+        },
+        "e89ef5be-5725-4ecb-8ec5-661b8e82a1ca": {
+          "type": "feature_with_icon",
+          "disabled": true,
+          "settings": {
+            "text": "Feature",
+            "link": "",
+            "icon": "picto-award-gift",
+            "icon_width": 16,
+            "background": "#f8f4ec",
+            "text_color": "#6b6b6b",
+            "border_color": ""
+          }
+        },
+        "b9345515-f7f7-4bdd-b1ba-90f4c9669832": {
+          "type": "more_information",
+          "settings": {
+            "text": "More information"
+          }
+        }
+      },
+      "block_order": [
+        "title",
+        "e5eae85b-1e9a-4732-9c53-e8c283312891",
+        "price",
+        "cd1c614d-685b-4401-8008-351ee86c6f8e",
+        "payment_terms",
+        "separator",
+        "description",
+        "variant_picker",
+        "quantity_selector",
+        "buy_buttons",
+        "complementary_products",
+        "e89ef5be-5725-4ecb-8ec5-661b8e82a1ca",
+        "b9345515-f7f7-4bdd-b1ba-90f4c9669832"
+      ],
+      "disabled": true,
+      "settings": {
+        "color_scheme": "scheme-f23b3a5a-1f3c-4d6a-94eb-96f8fab0ad49",
+        "container_size": "lg",
+        "product_info_size": 35,
+        "show_sticky_add_to_cart": false,
+        "center_basic_info": false,
+        "desktop_media_layout": "carousel_thumbnails_left",
+        "desktop_media_grid_gap": 30,
+        "mobile_controls": "dots",
+        "enable_media_autoplay": false,
+        "enable_video_looping": true,
+        "enable_image_zoom": true,
+        "max_image_zoom_level": 3
+      }
+    },
+    "cwc_product_hero_buy_box_4xkwtJ": {
+      "type": "CWC_product_hero_buy_box",
+      "blocks": {
+        "rating_6PPMLk": {
+          "type": "rating",
+          "settings": {
+            "text": "<p>4.4 · 410 reviews</p>",
+            "link": ""
+          }
+        },
+        "title_YgkGVR": {
+          "type": "title",
+          "settings": {
+            "eyebrow": "{{ section.settings.product.metafields.custom.eyebrow.value }}d",
+            "heading": "<p>{{ section.settings.product.title }}</p>",
+            "subtext": "<p>{{ section.settings.product.metafields.custom.short_description.value }}a{{ section.settings.product.metafields.custom.card_snippet.value }}</p>"
+          }
+        },
+        "key_benefits_bMAr8C": {
+          "type": "key_benefits",
+          "settings": {
+            "text_1": "",
+            "tone_1": "tint",
+            "text_2": "",
+            "tone_2": "accent",
+            "text_3": "Recommended by practitioners for 20+ years",
+            "tone_3": "tint",
+            "text_4": "30-day money-back guarantee",
+            "tone_4": "tint",
+            "text_5": "",
+            "tone_5": "tint",
+            "text_6": "",
+            "tone_6": "tint"
+          }
+        },
+        "product_options_kypmMB": {
+          "type": "product_options",
+          "settings": {
+            "layout": "pill",
+            "dropdown_threshold": 6,
+            "show_labels": true,
+            "label_style": "name"
+          }
+        },
+        "simple_offer_Wj9NEB": {
+          "type": "simple_offer",
+          "settings": {
+            "group_label": "Pick your offer:",
+            "selling_plan_id": "1861517570",
+            "subscribe_label": "Subscribe & Save",
+            "subscribe_sublabel": "",
+            "savings_style": "percent",
+            "perks": "<p>Save on every subscription order</p><p>Free shipping on every delivery</p><p>Modify, pause or cancel anytime</p>",
+            "perks_visibility": "always",
+            "promo_text": "",
+            "promo_style": "soft",
+            "show_onetime": true,
+            "onetime_label": "Buy Once",
+            "onetime_sublabel": "",
+            "onetime_notes": "<p>No free shipping</p><p>Discount applies to the first order only</p>",
+            "notes_visibility": "selected",
+            "default_choice": "subscribe"
+          }
+        },
+        "add_to_cart_xXPNWp": {
+          "type": "add_to_cart",
+          "settings": {
+            "label": "Add to cart",
+            "sold_out_label": "Sold out",
+            "micro_text": "🔒 Secure checkout · 30-day money-back guarantee · Cancel anytime"
+          }
+        },
+        "trust_icons_HzDcqq": {
+          "type": "trust_icons",
+          "settings": {
+            "icon_style_1": "shield",
+            "icon_text_1": "↩",
+            "label_1": "<p>30-Day Money Back</p>",
+            "icon_style_2": "truck",
+            "icon_text_2": "⛟",
+            "label_2": "<p>Free Shipping on Subscriptions</p>",
+            "icon_style_3": "pause",
+            "icon_text_3": "⏸",
+            "label_3": "<p>Cancel or Pause Anytime</p>"
+          }
+        },
+        "detail_XJk8rD": {
+          "type": "detail",
+          "disabled": true,
+          "settings": {
+            "title": "Ingredients",
+            "content": "<p>Describe what sits behind this row.</p>",
+            "open": false
+          }
+        },
+        "sticky_atc_YRiTJK": {
+          "type": "sticky_atc",
+          "settings": {
+            "name_override": "",
+            "subline": "Free shipping · 30-day guarantee",
+            "plan_label": "Choose your supply",
+            "plan_sub": "",
+            "button_text": "Add to cart",
+            "button_text_mobile": "Add",
+            "show_price_in_button": true,
+            "sold_out_text": "Sold out",
+            "reveal_after": 600
+          }
+        }
+      },
+      "block_order": [
+        "rating_6PPMLk",
+        "title_YgkGVR",
+        "key_benefits_bMAr8C",
+        "product_options_kypmMB",
+        "simple_offer_Wj9NEB",
+        "add_to_cart_xXPNWp",
+        "trust_icons_HzDcqq",
+        "detail_XJk8rD",
+        "sticky_atc_YRiTJK"
+      ],
+      "name": "Product Hero Buy Box (Shared Template)",
+      "settings": {
+        "product": "",
+        "badge_text": "55 organic ingredients",
+        "gallery_ratio": "1 / 1",
+        "gallery_fit": "cover",
+        "show_thumbnails": true,
+        "gallery_limit": 10,
+        "thumbs_per_view": 6,
+        "thumb_ratio": "1 / 1",
+        "nutrition_button_text": "View Nutrition Label",
+        "nutrition_alt": "Supplement facts",
+        "bg_color": "#ffffff",
+        "text_color": "#2A2611",
+        "bold_color": "#5BA90F",
+        "muted_color": "#5C5842",
+        "deep_color": "#44681A",
+        "warn_color": "#9F3F3F",
+        "star_color": "#E8A317",
+        "card_bg_color": "#ffffff",
+        "card_selected_bg_color": "#FAFDF6",
+        "panel_bg_color": "#FAF9F4",
+        "border_color": "#E6E5DC",
+        "tint_bg_color": "#F2F8EA",
+        "tint_border_color": "#A3C781",
+        "accent_color": "#4A5E8C",
+        "accent_bg_color": "#EEF1F9",
+        "accent_border_color": "#A3B8E2",
+        "button_bg_color": "#5BA90F",
+        "button_text_color": "#ffffff",
+        "padding_top": 20,
+        "padding_bottom": 40
+      }
+    },
+    "cwc_meta_trust": {
+      "type": "CWC_meta_trust",
+      "blocks": {
+        "trust_1": {
+          "type": "trust_item",
+          "settings": {
+            "text": "Made in California"
+          }
+        },
+        "trust_2": {
+          "type": "trust_item",
+          "settings": {
+            "text": "Organic where it exists"
+          }
+        },
+        "trust_3": {
+          "type": "trust_item",
+          "settings": {
+            "text": "Non-GMO"
+          }
+        },
+        "trust_4": {
+          "type": "trust_item",
+          "settings": {
+            "text": "Tested twice"
+          }
+        },
+        "trust_5": {
+          "type": "trust_item",
+          "settings": {
+            "text": "30-day guarantee"
+          }
+        }
+      },
+      "block_order": [
+        "trust_1",
+        "trust_2",
+        "trust_3",
+        "trust_4",
+        "trust_5"
+      ],
+      "settings": {
+        "columns_desktop": 5,
+        "show_dividers": true,
+        "show_edges": true,
+        "bg_color": "#fafaf8",
+        "text_color": "#1f1f1c",
+        "bold_color": "#5ba90f",
+        "border_color": "#deddd6",
+        "divider_color": "#e9e8e2",
+        "item_padding": 22,
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "cwc_meta_problem": {
+      "type": "CWC_meta_problem",
+      "settings": {
+        "eyebrow_text": "The gap",
+        "columns": 3,
+        "show_sources": true,
+        "bg_color": "#44681a",
+        "text_color": "#ffffff",
+        "bold_color": "#dcefc4",
+        "eyebrow_color": "#cde3b2",
+        "accent_color": "#dcefc4",
+        "card_bg": "#44681a",
+        "rule_color": "#6e8c42",
+        "padding_top": 80,
+        "padding_bottom": 80
+      }
+    },
+    "cwc_meta_answer": {
+      "type": "CWC_meta_answer",
+      "settings": {
+        "eyebrow_text": "Why this formula",
+        "image_position": "right",
+        "show_chips": true,
+        "bg_color": "#ffffff",
+        "text_color": "#1f1f1c",
+        "bold_color": "#5ba90f",
+        "eyebrow_color": "#78ad49",
+        "deck_color": "#44681a",
+        "chip_bg": "#ffffff",
+        "chip_border_color": "#deddd6",
+        "chip_text_color": "#6b6b65",
+        "image_bg": "#f5f4f0",
+        "padding_top": 80,
+        "padding_bottom": 80
+      }
+    },
+    "cwc_meta_benefits": {
+      "type": "CWC_meta_benefits",
+      "settings": {
+        "eyebrow_text": "What it supports",
+        "heading": "<p>What one serving <strong>covers</strong></p>",
+        "subheading": "<p>The support this formula is built to give.</p>",
+        "columns_desktop": 3,
+        "show_edges": true,
+        "bg_color": "#fafaf8",
+        "text_color": "#1f1f1c",
+        "bold_color": "#5ba90f",
+        "eyebrow_color": "#78ad49",
+        "body_color": "#6b6b65",
+        "border_color": "#eae9e3",
+        "tile_bg": "#ffffff",
+        "accent_tile_bg": "#ffffff",
+        "tile_border_color": "#eae9e3",
+        "marker_color": "#eaf3e0",
+        "accent_marker_color": "#e4eaf6",
+        "padding_top": 80,
+        "padding_bottom": 80
+      }
+    },
+    "cwc_meta_ingredients": {
+      "type": "CWC_meta_ingredients",
+      "settings": {
+        "eyebrow_text": "What's inside",
+        "heading": "<p>The ingredients <strong>doing the work</strong></p>",
+        "serving_note": "",
+        "show_badges": true,
+        "badge_label": "Organic",
+        "detail_label": "More on this ingredient",
+        "bg_color": "#ffffff",
+        "text_color": "#1f1f1c",
+        "bold_color": "#5ba90f",
+        "eyebrow_color": "#78ad49",
+        "body_color": "#6b6b65",
+        "amount_color": "#44681a",
+        "row_border_color": "#deddd6",
+        "row_rule_color": "#eae9e3",
+        "badge_bg": "#eaf3e0",
+        "badge_color": "#44681a",
+        "card_bg": "#ffffff",
+        "image_bg": "#f5f4f0",
+        "padding_top": 80,
+        "padding_bottom": 80
+      }
+    },
+    "cwc_meta_usage": {
+      "type": "CWC_meta_usage",
+      "settings": {
+        "eyebrow_text": "How to take it",
+        "heading": "<p>How to <strong>take it</strong></p>",
+        "subheading": "<p>The whole routine, start to finish.</p>",
+        "tips_label": "Pro tips",
+        "columns": 3,
+        "show_time_markers": true,
+        "bg_color": "#ecebe5",
+        "text_color": "#1f1f1c",
+        "bold_color": "#5ba90f",
+        "eyebrow_color": "#78ad49",
+        "body_color": "#6b6b65",
+        "bullet_color": "#78ad49",
+        "card_bg": "#ffffff",
+        "number_color": "#78ad49",
+        "badge_bg": "#eaf3e0",
+        "badge_color": "#44681a",
+        "image_bg": "#f5f4f0",
+        "padding_top": 80,
+        "padding_bottom": 80
+      }
+    },
+    "cwc_meta_comparison": {
+      "type": "CWC_meta_comparison",
+      "settings": {
+        "eyebrow_text": "The honest comparison",
+        "heading": "<p>Not all of them are <strong>the same</strong></p>",
+        "subheading": "<p>Where the differences actually sit.</p>",
+        "disclaimer_note": "Comparison reflects category averages for standalone products at comparable dosages — not any specific brand.",
+        "attribute_label": "Feature",
+        "yes_label": "Yes",
+        "no_label": "No",
+        "varies_label": "Varies",
+        "bg_color": "#ffffff",
+        "text_color": "#1f1f1c",
+        "bold_color": "#5ba90f",
+        "eyebrow_color": "#78ad49",
+        "body_color": "#6b6b65",
+        "own_column_highlight_color": "#44681a",
+        "yes_color": "#5ba90f",
+        "no_color": "#c4c3bd",
+        "varies_color": "#8c8b84",
+        "head_rule_color": "#deddd6",
+        "row_rule_color": "#eae9e3",
+        "row_hover_bg": "#fafaf8",
+        "padding_top": 80,
+        "padding_bottom": 80
+      }
+    },
+    "cwc_meta_absorption": {
+      "type": "CWC_meta_absorption",
+      "settings": {
+        "enable_condition": "always",
+        "eyebrow_text": "How everything here works",
+        "heading": "<p>You are what you <strong>absorb</strong></p>",
+        "body": "<p>You can take the best formula in the world and still get very little from it. Absorption is the part nobody talks about, because the ingredient that solves it costs money.</p><p>Every product we make is built around getting nutrients into you rather than just into the tub — enzymes where they help, cold processing that doesn't cook nutrients off, and forms chosen for uptake over shelf price.</p>",
+        "link_label": "Read the science",
+        "link_url": "",
+        "image_position": "right",
+        "show_edges": true,
+        "image_alt_text": "Absorption diagram",
+        "bg_color": "#f7f8fb",
+        "text_color": "#1f1f1c",
+        "bold_color": "#4a5f92",
+        "eyebrow_color": "#6a80b4",
+        "link_color": "#4a5f92",
+        "border_color": "#cfd9ee",
+        "image_bg": "#e9edf7",
+        "padding_top": 80,
+        "padding_bottom": 80
+      }
+    },
+    "cwc_meta_practitioner": {
+      "type": "CWC_meta_practitioner",
+      "blocks": {
+        "stat_1": {
+          "type": "stat",
+          "settings": {
+            "value": "20+",
+            "label": "Years in practitioner clinics"
+          }
+        },
+        "stat_2": {
+          "type": "stat",
+          "settings": {
+            "value": "2004",
+            "label": "Founded in San Diego"
+          }
+        },
+        "stat_3": {
+          "type": "stat",
+          "settings": {
+            "value": "USA",
+            "label": "Made, farms sourced first"
+          }
+        },
+        "cred_1": {
+          "type": "credential",
+          "settings": {
+            "abbreviation": "DC"
+          }
+        },
+        "cred_2": {
+          "type": "credential",
+          "settings": {
+            "abbreviation": "ND"
+          }
+        },
+        "cred_3": {
+          "type": "credential",
+          "settings": {
+            "abbreviation": "MD"
+          }
+        },
+        "cred_4": {
+          "type": "credential",
+          "settings": {
+            "abbreviation": "RD"
+          }
+        }
+      },
+      "block_order": [
+        "stat_1",
+        "stat_2",
+        "stat_3",
+        "cred_1",
+        "cred_2",
+        "cred_3",
+        "cred_4"
+      ],
+      "settings": {
+        "eyebrow_text": "Where we started",
+        "heading": "<p>Recommended in practice, <strong>not in ads</strong></p>",
+        "body": "<p>BioPharma Scientific formulas were developed for and distributed through doctors, chiropractors and naturopaths for years before anything was sold direct.</p><p>Many still stock them today. That channel is why the formulas are built around absorption instead of shelf price.</p>",
+        "show_stats": true,
+        "show_credentials": true,
+        "bg_color": "#ffffff",
+        "text_color": "#1f1f1c",
+        "bold_color": "#5ba90f",
+        "eyebrow_color": "#6a80b4",
+        "card_bg": "#ffffff",
+        "stat_color": "#44681a",
+        "stat_label_color": "#6b6b65",
+        "rule_color": "#deddd6",
+        "pill_bg": "#ffffff",
+        "pill_border_color": "#deddd6",
+        "pill_color": "#6b6b65",
+        "padding_top": 80,
+        "padding_bottom": 80
+      }
+    },
+    "cwc_meta_reviews": {
+      "type": "CWC_meta_reviews",
+      "blocks": {
+        "yotpo_product_reviews_reviews_WamrgQ": {
+          "type": "shopify://apps/yotpo-product-reviews/blocks/reviews/eb7dfd7d-db44-4334-bc49-c893b51b36cf",
+          "settings": {
+            "product": "{{product}}"
+          }
+        }
+      },
+      "block_order": [
+        "yotpo_product_reviews_reviews_WamrgQ"
+      ],
+      "settings": {
+        "heading": "<p>What people <strong>say</strong></p>",
+        "bg_color": "#ecebe5",
+        "text_color": "#1f1f1c",
+        "bold_color": "#5ba90f",
+        "card_bg": "#ffffff",
+        "star_color": "#5ba90f",
+        "anchor_offset": 80,
+        "padding_top": 80,
+        "padding_bottom": 80
+      }
+    },
+    "cwc_meta_pairs": {
+      "type": "CWC_meta_pairs",
+      "settings": {
+        "eyebrow_text": "Goes with",
+        "heading": "<p>What people take <strong>alongside it</strong></p>",
+        "fallback_collection": "",
+        "products_to_show": 4,
+        "show_price": true,
+        "columns_desktop": 4,
+        "bg_color": "#ffffff",
+        "text_color": "#1f1f1c",
+        "bold_color": "#5ba90f",
+        "eyebrow_color": "#78ad49",
+        "label_color": "#78ad49",
+        "card_bg": "#ffffff",
+        "card_border_color": "#eae9e3",
+        "image_bg": "#f5f4f0",
+        "padding_top": 70,
+        "padding_bottom": 70
+      }
+    },
+    "cwc_meta_faq": {
+      "type": "CWC_meta_faq",
+      "settings": {
+        "heading": "<p>Questions</p>",
+        "aside_text": "<p>Not finding it? We answer within one business day.</p>",
+        "aside_link_label": "Contact us",
+        "aside_link": "",
+        "include_global_faqs": true,
+        "show_global_badge": false,
+        "global_badge_label": "Global",
+        "first_item_open": true,
+        "bg_color": "#fafaf8",
+        "text_color": "#1f1f1c",
+        "bold_color": "#5ba90f",
+        "body_color": "#6b6b65",
+        "open_color": "#44681a",
+        "link_color": "#44681a",
+        "border_color": "#deddd6",
+        "row_rule_color": "#eae9e3",
+        "badge_color": "#a9a8a1",
+        "padding_top": 70,
+        "padding_bottom": 70
+      }
+    },
+    "cwc_meta_guarantee": {
+      "type": "CWC_meta_guarantee",
+      "blocks": {
+        "mark_1": {
+          "type": "mark",
+          "settings": {
+            "text": "30-day money-back guarantee"
+          }
+        },
+        "mark_2": {
+          "type": "mark",
+          "settings": {
+            "text": "Free shipping on subscriptions"
+          }
+        },
+        "mark_3": {
+          "type": "mark",
+          "settings": {
+            "text": "Cancel or pause anytime"
+          }
+        },
+        "mark_4": {
+          "type": "mark",
+          "settings": {
+            "text": "No cancellation fees"
+          }
+        }
+      },
+      "block_order": [
+        "mark_1",
+        "mark_2",
+        "mark_3",
+        "mark_4"
+      ],
+      "settings": {
+        "show_seal": true,
+        "seal_number": "30",
+        "seal_unit_label": "DAY",
+        "heading": "<p>Love it, or get <strong>your money back</strong></p>",
+        "body": "<p>Try it for thirty days. If it isn't for you, contact us for a full refund — opened tub and all.</p>",
+        "bg_color": "#44681a",
+        "text_color": "#ffffff",
+        "bold_color": "#dcefc4",
+        "seal_color": "#dcefc4",
+        "seal_border_color": "#8fae68",
+        "mark_color": "#e6efda",
+        "padding_top": 70,
+        "padding_bottom": 70
+      }
+    },
+    "1698782823c8484977": {
+      "type": "apps",
+      "blocks": {
+        "d7ef6148-1ddb-417a-9c81-a90f76078b00": {
+          "type": "shopify://apps/yotpo-product-reviews/blocks/reviews/eb7dfd7d-db44-4334-bc49-c893b51b36cf",
+          "settings": {
+            "product": "{{product}}"
+          }
+        }
+      },
+      "block_order": [
+        "d7ef6148-1ddb-417a-9c81-a90f76078b00"
+      ],
+      "settings": {
+        "color_scheme": "scheme-f23b3a5a-1f3c-4d6a-94eb-96f8fab0ad49",
+        "separate_section_with_border": false,
+        "remove_vertical_spacing": true,
+        "remove_horizontal_spacing": false
+      }
+    }
+  },
+  "order": [
+    "main",
+    "cwc_product_hero_buy_box_4xkwtJ",
+    "cwc_meta_trust",
+    "cwc_meta_problem",
+    "cwc_meta_answer",
+    "cwc_meta_benefits",
+    "cwc_meta_ingredients",
+    "cwc_meta_usage",
+    "cwc_meta_comparison",
+    "cwc_meta_absorption",
+    "cwc_meta_practitioner",
+    "cwc_meta_reviews",
+    "cwc_meta_pairs",
+    "cwc_meta_faq",
+    "cwc_meta_guarantee",
+    "1698782823c8484977"
+  ]
+}

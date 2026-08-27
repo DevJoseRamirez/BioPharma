@@ -1,0 +1,317 @@
+{%- liquid
+  assign items = product.metafields.custom.ingredients.value
+  comment
+    .value is required here: ingredient_layout is compared against a string,
+    and a bare metafield drop never matches one.
+  endcomment
+  assign layout = product.metafields.custom.ingredient_layout.value | default: 'table' | strip | downcase
+  unless layout == 'grid'
+    assign layout = 'table'
+  endunless
+-%}
+
+{%- if items.size > 0 -%}
+  {% style %}
+    #cwc_meta_ingredients-{{ section.id }} {
+      --section-bg: {{ section.settings.bg_color | default: '#ffffff' }};
+      --text-color: {{ section.settings.text_color | default: '#1F1F1C' }};
+      --highlight-color: {{ section.settings.bold_color | default: '#5BA90F' }};
+      --eyebrow-color: {{ section.settings.eyebrow_color | default: '#78AD49' }};
+      --body-color: {{ section.settings.body_color | default: '#6B6B65' }};
+      --amount-color: {{ section.settings.amount_color | default: '#44681A' }};
+      --row-border-color: {{ section.settings.row_border_color | default: '#DEDDD6' }};
+      --row-rule-color: {{ section.settings.row_rule_color | default: '#EAE9E3' }};
+      --badge-bg: {{ section.settings.badge_bg | default: '#EAF3E0' }};
+      --badge-color: {{ section.settings.badge_color | default: '#44681A' }};
+      --card-bg: {{ section.settings.card_bg | default: '#ffffff' }};
+      --image-bg: {{ section.settings.image_bg | default: '#F5F4F0' }};
+      --padding-top: {{ section.settings.padding_top | default: 80 }}px;
+      --padding-bottom: {{ section.settings.padding_bottom | default: 80 }}px;
+      --padding-top-mobile: {{ section.settings.padding_top | default: 80 | times: 0.5 }}px;
+      --padding-bottom-mobile: {{ section.settings.padding_bottom | default: 80 | times: 0.5 }}px;
+    }
+  {% endstyle %}
+
+  {{ 'CWC_fonts.css' | asset_url | stylesheet_tag }}
+  {{ 'CWC_meta_ingredients.css' | asset_url | stylesheet_tag }}
+
+  <section
+    id="cwc_meta_ingredients-{{ section.id }}"
+    class="cwc_meta_ingredients cwc_meta_ingredients--{{ layout }}"
+  >
+    <div class="cwc_meta_ingredients__container">
+
+      {% comment %} Section Header {% endcomment %}
+      <div class="cwc_meta_ingredients__content">
+        <div class="cwc_meta_ingredients__content-copy">
+          {% if section.settings.eyebrow_text != blank %}
+            <p class="cwc_meta_ingredients__eyebrow">{{ section.settings.eyebrow_text }}</p>
+          {% endif %}
+
+          {% if section.settings.heading != blank %}
+            <div class="cwc_meta_ingredients__content-heading cwc-rte">
+              {{ section.settings.heading }}
+            </div>
+          {% endif %}
+        </div>
+
+        {% if section.settings.serving_note != blank %}
+          <span class="cwc_meta_ingredients__note">{{ section.settings.serving_note }}</span>
+        {% endif %}
+      </div>
+
+      {% if layout == 'grid' %}
+
+        {% comment %} Grid layout — capsules, gummies {% endcomment %}
+        <div class="cwc_meta_ingredients__grid">
+          {% for ing in items %}
+            <div class="cwc_meta_ingredients__card">
+              {% if ing.image %}
+                <div class="cwc_meta_ingredients__card-image">
+                  {{
+                    ing.image
+                    | image_url: width: 600
+                    | image_tag:
+                      loading: 'lazy',
+                      sizes: '(max-width: 768px) 100vw, 300px',
+                      widths: '200, 300, 400, 600',
+                      class: 'cwc_meta_ingredients__card-image-el',
+                      alt: ing.name
+                  }}
+                </div>
+              {% endif %}
+
+              <div class="cwc_meta_ingredients__card-body">
+                {% if ing.name != blank %}
+                  <h3 class="cwc_meta_ingredients__card-title">
+                    {{ ing.name }}
+                    {% if section.settings.show_badges and ing.is_organic %}
+                      <span class="cwc_meta_ingredients__badge">
+                        {{ section.settings.badge_label | default: 'Organic' }}
+                      </span>
+                    {% endif %}
+                  </h3>
+                {% endif %}
+
+                {% if ing.amount != blank %}
+                  <span class="cwc_meta_ingredients__amount">{{ ing.amount }}</span>
+                {% endif %}
+
+                {% if ing.function != blank %}
+                  <p class="cwc_meta_ingredients__function">{{ ing.function | newline_to_br }}</p>
+                {% endif %}
+
+                {% if ing.detail != blank %}
+                  <details class="cwc_meta_ingredients__detail">
+                    <summary class="cwc_meta_ingredients__detail-toggle">
+                      {{ section.settings.detail_label | default: 'More on this ingredient' }}
+                    </summary>
+                    <div class="cwc_meta_ingredients__detail-body cwc-rte">{{ ing.detail }}</div>
+                  </details>
+                {% endif %}
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+
+      {% else %}
+
+        {% comment %} Table layout — powders {% endcomment %}
+        <div class="cwc_meta_ingredients__table">
+          {% for ing in items %}
+            <div class="cwc_meta_ingredients__row">
+              <span class="cwc_meta_ingredients__name">
+                {{ ing.name }}
+                {% if section.settings.show_badges and ing.is_organic %}
+                  <span class="cwc_meta_ingredients__badge">
+                    {{ section.settings.badge_label | default: 'Organic' }}
+                  </span>
+                {% endif %}
+              </span>
+
+              <span class="cwc_meta_ingredients__amount">
+                {% if ing.amount != blank %}{{ ing.amount }}{% else %}&mdash;{% endif %}
+              </span>
+
+              <span class="cwc_meta_ingredients__function">{{ ing.function | newline_to_br }}</span>
+            </div>
+          {% endfor %}
+        </div>
+
+      {% endif %}
+
+    </div>
+  </section>
+{%- elsif request.design_mode -%}
+  <p style="margin:0;padding:2rem;text-align:center;font-size:0.875rem;color:#767676;background:#F6F6F4;">
+    Meta Ingredients — assign ingredients to this product to display this section.
+  </p>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Meta Ingredients",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Header"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow_text",
+      "label": "Eyebrow",
+      "default": "What's inside"
+    },
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "<p>The ingredients <strong>doing the work</strong></p>"
+    },
+    {
+      "type": "text",
+      "id": "serving_note",
+      "label": "Serving Note",
+      "info": "Shows on every product using this template — leave blank unless the wording is true for all of them."
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "paragraph",
+      "content": "Table or card layout is set per product by the ingredient_layout metafield (table or grid)."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_badges",
+      "label": "Show Organic Badges",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "badge_label",
+      "label": "Badge Label",
+      "info": "Shown on every ingredient whose is_organic field is on.",
+      "default": "Organic"
+    },
+    {
+      "type": "text",
+      "id": "detail_label",
+      "label": "Card Detail Toggle Label",
+      "info": "Card layout only.",
+      "default": "More on this ingredient"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#1F1F1C"
+    },
+    {
+      "type": "color",
+      "id": "bold_color",
+      "label": "Heading Bold Color",
+      "default": "#5BA90F"
+    },
+    {
+      "type": "color",
+      "id": "eyebrow_color",
+      "label": "Eyebrow Color",
+      "default": "#78AD49"
+    },
+    {
+      "type": "color",
+      "id": "body_color",
+      "label": "Body Text Color",
+      "default": "#6B6B65"
+    },
+    {
+      "type": "color",
+      "id": "amount_color",
+      "label": "Amount Color",
+      "default": "#44681A"
+    },
+    {
+      "type": "color",
+      "id": "row_border_color",
+      "label": "Table Top Rule Color",
+      "default": "#DEDDD6"
+    },
+    {
+      "type": "color",
+      "id": "row_rule_color",
+      "label": "Row Divider Color",
+      "default": "#EAE9E3"
+    },
+    {
+      "type": "color",
+      "id": "badge_bg",
+      "label": "Badge Background Color",
+      "default": "#EAF3E0"
+    },
+    {
+      "type": "color",
+      "id": "badge_color",
+      "label": "Badge Text Color",
+      "default": "#44681A"
+    },
+    {
+      "type": "header",
+      "content": "Card Colors"
+    },
+    {
+      "type": "color",
+      "id": "card_bg",
+      "label": "Card Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "image_bg",
+      "label": "Card Image Surface Color",
+      "default": "#F5F4F0"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 80
+    }
+  ],
+  "presets": [
+    {
+      "name": "Meta Ingredients",
+      "category": "CWC Custom"
+    }
+  ]
+}
+{% endschema %}

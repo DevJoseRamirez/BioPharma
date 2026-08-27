@@ -1,0 +1,157 @@
+/* ==============================
+   CWC Meta Problem
+   ============================== */
+
+/* === Section Wrapper === */
+.cwc_meta_problem {
+  background-color: var(--section-bg);
+  color: var(--text-color);
+  padding-top: var(--padding-top);
+  padding-bottom: var(--padding-bottom);
+}
+
+.cwc_meta_problem__container {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+/* === Section Header === */
+.cwc_meta_problem__content {
+  width: 100%;
+  margin-bottom: 2.75rem;
+}
+
+.cwc_meta_problem__eyebrow {
+  font-family: var(--cwc-font-body);
+  font-size: 0.71875rem;
+  font-weight: var(--cwc-weight-label);
+  letter-spacing: var(--cwc-tracking-label);
+  text-transform: uppercase;
+  color: var(--eyebrow-color);
+  margin: 0 0 0.75rem;
+}
+
+.cwc_meta_problem__content-heading {
+  font-family: var(--cwc-font-heading);
+  font-weight: var(--cwc-weight-heading);
+  font-size: clamp(1.75rem, 3.3vw, 2.625rem);
+  line-height: 1.1;
+  letter-spacing: -0.015em;
+  color: inherit;
+  max-width: 20ch;
+  margin: 0 0 0.875rem;
+}
+
+.cwc_meta_problem__content-heading strong {
+  color: var(--highlight-color);
+}
+
+.cwc_meta_problem__content-subtext {
+  font-family: var(--cwc-font-body);
+  font-size: 1.0625rem;
+  line-height: 1.5;
+  color: inherit;
+  opacity: 0.78;
+  max-width: 56ch;
+  margin: 0;
+}
+
+/* === Stat Row ===
+   Internal rules come from the cards themselves so a partial last row
+   never leaves a floating stripe. The row closes the right and bottom edges. */
+.cwc_meta_problem__row {
+  display: grid;
+  grid-template-columns: repeat(var(--columns-desktop), minmax(0, 1fr));
+  border-right: 1px solid var(--rule-color);
+  border-bottom: 1px solid var(--rule-color);
+}
+
+/* === Stat Card === */
+.cwc_meta_problem__card {
+  background-color: var(--card-bg);
+  border-left: 1px solid var(--rule-color);
+  border-top: 1px solid var(--rule-color);
+  padding: 1.875rem 1.625rem 1.625rem;
+}
+
+.cwc_meta_problem__marker {
+  display: block;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background-color: var(--rule-color);
+  opacity: 0.8;
+  margin-bottom: 1rem;
+}
+
+.cwc_meta_problem__card-figure {
+  display: block;
+  font-family: var(--cwc-font-heading);
+  font-weight: var(--cwc-weight-heading);
+  font-size: clamp(2.375rem, 4.2vw, 3.375rem);
+  line-height: 1;
+  color: var(--figure-color);
+  margin-bottom: 0.75rem;
+}
+
+.cwc_meta_problem__card-text {
+  font-family: var(--cwc-font-body);
+  font-size: 0.90625rem;
+  line-height: 1.5;
+  color: inherit;
+  opacity: 0.88;
+  margin: 0 0 0.75rem;
+}
+
+.cwc_meta_problem__card-source {
+  display: block;
+  font-family: var(--cwc-font-body);
+  font-size: 0.6875rem;
+  line-height: 1.4;
+  color: inherit;
+  opacity: 0.5;
+}
+
+/* ==============================
+   Tablet Responsive
+   ============================== */
+@media screen and (max-width: 991px) {
+  .cwc_meta_problem__container {
+    padding: 0 1.25rem;
+  }
+
+  .cwc_meta_problem__row {
+    grid-template-columns: 1fr;
+  }
+
+  .cwc_meta_problem__content-heading {
+    max-width: none;
+  }
+}
+
+/* ==============================
+   Mobile Responsive
+   ============================== */
+@media screen and (max-width: 768px) {
+  .cwc_meta_problem {
+    padding-top: var(--padding-top-mobile);
+    padding-bottom: var(--padding-bottom-mobile);
+  }
+
+  .cwc_meta_problem__container {
+    padding: 0 1rem;
+  }
+
+  .cwc_meta_problem__content {
+    margin-bottom: 1.75rem;
+  }
+
+  .cwc_meta_problem__card {
+    padding: 1.5rem 1.25rem 1.25rem;
+  }
+
+  .cwc_meta_problem__content-subtext {
+    font-size: 1rem;
+  }
+}

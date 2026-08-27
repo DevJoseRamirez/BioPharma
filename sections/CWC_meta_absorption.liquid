@@ -1,0 +1,254 @@
+{%- liquid
+  assign show_section = false
+  assign condition = section.settings.enable_condition | default: 'always'
+  if condition == 'if_is_supplement'
+    if product.metafields.custom.is_supplement.value
+      assign show_section = true
+    endif
+  else
+    assign show_section = true
+  endif
+  assign diagram = section.settings.diagram_image
+-%}
+
+{%- if show_section -%}
+  {% style %}
+    #cwc_meta_absorption-{{ section.id }} {
+      --section-bg: {{ section.settings.bg_color | default: '#F7F8FB' }};
+      --text-color: {{ section.settings.text_color | default: '#1F1F1C' }};
+      --highlight-color: {{ section.settings.bold_color | default: '#4A5F92' }};
+      --eyebrow-color: {{ section.settings.eyebrow_color | default: '#6A80B4' }};
+      --link-color: {{ section.settings.link_color | default: '#4A5F92' }};
+      --border-color: {{ section.settings.border_color | default: '#CFD9EE' }};
+      --image-bg: {{ section.settings.image_bg | default: '#E9EDF7' }};
+      --padding-top: {{ section.settings.padding_top | default: 80 }}px;
+      --padding-bottom: {{ section.settings.padding_bottom | default: 80 }}px;
+      --padding-top-mobile: {{ section.settings.padding_top | default: 80 | times: 0.5 }}px;
+      --padding-bottom-mobile: {{ section.settings.padding_bottom | default: 80 | times: 0.5 }}px;
+    }
+  {% endstyle %}
+
+  {{ 'CWC_fonts.css' | asset_url | stylesheet_tag }}
+  {{ 'CWC_meta_absorption.css' | asset_url | stylesheet_tag }}
+
+  <section
+    id="cwc_meta_absorption-{{ section.id }}"
+    class="cwc_meta_absorption{% if section.settings.show_edges %} cwc_meta_absorption--edged{% endif %}{% if section.settings.image_position == 'left' %} cwc_meta_absorption--reverse{% endif %}{% if diagram == blank and request.design_mode == false %} cwc_meta_absorption--no-image{% endif %}"
+  >
+    <div class="cwc_meta_absorption__container">
+      <div class="cwc_meta_absorption__wrapper">
+
+        <div class="cwc_meta_absorption__content">
+          {% if section.settings.eyebrow_text != blank %}
+            <p class="cwc_meta_absorption__eyebrow">{{ section.settings.eyebrow_text }}</p>
+          {% endif %}
+
+          {% if section.settings.heading != blank %}
+            <div class="cwc_meta_absorption__content-heading cwc-rte">
+              {{ section.settings.heading }}
+            </div>
+          {% endif %}
+
+          {% if section.settings.body != blank %}
+            <div class="cwc_meta_absorption__body cwc-rte">
+              {{ section.settings.body }}
+            </div>
+          {% endif %}
+
+          {% if section.settings.link_label != blank and section.settings.link_url != blank %}
+            <a class="cwc_meta_absorption__link" href="{{ section.settings.link_url }}">
+              {{ section.settings.link_label }}
+            </a>
+          {% endif %}
+        </div>
+
+        {% if diagram != blank %}
+          <div class="cwc_meta_absorption__image">
+            {{
+              diagram
+              | image_url: width: 1200
+              | image_tag:
+                loading: 'lazy',
+                sizes: '(max-width: 991px) 100vw, 50vw',
+                widths: '400, 600, 800, 1000, 1200',
+                class: 'cwc_meta_absorption__image-el',
+                alt: section.settings.image_alt_text
+            }}
+          </div>
+        {% elsif request.design_mode %}
+          <div class="cwc_meta_absorption__placeholder">
+            <span>Add a diagram image</span>
+          </div>
+        {% endif %}
+
+      </div>
+    </div>
+  </section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Meta Absorption",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Visibility"
+    },
+    {
+      "type": "select",
+      "id": "enable_condition",
+      "label": "Show This Section",
+      "info": "Only nanoneuro-capsules currently has is_supplement switched on — the other products would lose this block.",
+      "options": [
+        { "value": "always", "label": "On every product" },
+        { "value": "if_is_supplement", "label": "Only when the product is a supplement" }
+      ],
+      "default": "always"
+    },
+    {
+      "type": "header",
+      "content": "Section Header"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow_text",
+      "label": "Eyebrow",
+      "default": "How everything here works"
+    },
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "<p>You are what you <strong>absorb</strong></p>"
+    },
+    {
+      "type": "richtext",
+      "id": "body",
+      "label": "Body",
+      "default": "<p>You can take the best formula in the world and still get very little from it. Absorption is the part nobody talks about, because the ingredient that solves it costs money.</p>"
+    },
+    {
+      "type": "text",
+      "id": "link_label",
+      "label": "Link Label",
+      "default": "Read the science"
+    },
+    {
+      "type": "url",
+      "id": "link_url",
+      "label": "Link"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "Diagram Position",
+      "options": [
+        { "value": "right", "label": "Right" },
+        { "value": "left", "label": "Left" }
+      ],
+      "default": "right"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_edges",
+      "label": "Show Top And Bottom Rules",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "diagram_image",
+      "label": "Absorption Diagram"
+    },
+    {
+      "type": "text",
+      "id": "image_alt_text",
+      "label": "Diagram Alt Text",
+      "default": "Absorption diagram"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#F7F8FB"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#1F1F1C"
+    },
+    {
+      "type": "color",
+      "id": "bold_color",
+      "label": "Heading Bold Color",
+      "default": "#4A5F92"
+    },
+    {
+      "type": "color",
+      "id": "eyebrow_color",
+      "label": "Eyebrow Color",
+      "default": "#6A80B4"
+    },
+    {
+      "type": "color",
+      "id": "link_color",
+      "label": "Link Color",
+      "default": "#4A5F92"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Top / Bottom Rule Color",
+      "default": "#CFD9EE"
+    },
+    {
+      "type": "color",
+      "id": "image_bg",
+      "label": "Diagram Surface Color",
+      "default": "#E9EDF7"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 80
+    }
+  ],
+  "presets": [
+    {
+      "name": "Meta Absorption",
+      "category": "CWC Custom"
+    }
+  ]
+}
+{% endschema %}

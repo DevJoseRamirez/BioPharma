@@ -1,0 +1,203 @@
+/* ==============================
+   CWC Meta Comparison
+   ------------------------------
+   Column 1 is always this product's own column. Cell values are
+   three-state strings (yes / no / varies), not booleans.
+   ============================== */
+
+/* === Section Wrapper === */
+.cwc_meta_comparison {
+  background-color: var(--section-bg);
+  color: var(--text-color);
+  padding-top: var(--padding-top);
+  padding-bottom: var(--padding-bottom);
+}
+
+.cwc_meta_comparison__container {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+/* === Section Header === */
+.cwc_meta_comparison__content {
+  max-width: 600px;
+  margin-bottom: clamp(1.75rem, 3.5vw, 2.625rem);
+}
+
+.cwc_meta_comparison__eyebrow {
+  font-family: var(--cwc-font-body);
+  font-size: 0.71875rem;
+  font-weight: var(--cwc-weight-label);
+  letter-spacing: var(--cwc-tracking-label);
+  text-transform: uppercase;
+  color: var(--eyebrow-color);
+  margin: 0 0 0.75rem;
+}
+
+.cwc_meta_comparison__content-heading {
+  margin-bottom: 0.625rem;
+}
+
+.cwc_meta_comparison__content-heading h1,
+.cwc_meta_comparison__content-heading h2,
+.cwc_meta_comparison__content-heading h3,
+.cwc_meta_comparison__content-heading p {
+  font-family: var(--cwc-font-heading);
+  font-weight: var(--cwc-weight-heading);
+  font-size: clamp(1.625rem, 3vw, 2.375rem);
+  line-height: 1.12;
+  letter-spacing: -0.015em;
+  margin: 0;
+  color: inherit;
+}
+
+.cwc_meta_comparison__content-heading > * strong {
+  color: var(--highlight-color);
+}
+
+.cwc_meta_comparison__content-subtext p {
+  font-family: var(--cwc-font-body);
+  font-size: 0.96875rem;
+  line-height: 1.55;
+  margin: 0;
+  color: var(--body-color);
+}
+
+/* === Table === */
+.cwc_meta_comparison__scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.cwc_meta_comparison__table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.cwc_meta_comparison__table th,
+.cwc_meta_comparison__table td {
+  padding: 0.9375rem 1rem;
+  border-bottom: 1px solid var(--row-rule-color);
+  text-align: center;
+  font-family: var(--cwc-font-body);
+  font-size: 0.90625rem;
+  font-weight: 400;
+}
+
+.cwc_meta_comparison__table th:first-child,
+.cwc_meta_comparison__table td:first-child {
+  text-align: left;
+  width: 44%;
+}
+
+/* === Head === */
+.cwc_meta_comparison__table thead th {
+  font-size: 0.6875rem;
+  font-weight: var(--cwc-weight-label);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--body-color);
+  border-bottom: 1px solid var(--head-rule-color);
+}
+
+.cwc_meta_comparison__head-cell--own {
+  color: var(--own-column-color);
+}
+
+/* === Body === */
+.cwc_meta_comparison__attribute {
+  color: inherit;
+}
+
+.cwc_meta_comparison__row:hover {
+  background-color: var(--row-hover-bg);
+}
+
+.cwc_meta_comparison__mark--yes {
+  color: var(--yes-color);
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.cwc_meta_comparison__mark--no {
+  color: var(--no-color);
+  font-size: 0.9375rem;
+}
+
+.cwc_meta_comparison__mark--varies {
+  color: var(--varies-color);
+  font-size: 0.9375rem;
+}
+
+.cwc_meta_comparison__mark--text {
+  color: var(--body-color);
+  font-size: 0.875rem;
+}
+
+/* === Compliance Note === */
+.cwc_meta_comparison__note {
+  font-family: var(--cwc-font-body);
+  font-size: 0.78125rem;
+  line-height: 1.55;
+  color: var(--body-color);
+  max-width: 70ch;
+  margin: 1.125rem 0 0;
+}
+
+/* === Screen Reader Only === */
+.cwc_meta_comparison__sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ==============================
+   Tablet Responsive
+   ============================== */
+@media screen and (max-width: 991px) {
+  .cwc_meta_comparison__container {
+    padding: 0 1.25rem;
+  }
+}
+
+/* ==============================
+   Mobile Responsive
+   ============================== */
+@media screen and (max-width: 768px) {
+  .cwc_meta_comparison {
+    padding-top: var(--padding-top-mobile);
+    padding-bottom: var(--padding-bottom-mobile);
+  }
+
+  .cwc_meta_comparison__container {
+    padding: 0 1rem;
+  }
+
+  .cwc_meta_comparison__content {
+    margin-bottom: 1.5rem;
+  }
+
+  /* The table scrolls sideways rather than reflowing — column
+     comparison only reads if the columns stay side by side. */
+  .cwc_meta_comparison__table {
+    min-width: 560px;
+  }
+
+  .cwc_meta_comparison__table th,
+  .cwc_meta_comparison__table td {
+    padding: 0.75rem 0.5rem;
+    font-size: 0.8125rem;
+  }
+
+  .cwc_meta_comparison__table th:first-child,
+  .cwc_meta_comparison__table td:first-child {
+    width: 40%;
+  }
+}

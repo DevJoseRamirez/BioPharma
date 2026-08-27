@@ -1,0 +1,285 @@
+{%- liquid
+  assign stat_blocks = section.blocks | where: 'type', 'stat'
+  assign credential_blocks = section.blocks | where: 'type', 'credential'
+  assign stat_columns = stat_blocks.size | at_most: 3 | at_least: 1
+-%}
+
+{% style %}
+  #cwc_meta_practitioner-{{ section.id }} {
+    --section-bg: {{ section.settings.bg_color | default: '#ffffff' }};
+    --text-color: {{ section.settings.text_color | default: '#1F1F1C' }};
+    --highlight-color: {{ section.settings.bold_color | default: '#5BA90F' }};
+    --eyebrow-color: {{ section.settings.eyebrow_color | default: '#6A80B4' }};
+    --stat-color: {{ section.settings.stat_color | default: '#44681A' }};
+    --stat-label-color: {{ section.settings.stat_label_color | default: '#6B6B65' }};
+    --card-bg: {{ section.settings.card_bg | default: '#ffffff' }};
+    --rule-color: {{ section.settings.rule_color | default: '#DEDDD6' }};
+    --pill-bg: {{ section.settings.pill_bg | default: '#ffffff' }};
+    --pill-border-color: {{ section.settings.pill_border_color | default: '#DEDDD6' }};
+    --pill-color: {{ section.settings.pill_color | default: '#6B6B65' }};
+    --stat-columns: {{ stat_columns }};
+    --padding-top: {{ section.settings.padding_top | default: 80 }}px;
+    --padding-bottom: {{ section.settings.padding_bottom | default: 80 }}px;
+    --padding-top-mobile: {{ section.settings.padding_top | default: 80 | times: 0.5 }}px;
+    --padding-bottom-mobile: {{ section.settings.padding_bottom | default: 80 | times: 0.5 }}px;
+  }
+{% endstyle %}
+
+{{ 'CWC_fonts.css' | asset_url | stylesheet_tag }}
+{{ 'CWC_meta_practitioner.css' | asset_url | stylesheet_tag }}
+
+<section id="cwc_meta_practitioner-{{ section.id }}" class="cwc_meta_practitioner">
+  <div class="cwc_meta_practitioner__container">
+    <div class="cwc_meta_practitioner__wrapper">
+
+      <div class="cwc_meta_practitioner__content">
+        {% if section.settings.eyebrow_text != blank %}
+          <p class="cwc_meta_practitioner__eyebrow">{{ section.settings.eyebrow_text }}</p>
+        {% endif %}
+
+        {% if section.settings.heading != blank %}
+          <div class="cwc_meta_practitioner__content-heading cwc-rte">
+            {{ section.settings.heading }}
+          </div>
+        {% endif %}
+
+        {% if section.settings.body != blank %}
+          <div class="cwc_meta_practitioner__body cwc-rte">
+            {{ section.settings.body }}
+          </div>
+        {% endif %}
+      </div>
+
+      <div class="cwc_meta_practitioner__aside">
+        {% if section.settings.show_stats and stat_blocks.size > 0 %}
+          <div class="cwc_meta_practitioner__stats">
+            {% for block in section.blocks %}
+              {% case block.type %}
+                {% when 'stat' %}
+                  <div class="cwc_meta_practitioner__stat" {{ block.shopify_attributes }}>
+                    {% if block.settings.value != blank %}
+                      <span class="cwc_meta_practitioner__stat-value">{{ block.settings.value }}</span>
+                    {% endif %}
+
+                    {% if block.settings.label != blank %}
+                      <span class="cwc_meta_practitioner__stat-label">{{ block.settings.label }}</span>
+                    {% endif %}
+                  </div>
+              {% endcase %}
+            {% endfor %}
+          </div>
+        {% endif %}
+
+        {% if section.settings.show_credentials and credential_blocks.size > 0 %}
+          <div class="cwc_meta_practitioner__credentials">
+            {% for block in section.blocks %}
+              {% case block.type %}
+                {% when 'credential' %}
+                  {% if block.settings.abbreviation != blank %}
+                    <span class="cwc_meta_practitioner__pill" {{ block.shopify_attributes }}>
+                      {{ block.settings.abbreviation }}
+                    </span>
+                  {% endif %}
+              {% endcase %}
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Meta Practitioner",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Header"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow_text",
+      "label": "Eyebrow",
+      "default": "Where we started"
+    },
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "<p>Recommended in practice, <strong>not in ads</strong></p>"
+    },
+    {
+      "type": "richtext",
+      "id": "body",
+      "label": "Body",
+      "default": "<p>BioPharma Scientific formulas were developed for and distributed through doctors, chiropractors and naturopaths for years before anything was sold direct.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_stats",
+      "label": "Show Stat Row",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_credentials",
+      "label": "Show Credential Pills",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#1F1F1C"
+    },
+    {
+      "type": "color",
+      "id": "bold_color",
+      "label": "Heading Bold Color",
+      "default": "#5BA90F"
+    },
+    {
+      "type": "color",
+      "id": "eyebrow_color",
+      "label": "Eyebrow Color",
+      "default": "#6A80B4"
+    },
+    {
+      "type": "header",
+      "content": "Card Colors"
+    },
+    {
+      "type": "color",
+      "id": "card_bg",
+      "label": "Stat Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "stat_color",
+      "label": "Stat Value Color",
+      "default": "#44681A"
+    },
+    {
+      "type": "color",
+      "id": "stat_label_color",
+      "label": "Stat Label Color",
+      "default": "#6B6B65"
+    },
+    {
+      "type": "color",
+      "id": "rule_color",
+      "label": "Stat Border Color",
+      "default": "#DEDDD6"
+    },
+    {
+      "type": "color",
+      "id": "pill_bg",
+      "label": "Pill Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "pill_border_color",
+      "label": "Pill Border Color",
+      "default": "#DEDDD6"
+    },
+    {
+      "type": "color",
+      "id": "pill_color",
+      "label": "Pill Text Color",
+      "default": "#6B6B65"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 80
+    }
+  ],
+  "blocks": [
+    {
+      "type": "stat",
+      "name": "Stat",
+      "limit": 4,
+      "settings": [
+        {
+          "type": "text",
+          "id": "value",
+          "label": "Value",
+          "default": "20+"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Years in practitioner clinics"
+        }
+      ]
+    },
+    {
+      "type": "credential",
+      "name": "Credential",
+      "limit": 8,
+      "settings": [
+        {
+          "type": "text",
+          "id": "abbreviation",
+          "label": "Abbreviation",
+          "default": "DC"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 12,
+  "presets": [
+    {
+      "name": "Meta Practitioner",
+      "category": "CWC Custom",
+      "blocks": [
+        { "type": "stat" },
+        { "type": "stat" },
+        { "type": "stat" },
+        { "type": "credential" },
+        { "type": "credential" },
+        { "type": "credential" },
+        { "type": "credential" }
+      ]
+    }
+  ]
+}
+{% endschema %}

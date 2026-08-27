@@ -1,0 +1,222 @@
+{%- liquid
+  assign headline = product.metafields.custom.hook_headline
+  assign deck = product.metafields.custom.hook_deck
+  assign body = product.metafields.custom.hook_body
+  assign hook_image = product.metafields.custom.hook_image.value
+  assign chips = product.metafields.custom.hook_chips.value
+-%}
+
+{%- if headline != blank -%}
+  {% style %}
+    #cwc_meta_answer-{{ section.id }} {
+      --section-bg: {{ section.settings.bg_color | default: '#ffffff' }};
+      --text-color: {{ section.settings.text_color | default: '#1F1F1C' }};
+      --highlight-color: {{ section.settings.bold_color | default: '#5BA90F' }};
+      --eyebrow-color: {{ section.settings.eyebrow_color | default: '#78AD49' }};
+      --deck-color: {{ section.settings.deck_color | default: '#44681A' }};
+      --chip-bg: {{ section.settings.chip_bg | default: '#ffffff' }};
+      --chip-border-color: {{ section.settings.chip_border_color | default: '#DEDDD6' }};
+      --chip-text-color: {{ section.settings.chip_text_color | default: '#6B6B65' }};
+      --image-bg: {{ section.settings.image_bg | default: '#F5F4F0' }};
+      --padding-top: {{ section.settings.padding_top | default: 80 }}px;
+      --padding-bottom: {{ section.settings.padding_bottom | default: 80 }}px;
+      --padding-top-mobile: {{ section.settings.padding_top | default: 80 | times: 0.5 }}px;
+      --padding-bottom-mobile: {{ section.settings.padding_bottom | default: 80 | times: 0.5 }}px;
+    }
+  {% endstyle %}
+
+  {{ 'CWC_fonts.css' | asset_url | stylesheet_tag }}
+  {{ 'CWC_meta_answer.css' | asset_url | stylesheet_tag }}
+
+  <section
+    id="cwc_meta_answer-{{ section.id }}"
+    class="cwc_meta_answer{% if hook_image == blank %} cwc_meta_answer--no-image{% endif %}{% if section.settings.image_position == 'left' %} cwc_meta_answer--reverse{% endif %}"
+  >
+    <div class="cwc_meta_answer__container">
+      <div class="cwc_meta_answer__wrapper">
+
+        <div class="cwc_meta_answer__content">
+          {% if section.settings.eyebrow_text != blank %}
+            <p class="cwc_meta_answer__eyebrow">{{ section.settings.eyebrow_text }}</p>
+          {% endif %}
+
+          <h2 class="cwc_meta_answer__content-heading">{{ headline }}</h2>
+
+          {% if deck != blank %}
+            <p class="cwc_meta_answer__deck">{{ deck }}</p>
+          {% endif %}
+
+          {% if body != blank %}
+            <div class="cwc_meta_answer__body cwc-rte">{{ body }}</div>
+          {% endif %}
+
+          {% if section.settings.show_chips and chips.size > 0 %}
+            <div class="cwc_meta_answer__chips">
+              {% for chip in chips %}
+                {% if chip != blank %}
+                  <span class="cwc_meta_answer__chip">{{ chip }}</span>
+                {% endif %}
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+
+        {% if hook_image != blank %}
+          <div class="cwc_meta_answer__image">
+            {{
+              hook_image
+              | image_url: width: 1200
+              | image_tag:
+                loading: 'lazy',
+                sizes: '(max-width: 991px) 100vw, 50vw',
+                widths: '400, 600, 800, 1000, 1200',
+                class: 'cwc_meta_answer__image-el',
+                alt: headline
+            }}
+          </div>
+        {% endif %}
+
+      </div>
+    </div>
+  </section>
+{%- elsif request.design_mode -%}
+  <p style="margin:0;padding:2rem;text-align:center;font-size:0.875rem;color:#767676;background:#F6F6F4;">
+    Meta Answer — add a hook_headline to this product to display this section.
+  </p>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Meta Answer",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Header"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow_text",
+      "label": "Eyebrow",
+      "info": "All other copy comes from the product's hook_headline, hook_deck, hook_body and hook_chips metafields.",
+      "default": "Why this formula"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "Image Position",
+      "info": "The section collapses to one column when the product has no hook_image.",
+      "options": [
+        { "value": "right", "label": "Right" },
+        { "value": "left", "label": "Left" }
+      ],
+      "default": "right"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_chips",
+      "label": "Show Chip Row",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#1F1F1C"
+    },
+    {
+      "type": "color",
+      "id": "bold_color",
+      "label": "Heading Bold Color",
+      "default": "#5BA90F"
+    },
+    {
+      "type": "color",
+      "id": "eyebrow_color",
+      "label": "Eyebrow Color",
+      "default": "#78AD49"
+    },
+    {
+      "type": "color",
+      "id": "deck_color",
+      "label": "Deck Line Color",
+      "default": "#44681A"
+    },
+    {
+      "type": "header",
+      "content": "Chip Colors"
+    },
+    {
+      "type": "color",
+      "id": "chip_bg",
+      "label": "Chip Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "chip_border_color",
+      "label": "Chip Border Color",
+      "default": "#DEDDD6"
+    },
+    {
+      "type": "color",
+      "id": "chip_text_color",
+      "label": "Chip Text Color",
+      "default": "#6B6B65"
+    },
+    {
+      "type": "header",
+      "content": "Image"
+    },
+    {
+      "type": "color",
+      "id": "image_bg",
+      "label": "Image Surface Color",
+      "default": "#F5F4F0"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 80
+    }
+  ],
+  "presets": [
+    {
+      "name": "Meta Answer",
+      "category": "CWC Custom"
+    }
+  ]
+}
+{% endschema %}

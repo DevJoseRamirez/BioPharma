@@ -1,0 +1,196 @@
+{%- liquid
+  assign stats = product.metafields.custom.problem_stats.value
+  assign headline = product.metafields.custom.problem_headline
+  assign sub = product.metafields.custom.problem_sub
+  assign columns = section.settings.columns | default: 3
+  if stats.size > 0
+    assign columns = columns | at_most: stats.size
+  endif
+-%}
+
+{%- if stats.size >= 2 -%}
+  {% style %}
+    #cwc_meta_problem-{{ section.id }} {
+      --section-bg: {{ section.settings.bg_color | default: '#44681A' }};
+      --text-color: {{ section.settings.text_color | default: '#ffffff' }};
+      --highlight-color: {{ section.settings.bold_color | default: '#DCEFC4' }};
+      --eyebrow-color: {{ section.settings.eyebrow_color | default: '#CDE3B2' }};
+      --figure-color: {{ section.settings.accent_color | default: '#DCEFC4' }};
+      --card-bg: {{ section.settings.card_bg | default: '#44681A' }};
+      --rule-color: {{ section.settings.rule_color | default: '#6E8C42' }};
+      --columns-desktop: {{ columns }};
+      --padding-top: {{ section.settings.padding_top | default: 80 }}px;
+      --padding-bottom: {{ section.settings.padding_bottom | default: 80 }}px;
+      --padding-top-mobile: {{ section.settings.padding_top | default: 80 | times: 0.5 }}px;
+      --padding-bottom-mobile: {{ section.settings.padding_bottom | default: 80 | times: 0.5 }}px;
+    }
+  {% endstyle %}
+
+  {{ 'CWC_fonts.css' | asset_url | stylesheet_tag }}
+  {{ 'CWC_meta_problem.css' | asset_url | stylesheet_tag }}
+
+  <section id="cwc_meta_problem-{{ section.id }}" class="cwc_meta_problem">
+    <div class="cwc_meta_problem__container">
+
+      {% comment %} Section Header — eyebrow is a setting, copy is per product {% endcomment %}
+      <div class="cwc_meta_problem__content">
+        {% if section.settings.eyebrow_text != blank %}
+          <p class="cwc_meta_problem__eyebrow">{{ section.settings.eyebrow_text }}</p>
+        {% endif %}
+
+        {% if headline != blank %}
+          <h2 class="cwc_meta_problem__content-heading">{{ headline }}</h2>
+        {% endif %}
+
+        {% if sub != blank %}
+          <p class="cwc_meta_problem__content-subtext">{{ sub }}</p>
+        {% endif %}
+      </div>
+
+      {% comment %} Stat cards — figure and statement stay adjacent {% endcomment %}
+      <div class="cwc_meta_problem__row">
+        {% for stat in stats %}
+          <div class="cwc_meta_problem__card">
+            <span class="cwc_meta_problem__marker" aria-hidden="true"></span>
+
+            {% if stat.figure != blank %}
+              <span class="cwc_meta_problem__card-figure">{{ stat.figure }}</span>
+            {% endif %}
+
+            {% if stat.statement != blank %}
+              <p class="cwc_meta_problem__card-text">{{ stat.statement | newline_to_br }}</p>
+            {% endif %}
+
+            {% if section.settings.show_sources and stat.source_note != blank %}
+              <span class="cwc_meta_problem__card-source">{{ stat.source_note }}</span>
+            {% endif %}
+          </div>
+        {% endfor %}
+      </div>
+
+    </div>
+  </section>
+{%- elsif request.design_mode -%}
+  <p style="margin:0;padding:2rem;text-align:center;font-size:0.875rem;color:#767676;background:#F6F6F4;">
+    Meta Problem — add two or more problem stats to this product to display this section.
+  </p>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Meta Problem",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Header"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow_text",
+      "label": "Eyebrow",
+      "info": "The heading and subheading come from the product's problem_headline and problem_sub metafields.",
+      "default": "The gap"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "columns",
+      "label": "Columns On Desktop",
+      "info": "Automatically reduced when the product has fewer stats.",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "checkbox",
+      "id": "show_sources",
+      "label": "Show Source Notes",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#44681A"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "bold_color",
+      "label": "Heading Bold Color",
+      "default": "#DCEFC4"
+    },
+    {
+      "type": "color",
+      "id": "eyebrow_color",
+      "label": "Eyebrow Color",
+      "default": "#CDE3B2"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Figure Color",
+      "default": "#DCEFC4"
+    },
+    {
+      "type": "header",
+      "content": "Card Colors"
+    },
+    {
+      "type": "color",
+      "id": "card_bg",
+      "label": "Card Background Color",
+      "default": "#44681A"
+    },
+    {
+      "type": "color",
+      "id": "rule_color",
+      "label": "Card Border Color",
+      "default": "#6E8C42"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 80
+    }
+  ],
+  "presets": [
+    {
+      "name": "Meta Problem",
+      "category": "CWC Custom"
+    }
+  ]
+}
+{% endschema %}

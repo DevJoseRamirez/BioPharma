@@ -1,0 +1,308 @@
+{%- liquid
+  assign rows = product.metafields.custom.comparison_rows.value
+  assign labels = product.metafields.custom.comparison_labels.value
+-%}
+
+{%- if rows.size >= 3 and labels.size == 3 -%}
+  {% style %}
+    #cwc_meta_comparison-{{ section.id }} {
+      --section-bg: {{ section.settings.bg_color | default: '#ffffff' }};
+      --text-color: {{ section.settings.text_color | default: '#1F1F1C' }};
+      --highlight-color: {{ section.settings.bold_color | default: '#5BA90F' }};
+      --eyebrow-color: {{ section.settings.eyebrow_color | default: '#78AD49' }};
+      --body-color: {{ section.settings.body_color | default: '#6B6B65' }};
+      --own-column-color: {{ section.settings.own_column_highlight_color | default: '#44681A' }};
+      --yes-color: {{ section.settings.yes_color | default: '#5BA90F' }};
+      --no-color: {{ section.settings.no_color | default: '#C4C3BD' }};
+      --varies-color: {{ section.settings.varies_color | default: '#8C8B84' }};
+      --head-rule-color: {{ section.settings.head_rule_color | default: '#DEDDD6' }};
+      --row-rule-color: {{ section.settings.row_rule_color | default: '#EAE9E3' }};
+      --row-hover-bg: {{ section.settings.row_hover_bg | default: '#FAFAF8' }};
+      --padding-top: {{ section.settings.padding_top | default: 80 }}px;
+      --padding-bottom: {{ section.settings.padding_bottom | default: 80 }}px;
+      --padding-top-mobile: {{ section.settings.padding_top | default: 80 | times: 0.5 }}px;
+      --padding-bottom-mobile: {{ section.settings.padding_bottom | default: 80 | times: 0.5 }}px;
+    }
+  {% endstyle %}
+
+  {{ 'CWC_fonts.css' | asset_url | stylesheet_tag }}
+  {{ 'CWC_meta_comparison.css' | asset_url | stylesheet_tag }}
+
+  <section id="cwc_meta_comparison-{{ section.id }}" class="cwc_meta_comparison">
+    <div class="cwc_meta_comparison__container">
+
+      {% comment %} Section Header {% endcomment %}
+      <div class="cwc_meta_comparison__content">
+        {% if section.settings.eyebrow_text != blank %}
+          <p class="cwc_meta_comparison__eyebrow">{{ section.settings.eyebrow_text }}</p>
+        {% endif %}
+
+        {% if section.settings.heading != blank %}
+          <div class="cwc_meta_comparison__content-heading cwc-rte">
+            {{ section.settings.heading }}
+          </div>
+        {% endif %}
+
+        {% if section.settings.subheading != blank %}
+          <div class="cwc_meta_comparison__content-subtext cwc-rte">
+            {{ section.settings.subheading }}
+          </div>
+        {% endif %}
+      </div>
+
+      {% comment %} Table — scrolls horizontally rather than reflowing {% endcomment %}
+      <div class="cwc_meta_comparison__scroll">
+        <table class="cwc_meta_comparison__table">
+          <thead>
+            <tr>
+              <th scope="col">
+                <span class="cwc_meta_comparison__sr">{{ section.settings.attribute_label | default: 'Feature' }}</span>
+              </th>
+              {% for label in labels %}
+                <th
+                  scope="col"
+                  class="cwc_meta_comparison__head-cell{% if forloop.first %} cwc_meta_comparison__head-cell--own{% endif %}"
+                >
+                  {{ label }}
+                </th>
+              {% endfor %}
+            </tr>
+          </thead>
+
+          <tbody>
+            {% for row in rows %}
+              <tr class="cwc_meta_comparison__row">
+                <th scope="row" class="cwc_meta_comparison__attribute">{{ row.attribute }}</th>
+
+                {% for index in (1..3) %}
+                  {%- liquid
+                    case index
+                      when 1
+                        assign cell = row.col_1
+                      when 2
+                        assign cell = row.col_2
+                      when 3
+                        assign cell = row.col_3
+                    endcase
+                    assign cell = cell | default: '' | strip | downcase
+                  -%}
+                  <td class="cwc_meta_comparison__cell{% if forloop.first %} cwc_meta_comparison__cell--own{% endif %}">
+                    {%- case cell -%}
+                      {%- when 'yes' -%}
+                        <span class="cwc_meta_comparison__mark cwc_meta_comparison__mark--yes" aria-hidden="true">&#10003;</span>
+                        <span class="cwc_meta_comparison__sr">{{ section.settings.yes_label | default: 'Yes' }}</span>
+                      {%- when 'no' -%}
+                        <span class="cwc_meta_comparison__mark cwc_meta_comparison__mark--no" aria-hidden="true">&#10005;</span>
+                        <span class="cwc_meta_comparison__sr">{{ section.settings.no_label | default: 'No' }}</span>
+                      {%- when 'varies' -%}
+                        <span class="cwc_meta_comparison__mark cwc_meta_comparison__mark--varies" aria-hidden="true">&mdash;</span>
+                        <span class="cwc_meta_comparison__sr">{{ section.settings.varies_label | default: 'Varies' }}</span>
+                      {%- when '' -%}
+                        <span class="cwc_meta_comparison__mark cwc_meta_comparison__mark--varies" aria-hidden="true">&mdash;</span>
+                      {%- else -%}
+                        <span class="cwc_meta_comparison__mark cwc_meta_comparison__mark--text">{{ cell }}</span>
+                    {%- endcase -%}
+                  </td>
+                {% endfor %}
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      {% comment %} Compliance line — editable, never hardcoded {% endcomment %}
+      {% if section.settings.disclaimer_note != blank %}
+        <p class="cwc_meta_comparison__note">{{ section.settings.disclaimer_note }}</p>
+      {% endif %}
+
+    </div>
+  </section>
+{%- elsif request.design_mode -%}
+  <p style="margin:0;padding:2rem;text-align:center;font-size:0.875rem;color:#767676;background:#F6F6F4;">
+    Meta Comparison — this product needs three column labels and three or more comparison rows to display this section.
+  </p>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Meta Comparison",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Header"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow_text",
+      "label": "Eyebrow",
+      "default": "The honest comparison"
+    },
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "<p>Not all of them are <strong>the same</strong></p>"
+    },
+    {
+      "type": "richtext",
+      "id": "subheading",
+      "label": "Section Subheading",
+      "default": "<p>Where the differences actually sit.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Compliance"
+    },
+    {
+      "type": "text",
+      "id": "disclaimer_note",
+      "label": "Disclaimer Note",
+      "info": "Legally load-bearing. Competitors stay archetypes — never name a brand.",
+      "default": "Comparison reflects category averages for standalone products at comparable dosages — not any specific brand."
+    },
+    {
+      "type": "header",
+      "content": "Cell Labels"
+    },
+    {
+      "type": "paragraph",
+      "content": "Column headers and cell values come from the product's comparison_labels and comparison_rows. These labels are read out by screen readers in place of the symbols."
+    },
+    {
+      "type": "text",
+      "id": "attribute_label",
+      "label": "Attribute Column Label",
+      "default": "Feature"
+    },
+    {
+      "type": "text",
+      "id": "yes_label",
+      "label": "Yes Label",
+      "default": "Yes"
+    },
+    {
+      "type": "text",
+      "id": "no_label",
+      "label": "No Label",
+      "default": "No"
+    },
+    {
+      "type": "text",
+      "id": "varies_label",
+      "label": "Varies Label",
+      "default": "Varies"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#1F1F1C"
+    },
+    {
+      "type": "color",
+      "id": "bold_color",
+      "label": "Heading Bold Color",
+      "default": "#5BA90F"
+    },
+    {
+      "type": "color",
+      "id": "eyebrow_color",
+      "label": "Eyebrow Color",
+      "default": "#78AD49"
+    },
+    {
+      "type": "color",
+      "id": "body_color",
+      "label": "Body Text Color",
+      "default": "#6B6B65"
+    },
+    {
+      "type": "color",
+      "id": "own_column_highlight_color",
+      "label": "Own Column Color",
+      "info": "The first column label always belongs to this product.",
+      "default": "#44681A"
+    },
+    {
+      "type": "header",
+      "content": "Table Colors"
+    },
+    {
+      "type": "color",
+      "id": "yes_color",
+      "label": "Yes Mark Color",
+      "default": "#5BA90F"
+    },
+    {
+      "type": "color",
+      "id": "no_color",
+      "label": "No Mark Color",
+      "default": "#C4C3BD"
+    },
+    {
+      "type": "color",
+      "id": "varies_color",
+      "label": "Varies Mark Color",
+      "default": "#8C8B84"
+    },
+    {
+      "type": "color",
+      "id": "head_rule_color",
+      "label": "Header Rule Color",
+      "default": "#DEDDD6"
+    },
+    {
+      "type": "color",
+      "id": "row_rule_color",
+      "label": "Row Divider Color",
+      "default": "#EAE9E3"
+    },
+    {
+      "type": "color",
+      "id": "row_hover_bg",
+      "label": "Row Hover Color",
+      "default": "#FAFAF8"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 80
+    }
+  ],
+  "presets": [
+    {
+      "name": "Meta Comparison",
+      "category": "CWC Custom"
+    }
+  ]
+}
+{% endschema %}
