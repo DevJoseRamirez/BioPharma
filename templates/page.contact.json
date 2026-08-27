@@ -18,41 +18,100 @@
         "page_width": "xs"
       }
     },
-    "rich_text_VeKQgB": {
-      "type": "rich-text",
+    "cwc_contact_form": {
+      "type": "CWC_contact_form",
       "blocks": {
-        "richtext_pBx3e6": {
-          "type": "richtext",
+        "detail_phone": {
+          "type": "detail",
           "settings": {
-            "content": "<p>Our customer <strong>support team is available Monday through Friday from 8:00 AM – 5:00 PM Pacific Time.</strong> </p><p>For faster assistance,<strong> please call 877-772-4362 or Live Chat with us online.</strong></p><p><br/></p><p></p>"
+            "icon": "phone",
+            "label": "Call us",
+            "value": "<p>877-772-4362</p>",
+            "link": "tel:8777724362",
+            "note": "Mon–Fri, 8:00 AM – 5:00 PM Pacific"
+          }
+        },
+        "detail_chat": {
+          "type": "detail",
+          "settings": {
+            "icon": "chat",
+            "label": "Live chat",
+            "value": "<p>Chat with us online</p>",
+            "link": "",
+            "note": "Fastest way to reach the team during business hours"
+          }
+        },
+        "detail_email": {
+          "type": "detail",
+          "settings": {
+            "icon": "clock",
+            "label": "Response time",
+            "value": "<p>Within one business day</p>",
+            "link": "",
+            "note": "Messages sent over the weekend are answered Monday"
           }
         }
       },
       "block_order": [
-        "richtext_pBx3e6"
+        "detail_phone",
+        "detail_chat",
+        "detail_email"
       ],
       "settings": {
-        "color_scheme": "scheme-4",
-        "separate_section_with_border": true,
-        "content_width": "sm",
-        "text_position": "center",
-        "remove_vertical_spacing": false
-      }
-    },
-    "contact-form": {
-      "type": "contact",
-      "settings": {
-        "color_scheme": "scheme-4",
-        "separate_section_with_border": true,
-        "subheading": "",
-        "title": "Contact",
-        "content": "<p>Please submit your question or request below and we will respond to you shortly!</p>"
+        "eyebrow": "Contact Us",
+        "heading": "<p>Questions about a product, an order, or <strong>what to take</strong>?</p>",
+        "subtext": "<p>Our customer support team is available Monday through Friday from 8:00 AM – 5:00 PM Pacific Time. Submit your question or request below and we will respond to you shortly.</p>",
+        "panel_footnote": "<p>For faster assistance, please call 877-772-4362 or live chat with us online.</p>",
+        "form_heading": "<p>Send us a message</p>",
+        "name_label": "Name",
+        "email_label": "Email",
+        "show_phone": true,
+        "phone_label": "Phone (optional)",
+        "show_order": true,
+        "order_label": "Order number (optional)",
+        "order_placeholder": "#1234",
+        "show_subject": true,
+        "subject_label": "What can we help with?",
+        "subject_options": "Product question, Order or shipping, Subscription, Returns, Wholesale or practitioner, Something else",
+        "message_label": "How can we help?",
+        "message_placeholder": "Tell us a bit about what you need.",
+        "message_rows": 6,
+        "button_label": "Send message",
+        "success_message": "Thanks — your message is in. We reply within one business day.",
+        "fine_print": "<p>We only use your details to answer this message. No marketing without your say-so.</p>",
+        "panel_position": "left",
+        "corner_radius": 14,
+        "bg_color": "#FAF9F4",
+        "text_color": "#5C5842",
+        "heading_color": "#2A2611",
+        "bold_color": "#5BA90F",
+        "eyebrow_color": "#A3C781",
+        "panel_bg_color": "#44681A",
+        "panel_heading_color": "#ffffff",
+        "panel_text_color": "#D9E7C9",
+        "panel_accent_color": "#A3C781",
+        "panel_divider_color": "#577B2F",
+        "icon_bg_color": "#4C7024",
+        "card_bg_color": "#ffffff",
+        "border_color": "#E6E5DC",
+        "input_bg_color": "#ffffff",
+        "input_text_color": "#2A2611",
+        "label_color": "#2A2611",
+        "placeholder_color": "#8E8B7B",
+        "button_bg_color": "#5BA90F",
+        "button_hover_bg_color": "#6BC012",
+        "button_text_color": "#ffffff",
+        "success_bg_color": "#F2F8EA",
+        "success_text_color": "#31501A",
+        "error_bg_color": "#FCF0EC",
+        "error_text_color": "#9B3A1C",
+        "padding_top": 80,
+        "padding_bottom": 80
       }
     }
   },
   "order": [
     "main",
-    "rich_text_VeKQgB",
-    "contact-form"
+    "cwc_contact_form"
   ]
 }

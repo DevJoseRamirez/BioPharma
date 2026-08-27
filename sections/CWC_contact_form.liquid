@@ -1,0 +1,711 @@
+{% style %}
+  #cwc_contact-form-{{ section.id }} {
+    --section-bg: {{ section.settings.bg_color | default: '#FAF9F4' }};
+    --text-color: {{ section.settings.text_color | default: '#5C5842' }};
+    --heading-color: {{ section.settings.heading_color | default: '#2A2611' }};
+    --highlight-color: {{ section.settings.bold_color | default: '#5BA90F' }};
+    --eyebrow-color: {{ section.settings.eyebrow_color | default: '#A3C781' }};
+
+    --panel-bg: {{ section.settings.panel_bg_color | default: '#44681A' }};
+    --panel-heading-color: {{ section.settings.panel_heading_color | default: '#ffffff' }};
+    --panel-text-color: {{ section.settings.panel_text_color | default: '#D9E7C9' }};
+    --panel-accent-color: {{ section.settings.panel_accent_color | default: '#A3C781' }};
+    --panel-divider-color: {{ section.settings.panel_divider_color | default: '#577B2F' }};
+    --icon-bg: {{ section.settings.icon_bg_color | default: '#4C7024' }};
+
+    --card-bg: {{ section.settings.card_bg_color | default: '#ffffff' }};
+    --border-color: {{ section.settings.border_color | default: '#E6E5DC' }};
+    --input-bg: {{ section.settings.input_bg_color | default: '#ffffff' }};
+    --input-text-color: {{ section.settings.input_text_color | default: '#2A2611' }};
+    --placeholder-color: {{ section.settings.placeholder_color | default: '#8E8B7B' }};
+    --label-color: {{ section.settings.label_color | default: '#2A2611' }};
+
+    --button-bg: {{ section.settings.button_bg_color | default: '#5BA90F' }};
+    --button-hover-bg: {{ section.settings.button_hover_bg_color | default: '#6BC012' }};
+    --button-text-color: {{ section.settings.button_text_color | default: '#ffffff' }};
+
+    --success-bg: {{ section.settings.success_bg_color | default: '#F2F8EA' }};
+    --success-text: {{ section.settings.success_text_color | default: '#31501A' }};
+    --error-bg: {{ section.settings.error_bg_color | default: '#FCF0EC' }};
+    --error-text: {{ section.settings.error_text_color | default: '#9B3A1C' }};
+
+    --radius: {{ section.settings.corner_radius | default: 14 }}px;
+    --padding-top: {{ section.settings.padding_top | default: 80 }}px;
+    --padding-bottom: {{ section.settings.padding_bottom | default: 80 }}px;
+    --padding-top-mobile: {{ section.settings.padding_top | default: 80 | times: 0.5 }}px;
+    --padding-bottom-mobile: {{ section.settings.padding_bottom | default: 80 | times: 0.5 }}px;
+  }
+{% endstyle %}
+
+{{ 'CWC_fonts.css' | asset_url | stylesheet_tag }}
+{{ 'CWC_contact_form.css' | asset_url | stylesheet_tag }}
+
+<section
+  id="cwc_contact-form-{{ section.id }}"
+  class="cwc_contact-form{% if section.settings.panel_position == 'right' %} cwc_contact-form--reverse{% endif %}"
+>
+  <div class="cwc_contact-form__container">
+    <div class="cwc_contact-form__wrapper">
+
+      {% comment %} Info panel {% endcomment %}
+      <div class="cwc_contact-form__panel">
+        <div class="cwc_contact-form__panel-inner">
+
+          {% if section.settings.eyebrow != blank %}
+            <p class="cwc_contact-form__eyebrow">{{ section.settings.eyebrow }}</p>
+          {% endif %}
+
+          <div class="cwc_contact-form__content">
+            {% if section.settings.heading != blank %}
+              <div class="cwc_contact-form__content-heading cwc-rte">
+                {{ section.settings.heading }}
+              </div>
+            {% endif %}
+
+            {% if section.settings.subtext != blank %}
+              <div class="cwc_contact-form__content-subtext cwc-rte">
+                {{ section.settings.subtext }}
+              </div>
+            {% endif %}
+          </div>
+
+          {% if section.blocks.size > 0 %}
+            <div class="cwc_contact-form__details">
+              {% for block in section.blocks %}
+                {% case block.type %}
+                  {% when 'detail' %}
+                    <div class="cwc_contact-form__detail" {{ block.shopify_attributes }}>
+
+                      {% if block.settings.icon != 'none' %}
+                        <span class="cwc_contact-form__detail-icon" aria-hidden="true">
+                          {% case block.settings.icon %}
+                            {% when 'phone' %}
+                              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2Z"/>
+                              </svg>
+                            {% when 'email' %}
+                              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="2" y="4" width="20" height="16" rx="2"/>
+                                <path d="m2 7 10 6 10-6"/>
+                              </svg>
+                            {% when 'chat' %}
+                              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 8.9 8.9 0 0 1-3.8-.9L3 20.5l1.5-4.4A8.4 8.4 0 0 1 12 3.1a8.4 8.4 0 0 1 9 8.4Z"/>
+                              </svg>
+                            {% when 'clock' %}
+                              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="9"/>
+                                <path d="M12 7v5l3.2 1.9"/>
+                              </svg>
+                            {% when 'location' %}
+                              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M20 10.5c0 5.6-8 12-8 12s-8-6.4-8-12a8 8 0 0 1 16 0Z"/>
+                                <circle cx="12" cy="10.3" r="2.8"/>
+                              </svg>
+                            {% when 'help' %}
+                              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="9"/>
+                                <path d="M9.6 9.3a2.5 2.5 0 0 1 4.9.7c0 1.7-2.5 2.5-2.5 2.5"/>
+                                <path d="M12 17h.01"/>
+                              </svg>
+                          {% endcase %}
+                        </span>
+                      {% endif %}
+
+                      <div class="cwc_contact-form__detail-body">
+                        {% if block.settings.label != blank %}
+                          <p class="cwc_contact-form__detail-label">{{ block.settings.label }}</p>
+                        {% endif %}
+
+                        {% if block.settings.value != blank %}
+                          {% if block.settings.link != blank %}
+                            <a class="cwc_contact-form__detail-value cwc_contact-form__detail-value--link cwc-rte" href="{{ block.settings.link }}">
+                              {{ block.settings.value }}
+                            </a>
+                          {% else %}
+                            <div class="cwc_contact-form__detail-value cwc-rte">
+                              {{ block.settings.value }}
+                            </div>
+                          {% endif %}
+                        {% endif %}
+
+                        {% if block.settings.note != blank %}
+                          <p class="cwc_contact-form__detail-note">{{ block.settings.note }}</p>
+                        {% endif %}
+                      </div>
+
+                    </div>
+                {% endcase %}
+              {% endfor %}
+            </div>
+          {% endif %}
+
+          {% if section.settings.panel_footnote != blank %}
+            <div class="cwc_contact-form__panel-footnote cwc-rte">
+              {{ section.settings.panel_footnote }}
+            </div>
+          {% endif %}
+
+        </div>
+      </div>
+
+      {% comment %} Form card {% endcomment %}
+      <div class="cwc_contact-form__card">
+
+        {% if section.settings.form_heading != blank %}
+          <div class="cwc_contact-form__card-heading cwc-rte">
+            {{ section.settings.form_heading }}
+          </div>
+        {% endif %}
+
+        {% form 'contact', class: 'cwc_contact-form__form' %}
+
+          {% if form.posted_successfully? %}
+            <p class="cwc_contact-form__message cwc_contact-form__message--success" role="status">
+              {{ section.settings.success_message | default: 'Thanks — your message is in. We reply within one business day.' }}
+            </p>
+          {% endif %}
+
+          {% if form.errors %}
+            <p class="cwc_contact-form__message cwc_contact-form__message--error" role="alert">
+              {{ form.errors.translated_fields[form.errors.first] | capitalize }}
+              {{ form.errors.messages[form.errors.first] }}
+            </p>
+          {% endif %}
+
+          <div class="cwc_contact-form__row">
+            <div class="cwc_contact-form__field">
+              <label class="cwc_contact-form__label" for="cwc_contact-name-{{ section.id }}">
+                {{ section.settings.name_label | default: 'Name' }}
+              </label>
+              <input
+                id="cwc_contact-name-{{ section.id }}"
+                class="cwc_contact-form__input"
+                type="text"
+                name="contact[name]"
+                value="{{ form.author | default: customer.name | escape }}"
+                autocomplete="name"
+                required
+              >
+            </div>
+
+            <div class="cwc_contact-form__field">
+              <label class="cwc_contact-form__label" for="cwc_contact-email-{{ section.id }}">
+                {{ section.settings.email_label | default: 'Email' }}
+              </label>
+              <input
+                id="cwc_contact-email-{{ section.id }}"
+                class="cwc_contact-form__input"
+                type="email"
+                name="contact[email]"
+                value="{{ form.email | default: customer.email | escape }}"
+                autocomplete="email"
+                spellcheck="false"
+                required
+              >
+            </div>
+          </div>
+
+          {% if section.settings.show_phone or section.settings.show_order %}
+            <div class="cwc_contact-form__row">
+              {% if section.settings.show_phone %}
+                <div class="cwc_contact-form__field">
+                  <label class="cwc_contact-form__label" for="cwc_contact-phone-{{ section.id }}">
+                    {{ section.settings.phone_label | default: 'Phone (optional)' }}
+                  </label>
+                  <input
+                    id="cwc_contact-phone-{{ section.id }}"
+                    class="cwc_contact-form__input"
+                    type="tel"
+                    name="contact[phone]"
+                    autocomplete="tel"
+                  >
+                </div>
+              {% endif %}
+
+              {% if section.settings.show_order %}
+                <div class="cwc_contact-form__field">
+                  <label class="cwc_contact-form__label" for="cwc_contact-order-{{ section.id }}">
+                    {{ section.settings.order_label | default: 'Order number (optional)' }}
+                  </label>
+                  <input
+                    id="cwc_contact-order-{{ section.id }}"
+                    class="cwc_contact-form__input"
+                    type="text"
+                    name="contact[Order number]"
+                    placeholder="{{ section.settings.order_placeholder | default: '#1234' | escape }}"
+                  >
+                </div>
+              {% endif %}
+            </div>
+          {% endif %}
+
+          {% if section.settings.show_subject and section.settings.subject_options != blank %}
+            {% assign subject_values = section.settings.subject_options | split: ',' %}
+            <div class="cwc_contact-form__field">
+              <label class="cwc_contact-form__label" for="cwc_contact-subject-{{ section.id }}">
+                {{ section.settings.subject_label | default: 'What can we help with?' }}
+              </label>
+              <div class="cwc_contact-form__select-wrap">
+                <select
+                  id="cwc_contact-subject-{{ section.id }}"
+                  class="cwc_contact-form__select"
+                  name="contact[Subject]"
+                >
+                  {% for value in subject_values %}
+                    {% assign subject_value = value | strip %}
+                    {% if subject_value != blank %}
+                      <option value="{{ subject_value | escape }}">{{ subject_value }}</option>
+                    {% endif %}
+                  {% endfor %}
+                </select>
+                <span class="cwc_contact-form__select-arrow" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="m6 9 6 6 6-6"/>
+                  </svg>
+                </span>
+              </div>
+            </div>
+          {% endif %}
+
+          <div class="cwc_contact-form__field">
+            <label class="cwc_contact-form__label" for="cwc_contact-message-{{ section.id }}">
+              {{ section.settings.message_label | default: 'How can we help?' }}
+            </label>
+            <textarea
+              id="cwc_contact-message-{{ section.id }}"
+              class="cwc_contact-form__input cwc_contact-form__textarea"
+              name="contact[body]"
+              rows="{{ section.settings.message_rows | default: 6 }}"
+              placeholder="{{ section.settings.message_placeholder | escape }}"
+              required
+            >{{ form.body }}</textarea>
+          </div>
+
+          <button class="cwc_contact-form__button" type="submit">
+            {{ section.settings.button_label | default: 'Send message' }}
+          </button>
+
+          {% if section.settings.fine_print != blank %}
+            <div class="cwc_contact-form__fine-print cwc-rte">
+              {{ section.settings.fine_print }}
+            </div>
+          {% endif %}
+
+        {% endform %}
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "CWC Contact Form",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Header"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow Label",
+      "default": "Contact Us"
+    },
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "<p>Questions about a product, an order, or <strong>what to take</strong>?</p>"
+    },
+    {
+      "type": "richtext",
+      "id": "subtext",
+      "label": "Section Subtext",
+      "default": "<p>Our support team is here Monday through Friday, 8:00 AM – 5:00 PM Pacific. Send a note and we'll get back to you within one business day.</p>"
+    },
+    {
+      "type": "richtext",
+      "id": "panel_footnote",
+      "label": "Panel Footnote",
+      "default": "<p>Looking for a quick answer? Most order and shipping questions are covered on our FAQ page.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Form Fields"
+    },
+    {
+      "type": "richtext",
+      "id": "form_heading",
+      "label": "Form Heading",
+      "default": "<p>Send us a message</p>"
+    },
+    {
+      "type": "text",
+      "id": "name_label",
+      "label": "Name Field Label",
+      "default": "Name"
+    },
+    {
+      "type": "text",
+      "id": "email_label",
+      "label": "Email Field Label",
+      "default": "Email"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_phone",
+      "label": "Show Phone Field",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "phone_label",
+      "label": "Phone Field Label",
+      "default": "Phone (optional)"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_order",
+      "label": "Show Order Number Field",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "order_label",
+      "label": "Order Number Field Label",
+      "default": "Order number (optional)"
+    },
+    {
+      "type": "text",
+      "id": "order_placeholder",
+      "label": "Order Number Placeholder",
+      "default": "#1234"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_subject",
+      "label": "Show Subject Dropdown",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "subject_label",
+      "label": "Subject Field Label",
+      "default": "What can we help with?"
+    },
+    {
+      "type": "text",
+      "id": "subject_options",
+      "label": "Subject Options",
+      "info": "Comma separated. The first option is preselected.",
+      "default": "Product question, Order or shipping, Subscription, Returns, Wholesale or practitioner, Something else"
+    },
+    {
+      "type": "text",
+      "id": "message_label",
+      "label": "Message Field Label",
+      "default": "How can we help?"
+    },
+    {
+      "type": "text",
+      "id": "message_placeholder",
+      "label": "Message Placeholder",
+      "default": "Tell us a bit about how we can help."
+    },
+    {
+      "type": "range",
+      "id": "message_rows",
+      "label": "Message Field Height",
+      "info": "Number of visible text rows.",
+      "min": 3,
+      "max": 10,
+      "step": 1,
+      "default": 6
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button Label",
+      "default": "Send message"
+    },
+    {
+      "type": "text",
+      "id": "success_message",
+      "label": "Success Message",
+      "default": "Thanks — your message is in. We reply within one business day."
+    },
+    {
+      "type": "richtext",
+      "id": "fine_print",
+      "label": "Fine Print",
+      "default": "<p>We only use your details to answer this message. No marketing without your say-so.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "panel_position",
+      "label": "Info Panel Position",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "range",
+      "id": "corner_radius",
+      "label": "Corner Radius",
+      "min": 0,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#FAF9F4"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#5C5842"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "default": "#2A2611"
+    },
+    {
+      "type": "color",
+      "id": "bold_color",
+      "label": "Heading Bold Color",
+      "default": "#5BA90F"
+    },
+    {
+      "type": "header",
+      "content": "Info Panel Colors"
+    },
+    {
+      "type": "color",
+      "id": "eyebrow_color",
+      "label": "Eyebrow Color",
+      "default": "#A3C781"
+    },
+    {
+      "type": "color",
+      "id": "panel_bg_color",
+      "label": "Panel Background",
+      "default": "#44681A"
+    },
+    {
+      "type": "color",
+      "id": "panel_heading_color",
+      "label": "Panel Heading Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "panel_text_color",
+      "label": "Panel Text Color",
+      "default": "#D9E7C9"
+    },
+    {
+      "type": "color",
+      "id": "panel_accent_color",
+      "label": "Panel Accent Color",
+      "default": "#A3C781"
+    },
+    {
+      "type": "color",
+      "id": "panel_divider_color",
+      "label": "Panel Divider Color",
+      "default": "#577B2F"
+    },
+    {
+      "type": "color",
+      "id": "icon_bg_color",
+      "label": "Icon Background",
+      "default": "#4C7024"
+    },
+    {
+      "type": "header",
+      "content": "Form Card Colors"
+    },
+    {
+      "type": "color",
+      "id": "card_bg_color",
+      "label": "Card Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Border Color",
+      "default": "#E6E5DC"
+    },
+    {
+      "type": "color",
+      "id": "input_bg_color",
+      "label": "Input Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "input_text_color",
+      "label": "Input Text Color",
+      "default": "#2A2611"
+    },
+    {
+      "type": "color",
+      "id": "label_color",
+      "label": "Field Label Color",
+      "default": "#2A2611"
+    },
+    {
+      "type": "color",
+      "id": "placeholder_color",
+      "label": "Placeholder Color",
+      "default": "#8E8B7B"
+    },
+    {
+      "type": "color",
+      "id": "button_bg_color",
+      "label": "Button Background",
+      "default": "#5BA90F"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_bg_color",
+      "label": "Button Hover Background",
+      "default": "#6BC012"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "success_bg_color",
+      "label": "Success Message Background",
+      "default": "#F2F8EA"
+    },
+    {
+      "type": "color",
+      "id": "success_text_color",
+      "label": "Success Message Text",
+      "default": "#31501A"
+    },
+    {
+      "type": "color",
+      "id": "error_bg_color",
+      "label": "Error Message Background",
+      "default": "#FCF0EC"
+    },
+    {
+      "type": "color",
+      "id": "error_text_color",
+      "label": "Error Message Text",
+      "default": "#9B3A1C"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 80
+    }
+  ],
+  "blocks": [
+    {
+      "type": "detail",
+      "name": "Contact Detail",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "none", "label": "None" },
+            { "value": "phone", "label": "Phone" },
+            { "value": "email", "label": "Email" },
+            { "value": "chat", "label": "Live chat" },
+            { "value": "clock", "label": "Hours" },
+            { "value": "location", "label": "Location" },
+            { "value": "help", "label": "Help" }
+          ],
+          "default": "phone"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Call us"
+        },
+        {
+          "type": "richtext",
+          "id": "value",
+          "label": "Value",
+          "default": "<p>877-772-4362</p>"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link",
+          "info": "Optional. Use tel: or mailto: links for phone and email."
+        },
+        {
+          "type": "text",
+          "id": "note",
+          "label": "Note",
+          "default": "Mon–Fri, 8:00 AM – 5:00 PM PT"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 5,
+  "presets": [
+    {
+      "name": "Contact Form",
+      "category": "CWC Custom",
+      "blocks": [
+        { "type": "detail" },
+        { "type": "detail" },
+        { "type": "detail" }
+      ]
+    }
+  ]
+}
+{% endschema %}

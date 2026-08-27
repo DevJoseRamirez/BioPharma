@@ -50,12 +50,23 @@
   min-height: 66px;
 }
 
-/* === Wordmark === */
+/* === Wordmark ===
+
+   The left zone, and an equal flexible share with the utilities opposite —
+   that pairing is what centres the NAV on the bar rather than midway between a
+   wordmark and an icon row that are never the same width.
+
+   No min-width:0 here on purpose. Left able to shrink below its contents, a
+   long wordmark would spill into the nav the moment the bar got tight; clamped
+   at its own width instead, a tight bar costs the nav a few pixels of true
+   centre and nothing overlaps. Perfect when there is room, honest when there
+   is not. */
 .cwc_header__logo {
   text-decoration: none;
-  flex: 0 0 auto;
+  flex: 1 1 0;
   display: flex;
   align-items: center;
+  justify-content: flex-start;
 }
 
 .cwc_header__logo-image {
@@ -90,21 +101,19 @@
 
 /* === Primary Navigation ===
 
-   Left of the wordmark, which is what the mega panel below asks for: that panel
-   sets its columns from the left edge of the bar, and a centred nav would have
-   the trigger sitting well to the right of the content it opens.
+   Centred on the bar, between a left wordmark and right utilities.
 
-   order, not source order — the burger and the wordmark have to stay adjacent
-   on mobile, where the nav is not rendered at all.
+   Sized to its contents (0 1 auto) rather than given a flexible share: the
+   centring comes from the two zones either side being equal, so this one must
+   stay exactly as wide as the links it holds.
 
-   Nav and utility each take an equal share of the leftover space, which is what
-   centres the wordmark on the BAR rather than midway between two zones that are
-   never the same width. */
+   No order property. The nav sits after the wordmark in source, which is also
+   where it belongs visually — and on mobile it is display:none, so the burger
+   and the wordmark are adjacent there without any reordering. */
 .cwc_header__nav {
-  order: -1;
-  flex: 1 1 0;
+  flex: 0 1 auto;
   display: flex;
-  justify-content: flex-start;
+  justify-content: center;
   /* Stretch, not centre. A centred row leaves several pixels of bar below each
      link, and that strip belongs to no nav item — crossing it on the way to the
      panel counts as leaving the menu entirely. Full-height items put the link's
@@ -112,17 +121,6 @@
   align-self: stretch;
   align-items: stretch;
   gap: 4px;
-  /* Pulls the row left by one link's padding so the first item's TEXT starts on
-     the same line as the mega panel's first column, rather than the invisible
-     edge of its hit area doing so.
-
-     The matching positive margin on the right is not decoration. Margins count
-     against the free space a flex item's basis is grown from, so a lone -14px
-     would hand this item 14px that the utility zone did not get and slide the
-     wordmark 7px off the true centre of the bar. Net zero keeps the split even
-     while still shifting the row itself. */
-  margin-left: -14px;
-  margin-right: 14px;
 }
 
 /* static, not relative: the mega panel below is absolute and must anchor to the
@@ -560,10 +558,12 @@
 }
 
 /* === Utility Links === */
-/* The counterweight to the nav: an equal flexible share, with its own contents
-   pushed to the far edge. On mobile the nav is display:none, so this is the only
-   flexible child left and the same rule pushes the icons right of a wordmark
-   that has moved up beside the burger. */
+/* The counterweight to the WORDMARK: an equal flexible share, with its own
+   contents pushed to the far edge. The two matching shares are what leave the
+   nav between them sitting on the true centre of the bar.
+
+   Below the breakpoint the nav is display:none and the burger takes over as the
+   left zone, so the same rule then centres the wordmark instead. */
 .cwc_header__utility {
   flex: 1 1 0;
   display: flex;
@@ -1044,8 +1044,13 @@
   display: none;
 }
 
+/* flex and justify-content as well as the cap: the collapsed layout parks the
+   wordmark at its own width in the centre zone, and the expanded bar needs it
+   back as the flexible left zone or the nav loses its centring. */
 .cwc_header--expanded .cwc_header__logo {
   max-width: none;
+  flex: 1 1 0;
+  justify-content: flex-start;
 }
 
 .cwc_header--expanded .cwc_header__logo-text {

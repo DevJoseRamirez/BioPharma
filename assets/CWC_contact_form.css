@@ -1,0 +1,441 @@
+/* ==============================
+   CWC Contact Form
+   ============================== */
+
+/* === Section Wrapper === */
+.cwc_contact-form {
+  background-color: var(--section-bg);
+  color: var(--text-color);
+  padding-top: var(--padding-top);
+  padding-bottom: var(--padding-bottom);
+  font-family: var(--cwc-font-body);
+}
+
+.cwc_contact-form__container {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.cwc_contact-form__wrapper {
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1fr);
+  gap: 2rem;
+  align-items: stretch;
+}
+
+/* The panel and the card swap visual order only — the info panel stays first in
+   the DOM so screen readers and keyboard tabbing always meet the context before
+   the fields it explains. */
+.cwc_contact-form--reverse .cwc_contact-form__panel {
+  order: 2;
+}
+
+/* === Info Panel === */
+.cwc_contact-form__panel {
+  background: var(--panel-bg);
+  border-radius: var(--radius);
+  color: var(--panel-text-color);
+}
+
+.cwc_contact-form__panel-inner {
+  padding: 2.75rem 2.5rem;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.cwc_contact-form__eyebrow {
+  font-size: 0.75rem;
+  font-weight: var(--cwc-weight-label);
+  letter-spacing: var(--cwc-tracking-label);
+  text-transform: uppercase;
+  color: var(--eyebrow-color);
+  margin: 0 0 0.75rem;
+}
+
+/* === Panel Header === */
+.cwc_contact-form__content {
+  width: 100%;
+}
+
+.cwc_contact-form__content-heading h1,
+.cwc_contact-form__content-heading h2,
+.cwc_contact-form__content-heading h3,
+.cwc_contact-form__content-heading p {
+  font-family: var(--cwc-font-heading);
+  font-weight: var(--cwc-weight-heading);
+  font-size: var(--cwc-size-section-heading);
+  line-height: 1.2;
+  margin: 0;
+  color: var(--panel-heading-color);
+}
+
+.cwc_contact-form__content-heading > * strong,
+.cwc_contact-form__content-heading > * b {
+  color: var(--panel-accent-color);
+}
+
+.cwc_contact-form__content-subtext {
+  margin-top: 0.875rem;
+  max-width: 34rem;
+}
+
+.cwc_contact-form__content-subtext p {
+  font-size: 1rem;
+  line-height: var(--cwc-line-body);
+  margin: 0;
+  color: var(--panel-text-color);
+}
+
+/* === Contact Details === */
+.cwc_contact-form__details {
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.cwc_contact-form__detail {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.875rem;
+  padding: 1.125rem 0;
+  border-top: 1px solid var(--panel-divider-color);
+}
+
+.cwc_contact-form__detail:first-child {
+  border-top: none;
+  padding-top: 0;
+}
+
+.cwc_contact-form__detail-icon {
+  flex: 0 0 auto;
+  width: 2.375rem;
+  height: 2.375rem;
+  border-radius: 50%;
+  background: var(--icon-bg);
+  color: var(--panel-accent-color);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cwc_contact-form__detail-icon svg {
+  width: 1.125rem;
+  height: 1.125rem;
+  display: block;
+}
+
+.cwc_contact-form__detail-body {
+  min-width: 0;
+}
+
+.cwc_contact-form__detail-label {
+  font-size: 0.72rem;
+  font-weight: var(--cwc-weight-label);
+  letter-spacing: var(--cwc-tracking-label);
+  text-transform: uppercase;
+  color: var(--panel-accent-color);
+  margin: 0 0 0.25rem;
+}
+
+.cwc_contact-form__detail-value {
+  display: block;
+  text-decoration: none;
+  color: var(--panel-heading-color);
+}
+
+.cwc_contact-form__detail-value p {
+  font-size: 1.06rem;
+  font-weight: var(--cwc-weight-subheading);
+  line-height: 1.35;
+  margin: 0;
+  color: inherit;
+}
+
+.cwc_contact-form__detail-value--link:hover p {
+  color: var(--panel-accent-color);
+}
+
+.cwc_contact-form__detail-value--link:focus-visible {
+  outline: 2px solid var(--panel-accent-color);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.cwc_contact-form__detail-note {
+  font-size: 0.875rem;
+  line-height: 1.5;
+  margin: 0.25rem 0 0;
+  color: var(--panel-text-color);
+}
+
+.cwc_contact-form__panel-footnote {
+  margin-top: auto;
+  padding-top: 1.75rem;
+}
+
+.cwc_contact-form__panel-footnote p {
+  font-size: 0.875rem;
+  line-height: 1.6;
+  margin: 0;
+  color: var(--panel-text-color);
+  opacity: 0.85;
+}
+
+/* === Form Card === */
+.cwc_contact-form__card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  padding: 2.75rem 2.5rem;
+}
+
+.cwc_contact-form__card-heading {
+  margin-bottom: 1.5rem;
+}
+
+.cwc_contact-form__card-heading h1,
+.cwc_contact-form__card-heading h2,
+.cwc_contact-form__card-heading h3,
+.cwc_contact-form__card-heading p {
+  font-family: var(--cwc-font-heading);
+  font-weight: var(--cwc-weight-heading);
+  font-size: 1.5rem;
+  line-height: 1.25;
+  margin: 0;
+  color: var(--heading-color);
+}
+
+.cwc_contact-form__card-heading > * strong,
+.cwc_contact-form__card-heading > * b {
+  color: var(--highlight-color);
+}
+
+/* === Fields === */
+.cwc_contact-form__form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.125rem;
+}
+
+.cwc_contact-form__row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.125rem;
+}
+
+/* A row left holding a single field (phone or order number switched off on its
+   own) should not collapse to half width — let the lone child span the row. */
+.cwc_contact-form__row > .cwc_contact-form__field:only-child {
+  grid-column: 1 / -1;
+}
+
+.cwc_contact-form__field {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.cwc_contact-form__label {
+  font-size: 0.8rem;
+  font-weight: var(--cwc-weight-label);
+  letter-spacing: 0.4px;
+  color: var(--label-color);
+  margin-bottom: 0.4rem;
+}
+
+.cwc_contact-form__input {
+  width: 100%;
+  background: var(--input-bg);
+  color: var(--input-text-color);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 0.813rem 1rem;
+  font-family: inherit;
+  font-size: 1rem;
+  line-height: 1.4;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.cwc_contact-form__input::placeholder {
+  color: var(--placeholder-color);
+}
+
+.cwc_contact-form__input:focus {
+  outline: none;
+  border-color: var(--button-bg);
+  box-shadow: 0 0 0 3px rgba(91, 169, 15, 0.16);
+}
+
+.cwc_contact-form__textarea {
+  resize: vertical;
+  min-height: 8rem;
+  line-height: var(--cwc-line-body);
+}
+
+/* === Select === */
+.cwc_contact-form__select-wrap {
+  position: relative;
+  display: block;
+}
+
+.cwc_contact-form__select {
+  width: 100%;
+  background: var(--input-bg);
+  color: var(--input-text-color);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 0.813rem 2.75rem 0.813rem 1rem;
+  font-family: inherit;
+  font-size: 1rem;
+  line-height: 1.4;
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.cwc_contact-form__select:focus {
+  outline: none;
+  border-color: var(--button-bg);
+  box-shadow: 0 0 0 3px rgba(91, 169, 15, 0.16);
+}
+
+.cwc_contact-form__select-arrow {
+  position: absolute;
+  top: 50%;
+  right: 1rem;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: var(--text-color);
+  display: inline-flex;
+}
+
+.cwc_contact-form__select-arrow svg {
+  width: 1rem;
+  height: 1rem;
+  display: block;
+}
+
+/* === Button === */
+.cwc_contact-form__button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  align-self: flex-start;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: var(--cwc-weight-name);
+  padding: 0.938rem 2.25rem;
+  margin-top: 0.375rem;
+  border: none;
+  border-radius: 40px;
+  background: var(--button-bg);
+  color: var(--button-text-color);
+  cursor: pointer;
+  transition: background-color 0.18s ease;
+}
+
+.cwc_contact-form__button:hover {
+  background: var(--button-hover-bg);
+}
+
+.cwc_contact-form__button:focus-visible {
+  outline: 2px solid var(--button-bg);
+  outline-offset: 3px;
+}
+
+/* === Messages === */
+.cwc_contact-form__message {
+  margin: 0;
+  padding: 0.875rem 1.125rem;
+  border-radius: 10px;
+  font-size: 0.94rem;
+  line-height: 1.5;
+}
+
+.cwc_contact-form__message--success {
+  background: var(--success-bg);
+  color: var(--success-text);
+}
+
+.cwc_contact-form__message--error {
+  background: var(--error-bg);
+  color: var(--error-text);
+}
+
+/* === Fine Print === */
+.cwc_contact-form__fine-print p {
+  font-size: 0.813rem;
+  line-height: 1.55;
+  margin: 0;
+  color: var(--text-color);
+}
+
+.cwc_contact-form__fine-print a {
+  color: inherit;
+}
+
+/* ==============================
+   Tablet Responsive
+   ============================== */
+@media screen and (max-width: 991px) {
+  .cwc_contact-form__container {
+    padding: 0 1.25rem;
+  }
+
+  .cwc_contact-form__wrapper {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  /* Stacked, the reordered panel would sit under the form and read as a
+     footnote — reset it so context stays above the fields on narrow screens. */
+  .cwc_contact-form--reverse .cwc_contact-form__panel {
+    order: 0;
+  }
+
+  .cwc_contact-form__panel-inner,
+  .cwc_contact-form__card {
+    padding: 2.25rem 2rem;
+  }
+}
+
+/* ==============================
+   Mobile Responsive
+   ============================== */
+@media screen and (max-width: 768px) {
+  .cwc_contact-form {
+    padding-top: var(--padding-top-mobile);
+    padding-bottom: var(--padding-bottom-mobile);
+  }
+
+  .cwc_contact-form__container {
+    padding: 0 1rem;
+  }
+
+  .cwc_contact-form__panel-inner,
+  .cwc_contact-form__card {
+    padding: 1.75rem 1.375rem;
+  }
+
+  .cwc_contact-form__content-subtext p {
+    font-size: 0.94rem;
+  }
+
+  .cwc_contact-form__details {
+    margin-top: 1.5rem;
+  }
+
+  .cwc_contact-form__row {
+    grid-template-columns: 1fr;
+  }
+
+  .cwc_contact-form__button {
+    align-self: stretch;
+    width: 100%;
+  }
+}
