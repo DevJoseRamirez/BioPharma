@@ -32,7 +32,6 @@
     class="cwc_meta_benefits{% if section.settings.show_edges %} cwc_meta_benefits--edged{% endif %}"
   >
     <div class="cwc_meta_benefits__container">
-
       {% comment %} Section Header {% endcomment %}
       <div class="cwc_meta_benefits__content">
         {% if section.settings.eyebrow_text != blank %}
@@ -57,7 +56,7 @@
         {% for tile in tiles %}
           {% assign accent = tile.accent | default: 'green' | strip | downcase %}
           <div class="cwc_meta_benefits__tile cwc_meta_benefits__tile--{{ accent }}">
-            <span class="cwc_meta_benefits__marker" aria-hidden="true"></span>
+            <span class="cwc_meta_benefits__marker" aria-hidden="true">✓</span>
 
             {% if tile.title != blank %}
               <h3 class="cwc_meta_benefits__tile-title">{{ tile.title }}</h3>
@@ -69,7 +68,6 @@
           </div>
         {% endfor %}
       </div>
-
     </div>
   </section>
 {%- elsif request.design_mode -%}

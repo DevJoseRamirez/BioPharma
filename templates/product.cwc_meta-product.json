@@ -145,17 +145,18 @@
       "blocks": {
         "rating_6PPMLk": {
           "type": "rating",
+          "disabled": true,
           "settings": {
-            "text": "<p>4.4 · 410 reviews</p>",
+            "text": "<p>{{ section.settings.product.metafields.reviews.rating | metafield_tag }} · {{ section.settings.product.metafields.reviews.rating_count.value }}</p>",
             "link": ""
           }
         },
         "title_YgkGVR": {
           "type": "title",
           "settings": {
-            "eyebrow": "{{ section.settings.product.metafields.custom.eyebrow.value }}d",
+            "eyebrow": "{{ section.settings.product.metafields.custom.eyebrow.value }}",
             "heading": "<p>{{ section.settings.product.title }}</p>",
-            "subtext": "<p>{{ section.settings.product.metafields.custom.short_description.value }}a{{ section.settings.product.metafields.custom.card_snippet.value }}</p>"
+            "subtext": "<p>{{ section.settings.product.metafields.custom.short_description.value }}</p>"
           }
         },
         "key_benefits_bMAr8C": {
@@ -192,14 +193,14 @@
             "subscribe_label": "Subscribe & Save",
             "subscribe_sublabel": "",
             "savings_style": "percent",
-            "perks": "<p>Save on every subscription order</p><p>Free shipping on every delivery</p><p>Modify, pause or cancel anytime</p>",
+            "perks": "<p>Save on every subscription order</p><p>Free shipping on every autoship delivery</p><p>Modify, pause or cancel anytime</p>",
             "perks_visibility": "always",
             "promo_text": "",
             "promo_style": "soft",
             "show_onetime": true,
             "onetime_label": "Buy Once",
             "onetime_sublabel": "",
-            "onetime_notes": "<p>No free shipping</p><p>Discount applies to the first order only</p>",
+            "onetime_notes": "<p>No free shipping on autoship orders</p><p>Discount applies to the first order only</p>",
             "notes_visibility": "selected",
             "default_choice": "subscribe"
           }
@@ -231,7 +232,7 @@
           "disabled": true,
           "settings": {
             "title": "Ingredients",
-            "content": "<p>Describe what sits behind this row.</p>",
+            "content": "<p></p>{{ section.settings.product.metafields.custom.ingredients | metafield_tag: field: 'name' }}",
             "open": false
           }
         },
@@ -264,7 +265,7 @@
       "name": "Product Hero Buy Box (Shared Template)",
       "settings": {
         "product": "",
-        "badge_text": "55 organic ingredients",
+        "badge_text": "",
         "gallery_ratio": "1 / 1",
         "gallery_fit": "cover",
         "show_thumbnails": true,
@@ -600,6 +601,7 @@
       "block_order": [
         "yotpo_product_reviews_reviews_WamrgQ"
       ],
+      "disabled": true,
       "settings": {
         "heading": "<p>What people <strong>say</strong></p>",
         "bg_color": "#ecebe5",

@@ -141,7 +141,7 @@
             "tone_1": "tint",
             "text_2": "Practitioner-formulated",
             "tone_2": "accent",
-            "text_3": "30-day money-back guarantee",
+            "text_3": "",
             "tone_3": "tint",
             "text_4": "",
             "tone_4": "tint",
@@ -176,7 +176,7 @@
           "settings": {
             "label": "Add to cart",
             "sold_out_label": "Sold out",
-            "micro_text": ""
+            "micro_text": "🔒 Secure checkout · 30-day money-back guarantee · Cancel anytime"
           }
         },
         "trust_icons": {
@@ -251,6 +251,164 @@
         "padding_bottom": 40
       }
     },
+    "cwc_product_hero_buy_box_EMA3HD": {
+      "type": "CWC_product_hero_buy_box",
+      "blocks": {
+        "rating_MGXUKB": {
+          "type": "rating",
+          "settings": {
+            "text": "<p>4.4 · 410 reviews</p>",
+            "link": ""
+          }
+        },
+        "title_r8fg6z": {
+          "type": "title",
+          "settings": {
+            "eyebrow": "Daily greens & superfood",
+            "heading": "<p>NanoGreens<strong>10</strong></p>",
+            "subtext": "<p>55 organic fruits and vegetables, juiced at peak ripeness and freeze-dried cold. One scoop, ten seconds, every morning.</p>"
+          }
+        },
+        "key_benefits_NEcmdk": {
+          "type": "key_benefits",
+          "settings": {
+            "text_1": "10 servings of fruits & vegetables in one scoop",
+            "tone_1": "tint",
+            "text_2": "9 digestive enzymes so your body absorbs it",
+            "tone_2": "accent",
+            "text_3": "Recommended by practitioners for 20+ years",
+            "tone_3": "tint",
+            "text_4": "30-day money-back guarantee",
+            "tone_4": "tint",
+            "text_5": "",
+            "tone_5": "tint",
+            "text_6": "",
+            "tone_6": "tint"
+          }
+        },
+        "product_options_zXQrfw": {
+          "type": "product_options",
+          "settings": {
+            "layout": "pill",
+            "dropdown_threshold": 6,
+            "show_labels": true,
+            "label_style": "name"
+          }
+        },
+        "purchase_plans_t6BEyY": {
+          "type": "purchase_plans",
+          "settings": {
+            "group_label": "Choose your plan",
+            "savings_style": "percent",
+            "default_plan": "best_value",
+            "best_value_badge": "Best value",
+            "show_plan_description": false,
+            "perks": ""
+          }
+        },
+        "onetime_PD7dNA": {
+          "type": "onetime",
+          "settings": {
+            "text": "One-time purchase",
+            "style": "link",
+            "behavior": "add_immediately",
+            "sublabel": "",
+            "show_price": false,
+            "supply_value": ""
+          }
+        },
+        "add_to_cart_37F6hJ": {
+          "type": "add_to_cart",
+          "settings": {
+            "label": "Add to cart",
+            "sold_out_label": "Sold out",
+            "micro_text": "🔒 Secure checkout · 30-day money-back guarantee · Cancel anytime"
+          }
+        },
+        "trust_icons_yRMVcK": {
+          "type": "trust_icons",
+          "settings": {
+            "icon_style_1": "shield",
+            "icon_text_1": "↩",
+            "label_1": "<p>30-Day Money Back</p>",
+            "icon_style_2": "truck",
+            "icon_text_2": "⛟",
+            "label_2": "<p>Free Shipping on Subscriptions</p>",
+            "icon_style_3": "pause",
+            "icon_text_3": "⏸",
+            "label_3": "<p>Cancel or Pause Anytime</p>"
+          }
+        },
+        "detail_tBVMnA": {
+          "type": "detail",
+          "settings": {
+            "title": "Ingredients",
+            "content": "<p>Describe what sits behind this row.</p>",
+            "open": false
+          }
+        },
+        "sticky_atc_3gBBpj": {
+          "type": "sticky_atc",
+          "settings": {
+            "name_override": "",
+            "subline": "Free shipping · 30-day guarantee",
+            "plan_label": "Choose your supply",
+            "plan_sub": "",
+            "button_text": "Add to cart",
+            "button_text_mobile": "Add",
+            "show_price_in_button": true,
+            "sold_out_text": "Sold out",
+            "reveal_after": 600
+          }
+        }
+      },
+      "block_order": [
+        "rating_MGXUKB",
+        "title_r8fg6z",
+        "key_benefits_NEcmdk",
+        "product_options_zXQrfw",
+        "purchase_plans_t6BEyY",
+        "onetime_PD7dNA",
+        "add_to_cart_37F6hJ",
+        "trust_icons_yRMVcK",
+        "detail_tBVMnA",
+        "sticky_atc_3gBBpj"
+      ],
+      "disabled": true,
+      "name": "Product Hero Buy Box (Shared Template)",
+      "settings": {
+        "product": "",
+        "badge_text": "55 organic ingredients",
+        "gallery_ratio": "1 / 1",
+        "gallery_fit": "cover",
+        "show_thumbnails": true,
+        "gallery_limit": 10,
+        "thumbs_per_view": 6,
+        "thumb_ratio": "1 / 1",
+        "nutrition_button_text": "View Nutrition Label",
+        "nutrition_alt": "Supplement facts",
+        "bg_color": "#ffffff",
+        "text_color": "#2A2611",
+        "bold_color": "#5BA90F",
+        "muted_color": "#5C5842",
+        "deep_color": "#44681A",
+        "warn_color": "#9F3F3F",
+        "star_color": "#E8A317",
+        "card_bg_color": "#ffffff",
+        "card_selected_bg_color": "#FAFDF6",
+        "panel_bg_color": "#FAF9F4",
+        "border_color": "#E6E5DC",
+        "tint_bg_color": "#F2F8EA",
+        "tint_border_color": "#A3C781",
+        "accent_color": "#4A5E8C",
+        "accent_bg_color": "#EEF1F9",
+        "accent_border_color": "#A3B8E2",
+        "button_bg_color": "#5BA90F",
+        "button_text_color": "#ffffff",
+        "padding_top": 20,
+        "padding_bottom": 40
+      }
+    },
     "apps": {
       "type": "apps",
       "blocks": {
@@ -276,6 +434,7 @@
     "cwc_announcement",
     "cwc_header",
     "cwc_product_hero_buy_box",
+    "cwc_product_hero_buy_box_EMA3HD",
     "apps"
   ]
 }

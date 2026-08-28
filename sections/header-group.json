@@ -15,7 +15,7 @@
       "type": "CWC_announcement",
       "name": "Announcement",
       "settings": {
-        "text": "<p>Save Up to 25% On NanoGreens · 30-Day Money-Back Guarantee · Recommended By Practitioner For 20+ Years</p>",
+        "text": "<p>Save Up to 25% On NanoGreens · Recommended By Practitioner For 20+ Years</p>",
         "link": "shopify://products/nanogreens-10-support",
         "enable_gradient": true,
         "bg_color": "#44681a",

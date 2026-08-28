@@ -54,7 +54,7 @@
   color: inherit;
 }
 
-.cwc_meta_benefits__content-heading > * strong {
+.cwc_meta_benefits__content-heading>* strong {
   color: var(--highlight-color);
 }
 
@@ -94,6 +94,10 @@
   border-radius: 7px;
   background-color: var(--marker-green);
   margin-bottom: 1rem;
+  /* tesing */
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .cwc_meta_benefits__tile--periwinkle .cwc_meta_benefits__marker {
