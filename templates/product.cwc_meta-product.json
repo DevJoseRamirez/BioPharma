@@ -274,22 +274,22 @@
         "nutrition_button_text": "View Nutrition Label",
         "nutrition_alt": "Supplement facts",
         "bg_color": "#ffffff",
-        "text_color": "#2A2611",
-        "bold_color": "#5BA90F",
-        "muted_color": "#5C5842",
-        "deep_color": "#44681A",
-        "warn_color": "#9F3F3F",
-        "star_color": "#E8A317",
+        "text_color": "#2a2611",
+        "bold_color": "#5ba90f",
+        "muted_color": "#5c5842",
+        "deep_color": "#44681a",
+        "warn_color": "#9f3f3f",
+        "star_color": "#e8a317",
         "card_bg_color": "#ffffff",
-        "card_selected_bg_color": "#FAFDF6",
-        "panel_bg_color": "#FAF9F4",
-        "border_color": "#E6E5DC",
-        "tint_bg_color": "#F2F8EA",
-        "tint_border_color": "#A3C781",
-        "accent_color": "#4A5E8C",
-        "accent_bg_color": "#EEF1F9",
-        "accent_border_color": "#A3B8E2",
-        "button_bg_color": "#5BA90F",
+        "card_selected_bg_color": "#fafdf6",
+        "panel_bg_color": "#faf9f4",
+        "border_color": "#e6e5dc",
+        "tint_bg_color": "#f2f8ea",
+        "tint_border_color": "#a3c781",
+        "accent_color": "#4a5e8c",
+        "accent_bg_color": "#eef1f9",
+        "accent_border_color": "#a3b8e2",
+        "button_bg_color": "#5ba90f",
         "button_text_color": "#ffffff",
         "padding_top": 20,
         "padding_bottom": 40
@@ -593,7 +593,7 @@
         "yotpo_product_reviews_reviews_WamrgQ": {
           "type": "shopify://apps/yotpo-product-reviews/blocks/reviews/eb7dfd7d-db44-4334-bc49-c893b51b36cf",
           "settings": {
-            "product": "{{product}}"
+            "product": "{{ product }}"
           }
         }
       },

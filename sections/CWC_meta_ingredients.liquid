@@ -106,7 +106,7 @@
                     <summary class="cwc_meta_ingredients__detail-toggle">
                       {{ section.settings.detail_label | default: 'More on this ingredient' }}
                     </summary>
-                    <div class="cwc_meta_ingredients__detail-body cwc-rte">{{ ing.detail }}</div>
+                    <div class="cwc_meta_ingredients__detail-body cwc-rte">{{ ing.detail | metafield_tag }}</div>
                   </details>
                 {% endif %}
               </div>

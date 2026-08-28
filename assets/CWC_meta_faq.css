@@ -173,7 +173,10 @@
   margin-top: 0;
 }
 
-.cwc_meta_faq__answer > *:last-child {
+.cwc_meta_faq__answer > *:last-child,
+.cwc_meta_faq__answer p:last-child,
+.cwc_meta_faq__answer ul:last-child,
+.cwc_meta_faq__answer ol:last-child {
   margin-bottom: 0;
 }
 

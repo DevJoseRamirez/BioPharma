@@ -105,7 +105,7 @@
                 role="region"
                 aria-labelledby="{{ trigger_id }}"
               >
-                <div class="cwc_meta_faq__answer cwc-rte">{{ faq.answer }}</div>
+                <div class="cwc_meta_faq__answer cwc-rte">{{ faq.answer | metafield_tag }}</div>
               </div>
             </div>
           {% endfor %}
@@ -161,7 +161,7 @@
                   role="region"
                   aria-labelledby="{{ trigger_id }}"
                 >
-                  <div class="cwc_meta_faq__answer cwc-rte">{{ faq.answer }}</div>
+                  <div class="cwc_meta_faq__answer cwc-rte">{{ faq.answer | metafield_tag }}</div>
                 </div>
               </div>
             {% endfor %}

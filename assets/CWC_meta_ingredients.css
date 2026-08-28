@@ -233,7 +233,10 @@
   margin-top: 0;
 }
 
-.cwc_meta_ingredients__detail-body > *:last-child {
+.cwc_meta_ingredients__detail-body > *:last-child,
+.cwc_meta_ingredients__detail-body p:last-child,
+.cwc_meta_ingredients__detail-body ul:last-child,
+.cwc_meta_ingredients__detail-body ol:last-child {
   margin-bottom: 0;
 }
 

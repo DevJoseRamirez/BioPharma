@@ -8,9 +8,11 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
 html {
   scroll-behavior: smooth;
 }
+
 html {
   -webkit-text-size-adjust: 100%;
   -moz-tab-size: 4;
@@ -7856,8 +7858,8 @@ ul {
 }
 
 :where(ol, ul):not(.unstyled-list) li {
-  padding-inline-start: .25rem;
-  margin-block-start: 0 !important;
+  /* padding-inline-start: .25rem; */
+  /* margin-block-start: 0 !important; */
 }
 
 :where(.text-center, .text-end) :is(ol, ul) {
