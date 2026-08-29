@@ -105,11 +105,29 @@
           assign plan_price = allocation.price
           assign plan_compare = allocation.compare_at_price | default: 0
 
+          comment
+            The plan states its own discount, so take it rather than deriving
+            it: the allocation price is already rounded to the cent, so a 30%
+            plan divides back out to 29.99, and divided_by on two integers
+            truncates that to 29 rather than rounding it to 30.
+          endcomment
+          assign plan_percent = 0
+          for adjustment in plan.price_adjustments
+            if adjustment.value_type == 'percentage' and adjustment.value > 0
+              assign plan_percent = adjustment.value
+              break
+            endif
+          endfor
+
           assign has_saving = false
           if plan_compare > plan_price
             assign has_saving = true
             assign saving_amount = plan_compare | minus: plan_price
-            assign saving_percent = saving_amount | times: 100 | divided_by: plan_compare
+            if plan_percent > 0
+              assign saving_percent = plan_percent | round
+            else
+              assign saving_percent = saving_amount | times: 100.0 | divided_by: plan_compare | round
+            endif
           endif
 
           assign is_best = false

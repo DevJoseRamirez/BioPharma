@@ -112,7 +112,11 @@
                 assign kit_badge = block.settings.save_badge
                 if kit_badge == blank and kit_has_discount
                   assign kit_saving = kit_variant.compare_at_price | minus: kit_variant.price
-                  assign kit_saving_percent = kit_saving | times: 100 | divided_by: kit_variant.compare_at_price
+                  comment
+                    100.0, not 100: divided_by on two integers truncates,
+                    so a 25% kit divides out to 24.98 and reads as 24%.
+                  endcomment
+                  assign kit_saving_percent = kit_saving | times: 100.0 | divided_by: kit_variant.compare_at_price | round
 
                   comment
                     Formatted before it is joined to anything: filters chain left

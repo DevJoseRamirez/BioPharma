@@ -1,5 +1,8 @@
 /* ==============================
    CWC Meta Guarantee
+   ------------------------------
+   Structure and type mirror CWC_guarantee: a contained rounded card
+   on a light band, circular badge, checkmark pills.
    ============================== */
 
 /* === Section Wrapper === */
@@ -8,51 +11,55 @@
   color: var(--text-color);
   padding-top: var(--padding-top);
   padding-bottom: var(--padding-bottom);
-  text-align: center;
+  font-family: var(--cwc-font-body);
 }
 
 .cwc_meta_guarantee__container {
-  max-width: 1300px;
+  max-width: 900px;
   margin: 0 auto;
-  padding: 0 2rem;
+  padding: 0 32px;
 }
 
-/* === Seal === */
-.cwc_meta_guarantee__seal {
-  width: 74px;
-  height: 74px;
+/* === Card === */
+.cwc_meta_guarantee__card {
+  background: var(--card-bg);
+  color: var(--card-text);
+  border-radius: 18px;
+  padding: 44px;
+  text-align: center;
+}
+
+/* === Badge === */
+.cwc_meta_guarantee__badge {
+  width: 96px;
+  height: 96px;
   border-radius: 50%;
-  border: 2px solid var(--seal-border-color);
-  margin: 0 auto 1.375rem;
+  border: 3px solid var(--badge-border);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  margin: 0 auto 20px;
+}
+
+.cwc_meta_guarantee__badge-number {
+  font-size: 1.78rem; /* 28.48px */
+  font-weight: 900;
+  color: var(--highlight-color);
   line-height: 1;
-  color: var(--seal-color);
 }
 
-.cwc_meta_guarantee__seal-number {
-  font-family: var(--cwc-font-heading);
-  font-weight: var(--cwc-weight-heading);
-  font-size: 1.625rem;
-}
-
-.cwc_meta_guarantee__seal-unit {
-  font-family: var(--cwc-font-body);
-  font-size: 0.5625rem;
-  letter-spacing: 0.14em;
+.cwc_meta_guarantee__badge-label {
+  font-size: 0.72rem; /* 11.52px */
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--badge-text);
   margin-top: 2px;
 }
 
-/* === Section Header === */
-.cwc_meta_guarantee__content {
-  max-width: 900px;
-  margin: 0 auto;
-}
-
+/* === Content === */
 .cwc_meta_guarantee__content-heading {
-  margin-bottom: 0.75rem;
+  margin-bottom: 12px;
 }
 
 .cwc_meta_guarantee__content-heading h1,
@@ -61,44 +68,45 @@
 .cwc_meta_guarantee__content-heading p {
   font-family: var(--cwc-font-heading);
   font-weight: var(--cwc-weight-heading);
-  font-size: clamp(1.625rem, 3vw, 2.375rem);
-  line-height: 1.14;
-  letter-spacing: -0.015em;
+  font-size: var(--cwc-size-section-heading);
+  line-height: 1.2;
   margin: 0;
-  color: inherit;
+  color: #ffffff;
 }
 
 .cwc_meta_guarantee__content-heading > * strong {
   color: var(--highlight-color);
+  font-weight: 400;
 }
 
-.cwc_meta_guarantee__content-subtext {
-  max-width: 52ch;
-  margin: 0 auto 1.625rem;
+.cwc_meta_guarantee__body {
+  max-width: 560px;
+  margin: 0 auto 22px;
 }
 
-.cwc_meta_guarantee__content-subtext p {
-  font-family: var(--cwc-font-body);
-  font-size: 1rem;
-  line-height: 1.6;
+.cwc_meta_guarantee__body p {
+  font-size: 1rem; /* 16px */
+  color: var(--card-text);
+  line-height: var(--cwc-line-body);
   margin: 0;
-  color: inherit;
-  opacity: 0.82;
 }
 
-/* === Marks === */
-.cwc_meta_guarantee__marks {
+/* === Pills === */
+.cwc_meta_guarantee__pills {
   display: flex;
-  gap: 1.625rem;
   justify-content: center;
+  gap: 10px;
   flex-wrap: wrap;
 }
 
-.cwc_meta_guarantee__mark {
-  font-family: var(--cwc-font-body);
-  font-size: 0.84375rem;
-  line-height: 1.4;
-  color: var(--mark-color);
+.cwc_meta_guarantee__pill {
+  font-size: 0.84rem; /* 13.44px */
+  font-weight: 600;
+  color: var(--pill-text);
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 8px 15px;
+  border-radius: 22px;
 }
 
 /* ==============================
@@ -106,7 +114,7 @@
    ============================== */
 @media screen and (max-width: 991px) {
   .cwc_meta_guarantee__container {
-    padding: 0 1.25rem;
+    padding: 0 20px;
   }
 }
 
@@ -114,20 +122,24 @@
    Mobile Responsive
    ============================== */
 @media screen and (max-width: 768px) {
+  /* rescale the whole section from one anchor */
   .cwc_meta_guarantee {
     padding-top: var(--padding-top-mobile);
     padding-bottom: var(--padding-bottom-mobile);
   }
 
   .cwc_meta_guarantee__container {
-    padding: 0 1rem;
+    padding: 0 16px;
   }
 
-  .cwc_meta_guarantee__marks {
-    gap: 0.625rem 1.25rem;
+  .cwc_meta_guarantee__card {
+    padding: 32px 20px;
+    border-radius: 14px;
   }
 
-  .cwc_meta_guarantee__content-subtext {
-    margin-bottom: 1.25rem;
+  /* Display type steps down on mobile — the px anchor used to do this. */
+
+  .cwc_meta_guarantee__badge-number {
+    font-size: 1.5575rem;
   }
 }

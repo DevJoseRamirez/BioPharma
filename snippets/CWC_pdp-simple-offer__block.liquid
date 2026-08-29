@@ -61,6 +61,7 @@
   assign plan_id = 0
   assign plan_price = 0
   assign plan_compare = 0
+  assign plan_percent = 0
 
   for allocation in current_variant.selling_plan_allocations
     if allocation.selling_plan.id == wanted_plan
@@ -68,6 +69,18 @@
       assign plan_id = allocation.selling_plan.id
       assign plan_price = allocation.price
       assign plan_compare = allocation.compare_at_price | default: 0
+
+      comment
+        The plan states its own discount, so take it rather than deriving it.
+        A plan with several adjustments discounts the first delivery by the
+        first one, which is the price the card shows.
+      endcomment
+      for adjustment in allocation.selling_plan.price_adjustments
+        if adjustment.value_type == 'percentage' and adjustment.value > 0
+          assign plan_percent = adjustment.value
+          break
+        endif
+      endfor
     endif
   endfor
 
@@ -87,7 +100,20 @@
     if plan_compare > plan_price
       assign has_saving = true
       assign saving_amount = plan_compare | minus: plan_price
-      assign saving_percent = saving_amount | times: 100 | divided_by: plan_compare
+
+      comment
+        Deriving the percentage from the prices loses a fraction of a point:
+        the allocation price is already rounded to the cent, so a 30% plan
+        divides out to 29.99. divided_by on two integers then truncates rather
+        than rounds, turning that into 29. The plan's own figure avoids both;
+        the fallback multiplies by 100.0 to force float division so round has
+        something left to round.
+      endcomment
+      if plan_percent > 0
+        assign saving_percent = plan_percent | round
+      else
+        assign saving_percent = saving_amount | times: 100.0 | divided_by: plan_compare | round
+      endif
     endif
   endif
 

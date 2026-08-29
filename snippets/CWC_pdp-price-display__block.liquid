@@ -48,7 +48,11 @@
   endif
 
   assign save_amount = compare_price | minus: price
-  assign save_percent = save_amount | times: 100 | divided_by: compare_price | round
+  comment
+    100.0, not 100: divided_by on two integers truncates, so the round
+    below never sees the fraction and a 30% saving reads as 29%.
+  endcomment
+  assign save_percent = save_amount | times: 100.0 | divided_by: compare_price | round
 -%}
 
 {%- comment -%}

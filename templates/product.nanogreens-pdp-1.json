@@ -130,7 +130,7 @@
         "rating": {
           "type": "rating",
           "settings": {
-            "text": "<p><strong>4.8 </strong>from 614 Reviews <strong>‎ ‎‎ ‎19</strong>K+ servings</p>",
+            "text": "<p><strong>4.8 from 19K+ servings sold</strong></p>",
             "link": ""
           }
         },
@@ -142,16 +142,28 @@
             "subtext": "<p>55 organic fruits and vegetables, juiced at peak ripeness and freeze-dried cold. One scoop, ten seconds, every morning.</p>"
           }
         },
+        "benefits_HbqnBN": {
+          "type": "benefits",
+          "disabled": true,
+          "settings": {
+            "text1": "Doctor formulated, third-party tested",
+            "text2": "10 servings of fruits & veg in one scoop",
+            "text3": "",
+            "text4": "As Little as $1.75/serving",
+            "text5": "As Little as $1.75/serving",
+            "text6": ""
+          }
+        },
         "key_benefits": {
           "type": "key_benefits",
           "settings": {
-            "text_1": "10 servings of fruits & veg in one scoop",
-            "tone_1": "tint",
-            "text_2": "9 enzymes so your body absorbs it",
-            "tone_2": "accent",
-            "text_3": "Practitioner-recommended for 20+ years",
-            "tone_3": "tint",
-            "text_4": "30-day money-back guarantee",
+            "text_1": "Doctor formulated, third-party tested",
+            "tone_1": "accent",
+            "text_2": "10 servings of fruits & veg in one scoop",
+            "tone_2": "tint",
+            "text_3": "9 enzymes so your body absorbs it",
+            "tone_3": "accent",
+            "text_4": "As Little as $1.75/serving",
             "tone_4": "tint",
             "text_5": "",
             "tone_5": "tint",
@@ -168,8 +180,29 @@
             "image_2": "shopify://shop_images/nanogreens-thumb-no-bg-strawberry.png"
           }
         },
+        "simple_offer_Mm3TzV": {
+          "type": "simple_offer",
+          "settings": {
+            "group_label": "Pick your offer:",
+            "selling_plan_id": "3996549378",
+            "subscribe_label": "Subscribe & Save",
+            "subscribe_sublabel": "",
+            "savings_style": "percent",
+            "perks": "<p>5% OFF every subscription order</p><p>Free shipping on every delivery</p><p>Modify or cancel anytime</p><p>Exclusive discounts & early access</p>",
+            "perks_visibility": "always",
+            "promo_text": "",
+            "promo_style": "soft",
+            "show_onetime": true,
+            "onetime_label": "Buy Once",
+            "onetime_sublabel": "",
+            "onetime_notes": "",
+            "notes_visibility": "selected",
+            "default_choice": "subscribe"
+          }
+        },
         "supply": {
           "type": "supply",
+          "disabled": true,
           "settings": {
             "group_label": "Subscribe & Save",
             "option_name": "supply",
@@ -290,6 +323,7 @@
         },
         "onetime": {
           "type": "onetime",
+          "disabled": true,
           "settings": {
             "text": "One-time purchase · $74.95 ($2.50/serving)",
             "style": "link",
@@ -299,12 +333,22 @@
             "supply_value": "30-Day Supply"
           }
         },
+        "delivery_estimate_6ikBpV": {
+          "type": "delivery_estimate",
+          "disabled": true,
+          "settings": {
+            "text": "Order now for delivery by",
+            "max_shipping_days": 7,
+            "text_color": "#000000",
+            "bg_color": "#FFFFFF"
+          }
+        },
         "add_to_cart": {
           "type": "add_to_cart",
           "settings": {
             "label": "Add to cart",
             "sold_out_label": "Sold out",
-            "micro_text": "Secure checkout · Free shipping on subscriptions"
+            "micro_text": ""
           }
         },
         "trust_icons": {
@@ -319,6 +363,18 @@
             "icon_style_3": "pause",
             "icon_text_3": "⏸",
             "label_3": "<p>Cancel or Pause Anytime</p>"
+          }
+        },
+        "trusted_by_ctTUFC": {
+          "type": "trusted_by",
+          "settings": {
+            "image_1": "shopify://shop_images/v3-avatar-1.png",
+            "image_2": "shopify://shop_images/v3-avatar-2.png",
+            "image_3": "shopify://shop_images/v3-avatar-3.png",
+            "title": "<p>Trusted by 1k+ Happy Customers</p>",
+            "subtext": "<p>who choose us for consistent, long-term wellness support.</p>",
+            "bg_color": "#efefef",
+            "text_color": "#282828"
           }
         },
         "detail_ingredients": {
@@ -372,12 +428,16 @@
         "media_popup_bqEGVJ",
         "rating",
         "title",
+        "benefits_HbqnBN",
         "key_benefits",
         "flavors",
+        "simple_offer_Mm3TzV",
         "supply",
         "onetime",
+        "delivery_estimate_6ikBpV",
         "add_to_cart",
         "trust_icons",
+        "trusted_by_ctTUFC",
         "detail_ingredients",
         "detail_quality",
         "detail_enjoy",

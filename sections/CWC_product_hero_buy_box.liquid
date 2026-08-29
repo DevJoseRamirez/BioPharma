@@ -125,7 +125,7 @@
         for, and neither costs anything when the block is not used.
       {%- endcomment -%}
       "save": {%- if variant.compare_at_price > variant.price -%}{{ variant.compare_at_price | minus: variant.price | money | json }}{%- else -%}""{%- endif -%},
-      "save_pct": {%- if variant.compare_at_price > variant.price -%}{{ variant.compare_at_price | minus: variant.price | times: 100 | divided_by: variant.compare_at_price | round | json }}{%- else -%}""{%- endif -%},
+      "save_pct": {%- if variant.compare_at_price > variant.price -%}{{ variant.compare_at_price | minus: variant.price | times: 100.0 | divided_by: variant.compare_at_price | round | json }}{%- else -%}""{%- endif -%},
       "image": {%- if variant.image != blank -%}{{ variant.image | image_url: width: 900 | json }}{%- else -%}""{%- endif -%},
       "media_id": {%- if variant.featured_media != blank -%}{{ variant.featured_media.id }}{%- else -%}0{%- endif -%},
       "plans": {

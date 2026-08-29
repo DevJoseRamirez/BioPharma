@@ -662,51 +662,53 @@
     "cwc_meta_guarantee": {
       "type": "CWC_meta_guarantee",
       "blocks": {
-        "mark_1": {
-          "type": "mark",
+        "pill_1": {
+          "type": "pill",
           "settings": {
             "text": "30-day money-back guarantee"
           }
         },
-        "mark_2": {
-          "type": "mark",
+        "pill_2": {
+          "type": "pill",
           "settings": {
             "text": "Free shipping on subscriptions"
           }
         },
-        "mark_3": {
-          "type": "mark",
+        "pill_3": {
+          "type": "pill",
           "settings": {
             "text": "Cancel or pause anytime"
           }
         },
-        "mark_4": {
-          "type": "mark",
+        "pill_4": {
+          "type": "pill",
           "settings": {
             "text": "No cancellation fees"
           }
         }
       },
       "block_order": [
-        "mark_1",
-        "mark_2",
-        "mark_3",
-        "mark_4"
+        "pill_1",
+        "pill_2",
+        "pill_3",
+        "pill_4"
       ],
       "settings": {
-        "show_seal": true,
-        "seal_number": "30",
-        "seal_unit_label": "DAY",
-        "heading": "<p>Love it, or get <strong>your money back</strong></p>",
+        "show_badge": true,
+        "badge_number": "30",
+        "badge_label": "DAY",
+        "heading": "<p>Love it, or <strong>get your money back</strong></p>",
         "body": "<p>Try it for thirty days. If it isn't for you, contact us for a full refund — opened tub and all.</p>",
-        "bg_color": "#44681a",
-        "text_color": "#ffffff",
-        "bold_color": "#dcefc4",
-        "seal_color": "#dcefc4",
-        "seal_border_color": "#8fae68",
-        "mark_color": "#e6efda",
-        "padding_top": 70,
-        "padding_bottom": 70
+        "bg_color": "#ffffff",
+        "text_color": "#2A2611",
+        "bold_color": "#A3C781",
+        "card_bg_color": "#44681a",
+        "card_text_color": "#d9e7c9",
+        "badge_border_color": "#A3C781",
+        "badge_text_color": "#cfe0bd",
+        "pill_text_color": "#e6efda",
+        "padding_top": 50,
+        "padding_bottom": 50
       }
     },
     "1698782823c8484977": {
