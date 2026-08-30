@@ -1,0 +1,450 @@
+{%- liquid
+  assign source = section.settings.metaobject_source | default: 'metaobject'
+
+  assign components = product.metafields.custom.kit_components.value
+  assign component_blocks = section.blocks | where: 'type', 'component'
+
+  assign use_blocks = false
+  if source == 'blocks' or components.size < 2
+    if component_blocks.size >= 2
+      assign use_blocks = true
+    endif
+  endif
+
+  assign entry_count = components.size
+  if use_blocks
+    assign entry_count = component_blocks.size
+  endif
+
+  comment
+    Per-kit copy lives on the kit. The settings below are the fallback for a
+    kit with nothing authored yet — this one template serves every kit.
+  endcomment
+  assign headline = product.metafields.custom.kit_headline
+  assign sub = product.metafields.custom.kit_sub
+
+  assign columns = section.settings.columns_desktop | default: 3
+  if entry_count > 0
+    assign columns = columns | at_most: entry_count
+  endif
+
+  assign should_render = false
+  if use_blocks or components.size >= 2
+    assign should_render = true
+  endif
+-%}
+
+{%- if should_render -%}
+  {% style %}
+    #cwc_meta_kit_components-{{ section.id }} {
+      --section-bg: {{ section.settings.bg_color | default: '#ffffff' }};
+      --text-color: {{ section.settings.text_color | default: '#1F1F1C' }};
+      --highlight-color: {{ section.settings.bold_color | default: '#44681A' }};
+      --eyebrow-color: {{ section.settings.eyebrow_color | default: '#78AD49' }};
+      --role-color: {{ section.settings.role_color | default: '#78AD49' }};
+      --body-color: {{ section.settings.body_color | default: '#6B6B65' }};
+      --card-bg: {{ section.settings.card_bg | default: '#ffffff' }};
+      --card-border-color: {{ section.settings.card_border_color | default: '#EAE9E3' }};
+      --image-bg: {{ section.settings.image_bg | default: '#F5F4F0' }};
+      --link-color: {{ section.settings.link_color | default: '#44681A' }};
+      --columns-desktop: {{ columns }};
+      --padding-top: {{ section.settings.padding_top | default: 80 }}px;
+      --padding-bottom: {{ section.settings.padding_bottom | default: 80 }}px;
+      --padding-top-mobile: {{ section.settings.padding_top | default: 80 | times: 0.5 }}px;
+      --padding-bottom-mobile: {{ section.settings.padding_bottom | default: 80 | times: 0.5 }}px;
+    }
+  {% endstyle %}
+
+  {{ 'CWC_fonts.css' | asset_url | stylesheet_tag }}
+  {{ 'CWC_meta_kit_components.css' | asset_url | stylesheet_tag }}
+
+  <section id="cwc_meta_kit_components-{{ section.id }}" class="cwc_meta_kit_components">
+    <div class="cwc_meta_kit_components__container">
+
+      {% comment %} Section Header {% endcomment %}
+      <div class="cwc_meta_kit_components__content">
+        {% if section.settings.eyebrow_text != blank %}
+          <p class="cwc_meta_kit_components__eyebrow">{{ section.settings.eyebrow_text }}</p>
+        {% endif %}
+
+        {% if headline != blank %}
+          <h2 class="cwc_meta_kit_components__content-heading">{{ headline }}</h2>
+        {% elsif section.settings.heading != blank %}
+          <div class="cwc_meta_kit_components__content-heading cwc-rte">
+            {{ section.settings.heading }}
+          </div>
+        {% endif %}
+
+        {% if sub != blank %}
+          <p class="cwc_meta_kit_components__content-subtext">{{ sub | newline_to_br }}</p>
+        {% elsif section.settings.subheading != blank %}
+          <div class="cwc_meta_kit_components__content-subtext cwc-rte">
+            {{ section.settings.subheading }}
+          </div>
+        {% endif %}
+      </div>
+
+      {% comment %}
+        Every product-derived value below — image, title, price, url — reads
+        live off the reference. None of it is retyped on the entry.
+      {% endcomment %}
+      <div class="cwc_meta_kit_components__grid">
+        {% unless use_blocks %}
+          {% for component in components %}
+            {%- liquid
+              assign component_product = component.product.value
+              assign card_title = component_product.title
+              assign card_url = component_product.url
+              assign card_image = component_product.featured_image
+              assign card_price = component_product.price
+              assign card_role = component.role
+              assign card_body = component.why
+            -%}
+            <div class="cwc_meta_kit_components__card">
+              <div class="cwc_meta_kit_components__card-image">
+                {% if card_image %}
+                  {{
+                    card_image
+                    | image_url: width: 800
+                    | image_tag:
+                      loading: 'lazy',
+                      sizes: '(max-width: 768px) 100vw, 400px',
+                      widths: '300, 400, 600, 800',
+                      class: 'cwc_meta_kit_components__card-image-el',
+                      alt: card_title
+                  }}
+                {% else %}
+                  {{ 'product-1' | placeholder_svg_tag: 'cwc_meta_kit_components__card-image-el' }}
+                {% endif %}
+              </div>
+
+              <div class="cwc_meta_kit_components__card-body">
+                {% if card_role != blank %}
+                  <div class="cwc_meta_kit_components__role">{{ card_role }}</div>
+                {% endif %}
+
+                {% if card_title != blank %}
+                  <h3 class="cwc_meta_kit_components__card-title">{{ card_title }}</h3>
+                {% endif %}
+
+                {% if card_body != blank %}
+                  <p class="cwc_meta_kit_components__card-text">{{ card_body | newline_to_br }}</p>
+                {% endif %}
+
+                {%- comment -%}
+                  The meta row is dropped entirely when it would be empty —
+                  a price of zero, or an unresolved reference, prints nothing
+                  rather than $0.00.
+                {%- endcomment -%}
+                {% assign has_price = false %}
+                {% if section.settings.show_price and component_product != blank and card_price > 0 %}
+                  {% assign has_price = true %}
+                {% endif %}
+
+                {% assign has_link = false %}
+                {% if section.settings.show_product_link and card_url != blank %}
+                  {% assign has_link = true %}
+                {% endif %}
+
+                {% if has_price or has_link %}
+                  <div class="cwc_meta_kit_components__meta">
+                    {% if has_price %}
+                      <span class="cwc_meta_kit_components__price">{{ card_price | money }}</span>
+                    {% endif %}
+
+                    {% if has_link %}
+                      <a class="cwc_meta_kit_components__link" href="{{ card_url }}">
+                        {{ section.settings.product_link_label | default: 'View product' }} &rarr;
+                      </a>
+                    {% endif %}
+                  </div>
+                {% endif %}
+              </div>
+            </div>
+          {% endfor %}
+        {% endunless %}
+
+        {% if use_blocks %}
+          {% for block in section.blocks %}
+            {% case block.type %}
+              {% when 'component' %}
+                {%- liquid
+                  assign block_product = block.settings.product
+                  assign card_title = block_product.title
+                  assign card_url = block_product.url
+                  assign card_price = block_product.price
+                -%}
+                <div class="cwc_meta_kit_components__card" {{ block.shopify_attributes }}>
+                  <div class="cwc_meta_kit_components__card-image">
+                    {% if block.settings.image != blank %}
+                      {{
+                        block.settings.image
+                        | image_url: width: 800
+                        | image_tag:
+                          loading: 'lazy',
+                          class: 'cwc_meta_kit_components__card-image-el',
+                          alt: card_title
+                      }}
+                    {% elsif block_product.featured_image %}
+                      {{
+                        block_product.featured_image
+                        | image_url: width: 800
+                        | image_tag:
+                          loading: 'lazy',
+                          class: 'cwc_meta_kit_components__card-image-el',
+                          alt: card_title
+                      }}
+                    {% else %}
+                      {{ 'product-1' | placeholder_svg_tag: 'cwc_meta_kit_components__card-image-el' }}
+                    {% endif %}
+                  </div>
+
+                  <div class="cwc_meta_kit_components__card-body">
+                    {% if block.settings.role_label != blank %}
+                      <div class="cwc_meta_kit_components__role">{{ block.settings.role_label }}</div>
+                    {% endif %}
+
+                    {% if card_title != blank %}
+                      <h3 class="cwc_meta_kit_components__card-title">{{ card_title }}</h3>
+                    {% endif %}
+
+                    {% if block.settings.description != blank %}
+                      <p class="cwc_meta_kit_components__card-text">{{ block.settings.description }}</p>
+                    {% endif %}
+
+                    {% if section.settings.show_price and card_price > 0 %}
+                      <div class="cwc_meta_kit_components__meta">
+                        <span class="cwc_meta_kit_components__price">{{ card_price | money }}</span>
+
+                        {% if section.settings.show_product_link and card_url != blank %}
+                          <a class="cwc_meta_kit_components__link" href="{{ card_url }}">
+                            {{ section.settings.product_link_label | default: 'View product' }} &rarr;
+                          </a>
+                        {% endif %}
+                      </div>
+                    {% endif %}
+                  </div>
+                </div>
+            {% endcase %}
+          {% endfor %}
+        {% endif %}
+      </div>
+
+    </div>
+  </section>
+{%- elsif request.design_mode -%}
+  <p style="margin:0;padding:2rem;text-align:center;font-size:0.875rem;color:#767676;background:#F6F6F4;">
+    Kit Components — assign two or more kit_components to this kit, or add two component blocks, to display this section.
+  </p>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Kit Components",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Header"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow_text",
+      "label": "Eyebrow",
+      "default": "What's in the kit"
+    },
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "Heading Fallback",
+      "info": "Used only when the kit has no kit_headline metafield.",
+      "default": "<p>Three products, <b>one job each.</b></p>"
+    },
+    {
+      "type": "richtext",
+      "id": "subheading",
+      "label": "Subheading Fallback",
+      "info": "Used only when the kit has no kit_sub metafield.",
+      "default": "<p>Nothing overlaps. Each one covers something the others don't.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Data"
+    },
+    {
+      "type": "select",
+      "id": "metaobject_source",
+      "label": "Component Source",
+      "info": "Blocks are the fallback for a kit with no kit_components assigned. Prices and links always read live off the referenced product.",
+      "options": [
+        { "value": "metaobject", "label": "Kit's kit_components metaobject" },
+        { "value": "blocks", "label": "Section blocks" }
+      ],
+      "default": "metaobject"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_price",
+      "label": "Show Price",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_product_link",
+      "label": "Show Product Link",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "product_link_label",
+      "label": "Product Link Label",
+      "default": "View product"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "label": "Columns On Desktop",
+      "info": "Automatically reduced for a kit with fewer components.",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#1F1F1C"
+    },
+    {
+      "type": "color",
+      "id": "bold_color",
+      "label": "Heading Bold Color",
+      "default": "#44681A"
+    },
+    {
+      "type": "color",
+      "id": "eyebrow_color",
+      "label": "Eyebrow Color",
+      "default": "#78AD49"
+    },
+    {
+      "type": "color",
+      "id": "role_color",
+      "label": "Role Label Color",
+      "default": "#78AD49"
+    },
+    {
+      "type": "color",
+      "id": "body_color",
+      "label": "Body Text Color",
+      "default": "#6B6B65"
+    },
+    {
+      "type": "color",
+      "id": "link_color",
+      "label": "Link Color",
+      "default": "#44681A"
+    },
+    {
+      "type": "header",
+      "content": "Card Colors"
+    },
+    {
+      "type": "color",
+      "id": "card_bg",
+      "label": "Card Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "card_border_color",
+      "label": "Card Border Color",
+      "default": "#EAE9E3"
+    },
+    {
+      "type": "color",
+      "id": "image_bg",
+      "label": "Card Image Surface Color",
+      "default": "#F5F4F0"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 80
+    }
+  ],
+  "blocks": [
+    {
+      "type": "component",
+      "name": "Component",
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Product",
+          "info": "Title, price and link read live from this product."
+        },
+        {
+          "type": "text",
+          "id": "role_label",
+          "label": "Role Label",
+          "info": "Two or three words — the job this product does in the kit.",
+          "default": "The base"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image Override",
+          "info": "Falls back to the product's featured image."
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description",
+          "default": "What this one covers that the others don't."
+        }
+      ]
+    }
+  ],
+  "max_blocks": 4,
+  "presets": [
+    {
+      "name": "Kit Components",
+      "category": "CWC Custom"
+    }
+  ]
+}
+{% endschema %}

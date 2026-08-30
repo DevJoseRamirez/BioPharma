@@ -1,0 +1,304 @@
+{%- liquid
+  assign source = section.settings.metafield_source | default: 'metafield'
+
+  assign kits = product.metafields.custom.related_kits.value
+  assign is_fallback = false
+
+  if source == 'collection' or kits.size == 0
+    assign fallback_collection = section.settings.fallback_collection
+    if fallback_collection != blank and fallback_collection.products.size > 0
+      assign kits = fallback_collection.products
+      assign is_fallback = true
+    endif
+  endif
+
+  assign limit = section.settings.kits_to_show | default: 3
+-%}
+
+{%- if kits.size > 0 -%}
+  {% style %}
+    #cwc_meta_kit_other_kits-{{ section.id }} {
+      --section-bg: {{ section.settings.bg_color | default: '#ffffff' }};
+      --text-color: {{ section.settings.text_color | default: '#1F1F1C' }};
+      --highlight-color: {{ section.settings.bold_color | default: '#44681A' }};
+      --eyebrow-color: {{ section.settings.eyebrow_color | default: '#78AD49' }};
+      --body-color: {{ section.settings.body_color | default: '#6B6B65' }};
+      --was-color: {{ section.settings.was_color | default: '#A9A8A1' }};
+      --card-bg: {{ section.settings.card_bg | default: '#ffffff' }};
+      --card-border-color: {{ section.settings.card_border_color | default: '#EAE9E3' }};
+      --image-bg: {{ section.settings.image_bg | default: '#F5F4F0' }};
+      --columns-desktop: {{ section.settings.columns_desktop | default: 3 }};
+      --padding-top: {{ section.settings.padding_top | default: 70 }}px;
+      --padding-bottom: {{ section.settings.padding_bottom | default: 70 }}px;
+      --padding-top-mobile: {{ section.settings.padding_top | default: 70 | times: 0.5 }}px;
+      --padding-bottom-mobile: {{ section.settings.padding_bottom | default: 70 | times: 0.5 }}px;
+    }
+  {% endstyle %}
+
+  {{ 'CWC_fonts.css' | asset_url | stylesheet_tag }}
+  {{ 'CWC_meta_kit_other_kits.css' | asset_url | stylesheet_tag }}
+
+  <section id="cwc_meta_kit_other_kits-{{ section.id }}" class="cwc_meta_kit_other_kits">
+    <div class="cwc_meta_kit_other_kits__container">
+
+      {% comment %} Section Header {% endcomment %}
+      <div class="cwc_meta_kit_other_kits__content">
+        {% if section.settings.eyebrow_text != blank %}
+          <p class="cwc_meta_kit_other_kits__eyebrow">{{ section.settings.eyebrow_text }}</p>
+        {% endif %}
+
+        {% if section.settings.heading != blank %}
+          <div class="cwc_meta_kit_other_kits__content-heading cwc-rte">
+            {{ section.settings.heading }}
+          </div>
+        {% endif %}
+      </div>
+
+      <div class="cwc_meta_kit_other_kits__grid">
+        {% assign rendered = 0 %}
+        {% for kit in kits %}
+          {% if rendered >= limit %}
+            {% break %}
+          {% endif %}
+
+          {% if is_fallback and kit.id == product.id %}
+            {% continue %}
+          {% endif %}
+
+          {% assign rendered = rendered | plus: 1 %}
+
+          {%- comment -%}
+            The struck price is that kit's own components summed — the same
+            derivation section 05 runs for this page's kit, pointed at a
+            different product. It is never stored on the card.
+          {%- endcomment -%}
+          {%- capture card_math -%}{%- render 'kit-price-math', kit: kit -%}{%- endcapture -%}
+          {%- liquid
+            assign math = card_math | strip | split: '|'
+            assign was_price = math[0] | plus: 0
+            assign card_price = math[1] | plus: 0
+            assign card_missing = math[6] | plus: 0
+
+            assign show_was = false
+            if section.settings.show_was_price and card_missing == 0
+              if was_price > card_price and card_price > 0
+                assign show_was = true
+              endif
+            endif
+
+            assign snippet = kit.metafields.custom.card_snippet
+          -%}
+
+          <a class="cwc_meta_kit_other_kits__card" href="{{ kit.url }}">
+            <div class="cwc_meta_kit_other_kits__card-image">
+              {% if kit.featured_image %}
+                {{
+                  kit.featured_image
+                  | image_url: width: 800
+                  | image_tag:
+                    loading: 'lazy',
+                    sizes: '(max-width: 768px) 100vw, 400px',
+                    widths: '300, 400, 600, 800',
+                    class: 'cwc_meta_kit_other_kits__card-image-el',
+                    alt: kit.title
+                }}
+              {% else %}
+                {{ 'product-1' | placeholder_svg_tag: 'cwc_meta_kit_other_kits__card-image-el' }}
+              {% endif %}
+            </div>
+
+            <div class="cwc_meta_kit_other_kits__card-body">
+              <h3 class="cwc_meta_kit_other_kits__card-title">{{ kit.title }}</h3>
+
+              {% if snippet != blank %}
+                <p class="cwc_meta_kit_other_kits__card-text">{{ snippet }}</p>
+              {% endif %}
+
+              {% if card_price > 0 %}
+                <span class="cwc_meta_kit_other_kits__price">{{ card_price | money }}</span>
+
+                {% if show_was %}
+                  <span class="cwc_meta_kit_other_kits__was">{{ was_price | money }}</span>
+                {% endif %}
+              {% endif %}
+            </div>
+          </a>
+        {% endfor %}
+      </div>
+
+    </div>
+  </section>
+{%- elsif request.design_mode -%}
+  <p style="margin:0;padding:2rem;text-align:center;font-size:0.875rem;color:#767676;background:#F6F6F4;">
+    Other Kits — add products to this kit's related_kits metafield, or pick a fallback collection.
+  </p>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Kit Other Kits",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Card prices read live off each kit. The struck price is that kit's own components summed — never a typed figure."
+    },
+    {
+      "type": "header",
+      "content": "Section Header"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow_text",
+      "label": "Eyebrow",
+      "default": "Other routines"
+    },
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "<p>If this one isn't <b>the fit.</b></p>"
+    },
+    {
+      "type": "header",
+      "content": "Data"
+    },
+    {
+      "type": "select",
+      "id": "metafield_source",
+      "label": "Kit Source",
+      "options": [
+        { "value": "metafield", "label": "Kit's related_kits metafield" },
+        { "value": "collection", "label": "Fallback collection" }
+      ],
+      "default": "metafield"
+    },
+    {
+      "type": "collection",
+      "id": "fallback_collection",
+      "label": "Fallback Collection",
+      "info": "Used when related_kits is empty."
+    },
+    {
+      "type": "range",
+      "id": "kits_to_show",
+      "label": "Kits To Show",
+      "min": 1,
+      "max": 6,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "checkbox",
+      "id": "show_was_price",
+      "label": "Show Struck Was-Price",
+      "info": "Hidden on a kit whose component prices cannot all be read.",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "label": "Columns On Desktop",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#1F1F1C"
+    },
+    {
+      "type": "color",
+      "id": "bold_color",
+      "label": "Heading Bold Color",
+      "default": "#44681A"
+    },
+    {
+      "type": "color",
+      "id": "eyebrow_color",
+      "label": "Eyebrow Color",
+      "default": "#78AD49"
+    },
+    {
+      "type": "color",
+      "id": "body_color",
+      "label": "Body Text Color",
+      "default": "#6B6B65"
+    },
+    {
+      "type": "color",
+      "id": "was_color",
+      "label": "Struck Price Color",
+      "default": "#A9A8A1"
+    },
+    {
+      "type": "header",
+      "content": "Card Colors"
+    },
+    {
+      "type": "color",
+      "id": "card_bg",
+      "label": "Card Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "card_border_color",
+      "label": "Card Border Color",
+      "default": "#EAE9E3"
+    },
+    {
+      "type": "color",
+      "id": "image_bg",
+      "label": "Card Image Surface Color",
+      "default": "#F5F4F0"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 70
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 70
+    }
+  ],
+  "presets": [
+    {
+      "name": "Kit Other Kits",
+      "category": "CWC Custom"
+    }
+  ]
+}
+{% endschema %}

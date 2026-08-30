@@ -14,10 +14,12 @@
   font-family: var(--cwc-font-body);
 }
 
+/* The positioning for this lives in the section's own style block, because
+   sticky has to sit on the Shopify section wrapper — whose id is only known at
+   render — rather than on this element. See CWC_header.liquid. The class stays
+   as the hook for anything that should look different while the bar is pinned. */
 .cwc_header--sticky {
-  position: sticky;
-  top: 0;
-  z-index: 20;
+  position: relative;
 }
 
 /* === Header Bar ===

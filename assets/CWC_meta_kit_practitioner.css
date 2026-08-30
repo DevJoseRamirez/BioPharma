@@ -1,0 +1,235 @@
+/* ==============================
+   CWC Kit Practitioner
+   ------------------------------
+   The kit variant runs full-width: copy, credential pills, a row of
+   practitioner quotes, then the stat band.
+   ============================== */
+
+/* === Section Wrapper === */
+.cwc_meta_kit_practitioner {
+  background-color: var(--section-bg);
+  color: var(--text-color);
+  padding-top: var(--padding-top);
+  padding-bottom: var(--padding-bottom);
+}
+
+.cwc_meta_kit_practitioner__container {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+/* === Section Header === */
+.cwc_meta_kit_practitioner__eyebrow {
+  font-family: var(--cwc-font-body);
+  font-size: 0.71875rem;
+  font-weight: var(--cwc-weight-label);
+  letter-spacing: var(--cwc-tracking-label);
+  text-transform: uppercase;
+  color: var(--eyebrow-color);
+  margin: 0 0 0.75rem;
+}
+
+.cwc_meta_kit_practitioner__content-heading {
+  margin-bottom: 0.875rem;
+}
+
+.cwc_meta_kit_practitioner__content-heading h1,
+.cwc_meta_kit_practitioner__content-heading h2,
+.cwc_meta_kit_practitioner__content-heading h3,
+.cwc_meta_kit_practitioner__content-heading p {
+  font-family: var(--cwc-font-heading);
+  font-weight: var(--cwc-weight-heading);
+  font-size: clamp(1.6875rem, 3.1vw, 2.5rem);
+  line-height: 1.12;
+  letter-spacing: -0.015em;
+  max-width: 22ch;
+  margin: 0;
+  color: inherit;
+}
+
+.cwc_meta_kit_practitioner__content-heading > * b,
+.cwc_meta_kit_practitioner__content-heading > * strong {
+  color: var(--highlight-color);
+  font-weight: inherit;
+}
+
+.cwc_meta_kit_practitioner__lede {
+  max-width: 62ch;
+  margin-bottom: 1.625rem;
+}
+
+.cwc_meta_kit_practitioner__lede p {
+  font-family: var(--cwc-font-body);
+  font-size: 1.03125rem;
+  line-height: 1.6;
+  color: inherit;
+  opacity: 0.72;
+  margin: 0 0 0.75em;
+}
+
+.cwc_meta_kit_practitioner__lede p:last-child {
+  margin-bottom: 0;
+}
+
+/* === Credential Pills === */
+.cwc_meta_kit_practitioner__credentials {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.875rem;
+}
+
+.cwc_meta_kit_practitioner__pill {
+  font-family: var(--cwc-font-body);
+  font-size: 0.71875rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: var(--pill-color);
+  background-color: var(--pill-bg);
+  border: 1px solid var(--pill-border-color);
+  padding: 0.375rem 0.8125rem;
+}
+
+/* === Practitioner Quotes === */
+.cwc_meta_kit_practitioner__voices {
+  display: grid;
+  grid-template-columns: repeat(var(--voice-columns), minmax(0, 1fr));
+  gap: 1.125rem;
+  margin-bottom: 1.875rem;
+}
+
+.cwc_meta_kit_practitioner__voice {
+  background-color: var(--card-bg);
+  border: 1px solid var(--card-border-color);
+  border-radius: 6px;
+  padding: 1.5rem 1.375rem 1.625rem;
+}
+
+.cwc_meta_kit_practitioner__avatar,
+.cwc_meta_kit_practitioner__avatar-img {
+  display: block;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background-color: var(--avatar-bg);
+  margin-bottom: 0.875rem;
+}
+
+.cwc_meta_kit_practitioner__avatar-img {
+  object-fit: cover;
+}
+
+.cwc_meta_kit_practitioner__voice-name {
+  font-family: var(--cwc-font-body);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  line-height: 1.3;
+  margin-bottom: 2px;
+}
+
+.cwc_meta_kit_practitioner__voice-role {
+  font-family: var(--cwc-font-body);
+  font-size: 0.78125rem;
+  line-height: 1.4;
+  color: var(--body-color);
+  margin-bottom: 0.75rem;
+}
+
+.cwc_meta_kit_practitioner__voice-quote {
+  display: block;
+  font-family: var(--cwc-font-body);
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: inherit;
+  opacity: 0.75;
+  quotes: '\201C' '\201D';
+}
+
+/* === Stat Row === */
+.cwc_meta_kit_practitioner__stats {
+  display: grid;
+  grid-template-columns: repeat(var(--stat-columns), minmax(0, 1fr));
+  border-top: 1px solid var(--rule-color);
+}
+
+.cwc_meta_kit_practitioner__stat {
+  padding: 1.25rem 1.5rem 0 0;
+}
+
+.cwc_meta_kit_practitioner__stat + .cwc_meta_kit_practitioner__stat {
+  border-left: 1px solid var(--divider-color);
+  padding-left: 1.5rem;
+}
+
+.cwc_meta_kit_practitioner__stat-value {
+  display: block;
+  font-family: var(--cwc-font-heading);
+  font-weight: var(--cwc-weight-heading);
+  font-size: clamp(1.75rem, 3vw, 2.375rem);
+  line-height: 1;
+  color: var(--stat-color);
+  margin-bottom: 0.5rem;
+}
+
+.cwc_meta_kit_practitioner__stat-label {
+  display: block;
+  font-family: var(--cwc-font-body);
+  font-size: 0.78125rem;
+  line-height: 1.4;
+  color: var(--body-color);
+}
+
+/* ==============================
+   Tablet Responsive
+   ============================== */
+@media screen and (max-width: 991px) {
+  .cwc_meta_kit_practitioner__container {
+    padding: 0 1.25rem;
+  }
+
+  .cwc_meta_kit_practitioner__voices {
+    grid-template-columns: 1fr;
+  }
+
+  .cwc_meta_kit_practitioner__stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  /* Wrapped rows need their own rules */
+  .cwc_meta_kit_practitioner__stat:nth-child(odd) {
+    border-left: 0;
+    padding-left: 0;
+  }
+
+  .cwc_meta_kit_practitioner__stat:nth-child(n + 3) {
+    border-top: 1px solid var(--divider-color);
+    margin-top: 1rem;
+    padding-top: 1.25rem;
+  }
+
+  .cwc_meta_kit_practitioner__content-heading h1,
+  .cwc_meta_kit_practitioner__content-heading h2,
+  .cwc_meta_kit_practitioner__content-heading h3,
+  .cwc_meta_kit_practitioner__content-heading p {
+    max-width: none;
+  }
+}
+
+/* ==============================
+   Mobile Responsive
+   ============================== */
+@media screen and (max-width: 768px) {
+  .cwc_meta_kit_practitioner {
+    padding-top: var(--padding-top-mobile);
+    padding-bottom: var(--padding-bottom-mobile);
+  }
+
+  .cwc_meta_kit_practitioner__container {
+    padding: 0 1rem;
+  }
+
+  .cwc_meta_kit_practitioner__lede p {
+    font-size: 1rem;
+  }
+}

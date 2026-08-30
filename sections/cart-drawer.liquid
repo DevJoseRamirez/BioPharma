@@ -1,134 +1,517 @@
-<cart-drawer id="cart-drawer" class="cart-drawer drawer {% if cart.empty? %}drawer--center-body{% endif %} color-scheme color-scheme--{{ section.settings.color_scheme.id }}" initial-focus="false" handle-editor-events>
-  <p class="h4" slot="header">{{ 'cart.general.title' | t }}</p>
+{%- comment -%}
+  ----------------------------------------------------------------------------------------------------------------------
+  CART DRAWER
+  ----------------------------------------------------------------------------------------------------------------------
+
+  The theme's native cart drawer, restyled to the BioPharma v2 design. This is a restyle: the markup below is new, but
+  every element that `assets/theme.js` reaches for is the same element it was before, in the same place, so no cart
+  behaviour changed and no JS selector had to move.
+
+  THE HOOKS, and what breaks if one is renamed or re-nested:
+
+    <cart-drawer id="cart-drawer">   `aria-controls="cart-drawer"` toggles open it. On every cart:change, CartDrawer
+                                     re-fetches this section and does
+                                     `.querySelector('cart-drawer').innerHTML` -> replaceChildren. That is why every
+                                     figure below is Liquid: the drawer re-renders server-side, it never patches numbers
+                                     in the DOM.
+    slot="header" / slot="footer"    the shadow template's named slots. An empty slot hides its wrapper, so the header
+                                     slot always gets an element. Everything unslotted lands in part="body", the one
+                                     scrolling region.
+    .cart-drawer__footer             theme.css keys the footer padding off it.
+    .cart-drawer__order-note         theme.css dims the header and body while the note overlay is open.
+    .drawer--center-body             CartDrawer toggles this class itself when the cart empties. The empty state here
+                                     carries its own recommendations, so CWC_cart_drawer.css neutralises the centring
+                                     rather than fighting the JS for the class.
+    <free-shipping-bar>              FreeShippingBar writes its message into the element's FIRST <span>. The progress
+                                     track is therefore a sibling of the element, not a child of it.
+    <cart-note> / <cart-note-dialog> the note autosaves on change of [name="note"].
+    form[action=routes.cart_url]     the checkout form. button[name="checkout"] is its submit.
+
+    Line-level hooks live in `snippets/CWC_cart-line-item.liquid`, which documents them.
+{%- endcomment -%}
+
+{% style %}
+  #cart-drawer {
+    --cwc-cart-accent: {{ section.settings.accent_color | default: '#5BA90F' }};
+    --cwc-cart-accent-deep: {{ section.settings.accent_deep_color | default: '#44681A' }};
+    --cwc-cart-surface: {{ section.settings.surface_color | default: '#FFFFFF' }};
+    --cwc-cart-surface-soft: {{ section.settings.surface_soft_color | default: '#F5F4F0' }};
+    --cwc-cart-surface-recs: {{ section.settings.recs_bg_color | default: '#FAFAF8' }};
+    --cwc-cart-ink: {{ section.settings.text_color | default: '#1F1F1C' }};
+
+    /* Rules and muted text are the ink at a fixed opacity, so a darker or lighter
+       ink carries them with it instead of leaving a mismatched grey behind. */
+    --cwc-cart-line: rgba({{ section.settings.text_color.red | default: 31 }}, {{ section.settings.text_color.green | default: 31 }}, {{ section.settings.text_color.blue | default: 28 }}, 0.14);
+    --cwc-cart-line-soft: rgba({{ section.settings.text_color.red | default: 31 }}, {{ section.settings.text_color.green | default: 31 }}, {{ section.settings.text_color.blue | default: 28 }}, 0.08);
+    --cwc-cart-muted: rgba({{ section.settings.text_color.red | default: 31 }}, {{ section.settings.text_color.green | default: 31 }}, {{ section.settings.text_color.blue | default: 28 }}, 0.62);
+    --cwc-cart-faint: rgba({{ section.settings.text_color.red | default: 31 }}, {{ section.settings.text_color.green | default: 31 }}, {{ section.settings.text_color.blue | default: 28 }}, 0.40);
+    --cwc-cart-danger: {{ section.settings.remove_color | default: '#B03A2E' }};
+  }
+{% endstyle %}
+
+{{ 'CWC_fonts.css' | asset_url | stylesheet_tag }}
+{{ 'CWC_cart_drawer.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'CWC_cart_drawer.js' | asset_url }}" defer></script>
+
+{%- liquid
+  comment
+    RECOMMENDATIONS — two passes through this same Liquid.
+
+    Pass 1 is the ordinary render (page load, or CartDrawer replacing its own
+    children after a cart change). `recommendations.performed` is false, so the
+    strip renders from the fallback list and <cwc-cart-recs> goes and fetches the
+    real thing.
+
+    Pass 2 is that fetch: /recommendations/products?product_id=..&intent=..&
+    section_id=cart-drawer. Shopify re-renders this whole section with the
+    `recommendations` object populated; the element lifts out just the track and
+    swaps it in.
+
+    Why not the theme's own <product-recommendations>: it resolves its section id
+    with closest('.shopify-section'), and Drawer inherits shouldAppendToBody, so
+    the moment this drawer is opened it is moved to <body> and that lookup
+    returns null. The section id is passed down from Liquid instead.
+  endcomment
+  assign recs_dynamic = false
+  if section.settings.recommendations_source == 'dynamic'
+    assign recs_dynamic = true
+  endif
+
+  assign recs_limit = section.settings.recommendations_limit | default: 6
+
+  comment
+    The recommendation API keys off one product, so the cart has to nominate one.
+    The highest-value line is the best proxy for what the order is actually about
+    — a $150 kit says more about intent than the shaker bottle added beside it.
+  endcomment
+  assign recs_seed_id = ''
+  assign recs_seed_value = 0
+
+  for line_item in cart.items
+    if line_item.final_line_price > recs_seed_value
+      assign recs_seed_value = line_item.final_line_price
+      assign recs_seed_id = line_item.product_id
+    endif
+  endfor
+
+  comment
+    Source for THIS render. Pass 2 hands us recommendations.products; every other
+    render falls back to the curated list, which is also what stands if the API
+    returns nothing and what a shopper with no JS sees.
+  endcomment
+  if recommendations.performed and recommendations.products_count > 0
+    assign recs_products = recommendations.products
+  else
+    assign recs_products = section.settings.cross_sell_products
+  endif
+
+  comment
+    Same two filters the section has always applied, now covering API results as
+    well: never suggest what is already in the cart, never suggest what cannot be
+    bought. Counted first so an empty strip is never rendered at all.
+  endcomment
+  assign recs_count = 0
+
+  for product in recs_products
+    assign products_in_cart = cart.items | where: 'product_id', product.id
+
+    if products_in_cart.size == 0 and product.available
+      assign recs_count = recs_count | plus: 1
+    endif
+  endfor
+
+  comment
+    With an empty cart there is no line to seed from, so the dynamic path cannot
+    run and the curated list is all there is.
+  endcomment
+  assign recs_can_fetch = false
+  if recs_dynamic and recs_seed_id != blank
+    assign recs_can_fetch = true
+  endif
+
+  comment
+    Resolved here rather than inline in the markup below. A comparison operator
+    inside a conditional that sits INSIDE an HTML open tag reads as the start of
+    a new element to an HTML-aware parser, which then swallows the closing tag
+    and leaves the conditional looking unclosed — that is what makes a formatter
+    append a stray endif at the end of the file.
+
+    Note the wording: no tag delimiters anywhere in this comment. A liquid tag
+    body ends at its first close sequence, so writing one inside prose here
+    terminates the whole preamble early and turns the rest of it into markup.
+  endcomment
+  assign recs_show_nav = false
+  if recs_count > 1
+    assign recs_show_nav = true
+  endif
+
+  if cart.empty?
+    assign cross_sell_heading = section.settings.cross_sell_title_empty
+  else
+    assign cross_sell_heading = section.settings.cross_sell_title
+  endif
+
+  comment
+    Progress for the shipping track. The <free-shipping-bar> element owns the
+    message and already carries the same total on its own attributes; this is the
+    fill width for the rail drawn beside it, recomputed server-side on every cart
+    change like everything else in the drawer.
+  endcomment
+  assign shipping_eligible_total = 0
+
+  for line_item in cart.items
+    if line_item.requires_shipping
+      assign shipping_eligible_total = shipping_eligible_total | plus: line_item.final_line_price
+    endif
+  endfor
+
+  assign cart_level_discount_total = 0
+
+  for discount_application in cart.cart_level_discount_applications
+    assign cart_level_discount_total = cart_level_discount_total | plus: discount_application.total_allocated_amount
+  endfor
+
+  assign shipping_eligible_total = shipping_eligible_total | minus: cart_level_discount_total
+  assign free_shipping_threshold = settings.cart_free_shipping_threshold | times: 100
+
+  assign free_shipping_progress = 0
+  assign free_shipping_reached = false
+
+  if free_shipping_threshold > 0
+    assign free_shipping_progress = shipping_eligible_total | times: 100.0 | divided_by: free_shipping_threshold | at_most: 100 | at_least: 0
+  endif
+
+  if shipping_eligible_total >= free_shipping_threshold
+    assign free_shipping_reached = true
+  endif
+-%}
+
+<cart-drawer
+  id="cart-drawer"
+  class="cart-drawer drawer cwc_cart {% if cart.empty? %}drawer--center-body{% endif %} color-scheme color-scheme--{{ section.settings.color_scheme.id }}"
+  initial-focus="false"
+  handle-editor-events
+>
+  <div class="cwc_cart__head" slot="header">
+    <span class="cwc_cart__head-title">{{ 'cart.general.title' | t }}</span>
+
+    {%- if cart.item_count > 0 -%}
+      <span class="cwc_cart__head-count">
+        {{- cart.item_count }}
+        {{ cart.item_count | pluralize: 'item', 'items' -}}
+      </span>
+    {%- endif -%}
+  </div>
 
   {%- if cart.empty? -%}
-    <p class="h5 text-center">{{ 'cart.general.empty' | t }}</p>
-  {%- else -%}
-    {%- if settings.cart_show_free_shipping_bar -%}
-      {%- render 'free-shipping-bar' -%}
-    {%- endif -%}
+    <div class="cwc_cart__empty">
+      <span class="cwc_cart__empty-mark">
+        {% comment %} {%- render 'icon' with 'shopping_bag', width: 19 -%} {% endcomment %}
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8h14l-1.2 11.2a2 2 0 01-2 1.8H8.2a2 2 0 01-2-1.8z"/><path d="M9 8V6a3 3 0 016 0v2"/></svg>
+      </span>
 
-    <div class="cart-drawer__items">
-      {%- for line_item in cart.items -%}
-        {%- render 'line-item', line_item: line_item, show_quantity_selector: true -%}
-      {%- endfor -%}
+      <p class="cwc_cart__empty-title">{{ section.settings.empty_title | default: 'Nothing here yet' }}</p>
+
+      {%- if section.settings.empty_text != blank -%}
+        <p class="cwc_cart__empty-text">{{ section.settings.empty_text }}</p>
+      {%- endif -%}
+
+      {%- capture empty_links -%}
+        {%- for i in (1..3) -%}
+          {%- assign label_key = 'empty_link_' | append: i | append: '_label' -%}
+          {%- assign url_key = 'empty_link_' | append: i | append: '_url' -%}
+          {%- assign link_label = section.settings[label_key] -%}
+          {%- assign link_url = section.settings[url_key] -%}
+
+          {%- if link_label != blank and link_url != blank -%}
+            <a href="{{ link_url }}" class="cwc_cart__empty-link">{{ link_label }}</a>
+          {%- endif -%}
+        {%- endfor -%}
+      {%- endcapture -%}
+
+      {%- if empty_links != blank -%}
+        <div class="cwc_cart__empty-links">{{ empty_links }}</div>
+      {%- else -%}
+        {%- comment -%}
+          With no links configured the drawer would be a dead end, so the theme's
+          own close control stands in — it puts the shopper back where they were.
+        {%- endcomment -%}
+        <div class="cwc_cart__empty-links">
+          <button type="button" class="cwc_cart__empty-link" is="dialog-close-button">
+            {{- 'cart.general.continue_shopping' | t -}}
+          </button>
+        </div>
+      {%- endif -%}
     </div>
+  {%- else -%}
+    {%- if settings.cart_show_free_shipping_bar and cart.requires_shipping -%}
+      <div class="cwc_cart__ship {% if free_shipping_reached %}cwc_cart__ship--reached{% endif %}">
+        <div class="cwc_cart__ship-row">
+          {%- comment -%}
+            HOOK: <free-shipping-bar> replaces the text of its own first <span>.
+            The status word beside it is Liquid, and the rail below is a sibling —
+            neither is inside the element, so neither can be overwritten.
+          {%- endcomment -%}
+          {%- render 'free-shipping-bar' -%}
 
-    {%- liquid
-      assign cross_sell_products_count = 0
+          {%- if free_shipping_reached -%}
+            <span class="cwc_cart__ship-state"
+              >&#10003; {{ section.settings.shipping_applied_label | default: 'Applied' -}}
+            </span>
+          {%- endif -%}
+        </div>
 
-      for product in section.settings.cross_sell_products
-        assign products_in_cart = cart.items | where: 'product_id', product.id
-
-        if products_in_cart.size == 0 and product.available
-          assign cross_sell_products_count = cross_sell_products_count | plus: 1
-        endif
-      endfor
-    -%}
-
-    {%- if cross_sell_products_count > 0 -%}
-      <div class="cart-drawer__complementary-products complementary-products">
-        {%- assign carousel_id = 'complementary-products-carousel-' | append: section.id -%}
-
-        {%- if section.settings.cross_sell_title != blank or section.settings.cross_sell_stack_products == false and cross_sell_products_count > 1 -%}
-          <div class="complementary-products__header complementary-products__header--align-start">
-            <p class="h6">{{ section.settings.cross_sell_title }}</p>
-
-            {%- if section.settings.cross_sell_stack_products == false and cross_sell_products_count > 1 -%}
-              <carousel-navigation aria-controls="{{ carousel_id }}" class="page-dots page-dots--narrow">
-                {%- for i in (1..cross_sell_products_count) -%}
-                  <button class="relative" aria-current="{% if forloop.first %}true{% else %}false{% endif %}">
-                    <span class="sr-only">{{ 'general.accessibility.go_to_item' | t: index: forloop.index }}</span>
-                  </button>
-                {%- endfor -%}
-              </carousel-navigation>
-            {%- endif -%}
-          </div>
-        {%- endif -%}
-
-        {%- liquid
-          capture complementary_products
-            for product in section.settings.cross_sell_products
-              assign products_in_cart = cart.items | where: 'product_id', product.id
-
-              if products_in_cart.size == 0 and product.available
-                render 'product-card-horizontal', product: product, show_quick_buy: true
-              endif
-            endfor
-          endcapture
-        -%}
-
-        {%- if section.settings.cross_sell_stack_products -%}
-          <div class="complementary-products__product-list">
-            {{- complementary_products -}}
-          </div>
-        {%- else -%}
-          <scroll-carousel id="{{ carousel_id }}" class="complementary-products__product-list complementary-products__product-list--carousel scroll-area snap-x">
-            {{- complementary_products -}}
-          </scroll-carousel>
-        {%- endif -%}
+        <div class="cwc_cart__ship-track">
+          <i class="cwc_cart__ship-fill" style="width: {{ free_shipping_progress }}%"></i>
+        </div>
       </div>
     {%- endif -%}
 
-    <form action="{{ routes.cart_url }}" method="POST" class="cart-drawer__footer" slot="footer">
+    <div class="cwc_cart__items">
+      {%- for line_item in cart.items -%}
+        {%- render 'CWC_cart-line-item', line_item: line_item -%}
+      {%- endfor -%}
+    </div>
+  {%- endif -%}
+
+  {%- comment -%}
+    Rendered whenever there is something to show OR something to fetch. An
+    element with an empty track starts hidden and unhides itself once the fetch
+    lands; if nothing ever lands, it removes itself.
+  {%- endcomment -%}
+  {%- if recs_count > 0 or recs_can_fetch -%}
+    <cwc-cart-recs
+      class="cwc_cart__recs"
+      {% if recs_count == 0 %}hidden{% endif %}
+      {%- if recs_can_fetch %}
+        data-cwc-recs-section="{{ section.id }}"
+        data-cwc-recs-product="{{ recs_seed_id }}"
+        data-cwc-recs-limit="{{ recs_limit }}"
+        {%- comment -%}
+          Tried in order. "complementary" is the merchant's own pairing from the
+          Search & Discovery app and is the better answer where it exists, but it
+          returns nothing at all unless someone has configured it — so the
+          algorithmic "related" stands behind it.
+        {%- endcomment -%}
+        data-cwc-recs-intents="complementary,related"
+      {%- endif %}
+    >
+      <div class="cwc_cart__recs-head">
+        {%- if cross_sell_heading != blank -%}
+          <p class="cwc_cart__recs-title">{{ cross_sell_heading }}</p>
+        {%- endif -%}
+
+        {%- comment -%}
+          The nav is rendered whenever a fetch could widen the strip past one
+          card, and stays hidden until the card count justifies it — that count
+          is not knowable server-side on the first pass.
+        {%- endcomment -%}
+        <div class="cwc_cart__recs-nav" data-cwc-recs-nav {% unless recs_show_nav %}hidden{% endunless %}>
+          <button
+            type="button"
+            class="cwc_cart__recs-arrow"
+            data-cwc-recs-prev
+            aria-label="{{ 'general.accessibility.previous' | t | escape }}"
+          >
+            {%- render 'icon' with 'chevron-left', width: 9 -%}
+          </button>
+          <button
+            type="button"
+            class="cwc_cart__recs-arrow"
+            data-cwc-recs-next
+            aria-label="{{ 'general.accessibility.next' | t | escape }}"
+          >
+            {%- render 'icon' with 'chevron-right', width: 9 -%}
+          </button>
+        </div>
+      </div>
+
+      <div class="cwc_cart__recs-track" data-cwc-recs-track>
+        {%- assign recs_rendered = 0 -%}
+
+        {%- for product in recs_products -%}
+          {%- assign products_in_cart = cart.items | where: 'product_id', product.id -%}
+
+          {%- if products_in_cart.size == 0 and product.available -%}
+            {%- assign recs_rendered = recs_rendered | plus: 1 -%}
+
+            {%- if recs_rendered > recs_limit -%}
+              {%- break -%}
+            {%- endif -%}
+
+            {%- render 'CWC_cart-rec-card', product: product, card_index: forloop.index -%}
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    </cwc-cart-recs>
+  {%- endif -%}
+
+
+
+
+
+    {%- unless cart.empty? -%}
+      <form action="{{ routes.cart_url }}" method="POST" class="cart-drawer__footer cwc_cart__foot" slot="footer">
+      {%- comment -%}
+        These two clear the collection grid-mode cart attributes on submit. They
+        are read by main-collection.liquid, and dropping them would strand a
+        shopper's grid choice in the cart forever.
+      {%- endcomment -%}
       <input type="hidden" name="attributes[products_mobile_grid_mode]" value="">
       <input type="hidden" name="attributes[products_desktop_grid_mode]" value="">
 
-      {%- if section.settings.show_cart_note or section.settings.show_shipping_text -%}
-        <div class="v-stack gap-0.5 justify-items-start">
-          {%- if section.settings.show_cart_note -%}
-            {%- assign cart_note_dialog_id = 'cart-note-' | append: section.id -%}
-            <button class="link-faded-reverse" aria-controls="{{ cart_note_dialog_id }}">{{ 'cart.general.add_order_note' | t }}</button>
+      <div class="cwc_cart__totals">
+        <div class="cwc_cart__total-row">
+          <span>{{ 'cart.general.subtotal' | t }}</span>
+          <span>
+            {%- if settings.currency_code_enabled -%}
+              {{- cart.original_total_price | money_with_currency -}}
+            {%- else -%}
+              {{- cart.original_total_price | money -}}
+            {%- endif -%}
+          </span>
+        </div>
 
-            <cart-note-dialog id="{{ cart_note_dialog_id }}" class="cart-drawer__order-note">
-              <div class="form">
-                <cart-note class="form-control">
-                  {%- assign order_note = 'cart.general.order_note' | t -%}
-                  {%- assign placeholder = 'cart.general.note_placeholder' | t -%}
-                  {%- render 'input', name: 'note', multiline: 3, label: order_note, value: cart.note, placeholder: placeholder, show_label_as_block: true -%}
-                </cart-note>
+        {%- comment -%}
+          One savings row covering every discount the cart holds, line-level and
+          cart-level alike — cart.total_discount is exactly that sum, so the three
+          rows always reconcile. The named discounts are listed under it so a
+          shopper can still see which code did what.
+        {%- endcomment -%}
+        {%- if cart.total_discount > 0 -%}
+          <div class="cwc_cart__total-row cwc_cart__total-row--save">
+            <span>{{ section.settings.savings_label | default: 'Savings' }}</span>
+            <span>
+              &minus;
+              {%- if settings.currency_code_enabled -%}
+                {{- cart.total_discount | money_with_currency -}}
+              {%- else -%}
+                {{- cart.total_discount | money -}}
+              {%- endif -%}
+            </span>
+          </div>
 
-                <button type="button" class="button" is="dialog-close-button">{{ 'cart.general.save_note' | t }}</button>
-              </div>
-            </cart-note-dialog>
+          {%- if cart.cart_level_discount_applications.size > 0 -%}
+            <ul class="cwc_cart__discounts" role="list">
+              {%- for discount_application in cart.cart_level_discount_applications -%}
+                <li class="cwc_cart__discount">
+                  {%- render 'icon' with 'discount', width: 11 -%}
+                  {{ discount_application.title }}
+                </li>
+              {%- endfor -%}
+            </ul>
           {%- endif -%}
+        {%- endif -%}
+
+        {%- if settings.cart_show_free_shipping_bar and cart.requires_shipping and free_shipping_reached -%}
+          <div class="cwc_cart__total-row">
+            <span>{{ section.settings.shipping_row_label | default: 'Shipping' }}</span>
+            <span>{{ section.settings.shipping_free_label | default: 'Free' }}</span>
+          </div>
+        {%- endif -%}
+
+        <div class="cwc_cart__total-row cwc_cart__total-row--grand">
+          <span>{{ 'cart.general.total' | t }}</span>
+          <span class="cwc_cart__total-value">
+            {%- if settings.currency_code_enabled -%}
+              {{- cart.total_price | money_with_currency -}}
+            {%- else -%}
+              {{- cart.total_price | money -}}
+            {%- endif -%}
+          </span>
+        </div>
 
           {%- if section.settings.show_shipping_text -%}
-            <p class="text-subdued">{{ 'cart.general.taxes_and_shipping_at_checkout' | t }}</p>
+            <p class="cwc_cart__foot-note">{{ 'cart.general.taxes_and_shipping_at_checkout' | t }}</p>
           {%- endif -%}
-        </div>
-      {%- endif -%}
 
-      {% for discount_application in cart.cart_level_discount_applications %}
-        <div class="h-stack justify-start gap-4">
-          <span class="discount-badge text-xs">{%- render 'icon' with 'discount', width: 12 -%} {{- discount_application.title -}}</span>
-          <span class="text-subdued">-{{ discount_application.total_allocated_amount | money }}</span>
-        </div>
-      {% endfor %}
+        {%- if section.settings.show_cart_note -%}
+          {%- assign cart_note_dialog_id = 'cart-note-' | append: section.id -%}
 
-      <div class="button-group">
-        {%- if section.settings.show_view_cart_button or section.settings.show_checkout_button == false -%}
-          {%- assign view_cart = 'cart.general.view_cart' | t -%}
-          {%- render 'button', href: routes.cart_url, content: view_cart, stretch: true -%}
+            <button type="button" class="cwc_cart__note-toggle" aria-controls="{{ cart_note_dialog_id }}">
+              {%- if cart.note != blank -%}
+                {{- 'cart.general.edit_order_note' | t -}}
+              {%- else -%}
+                {{- 'cart.general.add_order_note' | t -}}
+              {%- endif -%}
+            </button>
+
+          <cart-note-dialog id="{{ cart_note_dialog_id }}" class="cart-drawer__order-note cwc_cart__note">
+            <div class="form">
+              <cart-note class="form-control">
+                {%- assign order_note = 'cart.general.order_note' | t -%}
+                {%- assign placeholder = 'cart.general.note_placeholder' | t -%}
+                {%- render 'input',
+                  name: 'note',
+                  multiline: 3,
+                  label: order_note,
+                  value: cart.note,
+                  placeholder: placeholder,
+                  show_label_as_block: true
+                -%}
+              </cart-note>
+
+              <button type="button" class="button" is="dialog-close-button">{{ 'cart.general.save_note' | t }}</button>
+            </div>
+          </cart-note-dialog>
         {%- endif -%}
 
-        {%- if section.settings.show_checkout_button -%}
-          {%- capture checkout_button -%}
-            {{- 'cart.general.checkout' | t -}}
+        <div class="cwc_cart__actions">
+          {%- if section.settings.show_checkout_button -%}
+            {%- comment -%}
+              HOOK: name="checkout" on a submit inside the form posting to
+              routes.cart_url. That pair is the checkout, nothing else.
+            {%- endcomment -%}
+            <button type="submit" name="checkout" class="cwc_cart__checkout">
+              {% comment %} {{- 'cart.general.checkout' | t -}} {% endcomment %}
+              Secure Checkout
 
-            {%- if section.settings.show_price_in_checkout_button -%}
-              <span class="cart-drawer__button-price">{{- cart.total_price | money -}}</span>
-            {%- endif -%}
-          {%- endcapture -%}
+              {%- if section.settings.show_price_in_checkout_button -%}
+                <span class="cwc_cart__checkout-price">
+                  {%- if settings.currency_code_enabled -%}
+                    {{- cart.total_price | money_with_currency -}}
+                  {%- else -%}
+                    {{- cart.total_price | money -}}
+                  {%- endif -%}
+                </span>
+              {%- endif -%}
+            </button>
+          {%- endif -%}
 
-          {%- render 'button', type: 'submit', content: checkout_button, name: 'checkout', stretch: true -%}
+          {%- if section.settings.show_view_cart_button or section.settings.show_checkout_button == false -%}
+            <a href="{{ routes.cart_url }}" class="cwc_cart__view-cart">{{ 'cart.general.view_cart' | t }}</a>
+          {%- endif -%}
+
+          {%- comment -%}
+            "Continue shopping" closes the drawer instead of navigating — the
+            shopper is already on the page they wanted. is="dialog-close-button"
+            is the theme's own close control.
+          {%- endcomment -%}
+
+          {% comment %}
+            <button type="button" class="cwc_cart__continue" is="dialog-close-button">
+              {{- section.settings.continue_label | default: 'Continue shopping' -}}
+            </button>
+          {% endcomment %}
+        </div>
+
+        {%- assign trust_marks = section.settings.trust_marks | split: ',' -%}
+
+        {%- if trust_marks.size > 0 -%}
+          <ul class="cwc_cart__marks" role="list">
+            {%- for mark in trust_marks -%}
+              {%- if mark != blank -%}
+                <li class="cwc_cart__mark">{{ mark | strip }}</li>
+              {%- endif -%}
+            {%- endfor -%}
+          </ul>
         {%- endif -%}
       </div>
-    </form>
-  {%- endif -%}
-</cart-drawer>
+      </form>
+    {%- endunless -%}
+    </cart-drawer>
 
-{% schema %}
+    {% schema %}
 {
   "name": "t:sections.cart_drawer.name",
   "class": "shopify-section--cart-drawer",
@@ -180,27 +563,191 @@
     },
     {
       "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent",
+      "info": "Checkout button, progress bar, subscription badge.",
+      "default": "#5BA90F"
+    },
+    {
+      "type": "color",
+      "id": "accent_deep_color",
+      "label": "Accent (deep)",
+      "info": "Savings text and badge labels.",
+      "default": "#44681A"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text",
+      "info": "Rules and muted text derive from this color.",
+      "default": "#1F1F1C"
+    },
+    {
+      "type": "color",
+      "id": "surface_color",
+      "label": "Drawer background",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "surface_soft_color",
+      "label": "Shipping bar background",
+      "default": "#F5F4F0"
+    },
+    {
+      "type": "color",
+      "id": "recs_bg_color",
+      "label": "Recommendations background",
+      "default": "#FAFAF8"
+    },
+    {
+      "type": "color",
+      "id": "remove_color",
+      "label": "Remove (hover)",
+      "default": "#B03A2E"
+    },
+    {
+      "type": "header",
+      "content": "Footer"
+    },
+    {
+      "type": "text",
+      "id": "savings_label",
+      "label": "Savings row label",
+      "info": "Shown when the cart holds any discount. The amount is the cart's own total discount.",
+      "default": "Bundle & subscription savings"
+    },
+    {
+      "type": "text",
+      "id": "shipping_row_label",
+      "label": "Shipping row label",
+      "default": "Shipping"
+    },
+    {
+      "type": "text",
+      "id": "shipping_free_label",
+      "label": "Shipping row value when free shipping is reached",
+      "default": "Free"
+    },
+    {
+      "type": "text",
+      "id": "shipping_applied_label",
+      "label": "Shipping bar label when the threshold is reached",
+      "default": "Applied"
+    },
+    {
+      "type": "text",
+      "id": "continue_label",
+      "label": "Continue shopping label",
+      "info": "Closes the drawer rather than navigating away.",
+      "default": "Continue shopping"
+    },
+    {
+      "type": "text",
+      "id": "trust_marks",
+      "label": "Trust marks",
+      "info": "Comma separated. Leave blank to hide the row.",
+      "default": "30-day guarantee, Cancel anytime, Secure checkout"
+    },
+    {
+      "type": "header",
+      "content": "Empty cart"
+    },
+    {
+      "type": "text",
+      "id": "empty_title",
+      "label": "Heading",
+      "default": "Nothing here yet"
+    },
+    {
+      "type": "text",
+      "id": "empty_text",
+      "label": "Text",
+      "default": "Most people start with the greens."
+    },
+    {
+      "type": "text",
+      "id": "empty_link_1_label",
+      "label": "Link 1 label"
+    },
+    {
+      "type": "url",
+      "id": "empty_link_1_url",
+      "label": "Link 1 URL"
+    },
+    {
+      "type": "text",
+      "id": "empty_link_2_label",
+      "label": "Link 2 label"
+    },
+    {
+      "type": "url",
+      "id": "empty_link_2_url",
+      "label": "Link 2 URL"
+    },
+    {
+      "type": "text",
+      "id": "empty_link_3_label",
+      "label": "Link 3 label"
+    },
+    {
+      "type": "url",
+      "id": "empty_link_3_url",
+      "label": "Link 3 URL"
+    },
+    {
+      "type": "header",
       "content": "t:sections.cart_drawer.cross_sell_category"
+    },
+    {
+      "type": "select",
+      "id": "recommendations_source",
+      "label": "Source",
+      "info": "Dynamic uses Shopify's recommendation API, seeded from the highest-value item in the cart. The list below is the fallback either way.",
+      "options": [
+        {
+          "value": "dynamic",
+          "label": "Shopify recommendations"
+        },
+        {
+          "value": "fixed",
+          "label": "Fixed list only"
+        }
+      ],
+      "default": "dynamic"
+    },
+    {
+      "type": "range",
+      "id": "recommendations_limit",
+      "label": "Maximum products",
+      "min": 2,
+      "max": 10,
+      "step": 1,
+      "default": 6
     },
     {
       "type": "product_list",
       "id": "cross_sell_products",
-      "label": "t:sections.cart_drawer.cross_sell_products",
-      "info": "t:sections.cart_drawer.cross_sell_products_info",
+      "label": "Fallback products",
+      "info": "Shown when the cart is empty, when recommendations return nothing, and to visitors without JavaScript.",
       "limit": 5
     },
     {
       "type": "inline_richtext",
       "id": "cross_sell_title",
       "label": "t:sections.cart_drawer.cross_sell_heading",
-      "default": "Complete with"
+      "default": "Goes with your order"
     },
     {
-      "type": "checkbox",
-      "id": "cross_sell_stack_products",
-      "label": "t:sections.cart_drawer.cross_sell_stack_products",
-      "default": false
+      "type": "inline_richtext",
+      "id": "cross_sell_title_empty",
+      "label": "Recommendations heading (empty cart)",
+      "default": "Best sellers"
     }
   ]
 }
-{% endschema %}
+    {% endschema %}

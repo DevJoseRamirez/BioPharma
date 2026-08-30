@@ -1,0 +1,164 @@
+{% style %}
+  #cwc_meta_kit_trust-{{ section.id }} {
+    --section-bg: {{ section.settings.bg_color | default: '#FAFAF8' }};
+    --text-color: {{ section.settings.text_color | default: '#1F1F1C' }};
+    --highlight-color: {{ section.settings.bold_color | default: '#5BA90F' }};
+    --border-color: {{ section.settings.border_color | default: '#DEDDD6' }};
+    --divider-color: {{ section.settings.divider_color | default: '#E9E8E2' }};
+    --columns-desktop: {{ section.settings.columns_desktop | default: 5 }};
+    --padding-top: {{ section.settings.padding_top | default: 0 }}px;
+    --padding-bottom: {{ section.settings.padding_bottom | default: 0 }}px;
+    --padding-top-mobile: {{ section.settings.padding_top | default: 0 | times: 0.5 }}px;
+    --padding-bottom-mobile: {{ section.settings.padding_bottom | default: 0 | times: 0.5 }}px;
+  }
+{% endstyle %}
+
+{{ 'CWC_fonts.css' | asset_url | stylesheet_tag }}
+{{ 'CWC_meta_kit_trust.css' | asset_url | stylesheet_tag }}
+
+<section
+  id="cwc_meta_kit_trust-{{ section.id }}"
+  class="cwc_meta_kit_trust cwc_meta_kit_trust--{{ section.settings.divider_style | default: 'rules' }}"
+>
+  {% if section.blocks.size > 0 %}
+    <div class="cwc_meta_kit_trust__container">
+      <div class="cwc_meta_kit_trust__grid">
+        {% for block in section.blocks %}
+          {% case block.type %}
+            {% when 'trust_item' %}
+              {% if block.settings.text != blank %}
+                <div class="cwc_meta_kit_trust__item" {{ block.shopify_attributes }}>
+                  <span class="cwc_meta_kit_trust__item-text">{{ block.settings.text }}</span>
+                </div>
+              {% endif %}
+          {% endcase %}
+        {% endfor %}
+      </div>
+    </div>
+  {% elsif request.design_mode %}
+    <div class="cwc_meta_kit_trust__container">
+      <div class="cwc_meta_kit_trust__empty">
+        <p>Add trust items to display this strip.</p>
+      </div>
+    </div>
+  {% endif %}
+</section>
+
+{% schema %}
+{
+  "name": "Kit Trust Bar",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "label": "Columns On Desktop",
+      "min": 3,
+      "max": 6,
+      "step": 1,
+      "default": 5
+    },
+    {
+      "type": "select",
+      "id": "divider_style",
+      "label": "Divider Style",
+      "options": [
+        { "value": "rules", "label": "Rules between items" },
+        { "value": "edges", "label": "Top and bottom rules only" },
+        { "value": "none", "label": "No rules" }
+      ],
+      "default": "rules"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#FAFAF8"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#1F1F1C"
+    },
+    {
+      "type": "color",
+      "id": "bold_color",
+      "label": "Heading Bold Color",
+      "default": "#5BA90F"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Top / Bottom Rule Color",
+      "default": "#DEDDD6"
+    },
+    {
+      "type": "color",
+      "id": "divider_color",
+      "label": "Divider Color",
+      "default": "#E9E8E2"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "blocks": [
+    {
+      "type": "trust_item",
+      "name": "Trust Item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Claim",
+          "info": "Three or four words.",
+          "default": "Made in California"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 6,
+  "presets": [
+    {
+      "name": "Kit Trust Bar",
+      "category": "CWC Custom",
+      "blocks": [
+        { "type": "trust_item" },
+        { "type": "trust_item" },
+        { "type": "trust_item" },
+        { "type": "trust_item" },
+        { "type": "trust_item" }
+      ]
+    }
+  ]
+}
+{% endschema %}

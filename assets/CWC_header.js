@@ -162,6 +162,18 @@
     if (closeButton) closeButton.addEventListener('click', close);
     if (scrim) scrim.addEventListener('click', close);
 
+    /**
+     * Every other link in here navigates, and the page unload is what takes this
+     * drawer down. The cart link does not: it carries aria-controls, so the
+     * theme's cart drawer opens over the top and nothing unloads. Closing on the
+     * click hands the viewport over instead of stacking two overlays.
+     *
+     * Bound to the element, so it runs in the target phase — ahead of the theme's
+     * delegated listener on document.body, which is what opens the cart drawer.
+     */
+    var cartLink = drawer.querySelector('.cwc_header__drawer-cart[aria-controls]');
+    if (cartLink) cartLink.addEventListener('click', close);
+
     document.addEventListener('keydown', function (event) {
       if (event.key === 'Escape' && isOpen()) close();
     });

@@ -1,0 +1,108 @@
+{%- comment -%}
+  kit-price-math
+  ------------------------------------------------------------------
+  Every money figure on the kit template derives from the referenced
+  products' live prices. Nothing here is typed, stored, or editable —
+  a component price change updates the buy box, the savings section
+  and the other-kits cards with no manual edit.
+
+  Because {% render %} runs in its own scope, a snippet cannot assign
+  variables for its caller. This one ECHOES its result instead, as a
+  pipe-delimited string the caller captures and splits.
+
+  Usage:
+    {%- capture kit_math -%}
+      {%- render 'kit-price-math', kit: product -%}
+    {%- endcapture -%}
+    {%- assign math = kit_math | strip | split: '|' -%}
+    {%- assign separate_total = math[0] | plus: 0 -%}
+    {%- assign kit_price      = math[1] | plus: 0 -%}
+    {%- assign saved          = math[2] | plus: 0 -%}
+    {%- assign saved_pct      = math[3] | plus: 0 -%}
+    {%- assign saved_annual   = math[4] | plus: 0 -%}
+    {%- assign counted        = math[5] | plus: 0 -%}
+    {%- assign missing        = math[6] | plus: 0 -%}
+    {%- assign is_override    = math[7] | plus: 0 -%}
+
+  Fields, all money in cents so the money filter can format them:
+    0 separate_total  sum of component product prices
+    1 kit_price       the kit's own price
+    2 saved           separate_total - kit_price, floored at 0
+    3 saved_pct       saved as a whole percent of separate_total
+    4 saved_annual    saved * 12
+    5 counted         components that resolved to a price
+    6 missing         components that did not resolve
+    7 is_override     1 when custom.compare_at_total supplied the total
+
+  MISSING DATA. A component with no product reference, or one whose
+  product carries no price, cannot contribute to the sum. Counting
+  those in `missing` lets the caller suppress a total that would be
+  understated rather than print a wrong saving — a claim about money
+  is not a figure to guess at. Callers must check it.
+
+  Params:
+    kit  — the product to compute for. Defaults to the page product,
+           so section 09 can pass each related kit in turn.
+{%- endcomment -%}
+
+{%- liquid
+  assign kit_product = kit | default: product
+
+  assign separate_total = 0
+  assign counted = 0
+  assign missing = 0
+  assign is_override = 0
+
+  assign components = kit_product.metafields.custom.kit_components.value
+
+  for component in components
+    assign component_product = component.product.value
+
+    comment
+      A price of zero is indistinguishable from an unresolved one here,
+      and both are equally unusable as a sum, so both count as missing.
+    endcomment
+    if component_product != blank and component_product.price > 0
+      assign separate_total = separate_total | plus: component_product.price
+      assign counted = counted | plus: 1
+    else
+      assign missing = missing | plus: 1
+    endif
+  endfor
+
+  comment
+    The override exists for a kit holding something that is not sold on
+    its own, where summing the components cannot reach the real
+    separate price. It is never the default path — only an explicit
+    value replaces the computed sum.
+  endcomment
+  assign override = kit_product.metafields.custom.compare_at_total.value.amount
+  if override > 0
+    assign separate_total = override | times: 100 | round
+    assign is_override = 1
+    assign missing = 0
+  endif
+
+  assign kit_price = kit_product.price | default: 0
+
+  assign saved = 0
+  assign saved_pct = 0
+  assign saved_annual = 0
+
+  comment
+    Only a total above the kit price is a saving. A stale or absent
+    compare figure would otherwise produce a negative "saving", which
+    reads as a price rise.
+  endcomment
+  if separate_total > kit_price and kit_price > 0
+    assign saved = separate_total | minus: kit_price
+    assign saved_annual = saved | times: 12
+
+    comment
+      100.0, not 100: divided_by on two integers truncates, so a 25%
+      saving divides out to 24.98 and would read as 24%.
+    endcomment
+    assign saved_pct = saved | times: 100.0 | divided_by: separate_total | round
+  endif
+-%}
+{{- separate_total }}|{{ kit_price }}|{{ saved }}|{{ saved_pct }}|{{ saved_annual }}|{{ counted }}|{{ missing }}|{{ is_override -}}

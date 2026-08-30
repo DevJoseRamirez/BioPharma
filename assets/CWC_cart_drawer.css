@@ -1,0 +1,1010 @@
+/* ==============================================================================
+   CWC Cart Drawer
+   ------------------------------------------------------------------------------
+   A restyle of the theme's native cart drawer. The drawer shell lives in Shadow
+   DOM (snippets/shadow-dom-templates.liquid), so its chrome is reached through
+   ::part() rather than by editing the template — the template is shared with
+   every other drawer in the theme.
+
+   Loaded after theme.css (a section stylesheet renders in the body), so these
+   rules win ties on equal specificity. Where theme.css used !important on a
+   part, the override below has to as well; those are marked.
+
+   Structure, top to bottom:
+     part(header)  -> pinned    title + item count + the theme's close button
+     part(body)    -> scrolls   shipping bar (sticky), line items, recommendations
+                               (a flex column — the recommendations carry an auto
+                               top margin, so they sit on the footer whether the
+                               cart is one line or twenty)
+     part(footer)  -> pinned    totals, checkout, trust marks
+   ============================================================================== */
+
+/* ==============================
+   Shell
+   ============================== */
+
+.cwc_cart {
+  --cwc-cart-pad: 20px;
+  --cwc-cart-radius: 100px;
+
+  font-family: var(--cwc-font-body);
+  color: var(--cwc-cart-ink);
+}
+
+.cwc_cart::part(content) {
+  max-width: min(100vw, 27.5rem);
+  background: var(--cwc-cart-surface);
+  color: var(--cwc-cart-ink);
+}
+
+.cwc_cart::part(header) {
+  min-height: 0;
+  padding: 15px var(--cwc-cart-pad);
+  border-block-end: 1px solid var(--cwc-cart-line);
+  background: var(--cwc-cart-surface);
+}
+
+.cwc_cart::part(body) {
+  /* Each block below owns its own padding, so the scroll region carries none —
+     that is what lets the shipping bar and the recommendation strip run full
+     bleed to the drawer edge. */
+  padding: 0;
+
+  /* A flex column, not a block, so a short cart can hand its leftover height to
+     one child instead of trailing off into dead space above the footer. The
+     recommendations take it (see .cwc_cart__recs). Every child is flex:0 0 auto
+     — nothing here may compress to fit; the region scrolls instead. */
+  display: flex;
+  flex-direction: column;
+}
+
+.cwc_cart::part(footer) {
+  padding: 0;
+  border-block-start: 1px solid var(--cwc-cart-line);
+  /* theme.css sets `background: white !important` on .drawer::part(footer). */
+  background: var(--cwc-cart-surface) !important;
+  color: var(--cwc-cart-ink) !important;
+  box-shadow: 0 -4px 16px rgba(31, 31, 28, 0.05);
+}
+
+.cwc_cart::part(close-button) {
+  width: 32px;
+  height: 32px;
+  color: var(--cwc-cart-muted);
+}
+
+/* CartDrawer adds .drawer--center-body itself when the cart empties. The empty
+   state here carries a recommendation slider under it, so a vertically centred
+   body would push that slider off screen. The class stays — the JS owns it —
+   and only its effect is undone. */
+.cwc_cart.drawer--center-body::part(body) {
+  align-self: stretch;
+}
+
+/* theme.css keys drawer footer padding off .cart-drawer__footer, which this
+   markup keeps. The padding itself now sits on the totals block. */
+.cwc_cart:not(:has(.cart-drawer__footer:only-child))::part(footer) {
+  padding-block-start: 0;
+}
+
+/* ==============================
+   Header
+   ============================== */
+
+.cwc_cart__head {
+  display: flex;
+  align-items: baseline;
+  gap: 7px;
+  min-width: 0;
+}
+
+.cwc_cart__head-title {
+  font-family: var(--cwc-font-heading);
+  font-weight: var(--cwc-weight-heading);
+  font-size: 20px;
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+}
+
+.cwc_cart__head-count {
+  font-family: var(--cwc-font-body);
+  font-size: 13px;
+  color: var(--cwc-cart-muted);
+  white-space: nowrap;
+}
+
+/* ==============================
+   Free shipping bar
+   ------------------------------
+   Sticky rather than a separate pinned region: the shadow template has exactly
+   three slots, and the bar belongs to none of them. Sticking it to the top of
+   the scroll region puts it where the design wants it without touching a
+   template that every drawer in the theme shares.
+   ============================== */
+
+.cwc_cart__ship {
+  flex: 0 0 auto;
+  position: sticky;
+  inset-block-start: 0;
+  z-index: 3;
+  padding: 12px var(--cwc-cart-pad);
+  background: var(--cwc-cart-surface-soft);
+  border-block-end: 1px solid var(--cwc-cart-line-soft);
+}
+
+.cwc_cart__ship-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  margin-block-end: 8px;
+  font-size: 12.5px;
+  line-height: 1.4;
+}
+
+/* The <free-shipping-bar> element is the message. theme.css gives it drawer
+   padding and a border of its own; both are cleared, the wrapper owns them. */
+.cwc_cart .free-shipping-bar,
+.cwc_cart__ship .free-shipping-bar {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: inherit;
+  min-width: 0;
+}
+
+.cwc_cart__ship .free-shipping-bar span {
+  color: var(--cwc-cart-ink);
+}
+
+.cwc_cart__ship-state {
+  font-weight: 600;
+  color: var(--cwc-cart-accent-deep);
+  white-space: nowrap;
+}
+
+.cwc_cart__ship-track {
+  height: 5px;
+  border-radius: var(--cwc-cart-radius);
+  background: var(--cwc-cart-line);
+  overflow: hidden;
+}
+
+.cwc_cart__ship-fill {
+  display: block;
+  height: 100%;
+  border-radius: var(--cwc-cart-radius);
+  background: var(--cwc-cart-accent);
+  transition: width 0.3s ease;
+}
+
+/* ==============================
+   Line items
+   ============================== */
+
+.cwc_cart__items {
+  flex: 0 0 auto;
+}
+
+.cwc_cart__item {
+  display: block;
+}
+
+.cwc_cart__item+.cwc_cart__item {
+  border-block-start: 1px solid var(--cwc-cart-line-soft);
+}
+
+.cwc_cart__line {
+  display: flex;
+  align-items: flex-start;
+  gap: 13px;
+  padding: 16px var(--cwc-cart-pad);
+}
+
+.cwc_cart__line-media {
+  flex: 0 0 auto;
+  width: 74px;
+  height: 74px;
+  border: 1px solid var(--cwc-cart-line-soft);
+  border-radius: 4px;
+  background: var(--cwc-cart-surface-soft);
+  overflow: hidden;
+}
+
+.cwc_cart__line-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.cwc_cart__line-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.cwc_cart__line-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.cwc_cart__line-ident {
+  min-width: 0;
+}
+
+.cwc_cart__line-tag {
+  display: inline-block;
+  margin-block-end: 7px;
+  padding: 3px 7px;
+  border-radius: 3px;
+  background: var(--cwc-cart-ink);
+  color: var(--cwc-cart-surface);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  line-height: 1.2;
+  /* tesing */
+  background: #44681a;
+}
+
+.cwc_cart__line-name {
+  display: block;
+  font-family: var(--cwc-font-heading);
+  font-weight: var(--cwc-weight-heading);
+  font-size: 17px;
+  line-height: 1.25;
+  color: inherit;
+  text-decoration: none;
+  /* tesing */
+  text-transform: capitalize;
+}
+
+.cwc_cart__line-name:hover {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.cwc_cart__line-prices {
+  flex: 0 0 auto;
+  text-align: end;
+  white-space: nowrap;
+}
+
+.cwc_cart__line-price {
+  font-family: var(--cwc-font-body);
+  font-weight: var(--cwc-weight-body);
+  font-size: 15px;
+  line-height: 1.2;
+}
+
+.cwc_cart__line-was {
+  display: block;
+  margin-block-start: 1px;
+  font-size: 12px;
+  color: var(--cwc-cart-faint);
+  text-decoration: line-through;
+}
+
+.cwc_cart__line-variant {
+  display: block;
+  margin-block-start: 3px;
+  font-size: 12.5px;
+  color: var(--cwc-cart-muted);
+}
+
+.cwc_cart__line-plan {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-block-start: 8px;
+  padding: 4px 10px;
+  border-radius: var(--cwc-cart-radius);
+  background: color-mix(in srgb, var(--cwc-cart-accent) 11%, transparent);
+  color: var(--cwc-cart-accent-deep);
+  font-size: 11.5px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.cwc_cart__line-plan--once {
+  background: var(--cwc-cart-line-soft);
+  color: var(--cwc-cart-muted);
+}
+
+.cwc_cart__line-properties,
+.cwc_cart__line-discounts {
+  list-style: none;
+  margin: 6px 0 0;
+  padding: 0;
+}
+
+.cwc_cart__line-property {
+  font-size: 11.5px;
+  color: var(--cwc-cart-muted);
+}
+
+.cwc_cart__line-discount {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11.5px;
+  color: var(--cwc-cart-accent-deep);
+}
+
+.cwc_cart__line-foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-block-start: 10px;
+}
+
+/* The theme's quantity-selector, restyled in place. Its markup is untouched:
+   the two anchors and the [data-line-key] input are what LineItemQuantity
+   listens for. */
+.cwc_cart__line-foot .quantity-selector {
+  display: inline-flex;
+  align-items: center;
+  height: 31px;
+  min-height: 0;
+  border: 1px solid var(--cwc-cart-line);
+  border-radius: var(--cwc-cart-radius);
+  background: transparent;
+  overflow: hidden;
+}
+
+.cwc_cart__line-foot .quantity-selector__button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 0 11px;
+  color: var(--cwc-cart-ink);
+  text-decoration: none;
+}
+
+.cwc_cart__line-foot .quantity-selector__button[disabled] {
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+.cwc_cart__line-foot .quantity-selector__input {
+  width: 22px;
+  min-width: 22px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  text-align: center;
+  font-family: var(--cwc-font-body);
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--cwc-cart-ink);
+  appearance: textfield;
+  -moz-appearance: textfield;
+}
+
+.cwc_cart__line-foot .quantity-selector__input::-webkit-outer-spin-button,
+.cwc_cart__line-foot .quantity-selector__input::-webkit-inner-spin-button {
+  appearance: none;
+  margin: 0;
+}
+
+.cwc_cart__line-remove {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  color: var(--cwc-cart-faint);
+  text-decoration: none;
+  transition: color 0.15s ease, background-color 0.15s ease;
+}
+
+.cwc_cart__line-remove:hover {
+  color: var(--cwc-cart-danger);
+  background: color-mix(in srgb, var(--cwc-cart-danger) 7%, transparent);
+}
+
+/* ==============================
+   Kit / bundle disclosure
+   ------------------------------
+   The components are a read-only description of one cart line. They carry no
+   controls of their own because the cart holds no lines for them.
+   ============================== */
+
+.cwc_cart__bundle {
+  display: block;
+  padding-block-end: 16px;
+}
+
+.cwc_cart__bundle .cwc_cart__line {
+  padding-block-end: 0;
+}
+
+.cwc_cart__bundle-toggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-block-start: 11px;
+  /* Aligns with the line body, clearing the 74px thumbnail plus its 13px gap. */
+  margin-inline-start: calc(var(--cwc-cart-pad) + 87px);
+  padding: 0;
+  border: 0;
+  background: none;
+  font-family: inherit;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--cwc-cart-accent-deep);
+  cursor: pointer;
+}
+
+.cwc_cart__bundle-caret {
+  transition: transform 0.18s ease;
+}
+
+.cwc_cart__bundle-toggle[aria-expanded='true'] .cwc_cart__bundle-caret {
+  transform: rotate(180deg);
+}
+
+.cwc_cart__bundle-items {
+  margin: 12px var(--cwc-cart-pad) 0 calc(var(--cwc-cart-pad) + 87px);
+  margin: 12px var(--cwc-cart-pad) 12px calc(var(--cwc-cart-pad) + 87px);
+  padding-inline-start: 14px;
+  border-inline-start: 2px solid color-mix(in srgb, var(--cwc-cart-accent) 25%, transparent);
+}
+
+.cwc_cart__bundle-item {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding-block: 8px;
+}
+
+.cwc_cart__bundle-item+.cwc_cart__bundle-item {
+  border-block-start: 1px solid var(--cwc-cart-line-soft);
+}
+
+.cwc_cart__bundle-item-media {
+  flex: 0 0 auto;
+  width: 42px;
+  height: 42px;
+  border: 1px solid var(--cwc-cart-line-soft);
+  border-radius: 3px;
+  background: var(--cwc-cart-surface-soft);
+  overflow: hidden;
+}
+
+.cwc_cart__bundle-item-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.cwc_cart__bundle-item-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.cwc_cart__bundle-item-name {
+  display: block;
+  font-size: 13.5px;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.cwc_cart__bundle-item-sub {
+  display: block;
+  margin-block-start: 1px;
+  font-size: 11.5px;
+  color: var(--cwc-cart-muted);
+}
+
+.cwc_cart__bundle-item-qty {
+  flex: 0 0 auto;
+  font-size: 11.5px;
+  color: var(--cwc-cart-muted);
+  white-space: nowrap;
+}
+
+/* ==============================
+   Recommendations
+   ------------------------------
+   Inside the scroll region, so the checkout block below it never moves.
+   ============================== */
+
+.cwc_cart__recs {
+  /* The auto margin is what pins this to the bottom of the scroll region: with a
+     short cart it eats the leftover height, and with a full one it resolves to
+     zero, so the strip sits straight under the last line item and scrolls with
+     it. Either way there is no gap between it and the footer. */
+  margin-block-start: auto;
+  flex: 0 0 auto;
+  padding-block: 18px 20px;
+  border-block-start: 1px solid var(--cwc-cart-line);
+  background: var(--cwc-cart-surface-recs);
+}
+
+.cwc_cart__recs-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  margin-block-end: 14px;
+  padding-inline: var(--cwc-cart-pad);
+}
+
+.cwc_cart__recs-title {
+  margin: 0;
+  font-family: var(--cwc-font-heading);
+  font-weight: var(--cwc-weight-heading);
+  font-size: 17px;
+  line-height: 1.2;
+}
+
+.cwc_cart__recs-nav {
+  display: flex;
+  gap: 6px;
+  flex: 0 0 auto;
+}
+
+/* Both of these carry an explicit `display`, which would otherwise beat the UA
+   stylesheet's rule for [hidden]. The strip starts hidden while it waits for
+   recommendations to land, and the arrows stay hidden until there are enough
+   cards to scroll. */
+.cwc_cart__recs[hidden],
+.cwc_cart__recs-nav[hidden] {
+  display: none;
+}
+
+.cwc_cart__recs-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border: 1px solid var(--cwc-cart-line);
+  border-radius: 50%;
+  background: var(--cwc-cart-surface);
+  color: var(--cwc-cart-muted);
+  cursor: pointer;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+.cwc_cart__recs-arrow:hover {
+  color: var(--cwc-cart-ink);
+  border-color: var(--cwc-cart-muted);
+}
+
+.cwc_cart__recs-arrow[disabled] {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.cwc_cart__recs-track {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+
+  /* Start inset only. The end inset is the ::after spacer below — see why. */
+  padding-block: 0 4px;
+  padding-inline-start: var(--cwc-cart-pad);
+
+  /* Without this the strip sits flush to the drawer edge despite the padding
+     above. Mandatory snapping means the browser has to rest on a snap position,
+     and scrollLeft:0 is not one while the first card's edge starts an inset in
+     — so it snaps to the card and scrolls the inset out of view. Pulling the
+     snapport in by the same amount makes 0 a valid position, and the strip
+     lines up with the heading above it. */
+  scroll-padding-inline-start: var(--cwc-cart-pad);
+}
+
+/* padding-inline-end is dropped on a flex scroll container in Chrome and
+   Safari, so the last card would butt against the drawer edge at the end of the
+   scroll while Firefox honoured it — inconsistent either way. A flex spacer is
+   real content and behaves the same everywhere. It is sized down by the track
+   gap that already precedes it, so the visible inset matches the start. */
+.cwc_cart__recs-track::after {
+  content: '';
+  flex: 0 0 calc(var(--cwc-cart-pad) - 12px);
+}
+
+.cwc_cart__recs-track::-webkit-scrollbar {
+  display: none;
+}
+
+.cwc_cart__rec-card {
+  display: flex;
+  flex-direction: column;
+  flex: 0 0 156px;
+  scroll-snap-align: start;
+  border: 1px solid var(--cwc-cart-line-soft);
+  border-radius: 6px;
+  background: var(--cwc-cart-surface);
+  overflow: hidden;
+}
+
+.cwc_cart__rec-media {
+  display: block;
+  aspect-ratio: 1 / 1;
+  background: var(--cwc-cart-surface-soft);
+}
+
+.cwc_cart__rec-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.cwc_cart__rec-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 11px 11px 12px;
+}
+
+.cwc_cart__rec-name {
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.3;
+  margin-block-end: 4px;
+  color: inherit;
+  text-decoration: none;
+  /* tesgin */
+  text-transform: capitalize;
+}
+
+.cwc_cart__rec-sub {
+  font-size: 11px;
+  line-height: 1.35;
+  color: var(--cwc-cart-muted);
+  margin-block-end: 8px;
+  /* testing */
+  display: none;
+}
+
+.cwc_cart__rec-prices {
+  margin-block: auto 9px;
+}
+
+.cwc_cart__rec-price {
+  font-family: var(--cwc-font-body);
+  font-weight: var(--cwc-weight-body);
+  font-size: 15px;
+}
+
+.cwc_cart__rec-was {
+  margin-inline-start: 5px;
+  font-size: 11.5px;
+  color: var(--cwc-cart-faint);
+  text-decoration: line-through;
+}
+
+.cwc_cart__rec-add {
+  display: block;
+  width: 100%;
+  padding: 8px;
+  border: 1.5px solid var(--cwc-cart-ink);
+  border-radius: var(--cwc-cart-radius);
+  background: none;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--cwc-cart-ink);
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+  background: var(--cwc-cart-accent);
+  border-color: var(--cwc-cart-accent);
+  color: #fff;
+  border-color: var(--cwc-cart-accent);
+}
+
+.cwc_cart__rec-add:hover {
+  filter: brightness(1.08);
+}
+
+.cwc_cart__rec-add--unavailable {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.cwc_cart__rec-add--unavailable:hover {
+  background: none;
+  border-color: var(--cwc-cart-ink);
+  color: var(--cwc-cart-ink);
+}
+
+/* The quick-buy modal is a sibling of the button and must not take up space. */
+.cwc_cart__rec-card .quick-buy-modal:not([open]) {
+  display: none;
+}
+
+/* ==============================
+   Footer
+   ============================== */
+
+.cwc_cart__foot {
+  display: block;
+}
+
+.cwc_cart__totals {
+  padding: 16px var(--cwc-cart-pad) 18px;
+}
+
+.cwc_cart__total-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-block-end: 7px;
+  font-size: 14px;
+  color: var(--cwc-cart-muted);
+}
+
+.cwc_cart__total-row span {
+  font-family: var(--cwc-font-body);
+  font-weight: var(--cwc-weight-body);
+}
+
+.cwc_cart__total-row--save {
+  font-weight: 600;
+  color: var(--cwc-cart-accent-deep);
+}
+
+.cwc_cart__total-row--grand {
+  align-items: baseline;
+  margin: 10px 0 3px;
+  padding-block-start: 11px;
+  border-block-start: 1px solid var(--cwc-cart-line-soft);
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--cwc-cart-ink);
+}
+
+.cwc_cart__total-value {
+  font-family: var(--cwc-font-body);
+  font-weight: var(--cwc-weight-body);
+  font-size: 22px;
+}
+
+.cwc_cart__discounts {
+  list-style: none;
+  margin: 0 0 9px;
+  padding: 0;
+}
+
+.cwc_cart__discount {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11.5px;
+  color: var(--cwc-cart-accent-deep);
+}
+
+.cwc_cart__foot-note {
+  margin: 0 0 14px;
+  font-size: 11.5px;
+  color: var(--cwc-cart-muted);
+}
+
+.cwc_cart__note-toggle {
+  display: inline-block;
+  margin-block-end: 14px;
+  padding: 0;
+  border: 0;
+  background: none;
+  font-family: inherit;
+  font-size: 12.5px;
+  color: var(--cwc-cart-muted);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.cwc_cart__note-toggle:hover {
+  color: var(--cwc-cart-ink);
+}
+
+/* The note overlay slides up over the footer. theme.css positions it and dims
+   the rest of the drawer while it is open; only its surface is restyled here. */
+.cwc_cart__note {
+  background: var(--cwc-cart-surface);
+  border-block-start: 1px solid var(--cwc-cart-line);
+  padding: 16px var(--cwc-cart-pad);
+}
+
+.cwc_cart__actions {
+  display: grid;
+  gap: 11px;
+}
+
+.cwc_cart__checkout {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 16px;
+  border: 0;
+  border-radius: var(--cwc-cart-radius);
+  background: var(--cwc-cart-accent);
+  font-family: inherit;
+  font-size: 15.5px;
+  font-weight: 600;
+  color: #fff;
+  cursor: pointer;
+  transition: filter 0.15s ease;
+}
+
+.cwc_cart__checkout:hover {
+  filter: brightness(1.08);
+}
+
+.cwc_cart__checkout-price {
+  display: flex;
+  align-items: center;
+}
+
+.cwc_cart__checkout-price::before {
+  content: '';
+  width: 3px;
+  height: 3px;
+  margin-inline-end: 10px;
+  border-radius: 100%;
+  background: currentColor;
+}
+
+.cwc_cart__view-cart,
+.cwc_cart__continue {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  font-family: inherit;
+  font-size: 13px;
+  color: var(--cwc-cart-muted);
+  text-align: center;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.cwc_cart__view-cart:hover,
+.cwc_cart__continue:hover {
+  color: var(--cwc-cart-ink);
+}
+
+.cwc_cart__marks {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 15px;
+  list-style: none;
+  margin: 6px 0 0;
+  padding: 0;
+  font-size: 11px;
+  color: var(--cwc-cart-muted);
+}
+
+/* ==============================
+   Empty state
+   ============================== */
+
+.cwc_cart__empty {
+  flex: 0 0 auto;
+  padding: 56px 26px;
+  text-align: center;
+}
+
+.cwc_cart__empty-mark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 54px;
+  height: 54px;
+  margin: 0 auto 18px;
+  border: 1px solid var(--cwc-cart-line);
+  border-radius: 50%;
+  color: var(--cwc-cart-muted);
+}
+
+.cwc_cart__empty-title {
+  margin: 0 0 6px;
+  font-family: var(--cwc-font-heading);
+  font-weight: var(--cwc-weight-heading);
+  font-size: 21px;
+  line-height: 1.2;
+}
+
+.cwc_cart__empty-text {
+  margin: 0 0 22px;
+  font-size: 14px;
+  color: var(--cwc-cart-muted);
+}
+
+.cwc_cart__empty-links {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cwc_cart__empty-link {
+  display: block;
+  width: 100%;
+  padding: 11px;
+  border: 1px solid var(--cwc-cart-line);
+  border-radius: var(--cwc-cart-radius);
+  background: none;
+  font-family: inherit;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: inherit;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.cwc_cart__empty-link:hover {
+  border-color: var(--cwc-cart-ink);
+  background: var(--cwc-cart-surface-soft);
+}
+
+/* ==============================
+   Mobile — full width, full height, same component
+   ============================== */
+
+@media screen and (max-width: 699px) {
+  .cwc_cart {
+    --cwc-cart-pad: 16px;
+  }
+
+  .cwc_cart::part(content) {
+    max-width: 100vw;
+  }
+
+  .cwc_cart__line-media {
+    width: 64px;
+    height: 64px;
+  }
+
+  .cwc_cart__line-name {
+    font-size: 16px;
+  }
+
+  /* Kit components indent to the narrower thumbnail: 64px plus the 13px gap. */
+  .cwc_cart__bundle-toggle {
+    margin-inline-start: calc(var(--cwc-cart-pad) + 77px);
+  }
+
+  .cwc_cart__bundle-items {
+    margin-inline: calc(var(--cwc-cart-pad) + 77px) var(--cwc-cart-pad);
+  }
+
+  .cwc_cart__empty {
+    padding: 44px 20px;
+  }
+
+  .cwc_cart__checkout {
+    padding: 15px;
+    font-size: 15px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+  .cwc_cart *,
+  .cwc_cart::part(content) {
+    transition: none !important;
+  }
+}

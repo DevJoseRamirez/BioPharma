@@ -1,0 +1,441 @@
+{%- liquid
+  assign components = product.metafields.custom.kit_components.value
+
+  comment
+    Every figure in this section is derived. kit-price-math runs the sum once
+    and echoes it back, because a rendered snippet cannot assign into its
+    caller's scope.
+  endcomment
+  assign headline = product.metafields.custom.math_headline
+  assign sub = product.metafields.custom.math_sub
+-%}
+
+{%- if components.size >= 2 -%}
+{%- capture kit_math -%}{%- render 'kit-price-math', kit: product -%}{%- endcapture -%}
+{%- liquid
+  assign math = kit_math | strip | split: '|'
+  assign separate_total = math[0] | plus: 0
+  assign kit_price = math[1] | plus: 0
+  assign saved = math[2] | plus: 0
+  assign saved_annual = math[4] | plus: 0
+  assign missing = math[6] | plus: 0
+
+  comment
+    A component that did not resolve leaves the sum short, which would
+    understate the total and overstate nothing — but the saving beside it
+    would still be wrong. Both come down rather than print a figure that
+    cannot be trusted; the rows themselves still render.
+  endcomment
+  assign totals_trustworthy = false
+  if missing == 0 and separate_total > 0
+    assign totals_trustworthy = true
+  endif
+
+  assign show_saving = false
+  if totals_trustworthy and saved > 0 and section.settings.show_annual_savings
+    assign show_saving = true
+  endif
+
+  comment
+    Per-day follows the kit price it sits under, so the two can never
+    disagree. price_per_day overrides only where a kit is not a 30-day supply.
+  endcomment
+  assign per_day = 0
+  assign per_day_override = product.metafields.custom.price_per_day.value.amount
+  if per_day_override > 0
+    assign per_day = per_day_override | times: 100 | round
+  elsif kit_price > 0
+    assign per_day = kit_price | times: 1.0 | divided_by: 30 | round
+  endif
+-%}
+
+  {% style %}
+    #cwc_meta_kit_savings-{{ section.id }} {
+      --section-bg: {{ section.settings.bg_color | default: '#ffffff' }};
+      --text-color: {{ section.settings.text_color | default: '#1F1F1C' }};
+      --highlight-color: {{ section.settings.bold_color | default: '#44681A' }};
+      --eyebrow-color: {{ section.settings.eyebrow_color | default: '#78AD49' }};
+      --body-color: {{ section.settings.body_color | default: '#6B6B65' }};
+      --rule-color: {{ section.settings.rule_color | default: '#DEDDD6' }};
+      --row-rule-color: {{ section.settings.row_rule_color | default: '#EAE9E3' }};
+      --card-bg: {{ section.settings.card_bg | default: '#44681A' }};
+      --card-text: {{ section.settings.card_text_color | default: '#ffffff' }};
+      --accent-color: {{ section.settings.accent_color | default: '#DCEFC4' }};
+      --button-bg: {{ section.settings.button_bg | default: '#ffffff' }};
+      --button-text: {{ section.settings.button_text_color | default: '#44681A' }};
+      --padding-top: {{ section.settings.padding_top | default: 80 }}px;
+      --padding-bottom: {{ section.settings.padding_bottom | default: 80 }}px;
+      --padding-top-mobile: {{ section.settings.padding_top | default: 80 | times: 0.5 }}px;
+      --padding-bottom-mobile: {{ section.settings.padding_bottom | default: 80 | times: 0.5 }}px;
+    }
+  {% endstyle %}
+
+  {{ 'CWC_fonts.css' | asset_url | stylesheet_tag }}
+  {{ 'CWC_meta_kit_savings.css' | asset_url | stylesheet_tag }}
+
+  <section id="cwc_meta_kit_savings-{{ section.id }}" class="cwc_meta_kit_savings">
+    <div class="cwc_meta_kit_savings__container">
+
+      {% comment %} Section Header {% endcomment %}
+      <div class="cwc_meta_kit_savings__content">
+        {% if section.settings.eyebrow_text != blank %}
+          <p class="cwc_meta_kit_savings__eyebrow">{{ section.settings.eyebrow_text }}</p>
+        {% endif %}
+
+        {% if headline != blank %}
+          <h2 class="cwc_meta_kit_savings__content-heading">{{ headline }}</h2>
+        {% elsif section.settings.heading != blank %}
+          <div class="cwc_meta_kit_savings__content-heading cwc-rte">
+            {{ section.settings.heading }}
+          </div>
+        {% endif %}
+
+        {% if sub != blank %}
+          <p class="cwc_meta_kit_savings__content-subtext">{{ sub | newline_to_br }}</p>
+        {% elsif section.settings.subheading != blank %}
+          <div class="cwc_meta_kit_savings__content-subtext cwc-rte">
+            {{ section.settings.subheading }}
+          </div>
+        {% endif %}
+      </div>
+
+      <div class="cwc_meta_kit_savings__wrapper">
+
+        {% comment %} Itemised component prices, read live off each product {% endcomment %}
+        <div class="cwc_meta_kit_savings__list">
+          {% for component in components %}
+            {%- liquid
+              assign component_product = component.product.value
+              assign row_price = component_product.price
+
+              comment
+                The per-serving line divides the row's own price by the
+                product's serving count, so the two figures can never drift
+                apart. It is dropped whenever either side is unavailable.
+              endcomment
+              assign servings = component_product.metafields.custom.servings.value | plus: 0
+              assign per_serving = 0
+              if servings > 0 and row_price > 0
+                assign per_serving = row_price | times: 1.0 | divided_by: servings | round
+              endif
+            -%}
+
+            {% if component_product != blank %}
+              <div class="cwc_meta_kit_savings__row">
+                <span class="cwc_meta_kit_savings__row-name">
+                  {{ component_product.title }}
+
+                  {% if per_serving > 0 %}
+                    <span class="cwc_meta_kit_savings__row-sub">
+                      {{ servings }} {{ section.settings.servings_label | default: 'servings' }}
+                      &middot; {{ per_serving | money }} {{ section.settings.per_serving_label | default: 'per serving' }}
+                    </span>
+                  {% endif %}
+                </span>
+
+                {% if row_price > 0 %}
+                  <span class="cwc_meta_kit_savings__row-price">{{ row_price | money }}</span>
+                {% endif %}
+              </div>
+            {% endif %}
+          {% endfor %}
+
+          {%- comment -%}
+            The total only appears when every component contributed to it.
+          {%- endcomment -%}
+          {% if totals_trustworthy %}
+            <div class="cwc_meta_kit_savings__row cwc_meta_kit_savings__row--total">
+              <span class="cwc_meta_kit_savings__row-name">
+                {{ section.settings.separate_total_label | default: 'Bought separately' }}
+
+                {% if section.settings.separate_total_sub != blank %}
+                  <span class="cwc_meta_kit_savings__row-sub">{{ section.settings.separate_total_sub }}</span>
+                {% endif %}
+              </span>
+
+              <span class="cwc_meta_kit_savings__row-price">{{ separate_total | money }}</span>
+            </div>
+          {% endif %}
+        </div>
+
+        {% comment %} Kit price card {% endcomment %}
+        <div class="cwc_meta_kit_savings__card">
+          {% assign card_label = section.settings.kit_label | default: product.title %}
+          {% if card_label != blank %}
+            <span class="cwc_meta_kit_savings__card-label">{{ card_label }}</span>
+          {% endif %}
+
+          {% if kit_price > 0 %}
+            <div class="cwc_meta_kit_savings__card-price">{{ kit_price | money }}</div>
+          {% endif %}
+
+          {% if section.settings.price_note != blank or per_day > 0 %}
+            <p class="cwc_meta_kit_savings__card-note">
+              {{ section.settings.price_note }}
+              {%- if section.settings.show_per_day and per_day > 0 -%}
+                {%- if section.settings.price_note != blank %} &middot; {% endif -%}
+                {{ per_day | money }} {{ section.settings.per_day_label | default: 'a day' }}
+              {%- endif -%}
+            </p>
+          {% endif %}
+
+          {% if show_saving %}
+            <div class="cwc_meta_kit_savings__card-saving">
+              {{ section.settings.savings_label | default: 'You keep' }}
+              <b>{{ saved_annual | money }} {{ section.settings.savings_period_label | default: 'a year' }}</b>
+            </div>
+          {% endif %}
+
+          {% if section.settings.cta_label != blank %}
+            <a
+              class="cwc_meta_kit_savings__button"
+              href="{{ section.settings.cta_link | default: product.url }}"
+            >
+              {{ section.settings.cta_label }}
+            </a>
+          {% endif %}
+        </div>
+
+      </div>
+    </div>
+  </section>
+{%- elsif request.design_mode -%}
+  <p style="margin:0;padding:2rem;text-align:center;font-size:0.875rem;color:#767676;background:#F6F6F4;">
+    Kit Savings Math — assign two or more kit_components to this kit to display this section. Every figure computes from the referenced products' live prices.
+  </p>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Kit Savings Math",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Every price, total and saving on this section computes from the kit's components at render time. There are no price settings by design — a typed figure would drift the moment a component price changed."
+    },
+    {
+      "type": "header",
+      "content": "Section Header"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow_text",
+      "label": "Eyebrow",
+      "default": "The math"
+    },
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "Heading Fallback",
+      "info": "Used only when the kit has no math_headline metafield.",
+      "default": "<p>What this costs <b>bought separately.</b></p>"
+    },
+    {
+      "type": "richtext",
+      "id": "subheading",
+      "label": "Subheading Fallback",
+      "info": "Used only when the kit has no math_sub metafield.",
+      "default": "<p>Same products, same sizes, separate subscriptions.</p>"
+    },
+    {
+      "type": "header",
+      "content": "List Labels"
+    },
+    {
+      "type": "text",
+      "id": "separate_total_label",
+      "label": "Total Row Label",
+      "default": "Bought separately"
+    },
+    {
+      "type": "text",
+      "id": "separate_total_sub",
+      "label": "Total Row Sub-line",
+      "default": "Separate products, separate subscriptions, separate delivery dates"
+    },
+    {
+      "type": "text",
+      "id": "servings_label",
+      "label": "Servings Word",
+      "default": "servings"
+    },
+    {
+      "type": "text",
+      "id": "per_serving_label",
+      "label": "Per-Serving Word",
+      "default": "per serving"
+    },
+    {
+      "type": "header",
+      "content": "Kit Card"
+    },
+    {
+      "type": "text",
+      "id": "kit_label",
+      "label": "Kit Label",
+      "info": "Falls back to the product title."
+    },
+    {
+      "type": "text",
+      "id": "price_note",
+      "label": "Price Note",
+      "info": "Sits under the price. The per-day figure is appended to it.",
+      "default": "per month, subscribed"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_per_day",
+      "label": "Show Per-Day Figure",
+      "info": "Kit price divided by 30, unless the kit sets price_per_day.",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "per_day_label",
+      "label": "Per-Day Word",
+      "default": "a day"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_annual_savings",
+      "label": "Show Annual Savings",
+      "info": "Twelve times the monthly difference. Hidden when a component price cannot be read.",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "savings_label",
+      "label": "Savings Label",
+      "default": "You keep"
+    },
+    {
+      "type": "text",
+      "id": "savings_period_label",
+      "label": "Savings Period Word",
+      "default": "a year"
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "Button Label",
+      "default": "Start the kit"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "Button Link",
+      "info": "Defaults to this product."
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#1F1F1C"
+    },
+    {
+      "type": "color",
+      "id": "bold_color",
+      "label": "Heading Bold Color",
+      "default": "#44681A"
+    },
+    {
+      "type": "color",
+      "id": "eyebrow_color",
+      "label": "Eyebrow Color",
+      "default": "#78AD49"
+    },
+    {
+      "type": "color",
+      "id": "body_color",
+      "label": "Body Text Color",
+      "default": "#6B6B65"
+    },
+    {
+      "type": "color",
+      "id": "rule_color",
+      "label": "List Top Rule Color",
+      "default": "#DEDDD6"
+    },
+    {
+      "type": "color",
+      "id": "row_rule_color",
+      "label": "Row Divider Color",
+      "default": "#EAE9E3"
+    },
+    {
+      "type": "header",
+      "content": "Card Colors"
+    },
+    {
+      "type": "color",
+      "id": "card_bg",
+      "label": "Card Background Color",
+      "default": "#44681A"
+    },
+    {
+      "type": "color",
+      "id": "card_text_color",
+      "label": "Card Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent Color",
+      "default": "#DCEFC4"
+    },
+    {
+      "type": "color",
+      "id": "button_bg",
+      "label": "Button Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button Text Color",
+      "default": "#44681A"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 80
+    }
+  ],
+  "presets": [
+    {
+      "name": "Kit Savings Math",
+      "category": "CWC Custom"
+    }
+  ]
+}
+{% endschema %}

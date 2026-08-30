@@ -299,12 +299,525 @@
         "remove_vertical_spacing": false,
         "remove_horizontal_spacing": false
       }
+    },
+    "cwc_meta_kit_trust": {
+      "type": "CWC_meta_kit_trust",
+      "blocks": {
+        "trust_1": {
+          "type": "trust_item",
+          "settings": {
+            "text": "Made in California"
+          }
+        },
+        "trust_2": {
+          "type": "trust_item",
+          "settings": {
+            "text": "Organic where it exists"
+          }
+        },
+        "trust_3": {
+          "type": "trust_item",
+          "settings": {
+            "text": "Non-GMO"
+          }
+        },
+        "trust_4": {
+          "type": "trust_item",
+          "settings": {
+            "text": "Tested twice"
+          }
+        },
+        "trust_5": {
+          "type": "trust_item",
+          "settings": {
+            "text": "30-day guarantee"
+          }
+        }
+      },
+      "block_order": [
+        "trust_1",
+        "trust_2",
+        "trust_3",
+        "trust_4",
+        "trust_5"
+      ],
+      "settings": {
+        "columns_desktop": 5,
+        "divider_style": "rules",
+        "bg_color": "#FAFAF8",
+        "text_color": "#1F1F1C",
+        "bold_color": "#5BA90F",
+        "border_color": "#DEDDD6",
+        "divider_color": "#E9E8E2",
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "cwc_meta_kit_problem": {
+      "type": "CWC_meta_kit_problem",
+      "settings": {
+        "eyebrow_text": "Why kits",
+        "heading": "<p>The routine falls apart <b>when it's three decisions.</b></p>",
+        "subheading": "<p>Three products, three reorder dates, three chances to forget one.</p>",
+        "metaobject_source": "metaobject",
+        "show_sources": true,
+        "columns": 3,
+        "bg_color": "#ECEBE5",
+        "text_color": "#1F1F1C",
+        "bold_color": "#44681A",
+        "eyebrow_color": "#44681A",
+        "accent_color": "#44681A",
+        "card_bg": "#ECEBE5",
+        "rule_color": "#6E6C63",
+        "divider_color": "#C9C7BE",
+        "padding_top": 80,
+        "padding_bottom": 80
+      }
+    },
+    "cwc_meta_kit_components": {
+      "type": "CWC_meta_kit_components",
+      "settings": {
+        "eyebrow_text": "What's in the kit",
+        "heading": "<p>Three products, <b>one job each.</b></p>",
+        "subheading": "<p>Nothing overlaps. Each one covers something the others don't.</p>",
+        "metaobject_source": "metaobject",
+        "show_price": true,
+        "show_product_link": true,
+        "product_link_label": "View product",
+        "columns_desktop": 3,
+        "bg_color": "#ffffff",
+        "text_color": "#1F1F1C",
+        "bold_color": "#44681A",
+        "eyebrow_color": "#78AD49",
+        "role_color": "#78AD49",
+        "body_color": "#6B6B65",
+        "link_color": "#44681A",
+        "card_bg": "#ffffff",
+        "card_border_color": "#EAE9E3",
+        "image_bg": "#F5F4F0",
+        "padding_top": 80,
+        "padding_bottom": 80
+      }
+    },
+    "cwc_meta_kit_routine": {
+      "type": "CWC_meta_kit_routine",
+      "settings": {
+        "eyebrow_text": "How it fits the day",
+        "heading": "<p>Two minutes, <b>once a morning.</b></p>",
+        "subheading": "<p>Everything in this kit is taken at the same time. There's no second alarm.</p>",
+        "metaobject_source": "metaobject",
+        "layout": "track",
+        "bg_color": "#ECEBE5",
+        "text_color": "#1F1F1C",
+        "bold_color": "#44681A",
+        "eyebrow_color": "#78AD49",
+        "when_color": "#44681A",
+        "marker_color": "#44681A",
+        "body_color": "#6B6B65",
+        "card_bg": "#ECEBE5",
+        "rule_color": "#77756C",
+        "divider_color": "#C9C7BE",
+        "padding_top": 80,
+        "padding_bottom": 80
+      }
+    },
+    "cwc_meta_kit_savings": {
+      "type": "CWC_meta_kit_savings",
+      "settings": {
+        "eyebrow_text": "The math",
+        "heading": "<p>What this costs <b>bought separately.</b></p>",
+        "subheading": "<p>Same products, same sizes, separate subscriptions.</p>",
+        "separate_total_label": "Bought separately",
+        "separate_total_sub": "Separate products, separate subscriptions, separate delivery dates",
+        "servings_label": "servings",
+        "per_serving_label": "per serving",
+        "price_note": "per month, subscribed",
+        "show_per_day": true,
+        "per_day_label": "a day",
+        "show_annual_savings": true,
+        "savings_label": "You keep",
+        "savings_period_label": "a year",
+        "cta_label": "Start the kit",
+        "cta_link": "",
+        "bg_color": "#ffffff",
+        "text_color": "#1F1F1C",
+        "bold_color": "#44681A",
+        "eyebrow_color": "#78AD49",
+        "body_color": "#6B6B65",
+        "rule_color": "#DEDDD6",
+        "row_rule_color": "#EAE9E3",
+        "card_bg": "#44681A",
+        "card_text_color": "#ffffff",
+        "accent_color": "#DCEFC4",
+        "button_bg": "#ffffff",
+        "button_text_color": "#44681A",
+        "padding_top": 80,
+        "padding_bottom": 80
+      }
+    },
+    "cwc_meta_kit_absorption": {
+      "type": "CWC_meta_kit_absorption",
+      "blocks": {
+        "stage_1": {
+          "type": "stage",
+          "settings": {
+            "label": "Stage one",
+            "title": "Encapsulated",
+            "description": "Supersorb wraps key nutrients in natural plant fats so they survive the stomach instead of breaking down in it."
+          }
+        },
+        "stage_2": {
+          "type": "stage",
+          "settings": {
+            "label": "Stage two",
+            "title": "Broken down",
+            "description": "Blend 32000B — nine digestive enzymes — cleaves the proteins, starches, fibers and fats whole-food formulas are locked inside."
+          }
+        },
+        "stage_3": {
+          "type": "stage",
+          "settings": {
+            "label": "Stage three",
+            "title": "Absorbed",
+            "description": "Nutrients reach the small intestine intact, where the body takes them up — rather than passing through unused."
+          }
+        },
+        "enzyme_1": {
+          "type": "enzyme",
+          "settings": {
+            "name": "Alpha amylase"
+          }
+        },
+        "enzyme_2": {
+          "type": "enzyme",
+          "settings": {
+            "name": "Bromelain"
+          }
+        },
+        "enzyme_3": {
+          "type": "enzyme",
+          "settings": {
+            "name": "Cellulase"
+          }
+        },
+        "enzyme_4": {
+          "type": "enzyme",
+          "settings": {
+            "name": "Galactosidase"
+          }
+        },
+        "enzyme_5": {
+          "type": "enzyme",
+          "settings": {
+            "name": "Glucoamylase"
+          }
+        },
+        "enzyme_6": {
+          "type": "enzyme",
+          "settings": {
+            "name": "Hemicellulase"
+          }
+        },
+        "enzyme_7": {
+          "type": "enzyme",
+          "settings": {
+            "name": "Lipase"
+          }
+        },
+        "enzyme_8": {
+          "type": "enzyme",
+          "settings": {
+            "name": "Papain"
+          }
+        },
+        "enzyme_9": {
+          "type": "enzyme",
+          "settings": {
+            "name": "Protease"
+          }
+        }
+      },
+      "block_order": [
+        "stage_1",
+        "stage_2",
+        "stage_3",
+        "enzyme_1",
+        "enzyme_2",
+        "enzyme_3",
+        "enzyme_4",
+        "enzyme_5",
+        "enzyme_6",
+        "enzyme_7",
+        "enzyme_8",
+        "enzyme_9"
+      ],
+      "settings": {
+        "enable_condition": "if_is_supplement",
+        "eyebrow_text": "The expensive part everyone skips",
+        "heading": "<p>You are what you <b>absorb.</b></p>",
+        "body": "<p>An ingredient list only counts for what your body can take up. Enzymes break the formula down so it can be used — and they're the expensive line on a spec sheet. Blend 32000B is in every product we make.</p>",
+        "link_label": "Read the science",
+        "link_url": "",
+        "show_enzymes": true,
+        "show_edges": true,
+        "bg_color": "#F7F8FB",
+        "text_color": "#1F1F1C",
+        "bold_color": "#4A5F92",
+        "eyebrow_color": "#6A80B4",
+        "body_color": "#6B6B65",
+        "link_color": "#4A5F92",
+        "border_color": "#CFD9EE",
+        "card_bg": "#ffffff",
+        "stage_label_color": "#6A80B4",
+        "chip_bg": "#ffffff",
+        "chip_text_color": "#6A80B4",
+        "padding_top": 80,
+        "padding_bottom": 80
+      }
+    },
+    "cwc_meta_kit_practitioner": {
+      "type": "CWC_meta_kit_practitioner",
+      "blocks": {
+        "cred_1": {
+          "type": "credential",
+          "settings": {
+            "abbreviation": "DC"
+          }
+        },
+        "cred_2": {
+          "type": "credential",
+          "settings": {
+            "abbreviation": "ND"
+          }
+        },
+        "cred_3": {
+          "type": "credential",
+          "settings": {
+            "abbreviation": "MD"
+          }
+        },
+        "voice_1": {
+          "type": "voice",
+          "settings": {
+            "name": "Dr. Lauren Calloway, DC",
+            "role": "Chiropractor · Scottsdale, AZ",
+            "quote": "I've recommended NanoGreens to patients for years. When someone isn't getting enough produce, this is the simplest thing I can hand them that they'll actually stick with."
+          }
+        },
+        "voice_2": {
+          "type": "voice",
+          "settings": {
+            "name": "Dr. Michael Torres, MD",
+            "role": "Integrative Medicine · Austin, TX",
+            "quote": "I've been stocking it in my practice since 2011. The formula hasn't been cheapened, which is rare in this industry. That consistency is why I keep recommending it."
+          }
+        },
+        "voice_3": {
+          "type": "voice",
+          "settings": {
+            "name": "Dr. Sarah Whitfield, ND",
+            "role": "Naturopathic Doctor · San Diego, CA",
+            "quote": "The enzyme blend is why I choose it over cheaper greens. Absorption is the whole point — a powder your body passes through isn't doing anything for you."
+          }
+        },
+        "stat_1": {
+          "type": "stat",
+          "settings": {
+            "value": "20+",
+            "label": "Years recommended in practitioner clinics"
+          }
+        },
+        "stat_2": {
+          "type": "stat",
+          "settings": {
+            "value": "33",
+            "label": "Reviews mention a clinician recommended it"
+          }
+        },
+        "stat_3": {
+          "type": "stat",
+          "settings": {
+            "value": "2×",
+            "label": "Tested — before and after blending"
+          }
+        },
+        "stat_4": {
+          "type": "stat",
+          "settings": {
+            "value": "USA",
+            "label": "Made, American farms sourced first"
+          }
+        }
+      },
+      "block_order": [
+        "cred_1",
+        "cred_2",
+        "cred_3",
+        "voice_1",
+        "voice_2",
+        "voice_3",
+        "stat_1",
+        "stat_2",
+        "stat_3",
+        "stat_4"
+      ],
+      "settings": {
+        "eyebrow_text": "Recommended in practice",
+        "heading": "<p>The people who recommend it <b>see patients all day.</b></p>",
+        "body": "<p>BioPharma Scientific formulas were developed for and distributed through doctors, chiropractors and naturopaths for years before anything was sold direct. Many still stock them today.</p>",
+        "show_credentials": true,
+        "show_voices": true,
+        "show_stats": true,
+        "bg_color": "#ffffff",
+        "text_color": "#1F1F1C",
+        "bold_color": "#44681A",
+        "eyebrow_color": "#6A80B4",
+        "body_color": "#6B6B65",
+        "stat_color": "#44681A",
+        "rule_color": "#77756C",
+        "divider_color": "#D8D6CE",
+        "card_bg": "#ffffff",
+        "card_border_color": "#EAE9E3",
+        "avatar_bg": "#ECEBE5",
+        "pill_bg": "#ffffff",
+        "pill_border_color": "#DEDDD6",
+        "pill_color": "#6B6B65",
+        "padding_top": 80,
+        "padding_bottom": 80
+      }
+    },
+    "cwc_meta_kit_reviews": {
+      "type": "CWC_meta_kit_reviews",
+      "settings": {
+        "heading": "<p>The routines people <b>have kept.</b></p>",
+        "section_anchor": "reviews",
+        "app_block_position": "below",
+        "bg_color": "#ECEBE5",
+        "text_color": "#1F1F1C",
+        "bold_color": "#44681A",
+        "card_bg": "#ffffff",
+        "star_color": "#5BA90F",
+        "anchor_offset": 80,
+        "padding_top": 80,
+        "padding_bottom": 80
+      }
+    },
+    "cwc_meta_kit_other_kits": {
+      "type": "CWC_meta_kit_other_kits",
+      "settings": {
+        "eyebrow_text": "Other routines",
+        "heading": "<p>If this one isn't <b>the fit.</b></p>",
+        "metafield_source": "metafield",
+        "fallback_collection": "",
+        "kits_to_show": 3,
+        "show_was_price": true,
+        "columns_desktop": 3,
+        "bg_color": "#ffffff",
+        "text_color": "#1F1F1C",
+        "bold_color": "#44681A",
+        "eyebrow_color": "#78AD49",
+        "body_color": "#6B6B65",
+        "was_color": "#A9A8A1",
+        "card_bg": "#ffffff",
+        "card_border_color": "#EAE9E3",
+        "image_bg": "#F5F4F0",
+        "padding_top": 70,
+        "padding_bottom": 70
+      }
+    },
+    "cwc_meta_kit_faq": {
+      "type": "CWC_meta_kit_faq",
+      "settings": {
+        "heading": "<p>Questions</p>",
+        "aside_text": "<p>Not finding it? We answer within one business day.</p>",
+        "aside_link_label": "Contact us",
+        "aside_link": "",
+        "metaobject_source": "metaobject",
+        "include_global_faqs": true,
+        "show_global_badge": false,
+        "global_badge_label": "Global",
+        "first_item_open": true,
+        "bg_color": "#FAFAF8",
+        "text_color": "#1F1F1C",
+        "bold_color": "#44681A",
+        "body_color": "#6B6B65",
+        "open_color": "#44681A",
+        "link_color": "#44681A",
+        "border_color": "#DEDDD6",
+        "row_rule_color": "#EAE9E3",
+        "badge_color": "#A9A8A1",
+        "padding_top": 70,
+        "padding_bottom": 70
+      }
+    },
+    "cwc_meta_kit_guarantee": {
+      "type": "CWC_meta_kit_guarantee",
+      "blocks": {
+        "pill_1": {
+          "type": "pill",
+          "settings": {
+            "text": "30-day money-back guarantee"
+          }
+        },
+        "pill_2": {
+          "type": "pill",
+          "settings": {
+            "text": "Free shipping on subscriptions"
+          }
+        },
+        "pill_3": {
+          "type": "pill",
+          "settings": {
+            "text": "Cancel or pause anytime"
+          }
+        },
+        "pill_4": {
+          "type": "pill",
+          "settings": {
+            "text": "No cancellation fees"
+          }
+        }
+      },
+      "block_order": [
+        "pill_1",
+        "pill_2",
+        "pill_3",
+        "pill_4"
+      ],
+      "settings": {
+        "show_badge": true,
+        "badge_number": "30",
+        "badge_label": "DAY",
+        "heading": "<p>Love it, or get <b>your money back.</b></p>",
+        "body": "<p>Try it for thirty days. If it isn't for you, contact us for a full refund — opened tub and all.</p>",
+        "bg_color": "#ffffff",
+        "text_color": "#2A2611",
+        "bold_color": "#A3C781",
+        "card_bg_color": "#44681A",
+        "card_text_color": "#d9e7c9",
+        "badge_border_color": "#A3C781",
+        "badge_text_color": "#cfe0bd",
+        "pill_text_color": "#eaf3df",
+        "padding_top": 50,
+        "padding_bottom": 50
+      }
     }
   },
   "order": [
     "cwc_announcement",
     "cwc_header",
     "cwc_product_hero_buy_box",
+    "cwc_meta_kit_trust",
+    "cwc_meta_kit_problem",
+    "cwc_meta_kit_components",
+    "cwc_meta_kit_routine",
+    "cwc_meta_kit_savings",
+    "cwc_meta_kit_absorption",
+    "cwc_meta_kit_practitioner",
+    "cwc_meta_kit_reviews",
+    "cwc_meta_kit_other_kits",
+    "cwc_meta_kit_faq",
+    "cwc_meta_kit_guarantee",
     "apps"
   ]
 }

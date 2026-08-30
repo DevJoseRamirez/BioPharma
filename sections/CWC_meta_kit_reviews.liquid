@@ -1,0 +1,182 @@
+{% style %}
+  #cwc_meta_kit_reviews-{{ section.id }} {
+    --section-bg: {{ section.settings.bg_color | default: '#ECEBE5' }};
+    --text-color: {{ section.settings.text_color | default: '#1F1F1C' }};
+    --highlight-color: {{ section.settings.bold_color | default: '#44681A' }};
+    --card-bg: {{ section.settings.card_bg | default: '#ffffff' }};
+    --star-color: {{ section.settings.star_color | default: '#5BA90F' }};
+    --anchor-offset: {{ section.settings.anchor_offset | default: 80 }}px;
+    --padding-top: {{ section.settings.padding_top | default: 80 }}px;
+    --padding-bottom: {{ section.settings.padding_bottom | default: 80 }}px;
+    --padding-top-mobile: {{ section.settings.padding_top | default: 80 | times: 0.5 }}px;
+    --padding-bottom-mobile: {{ section.settings.padding_bottom | default: 80 | times: 0.5 }}px;
+  }
+{% endstyle %}
+
+{{ 'CWC_fonts.css' | asset_url | stylesheet_tag }}
+{{ 'CWC_meta_kit_reviews.css' | asset_url | stylesheet_tag }}
+
+<section
+  id="cwc_meta_kit_reviews-{{ section.id }}"
+  class="cwc_meta_kit_reviews cwc_meta_kit_reviews--{{ section.settings.app_block_position | default: 'below' }}"
+>
+  {% comment %} Anchor target for review-count links elsewhere on the page {% endcomment %}
+  <div id="{{ section.settings.section_anchor | default: 'reviews' }}" class="cwc_meta_kit_reviews__anchor"></div>
+
+  <div class="cwc_meta_kit_reviews__container">
+
+    {% if section.settings.heading != blank %}
+      <div class="cwc_meta_kit_reviews__content">
+        <div class="cwc_meta_kit_reviews__content-heading cwc-rte">
+          {{ section.settings.heading }}
+        </div>
+      </div>
+    {% endif %}
+
+    {% comment %}
+      App-owned. The aggregate, the cards and the pagination all come from
+      the review app — this section supplies the band, the anchor and the
+      slot, nothing more.
+    {% endcomment %}
+    {% if section.blocks.size > 0 %}
+      <div class="cwc_meta_kit_reviews__app">
+        {% for block in section.blocks %}
+          {% case block.type %}
+            {% when '@app' %}
+              {% render block %}
+          {% endcase %}
+        {% endfor %}
+      </div>
+    {% elsif request.design_mode %}
+      <div class="cwc_meta_kit_reviews__empty">
+        <p>Add your review app block to this section.</p>
+      </div>
+    {% endif %}
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Kit Reviews",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Header"
+    },
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "<p>The routines people <b>have kept.</b></p>"
+    },
+    {
+      "type": "paragraph",
+      "content": "Review content comes from the review app block below. Add the app block in the theme editor."
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "text",
+      "id": "section_anchor",
+      "label": "Anchor Id",
+      "info": "Links elsewhere on the page jump to this id.",
+      "default": "reviews"
+    },
+    {
+      "type": "select",
+      "id": "app_block_position",
+      "label": "App Block Position",
+      "options": [
+        { "value": "below", "label": "Below the heading" },
+        { "value": "full", "label": "Full width, no container padding" }
+      ],
+      "default": "below"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#ECEBE5"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#1F1F1C"
+    },
+    {
+      "type": "color",
+      "id": "bold_color",
+      "label": "Heading Bold Color",
+      "default": "#44681A"
+    },
+    {
+      "type": "color",
+      "id": "card_bg",
+      "label": "Review Card Color",
+      "info": "Applies to the container. Apps that draw their own cards may ignore it.",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "star_color",
+      "label": "Star Color",
+      "info": "Applies to the container. Apps that draw their own stars may ignore it.",
+      "default": "#5BA90F"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "anchor_offset",
+      "label": "Anchor Scroll Offset",
+      "info": "Clearance for the sticky header.",
+      "min": 0,
+      "max": 200,
+      "step": 10,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 80
+    }
+  ],
+  "blocks": [
+    {
+      "type": "@app"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Kit Reviews",
+      "category": "CWC Custom"
+    }
+  ]
+}
+{% endschema %}

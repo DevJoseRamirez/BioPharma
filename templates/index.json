@@ -602,7 +602,7 @@
         "fmt_1": {
           "type": "format",
           "settings": {
-            "collection": "best-selling",
+            "collection": "best-sellers",
             "image": "shopify://shop_images/By-Form-Greens_Reds.png",
             "image_alt": "",
             "title": "Greens & Reds",
@@ -613,7 +613,7 @@
         "fmt_2": {
           "type": "format",
           "settings": {
-            "collection": "best-selling",
+            "collection": "best-sellers",
             "image": "shopify://shop_images/By-Form-Protein_Meal.png",
             "image_alt": "",
             "title": "Protein & Meal",
@@ -624,7 +624,7 @@
         "fmt_3": {
           "type": "format",
           "settings": {
-            "collection": "best-selling",
+            "collection": "best-sellers",
             "image": "shopify://shop_images/By-Form-Omegas.png",
             "image_alt": "",
             "title": "Omegas",
@@ -635,7 +635,7 @@
         "fmt_4": {
           "type": "format",
           "settings": {
-            "collection": "best-selling",
+            "collection": "best-sellers",
             "image": "shopify://shop_images/By-Form-Gummies.png",
             "image_alt": "",
             "title": "Gummies",
@@ -646,7 +646,7 @@
         "fmt_5": {
           "type": "format",
           "settings": {
-            "collection": "best-selling",
+            "collection": "best-sellers",
             "image": "shopify://shop_images/By-Form-Capsules.png",
             "image_alt": "",
             "title": "Capsules",

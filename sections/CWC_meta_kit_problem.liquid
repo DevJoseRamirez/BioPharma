@@ -1,0 +1,317 @@
+{%- liquid
+  comment
+    metaobject_source picks between the product's own entries and the
+    section's block fallback. It offers no free-text key: a mistyped
+    namespace fails silently and is expensive to trace.
+  endcomment
+  assign source = section.settings.metaobject_source | default: 'metaobject'
+
+  assign stats = product.metafields.custom.problem_stats.value
+  assign stat_blocks = section.blocks | where: 'type', 'stat'
+
+  assign use_blocks = false
+  if source == 'blocks' or stats.size < 2
+    if stat_blocks.size >= 2
+      assign use_blocks = true
+    endif
+  endif
+
+  assign entry_count = stats.size
+  if use_blocks
+    assign entry_count = stat_blocks.size
+  endif
+
+  comment
+    Headline and sub are per-product: this template serves four kits, so a
+    section setting would force one kit's framing onto all of them. The
+    setting stays as the fallback for a kit with nothing authored yet.
+  endcomment
+  assign headline = product.metafields.custom.problem_headline
+  assign sub = product.metafields.custom.problem_sub
+
+  assign columns = section.settings.columns | default: 3
+  if entry_count > 0
+    assign columns = columns | at_most: entry_count
+  endif
+
+  assign should_render = false
+  if use_blocks or stats.size >= 2
+    assign should_render = true
+  endif
+-%}
+
+{%- if should_render -%}
+  {% style %}
+    #cwc_meta_kit_problem-{{ section.id }} {
+      --section-bg: {{ section.settings.bg_color | default: '#ECEBE5' }};
+      --text-color: {{ section.settings.text_color | default: '#1F1F1C' }};
+      --highlight-color: {{ section.settings.bold_color | default: '#44681A' }};
+      --eyebrow-color: {{ section.settings.eyebrow_color | default: '#44681A' }};
+      --figure-color: {{ section.settings.accent_color | default: '#44681A' }};
+      --card-bg: {{ section.settings.card_bg | default: '#ECEBE5' }};
+      --rule-color: {{ section.settings.rule_color | default: '#6E6C63' }};
+      --divider-color: {{ section.settings.divider_color | default: '#C9C7BE' }};
+      --columns-desktop: {{ columns }};
+      --padding-top: {{ section.settings.padding_top | default: 80 }}px;
+      --padding-bottom: {{ section.settings.padding_bottom | default: 80 }}px;
+      --padding-top-mobile: {{ section.settings.padding_top | default: 80 | times: 0.5 }}px;
+      --padding-bottom-mobile: {{ section.settings.padding_bottom | default: 80 | times: 0.5 }}px;
+    }
+  {% endstyle %}
+
+  {{ 'CWC_fonts.css' | asset_url | stylesheet_tag }}
+  {{ 'CWC_meta_kit_problem.css' | asset_url | stylesheet_tag }}
+
+  <section id="cwc_meta_kit_problem-{{ section.id }}" class="cwc_meta_kit_problem">
+    <div class="cwc_meta_kit_problem__container">
+
+      {% comment %} Section Header {% endcomment %}
+      <div class="cwc_meta_kit_problem__content">
+        {% if section.settings.eyebrow_text != blank %}
+          <p class="cwc_meta_kit_problem__eyebrow">{{ section.settings.eyebrow_text }}</p>
+        {% endif %}
+
+        {% if headline != blank %}
+          <h2 class="cwc_meta_kit_problem__content-heading">{{ headline }}</h2>
+        {% elsif section.settings.heading != blank %}
+          <div class="cwc_meta_kit_problem__content-heading cwc-rte">
+            {{ section.settings.heading }}
+          </div>
+        {% endif %}
+
+        {% if sub != blank %}
+          <p class="cwc_meta_kit_problem__content-subtext">{{ sub | newline_to_br }}</p>
+        {% elsif section.settings.subheading != blank %}
+          <div class="cwc_meta_kit_problem__content-subtext cwc-rte">
+            {{ section.settings.subheading }}
+          </div>
+        {% endif %}
+      </div>
+
+      {% comment %} Stats — figure and statement stay adjacent {% endcomment %}
+      <div class="cwc_meta_kit_problem__row">
+        {% if use_blocks %}
+          {% for block in section.blocks %}
+            {% case block.type %}
+              {% when 'stat' %}
+                <div class="cwc_meta_kit_problem__card" {{ block.shopify_attributes }}>
+                  {% if block.settings.figure != blank %}
+                    <span class="cwc_meta_kit_problem__card-figure">{{ block.settings.figure }}</span>
+                  {% endif %}
+
+                  {% if block.settings.description != blank %}
+                    <p class="cwc_meta_kit_problem__card-text">{{ block.settings.description }}</p>
+                  {% endif %}
+
+                  {% if section.settings.show_sources and block.settings.source_note != blank %}
+                    <span class="cwc_meta_kit_problem__card-source">{{ block.settings.source_note }}</span>
+                  {% endif %}
+                </div>
+            {% endcase %}
+          {% endfor %}
+        {% else %}
+          {% for stat in stats %}
+            <div class="cwc_meta_kit_problem__card">
+              {% if stat.figure != blank %}
+                <span class="cwc_meta_kit_problem__card-figure">{{ stat.figure }}</span>
+              {% endif %}
+
+              {% if stat.statement != blank %}
+                <p class="cwc_meta_kit_problem__card-text">{{ stat.statement | newline_to_br }}</p>
+              {% endif %}
+
+              {% if section.settings.show_sources and stat.source_note != blank %}
+                <span class="cwc_meta_kit_problem__card-source">{{ stat.source_note }}</span>
+              {% endif %}
+            </div>
+          {% endfor %}
+        {% endif %}
+      </div>
+
+    </div>
+  </section>
+{%- elsif request.design_mode -%}
+  <p style="margin:0;padding:2rem;text-align:center;font-size:0.875rem;color:#767676;background:#F6F6F4;">
+    Kit Problem — add two or more problem stats to this kit, or two stat blocks here, to display this section.
+  </p>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Kit Problem",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Header"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow_text",
+      "label": "Eyebrow",
+      "default": "Why kits"
+    },
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "Heading Fallback",
+      "info": "Used only when the kit has no problem_headline metafield.",
+      "default": "<p>The routine falls apart <b>when it's three decisions.</b></p>"
+    },
+    {
+      "type": "richtext",
+      "id": "subheading",
+      "label": "Subheading Fallback",
+      "info": "Used only when the kit has no problem_sub metafield.",
+      "default": "<p>Three products, three reorder dates, three chances to forget one.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Data"
+    },
+    {
+      "type": "select",
+      "id": "metaobject_source",
+      "label": "Stat Source",
+      "info": "Blocks are the fallback for a kit with no problem_stats assigned.",
+      "options": [
+        { "value": "metaobject", "label": "Kit's problem_stats metaobject" },
+        { "value": "blocks", "label": "Section blocks" }
+      ],
+      "default": "metaobject"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_sources",
+      "label": "Show Source Notes",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "columns",
+      "label": "Columns On Desktop",
+      "info": "Automatically reduced when there are fewer stats.",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#ECEBE5"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#1F1F1C"
+    },
+    {
+      "type": "color",
+      "id": "bold_color",
+      "label": "Heading Bold Color",
+      "default": "#44681A"
+    },
+    {
+      "type": "color",
+      "id": "eyebrow_color",
+      "label": "Eyebrow Color",
+      "default": "#44681A"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Figure Color",
+      "default": "#44681A"
+    },
+    {
+      "type": "header",
+      "content": "Card Colors"
+    },
+    {
+      "type": "color",
+      "id": "card_bg",
+      "label": "Card Background Color",
+      "default": "#ECEBE5"
+    },
+    {
+      "type": "color",
+      "id": "rule_color",
+      "label": "Top Rule Color",
+      "default": "#6E6C63"
+    },
+    {
+      "type": "color",
+      "id": "divider_color",
+      "label": "Divider Color",
+      "default": "#C9C7BE"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 80
+    }
+  ],
+  "blocks": [
+    {
+      "type": "stat",
+      "name": "Stat",
+      "settings": [
+        {
+          "type": "text",
+          "id": "figure",
+          "label": "Figure",
+          "default": "61%"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Statement",
+          "info": "Written to continue the figure grammatically.",
+          "default": "of supplement buyers stop within three months of starting."
+        },
+        {
+          "type": "text",
+          "id": "source_note",
+          "label": "Source Note"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 4,
+  "presets": [
+    {
+      "name": "Kit Problem",
+      "category": "CWC Custom"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,216 @@
+{% style %}
+  #cwc_meta_kit_guarantee-{{ section.id }} {
+    --section-bg: {{ section.settings.bg_color | default: '#ffffff' }};
+    --text-color: {{ section.settings.text_color | default: '#2A2611' }};
+    --highlight-color: {{ section.settings.bold_color | default: '#A3C781' }};
+    --card-bg: {{ section.settings.card_bg_color | default: '#44681A' }};
+    --card-text: {{ section.settings.card_text_color | default: '#d9e7c9' }};
+    --badge-border: {{ section.settings.badge_border_color | default: '#A3C781' }};
+    --badge-text: {{ section.settings.badge_text_color | default: '#cfe0bd' }};
+    --pill-text: {{ section.settings.pill_text_color | default: '#eaf3df' }};
+    --padding-top: {{ section.settings.padding_top | default: 50 }}px;
+    --padding-bottom: {{ section.settings.padding_bottom | default: 50 }}px;
+    --padding-top-mobile: {{ section.settings.padding_top | default: 50 | times: 0.5 }}px;
+    --padding-bottom-mobile: {{ section.settings.padding_bottom | default: 50 | times: 0.5 }}px;
+  }
+{% endstyle %}
+
+{{ 'CWC_fonts.css' | asset_url | stylesheet_tag }}
+{{ 'CWC_meta_kit_guarantee.css' | asset_url | stylesheet_tag }}
+
+<section id="cwc_meta_kit_guarantee-{{ section.id }}" class="cwc_meta_kit_guarantee">
+  <div class="cwc_meta_kit_guarantee__container">
+    <div class="cwc_meta_kit_guarantee__card">
+
+      {% if section.settings.show_badge and section.settings.badge_number != blank %}
+        <div class="cwc_meta_kit_guarantee__badge">
+          <span class="cwc_meta_kit_guarantee__badge-number">{{ section.settings.badge_number }}</span>
+          {% if section.settings.badge_label != blank %}
+            <span class="cwc_meta_kit_guarantee__badge-label">{{ section.settings.badge_label }}</span>
+          {% endif %}
+        </div>
+      {% endif %}
+
+      {% if section.settings.heading != blank %}
+        <div class="cwc_meta_kit_guarantee__content-heading cwc-rte">
+          {{ section.settings.heading }}
+        </div>
+      {% endif %}
+
+      {% if section.settings.body != blank %}
+        <div class="cwc_meta_kit_guarantee__body cwc-rte">
+          {{ section.settings.body }}
+        </div>
+      {% endif %}
+
+      {% if section.blocks.size > 0 %}
+        <div class="cwc_meta_kit_guarantee__pills">
+          {% for block in section.blocks %}
+            {% case block.type %}
+              {% when 'pill' %}
+                {% if block.settings.text != blank %}
+                  <span class="cwc_meta_kit_guarantee__pill" {{ block.shopify_attributes }}>
+                    &#10003; {{ block.settings.text }}
+                  </span>
+                {% endif %}
+            {% endcase %}
+          {% endfor %}
+        </div>
+      {% endif %}
+
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Kit Guarantee",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Badge"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_badge",
+      "label": "Show Badge",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "badge_number",
+      "label": "Badge Number",
+      "default": "30"
+    },
+    {
+      "type": "text",
+      "id": "badge_label",
+      "label": "Badge Label",
+      "default": "DAY"
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "<p>Love it, or get <b>your money back.</b></p>"
+    },
+    {
+      "type": "richtext",
+      "id": "body",
+      "label": "Body",
+      "default": "<p>Try it for thirty days. If it isn't for you, contact us for a full refund — opened tub and all.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#2A2611"
+    },
+    {
+      "type": "color",
+      "id": "bold_color",
+      "label": "Heading Bold Color",
+      "default": "#A3C781"
+    },
+    {
+      "type": "header",
+      "content": "Card Colors"
+    },
+    {
+      "type": "color",
+      "id": "card_bg_color",
+      "label": "Card Background Color",
+      "default": "#44681A"
+    },
+    {
+      "type": "color",
+      "id": "card_text_color",
+      "label": "Card Text Color",
+      "default": "#d9e7c9"
+    },
+    {
+      "type": "color",
+      "id": "badge_border_color",
+      "label": "Badge Border Color",
+      "default": "#A3C781"
+    },
+    {
+      "type": "color",
+      "id": "badge_text_color",
+      "label": "Badge Label Color",
+      "default": "#cfe0bd"
+    },
+    {
+      "type": "color",
+      "id": "pill_text_color",
+      "label": "Pill Text Color",
+      "default": "#eaf3df"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 50
+    }
+  ],
+  "blocks": [
+    {
+      "type": "pill",
+      "name": "Guarantee Pill",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "30-day money-back guarantee"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 8,
+  "presets": [
+    {
+      "name": "Kit Guarantee",
+      "category": "CWC Custom",
+      "blocks": [
+        { "type": "pill" },
+        { "type": "pill" },
+        { "type": "pill" },
+        { "type": "pill" }
+      ]
+    }
+  ]
+}
+{% endschema %}

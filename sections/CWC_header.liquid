@@ -39,6 +39,24 @@
     sticky-header {
       display: none !important;
     }
+
+  {%- if section.settings.enable_sticky -%}
+    /* Sticky belongs on the section wrapper, not on the header element.
+
+       A sticky element travels only within its containing block, and Shopify
+       wraps every section in its own div — one exactly as tall as the header.
+       Putting it on .cwc_header leaves nothing to travel through, so the bar
+       scrolls away as though it were static. The wrapper's parent is the body,
+       which gives it the whole page to stick against.
+
+       The id is only known at render, which is why this rule cannot live in
+       CWC_header.css with the rest of the styling. */
+    #shopify-section-{{ section.id }} {
+      position: sticky;
+      top: {{ section.settings.sticky_offset | default: 0 }}px;
+      z-index: 20;
+    }
+  {%- endif -%}
 {% endstyle %}
 
 {{ 'CWC_fonts.css' | asset_url | stylesheet_tag }}
@@ -304,7 +322,23 @@
         {% endif %}
 
         {% if section.settings.show_cart %}
-          <a href="{{ routes.cart_url }}" class="cwc_header__icon cwc_header__icon--cart" aria-label="Cart">
+          {%- comment -%}
+            aria-controls is the whole trigger. The theme's DialogElement keeps a
+            delegated click listener on document.body matching
+            [aria-controls="cart-drawer"]; it calls preventDefault and opens the
+            drawer, so this stays an ordinary link and the href is the fallback —
+            with JS off it still reaches the cart.
+
+            Guarded exactly as sections/header.liquid guards its own cart link:
+            no drawer when the cart type is set to "page", and none while already
+            on /cart, where opening an overlay over the same content is noise.
+          {%- endcomment -%}
+          <a
+            href="{{ routes.cart_url }}"
+            class="cwc_header__icon cwc_header__icon--cart"
+            aria-label="Cart"
+            {% if settings.cart_type != 'page' and request.page_type != 'cart' %}aria-controls="cart-drawer"{% endif %}
+          >
             <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
               <path d="M5 7h14l-1.2 12.2H6.2z"></path>
               <path d="M9 7V5.6A3 3 0 0 1 15 5.6V7"></path>
@@ -605,7 +639,19 @@
       "type": "checkbox",
       "id": "enable_sticky",
       "label": "Stick Header To Top On Scroll",
+      "info": "The announcement bar above scrolls away; the header bar pins.",
       "default": true
+    },
+    {
+      "type": "range",
+      "id": "sticky_offset",
+      "label": "Sticky Top Offset",
+      "info": "Clearance for anything else pinned above the header.",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 0
     },
     {
       "type": "header",

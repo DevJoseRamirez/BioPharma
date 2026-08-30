@@ -1,0 +1,436 @@
+{%- liquid
+  assign source = section.settings.metaobject_source | default: 'metaobject'
+
+  assign product_faqs = product.metafields.custom.faqs.value
+  assign faq_blocks = section.blocks | where: 'type', 'faq'
+
+  assign use_blocks = false
+  if source == 'blocks' or product_faqs.size == 0
+    if faq_blocks.size > 0
+      assign use_blocks = true
+    endif
+  endif
+
+  comment
+    Pre-pass: work out whether any global FAQ would actually render,
+    so the guard can wrap the whole section root.
+  endcomment
+  assign product_handles = '|'
+  for faq in product_faqs
+    assign product_handles = product_handles | append: faq.system.handle | append: '|'
+  endfor
+
+  assign global_count = 0
+  if section.settings.include_global_faqs
+    for faq in shop.metaobjects.faq_item.values
+      if faq.is_global
+        assign lookup = '|' | append: faq.system.handle | append: '|'
+        unless product_handles contains lookup
+          assign global_count = global_count | plus: 1
+        endunless
+      endif
+    endfor
+  endif
+-%}
+
+{%- if use_blocks or product_faqs.size > 0 or global_count > 0 -%}
+  {% style %}
+    #cwc_meta_kit_faq-{{ section.id }} {
+      --section-bg: {{ section.settings.bg_color | default: '#FAFAF8' }};
+      --text-color: {{ section.settings.text_color | default: '#1F1F1C' }};
+      --highlight-color: {{ section.settings.bold_color | default: '#5BA90F' }};
+      --body-color: {{ section.settings.body_color | default: '#6B6B65' }};
+      --open-color: {{ section.settings.open_color | default: '#44681A' }};
+      --link-color: {{ section.settings.link_color | default: '#44681A' }};
+      --border-color: {{ section.settings.border_color | default: '#DEDDD6' }};
+      --row-rule-color: {{ section.settings.row_rule_color | default: '#EAE9E3' }};
+      --badge-color: {{ section.settings.badge_color | default: '#A9A8A1' }};
+      --padding-top: {{ section.settings.padding_top | default: 70 }}px;
+      --padding-bottom: {{ section.settings.padding_bottom | default: 70 }}px;
+      --padding-top-mobile: {{ section.settings.padding_top | default: 70 | times: 0.5 }}px;
+      --padding-bottom-mobile: {{ section.settings.padding_bottom | default: 70 | times: 0.5 }}px;
+    }
+  {% endstyle %}
+
+  {{ 'CWC_fonts.css' | asset_url | stylesheet_tag }}
+  {{ 'CWC_meta_kit_faq.css' | asset_url | stylesheet_tag }}
+
+  <section id="cwc_meta_kit_faq-{{ section.id }}" class="cwc_meta_kit_faq">
+    <div class="cwc_meta_kit_faq__container">
+      <div class="cwc_meta_kit_faq__wrapper">
+
+        <div class="cwc_meta_kit_faq__content">
+          {% if section.settings.heading != blank %}
+            <div class="cwc_meta_kit_faq__content-heading cwc-rte">
+              {{ section.settings.heading }}
+            </div>
+          {% endif %}
+
+          {% if section.settings.aside_text != blank %}
+            <div class="cwc_meta_kit_faq__aside cwc-rte">
+              {{ section.settings.aside_text }}
+
+              {% if section.settings.aside_link != blank and section.settings.aside_link_label != blank %}
+                <a class="cwc_meta_kit_faq__aside-link" href="{{ section.settings.aside_link }}">
+                  {{ section.settings.aside_link_label }}
+                </a>
+              {% endif %}
+            </div>
+          {% endif %}
+        </div>
+
+        <div class="cwc_meta_kit_faq__list">
+          {%- assign item_index = 0 -%}
+
+          {% comment %} Section blocks stand in when the kit has no faqs assigned {% endcomment %}
+          {% if use_blocks %}
+            {% for block in section.blocks %}
+              {% case block.type %}
+                {% when 'faq' %}
+                  {% if block.settings.question != blank %}
+                    {%- assign item_index = item_index | plus: 1 -%}
+                    {%- assign panel_id = 'cwc_meta_kit_faq-' | append: section.id | append: '-panel-' | append: item_index -%}
+                    {%- assign trigger_id = 'cwc_meta_kit_faq-' | append: section.id | append: '-trigger-' | append: item_index -%}
+                    {%- assign is_open = false -%}
+                    {%- if section.settings.first_item_open and item_index == 1 -%}
+                      {%- assign is_open = true -%}
+                    {%- endif -%}
+
+                    <div
+                      class="cwc_meta_kit_faq__item{% if is_open %} cwc_meta_kit_faq__item--open{% endif %}"
+                      {{ block.shopify_attributes }}
+                    >
+                      <h3 class="cwc_meta_kit_faq__question">
+                        <button
+                          type="button"
+                          class="cwc_meta_kit_faq__trigger"
+                          id="{{ trigger_id }}"
+                          aria-expanded="{% if is_open %}true{% else %}false{% endif %}"
+                          aria-controls="{{ panel_id }}"
+                        >
+                          <span class="cwc_meta_kit_faq__trigger-text">{{ block.settings.question }}</span>
+                          {% if section.settings.show_global_badge and block.settings.is_global %}
+                            <span class="cwc_meta_kit_faq__badge">{{ section.settings.global_badge_label | default: 'Global' }}</span>
+                          {% endif %}
+                          <span class="cwc_meta_kit_faq__trigger-mark" aria-hidden="true"></span>
+                        </button>
+                      </h3>
+
+                      <div
+                        class="cwc_meta_kit_faq__panel"
+                        id="{{ panel_id }}"
+                        role="region"
+                        aria-labelledby="{{ trigger_id }}"
+                      >
+                        <div class="cwc_meta_kit_faq__answer cwc-rte">{{ block.settings.answer }}</div>
+                      </div>
+                    </div>
+                  {% endif %}
+              {% endcase %}
+            {% endfor %}
+          {% endif %}
+
+          {% comment %} Product FAQs first {% endcomment %}
+          {% unless use_blocks %}
+          {% for faq in product_faqs %}
+            {% if faq.question == blank %}
+              {% continue %}
+            {% endif %}
+            {%- assign item_index = item_index | plus: 1 -%}
+            {%- assign panel_id = 'cwc_meta_kit_faq-' | append: section.id | append: '-panel-' | append: item_index -%}
+            {%- assign trigger_id = 'cwc_meta_kit_faq-' | append: section.id | append: '-trigger-' | append: item_index -%}
+            {%- assign is_open = false -%}
+            {%- if section.settings.first_item_open and item_index == 1 -%}
+              {%- assign is_open = true -%}
+            {%- endif -%}
+
+            <div class="cwc_meta_kit_faq__item{% if is_open %} cwc_meta_kit_faq__item--open{% endif %}">
+              <h3 class="cwc_meta_kit_faq__question">
+                <button
+                  type="button"
+                  class="cwc_meta_kit_faq__trigger"
+                  id="{{ trigger_id }}"
+                  aria-expanded="{% if is_open %}true{% else %}false{% endif %}"
+                  aria-controls="{{ panel_id }}"
+                >
+                  <span class="cwc_meta_kit_faq__trigger-text">{{ faq.question }}</span>
+                  <span class="cwc_meta_kit_faq__trigger-mark" aria-hidden="true"></span>
+                </button>
+              </h3>
+
+              <div
+                class="cwc_meta_kit_faq__panel"
+                id="{{ panel_id }}"
+                role="region"
+                aria-labelledby="{{ trigger_id }}"
+              >
+                <div class="cwc_meta_kit_faq__answer cwc-rte">{{ faq.answer | metafield_tag }}</div>
+              </div>
+            </div>
+          {% endfor %}
+
+          {% comment %}
+            Globals appended. Filtered with an if inside the loop — boolean
+            filtering on metaobject drops is unreliable — and deduped against
+            the handles already rendered above.
+          {% endcomment %}
+          {% if section.settings.include_global_faqs %}
+            {% for faq in shop.metaobjects.faq_item.values %}
+              {% unless faq.is_global %}
+                {% continue %}
+              {% endunless %}
+
+              {% if faq.question == blank %}
+                {% continue %}
+              {% endif %}
+
+              {%- assign lookup = '|' | append: faq.system.handle | append: '|' -%}
+              {% if product_handles contains lookup %}
+                {% continue %}
+              {% endif %}
+
+              {%- assign item_index = item_index | plus: 1 -%}
+              {%- assign panel_id = 'cwc_meta_kit_faq-' | append: section.id | append: '-panel-' | append: item_index -%}
+              {%- assign trigger_id = 'cwc_meta_kit_faq-' | append: section.id | append: '-trigger-' | append: item_index -%}
+              {%- assign is_open = false -%}
+              {%- if section.settings.first_item_open and item_index == 1 -%}
+                {%- assign is_open = true -%}
+              {%- endif -%}
+
+              <div class="cwc_meta_kit_faq__item{% if is_open %} cwc_meta_kit_faq__item--open{% endif %}">
+                <h3 class="cwc_meta_kit_faq__question">
+                  <button
+                    type="button"
+                    class="cwc_meta_kit_faq__trigger"
+                    id="{{ trigger_id }}"
+                    aria-expanded="{% if is_open %}true{% else %}false{% endif %}"
+                    aria-controls="{{ panel_id }}"
+                  >
+                    <span class="cwc_meta_kit_faq__trigger-text">{{ faq.question }}</span>
+                    {% if section.settings.show_global_badge %}
+                      <span class="cwc_meta_kit_faq__badge">{{ section.settings.global_badge_label | default: 'Global' }}</span>
+                    {% endif %}
+                    <span class="cwc_meta_kit_faq__trigger-mark" aria-hidden="true"></span>
+                  </button>
+                </h3>
+
+                <div
+                  class="cwc_meta_kit_faq__panel"
+                  id="{{ panel_id }}"
+                  role="region"
+                  aria-labelledby="{{ trigger_id }}"
+                >
+                  <div class="cwc_meta_kit_faq__answer cwc-rte">{{ faq.answer | metafield_tag }}</div>
+                </div>
+              </div>
+            {% endfor %}
+          {% endif %}
+          {% endunless %}
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  {{ 'CWC_meta_kit_faq.js' | asset_url | script_tag }}
+{%- elsif request.design_mode -%}
+  <p style="margin:0;padding:2rem;text-align:center;font-size:0.875rem;color:#767676;background:#F6F6F4;">
+    Kit FAQ — assign FAQs to this product, or add global FAQ entries, to display this section.
+  </p>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Kit FAQ",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Header"
+    },
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "<p>Questions</p>"
+    },
+    {
+      "type": "richtext",
+      "id": "aside_text",
+      "label": "Aside Text",
+      "default": "<p>Not finding it? We answer within one business day.</p>"
+    },
+    {
+      "type": "text",
+      "id": "aside_link_label",
+      "label": "Aside Link Label",
+      "default": "Contact us"
+    },
+    {
+      "type": "url",
+      "id": "aside_link",
+      "label": "Aside Link"
+    },
+    {
+      "type": "header",
+      "content": "Data"
+    },
+    {
+      "type": "select",
+      "id": "metaobject_source",
+      "label": "FAQ Source",
+      "info": "Blocks are the fallback for a kit with no faqs assigned.",
+      "options": [
+        { "value": "metaobject", "label": "Kit's faqs metaobject" },
+        { "value": "blocks", "label": "Section blocks" }
+      ],
+      "default": "metaobject"
+    },
+    {
+      "type": "header",
+      "content": "Behavior"
+    },
+    {
+      "type": "checkbox",
+      "id": "include_global_faqs",
+      "label": "Include Global FAQs",
+      "info": "Appends every FAQ entry marked is_global that the product does not already list.",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_global_badge",
+      "label": "Show Global Badge",
+      "info": "A build-time affordance — leave off in production.",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "global_badge_label",
+      "label": "Global Badge Label",
+      "default": "Global"
+    },
+    {
+      "type": "checkbox",
+      "id": "first_item_open",
+      "label": "Open The First Question",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#FAFAF8"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#1F1F1C"
+    },
+    {
+      "type": "color",
+      "id": "bold_color",
+      "label": "Heading Bold Color",
+      "default": "#5BA90F"
+    },
+    {
+      "type": "color",
+      "id": "body_color",
+      "label": "Answer Text Color",
+      "default": "#6B6B65"
+    },
+    {
+      "type": "color",
+      "id": "open_color",
+      "label": "Open Question Color",
+      "default": "#44681A"
+    },
+    {
+      "type": "color",
+      "id": "link_color",
+      "label": "Link Color",
+      "default": "#44681A"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "List Top Rule Color",
+      "default": "#DEDDD6"
+    },
+    {
+      "type": "color",
+      "id": "row_rule_color",
+      "label": "Row Divider Color",
+      "default": "#EAE9E3"
+    },
+    {
+      "type": "color",
+      "id": "badge_color",
+      "label": "Global Badge Color",
+      "default": "#A9A8A1"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 70
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 70
+    }
+  ],
+  "blocks": [
+    {
+      "type": "faq",
+      "name": "Question",
+      "settings": [
+        {
+          "type": "text",
+          "id": "question",
+          "label": "Question",
+          "default": "Can I swap a product in the kit?"
+        },
+        {
+          "type": "richtext",
+          "id": "answer",
+          "label": "Answer",
+          "default": "<p>The answer to this question.</p>"
+        },
+        {
+          "type": "checkbox",
+          "id": "is_global",
+          "label": "Global Question",
+          "info": "Marks it as shared across kits rather than specific to this one.",
+          "default": false
+        }
+      ]
+    }
+  ],
+  "max_blocks": 12,
+  "presets": [
+    {
+      "name": "Kit FAQ",
+      "category": "CWC Custom"
+    }
+  ]
+}
+{% endschema %}

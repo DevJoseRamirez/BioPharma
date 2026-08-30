@@ -1,0 +1,333 @@
+{%- liquid
+  assign source = section.settings.metaobject_source | default: 'metaobject'
+
+  assign steps = product.metafields.custom.routine_steps.value
+  assign step_blocks = section.blocks | where: 'type', 'routine_step'
+
+  assign use_blocks = false
+  if source == 'blocks' or steps.size < 2
+    if step_blocks.size >= 2
+      assign use_blocks = true
+    endif
+  endif
+
+  assign entry_count = steps.size
+  if use_blocks
+    assign entry_count = step_blocks.size
+  endif
+
+  assign headline = product.metafields.custom.routine_headline
+  assign sub = product.metafields.custom.routine_sub
+
+  assign layout = section.settings.layout | default: 'track'
+
+  assign columns = entry_count | at_most: 4 | at_least: 1
+  if layout == 'stacked'
+    assign columns = 1
+  endif
+
+  assign should_render = false
+  if use_blocks or steps.size >= 2
+    assign should_render = true
+  endif
+-%}
+
+{%- if should_render -%}
+  {% style %}
+    #cwc_meta_kit_routine-{{ section.id }} {
+      --section-bg: {{ section.settings.bg_color | default: '#ECEBE5' }};
+      --text-color: {{ section.settings.text_color | default: '#1F1F1C' }};
+      --highlight-color: {{ section.settings.bold_color | default: '#44681A' }};
+      --eyebrow-color: {{ section.settings.eyebrow_color | default: '#78AD49' }};
+      --when-color: {{ section.settings.when_color | default: '#44681A' }};
+      --marker-color: {{ section.settings.marker_color | default: '#44681A' }};
+      --body-color: {{ section.settings.body_color | default: '#6B6B65' }};
+      --card-bg: {{ section.settings.card_bg | default: '#ECEBE5' }};
+      --rule-color: {{ section.settings.rule_color | default: '#77756C' }};
+      --divider-color: {{ section.settings.divider_color | default: '#C9C7BE' }};
+      --columns-desktop: {{ columns }};
+      --padding-top: {{ section.settings.padding_top | default: 80 }}px;
+      --padding-bottom: {{ section.settings.padding_bottom | default: 80 }}px;
+      --padding-top-mobile: {{ section.settings.padding_top | default: 80 | times: 0.5 }}px;
+      --padding-bottom-mobile: {{ section.settings.padding_bottom | default: 80 | times: 0.5 }}px;
+    }
+  {% endstyle %}
+
+  {{ 'CWC_fonts.css' | asset_url | stylesheet_tag }}
+  {{ 'CWC_meta_kit_routine.css' | asset_url | stylesheet_tag }}
+
+  <section
+    id="cwc_meta_kit_routine-{{ section.id }}"
+    class="cwc_meta_kit_routine cwc_meta_kit_routine--{{ layout }}"
+  >
+    <div class="cwc_meta_kit_routine__container">
+
+      {% comment %} Section Header {% endcomment %}
+      <div class="cwc_meta_kit_routine__content">
+        {% if section.settings.eyebrow_text != blank %}
+          <p class="cwc_meta_kit_routine__eyebrow">{{ section.settings.eyebrow_text }}</p>
+        {% endif %}
+
+        {% if headline != blank %}
+          <h2 class="cwc_meta_kit_routine__content-heading">{{ headline }}</h2>
+        {% elsif section.settings.heading != blank %}
+          <div class="cwc_meta_kit_routine__content-heading cwc-rte">
+            {{ section.settings.heading }}
+          </div>
+        {% endif %}
+
+        {% if sub != blank %}
+          <p class="cwc_meta_kit_routine__content-subtext">{{ sub | newline_to_br }}</p>
+        {% elsif section.settings.subheading != blank %}
+          <div class="cwc_meta_kit_routine__content-subtext cwc-rte">
+            {{ section.settings.subheading }}
+          </div>
+        {% endif %}
+      </div>
+
+      {% comment %}
+        Deliberately unnumbered. These are times of day for products taken
+        together, not a sequence — the copy turns on everything happening at
+        once, and 01/02/03 would argue the opposite.
+      {% endcomment %}
+      <div class="cwc_meta_kit_routine__track">
+        {% unless use_blocks %}
+          {% for step in steps %}
+            <div class="cwc_meta_kit_routine__step">
+              {%- comment -%}
+                Bracket notation: `when` is a Liquid keyword, so the dotted
+                form is worth avoiding even where it happens to parse.
+              {%- endcomment -%}
+              {% assign step_when = step["when"] %}
+
+              {% if step_when != blank %}
+                <span class="cwc_meta_kit_routine__when">{{ step_when }}</span>
+              {% endif %}
+
+              {% if step.title != blank %}
+                <h3 class="cwc_meta_kit_routine__step-title">{{ step.title }}</h3>
+              {% endif %}
+
+              {% if step.instruction != blank %}
+                <p class="cwc_meta_kit_routine__step-text">{{ step.instruction | newline_to_br }}</p>
+              {% endif %}
+            </div>
+          {% endfor %}
+        {% endunless %}
+
+        {% if use_blocks %}
+          {% for block in section.blocks %}
+            {% case block.type %}
+              {% when 'routine_step' %}
+                <div class="cwc_meta_kit_routine__step" {{ block.shopify_attributes }}>
+                  {% if block.settings.timing_label != blank %}
+                    <span class="cwc_meta_kit_routine__when">{{ block.settings.timing_label }}</span>
+                  {% endif %}
+
+                  {% if block.settings.title != blank %}
+                    <h3 class="cwc_meta_kit_routine__step-title">{{ block.settings.title }}</h3>
+                  {% endif %}
+
+                  {% if block.settings.description != blank %}
+                    <p class="cwc_meta_kit_routine__step-text">{{ block.settings.description }}</p>
+                  {% endif %}
+                </div>
+            {% endcase %}
+          {% endfor %}
+        {% endif %}
+      </div>
+
+    </div>
+  </section>
+{%- elsif request.design_mode -%}
+  <p style="margin:0;padding:2rem;text-align:center;font-size:0.875rem;color:#767676;background:#F6F6F4;">
+    Kit Routine — assign two or more routine_steps to this kit, or add two routine step blocks, to display this section.
+  </p>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Kit Routine",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Header"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow_text",
+      "label": "Eyebrow",
+      "default": "How it fits the day"
+    },
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "Heading Fallback",
+      "info": "Used only when the kit has no routine_headline metafield.",
+      "default": "<p>Two minutes, <b>once a morning.</b></p>"
+    },
+    {
+      "type": "richtext",
+      "id": "subheading",
+      "label": "Subheading Fallback",
+      "info": "Used only when the kit has no routine_sub metafield.",
+      "default": "<p>Everything in this kit is taken at the same time. There's no second alarm.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Data"
+    },
+    {
+      "type": "select",
+      "id": "metaobject_source",
+      "label": "Step Source",
+      "info": "Blocks are the fallback for a kit with no routine_steps assigned.",
+      "options": [
+        { "value": "metaobject", "label": "Kit's routine_steps metaobject" },
+        { "value": "blocks", "label": "Section blocks" }
+      ],
+      "default": "metaobject"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Layout",
+      "options": [
+        { "value": "track", "label": "Horizontal track" },
+        { "value": "stacked", "label": "Stacked" }
+      ],
+      "default": "track"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#ECEBE5"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#1F1F1C"
+    },
+    {
+      "type": "color",
+      "id": "bold_color",
+      "label": "Heading Bold Color",
+      "default": "#44681A"
+    },
+    {
+      "type": "color",
+      "id": "eyebrow_color",
+      "label": "Eyebrow Color",
+      "default": "#78AD49"
+    },
+    {
+      "type": "color",
+      "id": "when_color",
+      "label": "Timing Label Color",
+      "default": "#44681A"
+    },
+    {
+      "type": "color",
+      "id": "marker_color",
+      "label": "Track Marker Color",
+      "default": "#44681A"
+    },
+    {
+      "type": "color",
+      "id": "body_color",
+      "label": "Body Text Color",
+      "default": "#6B6B65"
+    },
+    {
+      "type": "header",
+      "content": "Card Colors"
+    },
+    {
+      "type": "color",
+      "id": "card_bg",
+      "label": "Step Background Color",
+      "default": "#ECEBE5"
+    },
+    {
+      "type": "color",
+      "id": "rule_color",
+      "label": "Track Rule Color",
+      "default": "#77756C"
+    },
+    {
+      "type": "color",
+      "id": "divider_color",
+      "label": "Divider Color",
+      "default": "#C9C7BE"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 80
+    }
+  ],
+  "blocks": [
+    {
+      "type": "routine_step",
+      "name": "Routine Step",
+      "settings": [
+        {
+          "type": "text",
+          "id": "timing_label",
+          "label": "Timing Label",
+          "info": "When in the day, not how long it takes.",
+          "default": "Morning · with water"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "One scoop of greens"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Instruction",
+          "default": "12g into 8-16 oz of cold water. Shake, drink, done in ten seconds."
+        }
+      ]
+    }
+  ],
+  "max_blocks": 4,
+  "presets": [
+    {
+      "name": "Kit Routine",
+      "category": "CWC Custom"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,286 @@
+{%- comment -%}
+  ----------------------------------------------------------------------------------------------------------------------
+  CWC CART LINE ITEM
+  ----------------------------------------------------------------------------------------------------------------------
+
+  The cart drawer's line item. This is a drawer-only presentation of a cart line — `snippets/line-item.liquid` stays as
+  it is for the order page and the cart page, which have a different layout and different rules.
+
+  EVERY figure here comes from the `line_item` object. Nothing is computed, stored or cached.
+
+  FUNCTIONAL HOOKS. Three things in here are read by `assets/theme.js` and must not be renamed or re-nested:
+
+    <line-item>           `changeLineItemQuantity` calls `.closest('line-item')` to fire `line-item:will-change` and
+                          `line-item:change` on the right row.
+    <line-item-quantity>  is the delegate root. It listens for `change` on `[data-line-key]` and for `click` on
+                          `[href*="/cart/change"]`. BOTH the quantity stepper and the remove link are such hrefs, so
+                          both have to stay INSIDE this element or they fall back to a full page navigation.
+    quantity-selector     renders the `data-line-key` input and the two cart/change anchors.
+
+  ********************************************
+  Supported variables
+  ********************************************
+
+  * line_item: the cart line to render (required)
+{%- endcomment -%}
+
+{%- liquid
+  assign kit_components = line_item.product.metafields.custom.kit_components.value
+  assign kit_component_count = 0
+
+  comment
+    A component with no product reference cannot be named or counted, so it is
+    skipped rather than printed as a blank row.
+  endcomment
+  for component in kit_components
+    if component.product.value != blank
+      assign kit_component_count = kit_component_count | plus: 1
+    endif
+  endfor
+
+  assign is_kit = false
+  if kit_component_count > 1
+    assign is_kit = true
+  endif
+
+  comment
+    THE STRUCK-THROUGH FIGURE is the highest honest "before" price for this line.
+
+    Two independent things can lower what is actually paid, and either, both or
+    neither may be in play:
+
+      compare-at  the merchant's own was-price on the variant. Per unit, so it
+                  is multiplied by the line quantity to sit beside a line total.
+      discounts   a code or automatic discount, which is what moves
+                  original_line_price down to final_line_price.
+
+    Taking the greater of the two leaves one strikethrough that is never lower
+    than the price printed beside it. Showing the smaller of them next to a
+    deeper discount would understate the saving; showing both would ask the
+    shopper to do the arithmetic.
+  endcomment
+  assign compare_at_line_price = 0
+
+  if line_item.variant.compare_at_price > line_item.variant.price
+    assign compare_at_line_price = line_item.variant.compare_at_price | times: line_item.quantity
+  endif
+
+  assign was_line_price = compare_at_line_price
+
+  if line_item.original_line_price > was_line_price
+    assign was_line_price = line_item.original_line_price
+  endif
+-%}
+
+{%- capture line_item_body -%}
+  <div class="cwc_cart__line">
+    <div class="cwc_cart__line-media">
+      {%- if line_item.image != blank -%}
+        {{-
+          line_item.image
+          | image_url: width: line_item.image.width
+          | image_tag:
+            loading: 'lazy',
+            sizes: '74px',
+            widths: '74,148,222',
+            class: 'cwc_cart__line-image',
+            alt: line_item.title
+        -}}
+      {%- else -%}
+        {{- 'product-1' | placeholder_svg_tag: 'cwc_cart__line-image' -}}
+      {%- endif -%}
+    </div>
+
+    <div class="cwc_cart__line-body">
+      <div class="cwc_cart__line-top">
+        <div class="cwc_cart__line-ident">
+          {%- if is_kit -%}
+            <span class="cwc_cart__line-tag">Kit &middot; {{ kit_component_count }} products</span>
+          {%- endif -%}
+
+          {%- if line_item.url != blank -%}
+            <a href="{{ line_item.url }}" class="cwc_cart__line-name">
+              {{- line_item.product.title | default: line_item.title -}}
+            </a>
+          {%- else -%}
+            <span class="cwc_cart__line-name">{{ line_item.product.title | default: line_item.title }}</span>
+          {%- endif -%}
+        </div>
+
+        {%- comment -%}
+          The strikethrough is the line's own original price. It appears only when
+          a discount actually moved it, so an undiscounted line never prints a
+          decorative "was" figure.
+        {%- endcomment -%}
+        <div class="cwc_cart__line-prices">
+          <span class="cwc_cart__line-price">
+            {%- if settings.currency_code_enabled -%}
+              {{- line_item.final_line_price | money_with_currency -}}
+            {%- else -%}
+              {{- line_item.final_line_price | money -}}
+            {%- endif -%}
+          </span>
+
+          {%- if was_line_price > line_item.final_line_price -%}
+            <span class="cwc_cart__line-was">
+              <span class="sr-only">{{ 'product.price.regular_price' | t }}</span>
+
+              {%- if settings.currency_code_enabled -%}
+                {{- was_line_price | money_with_currency -}}
+              {%- else -%}
+                {{- was_line_price | money -}}
+              {%- endif -%}
+            </span>
+          {%- endif -%}
+        </div>
+      </div>
+
+      {%- capture line_item_variant -%}
+        {%- unless line_item.product.has_only_default_variant or line_item.gift_card -%}
+          {{- line_item.variant.title -}}
+        {%- endunless -%}
+      {%- endcapture -%}
+
+      {%- if line_item_variant != blank -%}
+        <span class="cwc_cart__line-variant">{{ line_item_variant | strip }}</span>
+      {%- endif -%}
+
+      {%- comment -%}
+        The selling plan name is the subscription cadence. Without a plan the line
+        is a one-time purchase, and saying so is what tells the two apart at a glance.
+      {%- endcomment -%}
+      {%- if line_item.selling_plan_allocation -%}
+        <span class="cwc_cart__line-plan">{{ line_item.selling_plan_allocation.selling_plan.name }}</span>
+      {%- else -%}
+        {% comment %} <span class="cwc_cart__line-plan cwc_cart__line-plan--once">One-time purchase</span> {% endcomment %}
+      {%- endif -%}
+
+      {%- unless line_item.properties == blank -%}
+        {%- capture line_item_properties -%}
+          {%- for property in line_item.properties -%}
+            {%- assign first_character_in_key = property.first | truncate: 1, '' -%}
+
+            {%- if property.last == blank or first_character_in_key == '_' -%}
+              {%- continue -%}
+            {%- endif -%}
+
+            <li class="cwc_cart__line-property">
+              {%- if property.last contains '/uploads/' -%}
+                <a href="{{ property.last }}">{{ property.last | split: '/' | last }}</a>
+              {%- else -%}
+                {{ property.first }}: {{ property.last }}
+              {%- endif -%}
+            </li>
+          {%- endfor -%}
+        {%- endcapture -%}
+
+        {%- if line_item_properties != blank -%}
+          <ul class="cwc_cart__line-properties" role="list">{{ line_item_properties }}</ul>
+        {%- endif -%}
+      {%- endunless -%}
+
+      {%- if line_item.line_level_discount_allocations != blank -%}
+        <ul class="cwc_cart__line-discounts" role="list">
+          {%- for discount_allocation in line_item.line_level_discount_allocations -%}
+            <li class="cwc_cart__line-discount">
+              {%- render 'icon' with 'discount', width: 11 -%}
+              {{ discount_allocation.discount_application.title }} (-{{ discount_allocation.amount | money }})
+            </li>
+          {%- endfor -%}
+        </ul>
+      {%- endif -%}
+
+      {%- comment -%}
+        HOOK: line-item-quantity is the delegate root for both controls below.
+        Moving either one outside it silently turns an Ajax update into a page load.
+      {%- endcomment -%}
+      <line-item-quantity class="cwc_cart__line-foot">
+        {%- render 'quantity-selector', line_item: line_item, size: 'sm' -%}
+
+        <a
+          href="{{ line_item.url_to_remove }}"
+          class="cwc_cart__line-remove"
+          aria-label="{{ 'cart.order.remove' | t | escape }}"
+        >
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+            <path d="M4 7h16M9 7V5a1 1 0 011-1h4a1 1 0 011 1v2M6 7l1 13h10l1-13"/>
+          </svg>
+        </a>
+      </line-item-quantity>
+    </div>
+  </div>
+{%- endcapture -%}
+
+{%- comment -%}
+  A kit collapses to a single row. Its components are read-only: the quantity
+  stepper and the remove link above act on the kit line, which is the only line
+  the cart actually holds — the components are a description of it, not lines of
+  their own, so giving them their own controls would promise an edit the cart
+  cannot make.
+{%- endcomment -%}
+{%- if is_kit -%}
+  <line-item class="cwc_cart__item cwc_cart__item--kit">
+    <cwc-cart-bundle class="cwc_cart__bundle">
+      {{ line_item_body }}
+
+      <button
+        type="button"
+        class="cwc_cart__bundle-toggle"
+        aria-expanded="false"
+        aria-controls="cwc-cart-bundle-{{ line_item.key }}"
+        data-show-label="Show {{ kit_component_count }} items"
+        data-hide-label="Hide {{ kit_component_count }} items"
+      >
+        <span class="cwc_cart__bundle-toggle-label">Show {{ kit_component_count }} items</span>
+        {%- render 'icon' with 'chevron-down', width: 9, class: 'cwc_cart__bundle-caret' -%}
+      </button>
+
+      <div class="cwc_cart__bundle-items" id="cwc-cart-bundle-{{ line_item.key }}" hidden>
+        {%- for component in kit_components -%}
+          {%- assign component_product = component.product.value -%}
+          {%- if component_product == blank -%}
+            {%- continue -%}
+          {%- endif -%}
+
+          <div class="cwc_cart__bundle-item">
+            <div class="cwc_cart__bundle-item-media">
+              {%- if component_product.featured_image != blank -%}
+                {{-
+                  component_product.featured_image
+                  | image_url: width: 168
+                  | image_tag:
+                    loading: 'lazy',
+                    sizes: '42px',
+                    widths: '42,84,126',
+                    class: 'cwc_cart__bundle-item-image',
+                    alt: component_product.title
+                -}}
+              {%- else -%}
+                {{- 'product-1' | placeholder_svg_tag: 'cwc_cart__bundle-item-image' -}}
+              {%- endif -%}
+            </div>
+
+            <div class="cwc_cart__bundle-item-body">
+              <span class="cwc_cart__bundle-item-name">{{ component_product.title }}</span>
+
+              {%- if component.role != blank -%}
+                <span class="cwc_cart__bundle-item-sub">{{ component.role }}</span>
+              {%- endif -%}
+            </div>
+
+            {%- comment -%}
+              Component quantity multiplies by the kit line quantity: two kits hold
+              two of everything inside them.
+            {%- endcomment -%}
+            {%- assign component_quantity = component.quantity | default: 1 | times: line_item.quantity -%}
+            <span class="cwc_cart__bundle-item-qty">&times;{{ component_quantity }}</span>
+          </div>
+        {%- endfor -%}
+      </div>
+    </cwc-cart-bundle>
+  </line-item>
+{%- else -%}
+  <line-item class="cwc_cart__item">
+    {{ line_item_body }}
+  </line-item>
+{%- endif -%}

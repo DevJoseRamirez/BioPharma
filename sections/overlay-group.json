@@ -14,17 +14,44 @@
     "cart-drawer": {
       "type": "cart-drawer",
       "settings": {
-        "color_scheme": "scheme-4",
-        "show_cart_note": true,
-        "show_shipping_text": true,
+        "color_scheme": "scheme-f23b3a5a-1f3c-4d6a-94eb-96f8fab0ad49",
+        "show_cart_note": false,
+        "show_shipping_text": false,
         "show_view_cart_button": false,
         "show_checkout_button": true,
         "show_price_in_checkout_button": true,
+        "accent_color": "#5ba90f",
+        "accent_deep_color": "#44681a",
+        "text_color": "#1f1f1c",
+        "surface_color": "#ffffff",
+        "surface_soft_color": "#f5f4f0",
+        "recs_bg_color": "#fafaf8",
+        "remove_color": "#b03a2e",
+        "savings_label": "Bundle & subscription savings",
+        "shipping_row_label": "Shipping",
+        "shipping_free_label": "Free",
+        "shipping_applied_label": "Applied",
+        "continue_label": "Continue shopping",
+        "trust_marks": "30-day guarantee, Cancel anytime, Secure checkout",
+        "empty_title": "Nothing here yet",
+        "empty_text": "Most people start with the greens.",
+        "empty_link_1_label": "Shop NanoGreens",
+        "empty_link_1_url": "shopify://products/nanogreens-10-support",
+        "empty_link_2_label": "Browse Kits & Bundles",
+        "empty_link_2_url": "shopify://collections/kits-bundles",
+        "empty_link_3_label": "Shop Best Sellers",
+        "empty_link_3_url": "shopify://collections/best-sellers",
+        "recommendations_source": "dynamic",
+        "recommendations_limit": 6,
         "cross_sell_products": [
-          "nanoepa-lemon"
+          "gut-kit",
+          "nanopro-vegan",
+          "nanolean-natural-berry",
+          "nanogreens-strawberry",
+          "nanocreatine-monohydrate-unflavored_"
         ],
         "cross_sell_title": "Complete with",
-        "cross_sell_stack_products": false
+        "cross_sell_title_empty": "We Think You Might Like"
       }
     },
     "newsletter-popup": {

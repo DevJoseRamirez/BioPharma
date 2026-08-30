@@ -207,7 +207,16 @@
     {% endif %}
 
     {% if section.settings.show_cart %}
-      <a href="{{ routes.cart_url }}" class="cwc_header__drawer-cart">
+      {%- comment -%}
+        Same trigger as the bar's cart icon. CWC_header.js closes this drawer on
+        the click, because the cart drawer opening no longer unloads the page —
+        without that, this panel would sit open behind it.
+      {%- endcomment -%}
+      <a
+        href="{{ routes.cart_url }}"
+        class="cwc_header__drawer-cart"
+        {% if settings.cart_type != 'page' and request.page_type != 'cart' %}aria-controls="cart-drawer"{% endif %}
+      >
         Cart{% if cart.item_count > 0 %} &middot; {{ cart.item_count }}{% endif %}
       </a>
     {% endif %}

@@ -1,0 +1,187 @@
+/* ==============================
+   CWC Kit Routine
+   ------------------------------
+   A timing track, not a numbered sequence: every step happens in the
+   same part of the day, which is the argument the section makes.
+   ============================== */
+
+/* === Section Wrapper === */
+.cwc_meta_kit_routine {
+  background-color: var(--section-bg);
+  color: var(--text-color);
+  padding-top: var(--padding-top);
+  padding-bottom: var(--padding-bottom);
+}
+
+.cwc_meta_kit_routine__container {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+/* === Section Header === */
+.cwc_meta_kit_routine__content {
+  max-width: 600px;
+  margin-bottom: 2.5rem;
+}
+
+.cwc_meta_kit_routine__eyebrow {
+  font-family: var(--cwc-font-body);
+  font-size: 0.71875rem;
+  font-weight: var(--cwc-weight-label);
+  letter-spacing: var(--cwc-tracking-label);
+  text-transform: uppercase;
+  color: var(--eyebrow-color);
+  margin: 0 0 0.75rem;
+}
+
+.cwc_meta_kit_routine__content-heading,
+.cwc_meta_kit_routine__content-heading p {
+  font-family: var(--cwc-font-heading);
+  font-weight: var(--cwc-weight-heading);
+  font-size: clamp(1.625rem, 3vw, 2.375rem);
+  line-height: 1.12;
+  letter-spacing: -0.015em;
+  color: inherit;
+  margin: 0 0 0.625rem;
+}
+
+.cwc_meta_kit_routine__content-heading b,
+.cwc_meta_kit_routine__content-heading strong {
+  color: var(--highlight-color);
+  font-weight: inherit;
+}
+
+.cwc_meta_kit_routine__content-subtext,
+.cwc_meta_kit_routine__content-subtext p {
+  font-family: var(--cwc-font-body);
+  font-size: 0.96875rem;
+  line-height: 1.55;
+  color: var(--body-color);
+  margin: 0;
+}
+
+/* === Track === */
+.cwc_meta_kit_routine__track {
+  display: grid;
+  grid-template-columns: repeat(var(--columns-desktop), minmax(0, 1fr));
+  border-top: 1px solid var(--rule-color);
+}
+
+.cwc_meta_kit_routine__step {
+  background-color: var(--card-bg);
+  padding: 1.625rem 1.75rem 0.25rem 0;
+  position: relative;
+}
+
+/* The dot sits on the rule above, marking where each step joins the day */
+.cwc_meta_kit_routine__step::before {
+  content: '';
+  position: absolute;
+  top: -4.5px;
+  left: 0;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--marker-color);
+}
+
+.cwc_meta_kit_routine__step + .cwc_meta_kit_routine__step {
+  border-left: 1px solid var(--divider-color);
+  padding-left: 1.75rem;
+}
+
+.cwc_meta_kit_routine__step + .cwc_meta_kit_routine__step::before {
+  left: 1.75rem;
+}
+
+.cwc_meta_kit_routine__when {
+  display: block;
+  font-family: var(--cwc-font-body);
+  font-size: 0.65625rem;
+  font-weight: var(--cwc-weight-label);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--when-color);
+  margin-bottom: 0.5625rem;
+}
+
+.cwc_meta_kit_routine__step-title {
+  font-family: var(--cwc-font-heading);
+  font-weight: var(--cwc-weight-heading);
+  font-size: 1.25rem;
+  line-height: 1.25;
+  letter-spacing: -0.015em;
+  color: inherit;
+  margin: 0 0 0.4375rem;
+}
+
+.cwc_meta_kit_routine__step-text {
+  font-family: var(--cwc-font-body);
+  font-size: 0.875rem;
+  line-height: 1.55;
+  color: var(--body-color);
+  margin: 0;
+}
+
+/* === Stacked Layout === */
+.cwc_meta_kit_routine--stacked .cwc_meta_kit_routine__step,
+.cwc_meta_kit_routine--stacked .cwc_meta_kit_routine__step + .cwc_meta_kit_routine__step {
+  border-left: 0;
+  padding: 1.375rem 0 0.375rem;
+}
+
+.cwc_meta_kit_routine--stacked .cwc_meta_kit_routine__step::before,
+.cwc_meta_kit_routine--stacked .cwc_meta_kit_routine__step + .cwc_meta_kit_routine__step::before {
+  left: 0;
+}
+
+.cwc_meta_kit_routine--stacked .cwc_meta_kit_routine__step + .cwc_meta_kit_routine__step {
+  border-top: 1px solid var(--divider-color);
+}
+
+/* ==============================
+   Tablet Responsive
+   ============================== */
+@media screen and (max-width: 991px) {
+  .cwc_meta_kit_routine__container {
+    padding: 0 1.25rem;
+  }
+
+  .cwc_meta_kit_routine__track {
+    grid-template-columns: 1fr;
+  }
+
+  .cwc_meta_kit_routine__step,
+  .cwc_meta_kit_routine__step + .cwc_meta_kit_routine__step {
+    border-left: 0;
+    padding: 1.375rem 0 0.375rem;
+  }
+
+  .cwc_meta_kit_routine__step::before,
+  .cwc_meta_kit_routine__step + .cwc_meta_kit_routine__step::before {
+    left: 0;
+  }
+
+  .cwc_meta_kit_routine__step + .cwc_meta_kit_routine__step {
+    border-top: 1px solid var(--divider-color);
+  }
+}
+
+/* ==============================
+   Mobile Responsive
+   ============================== */
+@media screen and (max-width: 768px) {
+  .cwc_meta_kit_routine {
+    padding-top: var(--padding-top-mobile);
+    padding-bottom: var(--padding-bottom-mobile);
+  }
+
+  .cwc_meta_kit_routine__container {
+    padding: 0 1rem;
+  }
+
+  .cwc_meta_kit_routine__content {
+    margin-bottom: 1.75rem;
+  }
+}

@@ -1,0 +1,124 @@
+{%- comment -%}
+  ----------------------------------------------------------------------------------------------------------------------
+  CWC CART RECOMMENDATION CARD
+  ----------------------------------------------------------------------------------------------------------------------
+
+  A vertical product card for the cart drawer's recommendation slider. `snippets/product-card-horizontal.liquid` keeps
+  its own layout — it is still used by predictive search and by the complementary-products section, which both want the
+  horizontal form.
+
+  FUNCTIONAL HOOKS. The add-to-cart path here is the theme's, unchanged:
+
+    form 'product' … is: 'product-form'                 ProductForm intercepts the submit and posts to /cart/add.js,
+                                                        then dispatches cart:change. Written without its delimiters on
+                                                        purpose: Liquid parses block tags inside a comment body, so a
+                                                        lone opening tag in prose here is an unclosed form block.
+    input[name="id"] / [name="quantity"]                the payload ProductForm reads.
+    input[name="on_success"] = force_open_drawer        tells CartDrawer#onCartChange to open itself after the add.
+    <quick-buy-modal> + aria-controls                   the multi-variant path, which needs a variant chosen first.
+
+  ********************************************
+  Supported variables
+  ********************************************
+
+  * product: the product to render (required)
+  * card_index: loop index, used to build a unique modal id
+{%- endcomment -%}
+{{ 'CWC_fonts.css' | asset_url | stylesheet_tag }}
+
+<div class="cwc_cart__rec-card">
+  {%- comment -%}
+    The thumbnail is not a second link to the same place — the title below is the
+    link, so there is one focus stop per card rather than two.
+  {%- endcomment -%}
+  <div class="cwc_cart__rec-media">
+    {%- if product.featured_media != blank -%}
+      {{-
+        product.featured_media
+        | image_url: width: product.featured_media.width
+        | image_tag:
+          loading: 'lazy',
+          sizes: '156px',
+          widths: '156,312,468',
+          class: 'cwc_cart__rec-image',
+          alt: product.title
+      -}}
+    {%- else -%}
+      {{- 'product-1' | placeholder_svg_tag: 'cwc_cart__rec-image' -}}
+    {%- endif -%}
+  </div>
+
+  <div class="cwc_cart__rec-body">
+    <a href="{{ product.url }}" class="cwc_cart__rec-name">{{ product.title }}</a>
+
+    {%- comment -%}
+      The one-line subtitle is whatever the product already carries for the
+      purpose. No fallback to a truncated description — a half sentence cut
+      mid-word reads worse than no subtitle at all.
+    {%- endcomment -%}
+    {%- assign rec_subtitle = product.metafields.custom.short_description
+      | default: product.metafields.custom.subtitle
+    -%}
+
+    {%- if rec_subtitle != blank -%}
+      <span class="cwc_cart__rec-sub">{{ rec_subtitle | truncatewords: '6' }}</span>
+    {%- endif -%}
+
+    <div class="cwc_cart__rec-prices">
+      <span class="cwc_cart__rec-price">
+        {%- if settings.currency_code_enabled -%}
+          {{- product.price | money_with_currency -}}
+        {%- else -%}
+          {{- product.price | money -}}
+        {%- endif -%}
+      </span>
+
+      {%- if product.compare_at_price > product.price -%}
+        <span class="cwc_cart__rec-was">
+          {%- if settings.currency_code_enabled -%}
+            {{- product.compare_at_price | money_with_currency -}}
+          {%- else -%}
+            {{- product.compare_at_price | money -}}
+          {%- endif -%}
+        </span>
+      {%- endif -%}
+    </div>
+
+    {%- if product.available -%}
+      {%- if product.variants.size == 1 -%}
+        {%- form 'product', product, is: 'product-form' -%}
+          <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+          <input type="hidden" name="quantity" value="1">
+          <input type="hidden" name="on_success" value="force_open_drawer">
+
+          <button type="submit" class="cwc_cart__rec-add">
+            {{- 'product.general.add_to_cart_button' | t -}}
+          </button>
+        {%- endform -%}
+      {%- else -%}
+        {%- comment -%}
+          More than one variant, so there is nothing safe to add blind. The modal
+          is the theme's own quick buy — it loads the product form in Ajax.
+        {%- endcomment -%}
+        {%- assign modal_id = 'cwc-cart-quick-buy-' | append: card_index | append: '-' | append: product.id -%}
+
+        <quick-buy-modal
+          id="{{ modal_id }}"
+          handle="{{ product.handle }}"
+          class="quick-buy-modal modal modal--lg color-scheme color-scheme--dialog"
+        >
+          {%- comment -%}Content is filled dynamically in Ajax for performance reasons{%- endcomment -%}
+          LOADING
+        </quick-buy-modal>
+
+        <button type="button" aria-controls="{{ modal_id }}" class="cwc_cart__rec-add">
+          {{- 'product.general.add_to_cart_button' | t -}}
+        </button>
+      {%- endif -%}
+    {%- else -%}
+      <span class="cwc_cart__rec-add cwc_cart__rec-add--unavailable" aria-disabled="true">
+        {{- 'product.general.sold_out_button' | t -}}
+      </span>
+    {%- endif -%}
+  </div>
+</div>

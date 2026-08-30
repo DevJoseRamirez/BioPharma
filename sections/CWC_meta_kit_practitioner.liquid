@@ -1,0 +1,387 @@
+{%- liquid
+  assign credential_blocks = section.blocks | where: 'type', 'credential'
+  assign voice_blocks = section.blocks | where: 'type', 'voice'
+  assign stat_blocks = section.blocks | where: 'type', 'stat'
+
+  assign voice_columns = voice_blocks.size | at_most: 3 | at_least: 1
+  assign stat_columns = stat_blocks.size | at_most: 4 | at_least: 1
+-%}
+
+{% style %}
+  #cwc_meta_kit_practitioner-{{ section.id }} {
+    --section-bg: {{ section.settings.bg_color | default: '#ffffff' }};
+    --text-color: {{ section.settings.text_color | default: '#1F1F1C' }};
+    --highlight-color: {{ section.settings.bold_color | default: '#44681A' }};
+    --eyebrow-color: {{ section.settings.eyebrow_color | default: '#6A80B4' }};
+    --body-color: {{ section.settings.body_color | default: '#6B6B65' }};
+    --stat-color: {{ section.settings.stat_color | default: '#44681A' }};
+    --card-bg: {{ section.settings.card_bg | default: '#ffffff' }};
+    --card-border-color: {{ section.settings.card_border_color | default: '#EAE9E3' }};
+    --avatar-bg: {{ section.settings.avatar_bg | default: '#ECEBE5' }};
+    --pill-bg: {{ section.settings.pill_bg | default: '#ffffff' }};
+    --pill-border-color: {{ section.settings.pill_border_color | default: '#DEDDD6' }};
+    --pill-color: {{ section.settings.pill_color | default: '#6B6B65' }};
+    --rule-color: {{ section.settings.rule_color | default: '#77756C' }};
+    --divider-color: {{ section.settings.divider_color | default: '#D8D6CE' }};
+    --voice-columns: {{ voice_columns }};
+    --stat-columns: {{ stat_columns }};
+    --padding-top: {{ section.settings.padding_top | default: 80 }}px;
+    --padding-bottom: {{ section.settings.padding_bottom | default: 80 }}px;
+    --padding-top-mobile: {{ section.settings.padding_top | default: 80 | times: 0.5 }}px;
+    --padding-bottom-mobile: {{ section.settings.padding_bottom | default: 80 | times: 0.5 }}px;
+  }
+{% endstyle %}
+
+{{ 'CWC_fonts.css' | asset_url | stylesheet_tag }}
+{{ 'CWC_meta_kit_practitioner.css' | asset_url | stylesheet_tag }}
+
+<section id="cwc_meta_kit_practitioner-{{ section.id }}" class="cwc_meta_kit_practitioner">
+  <div class="cwc_meta_kit_practitioner__container">
+
+    {% comment %} Section Header {% endcomment %}
+    <div class="cwc_meta_kit_practitioner__content">
+      {% if section.settings.eyebrow_text != blank %}
+        <p class="cwc_meta_kit_practitioner__eyebrow">{{ section.settings.eyebrow_text }}</p>
+      {% endif %}
+
+      {% if section.settings.heading != blank %}
+        <div class="cwc_meta_kit_practitioner__content-heading cwc-rte">
+          {{ section.settings.heading }}
+        </div>
+      {% endif %}
+
+      {% if section.settings.body != blank %}
+        <div class="cwc_meta_kit_practitioner__lede cwc-rte">
+          {{ section.settings.body }}
+        </div>
+      {% endif %}
+    </div>
+
+    {% comment %} Credential pills {% endcomment %}
+    {% if section.settings.show_credentials and credential_blocks.size > 0 %}
+      <div class="cwc_meta_kit_practitioner__credentials">
+        {% for block in section.blocks %}
+          {% case block.type %}
+            {% when 'credential' %}
+              {% if block.settings.abbreviation != blank %}
+                <span class="cwc_meta_kit_practitioner__pill" {{ block.shopify_attributes }}>
+                  {{ block.settings.abbreviation }}
+                </span>
+              {% endif %}
+          {% endcase %}
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    {% comment %} Practitioner voices {% endcomment %}
+    {% if section.settings.show_voices and voice_blocks.size > 0 %}
+      <div class="cwc_meta_kit_practitioner__voices">
+        {% for block in section.blocks %}
+          {% case block.type %}
+            {% when 'voice' %}
+              <div class="cwc_meta_kit_practitioner__voice" {{ block.shopify_attributes }}>
+                {% if block.settings.image != blank %}
+                  {{
+                    block.settings.image
+                    | image_url: width: 160
+                    | image_tag:
+                      loading: 'lazy',
+                      widths: '52, 104, 160',
+                      class: 'cwc_meta_kit_practitioner__avatar-img',
+                      alt: block.settings.name
+                  }}
+                {% else %}
+                  <span class="cwc_meta_kit_practitioner__avatar" aria-hidden="true"></span>
+                {% endif %}
+
+                {% if block.settings.name != blank %}
+                  <div class="cwc_meta_kit_practitioner__voice-name">{{ block.settings.name }}</div>
+                {% endif %}
+
+                {% if block.settings.role != blank %}
+                  <div class="cwc_meta_kit_practitioner__voice-role">{{ block.settings.role }}</div>
+                {% endif %}
+
+                {% if block.settings.quote != blank %}
+                  <q class="cwc_meta_kit_practitioner__voice-quote">{{ block.settings.quote }}</q>
+                {% endif %}
+              </div>
+          {% endcase %}
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    {% comment %} Stat row {% endcomment %}
+    {% if section.settings.show_stats and stat_blocks.size > 0 %}
+      <div class="cwc_meta_kit_practitioner__stats">
+        {% for block in section.blocks %}
+          {% case block.type %}
+            {% when 'stat' %}
+              <div class="cwc_meta_kit_practitioner__stat" {{ block.shopify_attributes }}>
+                {% if block.settings.value != blank %}
+                  <span class="cwc_meta_kit_practitioner__stat-value">{{ block.settings.value }}</span>
+                {% endif %}
+
+                {% if block.settings.label != blank %}
+                  <span class="cwc_meta_kit_practitioner__stat-label">{{ block.settings.label }}</span>
+                {% endif %}
+              </div>
+          {% endcase %}
+        {% endfor %}
+      </div>
+    {% endif %}
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Kit Practitioner",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Header"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow_text",
+      "label": "Eyebrow",
+      "default": "Recommended in practice"
+    },
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "<p>The people who recommend it <b>see patients all day.</b></p>"
+    },
+    {
+      "type": "richtext",
+      "id": "body",
+      "label": "Body",
+      "default": "<p>BioPharma Scientific formulas were developed for and distributed through doctors, chiropractors and naturopaths for years before anything was sold direct. Many still stock them today.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_credentials",
+      "label": "Show Credential Pills",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_voices",
+      "label": "Show Practitioner Quotes",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_stats",
+      "label": "Show Stat Row",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#1F1F1C"
+    },
+    {
+      "type": "color",
+      "id": "bold_color",
+      "label": "Heading Bold Color",
+      "default": "#44681A"
+    },
+    {
+      "type": "color",
+      "id": "eyebrow_color",
+      "label": "Eyebrow Color",
+      "default": "#6A80B4"
+    },
+    {
+      "type": "color",
+      "id": "body_color",
+      "label": "Body Text Color",
+      "default": "#6B6B65"
+    },
+    {
+      "type": "color",
+      "id": "stat_color",
+      "label": "Stat Value Color",
+      "default": "#44681A"
+    },
+    {
+      "type": "color",
+      "id": "rule_color",
+      "label": "Stat Row Rule Color",
+      "default": "#77756C"
+    },
+    {
+      "type": "color",
+      "id": "divider_color",
+      "label": "Divider Color",
+      "default": "#D8D6CE"
+    },
+    {
+      "type": "header",
+      "content": "Card Colors"
+    },
+    {
+      "type": "color",
+      "id": "card_bg",
+      "label": "Quote Card Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "card_border_color",
+      "label": "Quote Card Border Color",
+      "default": "#EAE9E3"
+    },
+    {
+      "type": "color",
+      "id": "avatar_bg",
+      "label": "Avatar Placeholder Color",
+      "default": "#ECEBE5"
+    },
+    {
+      "type": "color",
+      "id": "pill_bg",
+      "label": "Pill Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "pill_border_color",
+      "label": "Pill Border Color",
+      "default": "#DEDDD6"
+    },
+    {
+      "type": "color",
+      "id": "pill_color",
+      "label": "Pill Text Color",
+      "default": "#6B6B65"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 80
+    }
+  ],
+  "blocks": [
+    {
+      "type": "credential",
+      "name": "Credential",
+      "limit": 8,
+      "settings": [
+        {
+          "type": "text",
+          "id": "abbreviation",
+          "label": "Abbreviation",
+          "default": "DC"
+        }
+      ]
+    },
+    {
+      "type": "voice",
+      "name": "Practitioner Quote",
+      "limit": 3,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Portrait",
+          "info": "Optional — a plain marker shows when empty."
+        },
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Name",
+          "default": "Dr. Lauren Calloway, DC"
+        },
+        {
+          "type": "text",
+          "id": "role",
+          "label": "Role And Location",
+          "default": "Chiropractor · Scottsdale, AZ"
+        },
+        {
+          "type": "textarea",
+          "id": "quote",
+          "label": "Quote",
+          "default": "What this practitioner says about the formula."
+        }
+      ]
+    },
+    {
+      "type": "stat",
+      "name": "Stat",
+      "limit": 4,
+      "settings": [
+        {
+          "type": "text",
+          "id": "value",
+          "label": "Value",
+          "default": "20+"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Years recommended in practitioner clinics"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 16,
+  "presets": [
+    {
+      "name": "Kit Practitioner",
+      "category": "CWC Custom",
+      "blocks": [
+        { "type": "credential" },
+        { "type": "credential" },
+        { "type": "credential" },
+        { "type": "voice" },
+        { "type": "voice" },
+        { "type": "voice" },
+        { "type": "stat" },
+        { "type": "stat" },
+        { "type": "stat" },
+        { "type": "stat" }
+      ]
+    }
+  ]
+}
+{% endschema %}
