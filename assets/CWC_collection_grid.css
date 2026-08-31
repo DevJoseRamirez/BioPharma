@@ -361,9 +361,9 @@
 }
 
 /* === Quick Add ===
-   One treatment on every card: an outlined pill that fills on hover. Nothing
-   is hidden until hover — the button is the same on a phone as on a desktop,
-   because half the shoppers have no hover to give it. */
+   One treatment on every card: a filled green pill. Nothing is hidden until
+   hover and nothing waits for hover to fill — the button is the same on a phone
+   as on a desktop, because half the shoppers have no hover to give it. */
 .cwc_collection-grid__quick-add-form {
   margin: 0;
   position: relative;
@@ -377,9 +377,9 @@
   z-index: 2;
   display: block;
   width: 100%;
-  background-color: var(--section-bg);
-  color: var(--text-color);
-  border: 1.5px solid var(--text-color);
+  background-color: var(--accent-color);
+  color: var(--quick-add-text);
+  border: 1.5px solid var(--accent-color);
   border-radius: 100px;
   font-family: inherit;
   font-size: 0.84em;
@@ -388,28 +388,26 @@
   text-decoration: none;
   padding: 12px;
   cursor: pointer;
-  transition: background-color 0.18s ease, color 0.18s ease, border-color 0.18s ease;
+  transition: filter 0.18s ease, background-color 0.18s ease, color 0.18s ease, border-color 0.18s ease;
 }
 
-/* Hovering the card tints the button so it reads as the card's action; hovering
-   the button itself commits to the fill. */
-.cwc_collection-grid__card:hover .cwc_collection-grid__quick-add {
-  border-color: var(--accent-color);
-  color: var(--olive-color);
-}
-
+/* The fill is already there, so hover lifts it rather than changing it — one
+   filter keeps the green, the border and the label moving together whatever
+   colour the theme editor sets them to. Hovering anywhere on the card lights
+   the button too, so it still reads as the card's own action. */
 .cwc_collection-grid__quick-add:hover,
-.cwc_collection-grid__card:hover .cwc_collection-grid__quick-add:hover {
-  background-color: var(--accent-color);
-  border-color: var(--accent-color);
-  color: var(--quick-add-text);
+.cwc_collection-grid__card:hover .cwc_collection-grid__quick-add {
+  filter: brightness(1.25);
 }
 
-/* Sold out is a quieter outline — it leads to a page, not to a cart. */
+/* Sold out is a quieter outline — it leads to a page, not to a cart, so it
+   opts out of the green fill as well as the lift. */
 .cwc_collection-grid__quick-add--notify,
 .cwc_collection-grid__card:hover .cwc_collection-grid__quick-add--notify {
+  background-color: var(--section-bg);
   border-color: var(--border-color);
   color: var(--muted-color);
+  filter: none;
 }
 
 .cwc_collection-grid__quick-add--notify:hover,
@@ -417,6 +415,7 @@
   background-color: var(--quick-add-bg);
   border-color: var(--quick-add-bg);
   color: var(--quick-add-text);
+  filter: none;
 }
 
 .cwc_collection-grid__quick-add[aria-busy="true"] {

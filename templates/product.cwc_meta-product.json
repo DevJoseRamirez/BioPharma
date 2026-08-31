@@ -154,9 +154,7 @@
         "title_YgkGVR": {
           "type": "title",
           "settings": {
-            "eyebrow": "{{ section.settings.product.metafields.custom.eyebrow.value }}",
-            "heading": "<p>{{ section.settings.product.title }}</p>",
-            "subtext": "<p>{{ section.settings.product.metafields.custom.short_description.value }}</p>"
+            "heading": "<p>{{ section.settings.product.title }}</p>"
           }
         },
         "key_benefits_bMAr8C": {
@@ -183,6 +181,15 @@
             "dropdown_threshold": 6,
             "show_labels": true,
             "label_style": "name"
+          }
+        },
+        "benefits_meta_c6r8zn": {
+          "type": "benefits_meta",
+          "settings": {
+            "namespace": "custom",
+            "key": "benefit_lines",
+            "show_checkmarks": true,
+            "limit": 6
           }
         },
         "simple_offer_Wj9NEB": {
@@ -256,6 +263,7 @@
         "title_YgkGVR",
         "key_benefits_bMAr8C",
         "product_options_kypmMB",
+        "benefits_meta_c6r8zn",
         "simple_offer_Wj9NEB",
         "add_to_cart_xXPNWp",
         "trust_icons_HzDcqq",
@@ -700,11 +708,11 @@
         "heading": "<p>Love it, or <strong>get your money back</strong></p>",
         "body": "<p>Try it for thirty days. If it isn't for you, contact us for a full refund — opened tub and all.</p>",
         "bg_color": "#ffffff",
-        "text_color": "#2A2611",
-        "bold_color": "#A3C781",
+        "text_color": "#2a2611",
+        "bold_color": "#a3c781",
         "card_bg_color": "#44681a",
         "card_text_color": "#d9e7c9",
-        "badge_border_color": "#A3C781",
+        "badge_border_color": "#a3c781",
         "badge_text_color": "#cfe0bd",
         "pill_text_color": "#e6efda",
         "padding_top": 50,

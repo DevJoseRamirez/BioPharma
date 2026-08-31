@@ -89,7 +89,9 @@
 .cwc_home-best-sellers__card {
   background: var(--card-bg);
   border: 1px solid var(--border-color);
-  border-radius: 6px;
+  /* 12px, matching the collection card — the same product in the same brand
+     should not have two corner radii depending on which page it is on. */
+  border-radius: 12px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -148,10 +150,11 @@ a.cwc_home-best-sellers__card:hover {
 
 .cwc_home-best-sellers__card-tag {
   font-size: 0.69rem;
-  letter-spacing: 0.069rem;
+  /* 11px */
+  letter-spacing: 1.4px;
   text-transform: uppercase;
   color: var(--tag-color);
-  font-weight: 600;
+  font-weight: var(--cwc-weight-subheading);
 }
 
 .cwc_home-best-sellers__card-title {
@@ -160,6 +163,7 @@ a.cwc_home-best-sellers__card:hover {
   font-size: 1.19rem;
   /* 19px */
   line-height: 1.2;
+  text-transform: capitalize;
 }
 
 .cwc_home-best-sellers__card-rating {
@@ -174,11 +178,27 @@ a.cwc_home-best-sellers__card:hover {
 }
 
 .cwc_home-best-sellers__card-price {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 2px;
+}
+
+.cwc_home-best-sellers__price-now {
   font-family: var(--cwc-font-heading);
   font-weight: var(--cwc-weight-heading);
   font-size: 1.25rem;
   /* 20px */
-  margin-top: 2px;
+  color: var(--text-color);
+}
+
+/* Muted and struck rather than red: savings are green in this brand and the
+   number that matters is the one beside it. */
+.cwc_home-best-sellers__price-was {
+  font-size: 0.81rem;
+  color: var(--muted-color);
+  text-decoration: line-through;
 }
 
 /* A real border rather than an inset shadow, so the pill measures the same as
@@ -190,25 +210,21 @@ a.cwc_home-best-sellers__card:hover {
   font-size: 0.84rem;
   font-weight: var(--cwc-weight-subheading);
   padding: 12px;
-  border: 1.5px solid var(--text-color);
+  border: 1.5px solid var(--accent-color);
   border-radius: 100px;
-  color: var(--text-color);
-  margin-top: auto;
-  transition: background-color 0.18s ease, color 0.18s ease, border-color 0.18s ease;
-}
-
-/* Hovering the card tints the button so it reads as the card's action;
-   hovering the button itself commits to the fill. */
-a.cwc_home-best-sellers__card:hover .cwc_home-best-sellers__card-button {
-  border-color: var(--accent-color);
-  color: var(--button-outline-color);
-}
-
-.cwc_home-best-sellers__card-button:hover,
-a.cwc_home-best-sellers__card:hover .cwc_home-best-sellers__card-button:hover {
   background: var(--accent-color);
-  border-color: var(--accent-color);
   color: var(--button-hover-text);
+  margin-top: auto;
+  transition: filter 0.18s ease, background-color 0.18s ease, color 0.18s ease, border-color 0.18s ease;
+}
+
+/* The fill is already there, so hover lifts it rather than changing it — the
+   collection card's quick add, which is this same product seen from the grid.
+   Hovering anywhere on the card lights the button too, so it still reads as the
+   card's own action. */
+.cwc_home-best-sellers__card-button:hover,
+a.cwc_home-best-sellers__card:hover .cwc_home-best-sellers__card-button {
+  filter: brightness(1.25);
 }
 
 /* === Carousel (native scroll-snap) === */

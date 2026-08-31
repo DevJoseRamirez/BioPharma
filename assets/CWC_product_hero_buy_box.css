@@ -1108,11 +1108,16 @@
   cursor: pointer;
   margin-top: 15px;
   font-family: inherit;
+  transition: filter 0.18s ease;
   /* line-height: 1; */
 }
 
+/* The fill is already green, so hover lifts it rather than changing it —
+   matching the collection card's quick add, which is the same action seen from
+   the grid. Brightening rather than darkening: the button is the brightest
+   thing in the column and a hover that dims it reads as going inactive. */
 .cwc_product-hero-buy-box__cta:hover {
-  filter: brightness(0.92);
+  filter: brightness(1.25);
 }
 
 .cwc_product-hero-buy-box__cta[disabled] {

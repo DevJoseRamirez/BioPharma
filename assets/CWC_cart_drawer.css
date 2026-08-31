@@ -693,24 +693,22 @@
   display: block;
   width: 100%;
   padding: 8px;
-  border: 1.5px solid var(--cwc-cart-ink);
+  border: 1.5px solid var(--cwc-cart-accent);
   border-radius: var(--cwc-cart-radius);
-  background: none;
+  background: var(--cwc-cart-accent);
   font-family: inherit;
   font-size: 12px;
   font-weight: 600;
-  color: var(--cwc-cart-ink);
+  color: #fff;
   text-align: center;
   cursor: pointer;
-  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
-  background: var(--cwc-cart-accent);
-  border-color: var(--cwc-cart-accent);
-  color: #fff;
-  border-color: var(--cwc-cart-accent);
+  transition: filter 0.18s ease, background-color 0.18s ease, border-color 0.18s ease, color 0.18s ease;
 }
 
+/* The same lift as the collection card's quick add and the buy box CTA — one
+   figure across every add-to-cart in the theme. */
 .cwc_cart__rec-add:hover {
-  filter: brightness(1.08);
+  filter: brightness(1.25);
 }
 
 .cwc_cart__rec-add--unavailable {
@@ -718,10 +716,9 @@
   cursor: default;
 }
 
+/* Nothing to add, so nothing lifts. */
 .cwc_cart__rec-add--unavailable:hover {
-  background: none;
-  border-color: var(--cwc-cart-ink);
-  color: var(--cwc-cart-ink);
+  filter: none;
 }
 
 /* The quick-buy modal is a sibling of the button and must not take up space. */

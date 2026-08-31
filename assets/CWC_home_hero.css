@@ -221,8 +221,10 @@
   transition: filter 0.18s ease;
 }
 
+/* The fill is already green, so hover lifts it rather than darkening it — the
+   same move as the collection card's quick add and the buy box CTA. */
 .cwc_home-hero__button:hover {
-  filter: brightness(0.92);
+  filter: brightness(1.25);
   color: var(--button-text);
 }
 

@@ -90,6 +90,7 @@
         "search_overlay_opacity": 45,
         "show_cart": true,
         "enable_sticky": true,
+        "sticky_offset": 0,
         "bg_color": "#ffffff",
         "text_color": "#5c5842",
         "bold_color": "#5ba90f",
@@ -114,7 +115,6 @@
       "blocks": {
         "rating": {
           "type": "rating",
-          "disabled": true,
           "settings": {
             "text": "<p>{{ section.settings.product.metafields.reviews.rating | metafield_tag }}{{ section.settings.product.metafields.reviews.rating_count.value }}</p>",
             "link": ""
@@ -123,24 +123,7 @@
         "title": {
           "type": "title",
           "settings": {
-            "eyebrow": "",
-            "heading": "<p>{{ section.settings.product.title }}</p>",
-            "subtext": "{{ section.settings.product.description }}"
-          }
-        },
-        "price_display": {
-          "type": "price_display",
-          "settings": {
-            "savings_display": "percent",
-            "save_label": "Save",
-            "show_compare": true,
-            "show_dividers": true
-          }
-        },
-        "desc_xCeXUX": {
-          "type": "desc",
-          "settings": {
-            "desc": "{{ section.settings.product.description }}"
+            "heading": "<p>{{ section.settings.product.title }}</p>"
           }
         },
         "key_benefits": {
@@ -160,12 +143,39 @@
             "tone_6": "tint"
           }
         },
+        "benefits_meta_iMGH3g": {
+          "type": "benefits_meta",
+          "settings": {
+            "namespace": "custom",
+            "key": "benefit_lines",
+            "show_checkmarks": true,
+            "limit": 6
+          }
+        },
+        "price_display": {
+          "type": "price_display",
+          "settings": {
+            "savings_display": "percent",
+            "save_label": "Save",
+            "show_compare": true,
+            "show_dividers": true
+          }
+        },
         "add_to_cart": {
           "type": "add_to_cart",
           "settings": {
             "label": "Add to cart",
             "sold_out_label": "Sold out",
             "micro_text": ""
+          }
+        },
+        "delivery_estimate_xV9DUb": {
+          "type": "delivery_estimate",
+          "settings": {
+            "text": "Order now for delivery by",
+            "max_shipping_days": 7,
+            "text_color": "#1f3900",
+            "bg_color": "#ffffff"
           }
         },
         "trust_icons": {
@@ -236,10 +246,11 @@
       "block_order": [
         "rating",
         "title",
-        "price_display",
-        "desc_xCeXUX",
         "key_benefits",
+        "benefits_meta_iMGH3g",
+        "price_display",
         "add_to_cart",
+        "delivery_estimate_xV9DUb",
         "trust_icons",
         "sticky_atc",
         "detail_i3dCYX",
@@ -278,26 +289,6 @@
         "button_text_color": "#ffffff",
         "padding_top": 20,
         "padding_bottom": 40
-      }
-    },
-    "apps": {
-      "type": "apps",
-      "blocks": {
-        "yotpo_product_reviews_reviews_BxPWFb": {
-          "type": "shopify://apps/yotpo-product-reviews/blocks/reviews/eb7dfd7d-db44-4334-bc49-c893b51b36cf",
-          "settings": {
-            "product": "{{ product }}"
-          }
-        }
-      },
-      "block_order": [
-        "yotpo_product_reviews_reviews_BxPWFb"
-      ],
-      "settings": {
-        "color_scheme": "scheme-f23b3a5a-1f3c-4d6a-94eb-96f8fab0ad49",
-        "separate_section_with_border": true,
-        "remove_vertical_spacing": false,
-        "remove_horizontal_spacing": false
       }
     },
     "cwc_meta_kit_trust": {
@@ -344,11 +335,11 @@
       "settings": {
         "columns_desktop": 5,
         "divider_style": "rules",
-        "bg_color": "#FAFAF8",
-        "text_color": "#1F1F1C",
-        "bold_color": "#5BA90F",
-        "border_color": "#DEDDD6",
-        "divider_color": "#E9E8E2",
+        "bg_color": "#fafaf8",
+        "text_color": "#1f1f1c",
+        "bold_color": "#5ba90f",
+        "border_color": "#deddd6",
+        "divider_color": "#e9e8e2",
         "padding_top": 0,
         "padding_bottom": 0
       }
@@ -362,14 +353,14 @@
         "metaobject_source": "metaobject",
         "show_sources": true,
         "columns": 3,
-        "bg_color": "#ECEBE5",
-        "text_color": "#1F1F1C",
-        "bold_color": "#44681A",
-        "eyebrow_color": "#44681A",
-        "accent_color": "#44681A",
-        "card_bg": "#ECEBE5",
-        "rule_color": "#6E6C63",
-        "divider_color": "#C9C7BE",
+        "bg_color": "#ecebe5",
+        "text_color": "#1f1f1c",
+        "bold_color": "#44681a",
+        "eyebrow_color": "#44681a",
+        "accent_color": "#44681a",
+        "card_bg": "#ecebe5",
+        "rule_color": "#6e6c63",
+        "divider_color": "#c9c7be",
         "padding_top": 80,
         "padding_bottom": 80
       }
@@ -386,15 +377,15 @@
         "product_link_label": "View product",
         "columns_desktop": 3,
         "bg_color": "#ffffff",
-        "text_color": "#1F1F1C",
-        "bold_color": "#44681A",
-        "eyebrow_color": "#78AD49",
-        "role_color": "#78AD49",
-        "body_color": "#6B6B65",
-        "link_color": "#44681A",
+        "text_color": "#1f1f1c",
+        "bold_color": "#44681a",
+        "eyebrow_color": "#78ad49",
+        "role_color": "#78ad49",
+        "body_color": "#6b6b65",
+        "link_color": "#44681a",
         "card_bg": "#ffffff",
-        "card_border_color": "#EAE9E3",
-        "image_bg": "#F5F4F0",
+        "card_border_color": "#eae9e3",
+        "image_bg": "#f5f4f0",
         "padding_top": 80,
         "padding_bottom": 80
       }
@@ -407,16 +398,16 @@
         "subheading": "<p>Everything in this kit is taken at the same time. There's no second alarm.</p>",
         "metaobject_source": "metaobject",
         "layout": "track",
-        "bg_color": "#ECEBE5",
-        "text_color": "#1F1F1C",
-        "bold_color": "#44681A",
-        "eyebrow_color": "#78AD49",
-        "when_color": "#44681A",
-        "marker_color": "#44681A",
-        "body_color": "#6B6B65",
-        "card_bg": "#ECEBE5",
-        "rule_color": "#77756C",
-        "divider_color": "#C9C7BE",
+        "bg_color": "#ecebe5",
+        "text_color": "#1f1f1c",
+        "bold_color": "#44681a",
+        "eyebrow_color": "#78ad49",
+        "when_color": "#44681a",
+        "marker_color": "#44681a",
+        "body_color": "#6b6b65",
+        "card_bg": "#ecebe5",
+        "rule_color": "#77756c",
+        "divider_color": "#c9c7be",
         "padding_top": 80,
         "padding_bottom": 80
       }
@@ -431,6 +422,7 @@
         "separate_total_sub": "Separate products, separate subscriptions, separate delivery dates",
         "servings_label": "servings",
         "per_serving_label": "per serving",
+        "kit_label": "",
         "price_note": "per month, subscribed",
         "show_per_day": true,
         "per_day_label": "a day",
@@ -440,17 +432,17 @@
         "cta_label": "Start the kit",
         "cta_link": "",
         "bg_color": "#ffffff",
-        "text_color": "#1F1F1C",
-        "bold_color": "#44681A",
-        "eyebrow_color": "#78AD49",
-        "body_color": "#6B6B65",
-        "rule_color": "#DEDDD6",
-        "row_rule_color": "#EAE9E3",
-        "card_bg": "#44681A",
+        "text_color": "#1f1f1c",
+        "bold_color": "#44681a",
+        "eyebrow_color": "#78ad49",
+        "body_color": "#6b6b65",
+        "rule_color": "#deddd6",
+        "row_rule_color": "#eae9e3",
+        "card_bg": "#44681a",
         "card_text_color": "#ffffff",
-        "accent_color": "#DCEFC4",
+        "accent_color": "#dcefc4",
         "button_bg": "#ffffff",
-        "button_text_color": "#44681A",
+        "button_text_color": "#44681a",
         "padding_top": 80,
         "padding_bottom": 80
       }
@@ -560,17 +552,17 @@
         "link_url": "",
         "show_enzymes": true,
         "show_edges": true,
-        "bg_color": "#F7F8FB",
-        "text_color": "#1F1F1C",
-        "bold_color": "#4A5F92",
-        "eyebrow_color": "#6A80B4",
-        "body_color": "#6B6B65",
-        "link_color": "#4A5F92",
-        "border_color": "#CFD9EE",
+        "bg_color": "#f7f8fb",
+        "text_color": "#1f1f1c",
+        "bold_color": "#4a5f92",
+        "eyebrow_color": "#6a80b4",
+        "body_color": "#6b6b65",
+        "link_color": "#4a5f92",
+        "border_color": "#cfd9ee",
         "card_bg": "#ffffff",
-        "stage_label_color": "#6A80B4",
+        "stage_label_color": "#6a80b4",
         "chip_bg": "#ffffff",
-        "chip_text_color": "#6A80B4",
+        "chip_text_color": "#6a80b4",
         "padding_top": 80,
         "padding_bottom": 80
       }
@@ -669,19 +661,19 @@
         "show_voices": true,
         "show_stats": true,
         "bg_color": "#ffffff",
-        "text_color": "#1F1F1C",
-        "bold_color": "#44681A",
-        "eyebrow_color": "#6A80B4",
-        "body_color": "#6B6B65",
-        "stat_color": "#44681A",
-        "rule_color": "#77756C",
-        "divider_color": "#D8D6CE",
+        "text_color": "#1f1f1c",
+        "bold_color": "#44681a",
+        "eyebrow_color": "#6a80b4",
+        "body_color": "#6b6b65",
+        "stat_color": "#44681a",
+        "rule_color": "#77756c",
+        "divider_color": "#d8d6ce",
         "card_bg": "#ffffff",
-        "card_border_color": "#EAE9E3",
-        "avatar_bg": "#ECEBE5",
+        "card_border_color": "#eae9e3",
+        "avatar_bg": "#ecebe5",
         "pill_bg": "#ffffff",
-        "pill_border_color": "#DEDDD6",
-        "pill_color": "#6B6B65",
+        "pill_border_color": "#deddd6",
+        "pill_color": "#6b6b65",
         "padding_top": 80,
         "padding_bottom": 80
       }
@@ -692,11 +684,11 @@
         "heading": "<p>The routines people <b>have kept.</b></p>",
         "section_anchor": "reviews",
         "app_block_position": "below",
-        "bg_color": "#ECEBE5",
-        "text_color": "#1F1F1C",
-        "bold_color": "#44681A",
+        "bg_color": "#ecebe5",
+        "text_color": "#1f1f1c",
+        "bold_color": "#44681a",
         "card_bg": "#ffffff",
-        "star_color": "#5BA90F",
+        "star_color": "#5ba90f",
         "anchor_offset": 80,
         "padding_top": 80,
         "padding_bottom": 80
@@ -713,14 +705,14 @@
         "show_was_price": true,
         "columns_desktop": 3,
         "bg_color": "#ffffff",
-        "text_color": "#1F1F1C",
-        "bold_color": "#44681A",
-        "eyebrow_color": "#78AD49",
-        "body_color": "#6B6B65",
-        "was_color": "#A9A8A1",
+        "text_color": "#1f1f1c",
+        "bold_color": "#44681a",
+        "eyebrow_color": "#78ad49",
+        "body_color": "#6b6b65",
+        "was_color": "#a9a8a1",
         "card_bg": "#ffffff",
-        "card_border_color": "#EAE9E3",
-        "image_bg": "#F5F4F0",
+        "card_border_color": "#eae9e3",
+        "image_bg": "#f5f4f0",
         "padding_top": 70,
         "padding_bottom": 70
       }
@@ -737,15 +729,15 @@
         "show_global_badge": false,
         "global_badge_label": "Global",
         "first_item_open": true,
-        "bg_color": "#FAFAF8",
-        "text_color": "#1F1F1C",
-        "bold_color": "#44681A",
-        "body_color": "#6B6B65",
-        "open_color": "#44681A",
-        "link_color": "#44681A",
-        "border_color": "#DEDDD6",
-        "row_rule_color": "#EAE9E3",
-        "badge_color": "#A9A8A1",
+        "bg_color": "#fafaf8",
+        "text_color": "#1f1f1c",
+        "bold_color": "#44681a",
+        "body_color": "#6b6b65",
+        "open_color": "#44681a",
+        "link_color": "#44681a",
+        "border_color": "#deddd6",
+        "row_rule_color": "#eae9e3",
+        "badge_color": "#a9a8a1",
         "padding_top": 70,
         "padding_bottom": 70
       }
@@ -791,15 +783,35 @@
         "heading": "<p>Love it, or get <b>your money back.</b></p>",
         "body": "<p>Try it for thirty days. If it isn't for you, contact us for a full refund — opened tub and all.</p>",
         "bg_color": "#ffffff",
-        "text_color": "#2A2611",
-        "bold_color": "#A3C781",
-        "card_bg_color": "#44681A",
+        "text_color": "#2a2611",
+        "bold_color": "#a3c781",
+        "card_bg_color": "#44681a",
         "card_text_color": "#d9e7c9",
-        "badge_border_color": "#A3C781",
+        "badge_border_color": "#a3c781",
         "badge_text_color": "#cfe0bd",
         "pill_text_color": "#eaf3df",
         "padding_top": 50,
         "padding_bottom": 50
+      }
+    },
+    "apps": {
+      "type": "apps",
+      "blocks": {
+        "yotpo_product_reviews_reviews_BxPWFb": {
+          "type": "shopify://apps/yotpo-product-reviews/blocks/reviews/eb7dfd7d-db44-4334-bc49-c893b51b36cf",
+          "settings": {
+            "product": "{{ product }}"
+          }
+        }
+      },
+      "block_order": [
+        "yotpo_product_reviews_reviews_BxPWFb"
+      ],
+      "settings": {
+        "color_scheme": "scheme-f23b3a5a-1f3c-4d6a-94eb-96f8fab0ad49",
+        "separate_section_with_border": true,
+        "remove_vertical_spacing": false,
+        "remove_horizontal_spacing": false
       }
     }
   },

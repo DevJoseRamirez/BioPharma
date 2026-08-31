@@ -1,0 +1,84 @@
+{% comment %}
+  Icon-and-text benefits list driven by a product metafield.
+
+  Same rows as `CWC_pdp-benefits__block`, but the lines come off the product
+  instead of six typed slots, so one template can serve a catalogue where every
+  product sells on different points. Defaults to `custom.benefit_lines` (list of
+  single line text); the namespace and key are settings so a second definition
+  can be pointed at without a code change.
+
+  The list has no per-row icon to read, so the mark is one decision for the
+  whole block: an uploaded icon repeats on every row, otherwise a check is
+  drawn, unless marks are off and the rows are plain text. Renders nothing when
+  the product's metafield is empty.
+
+  Accepts:
+  - block {Object} - the benefits_meta block. Reads settings.namespace,
+    settings.key, settings.icon, settings.show_checkmarks, settings.limit.
+  - product {Object} - the product to read the metafield from.
+
+  Usage:
+  {% render 'CWC_pdp-benefits-meta__block', block: block, product: product %}
+{% endcomment %}
+
+{%- liquid
+  assign mf_namespace = block.settings.namespace | default: 'custom'
+  assign mf_key = block.settings.key | default: 'benefit_lines'
+  assign benefit_metafield = product.metafields[mf_namespace][mf_key]
+
+  comment
+    A list metafield hands back an array; the single-value types hand back one
+    string. Wrapping the lone string keeps the loop below identical for both,
+    so pointing this at a plain text definition still works.
+  endcomment
+  assign benefit_lines = benefit_metafield.value
+  unless benefit_metafield.type contains 'list.'
+    assign benefit_lines = benefit_lines | split: '~~~single~~~'
+  endunless
+
+  assign row_limit = block.settings.limit | default: 6
+  assign row_icon = block.settings.icon
+
+  comment
+    Default on, to match the typed list: these lists are all written to read
+    as checklists.
+  endcomment
+  assign show_checkmarks = true
+  if block.settings.show_checkmarks == false
+    assign show_checkmarks = false
+  endif
+-%}
+
+{%- if benefit_lines != blank and benefit_lines.size > 0 -%}
+  <div class="cwc_product-hero-buy-box__benefits" {{ block.shopify_attributes }}>
+    {%- for benefit_line in benefit_lines limit: row_limit -%}
+      {%- assign row_text = benefit_line | strip -%}
+      {%- if row_text != blank -%}
+        <div class="cwc_product-hero-buy-box__benefit">
+          {%- if row_icon != blank -%}
+            <img
+              class="cwc_product-hero-buy-box__benefit-icon"
+              src="{{ row_icon | image_url: width: 40 }}"
+              alt=""
+              width="40"
+              height="40"
+              loading="lazy"
+            >
+          {%- elsif show_checkmarks -%}
+            {%- comment -%}
+              Drawn rather than typed: the check a font happens to carry
+              varies in weight and baseline between systems, and this one
+              sits against text on every row.
+            {%- endcomment -%}
+            <span class="cwc_product-hero-buy-box__benefit-check" aria-hidden="true">
+              <svg viewBox="0 0 24 24" focusable="false">
+                <path d="m5.5 12.5 4.2 4.2 8.8-9.4"></path>
+              </svg>
+            </span>
+          {%- endif -%}
+          <span class="cwc_product-hero-buy-box__benefit-text">{{ row_text }}</span>
+        </div>
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+{%- endif -%}

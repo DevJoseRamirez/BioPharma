@@ -357,6 +357,14 @@
               {% when 'benefits' %}
                 {% render 'CWC_pdp-benefits__block', block: block %}
 
+              {%- comment -%}
+                The same rows, filled from the product's own metafield rather
+                than typed into the block — for templates shared across products
+                that each sell on different points.
+              {%- endcomment -%}
+              {% when 'benefits_meta' %}
+                {% render 'CWC_pdp-benefits-meta__block', block: block, product: hero_product %}
+
               {% when 'benefit_icons' %}
                 {% render 'CWC_pdp-benefit-icons__block', block: block %}
 
@@ -368,6 +376,14 @@
 
               {% when 'key_benefits' %}
                 {% render 'CWC_pdp-key-benefits__block', block: block %}
+
+              {%- comment -%}
+                The same pills, filled from the product's own metafield rather
+                than typed into the block — for templates shared across products
+                that each sell on different points.
+              {%- endcomment -%}
+              {% when 'benefit_lines' %}
+                {% render 'CWC_pdp-benefit-lines__block', block: block, product: hero_product %}
 
               {%- comment -%}
                 The plain price row. Every other number in this buy box comes
@@ -999,6 +1015,54 @@
       ]
     },
     {
+      "type": "benefits_meta",
+      "name": "Benefits List (Metafield)",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "The same rows as Benefits List, but the lines are read off the product's own metafield — use this on a template shared by products that each sell on different points. Renders nothing on a product with the metafield empty."
+        },
+        {
+          "type": "text",
+          "id": "namespace",
+          "label": "Metafield namespace",
+          "default": "custom",
+          "info": "From the metafield definition, e.g. custom.benefit_lines -> custom"
+        },
+        {
+          "type": "text",
+          "id": "key",
+          "label": "Metafield key",
+          "default": "benefit_lines",
+          "info": "From the metafield definition, e.g. custom.benefit_lines -> benefit_lines. Expects a list of single line text."
+        },
+        {
+          "type": "checkbox",
+          "id": "show_checkmarks",
+          "label": "Show Checkmarks",
+          "info": "An uploaded icon is used instead. Turn off for plain text.",
+          "default": true
+        },
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Row icon",
+          "info": "Optional. The list carries no per-row icon, so this one repeats on every row."
+        },
+        {
+          "type": "range",
+          "id": "limit",
+          "label": "Maximum rows",
+          "min": 1,
+          "max": 10,
+          "step": 1,
+          "default": 6,
+          "info": "Extra lines on the product are ignored."
+        }
+      ]
+    },
+    {
       "type": "benefit_icons",
       "name": "Benefit Icons",
       "limit": 2,
@@ -1596,13 +1660,13 @@
           "type": "color",
           "id": "text_color",
           "label": "Text color",
-          "default": "#125657"
+          "default": "#1F3900"
         },
         {
           "type": "color",
           "id": "bg_color",
           "label": "Background color",
-          "default": "#D8FFF4"
+          "default": "#ffffff"
         }
       ]
     },
@@ -1764,6 +1828,61 @@
             }
           ],
           "default": "tint"
+        }
+      ]
+    },
+    {
+      "type": "benefit_lines",
+      "name": "Value Pills (Metafield)",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "The same pills as Value Pills, but the lines are read off the product's own metafield — use this on a template shared by products that each sell on different points. Renders nothing on a product with the metafield empty."
+        },
+        {
+          "type": "text",
+          "id": "namespace",
+          "label": "Metafield namespace",
+          "default": "custom",
+          "info": "From the metafield definition, e.g. custom.benefit_lines -> custom"
+        },
+        {
+          "type": "text",
+          "id": "key",
+          "label": "Metafield key",
+          "default": "benefit_lines",
+          "info": "From the metafield definition, e.g. custom.benefit_lines -> benefit_lines. Expects a list of single line text."
+        },
+        {
+          "type": "select",
+          "id": "tone",
+          "label": "Tone",
+          "options": [
+            {
+              "value": "tint",
+              "label": "Green"
+            },
+            {
+              "value": "accent",
+              "label": "Blue"
+            },
+            {
+              "value": "alternate",
+              "label": "Alternating"
+            }
+          ],
+          "default": "tint"
+        },
+        {
+          "type": "range",
+          "id": "limit",
+          "label": "Maximum pills",
+          "min": 1,
+          "max": 10,
+          "step": 1,
+          "default": 6,
+          "info": "Extra lines on the product are ignored."
         }
       ]
     },

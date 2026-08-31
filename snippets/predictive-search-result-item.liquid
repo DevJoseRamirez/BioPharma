@@ -44,7 +44,7 @@ Supported variables
 
 {%- case type -%}
   {%- when 'product' -%}
-    <div class="md-max:hidden {% if isRestrictedProduct and isAuthorized == false %}notAuthorizedWholeSale{% endif %}" >
+    <div class="{% if isRestrictedProduct and isAuthorized == false %}notAuthorizedWholeSale{% endif %}" >
       {% if isRestrictedProduct and isAuthorized == false %}Wholesale Product{% endif %}
       
       {%- comment %}<locksmith:92ab>{% endcomment -%}
@@ -53,11 +53,12 @@ Supported variables
       {%- comment %}<locksmith:4493>{% endcomment -%}
           {%- capture var %}{% render 'locksmith-variables', scope: 'subject', subject: product, subject_parent: predictive_search.resources, variable: 'transparent' %}{% endcapture %}{% if var == "true" %}{% if locksmith_bf5d_forloop__index == nil %}{% assign locksmith_bf5d_forloop__index = 1 %}{% assign locksmith_bf5d_forloop__index0 = 0 %}{% else %}{% assign locksmith_bf5d_forloop__index = locksmith_bf5d_forloop__index | plus: 1 %}{% assign locksmith_bf5d_forloop__index0 = locksmith_bf5d_forloop__index0 | plus: 1 %}{% endif %}{% if locksmith_bf5d_forloop__index == 1 %}{% assign locksmith_bf5d_forloop__first = true %}{% else %}{% assign locksmith_bf5d_forloop__first = false %}{% endif %}{% if locksmith_bf5d_forloop__index == locksmith_bf5d_forloop__size %}{% assign locksmith_bf5d_forloop__last = true %}{% else %}{% assign locksmith_bf5d_forloop__last = false %}{% endif %}{% assign locksmith_bf5d_forloop__rindex = locksmith_bf5d_forloop__size | minus: locksmith_bf5d_forloop__index | minus: 1 %}{% assign locksmith_bf5d_forloop__rindex0 = locksmith_bf5d_forloop__size | minus: locksmith_bf5d_forloop__index0 | minus: 1 %}{% else %}{% continue %}{% endif -%}
       {%- comment %}</locksmith:4493>{% endcomment -%}
-          {%- render 'product-card', product: product, show_quick_buy: false -%}
-    </div>
-
-    <div class="md:hidden">
-          {%- render 'product-card-horizontal', product: product, show_quick_buy: false -%}
+          {%- comment -%}
+            One row at every width. The theme's two cards — vertical above
+            768px, horizontal below — were swapped for this because neither read
+            well inside the panel; see CWC_search-result__product.
+          {%- endcomment -%}
+          {%- render 'CWC_search-result__product', product: product -%}
     </div>
 
   {%- when 'query' -%}

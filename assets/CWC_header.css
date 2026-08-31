@@ -553,10 +553,14 @@
   font-weight: var(--cwc-weight-subheading);
   text-align: center;
   text-decoration: none;
+  transition: filter 0.18s ease;
 }
 
+/* The fill is already green, so hover lifts it rather than fading it — the same
+   move as the collection card's quick add and the buy box CTA. Fading a filled
+   button reads as it going inactive. */
 .cwc_header__mega-promo-button:hover {
-  opacity: 0.88;
+  filter: brightness(1.25);
 }
 
 /* === Utility Links === */
@@ -1294,14 +1298,17 @@
    Results — theme markup, restyled in place
    ------------------------------
    theme.js hardcodes section_id=predictive-search, so these results come from
-   sections/predictive-search.liquid and the products inside them are the
-   theme's own snippets/product-card.liquid. Both are shared with other parts of
-   the theme, so they are restyled here rather than forked.
+   sections/predictive-search.liquid. The section is shared with the rest of the
+   theme, so its own wrappers — headings, tabs, the products grid, the view-all
+   button — are restyled here rather than forked. Only the product itself was
+   forked, into snippets/CWC_search-result__product.liquid, because the theme's
+   cards carry no place for a product line and no way to stop a long name
+   pushing the price out of view.
 
    The card rules are the binding ones from
    _sections-queue/product-card/biopharma-product-cards-v1.html: serif Title
-   Case name, serif price, 6px radius, 1:1 image on #F5F4F0, outlined pill that
-   fills Apple Green on hover, everything left aligned.
+   Case name, serif price, 6px radius, image on #F5F4F0, Mid Green eyebrow,
+   outlined pill that fills Apple Green on hover, everything left aligned.
    ============================== */
 
 .cwc_header__search-results {
@@ -1324,71 +1331,98 @@
   color: var(--search-muted);
 }
 
+/* Rows are wide, so the minimum is too — auto-fill at 190px was what put two
+   cramped cards side by side on a phone. */
 .cwc_header__search-results .predictive-search__products {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
-  gap: 16px;
+  grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+  gap: 10px;
 }
 
 /* ==============================
-   Product card — per the card spec
+   Product result row
+   ------------------------------
+   snippets/CWC_search-result__product.liquid replaced the theme's two cards
+   here, so these are our own class names rather than restyled theme ones. The
+   values are the card spec's: serif name, serif price, #F5F4F0 packshot plate,
+   6px radius, Mid Green eyebrow, everything left aligned.
+
+   A row rather than a tile because the panel is a dropdown — a name and a price
+   read faster stacked beside the packshot than under it, and a tile forces
+   either three-line names or a grid too wide for a phone.
    ============================== */
 
-.cwc_header__search-results .product-card {
-  display: flex;
-  flex-direction: column;
+.cwc_search-card {
+  display: grid;
+  grid-template-columns: 72px 1fr;
+  align-items: center;
+  gap: 14px;
+  padding: 10px;
   border: 1px solid var(--border-soft-color, rgba(42, 38, 17, 0.09));
   border-radius: 6px;
   background: #fff;
-  overflow: hidden;
-  transition: border-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
+  text-decoration: none;
+  color: var(--text-color);
+  transition: border-color 0.18s ease, box-shadow 0.18s ease;
 }
 
-.cwc_header__search-results .product-card:hover {
+.cwc_search-card:hover {
   border-color: rgba(42, 38, 17, 0.2);
   box-shadow: 0 6px 20px rgba(42, 38, 17, 0.07);
-  transform: translateY(-2px);
 }
 
-/* A square tinted plate. Without the aspect ratio the packshots keep their own
-   intrinsic size and float in white at whatever height they happen to be. */
-.cwc_header__search-results .product-card__media {
+/* A square tinted plate. Without the ratio the packshots keep their own
+   intrinsic height and the rows stop lining up with each other. */
+.cwc_search-card__media {
+  display: block;
   aspect-ratio: 1 / 1;
-  background: var(--cwc-search-card-media-bg);
+  border-radius: 4px;
+  background: var(--cwc-search-card-media-bg, #f5f4f0);
+  overflow: hidden;
 }
 
-/* Only __media takes the ratio. __figure is the positioning context for the
-   badge list, and constraining it too would box the badges in with it. */
-.cwc_header__search-results .product-card__media img {
+.cwc_search-card__media img {
   width: 100%;
   height: 100%;
   /* contain, not cover: these are packshots on a flat plate, and cropping a
-     tub's label to fill a square loses the thing being identified. */
+     tub's label to fill the square loses the thing being identified. */
   object-fit: contain;
-  padding: 10px;
+  padding: 6px;
 }
 
-/* The theme centres card content. The spec is left aligned. */
-.cwc_header__search-results .product-card__info {
-  align-items: start;
-  justify-items: start;
-  padding: 12px;
-  text-align: start;
+.cwc_search-card__body {
+  display: block;
+  min-width: 0;
 }
 
-.cwc_header__search-results .product-card__info > * {
-  justify-items: start;
-  align-items: start;
-  text-align: start;
+/* Product line. Small and tracked out so it reads as a label above the name
+   rather than as a second line of the name. */
+.cwc_search-card__eyebrow {
+  display: block;
+  margin-bottom: 3px;
+  font-family: var(--cwc-font-body);
+  font-size: 0.65625rem;
+  font-weight: var(--cwc-weight-label);
+  letter-spacing: 0.11em;
+  line-height: 1.3;
+  text-transform: uppercase;
+  color: #78ad49;
 }
 
-/* Title Case, not the theme's uppercase heading treatment — .h6 pulls in
-   --heading-text-transform and --heading-letter-spacing, both of which the spec
-   overrides for cards. */
-.cwc_header__search-results .product-title {
+/* Title Case, not the theme's uppercase heading treatment — the spec sets
+   cards apart from headings on exactly this point.
+
+   Two lines then ellipsis: a long name pushing the price out of the row is the
+   failure this card exists to fix. */
+.cwc_search-card__title {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  margin-bottom: 5px;
   font-family: var(--cwc-font-heading);
   font-weight: var(--cwc-weight-heading);
-  font-size: 1rem;
+  font-size: 0.9375rem;
   line-height: 1.25;
   letter-spacing: normal;
   text-transform: none;
@@ -1399,58 +1433,41 @@
    Price — serif, and never red
    ============================== */
 
-.cwc_header__search-results .price-list {
+.cwc_search-card__price {
+  display: flex;
+  flex-wrap: wrap;
   align-items: baseline;
-  gap: 6px;
+  gap: 7px;
   font-family: var(--cwc-font-heading);
 }
 
-.cwc_header__search-results .price-list sale-price,
-.cwc_header__search-results .price-list .text-on-sale {
+.cwc_search-card__now {
   font-family: var(--cwc-font-heading);
   font-weight: var(--cwc-weight-heading);
-  font-size: 1rem;
-  /* The theme paints a sale price in its alert red. Savings are green in this
-     brand — the discount badge already carries the urgency. */
+  font-size: 0.9375rem;
   color: var(--text-color);
 }
 
-.cwc_header__search-results .price-list compare-at-price,
-.cwc_header__search-results .price-list .line-through {
+/* The theme paints a sale price in its alert red. Savings are green in this
+   brand, and on a result row there is no badge to carry the urgency. */
+.cwc_search-card__now--sale {
+  color: var(--cwc-search-apple, #5ba90f);
+}
+
+.cwc_search-card__was {
   font-family: var(--cwc-font-heading);
   font-size: 0.8125rem;
-  color: var(--search-muted);
+  color: rgba(42, 38, 17, 0.4);
   text-decoration: line-through;
 }
 
-/* ==============================
-   Badges
-   ============================== */
-
-.cwc_header__search-results .badge {
-  padding: 4px 8px;
-  border-radius: 3px;
+.cwc_search-card__flag {
   font-family: var(--cwc-font-body);
   font-size: 0.625rem;
   font-weight: var(--cwc-weight-subheading);
   letter-spacing: 1px;
-  line-height: 1.2;
   text-transform: uppercase;
-}
-
-.cwc_header__search-results .badge--on-sale {
-  background: var(--search-accent);
-  color: #fff;
-}
-
-.cwc_header__search-results .badge--sold-out {
-  background: rgba(42, 38, 17, 0.55);
-  color: #fff;
-}
-
-.cwc_header__search-results .badge--custom {
-  background: var(--text-color);
-  color: #fff;
+  color: var(--search-muted);
 }
 
 /* ==============================
@@ -1526,17 +1543,16 @@
     font-size: 16px;
   }
 
+  /* One row per line: below this width two rows means a two-line name on every
+     result. */
   .cwc_header__search-results .predictive-search__products {
-    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .cwc_search-card {
+    grid-template-columns: 64px 1fr;
     gap: 12px;
-  }
-
-  .cwc_header__search-results .product-card__info {
-    padding: 10px;
-  }
-
-  .cwc_header__search-results .product-title {
-    font-size: 0.9375rem;
   }
 }
 

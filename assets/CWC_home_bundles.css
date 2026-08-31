@@ -93,11 +93,31 @@
   background: var(--card-bg);
   /* the anchor point the stretched link below measures itself against */
   position: relative;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
+}
+
+/* The collection card's lift, on every kit card — the whole card is one link,
+   so it should answer a hover the way a product card does. Literal rather than
+   a token: this is the one darker step the border takes, and giving it a
+   setting would let the resting and hover borders be set to the same colour. */
+.cwc_home-bundles__card:hover {
+  border-color: rgba(42, 38, 17, 0.2);
+  box-shadow: 0 6px 20px rgba(42, 38, 17, 0.07);
+  transform: translateY(-2px);
 }
 
 .cwc_home-bundles__card--featured {
   border-color: var(--accent-color);
   box-shadow: 0 0 0 1px var(--accent-color);
+}
+
+/* The featured card wears a ring rather than a plain border, so its hover has
+   to carry the ring and the lift together — a single box-shadow would drop the
+   ring the moment the pointer arrived. Its border stays accent for the same
+   reason. */
+.cwc_home-bundles__card--featured:hover {
+  border-color: var(--accent-color);
+  box-shadow: 0 0 0 1px var(--accent-color), 0 6px 20px rgba(42, 38, 17, 0.07);
 }
 
 .cwc_home-bundles__card-image {
@@ -274,8 +294,10 @@
   transition: filter 0.18s ease, background-color 0.18s ease;
 }
 
+/* Brightens rather than darkens, matching every other filled green button in
+   the theme. The outline variant below opts out — it has no fill to lift. */
 .cwc_home-bundles__button:hover {
-  filter: brightness(0.92);
+  filter: brightness(1.25);
   color: var(--button-text);
 }
 
@@ -303,7 +325,7 @@
    answer — the cursor changes on the whole card, and a button that stayed inert
    would read as the click having missed. */
 .cwc_home-bundles__card:hover .cwc_home-bundles__button--stretched {
-  filter: brightness(0.92);
+  filter: brightness(1.25);
 }
 
 .cwc_home-bundles__button--outline {

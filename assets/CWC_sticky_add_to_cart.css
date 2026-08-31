@@ -237,6 +237,7 @@
   white-space: nowrap;
   cursor: pointer;
   font-family: inherit;
+  transition: filter 0.18s ease;
 }
 
 /* Two labels live in the button; only one is ever shown. Desktop gets the full
@@ -245,8 +246,9 @@
   display: none;
 }
 
+/* Brightens rather than darkens, matching the buy box CTA it stands in for. */
 .cwc_sticky-add-to-cart__button:hover {
-  filter: brightness(0.92);
+  filter: brightness(1.25);
 }
 
 .cwc_sticky-add-to-cart__button[disabled] {

@@ -1,0 +1,76 @@
+{% comment %}
+  Value pills driven by a product metafield.
+
+  Same look as the hand-typed pills in `CWC_pdp-key-benefits__block`, but the
+  lines come off the product instead of the block, so one template can serve a
+  catalogue where every product sells on different points. Defaults to
+  `custom.benefit_lines` (list of single line text); the namespace and key are
+  settings so a second definition can be pointed at without a code change.
+
+  Renders nothing when the product carries no value — the pills row would
+  still contribute its top margin to the column.
+
+  Accepts:
+  - block {Object} - the benefit_lines block. Reads settings.namespace,
+    settings.key, settings.tone, settings.limit.
+  - product {Object} - the product to read the metafield from.
+
+  Usage:
+  {% render 'CWC_pdp-benefit-lines__block', block: block, product: product %}
+{% endcomment %}
+
+{%- liquid
+  assign mf_namespace = block.settings.namespace | default: 'custom'
+  assign mf_key = block.settings.key | default: 'benefit_lines'
+  assign benefit_metafield = product.metafields[mf_namespace][mf_key]
+
+  comment
+    A list metafield hands back an array; the single-value types hand back one
+    string. Wrapping the lone string keeps the loop below identical for both,
+    so pointing this at a plain text definition still works.
+  endcomment
+  assign benefit_lines = benefit_metafield.value
+  unless benefit_metafield.type contains 'list.'
+    assign benefit_lines = benefit_lines | split: '~~~single~~~'
+  endunless
+
+  assign pill_limit = block.settings.limit | default: 6
+  assign tone_mode = block.settings.tone | default: 'tint'
+-%}
+
+{%- if benefit_lines != blank and benefit_lines.size > 0 -%}
+  <div class="cwc_product-hero-buy-box__pills" {{ block.shopify_attributes }}>
+    {%- for benefit_line in benefit_lines limit: pill_limit -%}
+      {%- liquid
+        assign pill_text = benefit_line | strip
+
+        comment
+          'alternate' exists because the list has no per-line tone to read —
+          banding the pills is the only way to get the two-colour rhythm the
+          hand-typed block gets from its tone_1 … tone_6 selects.
+        endcomment
+        case tone_mode
+          when 'alternate'
+            assign tone_index = forloop.index0 | modulo: 2
+            if tone_index == 0
+              assign pill_tone = 'tint'
+            else
+              assign pill_tone = 'accent'
+            endif
+          when 'accent'
+            assign pill_tone = 'accent'
+          else
+            assign pill_tone = 'tint'
+        endcase
+      -%}
+      {%- if pill_text != blank -%}
+        <span class="cwc_product-hero-buy-box__pill cwc_product-hero-buy-box__pill--{{ pill_tone }}">
+          <span class="cwc_product-hero-buy-box__pill-mark" aria-hidden="true">
+            {%- if pill_tone == 'accent' -%}&#9671;{%- else -%}&#10003;{%- endif -%}
+          </span>
+          {{ pill_text }}
+        </span>
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+{%- endif -%}

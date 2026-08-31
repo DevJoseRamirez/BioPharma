@@ -229,13 +229,12 @@
         "title": {
           "type": "title",
           "settings": {
-            "eyebrow": "Daily greens & superfood",
-            "heading": "<p>NanoGreens¹⁰</p>",
-            "subtext": "<p>55 organic fruits and vegetables, juiced at peak ripeness and freeze-dried cold. One scoop, ten seconds, every morning.</p>"
+            "heading": "<p>NanoGreens¹⁰</p>"
           }
         },
         "benefit_icons": {
           "type": "benefit_icons",
+          "disabled": true,
           "settings": {
             "layout": "inline",
             "columns": 3,
@@ -259,16 +258,13 @@
             "label_6": ""
           }
         },
-        "benefits_HbqnBN": {
-          "type": "benefits",
+        "benefits_meta_bRYkmq": {
+          "type": "benefits_meta",
           "settings": {
+            "namespace": "custom",
+            "key": "benefit_lines",
             "show_checkmarks": true,
-            "text1": "Doctor formulated, third-party tested",
-            "text2": "10 servings of fruits & veg in one scoop",
-            "text3": "",
-            "text4": "As Little as $1.75/serving",
-            "text5": "As Little as $1.75/serving",
-            "text6": ""
+            "limit": 6
           }
         },
         "key_benefits": {
@@ -575,7 +571,7 @@
         "rating",
         "title",
         "benefit_icons",
-        "benefits_HbqnBN",
+        "benefits_meta_bRYkmq",
         "key_benefits",
         "flavors",
         "simple_offer_Mm3TzV",

@@ -104,7 +104,7 @@
         "logo_text_size": 22,
         "logo_text_size_mobile": 23,
         "show_account": true,
-        "show_search": false,
+        "show_search": true,
         "search_placeholder": "Search products",
         "search_popular_label": "Popular searches",
         "search_popular": "greens, collagen, bundles, weight loss",

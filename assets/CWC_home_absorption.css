@@ -182,8 +182,11 @@
   transition: filter 0.18s ease, background-color 0.18s ease;
 }
 
+/* Brightens rather than darkens, matching the home hero CTA and the card
+   buttons — a filled green button that dims on hover reads as going inactive.
+   The outline variant below opts out, having no fill to lift. */
 .cwc_home-absorption__button:hover {
-  filter: brightness(0.92);
+  filter: brightness(1.25);
   color: var(--button-text);
 }
 

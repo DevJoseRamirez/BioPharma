@@ -10,7 +10,6 @@
     --border-color: {{ section.settings.border_color | default: '#E6E5DC' }};
     --tag-color: {{ section.settings.tag_color | default: '#78AD49' }};
     --accent-color: {{ section.settings.accent_color | default: '#5BA90F' }};
-    --button-outline-color: {{ section.settings.button_outline_color | default: '#44681A' }};
     --button-hover-text: {{ section.settings.button_hover_text_color | default: '#ffffff' }};
     --star-color: {{ section.settings.star_color | default: '#E8A317' }};
     --columns-desktop: {{ section.settings.columns_desktop | default: 4 }};
@@ -132,7 +131,17 @@
                     {% endif %}
 
                     {% if section.settings.show_price and card_product != blank %}
-                      <div class="cwc_home-best-sellers__card-price">{{ card_product.price | money }}</div>
+                      {% comment %}
+                        Struck compare-at then the price, matching the collection
+                        card — a best seller on promotion is exactly the card
+                        that needs to show it.
+                      {% endcomment %}
+                      <div class="cwc_home-best-sellers__card-price">
+                        <span class="cwc_home-best-sellers__price-now">{{ card_product.price | money }}</span>
+                        {% if card_product.compare_at_price > card_product.price %}
+                          <span class="cwc_home-best-sellers__price-was">{{ card_product.compare_at_price | money }}</span>
+                        {% endif %}
+                      </div>
                     {% endif %}
 
                     {% if button_label != blank %}
@@ -191,7 +200,12 @@
                 {% endif %}
 
                 {% if section.settings.show_price %}
-                  <div class="cwc_home-best-sellers__card-price">{{ card_product.price | money }}</div>
+                  <div class="cwc_home-best-sellers__card-price">
+                    <span class="cwc_home-best-sellers__price-now">{{ card_product.price | money }}</span>
+                    {% if card_product.compare_at_price > card_product.price %}
+                      <span class="cwc_home-best-sellers__price-was">{{ card_product.compare_at_price | money }}</span>
+                    {% endif %}
+                  </div>
                 {% endif %}
 
                 {% if section.settings.default_button_label != blank %}
@@ -396,19 +410,14 @@
     {
       "type": "color",
       "id": "accent_color",
-      "label": "Button Hover Background",
+      "label": "Button Background",
+      "info": "The card button is filled with this and brightens on hover.",
       "default": "#5BA90F"
     },
     {
       "type": "color",
-      "id": "button_outline_color",
-      "label": "Button Outline Color",
-      "default": "#44681A"
-    },
-    {
-      "type": "color",
       "id": "button_hover_text_color",
-      "label": "Button Hover Text Color",
+      "label": "Button Text Color",
       "default": "#ffffff"
     },
     {

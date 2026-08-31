@@ -1,0 +1,100 @@
+{% comment %}
+  One product row in the header search panel.
+
+  The theme's own cards were doing the work here — the vertical `product-card`
+  above 768px and `product-card-horizontal` below — and neither reads well in a
+  dropdown: the grid squeezed two horizontal cards into a phone-width panel, so
+  a four-word product name wrapped to four lines and the price fell out of view.
+
+  This is one row instead, at every width: a square packshot plate, an eyebrow,
+  the name, the price. The panel grid decides how many rows sit side by side.
+
+  The eyebrow is the product line. Names in this catalogue are written
+  "line: flavour" (nanogreens+ probiotic: green apple), so the part before the
+  colon is the line and the part after is what actually distinguishes one result
+  from the next — splitting them puts the distinguishing half on its own line
+  instead of at the end of a wrap. Names with no colon fall back to the product
+  type, then the vendor, and print whole.
+
+  Accepts:
+  - product {Object} - the product to render.
+
+  Usage:
+  {% render 'CWC_search-result__product', product: product %}
+{% endcomment %}
+
+{%- liquid
+  assign card_title = product.title
+  assign card_eyebrow = ''
+
+  if product.title contains ':'
+    assign title_parts = product.title | split: ':'
+    assign card_eyebrow = title_parts[0] | strip
+
+    comment
+      Joined back rather than taking [1], so a name carrying a second colon
+      keeps its tail instead of losing it.
+    endcomment
+    assign title_rest = title_parts | slice: 1, 9
+    assign card_title = title_rest | join: ':' | strip
+  elsif product.type != blank
+    assign card_eyebrow = product.type
+  else
+    assign card_eyebrow = product.vendor
+  endif
+
+  assign card_alt = product.featured_media.alt | default: product.title
+
+  assign on_sale = false
+  if product.compare_at_price_min > product.price_min
+    assign on_sale = true
+  endif
+-%}
+
+<a href="{{ product.url }}" class="cwc_search-card" data-instant>
+  <span class="cwc_search-card__media">
+    {%- if product.featured_media != blank -%}
+      {{-
+        product.featured_media
+        | image_url: width: 200
+        | image_tag:
+          loading: 'lazy',
+          sizes: '80px',
+          widths: '80,120,160,200',
+          class: 'cwc_search-card__image',
+          alt: card_alt
+      -}}
+    {%- endif -%}
+  </span>
+
+  <span class="cwc_search-card__body">
+    {%- if card_eyebrow != blank -%}
+      <span class="cwc_search-card__eyebrow">{{ card_eyebrow }}</span>
+    {%- endif -%}
+
+    <span class="cwc_search-card__title">{{ card_title }}</span>
+
+    <span class="cwc_search-card__price">
+      {%- comment -%}
+        Struck price first, matching the way a price drop is read: what it was,
+        then what it is.
+      {%- endcomment -%}
+      {%- if on_sale -%}
+        <s class="cwc_search-card__was">{{ product.compare_at_price_min | money }}</s>
+      {%- endif -%}
+
+      <span class="cwc_search-card__now{% if on_sale %} cwc_search-card__now--sale{% endif %}">
+        {%- if product.price_varies -%}
+          {%- assign price_min = product.price_min | money -%}
+          {{- 'product.price.from_price_html' | t: price_min: price_min -}}
+        {%- else -%}
+          {{- product.price | money -}}
+        {%- endif -%}
+      </span>
+
+      {%- unless product.available -%}
+        <span class="cwc_search-card__flag">{{ 'product.general.sold_out_button' | t }}</span>
+      {%- endunless -%}
+    </span>
+  </span>
+</a>
