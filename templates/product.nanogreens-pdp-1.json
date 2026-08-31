@@ -113,77 +113,60 @@
     "cwc_scrolling_banner_8jrGpJ": {
       "type": "CWC_scrolling_banner",
       "blocks": {
-        "item_cditUd": {
+        "item_GTegGj": {
           "type": "item",
           "settings": {
-            "text": "Doctor Formulated",
-            "icon_style": "flask"
-          }
-        },
-        "item_7UxDk8": {
-          "type": "item",
-          "settings": {
-            "text": "Third-Party Tested",
-            "icon_style": "shield"
-          }
-        },
-        "item_jY3be7": {
-          "type": "item",
-          "settings": {
-            "text": "No Fillers or Binders",
+            "text": "Green apple or strawberry",
             "icon_style": "leaf"
           }
         },
-        "item_JVdcTd": {
+        "item_gNqbUP": {
           "type": "item",
           "settings": {
-            "text": "30-Day Money Back",
-            "icon_style": "return"
-          }
-        },
-        "item_wkUQe7": {
-          "type": "item",
-          "settings": {
-            "text": "Free Shipping on Subscriptions",
-            "icon_style": "truck"
-          }
-        },
-        "item_9jgbHc": {
-          "type": "item",
-          "settings": {
-            "text": "Cancel or Pause Anytime",
-            "icon_style": "pause"
-          }
-        },
-        "item_9RRAzy": {
-          "type": "item",
-          "settings": {
-            "text": "10 servings of fruits & veggies",
+            "text": "55 organic fruits & veg",
             "icon_style": "check"
           }
         },
-        "item_D78nky": {
+        "item_N9rN6p": {
           "type": "item",
-          "disabled": true,
           "settings": {
-            "text": "9 enzymes so your body absorbs it",
+            "text": "9 enzymes for absorption",
+            "icon_style": "leaf"
+          }
+        },
+        "item_XhwmWR": {
+          "type": "item",
+          "settings": {
+            "text": "Clinician-recommended 20+ years",
+            "icon_style": "shield"
+          }
+        },
+        "item_4gaYEk": {
+          "type": "item",
+          "settings": {
+            "text": "From $1.87 a serving",
+            "icon_style": "star"
+          }
+        },
+        "item_Neeb9A": {
+          "type": "item",
+          "settings": {
+            "text": "30-day money back",
             "icon_style": "check"
           }
         }
       },
       "block_order": [
-        "item_cditUd",
-        "item_7UxDk8",
-        "item_jY3be7",
-        "item_JVdcTd",
-        "item_wkUQe7",
-        "item_9jgbHc",
-        "item_9RRAzy",
-        "item_D78nky"
+        "item_GTegGj",
+        "item_gNqbUP",
+        "item_N9rN6p",
+        "item_XhwmWR",
+        "item_4gaYEk",
+        "item_Neeb9A"
       ],
       "name": "Scrolling Banner",
       "settings": {
-        "scroll_speed": 30,
+        "scroll_speed": 60,
         "direction": "left",
         "pause_on_hover": true,
         "repeat": 3,
@@ -222,7 +205,7 @@
         "rating": {
           "type": "rating",
           "settings": {
-            "text": "<p><strong>4.8 from 19K+ servings sold</strong></p>",
+            "text": "<p><strong>4.8 </strong>· <strong>Recommended in clinics since 2004</strong></p>",
             "link": ""
           }
         },
@@ -258,6 +241,24 @@
             "label_6": ""
           }
         },
+        "key_benefits": {
+          "type": "key_benefits",
+          "disabled": true,
+          "settings": {
+            "text_1": "Practitioner-formulated",
+            "tone_1": "accent",
+            "text_2": "",
+            "tone_2": "tint",
+            "text_3": "",
+            "tone_3": "accent",
+            "text_4": "",
+            "tone_4": "tint",
+            "text_5": "",
+            "tone_5": "tint",
+            "text_6": "",
+            "tone_6": "tint"
+          }
+        },
         "benefits_meta_bRYkmq": {
           "type": "benefits_meta",
           "settings": {
@@ -267,28 +268,19 @@
             "limit": 6
           }
         },
-        "key_benefits": {
-          "type": "key_benefits",
-          "disabled": true,
+        "price_display_N8tnGx": {
+          "type": "price_display",
           "settings": {
-            "text_1": "Doctor formulated, third-party tested",
-            "tone_1": "accent",
-            "text_2": "10 servings of fruits & veg in one scoop",
-            "tone_2": "tint",
-            "text_3": "9 enzymes so your body absorbs it",
-            "tone_3": "accent",
-            "text_4": "As Little as $1.75/serving",
-            "tone_4": "tint",
-            "text_5": "",
-            "tone_5": "tint",
-            "text_6": "",
-            "tone_6": "tint"
+            "savings_display": "percent",
+            "save_label": "Save",
+            "show_compare": true,
+            "show_dividers": true
           }
         },
         "flavors": {
           "type": "flavors",
           "settings": {
-            "label": "Select flavor",
+            "label": "Choose your flavor",
             "option_name": "flavor",
             "image_1": "shopify://shop_images/nanogreens-thumb-no-bg-apply.png",
             "image_2": "shopify://shop_images/nanogreens-thumb-no-bg-strawberry.png"
@@ -449,7 +441,6 @@
         },
         "delivery_estimate_6ikBpV": {
           "type": "delivery_estimate",
-          "disabled": true,
           "settings": {
             "text": "Order now for delivery by",
             "max_shipping_days": 7,
@@ -462,7 +453,7 @@
           "settings": {
             "label": "Add to cart",
             "sold_out_label": "Sold out",
-            "micro_text": ""
+            "micro_text": "Recommended in clinics for 20+ years — before it was ever sold online."
           }
         },
         "trust_icons": {
@@ -522,8 +513,16 @@
         "detail_ingredients": {
           "type": "detail",
           "settings": {
+            "title": "Benefits",
+            "content": "<p><strong>Steady energy</strong> — sustained, no stimulants, no crash<br/><br/><strong>Digestion & regularity</strong> — 9 enzymes plus 2,500mg oat beta glucan<br/><br/><strong>Gut support</strong> — the benefit customers mention second-most<br/><br/><strong>Immune function</strong> — vitamin A, vitamin C, organic acerola cherry<br/><br/><strong>Antioxidant defense</strong> — 360mg green tea, grape seed, resveratrol<br/><br/><strong>Exercise recovery</strong> — full-spectrum plant nutrients after training</p>",
+            "open": true
+          }
+        },
+        "detail_EnYdYX": {
+          "type": "detail",
+          "settings": {
             "title": "Ingredients",
-            "content": "<p><strong>55 organic ingredients,</strong> juiced at peak ripeness and low-temperature freeze-dried to concentrate the nutrients without the sugar, fiber and water. Includes 2,500mg organic oat beta glucan, a 2,400mg Greens Blend of organic barley grass juice, spirulina and chlorella, a 930mg Fruit & Vegetable Blend, a 360mg Phytonutrient Blend, and the 9-enzyme Blend 32000B for absorption.</p>",
+            "content": "<p><strong>55 organic ingredients,</strong> juiced at peak ripeness and freeze-dried cold — concentrating nutrients without the sugar, fiber and water.</p><p>2,500mg organic oat beta glucan<br/><br/>2,400mg Greens Blend — barley grass juice, spirulina, chlorella<br/><br/>930mg Fruit & Vegetable Blend<br/><br/>360mg Phytonutrient Blend<br/><br/>Blend 32000B — nine enzymes for absorption</p>",
             "open": true
           }
         },
@@ -539,7 +538,7 @@
           "type": "detail",
           "settings": {
             "title": "How to take it",
-            "content": "<p><strong>One 12g scoop in 8–16 oz of cold water.</strong> Shake, stir, or blend. For children under 12, use half a scoop. 30 servings per container.</p><p></p>",
+            "content": "<p><strong>One 12g scoop in 8–16 oz of cold water.</strong> Shake, stir or blend. Cold mixes cleaner. Best first thing in the morning. Half a scoop for children under 12. 30 servings per container.</p><p></p>",
             "open": false
           }
         },
@@ -547,8 +546,33 @@
           "type": "detail",
           "settings": {
             "title": "Shipping & subscription",
-            "content": "<p><strong>Free shipping on all subscription orders.</strong> Pause, reschedule or cancel anytime from your account — no fees, no phone call.</p>",
+            "content": "<p><strong>Free shipping on every subscription order.</strong> Pause, reschedule or cancel anytime from your account — no fees, no phone call. 30-day money-back guarantee.</p>",
             "open": false
+          }
+        },
+        "benefit_icons_pKURNz": {
+          "type": "benefit_icons",
+          "settings": {
+            "layout": "row",
+            "columns": 3,
+            "icon_style_1": "bolt",
+            "icon_text_1": "",
+            "label_1": "Energy",
+            "icon_style_2": "digestion",
+            "icon_text_2": "",
+            "label_2": "Digestion",
+            "icon_style_3": "shield",
+            "icon_text_3": "",
+            "label_3": "Immune",
+            "icon_style_4": "burst",
+            "icon_text_4": "",
+            "label_4": "Antioxidant",
+            "icon_style_5": "refresh",
+            "icon_text_5": "",
+            "label_5": "Recovery",
+            "icon_style_6": "none",
+            "icon_text_6": "",
+            "label_6": ""
           }
         },
         "sticky_atc": {
@@ -571,8 +595,9 @@
         "rating",
         "title",
         "benefit_icons",
-        "benefits_meta_bRYkmq",
         "key_benefits",
+        "benefits_meta_bRYkmq",
+        "price_display_N8tnGx",
         "flavors",
         "simple_offer_Mm3TzV",
         "supply",
@@ -583,9 +608,11 @@
         "trusted_by_ctTUFC",
         "stats_panel_RNYChN",
         "detail_ingredients",
+        "detail_EnYdYX",
         "detail_quality",
         "detail_enjoy",
         "detail_tasting",
+        "benefit_icons_pKURNz",
         "sticky_atc"
       ],
       "settings": {
