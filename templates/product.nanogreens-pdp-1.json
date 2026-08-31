@@ -90,6 +90,7 @@
         "search_overlay_opacity": 45,
         "show_cart": true,
         "enable_sticky": true,
+        "sticky_offset": 0,
         "bg_color": "#ffffff",
         "text_color": "#5c5842",
         "bold_color": "#5ba90f",
@@ -107,6 +108,97 @@
         "scrim_color": "#1f1f1c",
         "padding_top": 15,
         "padding_bottom": 15
+      }
+    },
+    "cwc_scrolling_banner_8jrGpJ": {
+      "type": "CWC_scrolling_banner",
+      "blocks": {
+        "item_cditUd": {
+          "type": "item",
+          "settings": {
+            "text": "Doctor Formulated",
+            "icon_style": "flask"
+          }
+        },
+        "item_7UxDk8": {
+          "type": "item",
+          "settings": {
+            "text": "Third-Party Tested",
+            "icon_style": "shield"
+          }
+        },
+        "item_jY3be7": {
+          "type": "item",
+          "settings": {
+            "text": "No Fillers or Binders",
+            "icon_style": "leaf"
+          }
+        },
+        "item_JVdcTd": {
+          "type": "item",
+          "settings": {
+            "text": "30-Day Money Back",
+            "icon_style": "return"
+          }
+        },
+        "item_wkUQe7": {
+          "type": "item",
+          "settings": {
+            "text": "Free Shipping on Subscriptions",
+            "icon_style": "truck"
+          }
+        },
+        "item_9jgbHc": {
+          "type": "item",
+          "settings": {
+            "text": "Cancel or Pause Anytime",
+            "icon_style": "pause"
+          }
+        },
+        "item_9RRAzy": {
+          "type": "item",
+          "settings": {
+            "text": "10 servings of fruits & veggies",
+            "icon_style": "check"
+          }
+        },
+        "item_D78nky": {
+          "type": "item",
+          "disabled": true,
+          "settings": {
+            "text": "9 enzymes so your body absorbs it",
+            "icon_style": "check"
+          }
+        }
+      },
+      "block_order": [
+        "item_cditUd",
+        "item_7UxDk8",
+        "item_jY3be7",
+        "item_JVdcTd",
+        "item_wkUQe7",
+        "item_9jgbHc",
+        "item_9RRAzy",
+        "item_D78nky"
+      ],
+      "name": "Scrolling Banner",
+      "settings": {
+        "scroll_speed": 30,
+        "direction": "left",
+        "pause_on_hover": true,
+        "repeat": 3,
+        "text_style": "label",
+        "separator": "dot",
+        "item_gap": 48,
+        "icon_size": 18,
+        "show_borders": true,
+        "bg_color": "#ffffff",
+        "text_color": "#44681a",
+        "icon_color": "#5ba90f",
+        "separator_color": "#a3c781",
+        "border_color": "#a3c781",
+        "padding_top": 6,
+        "padding_bottom": 6
       }
     },
     "cwc_product_hero_buy_box": {
@@ -142,10 +234,35 @@
             "subtext": "<p>55 organic fruits and vegetables, juiced at peak ripeness and freeze-dried cold. One scoop, ten seconds, every morning.</p>"
           }
         },
+        "benefit_icons": {
+          "type": "benefit_icons",
+          "settings": {
+            "layout": "inline",
+            "columns": 3,
+            "icon_style_1": "bolt",
+            "icon_text_1": "",
+            "label_1": "Energy",
+            "icon_style_2": "digestion",
+            "icon_text_2": "",
+            "label_2": "Digestion",
+            "icon_style_3": "shield",
+            "icon_text_3": "",
+            "label_3": "Immune",
+            "icon_style_4": "burst",
+            "icon_text_4": "",
+            "label_4": "Antioxidant",
+            "icon_style_5": "refresh",
+            "icon_text_5": "",
+            "label_5": "Recovery",
+            "icon_style_6": "none",
+            "icon_text_6": "",
+            "label_6": ""
+          }
+        },
         "benefits_HbqnBN": {
           "type": "benefits",
-          "disabled": true,
           "settings": {
+            "show_checkmarks": true,
             "text1": "Doctor formulated, third-party tested",
             "text2": "10 servings of fruits & veg in one scoop",
             "text3": "",
@@ -156,6 +273,7 @@
         },
         "key_benefits": {
           "type": "key_benefits",
+          "disabled": true,
           "settings": {
             "text_1": "Doctor formulated, third-party tested",
             "tone_1": "accent",
@@ -340,7 +458,7 @@
             "text": "Order now for delivery by",
             "max_shipping_days": 7,
             "text_color": "#000000",
-            "bg_color": "#FFFFFF"
+            "bg_color": "#ffffff"
           }
         },
         "add_to_cart": {
@@ -375,6 +493,34 @@
             "subtext": "<p>who choose us for consistent, long-term wellness support.</p>",
             "bg_color": "#efefef",
             "text_color": "#282828"
+          }
+        },
+        "stats_panel_RNYChN": {
+          "type": "stats_panel",
+          "settings": {
+            "heading": "What customers report",
+            "subtext": "From analysis of 410 verified reviews",
+            "note": "Customer-reported outcomes, not a clinical trial. Individual results vary.",
+            "icon_text_1": "★",
+            "name_1": "They'd buy it again",
+            "description_1": "Rate NanoGreens 4 stars or higher",
+            "value_1": "84%",
+            "tone_1": "tint",
+            "icon_text_2": "◕",
+            "name_2": "A taste they finish",
+            "description_2": "Reviews specifically praising the flavor",
+            "value_2": "243",
+            "tone_2": "tint",
+            "icon_text_3": "↻",
+            "name_3": "It becomes a habit",
+            "description_3": "Report drinking it daily for years",
+            "value_3": "120+",
+            "tone_3": "tint",
+            "icon_text_4": "✚",
+            "name_4": "Recommended in clinic",
+            "description_4": "Say a doctor or naturopath suggested it",
+            "value_4": "33",
+            "tone_4": "accent"
           }
         },
         "detail_ingredients": {
@@ -428,6 +574,7 @@
         "media_popup_bqEGVJ",
         "rating",
         "title",
+        "benefit_icons",
         "benefits_HbqnBN",
         "key_benefits",
         "flavors",
@@ -438,6 +585,7 @@
         "add_to_cart",
         "trust_icons",
         "trusted_by_ctTUFC",
+        "stats_panel_RNYChN",
         "detail_ingredients",
         "detail_quality",
         "detail_enjoy",
@@ -475,6 +623,89 @@
         "button_text_color": "#ffffff",
         "padding_top": 20,
         "padding_bottom": 40
+      }
+    },
+    "cwc_at_a_glance": {
+      "type": "CWC_at_a_glance",
+      "blocks": {
+        "stat_1": {
+          "type": "stat",
+          "settings": {
+            "figure": "55",
+            "label": "Organic fruits and vegetables, juiced at peak ripeness"
+          }
+        },
+        "stat_2": {
+          "type": "stat",
+          "settings": {
+            "figure": "10",
+            "label": "Servings of produce worth of antioxidant power per scoop"
+          }
+        },
+        "stat_3": {
+          "type": "stat",
+          "settings": {
+            "figure": "9",
+            "label": "Digestive enzymes — Blend 32000B — for absorption"
+          }
+        },
+        "stat_4": {
+          "type": "stat",
+          "settings": {
+            "figure": "20+",
+            "label": "Years recommended in practitioner clinics"
+          }
+        },
+        "column_1": {
+          "type": "column",
+          "settings": {
+            "heading": "What it is",
+            "items": "<ul><li>A <strong>whole-food</strong> greens powder — real produce juiced and freeze-dried, not grass powder bulked to weight</li><li>One 12g scoop, mixed into cold water in about ten seconds</li><li>30 servings per tub · from <strong>$1.87 per serving</strong> on the 90-day plan</li></ul>",
+            "variant": "does"
+          }
+        },
+        "column_2": {
+          "type": "column",
+          "settings": {
+            "heading": "What it supports",
+            "items": "<ul><li><strong>Digestion and regularity</strong> — nine enzymes plus organic oat beta glucan</li><li><strong>Steady energy</strong> without stimulants or a mid-afternoon drop</li><li><strong>Antioxidant defense</strong> — a 360mg blend of green tea, grape seed and resveratrol</li><li><strong>Immune function</strong> — vitamin A, vitamin C and organic acerola cherry</li></ul>",
+            "variant": "default"
+          }
+        },
+        "column_3": {
+          "type": "column",
+          "settings": {
+            "heading": "Why people choose it",
+            "items": "<ul><li>It tastes like green apple, which is why people finish the tub instead of abandoning it half-full</li><li>Replaces five separate supplements and roughly <strong>$133 a month</strong> of them</li><li>The same formula since 2010 — never reformulated to protect margin</li><li>30-day money-back guarantee, opened tub and all</li></ul>",
+            "variant": "why"
+          }
+        }
+      },
+      "block_order": [
+        "stat_1",
+        "stat_2",
+        "stat_3",
+        "stat_4",
+        "column_1",
+        "column_2",
+        "column_3"
+      ],
+      "settings": {
+        "heading": "",
+        "subtext": "",
+        "show_stats": true,
+        "stat_columns": 4,
+        "column_count": 3,
+        "bg_color": "#f5f4f0",
+        "text_color": "#1f1f1c",
+        "bold_color": "#5ba90f",
+        "stat_color": "#44681a",
+        "border_color": "#1f1f1c",
+        "accent_color": "#78ad49",
+        "accent_does_color": "#5ba90f",
+        "accent_why_color": "#a3b8e2",
+        "padding_top": 60,
+        "padding_bottom": 60
       }
     },
     "cwc_absorption_pod": {
@@ -773,6 +1004,81 @@
         "padding_bottom": 50
       }
     },
+    "cwc_results_timeline": {
+      "type": "CWC_results_timeline",
+      "blocks": {
+        "stage_1": {
+          "type": "stage",
+          "settings": {
+            "when_label": "Week 1",
+            "title": "You finish the tub",
+            "description": "<p>The first hurdle isn't whether it works — it's whether you keep drinking it. Most greens powders get abandoned half-full. The taste is the reason this one doesn't.</p>",
+            "evidence_claim": "243 reviews mention the taste specifically",
+            "evidence_sub": "The most-cited theme in the review corpus"
+          }
+        },
+        "stage_2": {
+          "type": "stage",
+          "settings": {
+            "when_label": "Weeks 2–4",
+            "title": "Digestion settles",
+            "description": "<p>The change customers name most often after taste is digestive. Nine enzymes and organic oat beta glucan are the parts doing that work.</p>",
+            "evidence_claim": "Gut health is the second-most mentioned benefit",
+            "evidence_sub": "Across 410 verified reviews"
+          }
+        },
+        "stage_3": {
+          "type": "stage",
+          "settings": {
+            "when_label": "Month 2",
+            "title": "The 3pm gap closes",
+            "description": "<p>Customers describe steadier energy through the afternoon rather than a lift and a crash. Several report drinking it mid-afternoon specifically to curb snacking.</p>",
+            "evidence_claim": "\"Liquid energy\" — a recurring phrase in reviews",
+            "evidence_sub": "No stimulants, no coffee crash"
+          }
+        },
+        "stage_4": {
+          "type": "stage",
+          "settings": {
+            "when_label": "Month 3 and on",
+            "title": "It stops being a decision",
+            "description": "<p>By here it's part of the morning rather than a supplement you're evaluating. That's the point people describe when they say they've been on it for years.</p>",
+            "evidence_claim": "120+ report drinking it daily for years",
+            "evidence_sub": "84% rate it 4 stars or higher"
+          }
+        }
+      },
+      "block_order": [
+        "stage_1",
+        "stage_2",
+        "stage_3",
+        "stage_4"
+      ],
+      "settings": {
+        "eyebrow_text": "What to expect",
+        "heading": "<p>The first ninety days, <strong>as customers describe them.</strong></p>",
+        "subtext": "<p>Greens aren't a switch. Here's the shape of it, drawn from what 410 verified buyers actually reported.</p>",
+        "show_evidence_chips": true,
+        "accent_progression": true,
+        "disclaimer_note": "Drawn from analysis of 410 verified customer reviews, not a clinical trial. These are patterns in what customers report, not promised outcomes — individual results vary.",
+        "cta_label": "Start the 90-day supply",
+        "cta_link": "",
+        "cta_side_text": "Cancel, pause or reschedule anytime · 30-day money-back guarantee",
+        "bg_color": "#ffffff",
+        "text_color": "#1f1f1c",
+        "bold_color": "#1f1f1c",
+        "eyebrow_color": "#44681a",
+        "accent_color": "#5ba90f",
+        "stage_color_1": "#78ad49",
+        "stage_color_2": "#5ba90f",
+        "stage_color_3": "#44681a",
+        "stage_color_4": "#1f1f1c",
+        "button_bg_color": "#5ba90f",
+        "button_text_color": "#ffffff",
+        "padding_top": 80,
+        "padding_bottom": 80
+      }
+    },
     "cwc_comparison_table": {
       "type": "CWC_comparison_table",
       "blocks": {
@@ -965,6 +1271,148 @@
         "padding_bottom": 50
       }
     },
+    "cwc_ugc_reviews": {
+      "type": "CWC_ugc_reviews",
+      "blocks": {
+        "ugc_1": {
+          "type": "ugc",
+          "settings": {
+            "alt_text": "Customer video · scoop into glass",
+            "is_video": true,
+            "rating": "★★★★★",
+            "customer_name": "Jennifer M.",
+            "quote": "\"My morning for four years now\""
+          }
+        },
+        "ugc_2": {
+          "type": "ugc",
+          "settings": {
+            "alt_text": "Customer photo · tub on counter",
+            "is_video": false,
+            "rating": "★★★★★",
+            "customer_name": "David R.",
+            "quote": "\"Third reorder\""
+          }
+        },
+        "ugc_3": {
+          "type": "ugc",
+          "settings": {
+            "alt_text": "Customer video · mixing routine",
+            "is_video": true,
+            "rating": "★★★★★",
+            "customer_name": "Karen T.",
+            "quote": "\"Curbs the 3pm snack\""
+          }
+        },
+        "ugc_4": {
+          "type": "ugc",
+          "settings": {
+            "alt_text": "Customer photo · glass in hand",
+            "is_video": false,
+            "rating": "★★★★☆",
+            "customer_name": "Ashley W.",
+            "quote": "\"Actually tastes good\""
+          }
+        },
+        "ugc_5": {
+          "type": "ugc",
+          "settings": {
+            "alt_text": "Customer photo · gym bag",
+            "is_video": false,
+            "rating": "★★★★★",
+            "customer_name": "Marcus B.",
+            "quote": "\"Travels with me\""
+          }
+        },
+        "ugc_6": {
+          "type": "ugc",
+          "settings": {
+            "alt_text": "Customer video · unboxing",
+            "is_video": true,
+            "rating": "★★★★★",
+            "customer_name": "Linda H.",
+            "quote": "\"My husband won't skip it\""
+          }
+        },
+        "ugc_7": {
+          "type": "ugc",
+          "settings": {
+            "alt_text": "Customer photo · both flavors",
+            "is_video": false,
+            "rating": "★★★★★",
+            "customer_name": "Priya S.",
+            "quote": "\"Strawberry for the kids\""
+          }
+        },
+        "theme_filter_1": {
+          "type": "theme_filter",
+          "settings": {
+            "label": "Taste",
+            "tag_handle": "taste"
+          }
+        },
+        "theme_filter_2": {
+          "type": "theme_filter",
+          "settings": {
+            "label": "Digestion",
+            "tag_handle": "digestion"
+          }
+        },
+        "theme_filter_3": {
+          "type": "theme_filter",
+          "settings": {
+            "label": "Energy",
+            "tag_handle": "energy"
+          }
+        }
+      },
+      "block_order": [
+        "ugc_1",
+        "ugc_2",
+        "ugc_3",
+        "ugc_4",
+        "ugc_5",
+        "ugc_6",
+        "ugc_7",
+        "theme_filter_1",
+        "theme_filter_2",
+        "theme_filter_3"
+      ],
+      "settings": {
+        "anchor_id": "reviews",
+        "eyebrow_text": "410 verified buyers",
+        "heading": "<p>The routines people <strong>have kept.</strong></p>",
+        "write_review_label": "Write a review",
+        "write_review_link": "",
+        "show_ugc_rail": true,
+        "min_media_to_show_rail": 4,
+        "rail_aspect_ratio": "3/4",
+        "average_rating": "4.4",
+        "review_count": "410",
+        "count_suffix": "verified reviews",
+        "stars_display": "★★★★★",
+        "show_distribution": true,
+        "distribution_5": 71,
+        "distribution_4": 13,
+        "distribution_3": 8,
+        "distribution_2": 4,
+        "distribution_1": 4,
+        "show_filters": false,
+        "theme_filter_source": "manual",
+        "filter_all_label": "All",
+        "filter_photo_label": "With photos",
+        "filter_video_label": "With video",
+        "bg_color": "#ecebe5",
+        "text_color": "#1f1f1c",
+        "bold_color": "#1f1f1c",
+        "eyebrow_color": "#44681a",
+        "card_bg": "#ffffff",
+        "media_bg": "#f5f4f0",
+        "star_color": "#5ba90f",
+        "padding_top": 80,
+        "padding_bottom": 80
+      }
+    },
     "cwc_reviews": {
       "type": "CWC_reviews",
       "blocks": {
@@ -1095,6 +1543,99 @@
         "accent_border_color": "#a3b8e2",
         "padding_top": 50,
         "padding_bottom": 50
+      }
+    },
+    "cwc_practitioner_video": {
+      "type": "CWC_practitioner_video",
+      "blocks": {
+        "practitioner_1": {
+          "type": "practitioner",
+          "settings": {
+            "name": "Dr. Lauren Calloway, DC",
+            "credential": "Chiropractor",
+            "location": "Scottsdale, AZ",
+            "quote": "<p>I've recommended NanoGreens to patients for years. When someone isn't getting enough produce, this is the simplest thing I can hand them that they'll actually stick with.</p>",
+            "video_length": "0:45"
+          }
+        },
+        "practitioner_2": {
+          "type": "practitioner",
+          "settings": {
+            "name": "Dr. Sarah Whitfield, ND",
+            "credential": "Naturopathic Doctor",
+            "location": "San Diego, CA",
+            "quote": "<p>The enzyme blend is why I choose it over cheaper greens. Absorption is the whole point — a powder your body passes through isn't doing anything for you.</p>",
+            "video_length": "0:38"
+          }
+        },
+        "practitioner_3": {
+          "type": "practitioner",
+          "settings": {
+            "name": "Dr. Michael Torres, MD",
+            "credential": "Integrative Medicine",
+            "location": "Austin, TX",
+            "quote": "<p>I've been stocking it in my practice since 2011. The formula hasn't been cheapened, which is rare in this industry. That consistency is why I keep recommending it.</p>",
+            "video_length": ""
+          }
+        },
+        "stat_1": {
+          "type": "stat",
+          "settings": {
+            "figure": "33",
+            "label": "Of 410 reviews mention a clinician recommended it"
+          }
+        },
+        "stat_2": {
+          "type": "stat",
+          "settings": {
+            "figure": "20+",
+            "label": "Years recommended in practitioner clinics"
+          }
+        },
+        "stat_3": {
+          "type": "stat",
+          "settings": {
+            "figure": "2×",
+            "label": "Tested — before and after blending"
+          }
+        },
+        "stat_4": {
+          "type": "stat",
+          "settings": {
+            "figure": "USA",
+            "label": "Made, American farms sourced first"
+          }
+        }
+      },
+      "block_order": [
+        "practitioner_1",
+        "practitioner_2",
+        "practitioner_3",
+        "stat_1",
+        "stat_2",
+        "stat_3",
+        "stat_4"
+      ],
+      "settings": {
+        "eyebrow_text": "Recommended in practice",
+        "heading": "<p>The people who recommend it <strong>see patients all day.</strong></p>",
+        "subtext": "<p>NanoGreens was distributed through clinics for years before it was ever sold online. Many still stock it.</p>",
+        "metaobject_source": "blocks",
+        "columns_desktop": 3,
+        "video_aspect_ratio": "4/3",
+        "show_duration_badge": true,
+        "photo_badge_label": "Photo",
+        "show_stats": true,
+        "bg_color": "#ffffff",
+        "text_color": "#1f1f1c",
+        "bold_color": "#1f1f1c",
+        "eyebrow_color": "#6a80b4",
+        "card_bg": "#ffffff",
+        "media_bg": "#f5f4f0",
+        "avatar_bg": "#ecebe5",
+        "stat_color": "#44681a",
+        "padding_top": 80,
+        "padding_bottom": 80
       }
     },
     "cwc_practitioner_endorsement": {
@@ -1637,14 +2178,19 @@
   "order": [
     "cwc_announcement",
     "cwc_header",
+    "cwc_scrolling_banner_8jrGpJ",
     "cwc_product_hero_buy_box",
+    "cwc_at_a_glance",
     "cwc_absorption_pod",
     "cwc_taste",
     "cwc_how_to_use",
     "cwc_whole_body_support",
+    "cwc_results_timeline",
     "cwc_comparison_table",
     "cwc_cost_calculator",
+    "cwc_ugc_reviews",
     "cwc_reviews",
+    "cwc_practitioner_video",
     "cwc_practitioner_endorsement",
     "cwc_outcomes_band_QKLkEf",
     "cwc_ingredients",

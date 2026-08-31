@@ -1,0 +1,392 @@
+{% comment %}
+  CWC Practitioner Video
+  ------------------------------------------------------------------
+  Three practitioner cards with a clip, over a stat row.
+
+  Per SECTION_NOTES this is intended to REPLACE the existing text-only
+  practitioner quotes. Removing that block is a separate editor action — this
+  section only adds itself.
+
+  DEGRADED STATE IS A DESIGN, NOT AN OVERSIGHT. A practitioner with no clip
+  renders portrait-only with a "Photo" badge. Video is optional in the
+  metaobject, and most practitioners will not have one at first.
+
+  DATA. Reads shop.metaobjects.practitioner when Source is set to Metaobject,
+  and falls back to blocks otherwise — the same shape CWC_meta_faq uses. If the
+  metaobject is not defined in the store the loop yields nothing, so the blocks
+  path is the safe default.
+
+  CONSENT. These are named, credentialed practitioners being quoted. Documented
+  consent is required before publishing — that is a process gate, not a build one.
+{% endcomment %}
+
+{% style %}
+  #cwc_practitioner-video-{{ section.id }} {
+    --section-bg: {{ section.settings.bg_color | default: '#FFFFFF' }};
+    --text-color: {{ section.settings.text_color | default: '#1F1F1C' }};
+    --highlight-color: {{ section.settings.bold_color | default: '#1F1F1C' }};
+    --eyebrow-color: {{ section.settings.eyebrow_color | default: '#6A80B4' }};
+    --card-bg: {{ section.settings.card_bg | default: '#FFFFFF' }};
+    --media-bg: {{ section.settings.media_bg | default: '#F5F4F0' }};
+    --avatar-bg: {{ section.settings.avatar_bg | default: '#ECEBE5' }};
+    --stat-color: {{ section.settings.stat_color | default: '#44681A' }};
+    --columns-desktop: {{ section.settings.columns_desktop | default: 3 }};
+    --video-ratio: {{ section.settings.video_aspect_ratio | default: '4/3' }};
+    --padding-top: {{ section.settings.padding_top | default: 80 }}px;
+    --padding-bottom: {{ section.settings.padding_bottom | default: 80 }}px;
+    --padding-top-mobile: {{ section.settings.padding_top | default: 80 | times: 0.5 }}px;
+    --padding-bottom-mobile: {{ section.settings.padding_bottom | default: 80 | times: 0.5 }}px;
+  }
+{% endstyle %}
+
+{{ 'CWC_fonts.css' | asset_url | stylesheet_tag }}
+{{ 'CWC_practitioner_video.css' | asset_url | stylesheet_tag }}
+
+{% liquid
+  assign practitioner_blocks = section.blocks | where: 'type', 'practitioner'
+  assign stat_blocks = section.blocks | where: 'type', 'stat'
+
+  assign use_metaobject = false
+  if section.settings.metaobject_source == 'metaobject'
+    assign use_metaobject = true
+  endif
+%}
+
+<section id="cwc_practitioner-video-{{ section.id }}" class="cwc_practitioner-video">
+  <div class="cwc_practitioner-video__container">
+
+    {% comment %} Section Header {% endcomment %}
+    <div class="cwc_practitioner-video__content">
+      {% if section.settings.eyebrow_text != blank %}
+        <p class="cwc_practitioner-video__eyebrow">{{ section.settings.eyebrow_text }}</p>
+      {% endif %}
+
+      {% if section.settings.heading != blank %}
+        <div class="cwc_practitioner-video__content-heading cwc-rte">
+          {{ section.settings.heading }}
+        </div>
+      {% endif %}
+
+      {% if section.settings.subtext != blank %}
+        <div class="cwc_practitioner-video__content-subtext cwc-rte">
+          {{ section.settings.subtext }}
+        </div>
+      {% endif %}
+    </div>
+
+    {% comment %} Practitioner cards {% endcomment %}
+    <div class="cwc_practitioner-video__grid">
+      {% if use_metaobject %}
+        {% for practitioner in shop.metaobjects.practitioner.values %}
+          {% render 'CWC_practitioner-card',
+            name: practitioner.name,
+            credential: practitioner.credential,
+            location: practitioner.location,
+            quote: practitioner.quote,
+            portrait: practitioner.portrait.value,
+            video: practitioner.video.value,
+            video_length: practitioner.video_length,
+            show_duration_badge: section.settings.show_duration_badge,
+            photo_badge_label: section.settings.photo_badge_label,
+            index: forloop.index
+          %}
+        {% endfor %}
+      {% else %}
+        {% for block in practitioner_blocks %}
+          <div class="cwc_practitioner-video__card-outer" {{ block.shopify_attributes }}>
+            {% render 'CWC_practitioner-card',
+              name: block.settings.name,
+              credential: block.settings.credential,
+              location: block.settings.location,
+              quote: block.settings.quote,
+              portrait: block.settings.portrait,
+              video: block.settings.video,
+              video_length: block.settings.video_length,
+              show_duration_badge: section.settings.show_duration_badge,
+              photo_badge_label: section.settings.photo_badge_label,
+              index: forloop.index
+            %}
+          </div>
+        {% endfor %}
+      {% endif %}
+    </div>
+
+    {% comment %} Stat row {% endcomment %}
+    {% if section.settings.show_stats and stat_blocks.size > 0 %}
+      <div class="cwc_practitioner-video__stats">
+        {% for block in stat_blocks %}
+          <div class="cwc_practitioner-video__stat" {{ block.shopify_attributes }}>
+            {% if block.settings.figure != blank %}
+              <span class="cwc_practitioner-video__stat-figure">{{ block.settings.figure }}</span>
+            {% endif %}
+
+            {% if block.settings.label != blank %}
+              <span class="cwc_practitioner-video__stat-label">{{ block.settings.label }}</span>
+            {% endif %}
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+  </div>
+</section>
+
+{{ 'CWC_practitioner_video.js' | asset_url | script_tag }}
+
+{% schema %}
+{
+  "name": "CWC Practitioner Video",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Header"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow_text",
+      "label": "Eyebrow",
+      "default": "Recommended in practice"
+    },
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "<p>The people who recommend it <strong>see patients all day.</strong></p>"
+    },
+    {
+      "type": "richtext",
+      "id": "subtext",
+      "label": "Section Subtext",
+      "default": "<p>NanoGreens was distributed through clinics for years before it was ever sold online. Many still stock it.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Data Source"
+    },
+    {
+      "type": "paragraph",
+      "content": "Metaobject requires a 'practitioner' definition with name, credential, location, quote, portrait, video and video_length. Video is optional — cards without one render portrait-only."
+    },
+    {
+      "type": "select",
+      "id": "metaobject_source",
+      "label": "Source",
+      "options": [
+        { "value": "blocks", "label": "Practitioner blocks" },
+        { "value": "metaobject", "label": "Practitioner metaobject" }
+      ],
+      "default": "blocks"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "label": "Columns",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "select",
+      "id": "video_aspect_ratio",
+      "label": "Video Shape",
+      "info": "Clips are shot vertically and cropped to this ratio.",
+      "options": [
+        { "value": "4/3", "label": "Landscape 4:3" },
+        { "value": "1/1", "label": "Square" },
+        { "value": "3/4", "label": "Portrait 3:4" },
+        { "value": "16/9", "label": "Wide 16:9" }
+      ],
+      "default": "4/3"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_duration_badge",
+      "label": "Show Duration Badge",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "photo_badge_label",
+      "label": "Badge For Cards Without Video",
+      "default": "Photo"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_stats",
+      "label": "Show Stat Row",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#1F1F1C"
+    },
+    {
+      "type": "color",
+      "id": "bold_color",
+      "label": "Heading Bold Color",
+      "default": "#1F1F1C"
+    },
+    {
+      "type": "color",
+      "id": "eyebrow_color",
+      "label": "Eyebrow Color",
+      "default": "#6A80B4"
+    },
+    {
+      "type": "color",
+      "id": "card_bg",
+      "label": "Card Background",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "media_bg",
+      "label": "Media Background",
+      "default": "#F5F4F0"
+    },
+    {
+      "type": "color",
+      "id": "avatar_bg",
+      "label": "Avatar Background",
+      "default": "#ECEBE5"
+    },
+    {
+      "type": "color",
+      "id": "stat_color",
+      "label": "Stat Figure Color",
+      "default": "#44681A"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 80
+    }
+  ],
+  "blocks": [
+    {
+      "type": "practitioner",
+      "name": "Practitioner",
+      "settings": [
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Name",
+          "default": "Dr. Lauren Calloway, DC"
+        },
+        {
+          "type": "text",
+          "id": "credential",
+          "label": "Credential",
+          "default": "Chiropractor"
+        },
+        {
+          "type": "text",
+          "id": "location",
+          "label": "Location",
+          "default": "Scottsdale, AZ"
+        },
+        {
+          "type": "richtext",
+          "id": "quote",
+          "label": "Quote",
+          "info": "Documented consent is required before publishing a named practitioner quote.",
+          "default": "<p>Add the practitioner's quote here.</p>"
+        },
+        {
+          "type": "header",
+          "content": "Media"
+        },
+        {
+          "type": "image_picker",
+          "id": "portrait",
+          "label": "Portrait",
+          "info": "Also used as the video poster. Required — it is what the card falls back to with no clip."
+        },
+        {
+          "type": "video",
+          "id": "video",
+          "label": "Clip",
+          "info": "Optional. 30-45 seconds, filmed in-clinic."
+        },
+        {
+          "type": "text",
+          "id": "video_length",
+          "label": "Clip Length",
+          "info": "Shown on the duration badge, e.g. 0:45.",
+          "default": "0:45"
+        }
+      ]
+    },
+    {
+      "type": "stat",
+      "name": "Stat",
+      "settings": [
+        {
+          "type": "text",
+          "id": "figure",
+          "label": "Figure",
+          "default": "33"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Of 410 reviews mention a clinician recommended it"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 8,
+  "presets": [
+    {
+      "name": "Practitioner Video",
+      "category": "CWC Custom",
+      "blocks": [
+        { "type": "practitioner" },
+        { "type": "practitioner" },
+        { "type": "practitioner" },
+        { "type": "stat" },
+        { "type": "stat" },
+        { "type": "stat" },
+        { "type": "stat" }
+      ]
+    }
+  ]
+}
+{% endschema %}

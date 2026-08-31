@@ -6,9 +6,15 @@
   either its icon or its text is set — an icon-less row still reads as a line
   item, which is what keeps a half-configured list from collapsing.
 
+  Each row's mark follows one order of precedence: an uploaded icon wins,
+  otherwise a check is drawn, unless the block turns marks off and the row
+  is plain text. The drawn check is what makes the list read as a list
+  before anyone uploads anything — most rows never get a bespoke icon, and
+  a mixed list of images and blanks reads as a loading error.
+
   Accepts:
-  - block {Object} - the benefits block. Reads settings.icon1 … icon6 and
-    settings.text1 … text6.
+  - block {Object} - the benefits block. Reads settings.icon1 … icon6,
+    settings.text1 … text6 and settings.show_checkmarks.
 
   Usage:
   {% render 'CWC_pdp-benefits__block', block: block %}
@@ -16,6 +22,15 @@
 
 {%- liquid
   assign slot_numbers = '1,2,3,4,5,6' | split: ','
+
+  comment
+    Default on: a block saved before this setting existed has no value for
+    it, and those lists were all written to read as checklists.
+  endcomment
+  assign show_checkmarks = true
+  if block.settings.show_checkmarks == false
+    assign show_checkmarks = false
+  endif
 
   assign filled_count = 0
   for slot_number in slot_numbers
@@ -47,6 +62,17 @@
               height="40"
               loading="lazy"
             >
+          {%- elsif show_checkmarks -%}
+            {%- comment -%}
+              Drawn rather than typed: the check a font happens to carry
+              varies in weight and baseline between systems, and this one
+              sits against text on every row.
+            {%- endcomment -%}
+            <span class="cwc_product-hero-buy-box__benefit-check" aria-hidden="true">
+              <svg viewBox="0 0 24 24" focusable="false">
+                <path d="m5.5 12.5 4.2 4.2 8.8-9.4"></path>
+              </svg>
+            </span>
           {%- endif -%}
           <span class="cwc_product-hero-buy-box__benefit-text">{{ slot_text }}</span>
         </div>

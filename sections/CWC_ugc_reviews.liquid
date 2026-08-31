@@ -1,0 +1,584 @@
+{% comment %}
+  CWC UGC Reviews
+  ------------------------------------------------------------------
+  Customer photo and video rail above the written reviews, with an aggregate
+  panel beside them.
+
+  PLATFORM PREREQUISITE. Per SECTION_NOTES the current review widget does not
+  collect photo or video. Judge.me or Okendo is required before the rail can be
+  fed automatically. Until then the rail runs off "Customer media" blocks so it
+  can be seeded by hand, and the written reviews come from an app block.
+
+  LAUNCH STATE. The rail fills through a day-21 Klaviyo flow at roughly 2-4%
+  response, so it will be thin for months. min_media_to_show_rail hides the rail
+  entirely until enough media exists — a two-card rail reads as neglect, not as
+  social proof.
+
+  FILTER CHIPS are off by default. Filtering the written reviews requires the
+  platform to tag by keyword; chips that cannot filter anything are worse than
+  no chips. Turn them on once the platform is in place.
+
+  RATING reads the standard reviews.rating / reviews.rating_count metafields,
+  which both Judge.me and Okendo write. The settings below are the fallback for
+  before that migration, and go stale — the metafield wins whenever it exists.
+{% endcomment %}
+
+{% style %}
+  #cwc_ugc-reviews-{{ section.id }} {
+    --section-bg: {{ section.settings.bg_color | default: '#ECEBE5' }};
+    --text-color: {{ section.settings.text_color | default: '#1F1F1C' }};
+    --highlight-color: {{ section.settings.bold_color | default: '#1F1F1C' }};
+    --eyebrow-color: {{ section.settings.eyebrow_color | default: '#44681A' }};
+    --card-bg: {{ section.settings.card_bg | default: '#FFFFFF' }};
+    --media-bg: {{ section.settings.media_bg | default: '#F5F4F0' }};
+    --star-color: {{ section.settings.star_color | default: '#5BA90F' }};
+    --rail-ratio: {{ section.settings.rail_aspect_ratio | default: '3/4' }};
+    --padding-top: {{ section.settings.padding_top | default: 80 }}px;
+    --padding-bottom: {{ section.settings.padding_bottom | default: 80 }}px;
+    --padding-top-mobile: {{ section.settings.padding_top | default: 80 | times: 0.5 }}px;
+    --padding-bottom-mobile: {{ section.settings.padding_bottom | default: 80 | times: 0.5 }}px;
+  }
+{% endstyle %}
+
+{{ 'CWC_fonts.css' | asset_url | stylesheet_tag }}
+{{ 'CWC_ugc_reviews.css' | asset_url | stylesheet_tag }}
+
+{% liquid
+  assign ugc_blocks = section.blocks | where: 'type', 'ugc'
+  assign filter_blocks = section.blocks | where: 'type', 'theme_filter'
+
+  assign show_rail = false
+  if section.settings.show_ugc_rail and ugc_blocks.size >= section.settings.min_media_to_show_rail
+    assign show_rail = true
+  endif
+
+  comment
+    The metafield is the live figure once a review platform is installed. The
+    settings only stand in before that, and are ignored the moment real data
+    exists — a hardcoded rating that disagrees with the widget below it is worse
+    than no rating.
+  endcomment
+  assign rating_value = product.metafields.reviews.rating.value.rating | default: section.settings.average_rating
+  assign rating_count = product.metafields.reviews.rating_count | default: section.settings.review_count
+%}
+
+<section id="cwc_ugc-reviews-{{ section.id }}" class="cwc_ugc-reviews">
+  {% if section.settings.anchor_id != blank %}
+    <span id="{{ section.settings.anchor_id }}" class="cwc_ugc-reviews__anchor"></span>
+  {% endif %}
+
+  <div class="cwc_ugc-reviews__container">
+
+    {% comment %} Head row {% endcomment %}
+    <div class="cwc_ugc-reviews__top">
+      <div class="cwc_ugc-reviews__content">
+        {% if section.settings.eyebrow_text != blank %}
+          <p class="cwc_ugc-reviews__eyebrow">{{ section.settings.eyebrow_text }}</p>
+        {% endif %}
+
+        {% if section.settings.heading != blank %}
+          <div class="cwc_ugc-reviews__content-heading cwc-rte">
+            {{ section.settings.heading }}
+          </div>
+        {% endif %}
+      </div>
+
+      {% if section.settings.write_review_label != blank %}
+        {% if section.settings.write_review_link != blank %}
+          <a href="{{ section.settings.write_review_link }}" class="cwc_ugc-reviews__write">
+            {{ section.settings.write_review_label }}
+          </a>
+        {% else %}
+          <button type="button" class="cwc_ugc-reviews__write">
+            {{ section.settings.write_review_label }}
+          </button>
+        {% endif %}
+      {% endif %}
+    </div>
+
+    {% comment %}
+      Customer media rail. Native scroll-snap — swipes and scrolls with no JS.
+    {% endcomment %}
+    {% if show_rail %}
+      <div class="cwc_ugc-reviews__rail">
+        {% for block in ugc_blocks %}
+          <div class="cwc_ugc-reviews__ugc" {{ block.shopify_attributes }}>
+            {% if block.settings.media_image != blank %}
+              <img
+                src="{{ block.settings.media_image | image_url: width: 420 }}"
+                alt="{{ block.settings.alt_text | default: block.settings.customer_name | escape }}"
+                class="cwc_ugc-reviews__ugc-image"
+                loading="lazy"
+                width="420"
+                height="560"
+              >
+            {% else %}
+              <div class="cwc_ugc-reviews__placeholder">
+                <span>{{ block.settings.alt_text | default: 'Add customer media' }}</span>
+              </div>
+            {% endif %}
+
+            {% if block.settings.is_video %}
+              <span class="cwc_ugc-reviews__play" aria-hidden="true">
+                <svg viewBox="0 0 24 24" focusable="false"><path d="M8 5.5v13l11-6.5z"></path></svg>
+              </span>
+            {% endif %}
+
+            <div class="cwc_ugc-reviews__ugc-caption">
+              {% if block.settings.rating != blank %}
+                <span class="cwc_ugc-reviews__ugc-stars" aria-label="{{ block.settings.rating }} out of 5">
+                  {{ block.settings.rating }}
+                </span>
+              {% endif %}
+
+              {% if block.settings.customer_name != blank %}
+                <span class="cwc_ugc-reviews__ugc-name">{{ block.settings.customer_name }}</span>
+              {% endif %}
+
+              {% if block.settings.quote != blank %}
+                <span class="cwc_ugc-reviews__ugc-quote">{{ block.settings.quote }}</span>
+              {% endif %}
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    {% comment %} Aggregate panel + written reviews {% endcomment %}
+    <div class="cwc_ugc-reviews__layout">
+      <div class="cwc_ugc-reviews__aggregate">
+        {% if rating_value != blank %}
+          <div class="cwc_ugc-reviews__score">{{ rating_value }}</div>
+        {% endif %}
+
+        {% if section.settings.stars_display != blank %}
+          <div class="cwc_ugc-reviews__stars">{{ section.settings.stars_display }}</div>
+        {% endif %}
+
+        {% if rating_count != blank %}
+          <div class="cwc_ugc-reviews__count">
+            {{ rating_count }} {{ section.settings.count_suffix | default: 'verified reviews' }}
+          </div>
+        {% endif %}
+
+        {% if section.settings.show_distribution %}
+          <div class="cwc_ugc-reviews__bars">
+            {% for i in (1..5) %}
+              {% assign star_level = 6 | minus: i %}
+              {% assign percent_key = 'distribution_' | append: star_level %}
+              {% assign percent = section.settings[percent_key] | default: 0 %}
+
+              <div class="cwc_ugc-reviews__bar">
+                <span class="cwc_ugc-reviews__bar-label">{{ star_level }}&#9733;</span>
+                <i class="cwc_ugc-reviews__bar-track">
+                  <b class="cwc_ugc-reviews__bar-fill" style="width: {{ percent }}%"></b>
+                </i>
+                <span class="cwc_ugc-reviews__bar-value">{{ percent }}%</span>
+              </div>
+            {% endfor %}
+          </div>
+        {% endif %}
+
+        {% if section.settings.show_filters %}
+          <div class="cwc_ugc-reviews__filters">
+            <button type="button" class="cwc_ugc-reviews__chip cwc_ugc-reviews__chip--on">
+              {{ section.settings.filter_all_label | default: 'All' }}
+            </button>
+            <button type="button" class="cwc_ugc-reviews__chip">
+              {{ section.settings.filter_photo_label | default: 'With photos' }}
+            </button>
+            <button type="button" class="cwc_ugc-reviews__chip">
+              {{ section.settings.filter_video_label | default: 'With video' }}
+            </button>
+
+            {% for block in filter_blocks %}
+              {% if block.settings.label != blank %}
+                <button
+                  type="button"
+                  class="cwc_ugc-reviews__chip"
+                  data-cwc-filter-tag="{{ block.settings.tag_handle | escape }}"
+                  {{ block.shopify_attributes }}
+                >
+                  {{ block.settings.label }}
+                </button>
+              {% endif %}
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+
+      {% comment %}
+        The written reviews are the platform's own block. Nothing is rendered
+        for them here — a hand-built review list would go stale the day the
+        platform is installed.
+      {% endcomment %}
+      <div class="cwc_ugc-reviews__reviews">
+        {% if section.blocks.size > 0 %}
+          {% for block in section.blocks %}
+            {% case block.type %}
+              {% when '@app' %}
+                <div class="cwc_ugc-reviews__app-block" {{ block.shopify_attributes }}>
+                  {% render block %}
+                </div>
+            {% endcase %}
+          {% endfor %}
+        {% endif %}
+      </div>
+    </div>
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "CWC UGC Reviews",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Header"
+    },
+    {
+      "type": "text",
+      "id": "anchor_id",
+      "label": "Anchor ID",
+      "info": "Optional. Lets other links jump to this section, e.g. reviews.",
+      "default": "reviews"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow_text",
+      "label": "Eyebrow",
+      "default": "410 verified buyers"
+    },
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "<p>The routines people <strong>have kept.</strong></p>"
+    },
+    {
+      "type": "text",
+      "id": "write_review_label",
+      "label": "Write Review Button Label",
+      "default": "Write a review"
+    },
+    {
+      "type": "url",
+      "id": "write_review_link",
+      "label": "Write Review Link",
+      "info": "Leave blank to render a plain button for the review app to bind to."
+    },
+    {
+      "type": "header",
+      "content": "Customer Media Rail"
+    },
+    {
+      "type": "paragraph",
+      "content": "Feeding this automatically requires Judge.me or Okendo. Until then, add Customer media blocks by hand."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_ugc_rail",
+      "label": "Show Media Rail",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "min_media_to_show_rail",
+      "label": "Minimum Media To Show Rail",
+      "info": "The rail stays hidden below this many items. A near-empty rail reads as neglect.",
+      "min": 0,
+      "max": 12,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "select",
+      "id": "rail_aspect_ratio",
+      "label": "Card Shape",
+      "options": [
+        { "value": "3/4", "label": "Portrait 3:4" },
+        { "value": "4/5", "label": "Portrait 4:5" },
+        { "value": "9/16", "label": "Tall 9:16" },
+        { "value": "1/1", "label": "Square" }
+      ],
+      "default": "3/4"
+    },
+    {
+      "type": "header",
+      "content": "Aggregate Panel"
+    },
+    {
+      "type": "paragraph",
+      "content": "Score and count come from the review platform metafield when one is installed. The values below are only used until then, and go stale."
+    },
+    {
+      "type": "text",
+      "id": "average_rating",
+      "label": "Average Rating (fallback)",
+      "default": "4.4"
+    },
+    {
+      "type": "text",
+      "id": "review_count",
+      "label": "Review Count (fallback)",
+      "default": "410"
+    },
+    {
+      "type": "text",
+      "id": "count_suffix",
+      "label": "Count Suffix",
+      "default": "verified reviews"
+    },
+    {
+      "type": "text",
+      "id": "stars_display",
+      "label": "Star Row",
+      "default": "★★★★★"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_distribution",
+      "label": "Show Distribution Bars",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "distribution_5",
+      "label": "5 Star %",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "default": 71
+    },
+    {
+      "type": "range",
+      "id": "distribution_4",
+      "label": "4 Star %",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "default": 13
+    },
+    {
+      "type": "range",
+      "id": "distribution_3",
+      "label": "3 Star %",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "distribution_2",
+      "label": "2 Star %",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "distribution_1",
+      "label": "1 Star %",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "default": 4
+    },
+    {
+      "type": "header",
+      "content": "Filter Chips"
+    },
+    {
+      "type": "paragraph",
+      "content": "Off by default. Filtering the written reviews needs a platform that tags by keyword — chips that cannot filter are worse than none."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_filters",
+      "label": "Show Filter Chips",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "theme_filter_source",
+      "label": "Theme Filter Source",
+      "options": [
+        { "value": "auto", "label": "Auto from top topics" },
+        { "value": "manual", "label": "Manual (Theme filter blocks)" }
+      ],
+      "default": "manual"
+    },
+    {
+      "type": "text",
+      "id": "filter_all_label",
+      "label": "\"All\" Label",
+      "default": "All"
+    },
+    {
+      "type": "text",
+      "id": "filter_photo_label",
+      "label": "\"With photos\" Label",
+      "default": "With photos"
+    },
+    {
+      "type": "text",
+      "id": "filter_video_label",
+      "label": "\"With video\" Label",
+      "default": "With video"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#ECEBE5"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#1F1F1C"
+    },
+    {
+      "type": "color",
+      "id": "bold_color",
+      "label": "Heading Bold Color",
+      "default": "#1F1F1C"
+    },
+    {
+      "type": "color",
+      "id": "eyebrow_color",
+      "label": "Eyebrow Color",
+      "default": "#44681A"
+    },
+    {
+      "type": "color",
+      "id": "card_bg",
+      "label": "Card Background",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "media_bg",
+      "label": "Media Placeholder Background",
+      "default": "#F5F4F0"
+    },
+    {
+      "type": "color",
+      "id": "star_color",
+      "label": "Star Color",
+      "default": "#5BA90F"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 80
+    }
+  ],
+  "blocks": [
+    { "type": "@app" },
+    {
+      "type": "ugc",
+      "name": "Customer media",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "media_image",
+          "label": "Photo or Video Thumbnail"
+        },
+        {
+          "type": "text",
+          "id": "alt_text",
+          "label": "Image Alt Text"
+        },
+        {
+          "type": "checkbox",
+          "id": "is_video",
+          "label": "Show Play Badge",
+          "info": "Marks this card as a video clip.",
+          "default": false
+        },
+        {
+          "type": "text",
+          "id": "rating",
+          "label": "Stars",
+          "default": "★★★★★"
+        },
+        {
+          "type": "text",
+          "id": "customer_name",
+          "label": "Customer Name",
+          "default": "Jennifer M."
+        },
+        {
+          "type": "text",
+          "id": "quote",
+          "label": "Short Quote",
+          "default": "My morning for four years now"
+        }
+      ]
+    },
+    {
+      "type": "theme_filter",
+      "name": "Theme filter",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "info": "A review topic, e.g. Taste.",
+          "default": "Taste"
+        },
+        {
+          "type": "text",
+          "id": "tag_handle",
+          "label": "Tag Handle",
+          "info": "The keyword the review platform tags with."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "UGC Reviews",
+      "category": "CWC Custom",
+      "blocks": [
+        { "type": "ugc" },
+        { "type": "ugc" },
+        { "type": "ugc" },
+        { "type": "ugc" }
+      ]
+    }
+  ]
+}
+{% endschema %}

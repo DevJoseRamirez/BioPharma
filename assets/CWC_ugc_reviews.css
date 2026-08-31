@@ -1,0 +1,349 @@
+/* ==============================
+   CWC UGC Reviews
+   ============================== */
+
+/* === Section Wrapper === */
+.cwc_ugc-reviews {
+  position: relative;
+  background-color: var(--section-bg);
+  color: var(--text-color);
+  padding-top: var(--padding-top);
+  padding-bottom: var(--padding-bottom);
+  font-family: var(--cwc-font-body);
+}
+
+/* Offset so a jump link does not park the heading under a sticky header. */
+.cwc_ugc-reviews__anchor {
+  display: block;
+  position: absolute;
+  top: -100px;
+  left: 0;
+  width: 1px;
+  height: 1px;
+}
+
+.cwc_ugc-reviews__container {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+/* === Head Row === */
+.cwc_ugc-reviews__top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  margin-bottom: 1.625rem;
+}
+
+.cwc_ugc-reviews__eyebrow {
+  font-size: 0.71875rem;
+  font-weight: var(--cwc-weight-label);
+  letter-spacing: var(--cwc-tracking-label);
+  text-transform: uppercase;
+  color: var(--eyebrow-color);
+  margin: 0 0 0.75rem;
+}
+
+.cwc_ugc-reviews__content-heading h1,
+.cwc_ugc-reviews__content-heading h2,
+.cwc_ugc-reviews__content-heading h3,
+.cwc_ugc-reviews__content-heading p {
+  font-family: var(--cwc-font-heading);
+  font-weight: var(--cwc-weight-heading);
+  font-size: clamp(1.625rem, 3vw, 2.375rem);
+  line-height: 1.12;
+  letter-spacing: -0.015em;
+  margin: 0;
+  color: inherit;
+}
+
+.cwc_ugc-reviews__content-heading > * strong {
+  color: var(--highlight-color);
+  font-weight: 600;
+}
+
+.cwc_ugc-reviews__write {
+  display: inline-block;
+  flex: 0 0 auto;
+  padding: 0.6875rem 1.375rem;
+  border: 1.5px solid var(--text-color);
+  border-radius: 100px;
+  background-color: var(--card-bg);
+  font-family: inherit;
+  font-size: 0.84375rem;
+  font-weight: var(--cwc-weight-subheading);
+  color: var(--text-color);
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.cwc_ugc-reviews__write:hover {
+  background-color: var(--text-color);
+  color: var(--card-bg);
+}
+
+/* === Media Rail ===
+   Native scroll-snap per the conventions guide — swipes and scrolls with the
+   script disabled, and needs no separate mobile behaviour. */
+.cwc_ugc-reviews__rail {
+  display: flex;
+  gap: 0.75rem;
+  overflow-x: auto;
+  padding-bottom: 0.375rem;
+  margin-bottom: 1.75rem;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.cwc_ugc-reviews__rail::-webkit-scrollbar {
+  display: none;
+}
+
+.cwc_ugc-reviews__ugc {
+  position: relative;
+  flex: 0 0 168px;
+  aspect-ratio: var(--rail-ratio);
+  scroll-snap-align: start;
+  border: 1px solid rgba(31, 31, 28, 0.08);
+  border-radius: 8px;
+  background-color: var(--media-bg);
+  overflow: hidden;
+}
+
+.cwc_ugc-reviews__ugc-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.cwc_ugc-reviews__placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.625rem;
+  text-align: center;
+  font-size: 0.59375rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(31, 31, 28, 0.3);
+}
+
+.cwc_ugc-reviews__play {
+  position: absolute;
+  top: 0.625rem;
+  left: 0.625rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background-color: rgba(31, 31, 28, 0.7);
+  color: #fff;
+}
+
+.cwc_ugc-reviews__play svg {
+  width: 12px;
+  height: 12px;
+  fill: currentColor;
+}
+
+/* The gradient is what keeps white caption text legible over an unknown
+   customer photo — the media is user-supplied, so it cannot be trusted to be
+   dark behind the text. */
+.cwc_ugc-reviews__ugc-caption {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 1.625rem 0.6875rem 0.6875rem;
+  color: #fff;
+  background: linear-gradient(to top, rgba(31, 31, 28, 0.85), rgba(31, 31, 28, 0));
+}
+
+.cwc_ugc-reviews__ugc-stars {
+  display: block;
+  margin-bottom: 3px;
+  font-size: 0.625rem;
+  letter-spacing: 1px;
+}
+
+.cwc_ugc-reviews__ugc-name {
+  display: block;
+  font-size: 0.71875rem;
+  font-weight: var(--cwc-weight-subheading);
+}
+
+.cwc_ugc-reviews__ugc-quote {
+  display: block;
+  margin-top: 2px;
+  font-size: 0.6875rem;
+  line-height: 1.35;
+  opacity: 0.85;
+}
+
+/* === Layout === */
+.cwc_ugc-reviews__layout {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 3rem;
+  align-items: start;
+}
+
+/* === Aggregate Panel === */
+.cwc_ugc-reviews__aggregate {
+  padding: 1.5rem 1.375rem;
+  border: 1px solid rgba(31, 31, 28, 0.08);
+  border-radius: 8px;
+  background-color: var(--card-bg);
+}
+
+.cwc_ugc-reviews__score {
+  font-family: var(--cwc-font-heading);
+  font-weight: var(--cwc-weight-heading);
+  font-size: 3.125rem;
+  line-height: 1;
+}
+
+.cwc_ugc-reviews__stars {
+  margin: 5px 0 2px;
+  font-size: 0.9375rem;
+  letter-spacing: 2px;
+  color: var(--star-color);
+}
+
+.cwc_ugc-reviews__count {
+  margin-bottom: 1rem;
+  font-size: 0.78125rem;
+  color: rgba(31, 31, 28, 0.62);
+}
+
+/* === Distribution Bars === */
+.cwc_ugc-reviews__bars {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+  margin-bottom: 1.125rem;
+}
+
+.cwc_ugc-reviews__bar {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.71875rem;
+  color: rgba(31, 31, 28, 0.62);
+}
+
+.cwc_ugc-reviews__bar-label {
+  width: 20px;
+  flex: 0 0 auto;
+}
+
+.cwc_ugc-reviews__bar-value {
+  width: 30px;
+  flex: 0 0 auto;
+  text-align: right;
+}
+
+.cwc_ugc-reviews__bar-track {
+  flex: 1;
+  display: block;
+  height: 6px;
+  border-radius: 100px;
+  background-color: rgba(31, 31, 28, 0.09);
+  overflow: hidden;
+}
+
+.cwc_ugc-reviews__bar-fill {
+  display: block;
+  height: 100%;
+  border-radius: 100px;
+  background-color: var(--star-color);
+}
+
+/* === Filter Chips === */
+.cwc_ugc-reviews__filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.375rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(31, 31, 28, 0.08);
+}
+
+.cwc_ugc-reviews__chip {
+  padding: 0.375rem 0.75rem;
+  border: 1px solid rgba(31, 31, 28, 0.14);
+  border-radius: 100px;
+  background: none;
+  font-family: inherit;
+  font-size: 0.71875rem;
+  font-weight: 500;
+  color: rgba(31, 31, 28, 0.62);
+  cursor: pointer;
+}
+
+.cwc_ugc-reviews__chip--on {
+  background-color: var(--text-color);
+  border-color: var(--text-color);
+  color: var(--card-bg);
+}
+
+/* === Written Reviews (app block) === */
+.cwc_ugc-reviews__reviews {
+  min-width: 0;
+}
+
+/* ==============================
+   Tablet Responsive
+   ------------------------------
+   The 280px aggregate rail plus a review grid does not survive a tablet, so
+   the panel goes full width above the reviews rather than being squeezed.
+   ============================== */
+@media screen and (max-width: 991px) {
+  .cwc_ugc-reviews__container {
+    padding: 0 1.25rem;
+  }
+
+  .cwc_ugc-reviews__layout {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}
+
+/* ==============================
+   Mobile Responsive
+   ============================== */
+@media screen and (max-width: 768px) {
+  .cwc_ugc-reviews {
+    padding-top: var(--padding-top-mobile);
+    padding-bottom: var(--padding-bottom-mobile);
+  }
+
+  .cwc_ugc-reviews__container {
+    padding: 0 1rem;
+  }
+
+  .cwc_ugc-reviews__top {
+    align-items: flex-start;
+    margin-bottom: 1.25rem;
+  }
+
+  /* The rail keeps scrolling rather than stacking — a horizontal strip is the
+     one layout that reads the same on a phone as on a desktop. Cards narrow so
+     the next one peeks in and the strip announces itself as scrollable. */
+  .cwc_ugc-reviews__ugc {
+    flex-basis: 142px;
+  }
+
+  .cwc_ugc-reviews__score {
+    font-size: 2.5rem;
+  }
+}

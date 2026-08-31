@@ -92,7 +92,7 @@
         "eyebrow_detail": "Developed for and sold through clinics for 20+ years before it was offered direct.",
         "heading": "<p>The greens powder <strong>doctors were recommending before anyone called it wellness.</strong></p>",
         "lede": "<p>55 organic fruits and vegetables, juiced at peak ripeness and freeze-dried cold, with a nine-enzyme blend built into the formula. One scoop, ten seconds.</p>",
-        "show_offer": true,
+        "show_offer": false,
         "offer_style": "card",
         "offer_position": "above_cta",
         "offer_price_text": "From $56.21/mo",

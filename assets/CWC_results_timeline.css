@@ -1,0 +1,303 @@
+/* ==============================
+   CWC Results Timeline
+   ============================== */
+
+/* === Section Wrapper === */
+.cwc_results-timeline {
+  background-color: var(--section-bg);
+  color: var(--text-color);
+  padding-top: var(--padding-top);
+  padding-bottom: var(--padding-bottom);
+  font-family: var(--cwc-font-body);
+}
+
+.cwc_results-timeline__container {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+/* === Section Header ===
+   Left aligned and narrow, not centered: the track below it is a reading
+   sequence, and a centered head would fight the left-to-right entry point. */
+.cwc_results-timeline__content {
+  max-width: 640px;
+  margin-bottom: 3.25rem;
+}
+
+.cwc_results-timeline__eyebrow {
+  font-size: 0.6875rem;
+  font-weight: var(--cwc-weight-label);
+  letter-spacing: var(--cwc-tracking-label);
+  text-transform: uppercase;
+  color: var(--eyebrow-color);
+  margin: 0 0 0.5rem;
+}
+
+.cwc_results-timeline__content-heading {
+  margin-bottom: 0.625rem;
+}
+
+.cwc_results-timeline__content-heading h1,
+.cwc_results-timeline__content-heading h2,
+.cwc_results-timeline__content-heading h3,
+.cwc_results-timeline__content-heading p {
+  font-family: var(--cwc-font-heading);
+  font-weight: var(--cwc-weight-heading);
+  font-size: clamp(1.625rem, 3vw, 2.375rem);
+  line-height: 1.12;
+  letter-spacing: -0.015em;
+  margin: 0;
+  color: inherit;
+}
+
+.cwc_results-timeline__content-heading > * strong {
+  color: var(--highlight-color);
+  font-weight: 600;
+}
+
+.cwc_results-timeline__content-subtext p {
+  font-size: 0.96875rem;
+  line-height: 1.5;
+  margin: 0;
+  color: #343434;
+}
+
+/* === Stage Track === */
+.cwc_results-timeline__track {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  border-top: 1px solid rgba(31, 31, 28, 0.22);
+}
+
+.cwc_results-timeline__stage {
+  position: relative;
+  padding: 1.75rem 1.625rem 0.375rem 0;
+}
+
+.cwc_results-timeline__stage + .cwc_results-timeline__stage {
+  border-left: 1px solid rgba(31, 31, 28, 0.13);
+  padding-left: 1.625rem;
+}
+
+/* The dot sits on the rule above the stage, marking where it begins. */
+.cwc_results-timeline__stage::before {
+  content: '';
+  position: absolute;
+  top: -5px;
+  left: 0;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background-color: var(--stage-color-1);
+}
+
+.cwc_results-timeline__stage + .cwc_results-timeline__stage::before {
+  left: 1.625rem;
+}
+
+/* Colors follow POSITION, not a class baked into each block — reordering the
+   stages in the editor keeps the progression running dark-ward. Stage 5 and
+   beyond hold at the final color rather than resetting. */
+.cwc_results-timeline__stage:nth-child(2)::before {
+  background-color: var(--stage-color-2);
+}
+
+.cwc_results-timeline__stage:nth-child(3)::before {
+  background-color: var(--stage-color-3);
+}
+
+.cwc_results-timeline__stage:nth-child(n + 4)::before {
+  background-color: var(--stage-color-4);
+}
+
+.cwc_results-timeline--flat-dots .cwc_results-timeline__stage::before {
+  background-color: var(--stage-color-1);
+}
+
+.cwc_results-timeline__when {
+  display: block;
+  font-size: 0.65625rem;
+  font-weight: var(--cwc-weight-label);
+  letter-spacing: var(--cwc-tracking-label);
+  text-transform: uppercase;
+  color: var(--eyebrow-color);
+  margin-bottom: 0.625rem;
+}
+
+.cwc_results-timeline__stage-title {
+  font-family: var(--cwc-font-heading);
+  font-weight: var(--cwc-weight-heading);
+  font-size: 1.25rem;
+  line-height: 1.2;
+  margin-bottom: 0.5rem;
+}
+
+.cwc_results-timeline__stage-text p {
+  font-size: 0.875rem;
+  line-height: 1.55;
+  color: rgba(31, 31, 28, 0.72);
+  margin: 0 0 0.875rem;
+}
+
+.cwc_results-timeline__stage-text p:last-child {
+  margin-bottom: 0.875rem;
+}
+
+/* === Evidence Chip === */
+.cwc_results-timeline__evidence {
+  display: block;
+  padding-top: 0.6875rem;
+  border-top: 1px solid rgba(31, 31, 28, 0.08);
+  font-size: 0.75rem;
+  font-weight: var(--cwc-weight-subheading);
+  line-height: 1.45;
+  color: var(--accent-color);
+}
+
+.cwc_results-timeline__evidence-sub {
+  display: block;
+  margin-top: 2px;
+  font-weight: var(--cwc-weight-body);
+  color: rgba(31, 31, 28, 0.5);
+}
+
+/* === Disclaimer === */
+.cwc_results-timeline__note {
+  max-width: 76ch;
+  margin: 1.625rem 0 0;
+  font-size: 0.78125rem;
+  line-height: 1.55;
+  color: rgba(31, 31, 28, 0.5);
+}
+
+/* === CTA === */
+.cwc_results-timeline__cta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.875rem;
+  margin-top: 1.875rem;
+}
+
+.cwc_results-timeline__button {
+  display: inline-block;
+  padding: 0.875rem 1.875rem;
+  border-radius: 100px;
+  background-color: var(--button-bg);
+  color: var(--button-text);
+  font-size: 0.90625rem;
+  font-weight: var(--cwc-weight-subheading);
+  text-decoration: none;
+  transition: filter 0.15s ease;
+}
+
+.cwc_results-timeline__button:hover {
+  filter: brightness(1.08);
+}
+
+.cwc_results-timeline__cta-side {
+  font-size: 0.84375rem;
+  color: rgba(31, 31, 28, 0.62);
+}
+
+/* === Empty State === */
+.cwc_results-timeline__empty {
+  text-align: center;
+  padding: 2rem;
+  color: #999;
+}
+
+/* ==============================
+   Tablet Responsive
+   ------------------------------
+   Four stages across a tablet leaves each one a column of two-word lines, so
+   the track folds to a 2x2. The rules fold with it: the left border drops on
+   the first of each pair, and a top rule opens the second row.
+   ============================== */
+@media screen and (max-width: 991px) {
+  .cwc_results-timeline__container {
+    padding: 0 1.25rem;
+  }
+
+  .cwc_results-timeline__track {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .cwc_results-timeline__stage:nth-child(odd),
+  .cwc_results-timeline__stage + .cwc_results-timeline__stage:nth-child(odd) {
+    border-left: 0;
+    padding-left: 0;
+  }
+
+  .cwc_results-timeline__stage:nth-child(odd)::before {
+    left: 0;
+  }
+
+  .cwc_results-timeline__stage:nth-child(n + 3) {
+    border-top: 1px solid rgba(31, 31, 28, 0.13);
+    margin-top: 1.125rem;
+    padding-top: 1.75rem;
+  }
+}
+
+/* ==============================
+   Mobile Responsive
+   ------------------------------
+   The horizontal track becomes a vertical rail — the same sequence rotated,
+   rather than four stacked cards that lose the sense of progression. The dot
+   moves onto the rail and takes a ring in the section background so the rail
+   appears to pass behind it.
+   ============================== */
+@media screen and (max-width: 768px) {
+  .cwc_results-timeline {
+    padding-top: var(--padding-top-mobile);
+    padding-bottom: var(--padding-bottom-mobile);
+  }
+
+  .cwc_results-timeline__container {
+    padding: 0 1rem;
+  }
+
+  .cwc_results-timeline__content {
+    margin-bottom: 2rem;
+  }
+
+  .cwc_results-timeline__track {
+    grid-template-columns: 1fr;
+    border-top: 0;
+  }
+
+  .cwc_results-timeline__stage,
+  .cwc_results-timeline__stage + .cwc_results-timeline__stage {
+    position: relative;
+    border-left: 1px solid rgba(31, 31, 28, 0.16);
+    border-top: 0;
+    margin: 0;
+    padding: 0 0 1.625rem 1.375rem;
+  }
+
+  /* The rail should stop at the last dot, not run past it into empty space. */
+  .cwc_results-timeline__stage:last-child {
+    border-left-color: transparent;
+    padding-bottom: 0.25rem;
+  }
+
+  .cwc_results-timeline__stage::before,
+  .cwc_results-timeline__stage + .cwc_results-timeline__stage::before {
+    left: -5.5px;
+    top: 4px;
+    width: 10px;
+    height: 10px;
+    box-shadow: 0 0 0 3px var(--section-bg);
+  }
+
+  .cwc_results-timeline__when {
+    margin-bottom: 0.375rem;
+  }
+
+  .cwc_results-timeline__cta {
+    margin-top: 1.5rem;
+  }
+}

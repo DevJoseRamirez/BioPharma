@@ -357,6 +357,9 @@
               {% when 'benefits' %}
                 {% render 'CWC_pdp-benefits__block', block: block %}
 
+              {% when 'benefit_icons' %}
+                {% render 'CWC_pdp-benefit-icons__block', block: block %}
+
               {% when 'trusted_by' %}
                 {% render 'CWC_pdp-trusted-by__block', block: block %}
 
@@ -833,22 +836,15 @@
       "limit": 1,
       "settings": [
         {
-          "type": "text",
-          "id": "eyebrow",
-          "label": "Eyebrow",
-          "default": "Daily greens & superfood"
+          "type": "paragraph",
+          "content": "Eyebrow and description come from the product's custom.eyebrow and custom.short_description metafields — read from this section's Product if one is picked, otherwise from the template's product. Neither renders when its metafield is empty."
         },
         {
           "type": "richtext",
           "id": "heading",
           "label": "Heading",
-          "default": "<p>NanoGreens<strong>10</strong></p>"
-        },
-        {
-          "type": "richtext",
-          "id": "subtext",
-          "label": "Subtext",
-          "default": "<p>55 organic fruits and vegetables, juiced at peak ripeness and freeze-dried cold. One scoop, ten seconds, every morning.</p>"
+          "default": "<p>NanoGreens<strong>10</strong></p>",
+          "info": "Falls back to the product title when left empty."
         }
       ]
     },
@@ -907,6 +903,13 @@
       "name": "Benefits List",
       "limit": 1,
       "settings": [
+        {
+          "type": "checkbox",
+          "id": "show_checkmarks",
+          "label": "Show Checkmarks",
+          "info": "A row with its own icon uploaded uses that instead. Turn off for plain text.",
+          "default": true
+        },
         {
           "type": "header",
           "content": "Benefit 1"
@@ -992,6 +995,524 @@
           "type": "text",
           "id": "text6",
           "label": "Text 6"
+        }
+      ]
+    },
+    {
+      "type": "benefit_icons",
+      "name": "Benefit Icons",
+      "limit": 2,
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "A short row naming what the product does. Leave a label blank to drop that column."
+        },
+        {
+          "type": "select",
+          "id": "layout",
+          "label": "Layout",
+          "options": [
+            {
+              "value": "row",
+              "label": "Tiled band — icon above label"
+            },
+            {
+              "value": "inline",
+              "label": "Inline grid — icon beside label"
+            }
+          ],
+          "default": "row"
+        },
+        {
+          "type": "range",
+          "id": "columns",
+          "label": "Inline Columns",
+          "info": "Inline layout only. The tiled band always spans its benefits evenly.",
+          "min": 2,
+          "max": 4,
+          "step": 1,
+          "default": 3
+        },
+        {
+          "type": "header",
+          "content": "Benefit 1"
+        },
+        {
+          "type": "image_picker",
+          "id": "icon_1",
+          "label": "Icon 1 Image",
+          "info": "Overrides the built-in icon below."
+        },
+        {
+          "type": "select",
+          "id": "icon_style_1",
+          "label": "Icon 1",
+          "options": [
+            {
+              "value": "bolt",
+              "label": "Energy"
+            },
+            {
+              "value": "digestion",
+              "label": "Digestion"
+            },
+            {
+              "value": "shield",
+              "label": "Shield"
+            },
+            {
+              "value": "burst",
+              "label": "Antioxidant"
+            },
+            {
+              "value": "refresh",
+              "label": "Recovery"
+            },
+            {
+              "value": "leaf",
+              "label": "Leaf"
+            },
+            {
+              "value": "heart",
+              "label": "Heart"
+            },
+            {
+              "value": "brain",
+              "label": "Focus"
+            },
+            {
+              "value": "check",
+              "label": "Check"
+            },
+            {
+              "value": "lungs",
+              "label": "Lungs"
+            },
+            {
+              "value": "molecule",
+              "label": "Molecule"
+            },
+            {
+              "value": "shield-check",
+              "label": "Shield with check"
+            },
+            {
+              "value": "none",
+              "label": "None"
+            }
+          ],
+          "default": "bolt"
+        },
+        {
+          "type": "text",
+          "id": "icon_text_1",
+          "label": "Icon 1 Glyph",
+          "info": "Used only when the icon above is set to None."
+        },
+        {
+          "type": "text",
+          "id": "label_1",
+          "label": "Label 1",
+          "default": "Energy"
+        },
+        {
+          "type": "header",
+          "content": "Benefit 2"
+        },
+        {
+          "type": "image_picker",
+          "id": "icon_2",
+          "label": "Icon 2 Image"
+        },
+        {
+          "type": "select",
+          "id": "icon_style_2",
+          "label": "Icon 2",
+          "options": [
+            {
+              "value": "bolt",
+              "label": "Energy"
+            },
+            {
+              "value": "digestion",
+              "label": "Digestion"
+            },
+            {
+              "value": "shield",
+              "label": "Shield"
+            },
+            {
+              "value": "burst",
+              "label": "Antioxidant"
+            },
+            {
+              "value": "refresh",
+              "label": "Recovery"
+            },
+            {
+              "value": "leaf",
+              "label": "Leaf"
+            },
+            {
+              "value": "heart",
+              "label": "Heart"
+            },
+            {
+              "value": "brain",
+              "label": "Focus"
+            },
+            {
+              "value": "check",
+              "label": "Check"
+            },
+            {
+              "value": "lungs",
+              "label": "Lungs"
+            },
+            {
+              "value": "molecule",
+              "label": "Molecule"
+            },
+            {
+              "value": "shield-check",
+              "label": "Shield with check"
+            },
+            {
+              "value": "none",
+              "label": "None"
+            }
+          ],
+          "default": "digestion"
+        },
+        {
+          "type": "text",
+          "id": "icon_text_2",
+          "label": "Icon 2 Glyph"
+        },
+        {
+          "type": "text",
+          "id": "label_2",
+          "label": "Label 2",
+          "default": "Digestion"
+        },
+        {
+          "type": "header",
+          "content": "Benefit 3"
+        },
+        {
+          "type": "image_picker",
+          "id": "icon_3",
+          "label": "Icon 3 Image"
+        },
+        {
+          "type": "select",
+          "id": "icon_style_3",
+          "label": "Icon 3",
+          "options": [
+            {
+              "value": "bolt",
+              "label": "Energy"
+            },
+            {
+              "value": "digestion",
+              "label": "Digestion"
+            },
+            {
+              "value": "shield",
+              "label": "Shield"
+            },
+            {
+              "value": "burst",
+              "label": "Antioxidant"
+            },
+            {
+              "value": "refresh",
+              "label": "Recovery"
+            },
+            {
+              "value": "leaf",
+              "label": "Leaf"
+            },
+            {
+              "value": "heart",
+              "label": "Heart"
+            },
+            {
+              "value": "brain",
+              "label": "Focus"
+            },
+            {
+              "value": "check",
+              "label": "Check"
+            },
+            {
+              "value": "lungs",
+              "label": "Lungs"
+            },
+            {
+              "value": "molecule",
+              "label": "Molecule"
+            },
+            {
+              "value": "shield-check",
+              "label": "Shield with check"
+            },
+            {
+              "value": "none",
+              "label": "None"
+            }
+          ],
+          "default": "shield"
+        },
+        {
+          "type": "text",
+          "id": "icon_text_3",
+          "label": "Icon 3 Glyph"
+        },
+        {
+          "type": "text",
+          "id": "label_3",
+          "label": "Label 3",
+          "default": "Immune"
+        },
+        {
+          "type": "header",
+          "content": "Benefit 4"
+        },
+        {
+          "type": "image_picker",
+          "id": "icon_4",
+          "label": "Icon 4 Image"
+        },
+        {
+          "type": "select",
+          "id": "icon_style_4",
+          "label": "Icon 4",
+          "options": [
+            {
+              "value": "bolt",
+              "label": "Energy"
+            },
+            {
+              "value": "digestion",
+              "label": "Digestion"
+            },
+            {
+              "value": "shield",
+              "label": "Shield"
+            },
+            {
+              "value": "burst",
+              "label": "Antioxidant"
+            },
+            {
+              "value": "refresh",
+              "label": "Recovery"
+            },
+            {
+              "value": "leaf",
+              "label": "Leaf"
+            },
+            {
+              "value": "heart",
+              "label": "Heart"
+            },
+            {
+              "value": "brain",
+              "label": "Focus"
+            },
+            {
+              "value": "check",
+              "label": "Check"
+            },
+            {
+              "value": "lungs",
+              "label": "Lungs"
+            },
+            {
+              "value": "molecule",
+              "label": "Molecule"
+            },
+            {
+              "value": "shield-check",
+              "label": "Shield with check"
+            },
+            {
+              "value": "none",
+              "label": "None"
+            }
+          ],
+          "default": "burst"
+        },
+        {
+          "type": "text",
+          "id": "icon_text_4",
+          "label": "Icon 4 Glyph"
+        },
+        {
+          "type": "text",
+          "id": "label_4",
+          "label": "Label 4",
+          "default": "Antioxidant"
+        },
+        {
+          "type": "header",
+          "content": "Benefit 5"
+        },
+        {
+          "type": "image_picker",
+          "id": "icon_5",
+          "label": "Icon 5 Image"
+        },
+        {
+          "type": "select",
+          "id": "icon_style_5",
+          "label": "Icon 5",
+          "options": [
+            {
+              "value": "bolt",
+              "label": "Energy"
+            },
+            {
+              "value": "digestion",
+              "label": "Digestion"
+            },
+            {
+              "value": "shield",
+              "label": "Shield"
+            },
+            {
+              "value": "burst",
+              "label": "Antioxidant"
+            },
+            {
+              "value": "refresh",
+              "label": "Recovery"
+            },
+            {
+              "value": "leaf",
+              "label": "Leaf"
+            },
+            {
+              "value": "heart",
+              "label": "Heart"
+            },
+            {
+              "value": "brain",
+              "label": "Focus"
+            },
+            {
+              "value": "check",
+              "label": "Check"
+            },
+            {
+              "value": "lungs",
+              "label": "Lungs"
+            },
+            {
+              "value": "molecule",
+              "label": "Molecule"
+            },
+            {
+              "value": "shield-check",
+              "label": "Shield with check"
+            },
+            {
+              "value": "none",
+              "label": "None"
+            }
+          ],
+          "default": "refresh"
+        },
+        {
+          "type": "text",
+          "id": "icon_text_5",
+          "label": "Icon 5 Glyph"
+        },
+        {
+          "type": "text",
+          "id": "label_5",
+          "label": "Label 5",
+          "default": "Recovery"
+        },
+        {
+          "type": "header",
+          "content": "Benefit 6"
+        },
+        {
+          "type": "image_picker",
+          "id": "icon_6",
+          "label": "Icon 6 Image"
+        },
+        {
+          "type": "select",
+          "id": "icon_style_6",
+          "label": "Icon 6",
+          "options": [
+            {
+              "value": "bolt",
+              "label": "Energy"
+            },
+            {
+              "value": "digestion",
+              "label": "Digestion"
+            },
+            {
+              "value": "shield",
+              "label": "Shield"
+            },
+            {
+              "value": "burst",
+              "label": "Antioxidant"
+            },
+            {
+              "value": "refresh",
+              "label": "Recovery"
+            },
+            {
+              "value": "leaf",
+              "label": "Leaf"
+            },
+            {
+              "value": "heart",
+              "label": "Heart"
+            },
+            {
+              "value": "brain",
+              "label": "Focus"
+            },
+            {
+              "value": "check",
+              "label": "Check"
+            },
+            {
+              "value": "lungs",
+              "label": "Lungs"
+            },
+            {
+              "value": "molecule",
+              "label": "Molecule"
+            },
+            {
+              "value": "shield-check",
+              "label": "Shield with check"
+            },
+            {
+              "value": "none",
+              "label": "None"
+            }
+          ],
+          "default": "none"
+        },
+        {
+          "type": "text",
+          "id": "icon_text_6",
+          "label": "Icon 6 Glyph"
+        },
+        {
+          "type": "text",
+          "id": "label_6",
+          "label": "Label 6"
         }
       ]
     },
@@ -1260,9 +1781,18 @@
           "id": "savings_display",
           "label": "Savings Badge",
           "options": [
-            { "value": "percent", "label": "Percent off" },
-            { "value": "dollar", "label": "Amount off" },
-            { "value": "none", "label": "Hide" }
+            {
+              "value": "percent",
+              "label": "Percent off"
+            },
+            {
+              "value": "dollar",
+              "label": "Amount off"
+            },
+            {
+              "value": "none",
+              "label": "Hide"
+            }
           ],
           "default": "percent",
           "info": "Only ever shown when the variant has a higher compare-at price."
@@ -2415,10 +2945,22 @@
           "id": "savings_style",
           "label": "Savings Badge",
           "options": [
-            { "value": "percent", "label": "Percent" },
-            { "value": "amount", "label": "Amount" },
-            { "value": "both", "label": "Percent and amount" },
-            { "value": "none", "label": "No badge" }
+            {
+              "value": "percent",
+              "label": "Percent"
+            },
+            {
+              "value": "amount",
+              "label": "Amount"
+            },
+            {
+              "value": "both",
+              "label": "Percent and amount"
+            },
+            {
+              "value": "none",
+              "label": "No badge"
+            }
           ],
           "default": "percent",
           "info": "Read from the plan's own discount. Nothing shows when the plan is not discounted."
@@ -2435,8 +2977,14 @@
           "id": "perks_visibility",
           "label": "Perks Visibility",
           "options": [
-            { "value": "always", "label": "Always visible" },
-            { "value": "selected", "label": "Only when subscribing is selected" }
+            {
+              "value": "always",
+              "label": "Always visible"
+            },
+            {
+              "value": "selected",
+              "label": "Only when subscribing is selected"
+            }
           ],
           "default": "always"
         },
@@ -2455,8 +3003,14 @@
           "id": "promo_style",
           "label": "Promo Style",
           "options": [
-            { "value": "soft", "label": "Soft (tinted)" },
-            { "value": "bold", "label": "Bold (filled)" }
+            {
+              "value": "soft",
+              "label": "Soft (tinted)"
+            },
+            {
+              "value": "bold",
+              "label": "Bold (filled)"
+            }
           ],
           "default": "soft"
         },
@@ -2494,8 +3048,14 @@
           "id": "notes_visibility",
           "label": "Notes Visibility",
           "options": [
-            { "value": "selected", "label": "Only when Buy Once is selected" },
-            { "value": "always", "label": "Always visible" }
+            {
+              "value": "selected",
+              "label": "Only when Buy Once is selected"
+            },
+            {
+              "value": "always",
+              "label": "Always visible"
+            }
           ],
           "default": "selected"
         },
@@ -2508,9 +3068,18 @@
           "id": "default_choice",
           "label": "Pre-Selected Option",
           "options": [
-            { "value": "subscribe", "label": "Subscribe & Save" },
-            { "value": "onetime", "label": "Buy Once" },
-            { "value": "none", "label": "Nothing — shopper must pick" }
+            {
+              "value": "subscribe",
+              "label": "Subscribe & Save"
+            },
+            {
+              "value": "onetime",
+              "label": "Buy Once"
+            },
+            {
+              "value": "none",
+              "label": "Nothing — shopper must pick"
+            }
           ],
           "default": "subscribe"
         }

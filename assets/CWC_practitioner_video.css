@@ -1,0 +1,335 @@
+/* ==============================
+   CWC Practitioner Video
+   ============================== */
+
+/* === Section Wrapper === */
+.cwc_practitioner-video {
+  background-color: var(--section-bg);
+  color: var(--text-color);
+  padding-top: var(--padding-top);
+  padding-bottom: var(--padding-bottom);
+  font-family: var(--cwc-font-body);
+}
+
+.cwc_practitioner-video__container {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+/* === Section Header === */
+.cwc_practitioner-video__content {
+  max-width: 640px;
+  margin-bottom: 2.875rem;
+}
+
+.cwc_practitioner-video__eyebrow {
+  font-size: 0.71875rem;
+  font-weight: var(--cwc-weight-label);
+  letter-spacing: var(--cwc-tracking-label);
+  text-transform: uppercase;
+  color: var(--eyebrow-color);
+  margin: 0 0 0.75rem;
+}
+
+.cwc_practitioner-video__content-heading {
+  margin-bottom: 0.75rem;
+}
+
+.cwc_practitioner-video__content-heading h1,
+.cwc_practitioner-video__content-heading h2,
+.cwc_practitioner-video__content-heading h3,
+.cwc_practitioner-video__content-heading p {
+  font-family: var(--cwc-font-heading);
+  font-weight: var(--cwc-weight-heading);
+  font-size: clamp(1.625rem, 3vw, 2.375rem);
+  line-height: 1.12;
+  letter-spacing: -0.015em;
+  margin: 0;
+  color: inherit;
+}
+
+.cwc_practitioner-video__content-heading > * strong {
+  color: var(--highlight-color);
+  font-weight: 600;
+}
+
+.cwc_practitioner-video__content-subtext p {
+  font-size: 1rem;
+  line-height: 1.5;
+  margin: 0;
+  color: #343434;
+}
+
+/* === Card Grid === */
+.cwc_practitioner-video__grid {
+  display: grid;
+  grid-template-columns: repeat(var(--columns-desktop), 1fr);
+  gap: 1.125rem;
+  margin-bottom: 1.875rem;
+}
+
+/* The metaobject path renders cards straight into the grid; the block path
+   wraps each in an outer div carrying shopify_attributes. Both have to behave
+   as one grid cell. */
+.cwc_practitioner-video__card-outer {
+  display: flex;
+}
+
+.cwc_practitioner-video__card {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border: 1px solid rgba(31, 31, 28, 0.09);
+  border-radius: 8px;
+  background-color: var(--card-bg);
+  overflow: hidden;
+}
+
+/* === Media === */
+.cwc_practitioner-video__media {
+  position: relative;
+  aspect-ratio: var(--video-ratio);
+  background-color: var(--media-bg);
+}
+
+.cwc_practitioner-video__video,
+.cwc_practitioner-video__portrait {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.cwc_practitioner-video__placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem;
+  text-align: center;
+  font-size: 0.59375rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(31, 31, 28, 0.32);
+}
+
+/* The poster covers the video until it is played, then the script removes it. */
+.cwc_practitioner-video__poster {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  background: var(--media-bg);
+  cursor: pointer;
+}
+
+.cwc_practitioner-video__play {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 2px 10px rgba(31, 31, 28, 0.16);
+  color: var(--text-color);
+}
+
+.cwc_practitioner-video__play svg {
+  width: 15px;
+  height: 15px;
+  fill: currentColor;
+  /* Nudged off-centre: an optical correction, since a triangle's visual mass
+     sits left of its bounding box. */
+  margin-left: 2px;
+}
+
+.cwc_practitioner-video__badge {
+  position: absolute;
+  bottom: 9px;
+  right: 9px;
+  padding: 2px 7px;
+  border-radius: 3px;
+  background-color: rgba(31, 31, 28, 0.75);
+  color: #fff;
+  font-size: 0.625rem;
+  font-weight: var(--cwc-weight-subheading);
+}
+
+/* === Body === */
+.cwc_practitioner-video__body {
+  padding: 1.125rem 1.125rem 1.25rem;
+}
+
+.cwc_practitioner-video__header {
+  display: flex;
+  align-items: center;
+  gap: 0.6875rem;
+  margin-bottom: 0.75rem;
+}
+
+.cwc_practitioner-video__avatar {
+  flex: 0 0 auto;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: var(--avatar-bg);
+  overflow: hidden;
+}
+
+.cwc_practitioner-video__avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.cwc_practitioner-video__identity {
+  min-width: 0;
+}
+
+.cwc_practitioner-video__name {
+  display: block;
+  font-size: 0.90625rem;
+  font-weight: var(--cwc-weight-subheading);
+  line-height: 1.25;
+}
+
+.cwc_practitioner-video__role {
+  display: block;
+  margin-top: 1px;
+  font-size: 0.75rem;
+  color: rgba(31, 31, 28, 0.62);
+}
+
+.cwc_practitioner-video__quote {
+  margin: 0;
+  font-size: 0.84375rem;
+  line-height: 1.6;
+  color: rgba(31, 31, 28, 0.78);
+}
+
+/* Quote marks are drawn on the paragraph so the mark hugs the first word
+   rather than floating on a line of its own. */
+.cwc_practitioner-video__quote p {
+  margin: 0 0 0.5rem;
+  quotes: '\201C' '\201D';
+}
+
+.cwc_practitioner-video__quote p:last-child {
+  margin-bottom: 0;
+}
+
+.cwc_practitioner-video__quote p::before {
+  content: open-quote;
+}
+
+.cwc_practitioner-video__quote p::after {
+  content: close-quote;
+}
+
+/* === Stat Row === */
+.cwc_practitioner-video__stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  border-top: 1px solid rgba(31, 31, 28, 0.22);
+}
+
+.cwc_practitioner-video__stat {
+  padding: 1.25rem 1.5rem 0 0;
+}
+
+.cwc_practitioner-video__stat + .cwc_practitioner-video__stat {
+  border-left: 1px solid rgba(31, 31, 28, 0.12);
+  padding-left: 1.5rem;
+}
+
+.cwc_practitioner-video__stat-figure {
+  display: block;
+  font-family: var(--cwc-font-heading);
+  font-weight: var(--cwc-weight-heading);
+  font-size: clamp(1.75rem, 3vw, 2.375rem);
+  line-height: 1;
+  margin-bottom: 0.5rem;
+  color: var(--stat-color);
+}
+
+.cwc_practitioner-video__stat-label {
+  display: block;
+  font-size: 0.78125rem;
+  line-height: 1.4;
+  color: rgba(31, 31, 28, 0.62);
+}
+
+/* ==============================
+   Tablet Responsive
+   ------------------------------
+   Three cards across a tablet leaves the quote breaking every three words, so
+   the grid drops to two and the third card wraps.
+   ============================== */
+@media screen and (max-width: 991px) {
+  .cwc_practitioner-video__container {
+    padding: 0 1.25rem;
+  }
+
+  .cwc_practitioner-video__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ==============================
+   Mobile Responsive
+   ============================== */
+@media screen and (max-width: 768px) {
+  .cwc_practitioner-video {
+    padding-top: var(--padding-top-mobile);
+    padding-bottom: var(--padding-bottom-mobile);
+  }
+
+  .cwc_practitioner-video__container {
+    padding: 0 1rem;
+  }
+
+  .cwc_practitioner-video__content {
+    margin-bottom: 1.75rem;
+  }
+
+  .cwc_practitioner-video__grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  /* Same fold as the at-a-glance stats: two across, rules folding with them. */
+  .cwc_practitioner-video__stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .cwc_practitioner-video__stat {
+    padding: 1.125rem 1rem 0 0;
+  }
+
+  .cwc_practitioner-video__stat:nth-child(odd) {
+    border-left: 0;
+    padding-left: 0;
+  }
+
+  .cwc_practitioner-video__stat:nth-child(even) {
+    border-left: 1px solid rgba(31, 31, 28, 0.12);
+    padding-left: 1rem;
+  }
+
+  .cwc_practitioner-video__stat:nth-child(n + 3) {
+    border-top: 1px solid rgba(31, 31, 28, 0.12);
+    margin-top: 0.875rem;
+    padding-top: 1.125rem;
+  }
+}

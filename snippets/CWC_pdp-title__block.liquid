@@ -5,22 +5,51 @@
   line that qualifies it. Heading falls back to the product title, which is
   what keeps the block useful on a product that has no custom copy yet.
 
+  Eyebrow and description come from the product's metafields and nothing
+  else. Absent metafield, absent markup — no typed fallback, so the block
+  never prints a line that belongs to a different product.
+
+  The product they read is the one the SECTION resolved — its Product
+  picker when one is set, the template's product when it is not — because
+  the section hands that down as `product`. Reading it here rather than
+  binding a dynamic source in the editor is what makes the pair work either
+  way: a source connected to `section.settings.product` renders empty the
+  moment the picker is cleared, and one connected to the template's product
+  has nothing to read on a page template. This has neither failure.
+
+  Note that Liquid TYPED into a setting does not run — Shopify stores
+  settings as plain strings and never re-renders them. Anything dynamic has
+  to be reached here.
+
   Accepts:
-  - block {Object} - the title block. Reads settings.eyebrow, .heading, .subtext.
-  - product {Object} - product used for the heading fallback.
+  - block {Object} - the title block. Reads settings.heading.
+  - product {Object} - the section's resolved product. Supplies
+    custom.eyebrow, custom.short_description and the heading fallback.
 
   Usage:
   {% render 'CWC_pdp-title__block', block: block, product: hero_product %}
 {% endcomment %}
 
+{%- liquid
+  assign eyebrow = product.metafields.custom.eyebrow
+
+  assign heading = block.settings.heading
+
+  comment
+    short_description is plain text, so it carries the paragraph the
+    richtext setting would have brought with it.
+  endcomment
+  assign short_description = product.metafields.custom.short_description
+-%}
+
 <div {{ block.shopify_attributes }}>
-  {% if block.settings.eyebrow != blank %}
-    <div class="cwc_product-hero-buy-box__eyebrow">{{ block.settings.eyebrow }}</div>
+  {% if eyebrow != blank %}
+    <div class="cwc_product-hero-buy-box__eyebrow">{{ eyebrow }}</div>
   {% endif %}
 
-  {% if block.settings.heading != blank %}
+  {% if heading != blank %}
     <div class="cwc_product-hero-buy-box__content-heading cwc-rte">
-      {{ block.settings.heading }}
+      {{ heading }}
     </div>
   {% else %}
     <div class="cwc_product-hero-buy-box__content-heading">
@@ -28,9 +57,9 @@
     </div>
   {% endif %}
 
-  {% if block.settings.subtext != blank %}
+  {% if short_description != blank %}
     <div class="cwc_product-hero-buy-box__content-subtext cwc-rte">
-      {{ block.settings.subtext }}
+      <p>{{ short_description | newline_to_br }}</p>
     </div>
   {% endif %}
 </div>

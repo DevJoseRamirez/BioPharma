@@ -43,6 +43,7 @@
   gap: 12px;
   position: sticky;
   top: 24px;
+  top: 84px;
 }
 
 .cwc_product-hero-buy-box__gallery-main {
@@ -1964,6 +1965,28 @@
   object-fit: contain;
 }
 
+/* The drawn fallback occupies the same box as an uploaded icon, so a list
+   mixing the two keeps one text alignment down the left edge. */
+.cwc_product-hero-buy-box__benefit-check {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--deep-color);
+}
+
+.cwc_product-hero-buy-box__benefit-check svg {
+  width: 14px;
+  height: 14px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
 /* ==============================
    Trusted By
 
@@ -2211,4 +2234,151 @@
 .cwc_product-hero-buy-box__offer-details--static {
   grid-template-rows: 1fr;
   transition: none;
+}
+/* ==============================
+   Benefit Icons
+
+   A scannable row of what the product does, sitting between the description
+   and the value list. Bounded top and bottom by hairlines and divided
+   between columns, so it reads as one band rather than five loose tiles.
+
+   The column count comes from the block as an inline custom property, so a
+   three-benefit row and a five-benefit row both fill the width evenly.
+   ============================== */
+.cwc_product-hero-buy-box__benefit-icons {
+  display: grid;
+  grid-template-columns: repeat(var(--benefit-icon-columns, 5), minmax(0, 1fr));
+  margin: 18px 0;
+}
+
+/* === Tiled band === */
+.cwc_product-hero-buy-box__benefit-icons--row {
+  border-top: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.cwc_product-hero-buy-box__benefit-icons--row .cwc_product-hero-buy-box__benefit-icon-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 6px;
+  text-align: center;
+}
+
+.cwc_product-hero-buy-box__benefit-icons--row
+  .cwc_product-hero-buy-box__benefit-icon-item
+  + .cwc_product-hero-buy-box__benefit-icon-item {
+  border-left: 1px solid var(--border-color);
+}
+
+/* === Inline grid ===
+
+   Icon beside label rather than above it, with no tile and no rules. The
+   icon is top-aligned, not centred, so a label that wraps to a second line
+   keeps its mark against the first — centring it would drift the icon down
+   the taller cells and break the row the eye reads across. */
+.cwc_product-hero-buy-box__benefit-icons--inline {
+  gap: 12px 20px;
+}
+
+.cwc_product-hero-buy-box__benefit-icons--inline .cwc_product-hero-buy-box__benefit-icon-item {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 8px;
+  text-align: left;
+}
+
+.cwc_product-hero-buy-box__benefit-icons--inline .cwc_product-hero-buy-box__benefit-icon-tile {
+  width: 18px;
+  height: 18px;
+  border-radius: 0;
+  background: none;
+  /* nudged to sit on the label's cap height rather than its line box */
+  margin-top: 1px;
+}
+
+.cwc_product-hero-buy-box__benefit-icons--inline .cwc_product-hero-buy-box__benefit-icon-tile svg {
+  width: 17px;
+  height: 17px;
+  stroke-width: 1.7;
+}
+
+.cwc_product-hero-buy-box__benefit-icons--inline .cwc_product-hero-buy-box__benefit-icon-label {
+  font-size: 0.86rem;
+  /* 13.76px */
+  line-height: 1.35;
+}
+
+.cwc_product-hero-buy-box__benefit-icon-tile {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--tint-bg);
+  /* the built-in icons stroke with currentColor, so they follow this */
+  color: var(--deep-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  overflow: hidden;
+  font-size: 0.94rem;
+}
+
+.cwc_product-hero-buy-box__benefit-icon-tile svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.cwc_product-hero-buy-box__benefit-icon-tile img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.cwc_product-hero-buy-box__benefit-icon-label {
+  font-size: 0.78rem;
+  /* 12.48px */
+  font-weight: 500;
+  line-height: 1.3;
+  color: var(--text-color);
+}
+
+/* ==============================
+   Benefit Icons — Mobile
+   ============================== */
+@media screen and (max-width: 768px) {
+  .cwc_product-hero-buy-box__benefit-icons {
+    margin: 14px 0;
+  }
+
+  .cwc_product-hero-buy-box__benefit-icons--inline {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px 14px;
+  }
+
+  .cwc_product-hero-buy-box__benefit-icons--row .cwc_product-hero-buy-box__benefit-icon-item {
+    padding: 13px 3px;
+    gap: 6px;
+  }
+
+  .cwc_product-hero-buy-box__benefit-icons--row .cwc_product-hero-buy-box__benefit-icon-tile {
+    width: 32px;
+    height: 32px;
+  }
+
+  .cwc_product-hero-buy-box__benefit-icons--row .cwc_product-hero-buy-box__benefit-icon-tile svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .cwc_product-hero-buy-box__benefit-icon-label {
+    font-size: 0.7rem;
+  }
 }

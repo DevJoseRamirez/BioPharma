@@ -1128,148 +1128,139 @@
   z-index: 2;
 }
 
-.cwc_header__search-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  background: var(--search-overlay-color);
-  opacity: 0;
-  transition: opacity 0.2s ease;
+/* ==============================================================================
+   Search panel
+   ------------------------------------------------------------------------------
+   The theme's <header-search> dialog and <predictive-search> engine, restyled.
+   Two surfaces to dress:
+
+     1. The dialog shell, which lives in Shadow DOM (header-search-default-
+        template) and is reached through ::part(base|overlay|content).
+     2. The results, which theme.js fetches from sections/predictive-search.liquid
+        with a hardcoded section_id. That markup is the theme's, so it is
+        restyled in place here rather than by forking the section.
+
+   Colours come from the --search-* variables the header section already defines
+   from its schema settings, so the theme editor keeps working.
+   ============================================================================== */
+
+/* theme.css puts .header-search at z-index:-1, which works in the theme's own
+   header but not here: .cwc_header paints a background and is not a stacking
+   context, so a negative z-index child paints BEHIND that background and the
+   panel opens invisibly. 1 puts it over page content and still under the bar,
+   which is z-index:2 — the panel reads as sliding out from beneath the header.
+
+   Only z-index is set. `display` is deliberately left to the theme, which uses
+   `display:none` for the closed state and has DialogElement set an inline
+   `display:block` on open; declaring it here would pin the panel open or shut. */
+.cwc_header__search-dialog {
+  z-index: 1;
 }
 
-.cwc_header__search-overlay--visible {
+.cwc_header__search-dialog::part(overlay) {
+  background: var(--search-overlay-color);
   opacity: var(--search-overlay-opacity);
 }
 
-.cwc_header__search {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
-  z-index: 1;
+.cwc_header__search-dialog::part(content) {
   background: var(--search-bg);
-  border-top: 1px solid var(--border-color);
-  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.12);
   max-height: var(--search-panel-height);
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  font-family: var(--cwc-font-body);
-  transform: translateY(-8px);
-  opacity: 0;
-  transition: opacity 0.18s ease, transform 0.18s ease;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.12);
 }
 
-.cwc_header__search--visible {
-  transform: translateY(0);
-  opacity: 1;
-}
-
-/* content stays on the same grid as the rest of the header */
-.cwc_header__search-inner {
-  width: 100%;
-  max-width: 1300px;
+.cwc_header__search-shell {
+  max-width: 1400px;
   margin: 0 auto;
-  padding: 20px 32px 24px;
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
+  padding: 18px clamp(16px, 4vw, 32px) 24px;
+  font-family: var(--cwc-font-body);
 }
 
-/* === Search Field === */
+/* ==============================
+   Field
+   ============================== */
+
 .cwc_header__search-form {
-  position: relative;
   display: flex;
   align-items: center;
   gap: 10px;
+  padding: 0 14px;
+  border-radius: 100px;
   background: var(--search-field-bg);
-  border: 1px solid var(--border-color);
-  border-radius: 999px;
-  padding: 0 8px 0 16px;
-  flex-shrink: 0;
 }
 
-.cwc_header__search-form:focus-within {
-  border-color: var(--highlight-color);
-}
-
-.cwc_header__search-icon svg {
-  width: 20px;
-  height: 20px;
-  display: block;
-  fill: none;
-  stroke: var(--search-muted);
-  stroke-width: 2;
-  stroke-linecap: round;
-}
-
-.cwc_header__search-input {
-  flex: 1 1 auto;
-  min-width: 0;
-  border: none;
-  background: none;
-  padding: 14px 0;
-  font-family: inherit;
-  font-size: 1rem;
-  color: var(--logo-color);
-  outline: none;
-}
-
-.cwc_header__search-input::placeholder {
-  color: var(--search-muted);
-  opacity: 0.75;
-}
-
-/* the browser's own clear button fights the custom close button */
-.cwc_header__search-input::-webkit-search-cancel-button {
-  -webkit-appearance: none;
-  appearance: none;
-}
-
+.cwc_header__search-icon,
 .cwc_header__search-close {
-  flex: 0 0 auto;
-  width: 36px;
-  height: 36px;
-  border: none;
-  background: none;
-  border-radius: 50%;
-  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
+  flex: 0 0 auto;
+  width: 22px;
+  height: 22px;
+  color: var(--search-muted);
 }
 
+.cwc_header__search-icon svg,
 .cwc_header__search-close svg {
   width: 18px;
   height: 18px;
   fill: none;
-  stroke: var(--search-muted);
-  stroke-width: 2;
+  stroke: currentColor;
+  stroke-width: 1.9;
   stroke-linecap: round;
 }
 
-.cwc_header__search-close:hover svg {
-  stroke: var(--search-accent);
+.cwc_header__search-close {
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
 }
 
-/* === Body === */
-.cwc_header__search-body {
+.cwc_header__search-close:hover {
+  color: var(--search-accent);
+}
+
+.cwc_header__search-input {
+  flex: 1;
+  min-width: 0;
+  padding: 14px 0;
+  border: 0;
+  background: none;
+  font-family: inherit;
+  font-size: 1rem;
+  color: inherit;
+  appearance: none;
+}
+
+.cwc_header__search-input:focus {
+  outline: none;
+}
+
+/* The UA clear button duplicates the close control and sits at a different size
+   in every browser. */
+.cwc_header__search-input::-webkit-search-cancel-button {
+  appearance: none;
+}
+
+/* ==============================
+   Popular searches
+   ============================== */
+
+.cwc_header__search-popular {
   margin-top: 18px;
-  overflow-y: auto;
-  min-height: 0;
-  -webkit-overflow-scrolling: touch;
 }
 
 .cwc_header__search-group-title {
+  margin-bottom: 10px;
   font-size: 0.75rem;
   font-weight: var(--cwc-weight-label);
-  letter-spacing: 2px;
+  letter-spacing: var(--cwc-tracking-label);
   text-transform: uppercase;
   color: var(--search-muted);
-  margin-bottom: 12px;
 }
 
-/* === Popular Chips === */
 .cwc_header__search-chips {
   display: flex;
   flex-wrap: wrap;
@@ -1278,172 +1269,280 @@
 
 .cwc_header__search-chip {
   display: inline-block;
-  background: var(--search-chip-bg);
+  padding: 7px 14px;
   border: 1px solid var(--search-chip-border);
+  border-radius: 100px;
+  background: var(--search-chip-bg);
+  font-size: 0.875rem;
   color: var(--search-accent);
-  border-radius: 999px;
-  padding: 9px 16px;
-  font-size: 0.8125rem;
-  font-weight: 700;
   text-decoration: none;
-  white-space: nowrap;
   transition: background-color 0.15s ease, color 0.15s ease;
 }
 
-.cwc_header__search-chip:hover,
-.cwc_header__search-chip:focus-visible {
-  background: var(--highlight-color);
-  border-color: var(--highlight-color);
-  color: #ffffff;
+.cwc_header__search-chip:hover {
+  background: var(--search-accent);
+  color: #fff;
 }
 
-/* === Results === */
-.cwc_header__search-list {
-  display: grid;
-  gap: 4px;
+/* Once results arrive the suggestions have been answered, so they step aside.
+   :has() on an empty slot container is what detects that — no JS involved. */
+.cwc_header__search-shell:has(.predictive-search__content > *) .cwc_header__search-popular {
+  display: none;
 }
 
-.cwc_header__search-result {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  padding: 10px;
-  border-radius: 12px;
-  text-decoration: none;
-  border: 1px solid transparent;
-  transition: background-color 0.12s ease, border-color 0.12s ease;
-}
+/* ==============================
+   Results — theme markup, restyled in place
+   ------------------------------
+   theme.js hardcodes section_id=predictive-search, so these results come from
+   sections/predictive-search.liquid and the products inside them are the
+   theme's own snippets/product-card.liquid. Both are shared with other parts of
+   the theme, so they are restyled here rather than forked.
 
-.cwc_header__search-result:hover,
-.cwc_header__search-result:focus-visible,
-.cwc_header__search-result--active {
-  background: var(--search-chip-bg);
-  border-color: var(--search-chip-border);
-  outline: none;
-}
+   The card rules are the binding ones from
+   _sections-queue/product-card/biopharma-product-cards-v1.html: serif Title
+   Case name, serif price, 6px radius, 1:1 image on #F5F4F0, outlined pill that
+   fills Apple Green on hover, everything left aligned.
+   ============================== */
 
-.cwc_header__search-result-media {
-  flex: 0 0 auto;
-  width: 56px;
-  height: 56px;
-  border-radius: 9px;
-  overflow: hidden;
-  background: var(--search-field-bg);
-}
-
-.cwc_header__search-result-media img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+.cwc_header__search-results {
   display: block;
+  margin-top: 20px;
+
+  /* Spec constant, not a theme-editor choice — every card image sits on this
+     exact tint so packshots read as one set. */
+  --cwc-search-card-media-bg: #f5f4f0;
+  --cwc-search-apple: #5ba90f;
 }
 
-.cwc_header__search-result-body {
+/* Section headings and the resource tabs */
+.cwc_header__search-results .predictive-search__category,
+.cwc_header__search-results .predictive-search__tabs {
+  font-size: 0.75rem;
+  font-weight: var(--cwc-weight-label);
+  letter-spacing: var(--cwc-tracking-label);
+  text-transform: uppercase;
+  color: var(--search-muted);
+}
+
+.cwc_header__search-results .predictive-search__products {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: 16px;
+}
+
+/* ==============================
+   Product card — per the card spec
+   ============================== */
+
+.cwc_header__search-results .product-card {
   display: flex;
   flex-direction: column;
-  gap: 3px;
-  min-width: 0;
+  border: 1px solid var(--border-soft-color, rgba(42, 38, 17, 0.09));
+  border-radius: 6px;
+  background: #fff;
+  overflow: hidden;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
 }
 
-.cwc_header__search-result-title {
-  font-size: 0.9375rem;
-  font-weight: 700;
-  color: var(--logo-color);
-  line-height: 1.3;
+.cwc_header__search-results .product-card:hover {
+  border-color: rgba(42, 38, 17, 0.2);
+  box-shadow: 0 6px 20px rgba(42, 38, 17, 0.07);
+  transform: translateY(-2px);
 }
 
-.cwc_header__search-result-price {
-  font-size: 0.875rem;
-  color: var(--search-accent);
-  font-weight: 700;
+/* A square tinted plate. Without the aspect ratio the packshots keep their own
+   intrinsic size and float in white at whatever height they happen to be. */
+.cwc_header__search-results .product-card__media {
+  aspect-ratio: 1 / 1;
+  background: var(--cwc-search-card-media-bg);
 }
 
-.cwc_header__search-result-was {
-  color: var(--search-muted);
-  font-weight: 400;
-  margin-left: 6px;
+/* Only __media takes the ratio. __figure is the positioning context for the
+   badge list, and constraining it too would box the badges in with it. */
+.cwc_header__search-results .product-card__media img {
+  width: 100%;
+  height: 100%;
+  /* contain, not cover: these are packshots on a flat plate, and cropping a
+     tub's label to fill a square loses the thing being identified. */
+  object-fit: contain;
+  padding: 10px;
 }
 
-.cwc_header__search-all {
-  display: inline-block;
-  margin-top: 14px;
+/* The theme centres card content. The spec is left aligned. */
+.cwc_header__search-results .product-card__info {
+  align-items: start;
+  justify-items: start;
+  padding: 12px;
+  text-align: start;
+}
+
+.cwc_header__search-results .product-card__info > * {
+  justify-items: start;
+  align-items: start;
+  text-align: start;
+}
+
+/* Title Case, not the theme's uppercase heading treatment — .h6 pulls in
+   --heading-text-transform and --heading-letter-spacing, both of which the spec
+   overrides for cards. */
+.cwc_header__search-results .product-title {
+  font-family: var(--cwc-font-heading);
+  font-weight: var(--cwc-weight-heading);
+  font-size: 1rem;
+  line-height: 1.25;
+  letter-spacing: normal;
+  text-transform: none;
+  color: var(--text-color);
+}
+
+/* ==============================
+   Price — serif, and never red
+   ============================== */
+
+.cwc_header__search-results .price-list {
+  align-items: baseline;
+  gap: 6px;
+  font-family: var(--cwc-font-heading);
+}
+
+.cwc_header__search-results .price-list sale-price,
+.cwc_header__search-results .price-list .text-on-sale {
+  font-family: var(--cwc-font-heading);
+  font-weight: var(--cwc-weight-heading);
+  font-size: 1rem;
+  /* The theme paints a sale price in its alert red. Savings are green in this
+     brand — the discount badge already carries the urgency. */
+  color: var(--text-color);
+}
+
+.cwc_header__search-results .price-list compare-at-price,
+.cwc_header__search-results .price-list .line-through {
+  font-family: var(--cwc-font-heading);
   font-size: 0.8125rem;
-  font-weight: 700;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  color: var(--search-accent);
-  text-decoration: underline;
+  color: var(--search-muted);
+  text-decoration: line-through;
 }
 
-/* === Empty / Status === */
-.cwc_header__search-empty p,
-.cwc_header__search-status {
-  margin: 0;
-  padding: 8px 0;
+/* ==============================
+   Badges
+   ============================== */
+
+.cwc_header__search-results .badge {
+  padding: 4px 8px;
+  border-radius: 3px;
+  font-family: var(--cwc-font-body);
+  font-size: 0.625rem;
+  font-weight: var(--cwc-weight-subheading);
+  letter-spacing: 1px;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.cwc_header__search-results .badge--on-sale {
+  background: var(--search-accent);
+  color: #fff;
+}
+
+.cwc_header__search-results .badge--sold-out {
+  background: rgba(42, 38, 17, 0.55);
+  color: #fff;
+}
+
+.cwc_header__search-results .badge--custom {
+  background: var(--text-color);
+  color: #fff;
+}
+
+/* ==============================
+   View all results — outlined pill, per the card button rule
+   ============================== */
+
+.cwc_header__search-results .button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 26px;
+  border: 1.5px solid var(--text-color);
+  border-radius: 100px;
+  background: none;
+  font-family: var(--cwc-font-body);
+  font-size: 0.875rem;
+  font-weight: var(--cwc-weight-subheading);
+  letter-spacing: normal;
+  text-transform: none;
+  color: var(--text-color);
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.cwc_header__search-results .button:hover {
+  background: var(--cwc-search-apple);
+  border-color: var(--cwc-search-apple);
+  color: #fff;
+}
+
+/* ==============================
+   Non-product results and empty state
+   ============================== */
+
+.cwc_header__search-results .predictive-search__resource-item {
+  color: inherit;
+}
+
+.cwc_header__search-results .predictive-search__no-results {
+  padding: 20px 0;
   font-size: 0.9375rem;
   color: var(--search-muted);
 }
 
-.cwc_header__search-overlay[hidden],
-.cwc_header__search[hidden],
-.cwc_header__search-popular[hidden],
-.cwc_header__search-status[hidden] {
-  display: none !important;
+/* The suggestion rail is a horizontal scroller in the theme; the scrollbar is
+   noise at this size. */
+.cwc_header__search-results .predictive-search__suggestions {
+  scrollbar-width: none;
+}
+
+.cwc_header__search-results .predictive-search__suggestions::-webkit-scrollbar {
+  display: none;
 }
 
 /* ==============================
-   Search Panel — Tablet
-   ============================== */
-@media screen and (max-width: 991px) {
-  .cwc_header__search-inner {
-    padding: 16px 20px 20px;
-  }
-}
-
-/* ==============================
-   Search Panel — Mobile
+   Mobile — full screen
    ------------------------------
-   Full screen. dvh rather than vh so the iOS keyboard cannot clip the panel.
+   dvh rather than vh so the iOS keyboard cannot clip the panel.
    ============================== */
+
 @media screen and (max-width: 768px) {
-  .cwc_header__search {
-    position: fixed;
-    inset: 0;
-    top: 0;
-    max-height: none;
-    height: 100vh;
+  .cwc_header__search-dialog::part(content) {
+    max-height: 100dvh;
     height: 100dvh;
-    border-top: none;
-    border-radius: 0;
-    z-index: 30;
-    transform: translateY(0);
   }
 
-  .cwc_header__search-inner {
+  .cwc_header__search-shell {
     padding: 14px 16px 20px;
-    max-width: none;
-    height: 100%;
   }
 
-  .cwc_header__search-body {
-    margin-top: 16px;
+  .cwc_header__search-input {
+    padding: 12px 0;
+    /* iOS zooms the viewport on focus for anything under 16px. */
+    font-size: 16px;
   }
 
-  .cwc_header__search-result-media {
-    width: 48px;
-    height: 48px;
+  .cwc_header__search-results .predictive-search__products {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 12px;
+  }
+
+  .cwc_header__search-results .product-card__info {
+    padding: 10px;
+  }
+
+  .cwc_header__search-results .product-title {
+    font-size: 0.9375rem;
   }
 }
 
-/* ==============================
-   Reduced Motion
-   ============================== */
 @media (prefers-reduced-motion: reduce) {
-
-  .cwc_header__search,
-  .cwc_header__search-overlay,
   .cwc_header__search-chip,
-  .cwc_header__search-result {
+  .cwc_header__search-results .predictive-search__resource-item {
     transition: none;
   }
 }

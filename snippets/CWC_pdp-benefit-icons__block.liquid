@@ -1,0 +1,141 @@
+{% comment %}
+  Benefit icon row for the product buy box.
+
+  A short, scannable row naming what the product does — Energy, Digestion,
+  Immune — rather than what the brand promises. It sits between the
+  description and the value list, where the eye lands before the price.
+
+  One block holds every column so the row keeps its grid and no single
+  benefit is left stranded on its own line. Blank labels are skipped, so a
+  merchant can run three or six.
+
+  Each column draws its icon from the first of three sources that is set: an
+  uploaded image, one of the built-in line icons, or a text glyph. The
+  built-in set is what makes the row look right before anyone uploads
+  anything — glyphs a font happens to carry rarely match each other in weight
+  or size, and a row of mismatched marks reads as an accident.
+
+  The built-ins stroke with currentColor, so they follow the tile's colour
+  rather than carrying their own.
+
+  Accepts:
+  - block {Object} - the benefit_icons block. Reads settings.icon_1 … icon_6,
+    icon_style_1 … icon_style_6, icon_text_1 … icon_text_6 and
+    label_1 … label_6.
+
+  Usage:
+  {% render 'CWC_pdp-benefit-icons__block', block: block %}
+{% endcomment %}
+
+{%- liquid
+  assign item_ids = '1,2,3,4,5,6' | split: ','
+
+  comment
+    Counted first so an all-blank block renders nothing — an empty row would
+    still contribute its rules and vertical margin to the column.
+  endcomment
+  assign item_count = 0
+  for item_id in item_ids
+    assign label_key = 'label_' | append: item_id
+    if block.settings[label_key] != blank
+      assign item_count = item_count | plus: 1
+    endif
+  endfor
+
+  comment
+    The row layout takes its column count from how many benefits are filled,
+    so the band always spans the width evenly. The inline layout takes the
+    merchant's setting instead, because its whole point is a fixed grid the
+    labels wrap inside — and it never asks for more columns than it has
+    benefits to put in them.
+  endcomment
+  assign layout = block.settings.layout | default: 'row'
+  assign column_count = item_count
+  if layout == 'inline'
+    assign column_count = block.settings.columns | default: 3 | at_most: item_count
+  endif
+-%}
+
+{%- if item_count > 0 -%}
+  <div
+    class="cwc_product-hero-buy-box__benefit-icons cwc_product-hero-buy-box__benefit-icons--{{ layout }}"
+    style="--benefit-icon-columns: {{ column_count }};"
+    {{ block.shopify_attributes }}
+  >
+    {%- for item_id in item_ids -%}
+      {%- liquid
+        assign label_key = 'label_' | append: item_id
+        assign icon_key = 'icon_' | append: item_id
+        assign icon_style_key = 'icon_style_' | append: item_id
+        assign icon_text_key = 'icon_text_' | append: item_id
+        assign item_label = block.settings[label_key]
+        assign item_icon = block.settings[icon_key]
+        assign item_icon_style = block.settings[icon_style_key] | default: 'none'
+      -%}
+
+      {%- if item_label != blank -%}
+        <div class="cwc_product-hero-buy-box__benefit-icon-item">
+          <span class="cwc_product-hero-buy-box__benefit-icon-tile">
+            {%- if item_icon != blank -%}
+              <img
+                src="{{ item_icon | image_url: width: 80 }}"
+                alt=""
+                width="80"
+                height="80"
+                loading="lazy"
+              >
+            {%- elsif item_icon_style != 'none' -%}
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                {%- case item_icon_style -%}
+                  {%- when 'bolt' -%}
+                    <path d="M13.2 3.2 6.4 13.1h4.6l-1.2 7.7 6.8-9.9h-4.6l1.2-7.7Z"></path>
+                  {%- when 'digestion' -%}
+                    <path d="M8.4 4.2v6.2a3.6 3.6 0 0 0 7.2 0"></path>
+                    <path d="M15.6 10.4v3.2a3.6 3.6 0 0 1-7.2 0v-1.1"></path>
+                    <path d="M8.4 15.8v1.4a2.6 2.6 0 0 0 5.2 0"></path>
+                  {%- when 'shield' -%}
+                    <path d="M12 3.2 19 6v5c0 4.2-2.9 7.6-7 8.8C7.9 18.6 5 15.2 5 11V6l7-2.8Z"></path>
+                  {%- when 'burst' -%}
+                    <circle cx="12" cy="12" r="3.4"></circle>
+                    <path d="M12 3.4v2.6M12 18v2.6M4.6 12h2.6M16.8 12h2.6"></path>
+                    <path d="m6.8 6.8 1.9 1.9M15.3 15.3l1.9 1.9M17.2 6.8l-1.9 1.9M8.7 15.3l-1.9 1.9"></path>
+                  {%- when 'refresh' -%}
+                    <path d="M19.8 12a7.8 7.8 0 1 1-2.3-5.5"></path>
+                    <path d="M19.8 4.4v4.5h-4.5"></path>
+                  {%- when 'leaf' -%}
+                    <path d="M19.8 4.2c0 8-4.5 12-9.5 12A4.5 4.5 0 0 1 5.8 11.7c0-5 6-7.5 14-7.5Z"></path>
+                    <path d="M14.6 9.2c-3.9 1.6-6.8 4.7-8.8 10.6"></path>
+                  {%- when 'heart' -%}
+                    <path d="M12 19.2c-4.6-2.9-7-5.8-7-8.8a3.9 3.9 0 0 1 7-2.4 3.9 3.9 0 0 1 7 2.4c0 3-2.4 5.9-7 8.8Z"></path>
+                  {%- when 'brain' -%}
+                    <path d="M12 5.6a3 3 0 0 0-5.6 1.5A2.8 2.8 0 0 0 5 12a2.8 2.8 0 0 0 1.7 4.6 3 3 0 0 0 5.3.9"></path>
+                    <path d="M12 5.6a3 3 0 0 1 5.6 1.5A2.8 2.8 0 0 1 19 12a2.8 2.8 0 0 1-1.7 4.6 3 3 0 0 1-5.3.9"></path>
+                    <path d="M12 5.6v11.9"></path>
+                  {%- when 'lungs' -%}
+                    <path d="M12 4v7"></path>
+                    <path d="M9.6 11c0 3.2-.7 6-2.1 8.1a1.6 1.6 0 0 1-2.9-.9V13a4 4 0 0 1 2.6-3.7"></path>
+                    <path d="M14.4 11c0 3.2.7 6 2.1 8.1a1.6 1.6 0 0 0 2.9-.9V13a4 4 0 0 0-2.6-3.7"></path>
+                  {%- when 'molecule' -%}
+                    <circle cx="12" cy="6.4" r="2.3"></circle>
+                    <circle cx="6.6" cy="16.2" r="2.3"></circle>
+                    <circle cx="17.4" cy="16.2" r="2.3"></circle>
+                    <path d="m10.8 8.5-2.6 5.5M13.2 8.5l2.6 5.5M8.9 16.2h6.2"></path>
+                  {%- when 'shield-check' -%}
+                    <path d="M12 3.2 19 6v5c0 4.2-2.9 7.6-7 8.8C7.9 18.6 5 15.2 5 11V6l7-2.8Z"></path>
+                    <path d="m9 11.6 2.2 2.2 4-4.2"></path>
+                  {%- when 'check' -%}
+                    <circle cx="12" cy="12" r="8.4"></circle>
+                    <path d="m8.3 12.2 2.6 2.6 4.8-5.2"></path>
+                {%- endcase -%}
+              </svg>
+            {%- else -%}
+              {{ block.settings[icon_text_key] }}
+            {%- endif -%}
+          </span>
+
+          <span class="cwc_product-hero-buy-box__benefit-icon-label">{{ item_label }}</span>
+        </div>
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+{%- endif -%}

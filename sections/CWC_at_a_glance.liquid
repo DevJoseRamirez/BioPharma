@@ -1,0 +1,313 @@
+{% comment %}
+  CWC At A Glance
+  ------------------------------------------------------------------
+  Full-width education band that sits directly under the buy box: a stat row
+  over three explanatory columns.
+
+  Per SECTION_NOTES this is intended to REPLACE the 30-day / free-shipping /
+  cancel row, which repeats micro-copy already inside the buy box. Removing that
+  row is a separate editor action — this section only adds itself.
+
+  The design carries no section heading; the stats are the opening. The heading
+  and subtext settings exist so one can be added later, and default to blank so
+  the section renders as designed until someone fills them.
+{% endcomment %}
+
+{% style %}
+  #cwc_at-a-glance-{{ section.id }} {
+    --section-bg: {{ section.settings.bg_color | default: '#F5F4F0' }};
+    --text-color: {{ section.settings.text_color | default: '#1F1F1C' }};
+    --highlight-color: {{ section.settings.bold_color | default: '#5BA90F' }};
+    --stat-color: {{ section.settings.stat_color | default: '#44681A' }};
+    --accent-color: {{ section.settings.accent_color | default: '#78AD49' }};
+    --accent-does-color: {{ section.settings.accent_does_color | default: '#5BA90F' }};
+    --accent-why-color: {{ section.settings.accent_why_color | default: '#A3B8E2' }};
+    --border-color: {{ section.settings.border_color | default: '#1F1F1C' }};
+    --stat-columns: {{ section.settings.stat_columns | default: 4 }};
+    --column-count: {{ section.settings.column_count | default: 3 }};
+    --padding-top: {{ section.settings.padding_top | default: 60 }}px;
+    --padding-bottom: {{ section.settings.padding_bottom | default: 60 }}px;
+    --padding-top-mobile: {{ section.settings.padding_top | default: 60 | times: 0.5 }}px;
+    --padding-bottom-mobile: {{ section.settings.padding_bottom | default: 60 | times: 0.5 }}px;
+  }
+{% endstyle %}
+
+{{ 'CWC_fonts.css' | asset_url | stylesheet_tag }}
+{{ 'CWC_at_a_glance.css' | asset_url | stylesheet_tag }}
+
+<section id="cwc_at-a-glance-{{ section.id }}" class="cwc_at-a-glance">
+  <div class="cwc_at-a-glance__container">
+
+    {% comment %} Section Header — blank by default, see file comment {% endcomment %}
+    {% if section.settings.heading != blank or section.settings.subtext != blank %}
+      <div class="cwc_at-a-glance__content">
+        {% if section.settings.heading != blank %}
+          <div class="cwc_at-a-glance__content-heading cwc-rte">
+            {{ section.settings.heading }}
+          </div>
+        {% endif %}
+
+        {% if section.settings.subtext != blank %}
+          <div class="cwc_at-a-glance__content-subtext cwc-rte">
+            {{ section.settings.subtext }}
+          </div>
+        {% endif %}
+      </div>
+    {% endif %}
+
+    {% comment %} Stat row {% endcomment %}
+    {% if section.settings.show_stats %}
+      {% assign stat_blocks = section.blocks | where: 'type', 'stat' %}
+
+      {% if stat_blocks.size > 0 %}
+        <div class="cwc_at-a-glance__stats">
+          {% for block in stat_blocks %}
+            <div class="cwc_at-a-glance__stat" {{ block.shopify_attributes }}>
+              {% if block.settings.figure != blank %}
+                <span class="cwc_at-a-glance__stat-figure">{{ block.settings.figure }}</span>
+              {% endif %}
+
+              {% if block.settings.label != blank %}
+                <span class="cwc_at-a-glance__stat-label">{{ block.settings.label }}</span>
+              {% endif %}
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endif %}
+
+    {% comment %} Explanatory columns {% endcomment %}
+    {% assign column_blocks = section.blocks | where: 'type', 'column' %}
+
+    {% if column_blocks.size > 0 %}
+      <div class="cwc_at-a-glance__columns">
+        {% for block in column_blocks %}
+          {% assign variant_class = '' %}
+          {% if block.settings.variant != blank and block.settings.variant != 'default' %}
+            {% assign variant_class = 'cwc_at-a-glance__column--' | append: block.settings.variant %}
+          {% endif %}
+
+          <div class="cwc_at-a-glance__column {{ variant_class }}" {{ block.shopify_attributes }}>
+            {% if block.settings.heading != blank %}
+              <div class="cwc_at-a-glance__column-title">{{ block.settings.heading }}</div>
+            {% endif %}
+
+            {% if block.settings.items != blank %}
+              <div class="cwc_at-a-glance__column-items cwc-rte">
+                {{ block.settings.items }}
+              </div>
+            {% endif %}
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="cwc_at-a-glance__empty">
+        <p>Add column blocks to display content.</p>
+      </div>
+    {% endif %}
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "CWC At A Glance",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Header"
+    },
+    {
+      "type": "paragraph",
+      "content": "The design has no heading — the stat row opens the section. Fill these only if you want one."
+    },
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "Section Heading"
+    },
+    {
+      "type": "richtext",
+      "id": "subtext",
+      "label": "Section Subtext"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_stats",
+      "label": "Show Stat Row",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "stat_columns",
+      "label": "Stat Columns",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "column_count",
+      "label": "Text Columns",
+      "info": "The design uses three. One stacks them, which is also the mobile layout.",
+      "min": 1,
+      "max": 3,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#F5F4F0"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#1F1F1C"
+    },
+    {
+      "type": "color",
+      "id": "bold_color",
+      "label": "Heading Bold Color",
+      "default": "#5BA90F"
+    },
+    {
+      "type": "color",
+      "id": "stat_color",
+      "label": "Stat Figure Color",
+      "default": "#44681A"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Rule Color",
+      "info": "Used at low opacity for the stat row rules.",
+      "default": "#1F1F1C"
+    },
+    {
+      "type": "header",
+      "content": "Bullet Colors"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Default Bullet",
+      "default": "#78AD49"
+    },
+    {
+      "type": "color",
+      "id": "accent_does_color",
+      "label": "\"What it is\" Bullet",
+      "default": "#5BA90F"
+    },
+    {
+      "type": "color",
+      "id": "accent_why_color",
+      "label": "\"Why people choose it\" Bullet",
+      "default": "#A3B8E2"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 60
+    }
+  ],
+  "blocks": [
+    {
+      "type": "stat",
+      "name": "Stat",
+      "settings": [
+        {
+          "type": "text",
+          "id": "figure",
+          "label": "Figure",
+          "info": "Short — a number or a number with a suffix, e.g. 20+.",
+          "default": "55"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Organic fruits and vegetables, juiced at peak ripeness"
+        }
+      ]
+    },
+    {
+      "type": "column",
+      "name": "Column",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Column Heading",
+          "default": "What it is"
+        },
+        {
+          "type": "richtext",
+          "id": "items",
+          "label": "Items",
+          "info": "Use a bulleted list. Bold the key phrase in each item.",
+          "default": "<p>Add one bulleted list here.</p>"
+        },
+        {
+          "type": "select",
+          "id": "variant",
+          "label": "Bullet Color",
+          "options": [
+            { "value": "default", "label": "Default" },
+            { "value": "does", "label": "What it is" },
+            { "value": "why", "label": "Why people choose it" }
+          ],
+          "default": "default"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 7,
+  "presets": [
+    {
+      "name": "At A Glance",
+      "category": "CWC Custom",
+      "blocks": [
+        { "type": "stat" },
+        { "type": "stat" },
+        { "type": "stat" },
+        { "type": "stat" },
+        { "type": "column" },
+        { "type": "column" },
+        { "type": "column" }
+      ]
+    }
+  ]
+}
+{% endschema %}

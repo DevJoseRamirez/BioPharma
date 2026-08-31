@@ -19,7 +19,7 @@
         "show_shipping_text": false,
         "show_view_cart_button": false,
         "show_checkout_button": true,
-        "show_price_in_checkout_button": true,
+        "show_price_in_checkout_button": false,
         "accent_color": "#5ba90f",
         "accent_deep_color": "#44681a",
         "text_color": "#1f1f1c",

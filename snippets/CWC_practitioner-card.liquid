@@ -1,0 +1,127 @@
+{% comment %}
+  CWC Practitioner Card
+  ------------------------------------------------------------------
+  One practitioner card for CWC_practitioner_video. Extracted to a snippet
+  because the section renders it from two sources — the practitioner metaobject
+  and practitioner blocks — and the card should not be written twice.
+
+  TWO STATES, both intentional:
+    with a clip  poster + play badge + duration badge; the video sits behind the
+                 poster at preload="none" and the poster is removed on click, so
+                 three cards cost nothing until one is actually played.
+    no clip      portrait only, badged "Photo". Most practitioners will have no
+                 clip at first, so this is the common case, not the edge one.
+
+  Accepts: name, credential, location, quote, portrait, video, video_length,
+           show_duration_badge, photo_badge_label, index
+{% endcomment %}
+
+{%- liquid
+  assign has_video = false
+  if video != blank
+    assign has_video = true
+  endif
+
+  assign meta_line = credential
+  if credential != blank and location != blank
+    assign meta_line = credential | append: ' · ' | append: location
+  elsif location != blank
+    assign meta_line = location
+  endif
+-%}
+
+<div class="cwc_practitioner-video__card">
+  <div class="cwc_practitioner-video__media">
+    {% if has_video %}
+      {{
+        video
+        | video_tag:
+          image_size: '800x',
+          controls: true,
+          preload: 'none',
+          class: 'cwc_practitioner-video__video'
+      }}
+
+      {% comment %}
+        A real button, not a styled div — this is the control that starts the
+        clip, so it has to be reachable by keyboard.
+      {% endcomment %}
+      <button
+        type="button"
+        class="cwc_practitioner-video__poster"
+        data-cwc-practitioner-play
+        aria-label="{{ 'Play clip' | append: ' — ' | append: name | escape }}"
+      >
+        {% if portrait != blank %}
+          <img
+            src="{{ portrait | image_url: width: 800 }}"
+            alt=""
+            class="cwc_practitioner-video__portrait"
+            loading="lazy"
+            width="800"
+            height="600"
+          >
+        {% endif %}
+
+        <span class="cwc_practitioner-video__play" aria-hidden="true">
+          <svg viewBox="0 0 24 24" focusable="false"><path d="M8 5l11 7-11 7z"></path></svg>
+        </span>
+
+        {% if show_duration_badge and video_length != blank %}
+          <span class="cwc_practitioner-video__badge">{{ video_length }}</span>
+        {% endif %}
+      </button>
+    {% else %}
+      {% if portrait != blank %}
+        <img
+          src="{{ portrait | image_url: width: 800 }}"
+          alt="{{ name | escape }}"
+          class="cwc_practitioner-video__portrait"
+          loading="lazy"
+          width="800"
+          height="600"
+        >
+      {% else %}
+        <div class="cwc_practitioner-video__placeholder">
+          <span>Add a portrait</span>
+        </div>
+      {% endif %}
+
+      {% if photo_badge_label != blank %}
+        <span class="cwc_practitioner-video__badge">{{ photo_badge_label }}</span>
+      {% endif %}
+    {% endif %}
+  </div>
+
+  <div class="cwc_practitioner-video__body">
+    <div class="cwc_practitioner-video__header">
+      <span class="cwc_practitioner-video__avatar">
+        {% if portrait != blank %}
+          <img
+            src="{{ portrait | image_url: width: 120 }}"
+            alt=""
+            loading="lazy"
+            width="40"
+            height="40"
+          >
+        {% endif %}
+      </span>
+
+      <span class="cwc_practitioner-video__identity">
+        {% if name != blank %}
+          <span class="cwc_practitioner-video__name">{{ name }}</span>
+        {% endif %}
+
+        {% if meta_line != blank %}
+          <span class="cwc_practitioner-video__role">{{ meta_line }}</span>
+        {% endif %}
+      </span>
+    </div>
+
+    {% if quote != blank %}
+      <blockquote class="cwc_practitioner-video__quote cwc-rte">
+        {{ quote }}
+      </blockquote>
+    {% endif %}
+  </div>
+</div>

@@ -1,0 +1,117 @@
+{% comment %}
+  Search panel for the CWC header.
+
+  This is the theme's own predictive search, wearing CWC clothes. The bespoke
+  panel it replaces rendered and fetched correctly on paper but never opened in
+  the browser; rather than keep chasing that, this leans on the component the
+  theme already ships and that its own header used, and restyles it.
+
+  FUNCTIONAL HOOKS — all of these are read by assets/theme.js. Renaming or
+  re-nesting any one of them stops the panel opening or stops results arriving:
+
+    header-search + id       HeaderSearch is a DialogElement. The trigger in
+                             CWC_header.liquid carries a matching
+                             aria-controls, and a delegated listener on
+                             document.body opens it. The id must stay
+                             header-search-<section id>.
+    form aria-owns           PredictiveSearch finds its form with
+                             document.querySelector('[aria-owns="<its id>"]').
+                             It reads elements['q'] off that form, so the input
+                             must be named q and must live inside this form.
+    predictive-search + id   The results engine. Debounced input, aborts stale
+                             requests, fetches search/suggest and drops the
+                             markup into its own slot.
+    [slot="results"]         PredictiveSearch calls replaceChildren on exactly
+                             this node. It must exist and it must be empty.
+    is="dialog-close-button" The theme's close control, polyfilled for Safari by
+                             vendor.min.js.
+
+  Results markup is NOT ours: theme.js hardcodes section_id=predictive-search,
+  so sections/predictive-search.liquid renders them. CWC_header.css restyles
+  that markup in place rather than forking the section.
+
+  Accepts:
+  - section {Object} - the header section. Reads settings.search_placeholder,
+    .search_popular and .search_popular_label.
+
+  Usage:
+  {% render 'CWC_header-search', section: section %}
+{% endcomment %}
+
+{%- liquid
+  assign popular_terms = section.settings.search_popular | split: ','
+  assign placeholder = section.settings.search_placeholder | default: 'Search products'
+-%}
+
+<header-search id="header-search-{{ section.id }}" class="header-search cwc_header__search-dialog">
+  <div class="cwc_header__search-shell">
+    <form
+      id="predictive-search-form"
+      action="{{ routes.search_url }}"
+      method="GET"
+      aria-owns="header-predictive-search"
+      class="cwc_header__search-form"
+      role="search"
+    >
+      <span class="cwc_header__search-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" focusable="false">
+          <circle cx="11" cy="11" r="6.4"></circle>
+          <path d="M15.8 15.8 20 20"></path>
+        </svg>
+      </span>
+
+      {% comment %}
+        name="q" is not cosmetic — PredictiveSearch reads elements['q'].
+      {% endcomment %}
+      <input
+        type="search"
+        name="q"
+        class="cwc_header__search-input"
+        spellcheck="false"
+        autocomplete="off"
+        placeholder="{{ placeholder | escape }}"
+        aria-label="{{ placeholder | escape }}"
+      >
+
+      {% comment %} Narrows the full results page to products, matching the panel {% endcomment %}
+      <input type="hidden" name="type" value="product">
+
+      <button type="button" class="cwc_header__search-close" is="dialog-close-button">
+        <span class="sr-only">{{ 'general.accessibility.close' | t }}</span>
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M6 6l12 12M18 6L6 18"></path>
+        </svg>
+      </button>
+    </form>
+
+    {% comment %}
+      Shown until a query is typed. These are real links, so they work whether or
+      not the predictive engine ever answers.
+    {% endcomment %}
+    {% if popular_terms.size > 0 %}
+      <div class="cwc_header__search-popular">
+        {% if section.settings.search_popular_label != blank %}
+          <div class="cwc_header__search-group-title">{{ section.settings.search_popular_label }}</div>
+        {% endif %}
+
+        <div class="cwc_header__search-chips">
+          {% for term in popular_terms %}
+            {%- assign clean_term = term | strip -%}
+            {% if clean_term != blank %}
+              <a
+                href="{{ routes.search_url }}?q={{ clean_term | url_encode }}&type=product"
+                class="cwc_header__search-chip"
+              >
+                {{- clean_term -}}
+              </a>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    {% endif %}
+
+    <predictive-search id="header-predictive-search" class="predictive-search cwc_header__search-results">
+      <div class="predictive-search__content" slot="results"></div>
+    </predictive-search>
+  </div>
+</header-search>

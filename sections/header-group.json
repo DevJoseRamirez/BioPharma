@@ -15,7 +15,7 @@
       "type": "CWC_announcement",
       "name": "Announcement",
       "settings": {
-        "text": "<p>Save Up to 25% On NanoGreens · Recommended By Practitioner For 20+ Years</p>",
+        "text": "<p>SUBSCRIBE & SAVE 30% ON YOUR FIRST ORDER + FREE SHIPPING</p>",
         "link": "shopify://products/nanogreens-10-support",
         "enable_gradient": true,
         "bg_color": "#44681a",
@@ -121,6 +121,7 @@
         "search_overlay_opacity": 45,
         "show_cart": true,
         "enable_sticky": true,
+        "sticky_offset": 0,
         "bg_color": "#ffffff",
         "text_color": "#5c5842",
         "bold_color": "#5ba90f",

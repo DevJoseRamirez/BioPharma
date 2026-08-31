@@ -1,0 +1,379 @@
+{% comment %}
+  CWC Results Timeline
+  ------------------------------------------------------------------
+  Four-stage horizontal timeline describing the first ninety days, with an
+  evidence chip under each stage citing the review corpus.
+
+  COMPLIANCE. The disclaimer separating "patterns customers report" from
+  "promised outcomes" is required copy, not decoration. It is a setting rather
+  than hardcoded text so legal can revise it without a code change — but the
+  section should not ship with it emptied.
+
+  The stages are drawn from review-corpus analysis, not a clinical trial. The
+  default copy is careful about that distinction and should stay that way.
+
+  The CTA routes to the 90-day plan, not add-to-cart: the section exists to
+  answer commitment fear, so it should route to the commitment.
+{% endcomment %}
+
+{% style %}
+  #cwc_results-timeline-{{ section.id }} {
+    --section-bg: {{ section.settings.bg_color | default: '#FFFFFF' }};
+    --text-color: {{ section.settings.text_color | default: '#1F1F1C' }};
+    --highlight-color: {{ section.settings.bold_color | default: '#1F1F1C' }};
+    --eyebrow-color: {{ section.settings.eyebrow_color | default: '#44681A' }};
+    --accent-color: {{ section.settings.accent_color | default: '#5BA90F' }};
+    --stage-color-1: {{ section.settings.stage_color_1 | default: '#78AD49' }};
+    --stage-color-2: {{ section.settings.stage_color_2 | default: '#5BA90F' }};
+    --stage-color-3: {{ section.settings.stage_color_3 | default: '#44681A' }};
+    --stage-color-4: {{ section.settings.stage_color_4 | default: '#1F1F1C' }};
+    --button-bg: {{ section.settings.button_bg_color | default: '#5BA90F' }};
+    --button-text: {{ section.settings.button_text_color | default: '#FFFFFF' }};
+    --padding-top: {{ section.settings.padding_top | default: 80 }}px;
+    --padding-bottom: {{ section.settings.padding_bottom | default: 80 }}px;
+    --padding-top-mobile: {{ section.settings.padding_top | default: 80 | times: 0.5 }}px;
+    --padding-bottom-mobile: {{ section.settings.padding_bottom | default: 80 | times: 0.5 }}px;
+  }
+{% endstyle %}
+
+{{ 'CWC_fonts.css' | asset_url | stylesheet_tag }}
+{{ 'CWC_results_timeline.css' | asset_url | stylesheet_tag }}
+
+{% liquid
+  assign progression_class = ''
+  unless section.settings.accent_progression
+    assign progression_class = 'cwc_results-timeline--flat-dots'
+  endunless
+%}
+
+<section id="cwc_results-timeline-{{ section.id }}" class="cwc_results-timeline {{ progression_class }}">
+  <div class="cwc_results-timeline__container">
+
+    {% comment %} Section Header {% endcomment %}
+    <div class="cwc_results-timeline__content">
+      {% if section.settings.eyebrow_text != blank %}
+        <p class="cwc_results-timeline__eyebrow">{{ section.settings.eyebrow_text }}</p>
+      {% endif %}
+
+      {% if section.settings.heading != blank %}
+        <div class="cwc_results-timeline__content-heading cwc-rte">
+          {{ section.settings.heading }}
+        </div>
+      {% endif %}
+
+      {% if section.settings.subtext != blank %}
+        <div class="cwc_results-timeline__content-subtext cwc-rte">
+          {{ section.settings.subtext }}
+        </div>
+      {% endif %}
+    </div>
+
+    {% comment %} Stage track {% endcomment %}
+    {% if section.blocks.size > 0 %}
+      <div class="cwc_results-timeline__track">
+        {% for block in section.blocks %}
+          {% case block.type %}
+            {% when 'stage' %}
+              <div class="cwc_results-timeline__stage" {{ block.shopify_attributes }}>
+                {% if block.settings.when_label != blank %}
+                  <span class="cwc_results-timeline__when">{{ block.settings.when_label }}</span>
+                {% endif %}
+
+                {% if block.settings.title != blank %}
+                  <div class="cwc_results-timeline__stage-title">{{ block.settings.title }}</div>
+                {% endif %}
+
+                {% if block.settings.description != blank %}
+                  <div class="cwc_results-timeline__stage-text cwc-rte">
+                    {{ block.settings.description }}
+                  </div>
+                {% endif %}
+
+                {% if section.settings.show_evidence_chips and block.settings.evidence_claim != blank %}
+                  <span class="cwc_results-timeline__evidence">
+                    {{ block.settings.evidence_claim }}
+
+                    {% if block.settings.evidence_sub != blank %}
+                      <span class="cwc_results-timeline__evidence-sub">{{ block.settings.evidence_sub }}</span>
+                    {% endif %}
+                  </span>
+                {% endif %}
+              </div>
+          {% endcase %}
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="cwc_results-timeline__empty">
+        <p>Add stage blocks to display the timeline.</p>
+      </div>
+    {% endif %}
+
+    {% comment %} Compliance disclaimer — see file comment {% endcomment %}
+    {% if section.settings.disclaimer_note != blank %}
+      <p class="cwc_results-timeline__note">{{ section.settings.disclaimer_note }}</p>
+    {% endif %}
+
+    {% comment %}
+      Rendered only with both a label and a destination. A commitment CTA with
+      nowhere to go is worse than no CTA.
+    {% endcomment %}
+    {% if section.settings.cta_label != blank and section.settings.cta_link != blank %}
+      <div class="cwc_results-timeline__cta">
+        <a href="{{ section.settings.cta_link }}" class="cwc_results-timeline__button">
+          {{ section.settings.cta_label }}
+        </a>
+
+        {% if section.settings.cta_side_text != blank %}
+          <span class="cwc_results-timeline__cta-side">{{ section.settings.cta_side_text }}</span>
+        {% endif %}
+      </div>
+    {% endif %}
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "CWC Results Timeline",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Header"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow_text",
+      "label": "Eyebrow",
+      "default": "What to expect"
+    },
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "<p>The first ninety days, <strong>as customers describe them.</strong></p>"
+    },
+    {
+      "type": "richtext",
+      "id": "subtext",
+      "label": "Section Subtext",
+      "default": "<p>Greens aren't a switch. Here's the shape of it, drawn from what 410 verified buyers actually reported.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Stages"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_evidence_chips",
+      "label": "Show Evidence Chips",
+      "info": "The line under each stage citing the review corpus.",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "accent_progression",
+      "label": "Progressive Stage Dots",
+      "info": "Dots deepen in color across the stages. Colors follow position, so reordering stages keeps the progression intact.",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Disclaimer"
+    },
+    {
+      "type": "paragraph",
+      "content": "Required compliance copy. Editable, but the section should not ship without it."
+    },
+    {
+      "type": "textarea",
+      "id": "disclaimer_note",
+      "label": "Disclaimer",
+      "default": "Drawn from analysis of 410 verified customer reviews, not a clinical trial. These are patterns in what customers report, not promised outcomes — individual results vary."
+    },
+    {
+      "type": "header",
+      "content": "Call To Action"
+    },
+    {
+      "type": "paragraph",
+      "content": "Route this to the 90-day plan, not add-to-cart — the section answers commitment fear, so it should route to the commitment."
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "Button Label",
+      "default": "Start the 90-day supply"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "Button Link"
+    },
+    {
+      "type": "text",
+      "id": "cta_side_text",
+      "label": "Text Beside Button",
+      "default": "Cancel, pause or reschedule anytime · 30-day money-back guarantee"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#1F1F1C"
+    },
+    {
+      "type": "color",
+      "id": "bold_color",
+      "label": "Heading Bold Color",
+      "default": "#1F1F1C"
+    },
+    {
+      "type": "color",
+      "id": "eyebrow_color",
+      "label": "Eyebrow Color",
+      "default": "#44681A"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Evidence Chip Color",
+      "default": "#5BA90F"
+    },
+    {
+      "type": "header",
+      "content": "Stage Dot Colors"
+    },
+    {
+      "type": "color",
+      "id": "stage_color_1",
+      "label": "Stage 1",
+      "default": "#78AD49"
+    },
+    {
+      "type": "color",
+      "id": "stage_color_2",
+      "label": "Stage 2",
+      "default": "#5BA90F"
+    },
+    {
+      "type": "color",
+      "id": "stage_color_3",
+      "label": "Stage 3",
+      "default": "#44681A"
+    },
+    {
+      "type": "color",
+      "id": "stage_color_4",
+      "label": "Stage 4 and beyond",
+      "default": "#1F1F1C"
+    },
+    {
+      "type": "header",
+      "content": "Button Colors"
+    },
+    {
+      "type": "color",
+      "id": "button_bg_color",
+      "label": "Button Background",
+      "default": "#5BA90F"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button Text",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 80
+    }
+  ],
+  "blocks": [
+    {
+      "type": "stage",
+      "name": "Stage",
+      "settings": [
+        {
+          "type": "text",
+          "id": "when_label",
+          "label": "When",
+          "info": "Short timeframe, e.g. Week 1 or Month 2.",
+          "default": "Week 1"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "You finish the tub"
+        },
+        {
+          "type": "richtext",
+          "id": "description",
+          "label": "Description",
+          "default": "<p>Describe what customers report at this stage.</p>"
+        },
+        {
+          "type": "header",
+          "content": "Evidence Chip"
+        },
+        {
+          "type": "text",
+          "id": "evidence_claim",
+          "label": "Claim",
+          "info": "Cite the review corpus, not a clinical result.",
+          "default": "243 reviews mention the taste specifically"
+        },
+        {
+          "type": "text",
+          "id": "evidence_sub",
+          "label": "Sub-line",
+          "default": "The most-cited theme in the review corpus"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 5,
+  "presets": [
+    {
+      "name": "Results Timeline",
+      "category": "CWC Custom",
+      "blocks": [
+        { "type": "stage" },
+        { "type": "stage" },
+        { "type": "stage" },
+        { "type": "stage" }
+      ]
+    }
+  ]
+}
+{% endschema %}

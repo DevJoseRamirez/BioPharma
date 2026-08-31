@@ -295,7 +295,9 @@
         {% if section.settings.show_search %}
           {%- comment -%}
             Stays a real link to the search page, so it still works if the script
-            never runs. The handler cancels the navigation and opens the panel.
+            never runs. aria-controls is what opens the panel: the theme's
+            DialogElement keeps a delegated click listener on document.body
+            matching this id, and it cancels the navigation itself.
           {%- endcomment -%}
           <a
             href="{{ routes.search_url }}"
@@ -303,7 +305,7 @@
             aria-label="Search"
             aria-haspopup="dialog"
             aria-expanded="false"
-            data-cwc-search-open
+            aria-controls="header-search-{{ section.id }}"
           >
             <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
               <circle cx="11" cy="11" r="6.4"></circle>
@@ -358,7 +360,7 @@
   </div>
 
   {% if section.settings.show_search %}
-    {% render 'CWC_header-search__panel', section: section %}
+    {% render 'CWC_header-search', section: section %}
   {% endif %}
 
   {%- comment -%}
