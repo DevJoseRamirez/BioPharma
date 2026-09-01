@@ -596,36 +596,62 @@
 
 /* === Flavor Swatches ===
 
-   The image is the control and the name sits under it, outside any card. So
-   the button carries no chrome of its own: no border, no fill, no padding box.
-   Selection is a ring drawn around the circle rather than a box around the
-   pair, which is what lets a two-line name grow without moving the circles. */
+   A row of horizontal cards: the image is a small round icon on the left and
+   the name reads beside it, both inside one bordered box. The card is the
+   control, so selection is a border on that box rather than a ring around the
+   icon — which is how the supply options and every other choice in this buy
+   box already show their state. */
+
+.cwc_product-hero-buy-box__flavors-wrap {
+          border-top: 1px solid rgb(240 234 228 / 760%);
+}
+
 .cwc_product-hero-buy-box__flavors {
   display: flex;
-  /* wide enough that neighbouring selection rings never crowd each other */
-  gap: 16px;
   flex-wrap: wrap;
-  /* the ring is a box-shadow, so it takes no layout space — this keeps it off
-     the edge of the column and off the label above */
-  padding: 4px 0;
+  gap: 10px;
 }
 
 .cwc_product-hero-buy-box__flavor {
-  /* share the row evenly and shrink together, rather than holding a fixed
-     width and wrapping one item onto its own line */
-  flex: 1 1 0;
-  min-width: 74px;
-  max-width: 74px;
-  padding: 0;
-  border: 0;
-  background: none;
-  cursor: pointer;
+  /* Every selected-state colour below is mixed from this one value, so a
+     strawberry selects red and an apple green off a single per-swatch setting.
+     The block writes it inline when the merchant picks one; unset, the whole
+     row selects in the section's highlight colour exactly as before. */
+  --flavor-accent: var(--highlight-color);
+  /* grow to share the row evenly; the basis is what decides how many fit
+     before wrapping, so a four-flavour product breaks to two rows of two
+     rather than squeezing four unreadable cards across */
+  flex: 1 1 150px;
+  min-width: 0;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 9px;
-  gap: 12px;
-  text-align: center;
+  gap: 10px;
+  padding: 10px 14px;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  cursor: pointer;
+  text-align: left;
+  font-family: inherit;
+  transition: border-color 0.15s, background-color 0.15s, box-shadow 0.15s;
+}
+
+/* Each pair below is a fallback and its accent-aware form: a browser without
+   color-mix keeps the flat section colour on the first line and drops the
+   second, so the state stays legible either way. */
+.cwc_product-hero-buy-box__flavor:hover:not(:disabled) {
+  border-color: var(--tint-border);
+  border-color: color-mix(in srgb, var(--flavor-accent) 45%, #fff);
+}
+
+/* The inset ring doubles the border's weight without a second pixel of box, so
+   selecting a card never nudges its neighbours. The tint is the accent at 7%,
+   which lands on the same near-white the supply cards use whatever the hue. */
+.cwc_product-hero-buy-box__flavor--selected {
+  border-color: var(--flavor-accent);
+  box-shadow: inset 0 0 0 1px var(--flavor-accent);
+  background: var(--card-selected-bg);
+  background: color-mix(in srgb, var(--flavor-accent) 7%, #fff);
 }
 
 .cwc_product-hero-buy-box__flavor--unavailable {
@@ -634,69 +660,52 @@
 }
 
 .cwc_product-hero-buy-box__flavor-swatch {
-  width: 100%;
-  aspect-ratio: 1 / 1;
-  background: var(--panel-bg);
+  flex: 0 0 auto;
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
+  overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
-  transition: box-shadow 0.15s;
-  border-radius: 10px;
-  border-radius: 999px;
-  /*  */
-  border: 1px solid var(--border-color);
-  background: white;
 }
 
-/* Two shadows, not one: the inner ring is painted in the section background so
-   the coloured ring reads as detached from the circle instead of thickening
-   its edge. */
-.cwc_product-hero-buy-box__flavor:hover .cwc_product-hero-buy-box__flavor-swatch {
-  /* box-shadow: 0 0 0 3px var(--card-bg), 0 0 0 4px var(--tint-border); */
-}
-
-.cwc_product-hero-buy-box__flavor--selected .cwc_product-hero-buy-box__flavor-swatch {
-  /* box-shadow: 0 0 0 3px var(--card-bg), 0 0 0 5px var(--highlight-color); */
-  border-color: #5ba90f;
-  background: #fafdf6;
-}
-
-/* contain, and short of the full width, so a square product shot keeps clear
-   of the curve instead of having its corners cropped off */
 .cwc_product-hero-buy-box__flavor-swatch img {
-  width: 74%;
-  height: 74%;
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
+/* The dashed circle is the whole tell that an image is missing — at 28px there
+   is no room for the word, so the label below is hidden rather than clipped. */
 .cwc_product-hero-buy-box__flavor-swatch--empty {
   background: #f4f3ee;
   border: 1px dashed #cfcec0;
 }
 
 .cwc_product-hero-buy-box__flavor-empty-label {
-  font-size: 0.72rem;
-  /* 11.52px */
-  font-weight: 700;
-  color: #a9a897;
-  letter-spacing: 0.5px;
+  display: none;
 }
 
 .cwc_product-hero-buy-box__flavor-name {
   font-size: 0.875rem;
-  font-size: 0.8rem;
   /* 14px */
-  font-weight: 800;
-  line-height: 1.25;
+  font-weight: 700;
+  line-height: 1.3;
   color: var(--text-color);
+  /* long names wrap inside the card instead of pushing it wider */
+  min-width: 0;
 }
 
+/* Deepened rather than used raw: a mid-tone accent is the right colour for a
+   1px border and too light for 14px text on white. */
 .cwc_product-hero-buy-box__flavor--selected .cwc_product-hero-buy-box__flavor-name {
   color: var(--deep-color);
+  color: color-mix(in srgb, var(--flavor-accent) 72%, #1a1a1a);
+}
+
+.cwc_product-hero-buy-box__flavor--unavailable .cwc_product-hero-buy-box__flavor-name {
+  text-decoration: line-through;
 }
 
 /* Only ever rendered inside the theme editor — a shopper never sees this. */
@@ -1404,18 +1413,56 @@
   font-weight: 400;
 }
 
+/* Animated on grid-template-rows rather than max-height so the open height is
+   the content's real height — no magic number to go stale when a merchant
+   writes a longer answer. Same pattern as the supply-option detail strips.
+
+   The row alone is not enough: a height-only collapse keeps the text at full
+   opacity until the clip edge reaches it, so the last frame guillotines it.
+   The content fades on its own, shorter curve so it has cleared before the row
+   finishes closing, and lands after the row has opened. */
 .cwc_product-hero-buy-box__detail-answer {
+  display: grid;
+  grid-template-rows: 1fr;
   color: var(--muted-color);
   line-height: 1.65;
-  padding: 0 0 15px;
+  transition: grid-template-rows 0.3s cubic-bezier(0.4, 0, 0.2, 1), visibility 0s;
 }
 
 .cwc_product-hero-buy-box__detail-answer--hidden {
-  display: none;
+  grid-template-rows: 0fr;
+  visibility: hidden;
+  /* Held until the collapse ends, so closing content is not cut mid-motion. */
+  transition: grid-template-rows 0.3s cubic-bezier(0.4, 0, 0.2, 1), visibility 0s 0.3s;
+}
+
+/* min-height is what actually lets the row close: a grid item floors at its
+   min-content height otherwise. The padding lives here so it collapses with
+   the panel instead of leaving a gap under a closed row. */
+.cwc_product-hero-buy-box__detail-answer-inner {
+  overflow: hidden;
+  min-height: 0;
+  padding: 0 0 15px;
+  opacity: 1;
+  transition: opacity 0.22s ease 0.08s;
+}
+
+.cwc_product-hero-buy-box__detail-answer--hidden .cwc_product-hero-buy-box__detail-answer-inner {
+  opacity: 0;
+  transition: opacity 0.14s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+  .cwc_product-hero-buy-box__detail-answer,
+  .cwc_product-hero-buy-box__detail-answer-inner,
+  .cwc_product-hero-buy-box__detail-answer--hidden .cwc_product-hero-buy-box__detail-answer-inner {
+    transition: none;
+  }
 }
 
 .cwc_product-hero-buy-box__detail-answer p {
-  font-size: 0.875rem;
+  font-size: 0.85rem;
   /* 14px */
   margin: 0 0 12px;
 }
@@ -1634,17 +1681,13 @@
   }
 
   .cwc_product-hero-buy-box__flavors {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 9px;
-    /* testing */
-    display: flex;
+    gap: 8px;
   }
 
-  /* let four circles still share one row on a narrow column before wrapping */
+  /* two cards per row on a narrow column, whatever the flavour count */
   .cwc_product-hero-buy-box__flavor {
-    width: auto;
-    min-width: 62px;
+    flex-basis: 130px;
+    padding: 9px 12px;
   }
 
   .cwc_product-hero-buy-box__offer {
@@ -1693,10 +1736,6 @@
    Small Mobile
    ============================== */
 @media screen and (max-width: 480px) {
-  .cwc_product-hero-buy-box__flavors {
-    /* grid-template-columns: 1fr; */
-  }
-
   /* Display type steps down on mobile — the px anchor used to do this. */
 
   .cwc_product-hero-buy-box__modal-heading {

@@ -270,6 +270,7 @@
         },
         "price_display_N8tnGx": {
           "type": "price_display",
+          "disabled": true,
           "settings": {
             "savings_display": "percent",
             "save_label": "Save",
@@ -282,8 +283,14 @@
           "settings": {
             "label": "Choose your flavor",
             "option_name": "flavor",
-            "image_1": "shopify://shop_images/nanogreens-thumb-no-bg-apply.png",
-            "image_2": "shopify://shop_images/nanogreens-thumb-no-bg-strawberry.png"
+            "image_1": "shopify://shop_images/apple-flavor-source.webp",
+            "image_2": "shopify://shop_images/strawberry-flavor-source.webp",
+            "color_1": "",
+            "color_2": "#FF3E3E",
+            "color_3": "",
+            "color_4": "",
+            "color_5": "",
+            "color_6": ""
           }
         },
         "simple_offer_Mm3TzV": {

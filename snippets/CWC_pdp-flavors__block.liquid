@@ -18,9 +18,14 @@
   flavour whose variant image is a pack shot get a proper swatch without
   touching the product.
 
+  Swatch N Accent colours the selected state of that same position, so a
+  strawberry can select red while an apple selects green. Left empty, the
+  swatch selects in the section's highlight colour.
+
   Accepts:
   - block {Object} - the flavors block. Reads settings.label,
-    settings.option_name and settings.image_1 … settings.image_6.
+    settings.option_name, settings.image_1 … settings.image_6 and
+    settings.color_1 … settings.color_6.
   - product {Object} - product whose variants are shown.
   - current_variant {Object} - variant currently selected.
 
@@ -63,7 +68,7 @@
 -%}
 
 {%- if swatch_values.size > 1 -%}
-  <div {{ block.shopify_attributes }}>
+  <div class="cwc_product-hero-buy-box__flavors-wrap" {{ block.shopify_attributes }}>
     {% if block.settings.label != blank %}
       <div class="cwc_product-hero-buy-box__label">{{ block.settings.label }}</div>
     {% endif %}
@@ -82,6 +87,17 @@
 
           assign image_key = 'image_' | append: forloop.index
           assign swatch_image = block.settings[image_key] | default: swatch_variant.image
+
+          comment
+            The accent this swatch wears while selected. Unset falls through to
+            the section's highlight colour in CSS rather than being written
+            here, so an untouched block looks exactly as it did before.
+          endcomment
+          assign color_key = 'color_' | append: forloop.index
+          assign swatch_accent = block.settings[color_key]
+          if swatch_accent == 'none'
+            assign swatch_accent = blank
+          endif
         -%}
 
         {%- if swatch_variant != blank -%}
@@ -94,6 +110,9 @@
             {% endif %}
             {% if in_stock.size == 0 %}
               disabled
+            {% endif %}
+            {% if swatch_accent != blank %}
+              style="--flavor-accent: {{ swatch_accent }};"
             {% endif %}
           >
             <span class="cwc_product-hero-buy-box__flavor-swatch{% if swatch_image == blank %} cwc_product-hero-buy-box__flavor-swatch--empty{% endif %}">
