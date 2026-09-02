@@ -155,15 +155,51 @@
    * no-JS shopper sees. This recomputes it in the shopper's own clock so a page
    * served from cache cannot go on promising a date that has already passed.
    */
+  /**
+   * st, nd, rd, th — with the teens taken out first.
+   *
+   * Eleven, twelve and thirteen end in 1, 2 and 3 and take "th" all the same,
+   * which is the case every ordinal routine written from the last digit alone
+   * gets wrong.
+   */
+  function ordinalSuffix(day) {
+    var teen = day % 100;
+    if (teen > 10 && teen < 14) return 'th';
+
+    switch (day % 10) {
+      case 1:
+        return 'st';
+      case 2:
+        return 'nd';
+      case 3:
+        return 'rd';
+      default:
+        return 'th';
+    }
+  }
+
   function initDeliveryEstimate(sectionEl) {
     sectionEl.querySelectorAll('[data-cwc-delivery-date]').forEach(function (dateEl) {
       var days = parseInt(dateEl.getAttribute('data-cwc-delivery-days'), 10);
-      if (!days || days < 1) return;
+
+      // Zero is a real answer here — the notice strip's deadline is often today
+      // — so only a missing or negative value is rejected.
+      if (isNaN(days) || days < 0) return;
 
       var delivery = new Date();
-      delivery.setDate(delivery.getDate() + days);
+      var text;
 
-      dateEl.textContent = delivery.toLocaleDateString(undefined, { month: 'long', day: 'numeric' });
+      delivery.setDate(delivery.getDate() + days);
+      text = delivery.toLocaleDateString(undefined, { month: 'long', day: 'numeric' });
+
+      // Rebuilt rather than kept: this overwrites a date Liquid may have
+      // written with a suffix on it, and dropping it here would leave "the 2nd"
+      // reading as "the 2" from the first repaint on.
+      if (dateEl.hasAttribute('data-cwc-date-ordinal')) {
+        text = text + ordinalSuffix(delivery.getDate());
+      }
+
+      dateEl.textContent = text;
     });
   }
 
@@ -730,6 +766,22 @@
      * change that re-prices every card but this one is worse than not showing
      * the price at all.
      */
+    /**
+     * Write one figure and show or hide the line it sits in.
+     *
+     * The line is a separate element from the value because the text around the
+     * value — "/serving", "then … /month" — belongs to the sentence rather than
+     * to the number, and rewriting the number must not take it with it.
+     *
+     * Hidden rather than emptied: an empty line still occupies its own margins,
+     * and a card that loses its renewal price on one size and keeps the gap
+     * reads as broken.
+     */
+    function setFigure(valueEl, lineEl, value) {
+      if (valueEl) valueEl.textContent = value || '';
+      if (lineEl) lineEl.hidden = !value;
+    }
+
     function refreshOneTimePrice(variant) {
       if (!variant) return;
 
@@ -741,6 +793,14 @@
         compareEl.textContent = variant.compare || '';
         compareEl.style.display = variant.compare ? '' : 'none';
       }
+
+      // The one-time card's own rate per serving, off the variant rather than
+      // off a plan — it is the undiscounted price divided by the same count.
+      setFigure(
+        sectionEl.querySelector('[data-cwc-onetime-serving]'),
+        sectionEl.querySelector('[data-cwc-onetime-serving-line]'),
+        variant.serving
+      );
     }
 
     /**
@@ -901,6 +961,27 @@
           savingEl.textContent = pricing.save ? '· save ' + pricing.save : '';
           savingEl.style.display = pricing.save ? '' : 'none';
         }
+
+        /**
+         * The membership card's two extra figures: the rate per serving and the
+         * price from the second delivery on.
+         *
+         * Each is a value inside a line: the value is rewritten and the line is
+         * shown or hidden around it, so the unit beside the figure survives the
+         * write and a size whose plan has no renewal simply loses the sentence.
+         * Absent on every other card, where both lookups come back null.
+         */
+        setFigure(
+          offerEl.querySelector('[data-cwc-offer-serving]'),
+          offerEl.querySelector('[data-cwc-offer-serving-line]'),
+          pricing.serving
+        );
+
+        setFigure(
+          offerEl.querySelector('[data-cwc-offer-recurring]'),
+          offerEl.querySelector('[data-cwc-offer-recurring-line]'),
+          pricing.recurring
+        );
       });
 
       /**

@@ -1,0 +1,484 @@
+{% comment %}
+  Membership or buy once — the two-way offer, merchandised.
+
+  The simple offer block puts one plan beside a one-time purchase and prices
+  both. This one sells the plan: the join price and the renewal price both
+  stated, a rate per serving on each card, and the gifts that come with the
+  membership shown as a panel inside the card rather than named in a line of
+  copy. The choice it presents is the same; what surrounds it is the argument.
+
+  Everything priced is read from the product. The block is told which plan to
+  sell and nothing else — the join price, the strike-through, the renewal and
+  both per-serving rates all come off the selected variant's own allocation, so
+  a template shared across products stays right on each of them and a price
+  change in Shopify lands here without an edit.
+
+  The renewal line only appears when the plan actually has a second price
+  adjustment. A plan that discounts every delivery equally has no "then" to
+  state, and printing one would say the price changes when it does not.
+
+  Gifts are typed. They are merchandising, not catalogue data: what ships with
+  order 2 of a membership is not something the product knows.
+
+  Replaces both simple_offer and onetime. It emits the same data-cwc-offer and
+  data-cwc-onetime attributes those do, so the sticky bar, the price refresh and
+  the add-to-cart treat it as the cards they already know — and for that same
+  reason it cannot sit beside them: the script binds one one-time control per
+  section, and a second would be left dead.
+
+  Accepts:
+  - block {Object} - the member_offer block.
+  - product {Object} - product being sold.
+  - current_variant {Object} - variant whose allocation is priced.
+  - section_id {String} - scopes the radio group name to this section.
+
+  Usage:
+  {% render 'CWC_pdp-member-offer__block',
+    block: block,
+    product: product,
+    current_variant: current_variant,
+    section_id: section.id
+  %}
+{% endcomment %}
+
+{%- liquid
+  comment
+    The id as typed. A merchant copying from the Shopify admin can land on a
+    bare number or on a gid:// URL, and the trailing segment is the number in
+    both, so the last path part is taken rather than asking for a format.
+  endcomment
+  assign wanted_plan = block.settings.selling_plan_id | strip | split: '/' | last | strip | plus: 0
+
+  assign has_plan = false
+  assign plan_id = 0
+  assign plan_price = 0
+  assign plan_compare = 0
+  assign plan_percent = 0
+  assign plan_recurring = 0
+  assign recurring_percent = 0
+
+  for allocation in current_variant.selling_plan_allocations
+    if allocation.selling_plan.id == wanted_plan
+      assign has_plan = true
+      assign plan_id = allocation.selling_plan.id
+      assign plan_price = allocation.price
+      assign plan_compare = allocation.compare_at_price | default: 0
+
+      comment
+        Each adjustment in its own right: the first is what it costs to join,
+        the second what it costs to stay. Taken from the plan rather than
+        derived from the prices, because the allocation price is already
+        rounded to the cent and dividing it back out turns 30% into 29%.
+      endcomment
+      for adjustment in allocation.selling_plan.price_adjustments
+        if forloop.index == 1 and adjustment.value_type == 'percentage'
+          assign plan_percent = adjustment.value
+        endif
+
+        if forloop.index == 2
+          case adjustment.value_type
+            when 'percentage'
+              assign recurring_percent = adjustment.value
+              assign recurring_off = current_variant.price | times: adjustment.value | divided_by: 100.0 | round
+              assign plan_recurring = current_variant.price | minus: recurring_off
+            when 'fixed_amount'
+              assign plan_recurring = current_variant.price | minus: adjustment.value
+            when 'price'
+              assign plan_recurring = adjustment.value
+          endcase
+        endif
+      endfor
+    endif
+  endfor
+
+  comment
+    Servings for this variant, worked out the same way the section works them
+    out for the payload — the size value's leading number times what a unit is
+    worth, falling back to the typed count. Repeated rather than shared because
+    a snippet cannot reach the section's variables, and a rate that disagreed
+    with the one the script writes on the next click would be worse.
+  endcomment
+  assign servings = block.settings.servings_per_order | default: 0
+  assign servings_option = block.settings.servings_option | strip | downcase
+  assign servings_per_unit = block.settings.servings_per_unit | default: 0
+
+  if servings_option != blank and servings_per_unit > 0
+    assign servings_position = 0
+    for product_option in product.options_with_values
+      assign this_option_name = product_option.name | strip | downcase
+      if this_option_name == servings_option
+        assign servings_position = product_option.position
+      endif
+    endfor
+
+    if servings_position > 0
+      assign servings_key = 'option' | append: servings_position
+      assign servings_value = current_variant[servings_key]
+      assign servings_units = servings_value | split: ' ' | first | split: '-' | first | plus: 0
+      if servings_units > 0
+        assign servings = servings_units | times: servings_per_unit
+      endif
+    endif
+  endif
+
+  assign member_serving = ''
+  assign onetime_serving = ''
+  if servings > 0
+    if has_plan
+      assign member_serving = plan_price | times: 1.0 | divided_by: servings | round | money
+    endif
+    assign onetime_serving = current_variant.price | times: 1.0 | divided_by: servings | round | money
+  endif
+
+  assign has_saving = false
+
+  if has_plan
+    comment
+      The compare-at on the allocation is what the plan discounts against. When
+      the plan carries none, the variant's own price is the next best anchor —
+      it is what the same tub costs without the membership.
+    endcomment
+    if plan_compare <= plan_price
+      assign plan_compare = current_variant.price
+    endif
+
+    if plan_compare > plan_price
+      assign has_saving = true
+      assign saving_amount = plan_compare | minus: plan_price
+      if plan_percent > 0
+        assign saving_percent = plan_percent | round
+      else
+        assign saving_percent = saving_amount | times: 100.0 | divided_by: plan_compare | round
+      endif
+    endif
+  endif
+
+  comment
+    The sticky bar's note. It used to take the card's subline, which is the
+    wrong string for it: the bar has room for one qualifier and the saving is
+    the one worth carrying up there.
+  endcomment
+  assign save_label = ''
+  if has_saving
+    assign save_label = 'Save ' | append: saving_percent | append: '%'
+  endif
+
+  assign default_choice = block.settings.default_choice | default: 'member'
+  assign show_onetime = block.settings.show_onetime
+
+  assign member_selected = false
+  assign onetime_selected = false
+  if default_choice == 'member' and has_plan
+    assign member_selected = true
+  elsif default_choice == 'onetime' and show_onetime
+    assign onetime_selected = true
+  endif
+
+  assign gift_numbers = '1,2,3,4,5,6' | split: ','
+  assign gift_count = 0
+  for gift_number in gift_numbers
+    assign gift_key = 'gift' | append: gift_number | append: '_title'
+    if block.settings[gift_key] != blank
+      assign gift_count = gift_count | plus: 1
+    endif
+  endfor
+-%}
+
+<div class="cwc_product-hero-buy-box__member-offer" {{ block.shopify_attributes }}>
+  {%- if request.design_mode and has_plan == false -%}
+    <div class="cwc_product-hero-buy-box__editor-note">
+      <strong>No membership card is showing.</strong>
+      {%- if block.settings.selling_plan_id == blank -%}
+        Set Selling Plan ID to the membership plan you want sold here.
+      {%- else -%}
+        “{{ block.settings.selling_plan_id }}” does not match a selling plan the
+        selected variant can be bought on.
+        {%- if current_variant.selling_plan_allocations.size > 0 -%}
+          Plans available on this variant:
+          <ul>
+            {%- for allocation in current_variant.selling_plan_allocations -%}
+              <li>{{ allocation.selling_plan.id }} — {{ allocation.selling_plan.name }}</li>
+            {%- endfor -%}
+          </ul>
+        {%- else -%}
+          This variant carries no selling plans at all.
+        {%- endif -%}
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+
+  {%- if block.settings.group_label != blank -%}
+    <div class="cwc_product-hero-buy-box__member-label">{{ block.settings.group_label }}</div>
+  {%- endif -%}
+
+  <div
+    class="cwc_product-hero-buy-box__offers"
+    data-cwc-offers
+    {% if default_choice == 'none' %}
+      data-cwc-no-autoselect
+    {% endif %}
+  >
+    {%- if has_plan -%}
+      {%- comment -%}
+        The promo strip is the card's own header rather than a banner above it,
+        so the claim belongs to the offer it qualifies. Card and strip are one
+        box here — the strip is inside the card's border instead of pulling up
+        against it, which is what lets the card carry a heavier outline than the
+        simple offer's without the two rules disagreeing at the corners.
+      {%- endcomment -%}
+      <label
+        class="
+          cwc_product-hero-buy-box__offer
+          cwc_product-hero-buy-box__member-card
+          {% if member_selected %}cwc_product-hero-buy-box__offer--selected{% endif %}
+        "
+        data-cwc-offer
+        data-cwc-offer-auto
+        data-cwc-offer-plan="{{ plan_id }}"
+        data-cwc-offer-quantity="1"
+        data-cwc-offer-variant="{{ current_variant.id }}"
+        data-cwc-offer-name="{{ block.settings.member_label | default: 'Become a Member' | escape }}"
+        data-cwc-offer-sub="{{ save_label | escape }}"
+      >
+        <input
+          type="radio"
+          name="cwc_supply_{{ section_id }}"
+          class="cwc_product-hero-buy-box__offer-input"
+          value="{{ block.id }}-{{ plan_id }}"
+          {% if member_selected %}
+            checked
+          {% endif %}
+        >
+
+        {% if block.settings.promo_text != blank %}
+          <span class="cwc_product-hero-buy-box__member-promo">{{ block.settings.promo_text }}</span>
+        {% endif %}
+
+        {%- comment -%}
+          The radio belongs to the head row, not to the card.
+
+          Held outside it — one column for the dot and another for everything
+          else — the perks and the gift panel start where the title starts and
+          the card reads as one indented block. In the row, the dot marks the
+          choice and the argument beneath it runs the full width of the card,
+          which is the shape the design asks for.
+        {%- endcomment -%}
+        <span class="cwc_product-hero-buy-box__member-inner">
+          <span class="cwc_product-hero-buy-box__member-head">
+            <span class="cwc_product-hero-buy-box__member-heading">
+              <span class="cwc_product-hero-buy-box__offer-radio" aria-hidden="true"></span>
+
+              <span class="cwc_product-hero-buy-box__member-heading-text">
+                <span class="cwc_product-hero-buy-box__member-title">
+                  {{ block.settings.member_label | default: 'Become a Member' }}
+                </span>
+
+                {% if block.settings.member_sublabel != blank %}
+                  <span class="cwc_product-hero-buy-box__member-subline">
+                    {{- block.settings.member_sublabel -}}
+                  </span>
+                {% endif %}
+              </span>
+            </span>
+
+              <span class="cwc_product-hero-buy-box__member-price">
+                {%- comment -%}
+                  Charged and struck on one line, rate under it. The two prices
+                  are the comparison and belong beside each other; the rate is a
+                  different unit and reads as a footnote to both.
+                {%- endcomment -%}
+                <span class="cwc_product-hero-buy-box__member-price-row">
+                  <span class="cwc_product-hero-buy-box__offer-now" data-cwc-offer-now>{{ plan_price | money }}</span>
+                  {% if has_saving %}
+                    <span class="cwc_product-hero-buy-box__offer-was" data-cwc-offer-was>{{ plan_compare | money }}</span>
+                  {% endif %}
+                </span>
+                {%- comment -%}
+                  The figure and its unit are separate elements because the
+                  script rewrites the figure on every variant change and would
+                  take "/serving" out with it otherwise. The line hides rather
+                  than disappears for the same reason: a product with no
+                  servings set has nothing to say here, and a variant that does
+                  has to be able to bring it back.
+                {%- endcomment -%}
+                <span
+                  class="cwc_product-hero-buy-box__member-serving"
+                  data-cwc-offer-serving-line
+                  {% if member_serving == blank %}hidden{% endif %}
+                >
+                  <span data-cwc-offer-serving>{{ member_serving }}</span
+                  >{{ block.settings.serving_suffix | default: '/serving' }}
+                </span>
+              </span>
+          </span>
+
+          {%- comment -%}
+            What it costs to stay, under what it costs to join. Hidden rather
+              than absent when the plan has no second adjustment, so the script
+              can bring it back on a variant whose plan does.
+            {%- endcomment -%}
+            <span
+              class="cwc_product-hero-buy-box__member-recurring"
+              data-cwc-offer-recurring-line
+              {% if plan_recurring == 0 %}hidden{% endif %}
+            >
+              <span class="cwc_product-hero-buy-box__member-recurring-price">
+                {{ block.settings.recurring_prefix | default: 'then' }}
+                <span data-cwc-offer-recurring>{{ plan_recurring | money }}</span>{{ block.settings.recurring_suffix | default: '/month' }}
+              </span>
+              {% if block.settings.recurring_note != blank %}
+                <span class="cwc_product-hero-buy-box__member-recurring-note">
+                  {{- block.settings.recurring_note -}}
+                </span>
+              {% endif %}
+            </span>
+
+            {%- if block.settings.perks != blank -%}
+              <span class="cwc_product-hero-buy-box__offer-perks cwc_product-hero-buy-box__member-perks cwc-rte">
+                {{- block.settings.perks -}}
+              </span>
+            {%- endif -%}
+
+            {%- comment -%}
+              The gifts, as a panel rather than a strip: they are a second offer
+              inside the first — a list with its own heading, its own total and
+              its own caveat — and a bare row of tiles cannot say when each one
+              arrives.
+            {%- endcomment -%}
+            {%- if gift_count > 0 -%}
+              {%- comment -%}
+                The intro sits outside the panel on purpose: it introduces the
+                gifts in the card's own voice, and the panel that follows is the
+                list. Inside, it would read as a second heading.
+              {%- endcomment -%}
+              {% if block.settings.gifts_intro != blank %}
+                <span class="cwc_product-hero-buy-box__gifts-intro">{{ block.settings.gifts_intro }}</span>
+              {% endif %}
+
+              <span class="cwc_product-hero-buy-box__gifts">
+                {%- if block.settings.gifts_title != blank or block.settings.gifts_total != blank -%}
+                  <span class="cwc_product-hero-buy-box__gifts-head">
+                    {% if block.settings.gifts_title != blank %}
+                      <span class="cwc_product-hero-buy-box__gifts-title">{{ block.settings.gifts_title }}</span>
+                    {% endif %}
+                    {% if block.settings.gifts_total != blank %}
+                      <span class="cwc_product-hero-buy-box__gifts-total">{{ block.settings.gifts_total }}</span>
+                    {% endif %}
+                  </span>
+                {%- endif -%}
+
+                <span class="cwc_product-hero-buy-box__gifts-body">
+                  {% if block.settings.gifts_note != blank %}
+                    <span class="cwc_product-hero-buy-box__gifts-note">{{ block.settings.gifts_note }}</span>
+                  {% endif %}
+
+                  <span class="cwc_product-hero-buy-box__gifts-grid">
+                  {%- for gift_number in gift_numbers -%}
+                    {%- liquid
+                      assign gift_prefix = 'gift' | append: gift_number | append: '_'
+                      assign gift_key = gift_prefix | append: 'title'
+                      assign gift_title = block.settings[gift_key]
+                      assign gift_key = gift_prefix | append: 'image'
+                      assign gift_image = block.settings[gift_key]
+                      assign gift_key = gift_prefix | append: 'value'
+                      assign gift_value = block.settings[gift_key]
+                      assign gift_key = gift_prefix | append: 'when'
+                      assign gift_when = block.settings[gift_key]
+                    -%}
+
+                    {%- if gift_title != blank -%}
+                      <span class="cwc_product-hero-buy-box__gift">
+                        {% if gift_value != blank %}
+                          <span class="cwc_product-hero-buy-box__gift-value">{{ gift_value }}</span>
+                        {% endif %}
+
+                        <span class="cwc_product-hero-buy-box__gift-frame">
+                          {% if gift_image != blank %}
+                            <img
+                              src="{{ gift_image | image_url: width: 160 }}"
+                              alt="{{ gift_title | escape }}"
+                              width="160"
+                              height="160"
+                              loading="lazy"
+                            >
+                          {% endif %}
+                        </span>
+
+                        {% if gift_when != blank %}
+                          <span class="cwc_product-hero-buy-box__gift-when">{{ gift_when }}</span>
+                        {% endif %}
+
+                        <span class="cwc_product-hero-buy-box__gift-title">{{ gift_title }}</span>
+                      </span>
+                    {%- endif -%}
+                    {%- endfor -%}
+                  </span>
+                </span>
+              </span>
+            {%- endif -%}
+        </span>
+      </label>
+    {%- endif -%}
+
+    {%- if show_onetime and block.settings.onetime_label != blank -%}
+      {%- comment -%}
+        A button, not a label with a radio in it. The radio belongs to the group
+        above, and a real one here would let the browser's own group behaviour
+        fight the script over which option is live. The dot is drawn from the
+        same class the real card uses, so the two are indistinguishable.
+
+        It carries no data-cwc-offer-* attributes on purpose: the script finds
+        the live selection by its class and then reads plan and quantity off it,
+        and every one of those coming back empty is exactly right for a one-time
+        purchase.
+      {%- endcomment -%}
+      <button
+        type="button"
+        class="
+          cwc_product-hero-buy-box__offer
+          cwc_product-hero-buy-box__onetime-card
+          cwc_product-hero-buy-box__member-onetime
+          {% if onetime_selected %}cwc_product-hero-buy-box__offer--selected{% endif %}
+        "
+        data-cwc-onetime
+        data-cwc-onetime-card
+        data-cwc-onetime-behavior="select_only"
+        data-cwc-onetime-label="{{ block.settings.onetime_label | escape }}"
+      >
+        <span class="cwc_product-hero-buy-box__member-inner">
+          <span class="cwc_product-hero-buy-box__member-head">
+            <span class="cwc_product-hero-buy-box__member-heading">
+              <span class="cwc_product-hero-buy-box__offer-radio" aria-hidden="true"></span>
+
+              <span class="cwc_product-hero-buy-box__member-heading-text">
+                <span class="cwc_product-hero-buy-box__member-title cwc_product-hero-buy-box__member-title--sm">
+                  {{ block.settings.onetime_label }}
+                </span>
+
+                {% if block.settings.onetime_sublabel != blank %}
+                  <span class="cwc_product-hero-buy-box__member-subline">
+                    {{- block.settings.onetime_sublabel -}}
+                  </span>
+                {% endif %}
+              </span>
+            </span>
+
+            <span class="cwc_product-hero-buy-box__member-price">
+              <span class="cwc_product-hero-buy-box__offer-now" data-cwc-onetime-price>
+                {{- current_variant.price | money -}}
+              </span>
+              <span
+                class="cwc_product-hero-buy-box__member-serving"
+                data-cwc-onetime-serving-line
+                {% if onetime_serving == blank %}hidden{% endif %}
+              >
+                <span data-cwc-onetime-serving>{{ onetime_serving }}</span
+                >{{ block.settings.serving_suffix | default: '/serving' }}
+              </span>
+            </span>
+          </span>
+        </span>
+      </button>
+    {%- endif -%}
+  </div>
+</div>

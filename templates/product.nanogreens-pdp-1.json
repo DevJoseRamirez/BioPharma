@@ -202,6 +202,20 @@
             "style": "tint"
           }
         },
+        "notice_strip_eDWEKa": {
+          "type": "notice_strip",
+          "settings": {
+            "icon": "🎁",
+            "text": "Order by {date} for 30% off with free gifts!",
+            "days": 0,
+            "ordinal": true,
+            "tone": "accent",
+            "border_style": "dashed",
+            "text_color": "",
+            "bg_color": "",
+            "border_color": ""
+          }
+        },
         "rating": {
           "type": "rating",
           "settings": {
@@ -302,12 +316,12 @@
             "upsell_icon": "🏷",
             "upsell_text": "Buy More. Save More.",
             "opt1_value": "30-Day Supply",
-            "opt1_title": "Just me",
-            "opt1_subline": "1 tub · 30 servings/mo",
+            "opt1_title": "1",
+            "opt1_subline": "",
             "opt1_badge": "",
             "opt2_value": "60-Day Supply",
-            "opt2_title": "My household",
-            "opt2_subline": "2 tubs · 60 servings/mo",
+            "opt2_title": "2",
+            "opt2_subline": "",
             "opt2_badge": "",
             "opt3_value": "",
             "opt3_title": "",
@@ -319,8 +333,53 @@
             "opt4_badge": ""
           }
         },
+        "member_offer": {
+          "type": "member_offer",
+          "settings": {
+            "group_label": "Choose how to buy",
+            "selling_plan_id": "3996549378",
+            "default_choice": "member",
+            "promo_text": "Most popular — 30% off your first order + member gifts",
+            "member_label": "Become a Member",
+            "member_sublabel": "Delivered every month",
+            "perks": "<p>Free shipping on every order</p><p>Earn points on every order — redeem for store credit</p><p>Skip, pause or cancel anytime — no fees</p><p>30-day money-back guarantee</p>",
+            "recurring_prefix": "then",
+            "recurring_suffix": "/month",
+            "recurring_note": "members always save 10%",
+            "serving_suffix": "/serving",
+            "servings_option": "supply",
+            "servings_per_unit": 1,
+            "servings_per_order": 30,
+            "gifts_intro": "Free gifts included with your first order",
+            "gifts_title": "Member gifts",
+            "gifts_total": "$106+ VALUE",
+            "gifts_note": "Shipping and your Start Guide come with order 1. The shaker and gummies arrive free with orders 2 and 3 — nothing to claim.",
+            "gift1_title": "Shipping",
+            "gift1_value": "$14 FREE",
+            "gift1_when": "Every order",
+            "gift2_title": "Start Guide",
+            "gift2_value": "$20 FREE",
+            "gift2_when": "Order 1",
+            "gift3_title": "Shaker Bottle",
+            "gift3_value": "$12.95 FREE",
+            "gift3_when": "Order 2",
+            "gift4_title": "Gummies",
+            "gift4_value": "$59.95 FREE",
+            "gift4_when": "Order 3",
+            "gift5_title": "",
+            "gift5_value": "",
+            "gift5_when": "",
+            "gift6_title": "",
+            "gift6_value": "",
+            "gift6_when": "",
+            "show_onetime": true,
+            "onetime_label": "Buy Once",
+            "onetime_sublabel": "1 tub, delivered once · no member gifts"
+          }
+        },
         "simple_offer_Mm3TzV": {
           "type": "simple_offer",
+          "disabled": true,
           "settings": {
             "group_label": "",
             "selling_plan_id": "3996549378",
@@ -625,6 +684,7 @@
       },
       "block_order": [
         "media_popup_bqEGVJ",
+        "notice_strip_eDWEKa",
         "rating",
         "title",
         "benefit_icons",
@@ -633,6 +693,7 @@
         "price_display_N8tnGx",
         "flavors",
         "size_option",
+        "member_offer",
         "simple_offer_Mm3TzV",
         "supply",
         "onetime",

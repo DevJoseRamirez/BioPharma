@@ -101,15 +101,76 @@
   endfor
 
   assign plan_interval_pairs = plan_intervals | split: ','
+
+  comment
+    Servings, for the per-serving figures the membership card quotes.
+
+    Read off the block rather than typed into each price, because a per-serving
+    rate has to move with the variant: a shopper on the 60-day tub is buying
+    twice the servings for twice the price and the rate does not change, which
+    is only true if the count follows the size. So the block names the option
+    that carries the size and how many servings a unit of it is worth, and the
+    number is worked out per variant below.
+
+    Servings Per Order stands in when there is no such option — a product sold
+    in one size still has a rate worth printing.
+  endcomment
+  assign member_servings_per_unit = 0
+  assign member_servings_option = ''
+  assign member_servings_fixed = 0
+
+  for buy_box_block in section.blocks
+    if buy_box_block.type == 'member_offer'
+      assign member_servings_per_unit = buy_box_block.settings.servings_per_unit | default: 0
+      assign member_servings_option = buy_box_block.settings.servings_option | strip | downcase
+      assign member_servings_fixed = buy_box_block.settings.servings_per_order | default: 0
+    endif
+  endfor
+
+  assign member_servings_position = 0
+  if member_servings_option != blank
+    for product_option in hero_product.options_with_values
+      assign this_option_name = product_option.name | strip | downcase
+      if this_option_name == member_servings_option
+        assign member_servings_position = product_option.position
+      endif
+    endfor
+  endif
 -%}
 
 {%- capture variant_payload -%}
   [
   {%- for variant in hero_product.variants -%}
+    {%- liquid
+      comment
+        This variant's servings. The leading number of the size value is the
+        unit count — "60-Day Supply" is sixty of whatever a unit is — and the
+        block says what a unit is worth. Anything that does not start with a
+        number falls back to the typed count rather than printing a rate off a
+        guess.
+      endcomment
+      assign variant_servings = member_servings_fixed
+
+      if member_servings_position > 0 and member_servings_per_unit > 0
+        assign servings_key = 'option' | append: member_servings_position
+        assign servings_value = variant[servings_key]
+        assign servings_units = servings_value | split: ' ' | first | split: '-' | first | plus: 0
+        if servings_units > 0
+          assign variant_servings = servings_units | times: member_servings_per_unit
+        endif
+      endif
+    -%}
     {
       "id": {{ variant.id }},
       "available": {{ variant.available }},
       "title": {{ variant.title | json }},
+      {%- comment -%}
+        The one-time rate, for the card that charges the variant's own price.
+        Float division before rounding, because two integers divide down: a
+        $74.95 tub of thirty is $2.49 a serving on the truncating route and
+        $2.50 on this one.
+      {%- endcomment -%}
+      "serving": {%- if variant_servings > 0 -%}{{ variant.price | times: 1.0 | divided_by: variant_servings | round | money | json }}{%- else -%}""{%- endif -%},
       {%- comment -%}
         Option values by position, so the script can resolve a variant from a
         combination of choices — flavour and supply are separate options now,
@@ -148,13 +209,49 @@
 
             assign plan_now = allocation.price | times: 28 | divided_by: interval_days
             assign plan_then = allocation.compare_at_price | times: 28 | divided_by: interval_days
+
+            comment
+              What the plan charges from the second delivery on.
+
+              A plan can discount the first order more deeply than the rest —
+              30% to join, 10% to stay — and the allocation only ever quotes the
+              first charge. The second adjustment is what the shopper is signing
+              up to, so it is worked out here and the membership card prints it
+              as "then …".
+
+              Empty when the plan has one adjustment: the price then never
+              changes, and a card saying "then $52.47" of a charge that is
+              already $52.47 is noise.
+            endcomment
+            assign plan_recurring = 0
+
+            for adjustment in allocation.selling_plan.price_adjustments
+              if forloop.index == 2
+                case adjustment.value_type
+                  when 'percentage'
+                    assign recurring_off = variant.price | times: adjustment.value | divided_by: 100.0 | round
+                    assign plan_recurring = variant.price | minus: recurring_off
+                  when 'fixed_amount'
+                    assign plan_recurring = variant.price | minus: adjustment.value
+                  when 'price'
+                    assign plan_recurring = adjustment.value
+                endcase
+              endif
+            endfor
           -%}
           "{{ allocation.selling_plan.id }}": {
             "price": {{ plan_now | money | json }},
             {%- comment -%} undivided, for the "billed X every Y" strip {%- endcomment -%}
             "total": {{ allocation.price | money_with_currency | json }},
             "compare": {%- if plan_then > plan_now -%}{{ plan_then | money | json }}{%- else -%}""{%- endif -%},
-            "save": {%- if plan_then > plan_now -%}{{ plan_then | minus: plan_now | money | json }}{%- else -%}""{%- endif -%}
+            "save": {%- if plan_then > plan_now -%}{{ plan_then | minus: plan_now | money | json }}{%- else -%}""{%- endif -%},
+            {%- comment -%}
+              Both off the real charge rather than the 4-weekly figure above: a
+              rate per serving and a renewal price are amounts the shopper is
+              actually billed, and normalising either would misstate it.
+            {%- endcomment -%}
+            "serving": {%- if variant_servings > 0 -%}{{ allocation.price | times: 1.0 | divided_by: variant_servings | round | money | json }}{%- else -%}""{%- endif -%},
+            "recurring": {%- if plan_recurring > 0 -%}{{ plan_recurring | money | json }}{%- else -%}""{%- endif -%}
           }{%- unless forloop.last -%},{%- endunless -%}
         {%- endfor -%}
       }
@@ -396,6 +493,9 @@
                   current_variant: current_variant
                 %}
 
+              {% when 'notice_strip' %}
+                {% render 'CWC_pdp-notice-strip__block', block: block %}
+
               {% when 'flavors' %}
                 {% render 'CWC_pdp-flavors__block',
                   block: block,
@@ -462,6 +562,20 @@
               {%- endcomment -%}
               {% when 'simple_offer' %}
                 {% render 'CWC_pdp-simple-offer__block',
+                  block: block,
+                  product: hero_product,
+                  current_variant: current_variant,
+                  section_id: section.id
+                %}
+
+              {% when 'member_offer' %}
+                {%- comment -%}
+                  The merchandised two-way offer: the same choice the simple
+                  offer presents, with the plan sold rather than listed. Reads
+                  every price off the product; the gifts are the only typed
+                  thing in it.
+                {%- endcomment -%}
+                {% render 'CWC_pdp-member-offer__block',
                   block: block,
                   product: hero_product,
                   current_variant: current_variant,
@@ -2039,6 +2153,421 @@
       ]
     },
     {
+      "type": "notice_strip",
+      "name": "Notice Strip",
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "A one-line notice with a rule around it. Written for a deadline: put {date} in the sentence and it becomes a date this many days from today, recomputed in the shopper's own clock so a cached page cannot promise a day that has passed. Leave the token out and it is a plain notice."
+        },
+        {
+          "type": "text",
+          "id": "icon",
+          "label": "Icon",
+          "default": "🎁",
+          "info": "Typed, not picked — any emoji or character. Leave empty for text alone."
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "Order by {date} for 30% off with free gifts!"
+        },
+        {
+          "type": "number",
+          "id": "days",
+          "label": "Days From Today",
+          "default": 0,
+          "info": "0 is today, 1 tomorrow, and so on."
+        },
+        {
+          "type": "checkbox",
+          "id": "ordinal",
+          "label": "Ordinal Date",
+          "default": true,
+          "info": "September 2nd rather than September 2."
+        },
+        {
+          "type": "select",
+          "id": "tone",
+          "label": "Tone",
+          "default": "accent",
+          "options": [
+            { "value": "accent", "label": "Accent (blue)" },
+            { "value": "tint", "label": "Tint (green)" },
+            { "value": "warn", "label": "Warning" },
+            { "value": "plain", "label": "Plain" }
+          ]
+        },
+        {
+          "type": "select",
+          "id": "border_style",
+          "label": "Border",
+          "default": "dashed",
+          "options": [
+            { "value": "dashed", "label": "Dashed" },
+            { "value": "solid", "label": "Solid" },
+            { "value": "none", "label": "None" }
+          ]
+        },
+        {
+          "type": "header",
+          "content": "Colour Overrides",
+          "info": "Optional. Each one left empty follows the tone above."
+        },
+        {
+          "type": "color",
+          "id": "text_color",
+          "label": "Text"
+        },
+        {
+          "type": "color",
+          "id": "bg_color",
+          "label": "Background"
+        },
+        {
+          "type": "color",
+          "id": "border_color",
+          "label": "Border"
+        }
+      ]
+    },
+    {
+      "type": "member_offer",
+      "name": "Membership or Buy Once",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "The two-way offer, merchandised: one membership plan sold against a one-time purchase, with the renewal price, a rate per serving and the member gifts on the card. Every price is read from the product — only the gifts are typed. Do not use this block with Subscribe or Buy Once, Supply Options or One-Time Purchase; the section drives one one-time control and a second would do nothing."
+        },
+        {
+          "type": "text",
+          "id": "group_label",
+          "label": "Group Label",
+          "default": "Choose how to buy"
+        },
+        {
+          "type": "text",
+          "id": "selling_plan_id",
+          "label": "Selling Plan ID",
+          "info": "The membership plan this card sells. Paste the id from the Shopify admin — a bare number or the whole gid:// URL both work. A plan the selected variant cannot be bought on shows no card at all."
+        },
+        {
+          "type": "select",
+          "id": "default_choice",
+          "label": "Selected On Load",
+          "default": "member",
+          "options": [
+            { "value": "member", "label": "Membership" },
+            { "value": "onetime", "label": "Buy once" },
+            { "value": "none", "label": "Nothing" }
+          ]
+        },
+        {
+          "type": "header",
+          "content": "Membership Card"
+        },
+        {
+          "type": "text",
+          "id": "promo_text",
+          "label": "Banner",
+          "default": "Most popular — 30% off your first order + member gifts",
+          "info": "The strip across the top of the card. Leave empty for no strip."
+        },
+        {
+          "type": "text",
+          "id": "member_label",
+          "label": "Title",
+          "default": "Become a Member"
+        },
+        {
+          "type": "text",
+          "id": "member_sublabel",
+          "label": "Subline",
+          "default": "Delivered every 4 weeks",
+          "info": "Under the title, for the cadence or the pack count. The sticky bar carries the saving instead."
+        },
+        {
+          "type": "richtext",
+          "id": "perks",
+          "label": "Perks",
+          "default": "<p>Free shipping on every order</p><p>Skip, pause or cancel anytime</p><p>30-day money-back guarantee</p>",
+          "info": "One paragraph per line. Each gets a tick."
+        },
+        {
+          "type": "header",
+          "content": "Renewal Price",
+          "info": "What the plan charges from the second delivery on, worked out from the plan's own second price adjustment. A plan that discounts every delivery equally has no renewal to state, and this line stays away on its own."
+        },
+        {
+          "type": "text",
+          "id": "recurring_prefix",
+          "label": "Before The Price",
+          "default": "then"
+        },
+        {
+          "type": "text",
+          "id": "recurring_suffix",
+          "label": "After The Price",
+          "default": "/month"
+        },
+        {
+          "type": "text",
+          "id": "recurring_note",
+          "label": "Note",
+          "default": "members always save 10%",
+          "info": "Sits after the price in a quieter tone."
+        },
+        {
+          "type": "header",
+          "content": "Per Serving",
+          "info": "Both cards can quote a rate. It is worked out from the price shown on that card, so it follows a size change without being retyped. Leave the counts at zero and no rate is printed."
+        },
+        {
+          "type": "text",
+          "id": "serving_suffix",
+          "label": "After The Rate",
+          "default": "/serving"
+        },
+        {
+          "type": "text",
+          "id": "servings_option",
+          "label": "Size Option",
+          "default": "supply",
+          "info": "The option that carries the size, e.g. Supply. The leading number of the selected value is read as the unit count — “60-Day Supply” is sixty."
+        },
+        {
+          "type": "number",
+          "id": "servings_per_unit",
+          "label": "Servings Per Unit",
+          "default": 1,
+          "info": "Servings in one of those units. One scoop a day on a 60-day tub is 1."
+        },
+        {
+          "type": "number",
+          "id": "servings_per_order",
+          "label": "Servings Per Order",
+          "default": 0,
+          "info": "Used when the option above is not on the product, or its value does not start with a number. Zero means no rate is printed."
+        },
+        {
+          "type": "header",
+          "content": "Member Gifts",
+          "info": "The panel inside the membership card. It renders only when at least one gift is named, and each part of it — heading, value pill, note — only when that part is filled in."
+        },
+        {
+          "type": "text",
+          "id": "gifts_intro",
+          "label": "Intro Line",
+          "default": "Free gifts included with your first order",
+          "info": "Sits above the panel, in the card's own voice. Leave empty for none."
+        },
+        {
+          "type": "text",
+          "id": "gifts_title",
+          "label": "Panel Heading",
+          "default": "Member gifts"
+        },
+        {
+          "type": "text",
+          "id": "gifts_total",
+          "label": "Total Value Pill",
+          "default": "$106+ VALUE"
+        },
+        {
+          "type": "textarea",
+          "id": "gifts_note",
+          "label": "Panel Note",
+          "info": "The line under the heading, for what arrives when and what has to be claimed."
+        },
+        {
+          "type": "header",
+          "content": "Gift 1"
+        },
+        {
+          "type": "image_picker",
+          "id": "gift1_image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "gift1_title",
+          "label": "Name",
+          "info": "A gift needs a name to appear. Everything else on it is optional."
+        },
+        {
+          "type": "text",
+          "id": "gift1_value",
+          "label": "Value Pill",
+          "info": "e.g. $14 FREE"
+        },
+        {
+          "type": "text",
+          "id": "gift1_when",
+          "label": "When Pill",
+          "info": "e.g. Every order, Order 1"
+        },
+        {
+          "type": "header",
+          "content": "Gift 2"
+        },
+        {
+          "type": "image_picker",
+          "id": "gift2_image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "gift2_title",
+          "label": "Name",
+          "info": "A gift needs a name to appear. Everything else on it is optional."
+        },
+        {
+          "type": "text",
+          "id": "gift2_value",
+          "label": "Value Pill",
+          "info": "e.g. $14 FREE"
+        },
+        {
+          "type": "text",
+          "id": "gift2_when",
+          "label": "When Pill",
+          "info": "e.g. Every order, Order 1"
+        },
+        {
+          "type": "header",
+          "content": "Gift 3"
+        },
+        {
+          "type": "image_picker",
+          "id": "gift3_image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "gift3_title",
+          "label": "Name",
+          "info": "A gift needs a name to appear. Everything else on it is optional."
+        },
+        {
+          "type": "text",
+          "id": "gift3_value",
+          "label": "Value Pill",
+          "info": "e.g. $14 FREE"
+        },
+        {
+          "type": "text",
+          "id": "gift3_when",
+          "label": "When Pill",
+          "info": "e.g. Every order, Order 1"
+        },
+        {
+          "type": "header",
+          "content": "Gift 4"
+        },
+        {
+          "type": "image_picker",
+          "id": "gift4_image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "gift4_title",
+          "label": "Name",
+          "info": "A gift needs a name to appear. Everything else on it is optional."
+        },
+        {
+          "type": "text",
+          "id": "gift4_value",
+          "label": "Value Pill",
+          "info": "e.g. $14 FREE"
+        },
+        {
+          "type": "text",
+          "id": "gift4_when",
+          "label": "When Pill",
+          "info": "e.g. Every order, Order 1"
+        },
+        {
+          "type": "header",
+          "content": "Gift 5"
+        },
+        {
+          "type": "image_picker",
+          "id": "gift5_image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "gift5_title",
+          "label": "Name",
+          "info": "A gift needs a name to appear. Everything else on it is optional."
+        },
+        {
+          "type": "text",
+          "id": "gift5_value",
+          "label": "Value Pill",
+          "info": "e.g. $14 FREE"
+        },
+        {
+          "type": "text",
+          "id": "gift5_when",
+          "label": "When Pill",
+          "info": "e.g. Every order, Order 1"
+        },
+        {
+          "type": "header",
+          "content": "Gift 6"
+        },
+        {
+          "type": "image_picker",
+          "id": "gift6_image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "gift6_title",
+          "label": "Name",
+          "info": "A gift needs a name to appear. Everything else on it is optional."
+        },
+        {
+          "type": "text",
+          "id": "gift6_value",
+          "label": "Value Pill",
+          "info": "e.g. $14 FREE"
+        },
+        {
+          "type": "text",
+          "id": "gift6_when",
+          "label": "When Pill",
+          "info": "e.g. Every order, Order 1"
+        },
+        {
+          "type": "header",
+          "content": "Buy Once Card"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_onetime",
+          "label": "Show Buy Once",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "onetime_label",
+          "label": "Title",
+          "default": "Buy Once"
+        },
+        {
+          "type": "text",
+          "id": "onetime_sublabel",
+          "label": "Subline",
+          "default": "1 tub, delivered once · no member gifts"
+        }
+      ]
+    },
+    {
       "type": "size_option",
       "name": "Size Cards",
       "limit": 1,
@@ -3356,7 +3885,7 @@
           "type": "text",
           "id": "onetime_label",
           "label": "Buy Once Label",
-          "default": "Buy Once"
+          "default": "One Time Purchase"
         },
         {
           "type": "text",

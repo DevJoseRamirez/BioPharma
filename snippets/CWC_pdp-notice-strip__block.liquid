@@ -1,0 +1,116 @@
+{% comment %}
+  A one-line notice for the buy box: an icon, a sentence, and a rule around it.
+
+  Written for a deadline — "Order by <date> for 30% off" — which is why the date
+  is not typed. A typed date is wrong the morning after it passes and nobody
+  notices for a week; this one is always a number of days from today, printed by
+  Liquid so the page source is right for a shopper with no JavaScript, then
+  recomputed in the shopper's own clock by the same script that keeps the
+  delivery estimate honest. It shares that block's attributes rather than
+  inventing its own, so one routine serves both.
+
+  Put {date} where the date belongs. Leave it out and the strip is a plain
+  notice, which is the right shape for a guarantee or a stock warning.
+
+  Accepts:
+  - block {Object} - the notice_strip block. Reads settings.icon, settings.text,
+    settings.days, settings.ordinal, settings.tone, settings.border_style and
+    the three optional colour overrides.
+
+  Usage:
+  {% render 'CWC_pdp-notice-strip__block', block: block %}
+{% endcomment %}
+
+{%- liquid
+  assign notice_text = block.settings.text
+
+  comment
+    Today is a valid deadline — "order by today" is the most urgent version of
+    this strip — so the offset floors at zero rather than at one.
+  endcomment
+  assign notice_days = block.settings.days | default: 0
+  if notice_days < 0
+    assign notice_days = 0
+  endif
+
+  assign notice_offset = notice_days | times: 86400
+  assign notice_stamp = 'now' | date: '%s' | plus: notice_offset
+  assign notice_date = notice_stamp | date: '%B %-d'
+
+  comment
+    "September 2nd" rather than "September 2". Worked out here and again in the
+    script, because the script rewrites the date and would drop a suffix it did
+    not know how to rebuild.
+
+    Eleven, twelve and thirteen are the exception every ordinal routine forgets:
+    they end in 1, 2 and 3 and take "th" all the same.
+  endcomment
+  if block.settings.ordinal
+    assign day_number = notice_stamp | date: '%-d' | plus: 0
+    assign day_suffix = 'th'
+    assign teen_check = day_number | modulo: 100
+
+    if teen_check < 11 or teen_check > 13
+      assign last_digit = day_number | modulo: 10
+      case last_digit
+        when 1
+          assign day_suffix = 'st'
+        when 2
+          assign day_suffix = 'nd'
+        when 3
+          assign day_suffix = 'rd'
+      endcase
+    endif
+
+    assign notice_date = notice_date | append: day_suffix
+  endif
+
+  assign tone = block.settings.tone | default: 'accent'
+  assign border_style = block.settings.border_style | default: 'dashed'
+
+  comment
+    The sentence is split on the token so the date can be its own element — the
+    script rewrites that element, and a date buried in a text node could only be
+    replaced by rewriting the whole sentence.
+  endcomment
+  assign text_parts = notice_text | split: '{date}'
+-%}
+
+{%- if notice_text != blank -%}
+  <div
+    class="
+      cwc_product-hero-buy-box__notice
+      cwc_product-hero-buy-box__notice--{{ tone }}
+      cwc_product-hero-buy-box__notice--{{ border_style }}
+    "
+    {%- if block.settings.text_color != blank or block.settings.bg_color != blank or block.settings.border_color != blank -%}
+      style="
+        {%- if block.settings.text_color != blank %}--notice-text: {{ block.settings.text_color }};{% endif -%}
+        {%- if block.settings.bg_color != blank %}--notice-bg: {{ block.settings.bg_color }};{% endif -%}
+        {%- if block.settings.border_color != blank %}--notice-border: {{ block.settings.border_color }};{% endif -%}
+      "
+    {%- endif -%}
+    {{ block.shopify_attributes }}
+  >
+    {% if block.settings.icon != blank %}
+      <span class="cwc_product-hero-buy-box__notice-icon" aria-hidden="true">{{ block.settings.icon }}</span>
+    {% endif %}
+
+    <span class="cwc_product-hero-buy-box__notice-text">
+      {%- if text_parts.size > 1 -%}
+        {{- text_parts[0] -}}
+        <span
+          class="cwc_product-hero-buy-box__notice-date"
+          data-cwc-delivery-date
+          data-cwc-delivery-days="{{ notice_days }}"
+          {% if block.settings.ordinal %}
+            data-cwc-date-ordinal
+          {% endif %}
+        >{{ notice_date }}</span>
+        {{- text_parts[1] -}}
+      {%- else -%}
+        {{- notice_text -}}
+      {%- endif -%}
+    </span>
+  </div>
+{%- endif -%}

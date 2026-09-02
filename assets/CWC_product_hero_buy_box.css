@@ -469,8 +469,8 @@
   line-height: var(--cwc-line-body);
   margin: 0;
   color: var(--muted-color);
+  color: var(--text-color);
   /* testing */
-  color: #44681a;
   line-height: 1.4;
   font-size: 0.9rem;
   font-weight: 500;
@@ -636,6 +636,8 @@
   text-align: left;
   font-family: inherit;
   transition: border-color 0.15s, background-color 0.15s, box-shadow 0.15s;
+  /* testing */
+  justify-content: center;
 }
 
 /* Each pair below is a fallback and its accent-aware form: a browser without
@@ -738,6 +740,7 @@
   align-items: baseline;
   flex-wrap: wrap;
   gap: 4px 12px;
+  gap: 1rem;
   /*  testing*/
   margin-bottom: 10px;
 }
@@ -1092,6 +1095,7 @@
   /* 26.56px */
   font-weight: 900;
   color: #44681a;
+  color: var(--text-color);
 }
 
 .cwc_product-hero-buy-box__offer-was {
@@ -2773,4 +2777,490 @@
   .cwc_product-hero-buy-box__benefit-icon-label {
     font-size: 0.7rem;
   }
+}
+
+/* ==============================
+   Membership or Buy Once
+
+   The merchandised two-way offer. It reuses the offer card's radio, price type
+   and tick list, and adds what that card has no shape for: a banner inside its
+   own border, a price stack that runs was → now → rate, a renewal line, and the
+   gifts as a panel rather than a strip.
+
+   The banner sits inside the card here rather than pulling up against it the
+   way the simple offer's does. That card is a plain 1px box and the two rules
+   can meet; this one carries a heavier outline when selected, and an outside
+   strip would leave the corners disagreeing on which border owns them.
+   ============================== */
+.cwc_product-hero-buy-box__member-offer {
+  border-top: 1px solid rgb(240 234 228 / 760%);
+  margin: 16px 0 4px;
+}
+
+.cwc_product-hero-buy-box__member-label {
+  font-size: 0.85rem;
+  /* 13.6px */
+  font-weight: 700;
+  color: var(--text-color);
+  margin: 16px 0 8px;
+}
+
+/* === The membership card === */
+
+/* Padding comes off the card and onto the inner row, so the banner can run to
+   the card's own edges. */
+.cwc_product-hero-buy-box__member-card {
+  display: block;
+  padding: 0;
+  overflow: hidden;
+  border-radius: 14px;
+}
+
+.cwc_product-hero-buy-box__member-card.cwc_product-hero-buy-box__offer--selected {
+  border-color: var(--flavor-accent, var(--deep-color));
+  box-shadow: inset 0 0 0 1px var(--flavor-accent, var(--deep-color));
+}
+
+.cwc_product-hero-buy-box__member-promo {
+  display: block;
+  background: var(--flavor-accent, var(--deep-color));
+  color: var(--button-text);
+  padding: 9px 14px;
+  text-align: center;
+  font-size: 0.75rem;
+  /* 12px */
+  font-weight: 800;
+  letter-spacing: 0.6px;
+  line-height: 1.35;
+  text-transform: uppercase;
+}
+
+/* A column, not a row. The radio sits in the head beside the title rather than
+   in a column of its own down the left, so the perks and the gift panel run the
+   full width of the card instead of starting where the title starts.
+
+   Carries the padding the card gave up to let the banner reach its edges. */
+.cwc_product-hero-buy-box__member-inner {
+  display: block;
+  padding: 16px 20px;
+}
+
+/* Title left, price stack right, aligned on their tops rather than their
+   baselines — the price is three lines and the title is one, and a baseline
+   would hang the title off the struck price at the top of the stack. */
+.cwc_product-hero-buy-box__member-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.cwc_product-hero-buy-box__member-title {
+  font-family: var(--cwc-font-heading);
+  font-size: 1.28rem;
+  /* 20.5px */
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--text-color);
+}
+
+/* The one-time card's title: the same face a step down, because that card is
+   the alternative rather than the offer. */
+.cwc_product-hero-buy-box__member-title--sm {
+  font-size: 1.12rem;
+  /* 17.9px */
+}
+
+/* Radio, then title over subline. The dot aligns to the title's line rather
+   than to the middle of the pair, which is what keeps it level with the words
+   whether or not there is a subline under them. */
+.cwc_product-hero-buy-box__member-heading {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  min-width: 0;
+}
+
+.cwc_product-hero-buy-box__member-heading-text {
+  min-width: 0;
+}
+
+.cwc_product-hero-buy-box__member-subline {
+  display: block;
+  margin-top: 2px;
+  font-size: 0.85rem;
+  /* 13.6px */
+  line-height: 1.35;
+  color: var(--muted-color);
+}
+
+/* Nudged against the heading's larger type: the shared dot is spaced for the
+   16px offer name and rides high beside a 20px title. */
+.cwc_product-hero-buy-box__member-heading .cwc_product-hero-buy-box__offer-radio {
+  margin-top: 4px;
+}
+
+/* The one-time card's smaller title needs less of that nudge. */
+.cwc_product-hero-buy-box__member-onetime .cwc_product-hero-buy-box__offer-radio {
+  margin-top: 2px;
+}
+
+.cwc_product-hero-buy-box__member-price {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  flex-shrink: 0;
+  text-align: right;
+  margin-top: 0;
+}
+
+/* Baseline, not centre: the struck price is two thirds the size of the charged
+   one and sitting them on a shared middle would float it off the digits. */
+.cwc_product-hero-buy-box__member-price-row {
+  display: flex;
+  align-items: baseline;
+  gap: 7px;
+}
+
+.cwc_product-hero-buy-box__member-price .cwc_product-hero-buy-box__offer-was {
+  font-size: 0.9rem;
+  /* 14.4px */
+  color: var(--muted-color);
+}
+
+.cwc_product-hero-buy-box__member-price .cwc_product-hero-buy-box__offer-now {
+  font-size: 1.66rem;
+  /* 26.6px */
+  line-height: 1.15;
+}
+
+.cwc_product-hero-buy-box__member-serving {
+  font-size: 0.8rem;
+  /* 12.8px */
+  color: var(--muted-color);
+}
+
+/* __member-serving is a flex item with display set, which outranks the [hidden]
+   attribute's own display:none — the script hides these lines on a variant with
+   no rate to quote, and they have to be taken out explicitly. */
+.cwc_product-hero-buy-box__member-serving[hidden],
+.cwc_product-hero-buy-box__member-recurring[hidden] {
+  display: none;
+}
+
+/* === Renewal line === */
+.cwc_product-hero-buy-box__member-recurring {
+  display: block;
+  margin-top: 10px;
+  font-size: 0.85rem;
+  /* 13.6px */
+  line-height: 1.4;
+  margin-left: 1rem;
+}
+
+.cwc_product-hero-buy-box__member-recurring-price {
+  font-weight: 800;
+  color: var(--text-color);
+}
+
+/* Quieter and preceded by a dash, so the qualification reads as an aside to the
+   price rather than as a second claim of equal weight. */
+.cwc_product-hero-buy-box__member-recurring-note {
+  color: var(--muted-color);
+}
+
+.cwc_product-hero-buy-box__member-recurring-note::before {
+  content: '— ';
+}
+
+.cwc_product-hero-buy-box__member-perks {
+  display: block;
+  margin-top: 12px;
+  margin-left: 1rem;
+}
+
+/* === Member gifts panel ===
+
+   A second offer inside the first, so it is boxed rather than listed: its own
+   ground, its own heading, its own total. */
+.cwc_product-hero-buy-box__gifts-intro {
+  display: block;
+  margin-top: 14px;
+  font-size: 0.85rem;
+  /* 13.6px */
+  font-weight: 700;
+  color: var(--text-color);
+}
+
+/* The panel is a headed box, not a tinted one: a bar the colour of the card's
+   own banner, and the tiles on white under it. Overflow is clipped so the bar
+   takes the box's top corners without restating them. */
+.cwc_product-hero-buy-box__gifts {
+  display: block;
+  margin-top: 8px;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  background: var(--card-bg);
+  overflow: hidden;
+}
+
+.cwc_product-hero-buy-box__gifts-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding: 9px 12px;
+  background: var(--flavor-accent, var(--deep-color));
+}
+
+.cwc_product-hero-buy-box__gifts-title {
+  font-family: var(--cwc-font-heading);
+  font-size: 0.95rem;
+  /* 15.2px */
+  font-weight: 700;
+  color: var(--button-text);
+}
+
+/* Gold rather than green: on the green bar a green pill would disappear, and
+   the number is the one thing in the panel worth reading first. */
+.cwc_product-hero-buy-box__gifts-total {
+  flex-shrink: 0;
+  background: var(--star-color);
+  color: #2A2611;
+  font-size: 0.68rem;
+  /* 10.9px */
+  font-weight: 800;
+  letter-spacing: 0.3px;
+  padding: 3px 10px;
+  border-radius: 20px;
+}
+
+.cwc_product-hero-buy-box__gifts-body {
+  display: block;
+  padding: 12px;
+}
+
+.cwc_product-hero-buy-box__gifts-note {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 0.8rem;
+  /* 12.8px */
+  line-height: 1.5;
+  color: var(--muted-color);
+}
+
+/* auto-fit rather than a fixed four: the panel takes as many gifts as it is
+   given, and three across a narrow column beats four unreadable ones. */
+.cwc_product-hero-buy-box__gifts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(72px, 1fr));
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+/* The tile is its own stacking context so the pill can sit on the frame's edge
+   without the next tile's frame painting over it. */
+.cwc_product-hero-buy-box__gift {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
+  padding-top: 8px;
+  text-align: center;
+}
+
+/* Straddling the frame's top edge rather than sitting above it: the claim
+   belongs to the thing pictured, and the row stays compact. */
+.cwc_product-hero-buy-box__gift-value {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1;
+  max-width: 100%;
+  background: var(--deep-color);
+  color: #ffffff;
+  font-size: 0.6rem;
+  /* 9.6px */
+  font-weight: 800;
+  letter-spacing: 0.2px;
+  text-transform: uppercase;
+  padding: 2px 7px;
+  border-radius: 20px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cwc_product-hero-buy-box__gift-frame {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  aspect-ratio: 1;
+  background: var(--tint-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.cwc_product-hero-buy-box__gift-frame img {
+  width: 78%;
+  height: 78%;
+  object-fit: contain;
+}
+
+/* Dark rather than green: it says when the gift arrives, which is a fact about
+   the order and not another value claim. */
+.cwc_product-hero-buy-box__gift-when {
+  background: var(--deep-color);
+  color: #ffffff;
+  font-size: 0.62rem;
+  /* 9.9px */
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+
+.cwc_product-hero-buy-box__gift-title {
+  font-size: 0.75rem;
+  /* 12px */
+  font-weight: 800;
+  line-height: 1.3;
+  color: var(--text-color);
+}
+
+/* === Buy once card === */
+.cwc_product-hero-buy-box__member-onetime {
+  display: block;
+  padding: 0;
+  border-radius: 14px;
+}
+
+/* === The flavour's accent ===
+
+   Same terms as the pair above it — see "Selected in the flavour's colour". The
+   banner and the selected outline are the card's chrome and take the accent
+   deepened, which is what keeps white text on the banner legible whatever the
+   flavour is. The type inside the card never moves. */
+.cwc_product-hero-buy-box--accented .cwc_product-hero-buy-box__member-card {
+  --flavor-accent: var(--deep-color);
+  --flavor-accent: color-mix(in srgb, var(--active-accent, var(--deep-color)) 72%, #1a1a1a);
+}
+
+.cwc_product-hero-buy-box--accented .cwc_product-hero-buy-box__member-offer .cwc_product-hero-buy-box__offer--selected {
+  background: var(--card-selected-bg);
+  background: color-mix(in srgb, var(--active-accent, var(--highlight-color)) 7%, #fff);
+}
+
+.cwc_product-hero-buy-box--accented .cwc_product-hero-buy-box__member-offer .cwc_product-hero-buy-box__offer--selected .cwc_product-hero-buy-box__offer-radio {
+  border-color: var(--active-accent, var(--highlight-color));
+  background: var(--active-accent, var(--highlight-color));
+}
+
+@media screen and (max-width: 480px) {
+  .cwc_product-hero-buy-box__member-recurring {
+    margin-left: 0rem;
+  }
+
+  .cwc_product-hero-buy-box__member-perks {
+    margin-left: 0rem;
+  }
+
+  .cwc_product-hero-buy-box__gift-when {
+    font-size: 9px;
+  }
+
+  .cwc_product-hero-buy-box__member-title {
+    font-size: 1.16rem;
+    /* 18.6px */
+  }
+
+  .cwc_product-hero-buy-box__member-price .cwc_product-hero-buy-box__offer-now {
+    font-size: 1.44rem;
+    /* 23px */
+  }
+}
+
+/* ==============================
+   Notice Strip
+
+   One line with a rule around it, for a deadline or a promise. Centred and
+   full width so it reads as a statement about the whole purchase rather than a
+   note attached to whatever sits above it.
+
+   Every colour is a variable the tone sets and the block can override, so the
+   markup carries one class per axis — tone and border — instead of a class per
+   combination of them.
+   ============================== */
+.cwc_product-hero-buy-box__notice {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  justify-content: flex-start;
+  gap: 8px;
+  margin: 12px 0;
+  padding: 9px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--notice-border);
+  background: var(--notice-bg);
+  color: var(--notice-text);
+  font-size: 0.85rem;
+  /* 13.6px */
+  font-weight: 700;
+  line-height: 1.35;
+  text-align: center;
+}
+
+.cwc_product-hero-buy-box__notice--accent {
+  --notice-text: var(--accent-color);
+  --notice-bg: var(--accent-bg);
+  --notice-border: var(--accent-border);
+}
+
+.cwc_product-hero-buy-box__notice--tint {
+  --notice-text: var(--deep-color);
+  --notice-bg: var(--tint-bg);
+  --notice-border: var(--tint-border);
+}
+
+.cwc_product-hero-buy-box__notice--warn {
+  --notice-text: var(--warn-color);
+  --notice-bg: #FDF3F3;
+  --notice-border: #E4B7B7;
+}
+
+.cwc_product-hero-buy-box__notice--plain {
+  --notice-text: var(--text-color);
+  --notice-bg: var(--card-bg);
+  --notice-border: var(--border-color);
+}
+
+.cwc_product-hero-buy-box__notice--dashed {
+  border-style: dashed;
+}
+
+.cwc_product-hero-buy-box__notice--none {
+  border-color: transparent;
+}
+
+/* Sits on the text's own line rather than above it: at this size the emoji is
+   type, and letting it set its own line height would push the row taller than
+   the sentence needs. */
+.cwc_product-hero-buy-box__notice-icon {
+  flex-shrink: 0;
+  font-size: 1.05em;
+  line-height: 1;
+}
+
+/* The date is the point of the sentence, so it holds together — a deadline
+   broken across two lines stops reading as one date. */
+.cwc_product-hero-buy-box__notice-date {
+  white-space: nowrap;
 }
