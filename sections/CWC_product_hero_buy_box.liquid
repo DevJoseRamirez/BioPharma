@@ -403,6 +403,18 @@
                   current_variant: current_variant
                 %}
 
+              {% when 'size_option' %}
+                {%- comment -%}
+                  The curated picker: only the option values it is given, in the
+                  merchant's own words. A variant choice and nothing more — the
+                  offer block below prices whatever it lands on.
+                {%- endcomment -%}
+                {% render 'CWC_pdp-size-option__block',
+                  block: block,
+                  product: hero_product,
+                  current_variant: current_variant
+                %}
+
               {% when 'product_options' %}
                 {%- comment -%}
                   The generic picker: it reads the product's own options rather
@@ -2023,6 +2035,168 @@
           "type": "color",
           "id": "color_6",
           "label": "Swatch 6 Accent"
+        }
+      ]
+    },
+    {
+      "type": "size_option",
+      "name": "Size Cards",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "A row of cards for one product option — a size, a supply, a pack count — in your own words. Name the option and every one of its values appears under its own name. Fill in a card to rename one and, once any card is filled, only the filled ones show: that is how a value is hidden. Cards appear in the order below, whatever order the product lists its values in."
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "How many people is this for?"
+        },
+        {
+          "type": "text",
+          "id": "option_name",
+          "label": "Product Option",
+          "default": "Supply",
+          "info": "Which option these cards choose, e.g. Supply or Size. Must match the option name on the product; capitalisation does not matter. Do not use this block and Supply Options together — both drive the same option."
+        },
+        {
+          "type": "select",
+          "id": "columns",
+          "label": "Cards Per Row",
+          "default": "two",
+          "options": [
+            {
+              "value": "two",
+              "label": "Two"
+            },
+            {
+              "value": "three",
+              "label": "Three"
+            },
+            {
+              "value": "auto",
+              "label": "Fit as many as possible"
+            }
+          ]
+        },
+        {
+          "type": "header",
+          "content": "Buy More Chip",
+          "info": "An outlined chip beside the label that selects the rightmost card — the biggest size on offer. It fills in solid once that card is the live choice, so it reads as a shortcut before the click and as a badge after it. Clear the text to remove it; it also stays away when only one card is showing."
+        },
+        {
+          "type": "text",
+          "id": "upsell_icon",
+          "label": "Chip Icon",
+          "default": "🏷",
+          "info": "Typed, not picked — any emoji or character. Leave empty for text alone."
+        },
+        {
+          "type": "text",
+          "id": "upsell_text",
+          "label": "Chip Text",
+          "default": "Buy More. Save More."
+        },
+        {
+          "type": "header",
+          "content": "Card 1",
+          "info": "Option Value ties the card to a variant and must name a value the product actually has — capitalisation, outer spaces and the hyphen in 90-Day are all ignored. Filling any Option Value narrows the row to the filled cards only. Title and Subline are yours to write; leave the Title empty and the card is named after the value."
+        },
+        {
+          "type": "text",
+          "id": "opt1_value",
+          "label": "Option Value",
+          "info": "e.g. 30 Day Supply"
+        },
+        {
+          "type": "text",
+          "id": "opt1_title",
+          "label": "Title",
+          "info": "e.g. Just me"
+        },
+        {
+          "type": "text",
+          "id": "opt1_subline",
+          "label": "Subline",
+          "info": "e.g. 1 tub · 30 servings/mo"
+        },
+        {
+          "type": "text",
+          "id": "opt1_badge",
+          "label": "Badge"
+        },
+        {
+          "type": "header",
+          "content": "Card 2"
+        },
+        {
+          "type": "text",
+          "id": "opt2_value",
+          "label": "Option Value"
+        },
+        {
+          "type": "text",
+          "id": "opt2_title",
+          "label": "Title"
+        },
+        {
+          "type": "text",
+          "id": "opt2_subline",
+          "label": "Subline"
+        },
+        {
+          "type": "text",
+          "id": "opt2_badge",
+          "label": "Badge"
+        },
+        {
+          "type": "header",
+          "content": "Card 3"
+        },
+        {
+          "type": "text",
+          "id": "opt3_value",
+          "label": "Option Value"
+        },
+        {
+          "type": "text",
+          "id": "opt3_title",
+          "label": "Title"
+        },
+        {
+          "type": "text",
+          "id": "opt3_subline",
+          "label": "Subline"
+        },
+        {
+          "type": "text",
+          "id": "opt3_badge",
+          "label": "Badge"
+        },
+        {
+          "type": "header",
+          "content": "Card 4"
+        },
+        {
+          "type": "text",
+          "id": "opt4_value",
+          "label": "Option Value"
+        },
+        {
+          "type": "text",
+          "id": "opt4_title",
+          "label": "Title"
+        },
+        {
+          "type": "text",
+          "id": "opt4_subline",
+          "label": "Subline"
+        },
+        {
+          "type": "text",
+          "id": "opt4_badge",
+          "label": "Badge"
         }
       ]
     },

@@ -1,0 +1,292 @@
+{% comment %}
+  A curated size picker: some of a product option's values, in the merchant's
+  own words.
+
+  The product options block renders every value of every option, named as the
+  product names them. That is right for a template serving a catalogue and wrong
+  for a page selling one product, where the size is a decision to be framed — a
+  90-day tub is "For the household", not "90 Day Supply", and a size the page is
+  not selling this month should not appear at all.
+
+  So this block takes four numbered slots. A slot names one value of the option
+  and gives it a title and a subline; a slot left empty renders nothing. That is
+  the whole mechanism for hiding a size: fill the two you sell and leave the
+  third blank. Slot order is card order, so the row can be arranged without
+  touching the product.
+
+  Naming the option is enough to get a row. With no slot filled in, every value
+  of the option renders under its own name — the block works the moment it is
+  added, and the slots become a way to narrow and rename what is already there
+  rather than a form that must be completed before anything appears. Filling one
+  slot switches the row to exactly what the slots name, so curating never has to
+  fight a fallback.
+
+  Typed values are matched loosely enough to survive a merchant: case, outer
+  space and the hyphen in "90-Day" are all normalised away, and it is the
+  option's own spelling that gets written out, because the script matches
+  variants on it exactly.
+
+  It is a variant picker and nothing else. No plan, no price, no quantity — the
+  offer block underneath prices whatever variant this lands on, which is what
+  keeps the two from disagreeing about what is being bought.
+
+  Hiding a value hides the control, not the variant: a shopper can still arrive
+  on a hidden size through a link or a saved cart. The first card is marked
+  selected in that case and the script resolves the variant to match it, so the
+  page never shows a size that is not on the row.
+
+  Accepts:
+  - block {Object} - the size_option block. Reads settings.label,
+    settings.option_name, settings.columns, and settings.opt1_value …
+    settings.opt4_value with their _title, _subline and _badge.
+  - product {Object} - product whose option values are read.
+  - current_variant {Object} - variant currently selected.
+
+  Usage:
+  {% render 'CWC_pdp-size-option__block',
+    block: block,
+    product: product,
+    current_variant: current_variant
+  %}
+{% endcomment %}
+
+{%- liquid
+  assign wanted_option = block.settings.option_name | strip | downcase
+  assign option_position = 0
+
+  if wanted_option != blank
+    for product_option in product.options_with_values
+      assign this_name = product_option.name | strip | downcase
+      if this_name == wanted_option
+        assign option_position = product_option.position
+        assign option_values = product_option.values
+      endif
+    endfor
+  endif
+
+  if option_position > 0
+    assign option_key = 'option' | append: option_position
+    assign selected_value = current_variant[option_key]
+  endif
+
+  assign slot_numbers = '1,2,3,4' | split: ','
+
+  comment
+    Whether the slots are being used at all. One typed value is enough: the row
+    is then exactly what the slots name, and a value with no slot is a value the
+    page has chosen not to sell.
+  endcomment
+  assign any_slot_typed = false
+  for slot_number in slot_numbers
+    assign value_key = 'opt' | append: slot_number | append: '_value'
+    assign typed_value = block.settings[value_key] | strip
+    if typed_value != blank
+      assign any_slot_typed = true
+    endif
+  endfor
+-%}
+
+{%- comment -%}
+  The values to render, in the order they will appear.
+
+  Built as text and split back apart because a slot's value has to be resolved
+  against the option before it can be trusted — the merchant types the size, the
+  option holds the spelling — and Liquid has no way to collect four resolved
+  strings other than to write them out. The separator is deliberately something
+  no option value would contain.
+{%- endcomment -%}
+{%- capture curated_values -%}
+  {%- if option_position > 0 and any_slot_typed -%}
+    {%- for slot_number in slot_numbers -%}
+      {%- liquid
+        assign value_key = 'opt' | append: slot_number | append: '_value'
+        assign typed_value = block.settings[value_key] | strip | downcase | replace: '-', ' '
+      -%}
+      {%- if typed_value != blank -%}
+        {%- for option_value in option_values -%}
+          {%- assign this_value = option_value | strip | downcase | replace: '-', ' ' -%}
+          {%- if this_value == typed_value -%}{{ option_value }}~|~{%- endif -%}
+        {%- endfor -%}
+      {%- endif -%}
+    {%- endfor -%}
+  {%- endif -%}
+{%- endcapture -%}
+
+{%- liquid
+  if any_slot_typed
+    assign card_values = curated_values | split: '~|~'
+  elsif option_position > 0
+    assign card_values = option_values
+  else
+    assign card_values = '' | split: ','
+  endif
+
+  comment
+    Which card starts lit. Normally the one the server rendered the page on; if
+    that value is not on the row — a hidden size reached by link or by a saved
+    cart — the first card takes it and the script resolves the variant to match.
+  endcomment
+  assign current_is_shown = false
+  for card_value in card_values
+    assign this_value = card_value | strip
+    if this_value == selected_value
+      assign current_is_shown = true
+    endif
+  endfor
+
+  assign columns = block.settings.columns | default: 'two'
+-%}
+
+{%- comment -%}
+  Editor-only. A row that renders nothing is invisible in the theme editor as
+  well, so without this the merchant sees an empty column and no reason for it.
+{%- endcomment -%}
+{%- if request.design_mode and card_values.size == 0 -%}
+  <div class="cwc_product-hero-buy-box__editor-note" {{ block.shopify_attributes }}>
+    <strong>No size cards are showing.</strong>
+    {%- if block.settings.option_name == blank -%}
+      Set Product Option to the option these cards choose.
+    {%- elsif option_position == 0 -%}
+      “{{ block.settings.option_name }}” is not an option on
+      {% if product != blank %}“{{ product.title }}”{% else %}this product{% endif %}.
+      {%- if product.options_with_values.size > 0 %}
+        Options it has:
+        {%- for product_option in product.options_with_values %}
+          “{{ product_option.name }}”{% unless forloop.last %},{% endunless %}
+        {%- endfor -%}.
+      {%- else %}
+        It has no options at all — every size picker needs one.
+      {%- endif -%}
+    {%- else -%}
+      None of the Option Value fields match a value of “{{ block.settings.option_name }}”.
+      Values it has: {{ option_values | join: ', ' }}. Clear them all to show every value.
+    {%- endif -%}
+  </div>
+{%- endif -%}
+
+{%- if card_values.size > 0 -%}
+  <div class="cwc_product-hero-buy-box__sizes-wrap" {{ block.shopify_attributes }}>
+    {%- comment -%}
+      The label and its chip share a line. The chip is a second way to pick the
+      biggest size — the same choice the rightmost card offers, put where a
+      shopper reading the question is already looking — so it says what it is
+      worth rather than what it does, and only appears when there is more than
+      one card to move between.
+
+      It carries no data-cwc-variant. That attribute is what binds the option
+      handler, and a chip carrying it would take the selection onto itself
+      instead of onto a card; the script clicks the card for it instead.
+    {%- endcomment -%}
+    {%- if block.settings.label != blank or block.settings.upsell_text != blank -%}
+      <div class="cwc_product-hero-buy-box__sizes-head">
+        {% if block.settings.label != blank %}
+          <div class="cwc_product-hero-buy-box__label">{{ block.settings.label }}</div>
+        {% endif %}
+
+        {% if block.settings.upsell_text != blank and card_values.size > 1 %}
+          <button type="button" class="cwc_product-hero-buy-box__upsell" data-cwc-size-upsell>
+            {% if block.settings.upsell_icon != blank %}
+              <span class="cwc_product-hero-buy-box__upsell-icon" aria-hidden="true">
+                {{- block.settings.upsell_icon -}}
+              </span>
+            {% endif %}
+            <span class="cwc_product-hero-buy-box__upsell-text">{{ block.settings.upsell_text }}</span>
+          </button>
+        {% endif %}
+      </div>
+    {%- endif -%}
+
+    {%- comment -%}
+      data-cwc-flavor-position is the whole contract with the script: a row
+      carrying it, holding controls that carry a value, is picked up by the
+      click handler, the availability pass and the seed on load. Nothing about
+      this block needs the script to know it exists.
+    {%- endcomment -%}
+    <div
+      class="cwc_product-hero-buy-box__sizes cwc_product-hero-buy-box__sizes--{{ columns }}"
+      data-cwc-flavor-position="{{ option_position }}"
+    >
+      {%- for raw_value in card_values -%}
+        {%- liquid
+          assign card_value = raw_value | strip
+
+          comment
+            The slot this value came from, and with it the copy. Found by asking
+            the slots rather than carried along from the loop above, because the
+            row may not have come from the slots at all — with none filled in
+            every value renders, and every one of them lands here with no copy
+            to find, which is the right answer rather than a missing one.
+          endcomment
+          assign card_prefix = ''
+          if any_slot_typed
+            assign match_value = card_value | downcase | replace: '-', ' '
+            for slot_number in slot_numbers
+              assign value_key = 'opt' | append: slot_number | append: '_value'
+              assign typed_value = block.settings[value_key] | strip | downcase | replace: '-', ' '
+              if typed_value != blank and typed_value == match_value
+                assign card_prefix = 'opt' | append: slot_number | append: '_'
+              endif
+            endfor
+          endif
+
+          assign card_title = card_value
+          assign card_sub = ''
+          assign card_badge = ''
+
+          if card_prefix != ''
+            assign title_key = card_prefix | append: 'title'
+            assign sub_key = card_prefix | append: 'subline'
+            assign badge_key = card_prefix | append: 'badge'
+
+            comment
+              The value itself stays the title when none is typed. A slot with a
+              value and no copy is a perfectly good card — it says what the
+              product says.
+            endcomment
+            assign card_title = block.settings[title_key] | default: card_value
+            assign card_sub = block.settings[sub_key]
+            assign card_badge = block.settings[badge_key]
+          endif
+
+          comment
+            Stock is read off the value alone rather than off the flavour the
+            shopper is on: this is the state the page is rendered with, and the
+            script re-runs it against the live combination as soon as anything
+            is picked. The id is a seed for the same reason — the click handler
+            resolves the real variant from every row at once.
+          endcomment
+          assign matches = product.variants | where: option_key, card_value
+          assign in_stock = matches | where: 'available', true
+          assign card_variant = in_stock.first | default: matches.first
+
+          assign is_selected = false
+          if card_value == selected_value
+            assign is_selected = true
+          elsif current_is_shown == false and forloop.first
+            assign is_selected = true
+          endif
+        -%}
+
+        <button
+          type="button"
+          class="cwc_product-hero-buy-box__size{% if is_selected %} cwc_product-hero-buy-box__flavor--selected{% endif %}{% if in_stock.size == 0 %} cwc_product-hero-buy-box__flavor--unavailable{% endif %}"
+          data-cwc-variant="{{ card_variant.id }}"
+          data-cwc-flavor-value="{{ card_value | escape }}"
+          {% if in_stock.size == 0 %}
+            disabled
+          {% endif %}
+        >
+          {% if card_badge != blank %}
+            <span class="cwc_product-hero-buy-box__size-badge">{{ card_badge }}</span>
+          {% endif %}
+
+          <span class="cwc_product-hero-buy-box__size-title">{{ card_title }}</span>
+
+          {% if card_sub != blank %}
+            <span class="cwc_product-hero-buy-box__size-sub">{{ card_sub }}</span>
+          {% endif %}
+        </button>
+      {%- endfor -%}
+    </div>
+  </div>
+{%- endif -%}

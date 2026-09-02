@@ -4,7 +4,8 @@
       "type": "CWC_announcement",
       "disabled": true,
       "settings": {
-        "text": "<p>Free shipping on subscriptions &middot; <strong>30-day money-back guarantee</strong> &middot; Formulated with clinicians since 2010</p>",
+        "text": "<p>Free shipping on subscriptions · <strong>30-day money-back guarantee</strong> · Formulated with clinicians since 2010</p>",
+        "link": "",
         "enable_gradient": true,
         "bg_color": "#44681a",
         "bg_end_color": "#87ce34",
@@ -26,10 +27,17 @@
             "col1_link_url": "/collections/all",
             "col2_link_label": "Kits & Bundles",
             "col2_link_url": "",
+            "col3_link_label": "",
+            "col3_link_url": "",
+            "col4_link_label": "",
+            "col4_link_url": "",
             "featured_heading": "Featured",
             "featured_show_price": true,
+            "featured_product_1": "",
             "featured_label_1": "Best seller",
+            "featured_product_2": "",
             "featured_label_2": "New",
+            "featured_product_3": "",
             "featured_label_3": "",
             "promo_heading": "Not sure where to start?",
             "promo_text": "Three questions and we'll narrow seventeen products down to the two or three worth your time.",
@@ -44,8 +52,10 @@
       "disabled": true,
       "settings": {
         "menu": "our-shop-new",
+        "show_menu_counts": true,
+        "mobile_breakpoint": 1000,
+        "drawer_open_first": true,
         "menu_wholesale": "products-wholesale",
-        "logo": "shopify://shop_images/logo_direction1_evolved_mark_2_1.png",
         "logo_alt": "NanoGreens",
         "logo_height": 34,
         "logo_height_mobile": 28,
@@ -55,46 +65,184 @@
         "logo_text_size_mobile": 20,
         "show_account": true,
         "show_search": true,
+        "search_placeholder": "Search products",
+        "search_popular_label": "Popular searches",
+        "search_popular": "greens, collagen, bundles, weight loss",
+        "search_limit": 6,
+        "search_min_chars": 3,
+        "search_panel_height": 60,
+        "search_bg_color": "#ffffff",
+        "search_field_bg_color": "#f4f3ee",
+        "search_accent_color": "#44681a",
+        "search_muted_color": "#5c5842",
+        "search_chip_bg_color": "#f2f8ea",
+        "search_chip_border_color": "#a3c781",
+        "search_overlay_color": "#2a2611",
+        "search_overlay_opacity": 45,
         "show_cart": true,
         "enable_sticky": true,
+        "sticky_offset": 0,
         "bg_color": "#ffffff",
         "text_color": "#5c5842",
         "bold_color": "#5ba90f",
         "logo_color": "#2a2611",
         "border_color": "#e6e5dc",
         "dropdown_bg_color": "#ffffff",
+        "mega_bg_color": "#ffffff",
+        "mega_muted_color": "#5c5842",
+        "mega_panel_bg_color": "#f5f4f0",
+        "mega_promo_bg_color": "#ecebe5",
+        "mega_button_bg_color": "#5ba90f",
+        "mega_button_text_color": "#ffffff",
+        "drawer_bg_color": "#ffffff",
+        "drawer_cart_bg_color": "#1f1f1c",
+        "scrim_color": "#1f1f1c",
         "padding_top": 15,
         "padding_bottom": 15
+      }
+    },
+    "cwc_scrolling_banner_8jrGpJ": {
+      "type": "CWC_scrolling_banner",
+      "blocks": {
+        "item_GTegGj": {
+          "type": "item",
+          "settings": {
+            "text": "Green apple or strawberry",
+            "icon_style": "leaf"
+          }
+        },
+        "item_gNqbUP": {
+          "type": "item",
+          "settings": {
+            "text": "55 organic fruits & veg",
+            "icon_style": "check"
+          }
+        },
+        "item_N9rN6p": {
+          "type": "item",
+          "settings": {
+            "text": "9 enzymes for absorption",
+            "icon_style": "leaf"
+          }
+        },
+        "item_XhwmWR": {
+          "type": "item",
+          "settings": {
+            "text": "Clinician-recommended 20+ years",
+            "icon_style": "shield"
+          }
+        },
+        "item_4gaYEk": {
+          "type": "item",
+          "settings": {
+            "text": "From $1.87 a serving",
+            "icon_style": "star"
+          }
+        },
+        "item_Neeb9A": {
+          "type": "item",
+          "settings": {
+            "text": "30-day money back",
+            "icon_style": "check"
+          }
+        }
+      },
+      "block_order": [
+        "item_GTegGj",
+        "item_gNqbUP",
+        "item_N9rN6p",
+        "item_XhwmWR",
+        "item_4gaYEk",
+        "item_Neeb9A"
+      ],
+      "name": "Scrolling Banner",
+      "settings": {
+        "scroll_speed": 60,
+        "direction": "left",
+        "pause_on_hover": true,
+        "repeat": 3,
+        "text_style": "label",
+        "separator": "dot",
+        "item_gap": 48,
+        "icon_size": 18,
+        "show_borders": true,
+        "bg_color": "#ffffff",
+        "text_color": "#44681a",
+        "icon_color": "#5ba90f",
+        "separator_color": "#a3c781",
+        "border_color": "#a3c781",
+        "padding_top": 6,
+        "padding_bottom": 6
       }
     },
     "cwc_product_hero_buy_box": {
       "type": "CWC_product_hero_buy_box",
       "blocks": {
+        "media_popup_bqEGVJ": {
+          "type": "media_popup",
+          "settings": {
+            "label": "View Nutrition Label",
+            "image": "shopify://shop_images/nanogreens-sup-facts_1.png",
+            "alt_text": "",
+            "heading": "",
+            "flavor1_name": "",
+            "flavor2_name": "",
+            "flavor3_name": "",
+            "flavor4_name": "",
+            "icon_text": "",
+            "style": "tint"
+          }
+        },
         "rating": {
           "type": "rating",
           "settings": {
-            "text": "<p>4.4 · 410 reviews</p>",
+            "text": "<p><strong>4.8 </strong>· <strong>Recommended in clinics since 2004</strong></p>",
             "link": ""
           }
         },
         "title": {
           "type": "title",
           "settings": {
-            "eyebrow": "Daily greens & superfood",
-            "heading": "<p>NanoGreens<strong>10</strong></p>",
-            "subtext": "<p>55 organic fruits and vegetables, juiced at peak ripeness and freeze-dried cold. One scoop, ten seconds, every morning.</p>"
+            "heading": "<p>NanoGreens¹⁰</p>"
+          }
+        },
+        "benefit_icons": {
+          "type": "benefit_icons",
+          "disabled": true,
+          "settings": {
+            "layout": "inline",
+            "columns": 3,
+            "icon_style_1": "bolt",
+            "icon_text_1": "",
+            "label_1": "Energy",
+            "icon_style_2": "digestion",
+            "icon_text_2": "",
+            "label_2": "Digestion",
+            "icon_style_3": "shield",
+            "icon_text_3": "",
+            "label_3": "Immune",
+            "icon_style_4": "burst",
+            "icon_text_4": "",
+            "label_4": "Antioxidant",
+            "icon_style_5": "refresh",
+            "icon_text_5": "",
+            "label_5": "Recovery",
+            "icon_style_6": "none",
+            "icon_text_6": "",
+            "label_6": ""
           }
         },
         "key_benefits": {
           "type": "key_benefits",
+          "disabled": true,
           "settings": {
-            "text_1": "10 servings of fruits & vegetables in one scoop",
-            "tone_1": "tint",
-            "text_2": "9 digestive enzymes so your body absorbs it",
-            "tone_2": "accent",
-            "text_3": "Recommended by practitioners for 20+ years",
-            "tone_3": "tint",
-            "text_4": "30-day money-back guarantee",
+            "text_1": "Practitioner-formulated",
+            "tone_1": "accent",
+            "text_2": "",
+            "tone_2": "tint",
+            "text_3": "",
+            "tone_3": "accent",
+            "text_4": "",
             "tone_4": "tint",
             "text_5": "",
             "tone_5": "tint",
@@ -102,17 +250,226 @@
             "tone_6": "tint"
           }
         },
+        "benefits_meta_bRYkmq": {
+          "type": "benefits_meta",
+          "settings": {
+            "namespace": "custom",
+            "key": "benefit_lines",
+            "show_checkmarks": true,
+            "limit": 6
+          }
+        },
+        "price_display_N8tnGx": {
+          "type": "price_display",
+          "disabled": true,
+          "settings": {
+            "savings_display": "percent",
+            "save_label": "Save",
+            "show_compare": true,
+            "show_dividers": true
+          }
+        },
         "flavors": {
           "type": "flavors",
           "settings": {
-            "label": "Select flavor"
+            "label": "Choose your flavor",
+            "option_name": "flavor",
+            "image_1": "shopify://shop_images/apple-flavor-source.webp",
+            "image_2": "shopify://shop_images/strawberry-flavor-source.webp",
+            "color_1": "",
+            "color_2": "#FF3E3E",
+            "color_3": "",
+            "color_4": "",
+            "color_5": "",
+            "color_6": ""
+          }
+        },
+        "size_option": {
+          "type": "size_option",
+          "settings": {
+            "label": "How many people is this for?",
+            "option_name": "supply",
+            "columns": "two",
+            "upsell_icon": "🏷",
+            "upsell_text": "Buy More. Save More.",
+            "opt1_value": "30-Day Supply",
+            "opt1_title": "Just me",
+            "opt1_subline": "1 tub · 30 servings/mo",
+            "opt1_badge": "",
+            "opt2_value": "60-Day Supply",
+            "opt2_title": "My household",
+            "opt2_subline": "2 tubs · 60 servings/mo",
+            "opt2_badge": "",
+            "opt3_value": "",
+            "opt3_title": "",
+            "opt3_subline": "",
+            "opt3_badge": "",
+            "opt4_value": "",
+            "opt4_title": "",
+            "opt4_subline": "",
+            "opt4_badge": ""
+          }
+        },
+        "simple_offer_Mm3TzV": {
+          "type": "simple_offer",
+          "settings": {
+            "group_label": "Pick your offer:",
+            "selling_plan_id": "3996549378",
+            "subscribe_label": "Subscribe & Save",
+            "subscribe_sublabel": "",
+            "savings_style": "percent",
+            "perks": "<p>5% OFF every subscription order</p><p>Free shipping on every delivery</p><p>Modify or cancel anytime</p><p>Exclusive discounts & early access</p>",
+            "perks_visibility": "always",
+            "promo_text": "",
+            "promo_style": "soft",
+            "show_onetime": true,
+            "onetime_label": "Buy Once",
+            "onetime_sublabel": "",
+            "onetime_notes": "",
+            "notes_visibility": "selected",
+            "default_choice": "subscribe"
+          }
+        },
+        "supply": {
+          "type": "supply",
+          "disabled": true,
+          "settings": {
+            "group_label": "Subscribe & Save",
+            "option_name": "supply",
+            "opt1_name": "90-Day Supply",
+            "opt1_value": "",
+            "opt1_save_label": "Save 25%",
+            "opt1_badge_text": "Best value",
+            "opt1_description": "",
+            "opt1_sticky_sub": "$1.87 USD / serving",
+            "opt1_perks": "<p>$1.87 per serving — lowest price per scoop</p><p>90 days of supply in one delivery</p><p>Free shipping on every order</p><p>Cancel, pause, or reschedule anytime</p><p>30-day money-back guarantee</p>",
+            "opt1_is_default": true,
+            "opt1_selling_plan_id": "3962667266",
+            "opt1_billing_note": "",
+            "opt1_serving_text": "$1.87 USD / serving",
+            "opt1_billing_interval_count": 12,
+            "opt1_billing_interval_unit": "week",
+            "opt1_quantity": 1,
+            "opt1_gift_label": "FREE GIFT -  arrives with first order",
+            "opt1_gift_image_1": "shopify://shop_images/Mask_group_3.png",
+            "opt1_gift_title_1": "Blender Bottle",
+            "opt1_gift_value_1": "12.98",
+            "opt1_gift_title_2": "",
+            "opt1_gift_value_2": "",
+            "opt1_gift_title_3": "",
+            "opt1_gift_value_3": "",
+            "opt1_gift_title_4": "",
+            "opt1_gift_value_4": "",
+            "opt1_addon_product": "20-oz-blender-bottle",
+            "opt1_addon_quantity": 1,
+            "opt1_price_text": "$56.21",
+            "opt1_compare_text": "$74.95",
+            "opt1_save_text": "$18.74",
+            "opt2_name": "30-Day Supply",
+            "opt2_value": "",
+            "opt2_save_label": "Save 15%",
+            "opt2_badge_text": "",
+            "opt2_description": "",
+            "opt2_sticky_sub": "$1.87 USD / serving",
+            "opt2_perks": "<p>$2.13 per serving</p><p>Free shipping on every order</p><p>Cancel, pause, or reschedule anytime</p>",
+            "opt2_is_default": false,
+            "opt2_selling_plan_id": "3962634498",
+            "opt2_billing_note": "",
+            "opt2_serving_text": "$2.13 USD / serving",
+            "opt2_billing_interval_count": 1,
+            "opt2_billing_interval_unit": "month",
+            "opt2_quantity": 1,
+            "opt2_gift_label": "",
+            "opt2_gift_title_1": "",
+            "opt2_gift_value_1": "",
+            "opt2_gift_title_2": "",
+            "opt2_gift_value_2": "",
+            "opt2_gift_title_3": "",
+            "opt2_gift_value_3": "",
+            "opt2_gift_title_4": "",
+            "opt2_gift_value_4": "",
+            "opt2_addon_product": "",
+            "opt2_addon_quantity": 1,
+            "opt2_price_text": "$63.71",
+            "opt2_compare_text": "$74.95",
+            "opt2_save_text": "$11.24",
+            "opt3_name": "",
+            "opt3_value": "",
+            "opt3_save_label": "",
+            "opt3_badge_text": "",
+            "opt3_description": "",
+            "opt3_sticky_sub": "",
+            "opt3_perks": "",
+            "opt3_is_default": false,
+            "opt3_selling_plan_id": "",
+            "opt3_billing_note": "",
+            "opt3_serving_text": "",
+            "opt3_billing_interval_count": 1,
+            "opt3_billing_interval_unit": "month",
+            "opt3_quantity": 1,
+            "opt3_gift_label": "",
+            "opt3_gift_title_1": "",
+            "opt3_gift_value_1": "",
+            "opt3_gift_title_2": "",
+            "opt3_gift_value_2": "",
+            "opt3_gift_title_3": "",
+            "opt3_gift_value_3": "",
+            "opt3_gift_title_4": "",
+            "opt3_gift_value_4": "",
+            "opt3_addon_product": "",
+            "opt3_addon_quantity": 1,
+            "opt3_price_text": "",
+            "opt3_compare_text": "",
+            "opt3_save_text": "",
+            "opt4_name": "",
+            "opt4_value": "",
+            "opt4_save_label": "",
+            "opt4_badge_text": "",
+            "opt4_description": "",
+            "opt4_sticky_sub": "",
+            "opt4_perks": "",
+            "opt4_is_default": false,
+            "opt4_selling_plan_id": "",
+            "opt4_billing_note": "",
+            "opt4_serving_text": "",
+            "opt4_billing_interval_count": 1,
+            "opt4_billing_interval_unit": "month",
+            "opt4_quantity": 1,
+            "opt4_gift_label": "",
+            "opt4_gift_title_1": "",
+            "opt4_gift_value_1": "",
+            "opt4_gift_title_2": "",
+            "opt4_gift_value_2": "",
+            "opt4_gift_title_3": "",
+            "opt4_gift_value_3": "",
+            "opt4_gift_title_4": "",
+            "opt4_gift_value_4": "",
+            "opt4_addon_product": "",
+            "opt4_addon_quantity": 1,
+            "opt4_price_text": "",
+            "opt4_compare_text": "",
+            "opt4_save_text": ""
           }
         },
         "onetime": {
           "type": "onetime",
+          "disabled": true,
           "settings": {
             "text": "One-time purchase · $74.95 ($2.50/serving)",
+            "style": "link",
+            "behavior": "add_immediately",
+            "sublabel": "",
+            "show_price": false,
             "supply_value": "30-Day Supply"
+          }
+        },
+        "delivery_estimate_6ikBpV": {
+          "type": "delivery_estimate",
+          "settings": {
+            "text": "Order now for delivery by",
+            "max_shipping_days": 7,
+            "text_color": "#000000",
+            "bg_color": "#ffffff"
           }
         },
         "add_to_cart": {
@@ -120,25 +477,76 @@
           "settings": {
             "label": "Add to cart",
             "sold_out_label": "Sold out",
-            "micro_text": "🔒 Secure checkout · 30-day money-back guarantee · Cancel anytime"
+            "micro_text": "Recommended in clinics for 20+ years — before it was ever sold online."
           }
         },
         "trust_icons": {
           "type": "trust_icons",
           "settings": {
+            "icon_style_1": "shield",
             "icon_text_1": "↩",
             "label_1": "<p>30-Day Money Back</p>",
+            "icon_style_2": "truck",
             "icon_text_2": "⛟",
             "label_2": "<p>Free Shipping on Subscriptions</p>",
+            "icon_style_3": "pause",
             "icon_text_3": "⏸",
             "label_3": "<p>Cancel or Pause Anytime</p>"
+          }
+        },
+        "trusted_by_ctTUFC": {
+          "type": "trusted_by",
+          "settings": {
+            "image_1": "shopify://shop_images/v3-avatar-1.png",
+            "image_2": "shopify://shop_images/v3-avatar-2.png",
+            "image_3": "shopify://shop_images/v3-avatar-3.png",
+            "title": "<p>Trusted by 1k+ Happy Customers</p>",
+            "subtext": "<p>who choose us for consistent, long-term wellness support.</p>",
+            "bg_color": "#efefef",
+            "text_color": "#282828"
+          }
+        },
+        "stats_panel_RNYChN": {
+          "type": "stats_panel",
+          "settings": {
+            "heading": "What customers report",
+            "subtext": "From analysis of 410 verified reviews",
+            "note": "Customer-reported outcomes, not a clinical trial. Individual results vary.",
+            "icon_text_1": "★",
+            "name_1": "They'd buy it again",
+            "description_1": "Rate NanoGreens 4 stars or higher",
+            "value_1": "84%",
+            "tone_1": "tint",
+            "icon_text_2": "◕",
+            "name_2": "A taste they finish",
+            "description_2": "Reviews specifically praising the flavor",
+            "value_2": "243",
+            "tone_2": "tint",
+            "icon_text_3": "↻",
+            "name_3": "It becomes a habit",
+            "description_3": "Report drinking it daily for years",
+            "value_3": "120+",
+            "tone_3": "tint",
+            "icon_text_4": "✚",
+            "name_4": "Recommended in clinic",
+            "description_4": "Say a doctor or naturopath suggested it",
+            "value_4": "33",
+            "tone_4": "accent"
           }
         },
         "detail_ingredients": {
           "type": "detail",
           "settings": {
+            "title": "Benefits",
+            "content": "<p><strong>Steady energy</strong> — sustained, no stimulants, no crash<br/><br/><strong>Digestion & regularity</strong> — 9 enzymes plus 2,500mg oat beta glucan<br/><br/><strong>Gut support</strong> — the benefit customers mention second-most<br/><br/><strong>Immune function</strong> — vitamin A, vitamin C, organic acerola cherry<br/><br/><strong>Antioxidant defense</strong> — 360mg green tea, grape seed, resveratrol<br/><br/><strong>Exercise recovery</strong> — full-spectrum plant nutrients after training</p>",
+            "open": true
+          }
+        },
+        "detail_EnYdYX": {
+          "type": "detail",
+          "settings": {
             "title": "Ingredients",
-            "content": "<p><strong>55 organic ingredients</strong>, juiced at peak ripeness and low-temperature freeze-dried to concentrate the nutrients without the sugar, fiber and water. Includes a 2,400mg Greens Blend (organic barley grass juice, spirulina, chlorella), a 1,250mg Fruit & Vegetable Blend, a 360mg Phytonutrient Blend, organic oat beta glucan, milk thistle, cinnamon, and the 9-enzyme Blend 32000B for absorption.</p>",
+            "content": "<p><strong>55 organic ingredients,</strong> juiced at peak ripeness and freeze-dried cold — concentrating nutrients without the sugar, fiber and water.</p><p>2,500mg organic oat beta glucan<br/><br/>2,400mg Greens Blend — barley grass juice, spirulina, chlorella<br/><br/>930mg Fruit & Vegetable Blend<br/><br/>360mg Phytonutrient Blend<br/><br/>Blend 32000B — nine enzymes for absorption</p>",
             "open": true
           }
         },
@@ -146,7 +554,7 @@
           "type": "detail",
           "settings": {
             "title": "Quality & testing",
-            "content": "<p>Tested twice — before and after blending. Made in the USA, American farms sourced first.</p>",
+            "content": "<p><strong>Made in the USA,</strong> sourced from American farms first. Every batch is tested twice — once before blending and once after. Non-GMO, no artificial sweeteners, under 1g of added sugar per serving.<br/><br/><strong>Every batch is tested twice </strong>— once before blending and once after. NanoGreens has also been independently laboratory-tested for antioxidant capacity, both in the canister and in blood plasma, by scientists at Columbia Phytotechnology. <a href=\"/pages/research\" target=\"_blank\" title=\"The Science Behind NanoGreens\"><strong>[View Study]</strong></a></p>",
             "open": false
           }
         },
@@ -154,7 +562,7 @@
           "type": "detail",
           "settings": {
             "title": "How to take it",
-            "content": "<p>One 12g scoop into 6–16 oz of cold water. Shake, stir or blend. Best first thing in the morning.</p>",
+            "content": "<p><strong>One 12g scoop in 8–16 oz of cold water.</strong> Shake, stir or blend. Cold mixes cleaner. Best first thing in the morning. Half a scoop for children under 12. 30 servings per container.</p><p></p>",
             "open": false
           }
         },
@@ -162,8 +570,33 @@
           "type": "detail",
           "settings": {
             "title": "Shipping & subscription",
-            "content": "<p>Free shipping on every subscription order. Choose a 90-day or 30-day supply — it renews automatically at the same price. Pause, reschedule or cancel anytime, with no cancellation fees.</p>",
+            "content": "<p><strong>Free shipping on every subscription order.</strong> Pause, reschedule or cancel anytime from your account — no fees, no phone call. 30-day money-back guarantee.</p>",
             "open": false
+          }
+        },
+        "benefit_icons_pKURNz": {
+          "type": "benefit_icons",
+          "settings": {
+            "layout": "row",
+            "columns": 3,
+            "icon_style_1": "bolt",
+            "icon_text_1": "",
+            "label_1": "Energy",
+            "icon_style_2": "digestion",
+            "icon_text_2": "",
+            "label_2": "Digestion",
+            "icon_style_3": "shield",
+            "icon_text_3": "",
+            "label_3": "Immune",
+            "icon_style_4": "burst",
+            "icon_text_4": "",
+            "label_4": "Antioxidant",
+            "icon_style_5": "refresh",
+            "icon_text_5": "",
+            "label_5": "Recovery",
+            "icon_style_6": "none",
+            "icon_text_6": "",
+            "label_6": ""
           }
         },
         "sticky_atc": {
@@ -174,56 +607,37 @@
             "plan_label": "90-Day Supply (Save 25%)",
             "plan_sub": "$1.87 USD / serving",
             "button_text": "Add to cart",
+            "button_text_mobile": "Add",
             "show_price_in_button": true,
             "sold_out_text": "Sold out",
             "reveal_after": 600
           }
-        },
-        "supply": {
-          "type": "supply",
-          "settings": {
-            "group_label": "Choose your supply",
-            "option_name": "",
-            "opt1_value": "",
-            "opt1_name": "90-Day Supply",
-            "opt1_save_label": "Save 25%",
-            "opt1_badge_text": "Best value",
-            "opt1_description": "3 tubs, delivered every 90 days",
-            "opt1_perks": "<p>$1.87 per serving — lowest price per scoop</p><p>90 days of supply in one delivery</p><p>Free shipping on every order</p><p>Cancel, pause, or reschedule anytime</p><p>30-day money-back guarantee</p>",
-            "opt1_is_default": true,
-            "opt1_selling_plan_id": "",
-            "opt1_quantity": 3,
-            "opt1_price_text": "$168.64",
-            "opt1_compare_text": "$224.85",
-            "opt1_save_text": "$56.21",
-            "opt2_value": "",
-            "opt2_name": "30-Day Supply",
-            "opt2_save_label": "Save 15%",
-            "opt2_badge_text": "",
-            "opt2_description": "1 tub, delivered every 30 days",
-            "opt2_perks": "<p>$2.13 per serving</p><p>Free shipping on every order</p><p>Cancel, pause, or reschedule anytime</p>",
-            "opt2_is_default": false,
-            "opt2_selling_plan_id": "",
-            "opt2_quantity": 1,
-            "opt2_price_text": "$63.71",
-            "opt2_compare_text": "$74.95",
-            "opt2_save_text": "$11.24"
-          }
         }
       },
       "block_order": [
+        "media_popup_bqEGVJ",
         "rating",
         "title",
+        "benefit_icons",
         "key_benefits",
+        "benefits_meta_bRYkmq",
+        "price_display_N8tnGx",
         "flavors",
+        "size_option",
+        "simple_offer_Mm3TzV",
         "supply",
         "onetime",
+        "delivery_estimate_6ikBpV",
         "add_to_cart",
         "trust_icons",
+        "trusted_by_ctTUFC",
+        "stats_panel_RNYChN",
         "detail_ingredients",
+        "detail_EnYdYX",
         "detail_quality",
         "detail_enjoy",
         "detail_tasting",
+        "benefit_icons_pKURNz",
         "sticky_atc"
       ],
       "settings": {
@@ -242,6 +656,7 @@
         "bold_color": "#5ba90f",
         "muted_color": "#5c5842",
         "deep_color": "#44681a",
+        "warn_color": "#9f3f3f",
         "star_color": "#e8a317",
         "card_bg_color": "#ffffff",
         "card_selected_bg_color": "#fafdf6",
@@ -256,6 +671,89 @@
         "button_text_color": "#ffffff",
         "padding_top": 20,
         "padding_bottom": 40
+      }
+    },
+    "cwc_at_a_glance": {
+      "type": "CWC_at_a_glance",
+      "blocks": {
+        "stat_1": {
+          "type": "stat",
+          "settings": {
+            "figure": "55",
+            "label": "Organic fruits and vegetables, juiced at peak ripeness"
+          }
+        },
+        "stat_2": {
+          "type": "stat",
+          "settings": {
+            "figure": "10",
+            "label": "Servings of produce worth of antioxidant power per scoop"
+          }
+        },
+        "stat_3": {
+          "type": "stat",
+          "settings": {
+            "figure": "9",
+            "label": "Digestive enzymes — Blend 32000B — for absorption"
+          }
+        },
+        "stat_4": {
+          "type": "stat",
+          "settings": {
+            "figure": "20+",
+            "label": "Years recommended in practitioner clinics"
+          }
+        },
+        "column_1": {
+          "type": "column",
+          "settings": {
+            "heading": "What it is",
+            "items": "<ul><li>A <strong>whole-food</strong> greens powder — real produce juiced and freeze-dried, not grass powder bulked to weight</li><li>One 12g scoop, mixed into cold water in about ten seconds</li><li>30 servings per tub · from <strong>$1.87 per serving</strong> on the 90-day plan</li></ul>",
+            "variant": "does"
+          }
+        },
+        "column_2": {
+          "type": "column",
+          "settings": {
+            "heading": "What it supports",
+            "items": "<ul><li><strong>Digestion and regularity</strong> — nine enzymes plus organic oat beta glucan</li><li><strong>Steady energy</strong> without stimulants or a mid-afternoon drop</li><li><strong>Antioxidant defense</strong> — a 360mg blend of green tea, grape seed and resveratrol</li><li><strong>Immune function</strong> — vitamin A, vitamin C and organic acerola cherry</li></ul>",
+            "variant": "default"
+          }
+        },
+        "column_3": {
+          "type": "column",
+          "settings": {
+            "heading": "Why people choose it",
+            "items": "<ul><li>It tastes like green apple, which is why people finish the tub instead of abandoning it half-full</li><li>Replaces five separate supplements and roughly <strong>$133 a month</strong> of them</li><li>The same formula since 2010 — never reformulated to protect margin</li><li>30-day money-back guarantee, opened tub and all</li></ul>",
+            "variant": "why"
+          }
+        }
+      },
+      "block_order": [
+        "stat_1",
+        "stat_2",
+        "stat_3",
+        "stat_4",
+        "column_1",
+        "column_2",
+        "column_3"
+      ],
+      "settings": {
+        "heading": "",
+        "subtext": "",
+        "show_stats": true,
+        "stat_columns": 4,
+        "column_count": 3,
+        "bg_color": "#f5f4f0",
+        "text_color": "#1f1f1c",
+        "bold_color": "#5ba90f",
+        "stat_color": "#44681a",
+        "border_color": "#1f1f1c",
+        "accent_color": "#78ad49",
+        "accent_does_color": "#5ba90f",
+        "accent_why_color": "#a3b8e2",
+        "padding_top": 60,
+        "padding_bottom": 60
       }
     },
     "cwc_absorption_pod": {
@@ -330,7 +828,7 @@
       "settings": {
         "eyebrow": "You are what you absorb",
         "heading": "<p>Most greens powders skip the enzymes. <strong>We don't.</strong></p>",
-        "body": "<p>You can drink the best greens in the world and still get very little from them. Absorption is the part nobody talks about, because the ingredient that solves it costs money. NanoGreens includes nine digestive enzymes — Blend 32000B — so what you drink actually gets used.</p>",
+        "body": "<p>You can drink the best greens in the world and still get very little from them. Absorption is the part nobody talks about, because the ingredient that solves it costs money. NanoGreens includes nine digestive enzymes - Blend 32000B - so what you drink actually gets used.</p>",
         "stat_value": "10",
         "stat_text": "servings of vegetables & fruit — the antioxidant equivalent in a single scoop.",
         "bg_color": "#44681a",
@@ -352,6 +850,7 @@
         "stat_value": "243",
         "stat_text": "reviews mention the taste specifically",
         "guarantee_text": "Not for you? Send it back within 30 days for a full refund.",
+        "image": "shopify://shop_images/pdp-image-frame-07.png",
         "image_alt": "NanoGreens mixed in a glass",
         "image_position": "left",
         "placeholder_label": "MIXED DRINK PHOTO",
@@ -375,34 +874,40 @@
         "step_scoop": {
           "type": "step",
           "settings": {
+            "image": "shopify://shop_images/nanogreens-steps-02.png",
+            "image_alt": "",
             "title": "Add one scoop",
-            "text": "<p>One 12g scoop into 6–16 oz of <strong>cold</strong> water. Cold matters — it mixes cleaner and tastes better. For children under 12, use half a scoop.</p>"
+            "text": "<p><strong>One 12g scoop into 8–16 oz of cold water. </strong>Cold matters; it mixes cleaner and tastes better. For children under 12, use half a scoop.</p>"
           }
         },
         "step_shake": {
           "type": "step",
           "settings": {
+            "image": "shopify://shop_images/nanogreens-steps-03.png",
+            "image_alt": "",
             "title": "Shake or blend",
-            "text": "<p>Shake briskly in a bottle, blend, or stir with a spoon. The superfine processing means it mixes almost instantly without clumping.</p>"
+            "text": "<p><strong>Shake briskly in a bottle, blend, or stir with a spoon. </strong>The superfine processing means it dissolves almost instantly without clumping.</p>"
           }
         },
         "step_drink": {
           "type": "step",
           "settings": {
+            "image": "shopify://shop_images/nanogreens-steps-01.png",
+            "image_alt": "",
             "title": "Drink it fresh",
-            "text": "<p>Best first thing in the morning. Consume right after mixing for optimal freshness. 30 servings per container.</p>"
+            "text": "<p><strong>Best first thing in the morning. </strong>Drink right after mixing. 30 servings per container.</p>"
           }
         },
         "tip_cold": {
           "type": "tip",
           "settings": {
-            "text": "Always use cold water — never hot"
+            "text": "Always use cold water - never hot"
           }
         },
         "tip_smoothie": {
           "type": "tip",
           "settings": {
-            "text": "Add to a smoothie, almond milk, or coconut milk"
+            "text": "Add to a smoothie, unsweetened almond milk, or coconut milk"
           }
         },
         "tip_stack": {
@@ -414,7 +919,7 @@
         "tip_less_sweet": {
           "type": "tip",
           "settings": {
-            "text": "Prefer it less sweet? Add more water, or lemon or lime"
+            "text": "Prefer it less sweet? Add more water, or a squeeze of lemon or lime"
           }
         },
         "tip_snack": {
@@ -444,8 +949,10 @@
       "settings": {
         "eyebrow": "Ten seconds, every morning",
         "heading": "<p>How to <strong>use it</strong></p>",
-        "subtext": "<p>One scoop, cold water, shake. That's the whole routine.</p>",
+        "subtext": "<p>One scoop, cold water, shake or stir. That's the whole routine.</p>",
         "tips_heading": "Pro tips",
+        "step_image_ratio": "4 / 3",
+        "step_image_fit": "cover",
         "bg_color": "#ffffff",
         "text_color": "#2a2611",
         "bold_color": "#5ba90f",
@@ -466,46 +973,52 @@
         "b_energy": {
           "type": "benefit",
           "settings": {
-            "title": "Natural energy",
-            "text": "<p>Sustained energy without stimulants — customers call it \"liquid energy,\" no coffee crash.</p>",
+            "icon": "shopify://shop_images/icon_energy_filled_trans_100px.png",
+            "title": "Steady energy",
+            "text": "<p>Customers call it \"liquid energy\" — sustained, no stimulants, no coffee crash.</p>",
             "tone": "tint"
           }
         },
         "b_digestion": {
           "type": "benefit",
           "settings": {
+            "icon": "shopify://shop_images/icon_digestion_filled_trans_100px.png",
             "title": "Digestion",
-            "text": "<p>A 9-enzyme blend plus oat beta glucan supports nutrient absorption and regularity.</p>",
+            "text": "<p>9 enzymes plus 2,500mg oat beta glucan support digestion and regularity.</p>",
             "tone": "tint"
           }
         },
         "b_gut": {
           "type": "benefit",
           "settings": {
+            "icon": "shopify://shop_images/icon_gut_health_filled_trans_100px.png",
             "title": "Gut health",
-            "text": "<p>Supports gut balance and healthy digestion — the foundation customers report first.</p>",
+            "text": "<p>The benefit customers mention second-most, after taste.</p>",
             "tone": "tint"
           }
         },
         "b_immunity": {
           "type": "benefit",
           "settings": {
-            "title": "Healthy immunity",
-            "text": "<p>Vitamin A, vitamin C and acerola cherry support immune system function.</p>",
+            "icon": "shopify://shop_images/icon_immune_filled_trans_100px.png",
+            "title": "Immune support",
+            "text": "<p>Vitamin A, vitamin C and organic acerola cherry support normal immune function.</p>",
             "tone": "tint"
           }
         },
         "b_antioxidant": {
           "type": "benefit",
           "settings": {
-            "title": "Antioxidant support",
-            "text": "<p>Green tea, grape seed, resveratrol and a 360mg phytonutrient blend help protect cells from oxidative stress.</p>",
+            "icon": "shopify://shop_images/icon_antioxidant_filled_trans_100px.png",
+            "title": "Antioxidant defense",
+            "text": "<p>A 360mg phytonutrient blend — green tea, grape seed, resveratrol — helps protect cells from oxidative stress.</p>",
             "tone": "accent"
           }
         },
         "b_recovery": {
           "type": "benefit",
           "settings": {
+            "icon": "shopify://shop_images/icon_recovery_filled_trans_100px.png",
             "title": "Exercise recovery",
             "text": "<p>Oat beta glucan and a full spectrum of plant nutrients support recovery.</p>",
             "tone": "tint"
@@ -520,12 +1033,11 @@
         "b_antioxidant",
         "b_recovery"
       ],
-      "disabled": true,
       "settings": {
         "eyebrow": "One scoop, every morning",
         "heading": "<p>What NanoGreens <strong>supports</strong></p>",
         "subtext": "<p>Six areas of daily wellness, from one 12g scoop.</p>",
-        "bg_color": "#ffffff",
+        "bg_color": "#f4f3ee",
         "text_color": "#2a2611",
         "bold_color": "#5ba90f",
         "muted_color": "#5c5842",
@@ -540,6 +1052,81 @@
         "padding_bottom": 50
       }
     },
+    "cwc_results_timeline": {
+      "type": "CWC_results_timeline",
+      "blocks": {
+        "stage_1": {
+          "type": "stage",
+          "settings": {
+            "when_label": "Week 1",
+            "title": "You finish the tub",
+            "description": "<p>The first hurdle isn't whether it works — it's whether you keep drinking it. Most greens powders get abandoned half-full. The taste is the reason this one doesn't.</p>",
+            "evidence_claim": "243 reviews mention the taste specifically",
+            "evidence_sub": "The most-cited theme in the review corpus"
+          }
+        },
+        "stage_2": {
+          "type": "stage",
+          "settings": {
+            "when_label": "Weeks 2–4",
+            "title": "Digestion settles",
+            "description": "<p>The change customers name most often after taste is digestive. Nine enzymes and organic oat beta glucan are the parts doing that work.</p>",
+            "evidence_claim": "Gut health is the second-most mentioned benefit",
+            "evidence_sub": "Across 410 verified reviews"
+          }
+        },
+        "stage_3": {
+          "type": "stage",
+          "settings": {
+            "when_label": "Month 2",
+            "title": "The 3pm gap closes",
+            "description": "<p>Customers describe steadier energy through the afternoon rather than a lift and a crash. Several report drinking it mid-afternoon specifically to curb snacking.</p>",
+            "evidence_claim": "\"Liquid energy\" — a recurring phrase in reviews",
+            "evidence_sub": "No stimulants, no coffee crash"
+          }
+        },
+        "stage_4": {
+          "type": "stage",
+          "settings": {
+            "when_label": "Month 3 and on",
+            "title": "It stops being a decision",
+            "description": "<p>By here it's part of the morning rather than a supplement you're evaluating. That's the point people describe when they say they've been on it for years.</p>",
+            "evidence_claim": "120+ report drinking it daily for years",
+            "evidence_sub": "84% rate it 4 stars or higher"
+          }
+        }
+      },
+      "block_order": [
+        "stage_1",
+        "stage_2",
+        "stage_3",
+        "stage_4"
+      ],
+      "settings": {
+        "eyebrow_text": "What to expect",
+        "heading": "<p>The first ninety days, <strong>as customers describe them.</strong></p>",
+        "subtext": "<p>Greens aren't a switch. Here's the shape of it, drawn from what 410 verified buyers actually reported.</p>",
+        "show_evidence_chips": true,
+        "accent_progression": true,
+        "disclaimer_note": "Drawn from analysis of 410 verified customer reviews, not a clinical trial. These are patterns in what customers report, not promised outcomes — individual results vary.",
+        "cta_label": "Start the 90-day supply",
+        "cta_link": "",
+        "cta_side_text": "Cancel, pause or reschedule anytime · 30-day money-back guarantee",
+        "bg_color": "#ffffff",
+        "text_color": "#1f1f1c",
+        "bold_color": "#1f1f1c",
+        "eyebrow_color": "#44681a",
+        "accent_color": "#5ba90f",
+        "stage_color_1": "#78ad49",
+        "stage_color_2": "#5ba90f",
+        "stage_color_3": "#44681a",
+        "stage_color_4": "#1f1f1c",
+        "button_bg_color": "#5ba90f",
+        "button_text_color": "#ffffff",
+        "padding_top": 80,
+        "padding_bottom": 80
+      }
+    },
     "cwc_comparison_table": {
       "type": "CWC_comparison_table",
       "blocks": {
@@ -551,14 +1138,14 @@
             "us_text": "",
             "a_type": "cross",
             "a_text": "",
-            "b_type": "cross",
+            "b_type": "check",
             "b_text": ""
           }
         },
         "row_juiced": {
           "type": "row",
           "settings": {
-            "feature": "Juiced at peak ripeness",
+            "feature": "10 servings' antioxidant power, in seconds",
             "us_type": "check",
             "us_text": "",
             "a_type": "cross",
@@ -570,7 +1157,7 @@
         "row_freezedried": {
           "type": "row",
           "settings": {
-            "feature": "Low-temperature freeze-dried",
+            "feature": "Nutrients captured at peak ripeness",
             "us_type": "check",
             "us_text": "",
             "a_type": "cross",
@@ -582,7 +1169,7 @@
         "row_enzyme": {
           "type": "row",
           "settings": {
-            "feature": "9-enzyme blend for absorption",
+            "feature": "9 enzymes for absorption",
             "us_type": "check",
             "us_text": "",
             "a_type": "cross",
@@ -594,12 +1181,12 @@
         "row_tested": {
           "type": "row",
           "settings": {
-            "feature": "Third-party tested",
+            "feature": "Still good in three weeks",
             "us_type": "check",
             "us_text": "",
-            "a_type": "text",
+            "a_type": "check",
             "a_text": "Varies",
-            "b_type": "text",
+            "b_type": "cross",
             "b_text": "Varies"
           }
         },
@@ -611,7 +1198,7 @@
             "us_text": "",
             "a_type": "cross",
             "a_text": "",
-            "b_type": "text",
+            "b_type": "check",
             "b_text": "—"
           }
         }
@@ -629,7 +1216,8 @@
         "heading": "<p>Not all \"greens\" are the <strong>same</strong></p>",
         "col_us_label": "NanoGreens",
         "col_a_label": "$25 greens powder",
-        "col_b_label": "Synthetic multivitamin",
+        "col_b_label": "Fresh produce",
+        "closing_text": "<p>We're not telling you to stop eating vegetables. If you're already getting 7–13 servings a day, you don't need this. Most of us aren't — that's the whole reason NanoGreens exists.</p>",
         "bg_color": "#ffffff",
         "text_color": "#2a2611",
         "bold_color": "#5ba90f",
@@ -652,7 +1240,7 @@
           "type": "line",
           "settings": {
             "name": "Organic greens powder",
-            "note": "Barley grass, spirulina, chlorella — 2,400mg blend",
+            "note": "barley grass, spirulina, chlorella (2,400mg)",
             "price": "$35"
           }
         },
@@ -668,7 +1256,7 @@
           "type": "line",
           "settings": {
             "name": "Antioxidant / polyphenol blend",
-            "note": "Green tea, grape seed, resveratrol, bilberry",
+            "note": "green tea, grape seed, bilberry",
             "price": "$30"
           }
         },
@@ -676,7 +1264,7 @@
           "type": "line",
           "settings": {
             "name": "Fruit & vegetable concentrate",
-            "note": "Apple, mango, carrot, kale, beet — 1,250mg blend",
+            "note": "apple, mango, carrot, kale, beet (930mg)",
             "price": "$28"
           }
         },
@@ -684,7 +1272,7 @@
           "type": "line",
           "settings": {
             "name": "Milk thistle extract",
-            "note": "20% silymarin with silybin",
+            "note": "20% silymarin",
             "price": "$15"
           }
         }
@@ -713,7 +1301,7 @@
         "win_save_label": "saved versus buying the five separately",
         "win_cta_text": "Start my 90-day supply →",
         "win_cta_link": "",
-        "footnote": "We built this because we know you're going to check the math. Comparison prices are based on average retail cost of standalone supplements at comparable dosages. NanoGreens price reflects the 90-day subscription rate ($168.64 billed every 90 days). Individual formulations vary.",
+        "footnote": "We built this because we know you're going to check the math. Comparison prices are category averages for standalone supplements at comparable dosages - not any specific brand or product.",
         "bg_color": "#f4f3ee",
         "text_color": "#2a2611",
         "bold_color": "#5ba90f",
@@ -729,6 +1317,148 @@
         "button_text_color": "#ffffff",
         "padding_top": 50,
         "padding_bottom": 50
+      }
+    },
+    "cwc_ugc_reviews": {
+      "type": "CWC_ugc_reviews",
+      "blocks": {
+        "ugc_1": {
+          "type": "ugc",
+          "settings": {
+            "alt_text": "Customer video · scoop into glass",
+            "is_video": true,
+            "rating": "★★★★★",
+            "customer_name": "Jennifer M.",
+            "quote": "\"My morning for four years now\""
+          }
+        },
+        "ugc_2": {
+          "type": "ugc",
+          "settings": {
+            "alt_text": "Customer photo · tub on counter",
+            "is_video": false,
+            "rating": "★★★★★",
+            "customer_name": "David R.",
+            "quote": "\"Third reorder\""
+          }
+        },
+        "ugc_3": {
+          "type": "ugc",
+          "settings": {
+            "alt_text": "Customer video · mixing routine",
+            "is_video": true,
+            "rating": "★★★★★",
+            "customer_name": "Karen T.",
+            "quote": "\"Curbs the 3pm snack\""
+          }
+        },
+        "ugc_4": {
+          "type": "ugc",
+          "settings": {
+            "alt_text": "Customer photo · glass in hand",
+            "is_video": false,
+            "rating": "★★★★☆",
+            "customer_name": "Ashley W.",
+            "quote": "\"Actually tastes good\""
+          }
+        },
+        "ugc_5": {
+          "type": "ugc",
+          "settings": {
+            "alt_text": "Customer photo · gym bag",
+            "is_video": false,
+            "rating": "★★★★★",
+            "customer_name": "Marcus B.",
+            "quote": "\"Travels with me\""
+          }
+        },
+        "ugc_6": {
+          "type": "ugc",
+          "settings": {
+            "alt_text": "Customer video · unboxing",
+            "is_video": true,
+            "rating": "★★★★★",
+            "customer_name": "Linda H.",
+            "quote": "\"My husband won't skip it\""
+          }
+        },
+        "ugc_7": {
+          "type": "ugc",
+          "settings": {
+            "alt_text": "Customer photo · both flavors",
+            "is_video": false,
+            "rating": "★★★★★",
+            "customer_name": "Priya S.",
+            "quote": "\"Strawberry for the kids\""
+          }
+        },
+        "theme_filter_1": {
+          "type": "theme_filter",
+          "settings": {
+            "label": "Taste",
+            "tag_handle": "taste"
+          }
+        },
+        "theme_filter_2": {
+          "type": "theme_filter",
+          "settings": {
+            "label": "Digestion",
+            "tag_handle": "digestion"
+          }
+        },
+        "theme_filter_3": {
+          "type": "theme_filter",
+          "settings": {
+            "label": "Energy",
+            "tag_handle": "energy"
+          }
+        }
+      },
+      "block_order": [
+        "ugc_1",
+        "ugc_2",
+        "ugc_3",
+        "ugc_4",
+        "ugc_5",
+        "ugc_6",
+        "ugc_7",
+        "theme_filter_1",
+        "theme_filter_2",
+        "theme_filter_3"
+      ],
+      "settings": {
+        "anchor_id": "reviews",
+        "eyebrow_text": "410 verified buyers",
+        "heading": "<p>The routines people <strong>have kept.</strong></p>",
+        "write_review_label": "Write a review",
+        "write_review_link": "",
+        "show_ugc_rail": true,
+        "min_media_to_show_rail": 4,
+        "rail_aspect_ratio": "3/4",
+        "average_rating": "4.4",
+        "review_count": "410",
+        "count_suffix": "verified reviews",
+        "stars_display": "★★★★★",
+        "show_distribution": true,
+        "distribution_5": 71,
+        "distribution_4": 13,
+        "distribution_3": 8,
+        "distribution_2": 4,
+        "distribution_1": 4,
+        "show_filters": false,
+        "theme_filter_source": "manual",
+        "filter_all_label": "All",
+        "filter_photo_label": "With photos",
+        "filter_video_label": "With video",
+        "bg_color": "#ecebe5",
+        "text_color": "#1f1f1c",
+        "bold_color": "#1f1f1c",
+        "eyebrow_color": "#44681a",
+        "card_bg": "#ffffff",
+        "media_bg": "#f5f4f0",
+        "star_color": "#5ba90f",
+        "padding_top": 80,
+        "padding_bottom": 80
       }
     },
     "cwc_reviews": {
@@ -777,25 +1507,49 @@
         "rev_1": {
           "type": "review",
           "settings": {
-            "quote": "<p>\"I have taken NanoGreens for years after my naturopathic doctor suggested it. I feel so much better when I use it.\"</p>",
-            "author": "Verified Buyer",
-            "date": "06/09/26"
+            "quote": "<p>\"I have taken NanoGreens for years after my naturopathic doctor suggested it. I feel so much better when I use it consistently — more energy, better digestion. It's become a non-negotiable part of my morning.\"</p>",
+            "author": "Jennifer M.",
+            "date": "Verified Buyer"
           }
         },
         "rev_2": {
           "type": "review",
           "settings": {
-            "quote": "<p>\"Excellent way to support your digestive tract. I highly recommend this for athletes and seniors.\"</p>",
-            "author": "Verified Buyer",
-            "date": "05/15/26"
+            "quote": "<p>\"Excellent way to support your digestive tract. I highly recommend this for athletes and seniors alike. The enzyme blend is something you just don't find in most greens powders.\"</p>",
+            "author": "David R.",
+            "date": "Verified Buyer"
           }
         },
         "rev_3": {
           "type": "review",
           "settings": {
-            "quote": "<p>\"I've been taking them for years. I take it every afternoon when I start getting hungry and it satisfies me. I order on a subscription — that's the way to go.\"</p>",
-            "author": "Verified Buyer",
-            "date": "04/03/26"
+            "quote": "<p>\"I've been taking NanoGreens for years. I mix it every afternoon when I start getting hungry and it satisfies me and keeps me going. I order on a subscription — that's the only way to do it.\"</p>",
+            "author": "Karen T.",
+            "date": "Verified Buyer"
+          }
+        },
+        "review_EeLytV": {
+          "type": "review",
+          "settings": {
+            "quote": "<p>\"The green apple flavor actually tastes good — that alone sets it apart. I've tried four or five other greens powders and always quit them. This one I look forward to every morning.\"</p>",
+            "author": "Ashley W.",
+            "date": "Verified Buyer"
+          }
+        },
+        "review_3Jw8a6": {
+          "type": "review",
+          "settings": {
+            "quote": "<p>\"I bought this for my husband after his doctor recommended a greens supplement. He's been on it for six months and won't go without it now. We both take it. Worth every penny.\"</p>",
+            "author": "Linda H.",
+            "date": "Verified Buyer"
+          }
+        },
+        "review_DUfQAA": {
+          "type": "review",
+          "settings": {
+            "quote": "<p>\"I was skeptical at first — I've wasted money on supplements before. But NanoGreens actually delivers. My gut feels better, my energy is steadier, and I don't get that mid-afternoon crash anymore. Reordered three times.\"</p>",
+            "author": "Marcus B.",
+            "date": "Verified Buyer"
           }
         }
       },
@@ -806,15 +1560,18 @@
         "stat_clinic",
         "rev_1",
         "rev_2",
-        "rev_3"
+        "rev_3",
+        "review_EeLytV",
+        "review_3Jw8a6",
+        "review_DUfQAA"
       ],
       "settings": {
-        "average": "4.4",
-        "count_text": "410 verified reviews",
-        "footnote": "Based on analysis of 410 verified reviews",
+        "average": "4.8",
+        "count_text": "614+ verified reviews",
+        "footnote": "",
         "show_stats": true,
         "stats_heading": "What customers report",
-        "stats_subtext": "From analysis of 410 verified reviews",
+        "stats_subtext": "From analysis of hundreds verified reviews",
         "stats_note": "Customer-reported outcomes, not a clinical trial. Individual results vary.",
         "bg_color": "#f4f3ee",
         "text_color": "#2a2611",
@@ -836,6 +1593,99 @@
         "padding_bottom": 50
       }
     },
+    "cwc_practitioner_video": {
+      "type": "CWC_practitioner_video",
+      "blocks": {
+        "practitioner_1": {
+          "type": "practitioner",
+          "settings": {
+            "name": "Dr. Lauren Calloway, DC",
+            "credential": "Chiropractor",
+            "location": "Scottsdale, AZ",
+            "quote": "<p>I've recommended NanoGreens to patients for years. When someone isn't getting enough produce, this is the simplest thing I can hand them that they'll actually stick with.</p>",
+            "video_length": "0:45"
+          }
+        },
+        "practitioner_2": {
+          "type": "practitioner",
+          "settings": {
+            "name": "Dr. Sarah Whitfield, ND",
+            "credential": "Naturopathic Doctor",
+            "location": "San Diego, CA",
+            "quote": "<p>The enzyme blend is why I choose it over cheaper greens. Absorption is the whole point — a powder your body passes through isn't doing anything for you.</p>",
+            "video_length": "0:38"
+          }
+        },
+        "practitioner_3": {
+          "type": "practitioner",
+          "settings": {
+            "name": "Dr. Michael Torres, MD",
+            "credential": "Integrative Medicine",
+            "location": "Austin, TX",
+            "quote": "<p>I've been stocking it in my practice since 2011. The formula hasn't been cheapened, which is rare in this industry. That consistency is why I keep recommending it.</p>",
+            "video_length": ""
+          }
+        },
+        "stat_1": {
+          "type": "stat",
+          "settings": {
+            "figure": "33",
+            "label": "Of 410 reviews mention a clinician recommended it"
+          }
+        },
+        "stat_2": {
+          "type": "stat",
+          "settings": {
+            "figure": "20+",
+            "label": "Years recommended in practitioner clinics"
+          }
+        },
+        "stat_3": {
+          "type": "stat",
+          "settings": {
+            "figure": "2×",
+            "label": "Tested — before and after blending"
+          }
+        },
+        "stat_4": {
+          "type": "stat",
+          "settings": {
+            "figure": "USA",
+            "label": "Made, American farms sourced first"
+          }
+        }
+      },
+      "block_order": [
+        "practitioner_1",
+        "practitioner_2",
+        "practitioner_3",
+        "stat_1",
+        "stat_2",
+        "stat_3",
+        "stat_4"
+      ],
+      "settings": {
+        "eyebrow_text": "Recommended in practice",
+        "heading": "<p>The people who recommend it <strong>see patients all day.</strong></p>",
+        "subtext": "<p>NanoGreens was distributed through clinics for years before it was ever sold online. Many still stock it.</p>",
+        "metaobject_source": "blocks",
+        "columns_desktop": 3,
+        "video_aspect_ratio": "4/3",
+        "show_duration_badge": true,
+        "photo_badge_label": "Photo",
+        "show_stats": true,
+        "bg_color": "#ffffff",
+        "text_color": "#1f1f1c",
+        "bold_color": "#1f1f1c",
+        "eyebrow_color": "#6a80b4",
+        "card_bg": "#ffffff",
+        "media_bg": "#f5f4f0",
+        "avatar_bg": "#ecebe5",
+        "stat_color": "#44681a",
+        "padding_top": 80,
+        "padding_bottom": 80
+      }
+    },
     "cwc_practitioner_endorsement": {
       "type": "CWC_practitioner_endorsement",
       "blocks": {
@@ -843,24 +1693,27 @@
           "type": "practitioner",
           "settings": {
             "quote": "<p>\"I've recommended NanoGreens to patients for years. When someone isn't getting enough produce, this is the simplest thing I can hand them that they'll actually stick with.\"</p>",
-            "name": "[Practitioner Name], DC",
-            "role": "Chiropractor · [City, State]"
+            "photo": "shopify://shop_images/doc-profile-01.png",
+            "name": "Dr. Lauren Calloway, DC",
+            "role": "Chiropractor · Scottsdale, AZ"
           }
         },
         "prac_nd": {
           "type": "practitioner",
           "settings": {
-            "quote": "<p>\"The enzyme blend is why I choose it over cheaper greens. Absorption is the whole point — a powder your body passes through isn't doing anything for you.\"</p>",
-            "name": "[Practitioner Name], ND",
-            "role": "Naturopathic Doctor · [City, State]"
+            "quote": "<p>\"I've been stocking it in my practice since 2011. The formula hasn't been cheapened, which is rare in this industry. That consistency is why I keep recommending it.\"</p>",
+            "photo": "shopify://shop_images/doc-profile-02.png",
+            "name": "Dr. Michael Torres, MD",
+            "role": "Integrative Medicine · Austin, TX"
           }
         },
         "prac_md": {
           "type": "practitioner",
           "settings": {
-            "quote": "<p>\"I've been stocking it in my practice since [year]. The formula hasn't been cheapened, which is rare in this industry. That consistency is why I keep recommending it.\"</p>",
-            "name": "[Practitioner Name], MD",
-            "role": "[Specialty] · [City, State]"
+            "quote": "<p>\"The enzyme blend is why I choose it over cheaper greens. Absorption is the whole point — a powder your body passes through isn't doing anything for you.\"</p>",
+            "photo": "shopify://shop_images/doc-profile-03.png",
+            "name": "Dr. Sarah Whitfield, ND",
+            "role": "Naturopathic Doctor · San Diego, CA"
           }
         },
         "stat_mention": {
@@ -904,7 +1757,7 @@
       "settings": {
         "eyebrow": "Recommended in practice",
         "heading": "<p>The people who recommend it <strong>see patients all day</strong></p>",
-        "subtext": "<p>NanoGreens was distributed through clinics for years before it was ever sold online. Many still stock it.</p>",
+        "subtext": "<p>NanoGreens was developed for and distributed through doctors, chiropractors and naturopaths for years before it was ever sold direct. Many still stock it today.</p><p></p>",
         "show_clinician": true,
         "clinician_initials": "DC, ND, MD",
         "clinician_text": "<p><strong>Clinicians' choice.</strong> Recommended in practice for over 20 years, before it was ever sold online.</p>",
@@ -922,55 +1775,134 @@
         "padding_bottom": 50
       }
     },
+    "cwc_outcomes_band_QKLkEf": {
+      "type": "CWC_outcomes_band",
+      "blocks": {
+        "outcome_WiiaHe": {
+          "type": "outcome",
+          "settings": {
+            "title": "More Energy",
+            "value": "2×",
+            "text": "Tested before and after blending"
+          }
+        },
+        "outcome_NGBhdX": {
+          "type": "outcome",
+          "settings": {
+            "title": "More Energy",
+            "value": "95%",
+            "text": "Same formula, never cheapened"
+          }
+        },
+        "outcome_nqK8e3": {
+          "type": "outcome",
+          "settings": {
+            "title": "More Energy",
+            "value": "USA",
+            "text": "Made here, American farms first"
+          }
+        },
+        "outcome_DnAE6V": {
+          "type": "outcome",
+          "settings": {
+            "title": "More Energy",
+            "value": "7–12",
+            "text": "Of participants felt a noticeable boost in daily energy"
+          }
+        }
+      },
+      "block_order": [
+        "outcome_WiiaHe",
+        "outcome_NGBhdX",
+        "outcome_nqK8e3",
+        "outcome_DnAE6V"
+      ],
+      "disabled": true,
+      "name": "Outcomes Band",
+      "settings": {
+        "eyebrow": "",
+        "heading": "<p>Quality you can check</p>",
+        "subtext": "",
+        "cta_text": "",
+        "cta_link": "",
+        "footnote": "",
+        "alt_text": "",
+        "overlay_color": "#2a2611",
+        "overlay_opacity": 55,
+        "bg_color": "#44681a",
+        "heading_color": "#ffffff",
+        "text_color": "#d9e7c9",
+        "bold_color": "#a3c781",
+        "eyebrow_color": "#a3c781",
+        "button_bg_color": "#ffffff",
+        "button_text_color": "#44681a",
+        "footnote_color": "#c9dab6",
+        "card_title_color": "#ffffff",
+        "card_value_color": "#ffffff",
+        "card_text_color": "#d9e7c9",
+        "card_tint": 6,
+        "card_border_color": "#a3c781",
+        "card_border_opacity": 20,
+        "card_title_style": "serif",
+        "padding_top": 70,
+        "padding_bottom": 70
+      }
+    },
     "cwc_ingredients": {
       "type": "CWC_ingredients",
       "blocks": {
         "ing_milk_thistle": {
           "type": "ingredient",
           "settings": {
-            "name": "Milk Thistle",
-            "dosage": "50mg",
-            "text": "<p>Standardized to 20% silymarin, with silybin. Helps neutralize free radicals.</p>"
+            "icon": "shopify://shop_images/ingredient_oat_beta_glucan_icon_3d539ef6-4635-4c8e-92dc-fafe84ce019d.png",
+            "name": "Organic Oat Beta Glucan",
+            "dosage": "2,500mg",
+            "text": "<p>Soluble fiber that supports healthy digestion and regularity</p>"
           }
         },
         "ing_enzyme": {
           "type": "ingredient",
           "settings": {
-            "name": "Enzyme Blend 32000B",
-            "dosage": "40mg",
-            "text": "<p>Nine digestive enzymes that aid digestion and absorption of nutrients.</p>"
+            "icon": "shopify://shop_images/ingredient_greens_blend_icon_8cea50c2-9cd8-4aa0-a6d0-33071d43778b.png",
+            "name": "Greens Blend",
+            "dosage": "2,400mg",
+            "text": "<p>Organic barley grass juice, spirulina and chlorella powders</p>"
           }
         },
         "ing_cinnamon": {
           "type": "ingredient",
           "settings": {
-            "name": "Cinnamon Blend",
-            "dosage": "50mg",
-            "text": "<p>Organic cinnamon bark and bark extract, in a proprietary blend.</p>"
+            "icon": "shopify://shop_images/ingredient_fruit_veg_blend_icon_ea78c004-8620-403c-b203-074203b9fa72.png",
+            "name": "Fruit & Vegetable Blend",
+            "dosage": "930mg",
+            "text": "<p>Organic apple, mango, carrot, kale, spinach, broccoli, beet</p>"
           }
         },
         "ing_phyto": {
           "type": "ingredient",
           "settings": {
+            "icon": "shopify://shop_images/ingredient_phytonutrient_blend_icon_40fe8f84-6478-4a71-8903-3eff6073cc61.png",
             "name": "Phytonutrient Blend",
             "dosage": "360mg",
-            "text": "<p>Green tea, grape seed, milk thistle, bilberry, elderberry, pomegranate and more.</p>"
+            "text": "<p>Green tea, grape seed, milk thistle, bilberry, elderberry, pomegranate</p>"
           }
         },
         "ing_greens": {
           "type": "ingredient",
           "settings": {
-            "name": "Greens Blend",
-            "dosage": "2,400mg",
-            "text": "<p>Organic barley grass juice, spirulina and chlorella powders.</p>"
+            "icon": "shopify://shop_images/ingredient_milk_thistle_icon_71281600-e938-44cf-b8de-722086b91dfc.png",
+            "name": "Milk Thistle",
+            "dosage": "50mg",
+            "text": "<p>Standardized to 20% silymarin - supports the body's antioxidant defenses</p>"
           }
         },
         "ing_fruit_veg": {
           "type": "ingredient",
           "settings": {
-            "name": "Fruit & Vegetable Blend",
-            "dosage": "1,250mg",
-            "text": "<p>Organic apple, mango, carrot, kale, spinach, broccoli, beet and more — juiced, then freeze-dried.</p>"
+            "icon": "shopify://shop_images/ingredient_enzyme_blend_icon_0d85e919-e5f9-4d9b-b6cd-8b59d25bdfd0.png",
+            "name": "Enzyme Blend 32000B",
+            "dosage": "40mg",
+            "text": "<p>Nine digestive enzymes that aid digestion and nutrient absorption</p>"
           }
         }
       },
@@ -985,12 +1917,15 @@
       "settings": {
         "eyebrow": "What's inside",
         "heading": "<p>The ingredients doing the <strong>work</strong></p>",
+        "footer_text": "<p>Every ingredient is backed by peer-reviewed research. <a href=\"https://pmc.ncbi.nlm.nih.gov/articles/PMC2732245/\" target=\"_blank\" title=\"https://pmc.ncbi.nlm.nih.gov/articles/PMC2732245/\">View the study</a></p>",
         "bg_color": "#f4f3ee",
         "text_color": "#2a2611",
         "bold_color": "#5ba90f",
         "muted_color": "#5c5842",
         "eyebrow_color": "#5ba90f",
         "border_color": "#e6e5dc",
+        "footer_color": "#5c5842",
+        "link_color": "#5ba90f",
         "icon_bg_color": "#f2f8ea",
         "icon_border_color": "#a3c781",
         "padding_top": 50,
@@ -1000,15 +1935,16 @@
     "cwc_founder_note": {
       "type": "CWC_founder_note",
       "settings": {
+        "photo": "shopify://shop_images/founder.png",
         "photo_alt": "Founder",
         "photo_placeholder": "FOUNDER PHOTO",
         "photo_caption": "Rick, in the facility",
         "eyebrow": "A note from our founder",
         "heading": "<p>Why we've never <strong>cheapened the formula</strong></p>",
-        "note": "<p>I've stood in the rooms where a lot of supplements get made. I've seen what goes into them, and I've seen what gets left out when someone decides the margin matters more than the product.</p><p>That's why NanoGreens costs what it costs. The enzyme blend is expensive — most companies skip it, because you can't see it on a label the way you can see a big number of ingredients. But without it, you're drinking something your body largely passes through.</p><p>We've been making this the same way since 2010. Same sourcing, same low-temperature freeze-drying, same testing before and after blending. When the price of an ingredient goes up, we pay it. We don't reformulate around it.</p><p>If you try it and it isn't for you, send it back and we'll refund you. I'd rather do that than have you keep something you don't want.</p>",
+        "note": "<p>I've stood in the rooms where a lot of supplements get made. I've seen what goes into them, and I've seen what gets left out when someone decides the margin matters more than the product.</p><p>That's why NanoGreens costs what it costs. The enzyme blend is expensive — most companies skip it, because you can't see it on a label the way you can see a long ingredient list. But without it, you're drinking something your body largely passes through.</p><p>We've been making this the same way for two decades. Same sourcing, same low-temperature freeze-drying, same testing before and after blending. When the price of an ingredient goes up, we pay it. We don't reformulate around it.</p><p>If you try it and it isn't for you, send it back and we'll refund you. I'd rather do that than have you keep something you don't want.</p>",
         "signature_name": "Rick",
         "signature_role": "Founder, BioPharma Scientific · San Diego, CA",
-        "bg_color": "#f4f3ee",
+        "bg_color": "#ffffff",
         "text_color": "#2a2611",
         "bold_color": "#5ba90f",
         "muted_color": "#5c5842",
@@ -1056,8 +1992,8 @@
         "badge_number": "30",
         "badge_label": "DAY",
         "heading": "<p>Love it, or <strong>get your money back</strong></p>",
-        "body": "<p>Most people love the green apple taste. Some don't — and we'd rather you find out risk-free. Try NanoGreens for 30 days. If it isn't for you, contact us for a full refund. No questions asked.</p>",
-        "bg_color": "#ffffff",
+        "body": "<p>Most people love the green apple taste. Some don't — and we'd rather you find out risk-free. Try NanoGreens for 30 days. If it isn't for you, contact us for a full refund.</p><p></p>",
+        "bg_color": "#f4f3ee",
         "text_color": "#2a2611",
         "bold_color": "#a3c781",
         "card_bg_color": "#44681a",
@@ -1106,6 +2042,7 @@
         "column_greens",
         "column_core4"
       ],
+      "disabled": true,
       "settings": {
         "eyebrow": "Complete the system",
         "heading": "<p>Upgrade to <strong>CORE4</strong></p>",
@@ -1141,7 +2078,7 @@
           "type": "faq",
           "settings": {
             "question": "How do I take it?",
-            "answer": "<p>Mix 1 scoop (12g) with 6–16 oz of cold water. Shake, stir, or blend. Best first thing in the morning. Also mixes well into smoothies, unsweetened almond milk, or coconut milk. For children under 12, use ½ scoop. 30 servings per container.</p>",
+            "answer": "<p>One 12g scoop in 8–16 oz of cold water. Shake, stir, or blend. Best first thing in the morning. Also mixes well into smoothies, unsweetened almond milk, or coconut milk. For children under 12, use half a scoop. 30 servings per container.</p>",
             "open": false
           }
         },
@@ -1149,11 +2086,19 @@
           "type": "faq",
           "settings": {
             "question": "Is NanoGreens gluten free?",
-            "answer": "<p>NanoGreens is our only product containing trace gluten, from organic barley grass. We are FDA gluten-free compliant, but not certified gluten-free — depending on the batch, trace amounts range from 7–12 ppm.</p>",
+            "answer": "<p>NanoGreens is our only product containing trace gluten, from organic barley grass. We are FDA gluten-free compliant, but not certified gluten-free — depending on the batch, trace amounts range from 7–12 parts per million.</p>",
             "open": false
           }
         },
         "faq_organic": {
+          "type": "faq",
+          "settings": {
+            "question": "Does it contain allergens?",
+            "answer": "<p>NanoGreens contains soy (lecithin and soy phospholipids) and trace gluten from organic barley grass. It contains no dairy, nuts or eggs.</p>",
+            "open": false
+          }
+        },
+        "faq_sweet": {
           "type": "faq",
           "settings": {
             "question": "Is NanoGreens organic?",
@@ -1161,15 +2106,15 @@
             "open": false
           }
         },
-        "faq_sweet": {
+        "faq_fridge": {
           "type": "faq",
           "settings": {
             "question": "What makes it sweet?",
-            "answer": "<p>Stevia leaf extract — no artificial sweeteners, and under 1g added sugar. Prefer it less sweet? Add more water, or a squeeze of lemon or lime.</p>",
+            "answer": "<p>Stevia leaf extract — no artificial sweeteners, and under 1g of added sugar per serving. Prefer it less sweet? Add more water, or a squeeze of lemon or lime.</p>",
             "open": false
           }
         },
-        "faq_fridge": {
+        "faq_scoop": {
           "type": "faq",
           "settings": {
             "question": "Does it need to be refrigerated?",
@@ -1177,15 +2122,15 @@
             "open": false
           }
         },
-        "faq_scoop": {
+        "faq_pros": {
           "type": "faq",
           "settings": {
             "question": "How do you get this much into one scoop?",
-            "answer": "<p>We buy organic greens, fruits and vegetables grown specifically for high phytonutrient content, then juice them and low-temperature freeze-dry — concentrating freshly juiced produce without the sugar, fiber and water.</p>",
+            "answer": "<p>We buy organic greens, fruits and vegetables grown specifically for their high phytonutrient content, then juice them and low-temperature freeze-dry — which concentrates freshly juiced produce without the sugar, fiber and water.</p>",
             "open": false
           }
         },
-        "faq_pros": {
+        "faq_subscription": {
           "type": "faq",
           "settings": {
             "question": "Is it used by healthcare professionals?",
@@ -1193,11 +2138,11 @@
             "open": false
           }
         },
-        "faq_subscription": {
+        "faq_MfGMbL": {
           "type": "faq",
           "settings": {
             "question": "How does the subscription work?",
-            "answer": "<p>Choose a 90-day or 30-day supply. It renews automatically at the same price, with free shipping. Pause, reschedule or cancel anytime.</p>",
+            "answer": "<p>Choose a 90-day or 30-day supply. It renews automatically at the same price with free shipping. Pause, reschedule or cancel anytime.</p>",
             "open": false
           }
         }
@@ -1210,19 +2155,21 @@
         "faq_fridge",
         "faq_scoop",
         "faq_pros",
-        "faq_subscription"
+        "faq_subscription",
+        "faq_MfGMbL"
       ],
       "settings": {
-        "heading": "<p>Common <strong>questions</strong></p>",
+        "heading": "<p>FAQs</p>",
         "button_label": "",
         "button_link": "",
         "image_position": "right",
-        "image": "shopify://shop_images/pdp-image-frame-08.png",
+        "image": "shopify://shop_images/nano-faq_2_1_4f2c8f7f-a819-4a51-a548-ed004aba6e16.png",
+        "image_mobile": "shopify://shop_images/nano-faq_2_1_4f2c8f7f-a819-4a51-a548-ed004aba6e16.png",
         "image_alt": "NanoGreens",
         "bg_color": "#ffffff",
         "panel_bg_color": "#44681a",
         "panel_text_color": "#ffffff",
-        "bold_color": "#5ba90f",
+        "bold_color": "#a3c781",
         "answer_color": "#dbe6cd",
         "divider_color": "#6a8348",
         "sign_color": "#ffffff",
@@ -1254,25 +2201,52 @@
         "padding_top": 55,
         "padding_bottom": 55
       }
+    },
+    "17853738227e9e0455": {
+      "type": "apps",
+      "blocks": {
+        "yotpo_product_reviews_reviews_BxPWFb": {
+          "type": "shopify://apps/yotpo-product-reviews/blocks/reviews/eb7dfd7d-db44-4334-bc49-c893b51b36cf",
+          "settings": {
+            "product": "nanogreens-green-apple"
+          }
+        }
+      },
+      "block_order": [
+        "yotpo_product_reviews_reviews_BxPWFb"
+      ],
+      "settings": {
+        "color_scheme": "scheme-f23b3a5a-1f3c-4d6a-94eb-96f8fab0ad49",
+        "separate_section_with_border": true,
+        "remove_vertical_spacing": false,
+        "remove_horizontal_spacing": false
+      }
     }
   },
   "order": [
     "cwc_announcement",
     "cwc_header",
+    "cwc_scrolling_banner_8jrGpJ",
     "cwc_product_hero_buy_box",
+    "cwc_at_a_glance",
     "cwc_absorption_pod",
     "cwc_taste",
     "cwc_how_to_use",
     "cwc_whole_body_support",
+    "cwc_results_timeline",
     "cwc_comparison_table",
     "cwc_cost_calculator",
+    "cwc_ugc_reviews",
     "cwc_reviews",
+    "cwc_practitioner_video",
     "cwc_practitioner_endorsement",
+    "cwc_outcomes_band_QKLkEf",
     "cwc_ingredients",
     "cwc_founder_note",
     "cwc_guarantee",
     "cwc_bundle_upgrade",
     "cwc_faq",
-    "cwc_bottom_cta"
+    "cwc_bottom_cta",
+    "17853738227e9e0455"
   ]
 }

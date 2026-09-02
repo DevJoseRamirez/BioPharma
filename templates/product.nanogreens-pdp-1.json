@@ -281,22 +281,48 @@
         "flavors": {
           "type": "flavors",
           "settings": {
-            "label": "Choose your flavor",
+            "label": "Select  flavor",
             "option_name": "flavor",
             "image_1": "shopify://shop_images/apple-flavor-source.webp",
             "image_2": "shopify://shop_images/strawberry-flavor-source.webp",
             "color_1": "",
-            "color_2": "#FF3E3E",
+            "color_2": "#ff3e3e",
             "color_3": "",
             "color_4": "",
             "color_5": "",
             "color_6": ""
           }
         },
+        "size_option": {
+          "type": "size_option",
+          "settings": {
+            "label": "How many adults?",
+            "option_name": "supply",
+            "columns": "two",
+            "upsell_icon": "🏷",
+            "upsell_text": "Buy More. Save More.",
+            "opt1_value": "30-Day Supply",
+            "opt1_title": "Just me",
+            "opt1_subline": "1 tub · 30 servings/mo",
+            "opt1_badge": "",
+            "opt2_value": "60-Day Supply",
+            "opt2_title": "My household",
+            "opt2_subline": "2 tubs · 60 servings/mo",
+            "opt2_badge": "",
+            "opt3_value": "",
+            "opt3_title": "",
+            "opt3_subline": "",
+            "opt3_badge": "",
+            "opt4_value": "",
+            "opt4_title": "",
+            "opt4_subline": "",
+            "opt4_badge": ""
+          }
+        },
         "simple_offer_Mm3TzV": {
           "type": "simple_offer",
           "settings": {
-            "group_label": "Pick your offer:",
+            "group_label": "",
             "selling_plan_id": "3996549378",
             "subscribe_label": "Subscribe & Save",
             "subscribe_sublabel": "",
@@ -522,7 +548,7 @@
           "settings": {
             "title": "Benefits",
             "content": "<p><strong>Steady energy</strong> — sustained, no stimulants, no crash<br/><br/><strong>Digestion & regularity</strong> — 9 enzymes plus 2,500mg oat beta glucan<br/><br/><strong>Gut support</strong> — the benefit customers mention second-most<br/><br/><strong>Immune function</strong> — vitamin A, vitamin C, organic acerola cherry<br/><br/><strong>Antioxidant defense</strong> — 360mg green tea, grape seed, resveratrol<br/><br/><strong>Exercise recovery</strong> — full-spectrum plant nutrients after training</p>",
-            "open": true
+            "open": false
           }
         },
         "detail_EnYdYX": {
@@ -530,7 +556,7 @@
           "settings": {
             "title": "Ingredients",
             "content": "<p><strong>55 organic ingredients,</strong> juiced at peak ripeness and freeze-dried cold — concentrating nutrients without the sugar, fiber and water.</p><p>2,500mg organic oat beta glucan<br/><br/>2,400mg Greens Blend — barley grass juice, spirulina, chlorella<br/><br/>930mg Fruit & Vegetable Blend<br/><br/>360mg Phytonutrient Blend<br/><br/>Blend 32000B — nine enzymes for absorption</p>",
-            "open": true
+            "open": false
           }
         },
         "detail_quality": {
@@ -606,6 +632,7 @@
         "benefits_meta_bRYkmq",
         "price_display_N8tnGx",
         "flavors",
+        "size_option",
         "simple_offer_Mm3TzV",
         "supply",
         "onetime",

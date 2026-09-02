@@ -56,6 +56,10 @@
      — nothing here may compress to fit; the region scrolls instead. */
   display: flex;
   flex-direction: column;
+  /* hide scrollbar */
+  overflow-y: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 .cwc_cart::part(footer) {
@@ -900,6 +904,7 @@
 .cwc_cart__empty {
   flex: 0 0 auto;
   padding: 56px 26px;
+  padding: 40px 26px;
   text-align: center;
 }
 
@@ -989,7 +994,7 @@
   }
 
   .cwc_cart__empty {
-    padding: 44px 20px;
+    padding: 36px 20px;
   }
 
   .cwc_cart__checkout {

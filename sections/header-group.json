@@ -15,13 +15,13 @@
       "type": "CWC_announcement",
       "name": "Announcement",
       "settings": {
-        "text": "<p>SUBSCRIBE & SAVE 30% ON YOUR FIRST ORDER + FREE SHIPPING</p>",
+        "text": "<p><strong>LABOR DAY SALE!  🇺🇸 UP TO 30% OFF + FREE GIFTS & SHIPPING</strong></p>",
         "link": "shopify://products/nanogreens-10-support",
         "enable_gradient": true,
         "bg_color": "#44681a",
         "bg_end_color": "#87ce34",
         "text_color": "#ffffff",
-        "bold_color": "#a3c781",
+        "bold_color": "#FFFFFF",
         "padding_top": 10,
         "padding_bottom": 10
       }

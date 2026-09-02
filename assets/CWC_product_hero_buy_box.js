@@ -4,6 +4,8 @@
   var SELECTED_OFFER = 'cwc_product-hero-buy-box__offer--selected';
   var SELECTED_ONETIME = 'cwc_product-hero-buy-box__onetime-button--selected';
   var SELECTED_FLAVOR = 'cwc_product-hero-buy-box__flavor--selected';
+  var ACCENTED = 'cwc_product-hero-buy-box--accented';
+  var UPSELL_ACTIVE = 'cwc_product-hero-buy-box__upsell--active';
   var ACTIVE_THUMB = 'cwc_product-hero-buy-box__thumb--active';
   var HIDDEN_PANEL = 'cwc_product-hero-buy-box__detail-answer--hidden';
   var STICKY_VISIBLE = 'cwc_sticky-add-to-cart--visible';
@@ -826,6 +828,8 @@
           );
         });
       });
+
+      syncUpsells();
     }
 
     /**
@@ -927,6 +931,110 @@
       if (variant) applyVariant(variant.id);
     }
 
+    /**
+     * Mirror the live flavour's accent onto the section.
+     *
+     * A swatch carries its accent inline and nowhere else, so the subscribe /
+     * buy-once pair — which sits outside the swatch row — has no way to read
+     * it, and selects in the section green while the swatch beside it selects
+     * in red. Copying the value to the section root is what lets the two agree.
+     *
+     * Every selected control is read rather than the one just clicked, because
+     * the clicked one is often a different row: picking a Size must leave the
+     * flavour's accent standing, and picking a flavour with no accent of its
+     * own must clear the previous one rather than keep it. A section with
+     * accents on two rows takes the last, which is arbitrary but stable.
+     *
+     * Written as --active-accent rather than --flavor-accent so the value
+     * cannot inherit into a swatch that has none of its own — those select in
+     * the section colour and must go on doing so.
+     */
+    function syncAccent() {
+      var accent = '';
+
+      sectionEl.querySelectorAll('.' + SELECTED_FLAVOR).forEach(function (item) {
+        var own = item.style.getPropertyValue('--flavor-accent').trim();
+        if (own) accent = own;
+      });
+
+      if (accent) sectionEl.style.setProperty('--active-accent', accent);
+      else sectionEl.style.removeProperty('--active-accent');
+
+      // The class is what the stylesheet keys off, not the property: a product
+      // with no accent set must render exactly as it did before this existed,
+      // and mixing the section green with white lands a shade off the tints
+      // that were typed by hand.
+      sectionEl.classList.toggle(ACCENTED, accent !== '');
+    }
+
+    /**
+     * The "Buy More. Save More." chip beside a size row.
+     *
+     * A second way to reach the biggest size, put where a shopper reading the
+     * question is already looking. It resolves nothing itself: it finds the
+     * rightmost card that can still be bought and clicks it, so selection,
+     * variant, price and availability all run through the one handler above
+     * rather than through a second copy of it that could drift.
+     *
+     * Rightmost rather than a card the merchant flags, because the cards are
+     * already in the merchant's order — whatever is furthest right is what the
+     * row is upselling towards, and it stays right when a size is added.
+     */
+    var upsells = sectionEl.querySelectorAll('[data-cwc-size-upsell]');
+
+    function upsellTarget(chip) {
+      var wrap = chip.closest('.cwc_product-hero-buy-box__sizes-wrap');
+      var cards = wrap ? wrap.querySelectorAll('[data-cwc-flavor-value]') : [];
+      var i;
+
+      // Backwards past anything sold out: a chip that selects a card the
+      // shopper cannot buy is worse than one that selects the next size down.
+      for (i = cards.length - 1; i >= 0; i--) {
+        if (!cards[i].disabled) return cards[i];
+      }
+
+      return null;
+    }
+
+    /**
+     * Outline while the big card is not the choice, filled once it is — the
+     * chip is a shortcut before the click and a badge after it. Also names its
+     * target for a screen reader, which "Buy More. Save More." does not.
+     *
+     * Called from refreshOptionAvailability, so it re-runs on every variant
+     * change: a flavour that sells out the largest size moves the target, and
+     * the chip has to follow it.
+     */
+    function syncUpsells() {
+      upsells.forEach(function (chip) {
+        var target = upsellTarget(chip);
+        var label, title;
+
+        // Nothing left to upsell to — every card but the current one is gone.
+        chip.hidden = !target;
+        if (!target) return;
+
+        title = target.querySelector('.cwc_product-hero-buy-box__size-title');
+        label = chip.querySelector('.cwc_product-hero-buy-box__upsell-text');
+
+        chip.setAttribute(
+          'aria-label',
+          (label ? label.textContent.trim() + ' — ' : '') +
+            'choose ' +
+            (title ? title.textContent.trim() : target.getAttribute('data-cwc-flavor-value'))
+        );
+
+        chip.classList.toggle(UPSELL_ACTIVE, target.classList.contains(SELECTED_FLAVOR));
+      });
+    }
+
+    upsells.forEach(function (chip) {
+      chip.addEventListener('click', function () {
+        var target = upsellTarget(chip);
+        if (target) target.click();
+      });
+    });
+
     flavors.forEach(function (flavorEl) {
       flavorEl.addEventListener('click', function () {
         if (flavorEl.disabled) return;
@@ -945,6 +1053,7 @@
           item.classList.remove(SELECTED_FLAVOR);
         });
         flavorEl.classList.add(SELECTED_FLAVOR);
+        syncAccent();
 
         // Bound to a product option: record the value and resolve against every
         // choice, so the other options the shopper picked survive the change.
@@ -1429,6 +1538,32 @@
     });
 
     /**
+     * A seeded value the loaded variant does not carry.
+     *
+     * The size block renders only the values it was given, so a shopper who
+     * arrives on a hidden one — an old link, a saved cart, an app's default —
+     * lands on a row whose first card is lit and a variant that is not that
+     * card. Resolving once here puts the price, the gallery and the form on the
+     * size that is actually selected.
+     *
+     * Silent in every other case: the seeds are read from what the server
+     * marked selected, so they already agree with the variant it rendered.
+     */
+    var loadedVariant = variantInput ? findVariant(variants, variantInput.value) : null;
+    var seedsDisagree = false;
+
+    if (loadedVariant && loadedVariant.options) {
+      for (var seedPosition in chosen) {
+        if (!Object.prototype.hasOwnProperty.call(chosen, seedPosition)) continue;
+        if (String(loadedVariant.options[seedPosition - 1]) !== String(chosen[seedPosition])) {
+          seedsDisagree = true;
+        }
+      }
+    }
+
+    if (seedsDisagree) syncVariant();
+
+    /**
      * The auto plan block can be set to pre-select nothing, which the fallback
      * below would otherwise undo on the next line by selecting the first card.
      */
@@ -1460,6 +1595,7 @@
     }
 
     refreshOptionAvailability();
+    syncAccent();
   }
 
   /**

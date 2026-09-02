@@ -591,7 +591,9 @@
   letter-spacing: 1px;
   text-transform: uppercase;
   color: var(--muted-color);
+  color: var(--text-color);
   margin: 16px 0 8px;
+  margin: 20px 0 8px;
 }
 
 /* === Flavor Swatches ===
@@ -706,6 +708,243 @@
 
 .cwc_product-hero-buy-box__flavor--unavailable .cwc_product-hero-buy-box__flavor-name {
   text-decoration: line-through;
+}
+
+/* === Size Cards ===
+
+   A curated row for one option — two or three cards, each a title and a line of
+   detail. Same box as the flavour card and the same selected treatment, minus
+   the swatch: these are words, not pictures, and the copy is what distinguishes
+   one size from another.
+
+   The cards wear __flavor--selected and __flavor--unavailable because those are
+   the classes the script toggles, so everything below only has to describe the
+   box itself. --flavor-accent is redeclared for the same reason the flavour
+   card declares it: the shared selected rule mixes every colour out of it, and
+   an element carrying the class without the variable would resolve those to
+   currentColor. Set to the section highlight, which is what a size row selects
+   in — there is no per-card accent here, and a size is not a flavour. */
+.cwc_product-hero-buy-box__sizes-wrap {
+  border-top: 1px solid rgb(240 234 228 / 760%);
+  margin: 16px 0;
+}
+
+/* Label and chip on one line, aligned on their baselines rather than their
+   boxes so the chip sits on the same line the question reads along. Wrapping is
+   allowed: a long question and a long chip on a narrow column need somewhere to
+   go, and stacking them is better than shrinking either. */
+.cwc_product-hero-buy-box__sizes-head {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  /*  testing*/
+  margin-bottom: 10px;
+}
+
+/* === Buy More Chip ===
+
+   Outlined while the biggest size is not the choice, filled once it is. The two
+   states are one control, not two: dashed and quiet it reads as a shortcut the
+   shopper has not taken, solid it reads as a badge on the choice they have —
+   which is why it fills rather than disappears.
+
+   Colour belongs to the filled state alone — unselected, hover included, the
+   chip is grey. Unselected it is a shortcut rather than a choice, and an accent
+   there would compete with the card that actually is selected.
+
+   The fill comes out of --flavor-accent so it follows the flavour like the rest
+   of the column. Deep by default, and deepened again when there is an accent:
+   this is white text on a small fill, and the raw accent is a shade too light
+   to carry it. */
+.cwc_product-hero-buy-box__upsell {
+  --flavor-accent: var(--deep-color);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border: 1px dashed var(--border-color);
+  border-radius: 8px;
+  background: none;
+  color: var(--muted-color);
+  font-family: inherit;
+  font-size: 0.78rem;
+  /* 12.48px */
+  font-weight: 700;
+  line-height: 1.2;
+  cursor: pointer;
+  transition: background-color 0.15s, border-color 0.15s, color 0.15s;
+  /* tesign */
+  margin-bottom: 3px;
+}
+
+/* __upsell sets display:inline-flex, which outranks the [hidden] attribute's
+   own display:none — the script hides the chip when every card but the live one
+   is sold out, and it has to be taken out explicitly. */
+.cwc_product-hero-buy-box__upsell[hidden] {
+  display: none;
+}
+
+/* Neutral even under the cursor. Colour on this chip means "this is the choice
+   you are on", so an accent that arrives on hover promises a state the click has
+   not made yet. The grey darkens instead — affordance without the claim. */
+.cwc_product-hero-buy-box__upsell:hover:not(.cwc_product-hero-buy-box__upsell--active) {
+  border-color: var(--muted-color);
+  color: var(--text-color);
+}
+
+.cwc_product-hero-buy-box__upsell--active {
+  border-style: solid;
+  border-color: var(--flavor-accent);
+  background: var(--flavor-accent);
+  color: #ffffff;
+}
+
+.cwc_product-hero-buy-box__upsell-icon {
+  font-size: 0.9em;
+  line-height: 1;
+}
+
+.cwc_product-hero-buy-box--accented .cwc_product-hero-buy-box__upsell {
+  --flavor-accent: var(--deep-color);
+  --flavor-accent: color-mix(in srgb, var(--active-accent, var(--deep-color)) 72%, #1a1a1a);
+}
+
+.cwc_product-hero-buy-box__sizes {
+  display: grid;
+  gap: 10px;
+}
+
+/* minmax(0, 1fr) rather than 1fr: a grid column floors at its content's
+   min-content width otherwise, and one long title would push the row wider than
+   the column it sits in. */
+.cwc_product-hero-buy-box__sizes--two {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.cwc_product-hero-buy-box__sizes--three {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.cwc_product-hero-buy-box__sizes--auto {
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+}
+
+.cwc_product-hero-buy-box__size {
+  --flavor-accent: var(--highlight-color);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  min-width: 0;
+  padding: 13px 14px;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  cursor: pointer;
+  text-align: center;
+  font-family: inherit;
+  transition: border-color 0.15s, background-color 0.15s, box-shadow 0.15s;
+}
+
+.cwc_product-hero-buy-box__size:hover:not(:disabled) {
+  border-color: var(--tint-border);
+}
+
+/* Stated here rather than left to the shared __flavor--selected rule, which
+   sits earlier in the file: this card declares the border and cursor as
+   shorthands, and a shorthand later in the source beats a longhand of equal
+   specificity. The two rules below win on their own specificity instead of on
+   where they happen to be.
+
+   The fill is the typed tint rather than a mix of the accent, because a size
+   row has one accent and there is nothing for a mix to vary with. */
+.cwc_product-hero-buy-box__size.cwc_product-hero-buy-box__flavor--selected {
+  border-color: var(--flavor-accent);
+  box-shadow: inset 0 0 0 1px var(--flavor-accent);
+  background: var(--card-selected-bg);
+}
+
+.cwc_product-hero-buy-box__size.cwc_product-hero-buy-box__flavor--unavailable {
+  cursor: not-allowed;
+}
+
+/* === The flavour's accent ===
+
+   The row sits between the swatches and the offer pair, both of which select in
+   the live flavour's colour — see "Selected in the flavour's colour". A size
+   card holding the section green between two red neighbours was the one thing
+   in the column still disagreeing.
+
+   Done by repointing the card's own accent rather than by restating the
+   selected state: every colour on this card is already mixed out of
+   --flavor-accent, so one declaration moves the border, the ring and the fill
+   together. Gated on the section class, so a product with no flavour accents
+   keeps the green it has always had, exactly. */
+.cwc_product-hero-buy-box--accented .cwc_product-hero-buy-box__size {
+  --flavor-accent: var(--active-accent, var(--highlight-color));
+}
+
+.cwc_product-hero-buy-box--accented .cwc_product-hero-buy-box__size.cwc_product-hero-buy-box__flavor--selected {
+  background: var(--card-selected-bg);
+  background: color-mix(in srgb, var(--flavor-accent) 7%, #fff);
+}
+
+/* Chrome rather than type, so it takes the accent flat — the radio dot on the
+   offer card is the same decision. */
+.cwc_product-hero-buy-box--accented .cwc_product-hero-buy-box__size-badge {
+  background: var(--flavor-accent);
+}
+
+.cwc_product-hero-buy-box__size-title {
+  font-size: 0.95rem;
+  /* 15.2px */
+  font-weight: 800;
+  line-height: 1.25;
+  color: var(--text-color);
+}
+
+.cwc_product-hero-buy-box__size-sub {
+  font-size: 0.78rem;
+  /* 12.48px */
+  line-height: 1.3;
+  color: var(--muted-color);
+}
+
+/* The title does not answer to the selection or to the flavour — the same call
+   the offer pair makes, and for the same reason: a card whose copy changed
+   colour on every option read as a different component each time. The border,
+   ring and fill carry the state. */
+.cwc_product-hero-buy-box__size.cwc_product-hero-buy-box__flavor--selected .cwc_product-hero-buy-box__size-title {
+  color: var(--text-color);
+}
+
+/* Struck rather than only dimmed: the card is all text, so the state has to be
+   legible in the words themselves. */
+.cwc_product-hero-buy-box__size.cwc_product-hero-buy-box__flavor--unavailable .cwc_product-hero-buy-box__size-title {
+  text-decoration: line-through;
+}
+
+/* Sits on the top edge rather than inside the card: the card is sized by its
+   two lines of copy, and a badge in the flow would make the badged card taller
+   than the one beside it. */
+.cwc_product-hero-buy-box__size-badge {
+  position: absolute;
+  top: -9px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--highlight-color);
+  color: #ffffff;
+  font-size: 0.65rem;
+  /* 10.4px */
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  padding: 2px 9px;
+  border-radius: 20px;
 }
 
 /* Only ever rendered inside the theme editor — a shopper never sees this. */
@@ -1130,6 +1369,21 @@
   filter: brightness(1.25);
 }
 
+/* The flavour's accent, on the same terms as the offer card above it — see
+   "Selected in the flavour's colour". The button is the end of the choice the
+   swatches start, so a red flavour with a green Add To Cart left the column
+   half-converted.
+
+   Fill only. The label stays --button-text, which is white against either, and
+   the hover keeps lifting the fill it is given rather than naming a colour of
+   its own.
+
+   The sticky bar's button is the same action in another position and follows
+   in its own stylesheet, off this same class. */
+.cwc_product-hero-buy-box--accented .cwc_product-hero-buy-box__cta {
+  background: var(--active-accent, var(--button-bg));
+}
+
 .cwc_product-hero-buy-box__cta[disabled] {
   opacity: 0.5;
   cursor: not-allowed;
@@ -1263,8 +1517,10 @@
   /* 12.96px */
   font-weight: var(--cwc-weight-name);
   color: var(--deep-color);
+  color: var(--text-color);
   line-height: 1.3;
   margin: 0;
+  font-weight: 400;
 }
 
 /* === Customer-Reported Stats === */
@@ -1437,19 +1693,26 @@
 }
 
 /* min-height is what actually lets the row close: a grid item floors at its
-   min-content height otherwise. The padding lives here so it collapses with
-   the panel instead of leaving a gap under a closed row. */
+   min-content height otherwise.
+
+   The padding has to come off with it. A 0fr track is only as short as the
+   item's min-content contribution, and that contribution is the item's outer
+   size — overflow:hidden and min-height:0 take the text out of it, but padding
+   is not content and stays, so a closed row kept 15px of it and every collapsed
+   tab sat that much taller than its own button. Released on the same curve as
+   the row, so the two reach zero together. */
 .cwc_product-hero-buy-box__detail-answer-inner {
   overflow: hidden;
   min-height: 0;
   padding: 0 0 15px;
   opacity: 1;
-  transition: opacity 0.22s ease 0.08s;
+  transition: opacity 0.22s ease 0.08s, padding-bottom 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .cwc_product-hero-buy-box__detail-answer--hidden .cwc_product-hero-buy-box__detail-answer-inner {
   opacity: 0;
-  transition: opacity 0.14s ease;
+  padding-bottom: 0;
+  transition: opacity 0.14s ease, padding-bottom 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -2001,6 +2264,7 @@
   font-weight: var(--cwc-weight-label);
   line-height: 1.3;
   color: var(--deep-color);
+  color: var(--text-color);
 }
 
 .cwc_product-hero-buy-box__benefit-icon {
@@ -2025,6 +2289,8 @@
 .cwc_product-hero-buy-box__benefit-check svg {
   width: 14px;
   height: 14px;
+  width: 28px;
+  height: 28px;
   fill: none;
   stroke: currentColor;
   stroke-width: 2.2;
@@ -2193,8 +2459,14 @@
    for: a promo strip fused to the card's top edge, and a head row that puts the
    price opposite the title instead of under it.
    ============================== */
+.cwc_product-hero-buy-box__simple-offer-wrap {}
+
+
 .cwc_product-hero-buy-box__simple-offer {
+  border-top: 1px solid rgb(240 234 228 / 760%);
   margin-bottom: 4px;
+  border-top: 1px solid rgb(240 234 228 / 760%);
+  margin: 16px 0px;
 }
 
 /* Title left, price right, both on the card's first line. The offer card stacks
@@ -2254,6 +2526,81 @@
   border-top-left-radius: 0;
   border-top-right-radius: 0;
   margin-top: -1px;
+}
+
+/* === Selected in the flavour's colour ===
+
+   The swatches above already select in an accent of their own — strawberry red,
+   apple green — and this pair selected in the section colour whatever was
+   picked, so the two halves of one buy box disagreed on what "chosen" looks
+   like. The script mirrors the live swatch's accent onto the section as
+   --active-accent; a flavour with no accent set, or a product with no swatch
+   row at all, leaves it unwritten and the fallback below is the section
+   highlight, which is what these cards have always used.
+
+   The box only — border, fill and radio. The type inside it is deliberately
+   left alone and set neutral below: a title that changed colour with the
+   flavour made the same card look like a different component on each option,
+   and the border and fill already say which one is live.
+
+   Scoped to the two-way offer rather than to __offer, because the supply grid
+   is a comparison between plans and tinting all of its cards one flavour hue
+   says nothing about which is selected.
+
+   Gated on the section class rather than on the fallback alone, so a product
+   with no accents anywhere renders byte-identical to before: mixing the section
+   green with white lands a shade off the tints that were typed by hand, and a
+   card that has never had an accent should not shift because this exists.
+
+   Each pair is a fallback and its accent-aware form, the same shape the flavour
+   cards use: a browser without color-mix keeps the flat colour on the first
+   line and drops the second, so the state stays legible either way. */
+.cwc_product-hero-buy-box--accented .cwc_product-hero-buy-box__simple-offer .cwc_product-hero-buy-box__offer--selected {
+  border-color: var(--active-accent, var(--highlight-color));
+  background: var(--card-selected-bg);
+  background: color-mix(in srgb, var(--active-accent, var(--highlight-color)) 7%, #fff);
+}
+
+.cwc_product-hero-buy-box--accented .cwc_product-hero-buy-box__simple-offer .cwc_product-hero-buy-box__offer--selected .cwc_product-hero-buy-box__offer-radio {
+  border-color: var(--active-accent, var(--highlight-color));
+  background: var(--active-accent, var(--highlight-color));
+}
+
+/* === Neutral type ===
+
+   The title and prices on this pair are the section's text colour rather than
+   the deep green the supply cards use.
+
+   Ungated on purpose — this is the rule for every flavour, accented or not.
+   Making the type answer to the accent was the alternative and it read worse:
+   the same card looked like a different component on each option, and a
+   shopper switching flavours saw the copy change colour under them when
+   nothing about the offer had changed. The border, fill and radio carry the
+   selection; the words stay put.
+
+   Scoped to the two-way offer, so the supply grid keeps its own green type. */
+.cwc_product-hero-buy-box__simple-offer .cwc_product-hero-buy-box__offer-name,
+.cwc_product-hero-buy-box__simple-offer .cwc_product-hero-buy-box__offer-now,
+.cwc_product-hero-buy-box__simple-offer .cwc_product-hero-buy-box__offer-was {
+  color: var(--text-color);
+}
+
+/* The savings chip, on the neutral fill the dimmed one already wears. Its green
+   was the last colour competing with the title beside it, and a chip that
+   stayed green inside a red card read as left over rather than chosen.
+
+   The dimmed chip on the unselected card is excluded: it is muted on purpose
+   and would otherwise be pulled back up to full-strength text. */
+.cwc_product-hero-buy-box__simple-offer .cwc_product-hero-buy-box__offer-save:not(.cwc_product-hero-buy-box__offer-save--dim) {
+  background: #f1f0e7;
+  color: var(--text-color);
+}
+
+/* The ticks likewise. The cross on the one-time card's notes keeps the warning
+   colour: it means the opposite of a tick, and that is the one distinction in
+   the card still worth carrying in colour. */
+.cwc_product-hero-buy-box__simple-offer .cwc_product-hero-buy-box__offer-perks:not(.cwc_product-hero-buy-box__offer-perks--cons) p::before {
+  color: var(--text-color);
 }
 
 @media screen and (max-width: 480px) {

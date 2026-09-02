@@ -240,6 +240,15 @@
   transition: filter 0.18s ease;
 }
 
+/* The flavour's accent, matching the Add To Cart in the buy box above.
+
+   The bar renders inside the buy box section, so both the class the script
+   toggles and the value it writes reach here by inheritance; a product with no
+   flavour accent never gets the class and the button stays --button-bg. */
+.cwc_product-hero-buy-box--accented .cwc_sticky-add-to-cart__button {
+  background: var(--active-accent, var(--button-bg));
+}
+
 /* Two labels live in the button; only one is ever shown. Desktop gets the full
    label plus price, phones get the short one. */
 .cwc_sticky-add-to-cart__button-short {
