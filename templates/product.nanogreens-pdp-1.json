@@ -342,7 +342,7 @@
             "promo_text": "Most popular: 30% off + member gifts",
             "member_label": "Subscribe & Save",
             "member_sublabel": "Delivered every 4 weeks",
-            "perks": "<p>Free shipping on every order</p><p>Earn points on every purchase</p><p>Skip, pause or cancel anytime — no fees</p><p>30-day money-back guarantee</p>",
+            "perks": "<p>Free shipping on every order</p><p>30-day money-back guarantee</p><p>Pause Or Cancel Any Time</p><p>Earn points on every purchase</p>",
             "recurring_prefix": "then",
             "recurring_suffix": "/month",
             "recurring_note": "autoship always save 10%",
@@ -374,7 +374,7 @@
             "gift6_when": "",
             "show_onetime": true,
             "onetime_label": "One Time Purchase",
-            "onetime_sublabel": "delivered once · no member gifts"
+            "onetime_sublabel": "delivered once · no free gifts"
           }
         },
         "simple_offer_Mm3TzV": {
@@ -553,13 +553,13 @@
           "settings": {
             "icon_style_1": "shield",
             "icon_text_1": "↩",
-            "label_1": "<p>30-Day Money Back</p>",
+            "label_1": "<p>Third-party tested</p>",
             "icon_style_2": "truck",
             "icon_text_2": "⛟",
-            "label_2": "<p>Free Shipping on Subscriptions</p>",
+            "label_2": "<p>30-Day Guarantee</p>",
             "icon_style_3": "pause",
             "icon_text_3": "⏸",
-            "label_3": "<p>Cancel or Pause Anytime</p>"
+            "label_3": "<p>Pause Or Cancel Any Time</p>"
           }
         },
         "trusted_by_ctTUFC": {

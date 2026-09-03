@@ -471,7 +471,7 @@
   color: var(--muted-color);
   color: var(--text-color);
   /* testing */
-  line-height: 1.4;
+  line-height: 1.5;
   font-size: 0.9rem;
   font-weight: 500;
 }
@@ -2417,7 +2417,7 @@
   border-radius: 6px;
   background: var(--delivery-bg, var(--tint-bg));
   color: var(--delivery-text, var(--deep-color));
-  font-size: 0.89rem;
+  font-size: 0.85rem;
 }
 
 .cwc_product-hero-buy-box__delivery-icon {
@@ -2962,15 +2962,15 @@
 /* === Renewal line === */
 .cwc_product-hero-buy-box__member-recurring {
   display: block;
-  margin-top: 10px;
-  font-size: 0.85rem;
-  /* 13.6px */
+  margin-top: 6px;
+  font-size: .85rem;
   line-height: 1.4;
   margin-left: 2rem;
+  color: var(--muted-color);
 }
 
 .cwc_product-hero-buy-box__member-recurring-price {
-  /* font-weight: 800; */
+  font-weight: 600;
   /* color: var(--text-color); */
 }
 
@@ -3077,6 +3077,8 @@
   grid-template-columns: repeat(2, 1fr);
   grid-template-columns: repeat(4, 1fr);
   gap: 8px;
+  /* tesgin */
+  padding: 0rem 1.5rem;
 }
 
 /* The tile is its own stacking context so the pill can sit on the frame's edge
@@ -3367,4 +3369,9 @@
   .cwc_product-hero-buy-box__member-price .cwc_product-hero-buy-box__offer-was {
     font-size: .8rem;
   }
+
+  .cwc_product-hero-buy-box__gifts-grid {
+    padding: 0rem;
+  }
+
 }
