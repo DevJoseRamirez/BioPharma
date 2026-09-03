@@ -78,6 +78,7 @@
 }
 
 .cwc_sticky-add-to-cart__plan {
+  --flavor-accent: var(--active-accent, var(--highlight-color));
   width: 100%;
   border: 1px solid var(--border-color);
   border-radius: 26px;
@@ -89,14 +90,21 @@
   transition: border-color 0.15s;
   text-align: left;
   font-family: inherit;
+
 }
 
 .cwc_sticky-add-to-cart__plan--open {
   border-color: var(--highlight-color);
+  border-color: var(--flavor-accent);
+  background:
+    color-mix(in srgb, var(--flavor-accent) 7%, #fff);
 }
 
 .cwc_sticky-add-to-cart__plan:hover {
   border-color: var(--highlight-color);
+  border-color: var(--flavor-accent);
+  background:
+    color-mix(in srgb, var(--flavor-accent) 7%, #fff);
 }
 
 .cwc_sticky-add-to-cart__plan-label {
@@ -170,6 +178,8 @@
   text-align: left;
   font-family: inherit;
   transition: background-color 0.12s, border-color 0.12s;
+  --flavor-accent: var(--active-accent, var(--highlight-color));
+
 }
 
 .cwc_sticky-add-to-cart__plan-option:hover,
@@ -182,6 +192,9 @@
 .cwc_sticky-add-to-cart__plan-option--selected {
   background: var(--card-selected-bg);
   border-color: var(--highlight-color);
+  border-color: var(--flavor-accent);
+  background:
+    color-mix(in srgb, var(--flavor-accent) 7%, #fff);
 }
 
 .cwc_sticky-add-to-cart__plan-option-main {
