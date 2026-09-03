@@ -1,0 +1,285 @@
+{% comment %}
+  CWC Labor Day Stats + Problem
+  ------------------------------------------------------------------
+  A four-up stat row over a two-paragraph problem framing. The stats state the
+  gap; the copy underneath says why knowing about it has not closed it.
+
+  ⚠️ UNRESOLVED CONTENT — DO NOT SHIP AS-IS. The first stat in the source is a
+  live placeholder: the figure reads "[STAT]" and the label ends "source TBD".
+  It is a citation-backed claim about US vegetable intake that has never been
+  sourced.
+
+  The `is_placeholder` checkbox is what carries that forward. It greys and
+  shrinks the figure so an unsourced number cannot quietly pass for a real one
+  in a page review — it is a visible flag, not decoration. Fill the figure,
+  fill the source note, then untick it. If the claim cannot be sourced, delete
+  the block rather than shipping a number without a citation.
+
+  Stats 2-4 intentionally repeat figures from the benefits section (55, 10,
+  20+). That is reinforcement, not duplication — do not "fix" it by deduping.
+{% endcomment %}
+
+{% style %}
+  #cwc_labor-day-stats-problem-{{ section.id }} {
+    --section-bg: {{ section.settings.bg_color | default: '#FFFFFF' }};
+    --text-color: {{ section.settings.text_color | default: '#2A2611' }};
+    --highlight-color: {{ section.settings.bold_color | default: '#44681A' }};
+    --eyebrow-color: {{ section.settings.eyebrow_color | default: '#44681A' }};
+    --stat-color: {{ section.settings.stat_color | default: '#44681A' }};
+    --stat-bg: {{ section.settings.stat_bg_color | default: '#FFFFFF' }};
+    --border-color: {{ section.settings.border_color | default: '#E0DED4' }};
+    --stat-columns: {{ section.settings.stat_columns | default: 4 }};
+    --content-max: 1300px;
+    --padding-top: {{ section.settings.padding_top | default: 80 }}px;
+    --padding-bottom: {{ section.settings.padding_bottom | default: 80 }}px;
+    --padding-top-mobile: {{ section.settings.padding_top | default: 80 | times: 0.5 }}px;
+    --padding-bottom-mobile: {{ section.settings.padding_bottom | default: 80 | times: 0.5 }}px;
+  }
+{% endstyle %}
+
+{{ 'CWC_fonts.css' | asset_url | stylesheet_tag }}
+{{ 'CWC_labor_day_stats_problem.css' | asset_url | stylesheet_tag }}
+
+<section id="cwc_labor-day-stats-problem-{{ section.id }}" class="cwc_labor-day-stats-problem">
+  <div class="cwc_labor-day-stats-problem__container">
+
+    {% comment %} Section Header {% endcomment %}
+    <div class="cwc_labor-day-stats-problem__content">
+      {% if section.settings.eyebrow_text != blank %}
+        <p class="cwc_labor-day-stats-problem__eyebrow">{{ section.settings.eyebrow_text }}</p>
+      {% endif %}
+
+      {% if section.settings.heading != blank %}
+        <div class="cwc_labor-day-stats-problem__content-heading cwc-rte">
+          {{ section.settings.heading }}
+        </div>
+      {% endif %}
+    </div>
+
+    {% comment %} Stat row {% endcomment %}
+    {% if section.blocks.size > 0 %}
+      <div class="cwc_labor-day-stats-problem__grid">
+        {% for block in section.blocks %}
+          {% case block.type %}
+            {% when 'stat' %}
+              <div class="cwc_labor-day-stats-problem__card" {{ block.shopify_attributes }}>
+                {% if block.settings.figure != blank or block.settings.suffix != blank %}
+                  <div
+                    class="cwc_labor-day-stats-problem__card-figure{% if block.settings.is_placeholder %} cwc_labor-day-stats-problem__card-figure--placeholder{% endif %}"
+                  >
+                    {%- if block.settings.figure != blank -%}
+                      {{ block.settings.figure }}
+                    {%- endif -%}
+
+                    {%- if block.settings.suffix != blank -%}
+                      <small class="cwc_labor-day-stats-problem__card-suffix">
+                        {{- block.settings.suffix -}}
+                      </small>
+                    {%- endif -%}
+                  </div>
+                {% endif %}
+
+                {% if block.settings.label != blank %}
+                  <div class="cwc_labor-day-stats-problem__card-text">
+                    {{ block.settings.label }}
+
+                    {%- if section.settings.show_sources and block.settings.source_note != blank -%}
+                      <cite class="cwc_labor-day-stats-problem__card-source">
+                        {{- block.settings.source_note -}}
+                      </cite>
+                    {%- endif -%}
+                  </div>
+                {% endif %}
+              </div>
+          {% endcase %}
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    {% comment %} Problem framing {% endcomment %}
+    {% if section.settings.body != blank %}
+      <div class="cwc_labor-day-stats-problem__body cwc-rte">
+        {{ section.settings.body }}
+      </div>
+    {% endif %}
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "CWC Labor Day Gap",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Header"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow_text",
+      "label": "Eyebrow",
+      "default": "The gap"
+    },
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "<p>You already know you should <strong>eat more vegetables.</strong></p>"
+    },
+    {
+      "type": "header",
+      "content": "Problem Copy"
+    },
+    {
+      "type": "richtext",
+      "id": "body",
+      "label": "Body Copy",
+      "info": "Two short paragraphs. Bold the turn with <strong>.",
+      "default": "<p>Knowing isn't the problem. <strong>Doing it every day is.</strong> Shopping for it, prepping it, eating enough of it before it goes bad — that's the part that falls apart in a normal week.</p><p>So the gap stays open. Not dramatically, not all at once. Just a little short, most days, for years.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Stats"
+    },
+    {
+      "type": "range",
+      "id": "stat_columns",
+      "label": "Stat Columns",
+      "info": "Four suits the four-stat default. Tablet and mobile hold two up regardless.",
+      "min": 2,
+      "max": 5,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "checkbox",
+      "id": "show_sources",
+      "label": "Show Source Notes",
+      "info": "Hiding sources does not remove the obligation to have one — it only hides the line.",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#2A2611"
+    },
+    {
+      "type": "color",
+      "id": "bold_color",
+      "label": "Heading Bold Color",
+      "default": "#44681A"
+    },
+    {
+      "type": "color",
+      "id": "eyebrow_color",
+      "label": "Eyebrow Color",
+      "default": "#44681A"
+    },
+    {
+      "type": "color",
+      "id": "stat_color",
+      "label": "Stat Figure Color",
+      "default": "#44681A"
+    },
+    {
+      "type": "color",
+      "id": "stat_bg_color",
+      "label": "Stat Background Color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Border Color",
+      "default": "#E0DED4"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 80
+    }
+  ],
+  "blocks": [
+    {
+      "type": "stat",
+      "name": "Stat",
+      "settings": [
+        {
+          "type": "text",
+          "id": "figure",
+          "label": "Figure",
+          "default": "55"
+        },
+        {
+          "type": "text",
+          "id": "suffix",
+          "label": "Figure Suffix",
+          "info": "Renders small and inline after the figure, e.g. \"+\"."
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "organic fruits & vegetables in one scoop"
+        },
+        {
+          "type": "text",
+          "id": "source_note",
+          "label": "Source Note",
+          "info": "The citation for this figure. Required for any claim about a population."
+        },
+        {
+          "type": "checkbox",
+          "id": "is_placeholder",
+          "label": "Unsourced Placeholder",
+          "info": "Greys the figure as a visible warning that it is not yet sourced. Untick once the figure and source note are filled — do not publish with this on.",
+          "default": false
+        }
+      ]
+    }
+  ],
+  "max_blocks": 4,
+  "presets": [
+    {
+      "name": "Labor Day Stats Problem",
+      "category": "CWC Custom",
+      "blocks": [
+        { "type": "stat" },
+        { "type": "stat" },
+        { "type": "stat" },
+        { "type": "stat" }
+      ]
+    }
+  ]
+}
+{% endschema %}

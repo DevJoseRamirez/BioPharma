@@ -204,6 +204,7 @@
         },
         "notice_strip_eDWEKa": {
           "type": "notice_strip",
+          "disabled": true,
           "settings": {
             "icon": "🎁",
             "text": "Order by {date} for 30% off + free gifts!",
@@ -1496,6 +1497,7 @@
         "theme_filter_2",
         "theme_filter_3"
       ],
+      "disabled": true,
       "settings": {
         "anchor_id": "reviews",
         "eyebrow_text": "410 verified buyers",
@@ -1734,6 +1736,7 @@
         "stat_3",
         "stat_4"
       ],
+      "disabled": true,
       "settings": {
         "eyebrow_text": "Recommended in practice",
         "heading": "<p>The people who recommend it <strong>see patients all day.</strong></p>",
@@ -2062,7 +2065,7 @@
         "badge_number": "30",
         "badge_label": "DAY",
         "heading": "<p>Love it, or <strong>get your money back</strong></p>",
-        "body": "<p>Most people love the green apple taste. Some don't — and we'd rather you find out risk-free. Try NanoGreens for 30 days. If it isn't for you, contact us for a full refund.</p><p></p>",
+        "body": "<p>Try NanoGreens for 30 days. If it isn't for you, contact us for a full refund.</p><p></p>",
         "bg_color": "#f4f3ee",
         "text_color": "#2a2611",
         "bold_color": "#a3c781",

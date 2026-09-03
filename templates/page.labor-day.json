@@ -1,0 +1,1024 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "cwc_labor_day_hero_ld01": {
+      "type": "CWC_labor_day_hero",
+      "blocks": {
+        "offer_item_ld01": {
+          "type": "offer_item",
+          "settings": {
+            "lead_text": "30% off your first order",
+            "rest_text": "— then 10% off every order after"
+          }
+        },
+        "offer_item_ld02": {
+          "type": "offer_item",
+          "settings": {
+            "lead_text": "Free shipping",
+            "rest_text": "on every subscription order"
+          }
+        },
+        "offer_item_ld03": {
+          "type": "offer_item",
+          "settings": {
+            "lead_text": "Three free gifts",
+            "rest_text": "— start guide, shaker bottle, gummies"
+          }
+        },
+        "offer_item_ld04": {
+          "type": "offer_item",
+          "settings": {
+            "lead_text": "30-day money-back guarantee",
+            "rest_text": "— cancel or pause anytime"
+          }
+        }
+      },
+      "block_order": [
+        "offer_item_ld01",
+        "offer_item_ld02",
+        "offer_item_ld03",
+        "offer_item_ld04"
+      ],
+      "name": "Labor Day Hero",
+      "settings": {
+        "eyebrow_text": "Labor Day Sale",
+        "heading": "<p>Start today, <em>save 30%</em>.</p>",
+        "subheading": "<p>NanoGreens10 — 55 organic fruits and vegetables in one scoop. Your first month is 30% off.</p>",
+        "currency_symbol": "$",
+        "price_now": "$52.47",
+        "price_was": "$74.95",
+        "show_save_badge": true,
+        "save_badge_prefix": "Save",
+        "cta_label": "Get Started — 30% Off →",
+        "cta_anchor": "#buy",
+        "show_stars": true,
+        "rating_value": "4.9",
+        "rating_count": "234 reviews",
+        "rating_extra_text": "Recommended in clinics since 2004",
+        "hero_image_alt": "NanoGreens10 tub",
+        "image_position": "right",
+        "bg_color": "#ecebe5",
+        "text_color": "#2a2611",
+        "bold_color": "#44681a",
+        "accent_color": "#5ba90f",
+        "eyebrow_color": "#44681a",
+        "media_bg_color": "#ffffff",
+        "star_color": "#5ba90f",
+        "badge_bg_color": "#e6f1d5",
+        "badge_text_color": "#44681a",
+        "button_bg_color": "#5ba90f",
+        "button_text_color": "#ffffff",
+        "padding_top": 75,
+        "padding_bottom": 75
+      }
+    },
+    "cwc_whole_body_support_X7PmEW": {
+      "type": "CWC_whole_body_support",
+      "blocks": {
+        "benefit_KMdN3e": {
+          "type": "benefit",
+          "settings": {
+            "title": "Natural energy",
+            "text": "<p>Sustained energy without stimulants — customers call it \"liquid energy,\" no coffee crash.</p>",
+            "tone": "tint"
+          }
+        },
+        "benefit_gCxtkq": {
+          "type": "benefit",
+          "settings": {
+            "title": "Natural energy",
+            "text": "<p>Sustained energy without stimulants — customers call it \"liquid energy,\" no coffee crash.</p>",
+            "tone": "tint"
+          }
+        },
+        "benefit_QRzUCj": {
+          "type": "benefit",
+          "settings": {
+            "title": "Natural energy",
+            "text": "<p>Sustained energy without stimulants — customers call it \"liquid energy,\" no coffee crash.</p>",
+            "tone": "tint"
+          }
+        },
+        "benefit_3CPXiz": {
+          "type": "benefit",
+          "settings": {
+            "title": "Natural energy",
+            "text": "<p>Sustained energy without stimulants — customers call it \"liquid energy,\" no coffee crash.</p>",
+            "tone": "tint"
+          }
+        },
+        "benefit_ehDfQx": {
+          "type": "benefit",
+          "settings": {
+            "title": "Natural energy",
+            "text": "<p>Sustained energy without stimulants — customers call it \"liquid energy,\" no coffee crash.</p>",
+            "tone": "tint"
+          }
+        },
+        "benefit_R9PiWV": {
+          "type": "benefit",
+          "settings": {
+            "title": "Natural energy",
+            "text": "<p>Sustained energy without stimulants — customers call it \"liquid energy,\" no coffee crash.</p>",
+            "tone": "tint"
+          }
+        }
+      },
+      "block_order": [
+        "benefit_KMdN3e",
+        "benefit_gCxtkq",
+        "benefit_QRzUCj",
+        "benefit_3CPXiz",
+        "benefit_ehDfQx",
+        "benefit_R9PiWV"
+      ],
+      "name": "Whole Body Support",
+      "settings": {
+        "eyebrow": "One scoop, every morning",
+        "heading": "<p>What NanoGreens <strong>supports</strong></p>",
+        "subtext": "<p>Six areas of daily wellness, from one 12g scoop.</p>",
+        "bg_color": "#ffffff",
+        "text_color": "#2A2611",
+        "bold_color": "#5BA90F",
+        "muted_color": "#5C5842",
+        "eyebrow_color": "#5BA90F",
+        "card_bg_color": "#ffffff",
+        "border_color": "#E6E5DC",
+        "icon_bg_color": "#F2F8EA",
+        "icon_border_color": "#A3C781",
+        "accent_bg_color": "#EEF1F9",
+        "accent_border_color": "#A3B8E2",
+        "padding_top": 50,
+        "padding_bottom": 50
+      }
+    },
+    "cwc_labor_day_benefits_ld02": {
+      "type": "CWC_labor_day_benefits",
+      "blocks": {
+        "benefit_ld01": {
+          "type": "benefit",
+          "settings": {
+            "key_figure": "55",
+            "key_suffix": "",
+            "title": "Nutritional gaps filled",
+            "description": "55 organic fruits and vegetables in a single scoop — the produce your week keeps leaving out."
+          }
+        },
+        "benefit_ld02": {
+          "type": "benefit",
+          "settings": {
+            "key_figure": "10",
+            "key_suffix": "",
+            "title": "Servings of produce",
+            "description": "The antioxidant equivalent of ten servings of fruit and vegetables, every morning."
+          }
+        },
+        "benefit_ld03": {
+          "type": "benefit",
+          "settings": {
+            "key_figure": "9",
+            "key_suffix": "",
+            "title": "Better gut health",
+            "description": "Nine digestive enzymes plus fiber support regularity and post-meal comfort."
+          }
+        },
+        "benefit_ld04": {
+          "type": "benefit",
+          "settings": {
+            "key_figure": "0",
+            "key_suffix": "mg caffeine",
+            "title": "Steady energy",
+            "description": "Energy support without stimulants — nothing to crash off of in the afternoon."
+          }
+        },
+        "benefit_ld05": {
+          "type": "benefit",
+          "settings": {
+            "key_figure": "Daily",
+            "key_suffix": "",
+            "title": "Immune defense",
+            "description": "Daily antioxidant intake supports your immune and antioxidant defenses."
+          }
+        },
+        "benefit_ld06": {
+          "type": "benefit",
+          "settings": {
+            "key_figure": "1",
+            "key_suffix": "scoop",
+            "title": "Actually absorbed",
+            "description": "Supersorb® delivery means what you drink gets used, not passed through."
+          }
+        }
+      },
+      "block_order": [
+        "benefit_ld01",
+        "benefit_ld02",
+        "benefit_ld03",
+        "benefit_ld04",
+        "benefit_ld05",
+        "benefit_ld06"
+      ],
+      "name": "Labor Day Benefits",
+      "settings": {
+        "eyebrow_text": "What you get",
+        "heading": "<p>One scoop. Ten seconds. <strong>Six things handled.</strong></p>",
+        "subtext": "<p>What a daily scoop is actually doing for you.</p>",
+        "columns_desktop": 3,
+        "figure_font": "serif",
+        "bg_color": "#33500f",
+        "text_color": "#ecebe5",
+        "bold_color": "#c9e88a",
+        "eyebrow_color": "#c9e88a",
+        "accent_color": "#c9e88a",
+        "tile_bg_color": "#3b5a15",
+        "tile_border_color": "#4c6b25",
+        "tile_title_color": "#ffffff",
+        "padding_top": 80,
+        "padding_bottom": 80
+      }
+    },
+    "cwc_labor_day_stats_problem_ld03": {
+      "type": "CWC_labor_day_stats_problem",
+      "blocks": {
+        "stat_ld01": {
+          "type": "stat",
+          "settings": {
+            "figure": "[STAT]",
+            "suffix": "",
+            "label": "of US adults fall short of daily vegetable intake",
+            "source_note": "source TBD",
+            "is_placeholder": true
+          }
+        },
+        "stat_ld02": {
+          "type": "stat",
+          "settings": {
+            "figure": "55",
+            "suffix": "",
+            "label": "organic fruits & vegetables in one scoop",
+            "source_note": "",
+            "is_placeholder": false
+          }
+        },
+        "stat_ld03": {
+          "type": "stat",
+          "settings": {
+            "figure": "10",
+            "suffix": "",
+            "label": "servings of produce, antioxidant equivalent",
+            "source_note": "",
+            "is_placeholder": false
+          }
+        },
+        "stat_ld04": {
+          "type": "stat",
+          "settings": {
+            "figure": "20",
+            "suffix": "+",
+            "label": "years recommended in clinics",
+            "source_note": "",
+            "is_placeholder": false
+          }
+        }
+      },
+      "block_order": [
+        "stat_ld01",
+        "stat_ld02",
+        "stat_ld03",
+        "stat_ld04"
+      ],
+      "name": "Labor Day Stats Problem",
+      "settings": {
+        "eyebrow_text": "The gap",
+        "heading": "<p>You already know you should <strong>eat more vegetables.</strong></p>",
+        "body": "<p>Knowing isn't the problem. <strong>Doing it every day is.</strong> Shopping for it, prepping it, eating enough of it before it goes bad — that's the part that falls apart in a normal week.</p><p>So the gap stays open. Not dramatically, not all at once. Just a little short, most days, for years.</p>",
+        "stat_columns": 4,
+        "show_sources": true,
+        "bg_color": "#ffffff",
+        "text_color": "#2a2611",
+        "bold_color": "#44681a",
+        "eyebrow_color": "#44681a",
+        "stat_color": "#44681a",
+        "stat_bg_color": "#ffffff",
+        "border_color": "#e0ded4",
+        "padding_top": 80,
+        "padding_bottom": 80
+      }
+    },
+    "cwc_labor_day_transformation_ld04": {
+      "type": "CWC_labor_day_transformation",
+      "blocks": {
+        "phase_ld01": {
+          "type": "phase",
+          "settings": {
+            "phase_label": "Week 1: Early Shifts",
+            "is_final": false,
+            "claim_1": "You find a way to take it you actually like",
+            "claim_2": "Digestion starts to feel lighter",
+            "claim_3": "Mornings feel a little easier",
+            "claim_4": ""
+          }
+        },
+        "phase_ld02": {
+          "type": "phase",
+          "settings": {
+            "phase_label": "Week 2: Energy Returns",
+            "is_final": false,
+            "claim_1": "Steadier daily energy, no stimulants",
+            "claim_2": "Less of the afternoon drop-off",
+            "claim_3": "The habit stops taking willpower",
+            "claim_4": ""
+          }
+        },
+        "phase_ld03": {
+          "type": "phase",
+          "settings": {
+            "phase_label": "Week 3: Gut + Immune Sync",
+            "is_final": false,
+            "claim_1": "Improved regularity and gut comfort",
+            "claim_2": "Post-meal heaviness eases up",
+            "claim_3": "Your immune defenses feel more resilient",
+            "claim_4": ""
+          }
+        },
+        "phase_ld04": {
+          "type": "phase",
+          "settings": {
+            "phase_label": "Week 4+: Long-Term Balance",
+            "is_final": true,
+            "claim_1": "Steady energy becomes your new normal",
+            "claim_2": "The produce gap is closed, every day",
+            "claim_3": "You stop thinking about it — it's just what you do",
+            "claim_4": ""
+          }
+        }
+      },
+      "block_order": [
+        "phase_ld01",
+        "phase_ld02",
+        "phase_ld03",
+        "phase_ld04"
+      ],
+      "name": "Labor Day Journey",
+      "settings": {
+        "heading": "<p>Your first month <em>with NanoGreens10</em></p>",
+        "intro_text": "<p>NanoGreens10 is built for daily use, not quick fixes. Here's how things tend to shift once it's part of your morning.</p>",
+        "auto_asterisk_claims": true,
+        "disclaimer_text": "<p>Customer-reported experiences, not results from a clinical trial. Individual results vary. These statements have not been evaluated by the Food and Drug Administration. This product is not intended to diagnose, treat, cure, or prevent any disease.</p>",
+        "cta_label": "Start My Journey →",
+        "cta_anchor": "#buy",
+        "button_style": "dark",
+        "lifestyle_image_alt": "Morning routine with NanoGreens10",
+        "placeholder_label": "Lifestyle image",
+        "image_position": "left",
+        "bg_color": "#ecebe5",
+        "text_color": "#2a2611",
+        "bold_color": "#44681a",
+        "accent_color": "#5ba90f",
+        "placeholder_bg_color": "#33500f",
+        "rail_color": "#44681a",
+        "node_color": "#44681a",
+        "bar_bg_color": "#44681a",
+        "bar_text_color": "#ecebe5",
+        "final_color": "#1f1f1c",
+        "button_bg_color": "#5ba90f",
+        "button_text_color": "#ffffff",
+        "padding_top": 80,
+        "padding_bottom": 80
+      }
+    },
+    "cwc_home_reviews_3WaVF4": {
+      "type": "CWC_home_reviews",
+      "blocks": {
+        "review_FgrewA": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "quote": "I've taken NanoGreens for years after my naturopath suggested it. More energy, better digestion. It's a non-negotiable part of my morning now.",
+            "author_name": "Jennifer M.",
+            "verified_label": "Verified buyer"
+          }
+        },
+        "review_akEyqM": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "quote": "I've taken NanoGreens for years after my naturopath suggested it. More energy, better digestion. It's a non-negotiable part of my morning now.",
+            "author_name": "Jennifer M.",
+            "verified_label": "Verified buyer"
+          }
+        },
+        "review_hfUNbU": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "quote": "I've taken NanoGreens for years after my naturopath suggested it. More energy, better digestion. It's a non-negotiable part of my morning now.",
+            "author_name": "Jennifer M.",
+            "verified_label": "Verified buyer"
+          }
+        },
+        "review_RfmWUJ": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "quote": "I've taken NanoGreens for years after my naturopath suggested it. More energy, better digestion. It's a non-negotiable part of my morning now.",
+            "author_name": "Jennifer M.",
+            "verified_label": "Verified buyer"
+          }
+        }
+      },
+      "block_order": [
+        "review_FgrewA",
+        "review_akEyqM",
+        "review_hfUNbU",
+        "review_RfmWUJ"
+      ],
+      "name": "Home Reviews",
+      "settings": {
+        "eyebrow": "614 verified buyers",
+        "heading": "<p>The routines people <strong>have kept.</strong></p>",
+        "view_all_label": "Read all reviews →",
+        "view_all_link": "",
+        "load_more_label": "Load more reviews",
+        "rating_value": 4.8,
+        "rating_count": "614 verified reviews",
+        "show_distribution": true,
+        "pct_5": 84,
+        "pct_4": 10,
+        "pct_3": 3,
+        "pct_2": 2,
+        "pct_1": 1,
+        "bg_color": "#ffffff",
+        "text_color": "#2a2611",
+        "bold_color": "#5ba90f",
+        "muted_color": "#5c5842",
+        "eyebrow_color": "#5ba90f",
+        "star_color": "#e8a317",
+        "panel_bg_color": "#faf9f4",
+        "card_bg_color": "#ffffff",
+        "border_color": "#e6e5dc",
+        "bar_bg_color": "#e6e5dc",
+        "bar_fill_color": "#78ad49",
+        "padding_top": 50,
+        "padding_bottom": 50
+      }
+    },
+    "cwc_practitioner_endorsement_cPjEgp": {
+      "type": "CWC_practitioner_endorsement",
+      "blocks": {
+        "practitioner_bAdXJj": {
+          "type": "practitioner",
+          "settings": {
+            "quote": "<p>\"I've recommended NanoGreens to patients for years.\"</p>",
+            "name": "[Practitioner Name], DC",
+            "role": "Chiropractor · [City, State]"
+          }
+        },
+        "practitioner_zw4mnP": {
+          "type": "practitioner",
+          "settings": {
+            "quote": "<p>\"I've recommended NanoGreens to patients for years.\"</p>",
+            "name": "[Practitioner Name], DC",
+            "role": "Chiropractor · [City, State]"
+          }
+        },
+        "practitioner_kEjWzd": {
+          "type": "practitioner",
+          "settings": {
+            "quote": "<p>\"I've recommended NanoGreens to patients for years.\"</p>",
+            "name": "[Practitioner Name], DC",
+            "role": "Chiropractor · [City, State]"
+          }
+        },
+        "stat_c43h6W": {
+          "type": "stat",
+          "settings": {
+            "value": "33",
+            "label": "of 410 reviews mention a clinician recommended it"
+          }
+        },
+        "stat_4AgLDw": {
+          "type": "stat",
+          "settings": {
+            "value": "33",
+            "label": "of 410 reviews mention a clinician recommended it"
+          }
+        },
+        "stat_b3aTPi": {
+          "type": "stat",
+          "settings": {
+            "value": "33",
+            "label": "of 410 reviews mention a clinician recommended it"
+          }
+        },
+        "stat_inhtqR": {
+          "type": "stat",
+          "settings": {
+            "value": "33",
+            "label": "of 410 reviews mention a clinician recommended it"
+          }
+        }
+      },
+      "block_order": [
+        "practitioner_bAdXJj",
+        "practitioner_zw4mnP",
+        "practitioner_kEjWzd",
+        "stat_c43h6W",
+        "stat_4AgLDw",
+        "stat_b3aTPi",
+        "stat_inhtqR"
+      ],
+      "name": "Practitioner Endorsement",
+      "settings": {
+        "eyebrow": "Recommended in practice",
+        "heading": "<p>The people who recommend it <strong>see patients all day</strong></p>",
+        "subtext": "<p>NanoGreens was distributed through clinics for years before it was ever sold online. Many still stock it.</p>",
+        "show_clinician": true,
+        "clinician_initials": "DC, ND, MD",
+        "clinician_text": "<p><strong>Clinicians' choice.</strong> Recommended in practice for over 20 years, before it was ever sold online.</p>",
+        "bg_color": "#ffffff",
+        "text_color": "#2a2611",
+        "bold_color": "#78ad49",
+        "muted_color": "#5c5842",
+        "eyebrow_color": "#4a5e8c",
+        "border_color": "#e6e5dc",
+        "card_bg_color": "#ffffff",
+        "accent_color": "#4a5e8c",
+        "accent_bg_color": "#eef1f9",
+        "accent_border_color": "#a3b8e2",
+        "padding_top": 50,
+        "padding_bottom": 50
+      }
+    },
+    "cwc_product_hero_buy_box_pdyERV": {
+      "type": "CWC_product_hero_buy_box",
+      "blocks": {
+        "rating_bQeyFq": {
+          "type": "rating",
+          "settings": {
+            "text": "<p>4.4 · 410 reviews</p>",
+            "link": ""
+          }
+        },
+        "title_VxrzUf": {
+          "type": "title",
+          "settings": {
+            "heading": "<p>NanoGreens<strong>10</strong></p>"
+          }
+        },
+        "key_benefits_LnfndP": {
+          "type": "key_benefits",
+          "settings": {
+            "text_1": "10 servings of fruits & vegetables in one scoop",
+            "tone_1": "tint",
+            "text_2": "9 digestive enzymes so your body absorbs it",
+            "tone_2": "accent",
+            "text_3": "Recommended by practitioners for 20+ years",
+            "tone_3": "tint",
+            "text_4": "30-day money-back guarantee",
+            "tone_4": "tint",
+            "text_5": "",
+            "tone_5": "tint",
+            "text_6": "",
+            "tone_6": "tint"
+          }
+        },
+        "flavors_B3cjTn": {
+          "type": "flavors",
+          "settings": {
+            "label": "Select flavor",
+            "option_name": "flavor",
+            "color_1": "",
+            "color_2": "",
+            "color_3": "",
+            "color_4": "",
+            "color_5": "",
+            "color_6": ""
+          }
+        },
+        "supply_U7Vp9U": {
+          "type": "supply",
+          "settings": {
+            "group_label": "Subscribe & Save",
+            "option_name": "supply",
+            "opt1_name": "90-Day Supply",
+            "opt1_value": "",
+            "opt1_save_label": "Save 25%",
+            "opt1_badge_text": "Best value",
+            "opt1_description": "3 tubs, delivered every 90 days",
+            "opt1_sticky_sub": "$1.87 USD / serving",
+            "opt1_perks": "<p>$1.87 per serving — lowest price per scoop</p><p>Free shipping on every order</p><p>Cancel, pause, or reschedule anytime</p>",
+            "opt1_is_default": true,
+            "opt1_selling_plan_id": "",
+            "opt1_billing_note": "",
+            "opt1_serving_text": "",
+            "opt1_billing_interval_count": 4,
+            "opt1_billing_interval_unit": "week",
+            "opt1_quantity": 1,
+            "opt1_gift_label": "Welcome kit — arrives with first order",
+            "opt1_gift_title_1": "",
+            "opt1_gift_value_1": "",
+            "opt1_gift_title_2": "",
+            "opt1_gift_value_2": "",
+            "opt1_gift_title_3": "",
+            "opt1_gift_value_3": "",
+            "opt1_gift_title_4": "",
+            "opt1_gift_value_4": "",
+            "opt1_addon_product": "",
+            "opt1_addon_quantity": 1,
+            "opt1_price_text": "",
+            "opt1_compare_text": "",
+            "opt1_save_text": "",
+            "opt2_name": "30-Day Supply",
+            "opt2_value": "",
+            "opt2_save_label": "Save 15%",
+            "opt2_badge_text": "",
+            "opt2_description": "1 tub, delivered every 30 days",
+            "opt2_sticky_sub": "$2.13 USD / serving",
+            "opt2_perks": "<p>$2.13 per serving</p><p>Free shipping on every order</p><p>Cancel, pause, or reschedule anytime</p>",
+            "opt2_is_default": false,
+            "opt2_selling_plan_id": "",
+            "opt2_billing_note": "",
+            "opt2_serving_text": "",
+            "opt2_billing_interval_count": 4,
+            "opt2_billing_interval_unit": "week",
+            "opt2_quantity": 1,
+            "opt2_gift_label": "Welcome kit — arrives with first order",
+            "opt2_gift_title_1": "",
+            "opt2_gift_value_1": "",
+            "opt2_gift_title_2": "",
+            "opt2_gift_value_2": "",
+            "opt2_gift_title_3": "",
+            "opt2_gift_value_3": "",
+            "opt2_gift_title_4": "",
+            "opt2_gift_value_4": "",
+            "opt2_addon_product": "",
+            "opt2_addon_quantity": 1,
+            "opt2_price_text": "",
+            "opt2_compare_text": "",
+            "opt2_save_text": "",
+            "opt3_name": "",
+            "opt3_value": "",
+            "opt3_save_label": "",
+            "opt3_badge_text": "",
+            "opt3_description": "",
+            "opt3_sticky_sub": "",
+            "opt3_perks": "",
+            "opt3_is_default": false,
+            "opt3_selling_plan_id": "",
+            "opt3_billing_note": "",
+            "opt3_serving_text": "",
+            "opt3_billing_interval_count": 4,
+            "opt3_billing_interval_unit": "week",
+            "opt3_quantity": 1,
+            "opt3_gift_label": "",
+            "opt3_gift_title_1": "",
+            "opt3_gift_value_1": "",
+            "opt3_gift_title_2": "",
+            "opt3_gift_value_2": "",
+            "opt3_gift_title_3": "",
+            "opt3_gift_value_3": "",
+            "opt3_gift_title_4": "",
+            "opt3_gift_value_4": "",
+            "opt3_addon_product": "",
+            "opt3_addon_quantity": 1,
+            "opt3_price_text": "",
+            "opt3_compare_text": "",
+            "opt3_save_text": "",
+            "opt4_name": "",
+            "opt4_value": "",
+            "opt4_save_label": "",
+            "opt4_badge_text": "",
+            "opt4_description": "",
+            "opt4_sticky_sub": "",
+            "opt4_perks": "",
+            "opt4_is_default": false,
+            "opt4_selling_plan_id": "",
+            "opt4_billing_note": "",
+            "opt4_serving_text": "",
+            "opt4_billing_interval_count": 4,
+            "opt4_billing_interval_unit": "week",
+            "opt4_quantity": 1,
+            "opt4_gift_label": "",
+            "opt4_gift_title_1": "",
+            "opt4_gift_value_1": "",
+            "opt4_gift_title_2": "",
+            "opt4_gift_value_2": "",
+            "opt4_gift_title_3": "",
+            "opt4_gift_value_3": "",
+            "opt4_gift_title_4": "",
+            "opt4_gift_value_4": "",
+            "opt4_addon_product": "",
+            "opt4_addon_quantity": 1,
+            "opt4_price_text": "",
+            "opt4_compare_text": "",
+            "opt4_save_text": ""
+          }
+        },
+        "onetime_zKwTGd": {
+          "type": "onetime",
+          "settings": {
+            "text": "One-time purchase",
+            "style": "link",
+            "behavior": "add_immediately",
+            "sublabel": "",
+            "show_price": false,
+            "supply_value": ""
+          }
+        },
+        "add_to_cart_waMHk9": {
+          "type": "add_to_cart",
+          "settings": {
+            "label": "Add to cart",
+            "sold_out_label": "Sold out",
+            "micro_text": "🔒 Secure checkout · 30-day money-back guarantee · Cancel anytime"
+          }
+        },
+        "trust_icons_8jiqxR": {
+          "type": "trust_icons",
+          "settings": {
+            "icon_style_1": "shield",
+            "icon_text_1": "↩",
+            "label_1": "<p>30-Day Money Back</p>",
+            "icon_style_2": "truck",
+            "icon_text_2": "⛟",
+            "label_2": "<p>Free Shipping on Subscriptions</p>",
+            "icon_style_3": "pause",
+            "icon_text_3": "⏸",
+            "label_3": "<p>Cancel or Pause Anytime</p>"
+          }
+        },
+        "detail_mQd4fG": {
+          "type": "detail",
+          "settings": {
+            "title": "Ingredients",
+            "content": "<p>Describe what sits behind this row.</p>",
+            "open": false
+          }
+        },
+        "detail_HfwExi": {
+          "type": "detail",
+          "settings": {
+            "title": "Ingredients",
+            "content": "<p>Describe what sits behind this row.</p>",
+            "open": false
+          }
+        },
+        "sticky_atc_3yaAhi": {
+          "type": "sticky_atc",
+          "settings": {
+            "name_override": "",
+            "subline": "Free shipping · 30-day guarantee",
+            "plan_label": "Choose your supply",
+            "plan_sub": "",
+            "button_text": "Add to cart",
+            "button_text_mobile": "Add",
+            "show_price_in_button": true,
+            "sold_out_text": "Sold out",
+            "reveal_after": 600
+          }
+        }
+      },
+      "block_order": [
+        "rating_bQeyFq",
+        "title_VxrzUf",
+        "key_benefits_LnfndP",
+        "flavors_B3cjTn",
+        "supply_U7Vp9U",
+        "onetime_zKwTGd",
+        "add_to_cart_waMHk9",
+        "trust_icons_8jiqxR",
+        "detail_mQd4fG",
+        "detail_HfwExi",
+        "sticky_atc_3yaAhi"
+      ],
+      "name": "Product Hero Buy Box",
+      "settings": {
+        "product": "",
+        "badge_text": "55 organic ingredients",
+        "gallery_ratio": "1 / 1",
+        "gallery_fit": "cover",
+        "show_thumbnails": true,
+        "gallery_limit": 10,
+        "thumbs_per_view": 6,
+        "thumb_ratio": "1 / 1",
+        "nutrition_button_text": "View Nutrition Label",
+        "nutrition_alt": "Supplement facts",
+        "bg_color": "#ffffff",
+        "text_color": "#2a2611",
+        "bold_color": "#5ba90f",
+        "muted_color": "#5c5842",
+        "deep_color": "#44681a",
+        "warn_color": "#9f3f3f",
+        "star_color": "#e8a317",
+        "card_bg_color": "#ffffff",
+        "card_selected_bg_color": "#fafdf6",
+        "panel_bg_color": "#faf9f4",
+        "border_color": "#e6e5dc",
+        "tint_bg_color": "#f2f8ea",
+        "tint_border_color": "#a3c781",
+        "accent_color": "#4a5e8c",
+        "accent_bg_color": "#eef1f9",
+        "accent_border_color": "#a3b8e2",
+        "button_bg_color": "#5ba90f",
+        "button_text_color": "#ffffff",
+        "padding_top": 20,
+        "padding_bottom": 40
+      }
+    },
+    "cwc_how_to_use_jrjqqW": {
+      "type": "CWC_how_to_use",
+      "blocks": {
+        "step_Cq8Wna": {
+          "type": "step",
+          "settings": {
+            "image_alt": "",
+            "title": "Add one scoop",
+            "text": "<p>One 12g scoop into 6–16 oz of cold water. Cold matters — it mixes cleaner and tastes better.</p>"
+          }
+        },
+        "step_aegt6c": {
+          "type": "step",
+          "settings": {
+            "image_alt": "",
+            "title": "Add one scoop",
+            "text": "<p>One 12g scoop into 6–16 oz of cold water. Cold matters — it mixes cleaner and tastes better.</p>"
+          }
+        },
+        "step_cMGpMr": {
+          "type": "step",
+          "settings": {
+            "image_alt": "",
+            "title": "Add one scoop",
+            "text": "<p>One 12g scoop into 6–16 oz of cold water. Cold matters — it mixes cleaner and tastes better.</p>"
+          }
+        },
+        "tip_peypYz": {
+          "type": "tip",
+          "settings": {
+            "text": "Always use cold water — never hot"
+          }
+        },
+        "tip_MYVyGb": {
+          "type": "tip",
+          "settings": {
+            "text": "Always use cold water — never hot"
+          }
+        }
+      },
+      "block_order": [
+        "step_Cq8Wna",
+        "step_aegt6c",
+        "step_cMGpMr",
+        "tip_peypYz",
+        "tip_MYVyGb"
+      ],
+      "name": "How To Use",
+      "settings": {
+        "eyebrow": "Ten seconds, every morning",
+        "heading": "<p>How to <strong>use it</strong></p>",
+        "subtext": "<p>One scoop, cold water, shake. That's the whole routine.</p>",
+        "tips_heading": "Pro tips",
+        "step_image_ratio": "4 / 3",
+        "step_image_fit": "cover",
+        "bg_color": "#ffffff",
+        "text_color": "#2a2611",
+        "bold_color": "#5ba90f",
+        "muted_color": "#5c5842",
+        "deep_color": "#44681a",
+        "eyebrow_color": "#5ba90f",
+        "card_bg_color": "#ffffff",
+        "step_bg_color": "#5ba90f",
+        "border_color": "#e6e5dc",
+        "tips_accent_color": "#78ad49",
+        "padding_top": 50,
+        "padding_bottom": 50
+      }
+    },
+    "cwc_guarantee_P6YzFT": {
+      "type": "CWC_guarantee",
+      "blocks": {
+        "pill_HiHUfc": {
+          "type": "pill",
+          "settings": {
+            "text": "30-day money-back guarantee"
+          }
+        },
+        "pill_g97Myn": {
+          "type": "pill",
+          "settings": {
+            "text": "30-day money-back guarantee"
+          }
+        },
+        "pill_7birYy": {
+          "type": "pill",
+          "settings": {
+            "text": "30-day money-back guarantee"
+          }
+        },
+        "pill_NcNict": {
+          "type": "pill",
+          "settings": {
+            "text": "30-day money-back guarantee"
+          }
+        }
+      },
+      "block_order": [
+        "pill_HiHUfc",
+        "pill_g97Myn",
+        "pill_7birYy",
+        "pill_NcNict"
+      ],
+      "name": "Guarantee",
+      "settings": {
+        "badge_number": "30",
+        "badge_label": "DAY",
+        "heading": "<p>Love it, or <strong>get your money back</strong></p>",
+        "body": "<p>Most people love the green apple taste. Some don't — and we'd rather you find out risk-free. Try NanoGreens for 30 days. If it isn't for you, contact us for a full refund. No questions asked.</p>",
+        "bg_color": "#ffffff",
+        "text_color": "#2a2611",
+        "bold_color": "#a3c781",
+        "card_bg_color": "#44681a",
+        "card_text_color": "#d9e7c9",
+        "badge_border_color": "#a3c781",
+        "badge_text_color": "#cfe0bd",
+        "padding_top": 50,
+        "padding_bottom": 50
+      }
+    },
+    "cwc_faq_DPqgyc": {
+      "type": "CWC_faq",
+      "blocks": {
+        "faq_fDbdfR": {
+          "type": "faq",
+          "settings": {
+            "question": "How do I take it?",
+            "answer": "<p>Mix 1 scoop (12g) with 6–16 oz of cold water. Shake, stir, or blend.</p>",
+            "open": false
+          }
+        },
+        "faq_xKK3qt": {
+          "type": "faq",
+          "settings": {
+            "question": "How do I take it?",
+            "answer": "<p>Mix 1 scoop (12g) with 6–16 oz of cold water. Shake, stir, or blend.</p>",
+            "open": false
+          }
+        },
+        "faq_wn83ip": {
+          "type": "faq",
+          "settings": {
+            "question": "How do I take it?",
+            "answer": "<p>Mix 1 scoop (12g) with 6–16 oz of cold water. Shake, stir, or blend.</p>",
+            "open": false
+          }
+        }
+      },
+      "block_order": [
+        "faq_fDbdfR",
+        "faq_xKK3qt",
+        "faq_wn83ip"
+      ],
+      "name": "FAQ",
+      "settings": {
+        "heading": "<p>FAQs</p>",
+        "button_label": "Explore all FAQs",
+        "button_link": "",
+        "image_position": "right",
+        "image_alt": "NanoGreens",
+        "bg_color": "#ffffff",
+        "panel_bg_color": "#44681a",
+        "panel_text_color": "#ffffff",
+        "bold_color": "#a3c781",
+        "answer_color": "#dbe6cd",
+        "divider_color": "#6a8348",
+        "sign_color": "#ffffff",
+        "button_bg_color": "#31501a",
+        "button_text_color": "#ffffff",
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    }
+  },
+  "order": [
+    "cwc_labor_day_hero_ld01",
+    "cwc_whole_body_support_X7PmEW",
+    "cwc_labor_day_benefits_ld02",
+    "cwc_labor_day_stats_problem_ld03",
+    "cwc_labor_day_transformation_ld04",
+    "cwc_home_reviews_3WaVF4",
+    "cwc_practitioner_endorsement_cPjEgp",
+    "cwc_product_hero_buy_box_pdyERV",
+    "cwc_how_to_use_jrjqqW",
+    "cwc_guarantee_P6YzFT",
+    "cwc_faq_DPqgyc"
+  ]
+}

@@ -1,0 +1,447 @@
+{% comment %}
+  CWC Labor Day Transformation
+  ------------------------------------------------------------------
+  Week-based expectation setting. Left column carries the image, heading and
+  CTA; right column is a vertical rail of phases, each a labelled bar over a
+  list of claims.
+
+  ⚠️ COMPLIANCE-CRITICAL — THE ASTERISK AND THE DISCLAIMER ARE ONE UNIT.
+
+  Every claim in every phase carries a marker pointing at the closing FDA
+  disclaimer. That marker is RENDERED BY THE SECTION, not typed into the claim
+  text, and `auto_asterisk_claims` is on by default. An editor adding a fifth
+  claim or a fifth phase gets the marker automatically — they cannot forget it,
+  because they were never the ones applying it.
+
+  The disclaimer itself is a required field with a compliance-approved default.
+  Emptying it does not simply hide a line: it strips the referent every
+  asterisk on the page points to, which turns twelve marked claims into twelve
+  unqualified health claims. The section therefore falls back to the default
+  disclaimer text when the setting is blank, so the pairing cannot be broken
+  from the Theme Editor.
+
+  These are customer-reported experiences, not trial results. The default copy
+  is careful about that distinction and should stay that way.
+{% endcomment %}
+
+{% style %}
+  #cwc_labor-day-transformation-{{ section.id }} {
+    --section-bg: {{ section.settings.bg_color | default: '#ECEBE5' }};
+    --text-color: {{ section.settings.text_color | default: '#2A2611' }};
+    --highlight-color: {{ section.settings.bold_color | default: '#44681A' }};
+    --accent-color: {{ section.settings.accent_color | default: '#5BA90F' }};
+    --rail-color: {{ section.settings.rail_color | default: '#44681A' }};
+    --node-color: {{ section.settings.node_color | default: '#44681A' }};
+    --bar-bg: {{ section.settings.bar_bg_color | default: '#44681A' }};
+    --bar-text: {{ section.settings.bar_text_color | default: '#ECEBE5' }};
+    --final-color: {{ section.settings.final_color | default: '#1F1F1C' }};
+    --placeholder-bg: {{ section.settings.placeholder_bg_color | default: '#33500F' }};
+    --button-bg: {{ section.settings.button_bg_color | default: '#5BA90F' }};
+    --button-text: {{ section.settings.button_text_color | default: '#FFFFFF' }};
+    --content-max: 1300px;
+    --padding-top: {{ section.settings.padding_top | default: 80 }}px;
+    --padding-bottom: {{ section.settings.padding_bottom | default: 80 }}px;
+    --padding-top-mobile: {{ section.settings.padding_top | default: 80 | times: 0.5 }}px;
+    --padding-bottom-mobile: {{ section.settings.padding_bottom | default: 80 | times: 0.5 }}px;
+  }
+{% endstyle %}
+
+{{ 'CWC_fonts.css' | asset_url | stylesheet_tag }}
+{{ 'CWC_labor_day_transformation.css' | asset_url | stylesheet_tag }}
+
+{% liquid
+  assign image_position = section.settings.image_position | default: 'left'
+
+  assign button_class = 'cwc_labor-day-transformation__button'
+  if section.settings.button_style == 'dark'
+    assign button_class = 'cwc_labor-day-transformation__button cwc_labor-day-transformation__button--dark'
+  endif
+
+  comment
+    The disclaimer falls back to its default rather than disappearing. An empty
+    setting would leave every asterisk above it pointing at nothing.
+  endcomment
+  assign disclaimer = section.settings.disclaimer_text
+  if disclaimer == blank
+    assign disclaimer = '<p>Customer-reported experiences, not results from a clinical trial. Individual results vary. These statements have not been evaluated by the Food and Drug Administration. This product is not intended to diagnose, treat, cure, or prevent any disease.</p>'
+  endif
+%}
+
+<section
+  id="cwc_labor-day-transformation-{{ section.id }}"
+  class="cwc_labor-day-transformation cwc_labor-day-transformation--image-{{ image_position }}"
+>
+  <div class="cwc_labor-day-transformation__container">
+    <div class="cwc_labor-day-transformation__wrapper">
+
+      {% comment %} Image + heading + CTA {% endcomment %}
+      <div class="cwc_labor-day-transformation__intro">
+        <div class="cwc_labor-day-transformation__image">
+          {% if section.settings.lifestyle_image != blank %}
+            <img
+              src="{{ section.settings.lifestyle_image | image_url: width: 1000 }}"
+              alt="{{ section.settings.lifestyle_image_alt | default: 'Lifestyle image' | escape }}"
+              loading="lazy"
+              width="1000"
+              height="750"
+            >
+          {% else %}
+            <div class="cwc_labor-day-transformation__placeholder">
+              <span>{{ section.settings.placeholder_label | default: 'Lifestyle image' }}</span>
+            </div>
+          {% endif %}
+        </div>
+
+        {% if section.settings.heading != blank %}
+          <div class="cwc_labor-day-transformation__content-heading cwc-rte">
+            {{ section.settings.heading }}
+          </div>
+        {% endif %}
+
+        {% if section.settings.intro_text != blank %}
+          <div class="cwc_labor-day-transformation__content-subtext cwc-rte">
+            {{ section.settings.intro_text }}
+          </div>
+        {% endif %}
+
+        {% if section.settings.cta_label != blank %}
+          <a href="{{ section.settings.cta_anchor | default: '#buy' }}" class="{{ button_class }}">
+            {{ section.settings.cta_label }}
+          </a>
+        {% endif %}
+      </div>
+
+      {% comment %} Phase rail {% endcomment %}
+      <div class="cwc_labor-day-transformation__rail">
+        {% if section.blocks.size > 0 %}
+          {% for block in section.blocks %}
+            {% case block.type %}
+              {% when 'phase' %}
+                <div
+                  class="cwc_labor-day-transformation__phase{% if block.settings.is_final %} cwc_labor-day-transformation__phase--final{% endif %}"
+                  {{ block.shopify_attributes }}
+                >
+                  <span class="cwc_labor-day-transformation__node" aria-hidden="true"></span>
+
+                  {% if block.settings.phase_label != blank %}
+                    <div class="cwc_labor-day-transformation__bar">{{ block.settings.phase_label }}</div>
+                  {% endif %}
+
+                  {%- capture phase_claims -%}
+                    {%- for i in (1..4) -%}
+                      {%- assign claim_key = 'claim_' | append: i -%}
+                      {%- assign claim = block.settings[claim_key] -%}
+
+                      {%- if claim != blank -%}
+                        <li class="cwc_labor-day-transformation__claim">
+                          {{- claim -}}
+                          {%- comment -%}
+                            The marker is applied here, never typed into the
+                            claim, so a new claim cannot ship unmarked.
+                          {%- endcomment -%}
+                          {%- if section.settings.auto_asterisk_claims -%}
+                            <sup class="cwc_labor-day-transformation__marker">*</sup>
+                          {%- endif -%}
+                        </li>
+                      {%- endif -%}
+                    {%- endfor -%}
+                  {%- endcapture -%}
+
+                  {% if phase_claims != blank %}
+                    <ul class="cwc_labor-day-transformation__claims" role="list">
+                      {{ phase_claims }}
+                    </ul>
+                  {% endif %}
+                </div>
+            {% endcase %}
+          {% endfor %}
+        {% endif %}
+
+        {% comment %}
+          The referent for every marker above. Required — see the header note.
+        {% endcomment %}
+        <div class="cwc_labor-day-transformation__disclaimer cwc-rte">
+          <sup class="cwc_labor-day-transformation__marker">*</sup>
+          {{ disclaimer }}
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "CWC Labor Day Journey",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Header"
+    },
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "Section Heading",
+      "info": "Wrap the second line in <em> to set it on its own line in italics.",
+      "default": "<p>Your first month <em>with NanoGreens10</em></p>"
+    },
+    {
+      "type": "richtext",
+      "id": "intro_text",
+      "label": "Intro Text",
+      "default": "<p>NanoGreens10 is built for daily use, not quick fixes. Here's how things tend to shift once it's part of your morning.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Compliance"
+    },
+    {
+      "type": "checkbox",
+      "id": "auto_asterisk_claims",
+      "label": "Mark Every Claim Automatically",
+      "info": "Renders the asterisk on every claim so a newly added claim cannot ship unmarked. Leave this on.",
+      "default": true
+    },
+    {
+      "type": "richtext",
+      "id": "disclaimer_text",
+      "label": "Disclaimer (Required)",
+      "info": "Required. Every asterisk above points here — if this is emptied the approved default is used instead.",
+      "default": "<p>Customer-reported experiences, not results from a clinical trial. Individual results vary. These statements have not been evaluated by the Food and Drug Administration. This product is not intended to diagnose, treat, cure, or prevent any disease.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Call To Action"
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "Button Label",
+      "default": "Start My Journey →"
+    },
+    {
+      "type": "text",
+      "id": "cta_anchor",
+      "label": "Button Anchor",
+      "info": "An on-page anchor to the buy box, e.g. #buy. The target must exist on this page.",
+      "default": "#buy"
+    },
+    {
+      "type": "select",
+      "id": "button_style",
+      "label": "Button Style",
+      "options": [
+        { "value": "default", "label": "Default" },
+        { "value": "dark", "label": "Dark" }
+      ],
+      "default": "dark"
+    },
+    {
+      "type": "header",
+      "content": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "lifestyle_image",
+      "label": "Lifestyle Image"
+    },
+    {
+      "type": "text",
+      "id": "lifestyle_image_alt",
+      "label": "Lifestyle Image Alt Text",
+      "default": "Morning routine with NanoGreens10"
+    },
+    {
+      "type": "text",
+      "id": "placeholder_label",
+      "label": "Image Placeholder Label",
+      "info": "Shown only while no image is set.",
+      "default": "Lifestyle image"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "Image Position",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#ECEBE5"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#2A2611"
+    },
+    {
+      "type": "color",
+      "id": "bold_color",
+      "label": "Heading Bold Color",
+      "default": "#44681A"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Claim Tick Color",
+      "default": "#5BA90F"
+    },
+    {
+      "type": "color",
+      "id": "placeholder_bg_color",
+      "label": "Image Placeholder Background",
+      "default": "#33500F"
+    },
+    {
+      "type": "header",
+      "content": "Timeline Colors"
+    },
+    {
+      "type": "color",
+      "id": "rail_color",
+      "label": "Rail Color",
+      "default": "#44681A"
+    },
+    {
+      "type": "color",
+      "id": "node_color",
+      "label": "Node Color",
+      "default": "#44681A"
+    },
+    {
+      "type": "color",
+      "id": "bar_bg_color",
+      "label": "Phase Bar Background",
+      "default": "#44681A"
+    },
+    {
+      "type": "color",
+      "id": "bar_text_color",
+      "label": "Phase Bar Text",
+      "default": "#ECEBE5"
+    },
+    {
+      "type": "color",
+      "id": "final_color",
+      "label": "Final Phase Color",
+      "default": "#1F1F1C"
+    },
+    {
+      "type": "header",
+      "content": "Button Colors"
+    },
+    {
+      "type": "color",
+      "id": "button_bg_color",
+      "label": "Button Background",
+      "default": "#5BA90F"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button Text",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 80
+    }
+  ],
+  "blocks": [
+    {
+      "type": "phase",
+      "name": "Phase",
+      "settings": [
+        {
+          "type": "text",
+          "id": "phase_label",
+          "label": "Phase Label",
+          "default": "Week 1: Early Shifts"
+        },
+        {
+          "type": "checkbox",
+          "id": "is_final",
+          "label": "Final Phase",
+          "info": "Switches this phase's bar and node to the final-phase colour.",
+          "default": false
+        },
+        {
+          "type": "header",
+          "content": "Claims"
+        },
+        {
+          "type": "text",
+          "id": "claim_1",
+          "label": "Claim 1",
+          "info": "The disclaimer marker is added automatically — do not type an asterisk.",
+          "default": "You find a way to take it you actually like"
+        },
+        {
+          "type": "text",
+          "id": "claim_2",
+          "label": "Claim 2",
+          "default": "Digestion starts to feel lighter"
+        },
+        {
+          "type": "text",
+          "id": "claim_3",
+          "label": "Claim 3",
+          "default": "Mornings feel a little easier"
+        },
+        {
+          "type": "text",
+          "id": "claim_4",
+          "label": "Claim 4"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 6,
+  "presets": [
+    {
+      "name": "Labor Day Journey",
+      "category": "CWC Custom",
+      "blocks": [
+        { "type": "phase" },
+        { "type": "phase" },
+        { "type": "phase" },
+        { "type": "phase" }
+      ]
+    }
+  ]
+}
+{% endschema %}

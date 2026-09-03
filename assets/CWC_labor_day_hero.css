@@ -1,0 +1,313 @@
+/* ==============================
+   CWC Labor Day Hero
+   ------------------------------
+   Two full-bleed panels, not a boxed container. The copy panel carries the
+   section background to the left viewport edge and the media panel carries its
+   own background to the right, so the split reads as one edge-to-edge band.
+
+   That is why there is no __container here: the max-width is enforced by the
+   copy column's own inline padding instead, which keeps the text aligned to
+   the same 1300px content edge as every other section while the colour behind
+   it still bleeds. Deliberate deviation from the standard container pattern.
+   ============================== */
+
+/* === Section Wrapper === */
+.cwc_labor-day-hero {
+  background-color: var(--section-bg);
+  color: var(--text-color);
+  font-family: var(--cwc-font-body);
+}
+
+.cwc_labor-day-hero__wrapper {
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  align-items: stretch;
+}
+
+/* === Copy Panel === */
+.cwc_labor-day-hero__content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  max-width: 740px;
+  justify-self: end;
+  min-height: 540px;
+  padding-top: var(--padding-top);
+  padding-bottom: var(--padding-bottom);
+  padding-right: 3.75rem;
+  /* Aligns the copy to the 1300px content edge while the panel colour keeps
+     running to the viewport edge behind it. */
+  padding-left: max(3rem, calc((100vw - var(--content-max)) / 2 + 3rem));
+}
+
+.cwc_labor-day-hero--media-left .cwc_labor-day-hero__content {
+  order: 2;
+  justify-self: start;
+  padding-left: 3.75rem;
+  padding-right: max(3rem, calc((100vw - var(--content-max)) / 2 + 3rem));
+}
+
+.cwc_labor-day-hero--media-left .cwc_labor-day-hero__media {
+  order: 1;
+}
+
+.cwc_labor-day-hero__eyebrow {
+  margin: 0 0 0.875rem;
+  font-size: 0.6875rem;
+  font-weight: var(--cwc-weight-label);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--eyebrow-color);
+}
+
+/* === Section Header === */
+.cwc_labor-day-hero__content-heading {
+  margin-bottom: 1rem;
+}
+
+.cwc_labor-day-hero__content-heading > * {
+  margin: 0;
+  font-family: var(--cwc-font-heading);
+  font-weight: var(--cwc-weight-heading);
+  font-size: clamp(3.25rem, 5vw, 4.5rem);
+  line-height: 1.02;
+  letter-spacing: -0.028em;
+  color: inherit;
+}
+
+.cwc_labor-day-hero__content-heading > * strong {
+  font-weight: inherit;
+  color: var(--highlight-color);
+}
+
+.cwc_labor-day-hero__content-heading > * em {
+  font-style: italic;
+  color: var(--highlight-color);
+}
+
+.cwc_labor-day-hero__content-subtext {
+  margin-bottom: 1.5rem;
+  max-width: 520px;
+}
+
+.cwc_labor-day-hero__content-subtext p {
+  margin: 0;
+  font-size: 1.125rem;
+  line-height: 1.5;
+  opacity: 0.82;
+}
+
+/* === Price Row === */
+.cwc_labor-day-hero__price {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.625rem;
+  margin-bottom: 1rem;
+}
+
+.cwc_labor-day-hero__price-now {
+  font-family: var(--cwc-font-heading);
+  font-weight: var(--cwc-weight-heading);
+  font-size: 2.25rem;
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+
+.cwc_labor-day-hero__price-was {
+  font-size: 1rem;
+  opacity: 0.45;
+  text-decoration: line-through;
+}
+
+.cwc_labor-day-hero__price-badge {
+  padding: 0.3125rem 0.625rem;
+  border-radius: 4px;
+  background: var(--badge-bg);
+  color: var(--badge-text);
+  font-size: 0.75rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* === Offer List === */
+.cwc_labor-day-hero__offers {
+  list-style: none;
+  margin: 0 0 1.375rem;
+  padding: 1rem 0 0;
+  border-top: 1px solid color-mix(in srgb, var(--highlight-color) 20%, transparent);
+}
+
+.cwc_labor-day-hero__offer {
+  position: relative;
+  padding: 0.375rem 0 0.375rem 1.625rem;
+  font-size: 0.9375rem;
+  line-height: 1.4;
+}
+
+/* The tick is drawn from two borders rather than set as a glyph, so it takes
+   the accent colour and never depends on an icon font loading. */
+.cwc_labor-day-hero__offer::before {
+  content: "";
+  position: absolute;
+  left: 2px;
+  top: 0.6875rem;
+  width: 11px;
+  height: 6px;
+  border-left: 2px solid var(--accent-color);
+  border-bottom: 2px solid var(--accent-color);
+  transform: rotate(-45deg);
+}
+
+.cwc_labor-day-hero__offer-lead {
+  font-weight: 600;
+}
+
+/* === Button === */
+.cwc_labor-day-hero__button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  min-height: 48px;
+  padding: 0.9375rem 1.5rem;
+  border-radius: 5px;
+  background: var(--button-bg);
+  color: var(--button-text);
+  font-size: 1.03125rem;
+  font-weight: 600;
+  text-align: center;
+  text-decoration: none;
+  transition: background-color 0.15s ease;
+}
+
+.cwc_labor-day-hero__button:hover,
+.cwc_labor-day-hero__button:focus-visible {
+  background: var(--highlight-color);
+  color: var(--button-text);
+}
+
+/* === Rating Line === */
+.cwc_labor-day-hero__rating {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  font-size: 0.78125rem;
+  opacity: 0.7;
+}
+
+.cwc_labor-day-hero__stars {
+  color: var(--star-color);
+  font-size: 0.8125rem;
+  letter-spacing: 2px;
+}
+
+/* === Media Panel === */
+.cwc_labor-day-hero__media {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 540px;
+  padding: 2.5rem 1.25rem;
+  background: var(--media-bg);
+  overflow: hidden;
+}
+
+.cwc_labor-day-hero__image {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  max-height: 460px;
+  object-fit: contain;
+}
+
+.cwc_labor-day-hero__svg {
+  width: auto;
+  height: auto;
+  transform: scale(1.42);
+  transform-origin: center center;
+  filter: drop-shadow(0 14px 26px rgba(42, 38, 17, 0.14));
+}
+
+/* ==============================
+   Tablet Responsive
+   ============================== */
+@media screen and (max-width: 991px) {
+  /* Single column from here down. The copy leads and the visual follows, which
+     is the order the DOM already carries — the offer is the reason to scroll,
+     so it should not sit under a full-height image on a phone. */
+  .cwc_labor-day-hero__wrapper {
+    grid-template-columns: 1fr;
+  }
+
+  .cwc_labor-day-hero__content,
+  .cwc_labor-day-hero--media-left .cwc_labor-day-hero__content {
+    order: 1;
+    max-width: none;
+    min-height: 0;
+    justify-self: stretch;
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+  }
+
+  .cwc_labor-day-hero--media-left .cwc_labor-day-hero__media {
+    order: 2;
+  }
+
+  .cwc_labor-day-hero__media {
+    min-height: 0;
+    padding: 1.25rem 1.25rem 1.625rem;
+  }
+
+  .cwc_labor-day-hero__svg {
+    transform: scale(1);
+  }
+
+  .cwc_labor-day-hero__image {
+    max-height: 340px;
+  }
+}
+
+/* ==============================
+   Mobile Responsive
+   ============================== */
+@media screen and (max-width: 768px) {
+  .cwc_labor-day-hero__content {
+    padding-top: var(--padding-top-mobile);
+    padding-bottom: var(--padding-bottom-mobile);
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .cwc_labor-day-hero--media-left .cwc_labor-day-hero__content {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .cwc_labor-day-hero__content-heading > * {
+    font-size: 2.75rem;
+  }
+
+  .cwc_labor-day-hero__content-subtext p {
+    font-size: 1.0625rem;
+  }
+
+  .cwc_labor-day-hero__price-now {
+    font-size: 2rem;
+  }
+
+  .cwc_labor-day-hero__media {
+    padding: 1rem 1rem 1.5rem;
+  }
+
+  /* The credibility clause wraps to its own line rather than squeezing the
+     score and count onto two cramped lines. */
+  .cwc_labor-day-hero__rating {
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+}

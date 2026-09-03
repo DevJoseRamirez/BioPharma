@@ -1,0 +1,188 @@
+/* ==============================
+   CWC Labor Day Benefits
+   ------------------------------
+   A deep band carrying six figure-led tiles. The tiles are lighter panels on
+   that band rather than cards on a page, so their background and border are
+   both settings — a lighter band needs a darker tile, and the merchant can
+   invert the pair without touching CSS.
+   ============================== */
+
+/* === Section Wrapper === */
+.cwc_labor-day-benefits {
+  background-color: var(--section-bg);
+  color: var(--text-color);
+  font-family: var(--cwc-font-body);
+  padding-top: var(--padding-top);
+  padding-bottom: var(--padding-bottom);
+}
+
+.cwc_labor-day-benefits__container {
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+/* === Section Header === */
+.cwc_labor-day-benefits__content {
+  max-width: 700px;
+  margin: 0 auto 2.25rem;
+  width: 100%;
+  text-align: center;
+}
+
+.cwc_labor-day-benefits__eyebrow {
+  margin: 0 0 0.625rem;
+  font-size: 0.6875rem;
+  font-weight: var(--cwc-weight-label);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--eyebrow-color);
+}
+
+.cwc_labor-day-benefits__content-heading {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.cwc_labor-day-benefits__content-heading > * {
+  margin: 0;
+  font-family: var(--cwc-font-heading);
+  font-weight: var(--cwc-weight-heading);
+  font-size: 2.3125rem;
+  line-height: 1.1;
+  letter-spacing: -0.022em;
+  color: inherit;
+}
+
+.cwc_labor-day-benefits__content-heading > * strong {
+  font-weight: inherit;
+  color: var(--highlight-color);
+}
+
+.cwc_labor-day-benefits__content-heading > * em {
+  font-style: italic;
+  color: var(--highlight-color);
+}
+
+.cwc_labor-day-benefits__content-subtext {
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto 2.25rem;
+}
+
+.cwc_labor-day-benefits__content-subtext p {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.55;
+  opacity: 0.78;
+}
+
+/* === Tile Grid === */
+.cwc_labor-day-benefits__grid {
+  display: grid;
+  grid-template-columns: repeat(var(--columns-desktop), 1fr);
+  gap: 0.625rem;
+  align-items: stretch;
+}
+
+.cwc_labor-day-benefits__card {
+  padding: 1.0625rem 0.9375rem;
+  border: 1px solid var(--tile-border);
+  border-radius: 9px;
+  background: var(--tile-bg);
+}
+
+/* The figure sets its own baseline height so tiles with a one-line figure and
+   tiles with a suffix still align their titles across a row. */
+.cwc_labor-day-benefits__card-figure {
+  min-height: 1.5rem;
+  margin-bottom: 0.5rem;
+  font-size: 1.5rem;
+  font-weight: var(--cwc-weight-heading);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--accent-color);
+}
+
+.cwc_labor-day-benefits--figure-serif .cwc_labor-day-benefits__card-figure {
+  font-family: var(--cwc-font-heading);
+}
+
+.cwc_labor-day-benefits--figure-sans .cwc_labor-day-benefits__card-figure {
+  font-family: var(--cwc-font-body);
+  font-weight: var(--cwc-weight-stat);
+}
+
+.cwc_labor-day-benefits__card-suffix {
+  font-size: 0.75rem;
+  letter-spacing: 0;
+}
+
+.cwc_labor-day-benefits__card-title {
+  margin-bottom: 0.4375rem;
+  font-family: var(--cwc-font-heading);
+  font-weight: var(--cwc-weight-heading);
+  font-size: 1.125rem;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  color: var(--tile-title-color);
+}
+
+.cwc_labor-day-benefits__card-text {
+  font-size: 0.84375rem;
+  line-height: 1.45;
+  opacity: 0.8;
+}
+
+/* === Empty State === */
+.cwc_labor-day-benefits__empty {
+  text-align: center;
+  padding: 2rem;
+  opacity: 0.6;
+}
+
+/* ==============================
+   Tablet Responsive
+   ============================== */
+@media screen and (max-width: 991px) {
+  .cwc_labor-day-benefits__container {
+    padding: 0 1.25rem;
+  }
+
+  /* Two up regardless of the desktop setting — three tiles at tablet width
+     squeeze the description to two words a line. */
+  .cwc_labor-day-benefits__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .cwc_labor-day-benefits__content-heading > * {
+    font-size: 1.9375rem;
+  }
+}
+
+/* ==============================
+   Mobile Responsive
+   ============================== */
+@media screen and (max-width: 768px) {
+  .cwc_labor-day-benefits {
+    padding-top: var(--padding-top-mobile);
+    padding-bottom: var(--padding-bottom-mobile);
+  }
+
+  .cwc_labor-day-benefits__container {
+    padding: 0 1rem;
+  }
+
+  .cwc_labor-day-benefits__content-heading {
+    margin-bottom: 0.75rem;
+  }
+
+  .cwc_labor-day-benefits__content-subtext {
+    margin-bottom: 1.5rem;
+  }
+
+  .cwc_labor-day-benefits__grid {
+    grid-template-columns: 1fr;
+    gap: 0.625rem;
+  }
+}

@@ -1,0 +1,289 @@
+{% comment %}
+  CWC Labor Day Benefits
+  ------------------------------------------------------------------
+  Six figure-led tiles on a deep band. Each tile is anchored by a large key
+  figure rather than an icon — the number is the visual.
+
+  THE KEY FIGURE IS FREE TEXT, NOT A NUMBER. Two of the six are not numeric
+  ("Daily") or are a numeral that only reads correctly with a unit welded to it
+  ("0mg caffeine", "1scoop"). A number input would force the unit out of the
+  figure and break the reading. The suffix is its own field so it can render
+  small and inline without the merchant hand-writing markup.
+{% endcomment %}
+
+{% style %}
+  #cwc_labor-day-benefits-{{ section.id }} {
+    --section-bg: {{ section.settings.bg_color | default: '#33500F' }};
+    --text-color: {{ section.settings.text_color | default: '#ECEBE5' }};
+    --highlight-color: {{ section.settings.bold_color | default: '#C9E88A' }};
+    --eyebrow-color: {{ section.settings.eyebrow_color | default: '#C9E88A' }};
+    --accent-color: {{ section.settings.accent_color | default: '#C9E88A' }};
+    --tile-bg: {{ section.settings.tile_bg_color | default: '#3B5A15' }};
+    --tile-border: {{ section.settings.tile_border_color | default: '#4C6B25' }};
+    --tile-title-color: {{ section.settings.tile_title_color | default: '#FFFFFF' }};
+    --columns-desktop: {{ section.settings.columns_desktop | default: 3 }};
+    --content-max: 1300px;
+    --padding-top: {{ section.settings.padding_top | default: 80 }}px;
+    --padding-bottom: {{ section.settings.padding_bottom | default: 80 }}px;
+    --padding-top-mobile: {{ section.settings.padding_top | default: 80 | times: 0.5 }}px;
+    --padding-bottom-mobile: {{ section.settings.padding_bottom | default: 80 | times: 0.5 }}px;
+  }
+{% endstyle %}
+
+{{ 'CWC_fonts.css' | asset_url | stylesheet_tag }}
+{{ 'CWC_labor_day_benefits.css' | asset_url | stylesheet_tag }}
+
+{% liquid
+  assign figure_font_class = 'cwc_labor-day-benefits--figure-serif'
+  if section.settings.figure_font == 'sans'
+    assign figure_font_class = 'cwc_labor-day-benefits--figure-sans'
+  endif
+%}
+
+<section
+  id="cwc_labor-day-benefits-{{ section.id }}"
+  class="cwc_labor-day-benefits {{ figure_font_class }}"
+>
+  <div class="cwc_labor-day-benefits__container">
+
+    {% comment %} Section Header {% endcomment %}
+    <div class="cwc_labor-day-benefits__content">
+      {% if section.settings.eyebrow_text != blank %}
+        <p class="cwc_labor-day-benefits__eyebrow">{{ section.settings.eyebrow_text }}</p>
+      {% endif %}
+
+      {% if section.settings.heading != blank %}
+        <div class="cwc_labor-day-benefits__content-heading cwc-rte">
+          {{ section.settings.heading }}
+        </div>
+      {% endif %}
+
+      {% if section.settings.subtext != blank %}
+        <div class="cwc_labor-day-benefits__content-subtext cwc-rte">
+          {{ section.settings.subtext }}
+        </div>
+      {% endif %}
+    </div>
+
+    {% comment %} Benefit tiles {% endcomment %}
+    {% if section.blocks.size > 0 %}
+      <div class="cwc_labor-day-benefits__grid">
+        {% for block in section.blocks %}
+          {% case block.type %}
+            {% when 'benefit' %}
+              <div class="cwc_labor-day-benefits__card" {{ block.shopify_attributes }}>
+                {% if block.settings.key_figure != blank or block.settings.key_suffix != blank %}
+                  <div class="cwc_labor-day-benefits__card-figure">
+                    {%- if block.settings.key_figure != blank -%}
+                      {{ block.settings.key_figure }}
+                    {%- endif -%}
+
+                    {%- if block.settings.key_suffix != blank -%}
+                      <small class="cwc_labor-day-benefits__card-suffix">
+                        {{- block.settings.key_suffix -}}
+                      </small>
+                    {%- endif -%}
+                  </div>
+                {% endif %}
+
+                {% if block.settings.title != blank %}
+                  <div class="cwc_labor-day-benefits__card-title">{{ block.settings.title }}</div>
+                {% endif %}
+
+                {% if block.settings.description != blank %}
+                  <div class="cwc_labor-day-benefits__card-text">{{ block.settings.description }}</div>
+                {% endif %}
+              </div>
+          {% endcase %}
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="cwc_labor-day-benefits__empty">
+        <p>Add benefit blocks to display content.</p>
+      </div>
+    {% endif %}
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "CWC Labor Day Benefits",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Header"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow_text",
+      "label": "Eyebrow",
+      "default": "What you get"
+    },
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "<p>One scoop. Ten seconds. <strong>Six things handled.</strong></p>"
+    },
+    {
+      "type": "richtext",
+      "id": "subtext",
+      "label": "Section Subtext",
+      "default": "<p>What a daily scoop is actually doing for you.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "label": "Columns On Desktop",
+      "info": "Three suits the six-tile default. Tablet and mobile override this regardless.",
+      "min": 2,
+      "max": 5,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "select",
+      "id": "figure_font",
+      "label": "Key Figure Font",
+      "options": [
+        { "value": "serif", "label": "Serif" },
+        { "value": "sans", "label": "Sans" }
+      ],
+      "default": "serif"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#33500F"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#ECEBE5"
+    },
+    {
+      "type": "color",
+      "id": "bold_color",
+      "label": "Heading Bold Color",
+      "default": "#C9E88A"
+    },
+    {
+      "type": "color",
+      "id": "eyebrow_color",
+      "label": "Eyebrow Color",
+      "default": "#C9E88A"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Key Figure Color",
+      "default": "#C9E88A"
+    },
+    {
+      "type": "header",
+      "content": "Card Colors"
+    },
+    {
+      "type": "color",
+      "id": "tile_bg_color",
+      "label": "Card Background Color",
+      "default": "#3B5A15"
+    },
+    {
+      "type": "color",
+      "id": "tile_border_color",
+      "label": "Card Border Color",
+      "default": "#4C6B25"
+    },
+    {
+      "type": "color",
+      "id": "tile_title_color",
+      "label": "Card Title Color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 80
+    }
+  ],
+  "blocks": [
+    {
+      "type": "benefit",
+      "name": "Benefit",
+      "settings": [
+        {
+          "type": "text",
+          "id": "key_figure",
+          "label": "Key Figure",
+          "info": "Free text, not a number — it can read \"55\", \"0\" or \"Daily\".",
+          "default": "55"
+        },
+        {
+          "type": "text",
+          "id": "key_suffix",
+          "label": "Key Figure Suffix",
+          "info": "Renders small and inline after the figure, e.g. \"mg caffeine\"."
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Nutritional gaps filled"
+        },
+        {
+          "type": "text",
+          "id": "description",
+          "label": "Description",
+          "default": "55 organic fruits and vegetables in a single scoop — the produce your week keeps leaving out."
+        }
+      ]
+    }
+  ],
+  "max_blocks": 8,
+  "presets": [
+    {
+      "name": "Labor Day Benefits",
+      "category": "CWC Custom",
+      "blocks": [
+        { "type": "benefit" },
+        { "type": "benefit" },
+        { "type": "benefit" },
+        { "type": "benefit" },
+        { "type": "benefit" },
+        { "type": "benefit" }
+      ]
+    }
+  ]
+}
+{% endschema %}

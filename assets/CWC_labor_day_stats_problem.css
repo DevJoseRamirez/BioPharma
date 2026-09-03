@@ -1,0 +1,194 @@
+/* ==============================
+   CWC Labor Day Stats Problem
+   ------------------------------
+   Four stats reading as one joined panel, then the problem copy centred under
+   it. The dividing hairlines are the grid gap showing the border colour
+   through from behind, so the cells stay a single rounded block with no
+   double borders where they meet.
+   ============================== */
+
+/* === Section Wrapper === */
+.cwc_labor-day-stats-problem {
+  background-color: var(--section-bg);
+  color: var(--text-color);
+  font-family: var(--cwc-font-body);
+  padding-top: var(--padding-top);
+  padding-bottom: var(--padding-bottom);
+}
+
+.cwc_labor-day-stats-problem__container {
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+/* === Section Header === */
+.cwc_labor-day-stats-problem__content {
+  max-width: 700px;
+  margin: 0 auto 2.25rem;
+  width: 100%;
+  text-align: center;
+}
+
+.cwc_labor-day-stats-problem__eyebrow {
+  margin: 0 0 0.625rem;
+  font-size: 0.6875rem;
+  font-weight: var(--cwc-weight-label);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--eyebrow-color);
+}
+
+.cwc_labor-day-stats-problem__content-heading {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.cwc_labor-day-stats-problem__content-heading > * {
+  margin: 0;
+  font-family: var(--cwc-font-heading);
+  font-weight: var(--cwc-weight-heading);
+  font-size: 2.3125rem;
+  line-height: 1.1;
+  letter-spacing: -0.022em;
+  color: inherit;
+}
+
+.cwc_labor-day-stats-problem__content-heading > * strong {
+  font-weight: inherit;
+  color: var(--highlight-color);
+}
+
+.cwc_labor-day-stats-problem__content-heading > * em {
+  font-style: italic;
+  color: var(--highlight-color);
+}
+
+/* === Stat Row === */
+.cwc_labor-day-stats-problem__grid {
+  display: grid;
+  grid-template-columns: repeat(var(--stat-columns), 1fr);
+  /* The 1px gap IS the divider — the panel background behind it shows through
+     between cells, so adjacent cells never stack two borders. */
+  gap: 1px;
+  margin-bottom: 1.875rem;
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  background: var(--border-color);
+  overflow: hidden;
+}
+
+.cwc_labor-day-stats-problem__card {
+  padding: 1.25rem 1rem;
+  background: var(--stat-bg);
+  text-align: center;
+}
+
+.cwc_labor-day-stats-problem__card-figure {
+  font-family: var(--cwc-font-heading);
+  font-weight: var(--cwc-weight-heading);
+  font-size: 2.125rem;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: var(--stat-color);
+}
+
+/* An unsourced figure is deliberately dimmed and shrunk so it reads as
+   unfinished in a page review rather than passing as a real number. */
+.cwc_labor-day-stats-problem__card-figure--placeholder {
+  font-size: 1.375rem;
+  color: color-mix(in srgb, var(--text-color) 32%, transparent);
+}
+
+.cwc_labor-day-stats-problem__card-suffix {
+  font-size: 0.9375rem;
+  letter-spacing: 0;
+}
+
+.cwc_labor-day-stats-problem__card-text {
+  margin-top: 0.5rem;
+  font-size: 0.75rem;
+  line-height: 1.35;
+  opacity: 0.68;
+}
+
+.cwc_labor-day-stats-problem__card-source {
+  display: block;
+  font-style: italic;
+}
+
+/* === Problem Copy === */
+.cwc_labor-day-stats-problem__body {
+  max-width: 640px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.cwc_labor-day-stats-problem__body p {
+  margin: 0 0 0.875rem;
+  font-size: 1.125rem;
+  line-height: 1.6;
+  opacity: 0.8;
+}
+
+.cwc_labor-day-stats-problem__body p:last-child {
+  margin-bottom: 0;
+}
+
+.cwc_labor-day-stats-problem__body strong {
+  font-weight: 600;
+  opacity: 1;
+}
+
+/* ==============================
+   Tablet Responsive
+   ============================== */
+@media screen and (max-width: 991px) {
+  .cwc_labor-day-stats-problem__container {
+    padding: 0 1.25rem;
+  }
+
+  /* Two up regardless of the desktop count. Four stat labels at tablet width
+     wrap to four lines each and stop reading as a row. */
+  .cwc_labor-day-stats-problem__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .cwc_labor-day-stats-problem__content-heading > * {
+    font-size: 1.9375rem;
+  }
+}
+
+/* ==============================
+   Mobile Responsive
+   ============================== */
+@media screen and (max-width: 768px) {
+  .cwc_labor-day-stats-problem {
+    padding-top: var(--padding-top-mobile);
+    padding-bottom: var(--padding-bottom-mobile);
+  }
+
+  .cwc_labor-day-stats-problem__container {
+    padding: 0 1rem;
+  }
+
+  .cwc_labor-day-stats-problem__content-heading {
+    margin-bottom: 0.75rem;
+  }
+
+  /* Held at two up rather than dropped to one: these are short figures, and a
+     single column would run the panel to four full-width rows before the copy
+     that explains them. */
+  .cwc_labor-day-stats-problem__grid {
+    grid-template-columns: repeat(2, 1fr);
+    margin-bottom: 1.5rem;
+  }
+
+  .cwc_labor-day-stats-problem__card {
+    padding: 1rem 0.75rem;
+  }
+
+  .cwc_labor-day-stats-problem__body p {
+    font-size: 1rem;
+  }
+}

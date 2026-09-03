@@ -1,0 +1,490 @@
+{% comment %}
+  CWC Labor Day Hero
+  ------------------------------------------------------------------
+  Offer-led promo hero: the discount is the headline, not the brand. Copy panel
+  on the left, product visual on the right, both bleeding to the viewport edge.
+
+  CAMPAIGN SECTION — NOT EVERGREEN. Every offer value (eyebrow, prices, the
+  four offer lines, the CTA label) is a setting so the next campaign is a
+  content edit, not a code change. Nothing promo-specific is hardcoded.
+
+  DERIVED MONEY. The savings badge is computed as was - now, in integer cents,
+  and never stored. A third stored number would drift the moment either price
+  is edited, and a wrong savings figure on a promo page is a pricing claim.
+  If either price is unparseable or the difference is not positive, the badge
+  is dropped rather than printed as $0.00 or a negative.
+
+  The CTA is an on-page anchor to the buy box further down the assembled
+  landing page — it is not a cart action. The anchor target must exist on the
+  page or the button scrolls nowhere.
+{% endcomment %}
+
+{% style %}
+  #cwc_labor-day-hero-{{ section.id }} {
+    --section-bg: {{ section.settings.bg_color | default: '#ECEBE5' }};
+    --text-color: {{ section.settings.text_color | default: '#2A2611' }};
+    --highlight-color: {{ section.settings.bold_color | default: '#44681A' }};
+    --accent-color: {{ section.settings.accent_color | default: '#5BA90F' }};
+    --eyebrow-color: {{ section.settings.eyebrow_color | default: '#44681A' }};
+    --media-bg: {{ section.settings.media_bg_color | default: '#FFFFFF' }};
+    --badge-bg: {{ section.settings.badge_bg_color | default: '#E6F1D5' }};
+    --badge-text: {{ section.settings.badge_text_color | default: '#44681A' }};
+    --button-bg: {{ section.settings.button_bg_color | default: '#5BA90F' }};
+    --button-text: {{ section.settings.button_text_color | default: '#FFFFFF' }};
+    --star-color: {{ section.settings.star_color | default: '#5BA90F' }};
+    --content-max: 1300px;
+    --padding-top: {{ section.settings.padding_top | default: 75 }}px;
+    --padding-bottom: {{ section.settings.padding_bottom | default: 75 }}px;
+    --padding-top-mobile: {{ section.settings.padding_top | default: 75 | times: 0.5 }}px;
+    --padding-bottom-mobile: {{ section.settings.padding_bottom | default: 75 | times: 0.5 }}px;
+  }
+{% endstyle %}
+
+{{ 'CWC_fonts.css' | asset_url | stylesheet_tag }}
+{{ 'CWC_labor_day_hero.css' | asset_url | stylesheet_tag }}
+
+{% liquid
+  comment
+    THE SAVINGS BADGE, derived. Both prices are free text so the merchant can
+    type "$74.95" the way it reads on the page, which means the currency symbol
+    and any thousands separator have to come off before the arithmetic.
+
+    Cents are integers throughout. Working in dollars would hand a float to
+    `round` and print 22.5 where 22.48 belongs, and the trailing cent is the
+    part a shopper checks against the two prices beside it.
+  endcomment
+  assign price_now_clean = section.settings.price_now | remove: ',' | strip
+  assign price_was_clean = section.settings.price_was | remove: ',' | strip
+  assign currency_symbol = section.settings.currency_symbol | default: '$'
+  assign price_now_clean = price_now_clean | remove: currency_symbol
+  assign price_was_clean = price_was_clean | remove: currency_symbol
+
+  assign now_cents = price_now_clean | times: 100 | round
+  assign was_cents = price_was_clean | times: 100 | round
+  assign save_cents = was_cents | minus: now_cents
+
+  assign show_badge = false
+  if section.settings.show_save_badge and save_cents > 0
+    assign show_badge = true
+    assign save_whole = save_cents | divided_by: 100
+    assign save_part = save_cents | modulo: 100
+  endif
+
+  assign image_position = section.settings.image_position | default: 'right'
+%}
+
+<section
+  id="cwc_labor-day-hero-{{ section.id }}"
+  class="cwc_labor-day-hero cwc_labor-day-hero--media-{{ image_position }}"
+>
+  <div class="cwc_labor-day-hero__wrapper">
+
+    {% comment %} Offer copy {% endcomment %}
+    <div class="cwc_labor-day-hero__content">
+
+      {% if section.settings.eyebrow_text != blank %}
+        <p class="cwc_labor-day-hero__eyebrow">{{ section.settings.eyebrow_text }}</p>
+      {% endif %}
+
+      {% if section.settings.heading != blank %}
+        <div class="cwc_labor-day-hero__content-heading cwc-rte">
+          {{ section.settings.heading }}
+        </div>
+      {% endif %}
+
+      {% if section.settings.subheading != blank %}
+        <div class="cwc_labor-day-hero__content-subtext cwc-rte">
+          {{ section.settings.subheading }}
+        </div>
+      {% endif %}
+
+      {% comment %} Price row — now / struck was / derived savings {% endcomment %}
+      {% if section.settings.price_now != blank %}
+        <div class="cwc_labor-day-hero__price">
+          <span class="cwc_labor-day-hero__price-now">{{ section.settings.price_now }}</span>
+
+          {% if section.settings.price_was != blank %}
+            <span class="cwc_labor-day-hero__price-was">{{ section.settings.price_was }}</span>
+          {% endif %}
+
+          {% if show_badge %}
+            <span class="cwc_labor-day-hero__price-badge">
+              {{- section.settings.save_badge_prefix }} {{ currency_symbol }}{{ save_whole }}.
+              {%- if save_part < 10 %}0{% endif %}{{ save_part -}}
+            </span>
+          {% endif %}
+        </div>
+      {% endif %}
+
+      {% comment %} Offer list {% endcomment %}
+      {% if section.blocks.size > 0 %}
+        <ul class="cwc_labor-day-hero__offers" role="list">
+          {% for block in section.blocks %}
+            {% case block.type %}
+              {% when 'offer_item' %}
+                <li class="cwc_labor-day-hero__offer" {{ block.shopify_attributes }}>
+                  {% if block.settings.lead_text != blank %}
+                    <strong class="cwc_labor-day-hero__offer-lead">{{ block.settings.lead_text }}</strong>
+                  {% endif %}
+                  {% if block.settings.rest_text != blank %}
+                    <span class="cwc_labor-day-hero__offer-rest">{{ block.settings.rest_text }}</span>
+                  {% endif %}
+                </li>
+            {% endcase %}
+          {% endfor %}
+        </ul>
+      {% endif %}
+
+      {% if section.settings.cta_label != blank %}
+        <a
+          href="{{ section.settings.cta_anchor | default: '#buy' }}"
+          class="cwc_labor-day-hero__button"
+        >
+          {{ section.settings.cta_label }}
+        </a>
+      {% endif %}
+
+      {% comment %}
+        Rating line. The stars are decorative — the score and the count beside
+        them carry the same information to a screen reader.
+      {% endcomment %}
+      {% if section.settings.rating_value != blank or section.settings.rating_count != blank %}
+        <div class="cwc_labor-day-hero__rating">
+          {% if section.settings.show_stars %}
+            <span class="cwc_labor-day-hero__stars" aria-hidden="true">★★★★★</span>
+          {% endif %}
+
+          <span class="cwc_labor-day-hero__rating-text">
+            {%- if section.settings.rating_value != blank -%}
+              {{ section.settings.rating_value }}
+            {%- endif -%}
+
+            {%- if section.settings.rating_count != blank -%}
+              {%- if section.settings.rating_value != blank %} · {% endif -%}
+              {{ section.settings.rating_count }}
+            {%- endif -%}
+
+            {%- if section.settings.rating_extra_text != blank -%}
+              · {{ section.settings.rating_extra_text }}
+            {%- endif -%}
+          </span>
+        </div>
+      {% endif %}
+
+    </div>
+
+    {% comment %}
+      Product visual. The inline SVG is the fallback rather than a grey box:
+      the reference art is a drawn can, so an empty picker still renders the
+      intended illustration instead of an empty-state placeholder.
+    {% endcomment %}
+    <div class="cwc_labor-day-hero__media">
+      {% if section.settings.hero_image != blank %}
+        <img
+          src="{{ section.settings.hero_image | image_url: width: 900 }}"
+          alt="{{ section.settings.hero_image_alt | default: 'Product' | escape }}"
+          class="cwc_labor-day-hero__image"
+          loading="eager"
+          width="900"
+          height="1350"
+        >
+      {% else %}
+        <svg
+          class="cwc_labor-day-hero__svg"
+          width="200"
+          height="300"
+          viewBox="0 0 200 300"
+          role="img"
+          aria-label="{{ section.settings.hero_image_alt | default: 'Product' | escape }}"
+        >
+          <rect x="38" y="34" width="124" height="216" rx="13" fill="#FBFAF6" stroke="#E2E0D6"/>
+          <rect x="34" y="16" width="132" height="28" rx="10" fill="{{ section.settings.bold_color | default: '#44681A' }}"/>
+          <rect x="38" y="100" width="124" height="94" fill="{{ section.settings.accent_color | default: '#5BA90F' }}"/>
+          <rect x="51" y="118" width="70" height="8" rx="4" fill="#fff" opacity=".95"/>
+          <rect x="51" y="134" width="94" height="13" rx="3" fill="#fff" opacity=".95"/>
+          <rect x="51" y="160" width="50" height="5" rx="2.5" fill="#fff" opacity=".55"/>
+          <rect x="51" y="172" width="64" height="5" rx="2.5" fill="#fff" opacity=".4"/>
+        </svg>
+      {% endif %}
+    </div>
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "CWC Labor Day Hero",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Header"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow_text",
+      "label": "Eyebrow",
+      "default": "Labor Day Sale"
+    },
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "Section Heading",
+      "info": "Wrap the offer in italics with <em>, or use <strong> for a non-italic accent.",
+      "default": "<p>Start today, <em>save 30%</em>.</p>"
+    },
+    {
+      "type": "richtext",
+      "id": "subheading",
+      "label": "Section Subtext",
+      "default": "<p>NanoGreens10 — 55 organic fruits and vegetables in one scoop. Your first month is 30% off.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Offer Pricing"
+    },
+    {
+      "type": "text",
+      "id": "currency_symbol",
+      "label": "Currency Symbol",
+      "info": "Stripped from the prices before the savings figure is calculated.",
+      "default": "$"
+    },
+    {
+      "type": "text",
+      "id": "price_now",
+      "label": "Sale Price",
+      "default": "$52.47"
+    },
+    {
+      "type": "text",
+      "id": "price_was",
+      "label": "Compare-At Price",
+      "default": "$74.95"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_save_badge",
+      "label": "Show Savings Badge",
+      "info": "The amount is calculated from the two prices above. It is hidden automatically if the saving is not positive.",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "save_badge_prefix",
+      "label": "Savings Badge Prefix",
+      "default": "Save"
+    },
+    {
+      "type": "header",
+      "content": "Call To Action"
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "Button Label",
+      "default": "Get Started — 30% Off →"
+    },
+    {
+      "type": "text",
+      "id": "cta_anchor",
+      "label": "Button Anchor",
+      "info": "An on-page anchor to the buy box, e.g. #buy. The target must exist on this page.",
+      "default": "#buy"
+    },
+    {
+      "type": "header",
+      "content": "Rating Line"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_stars",
+      "label": "Show Stars",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "rating_value",
+      "label": "Rating Value",
+      "default": "4.9"
+    },
+    {
+      "type": "text",
+      "id": "rating_count",
+      "label": "Review Count",
+      "default": "234 reviews"
+    },
+    {
+      "type": "text",
+      "id": "rating_extra_text",
+      "label": "Credibility Text",
+      "default": "Recommended in clinics since 2004"
+    },
+    {
+      "type": "header",
+      "content": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Hero Product Image",
+      "info": "Leave empty to use the built-in product illustration."
+    },
+    {
+      "type": "text",
+      "id": "hero_image_alt",
+      "label": "Hero Image Alt Text",
+      "default": "NanoGreens10 tub"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "Image Position",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "right"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#ECEBE5"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#2A2611"
+    },
+    {
+      "type": "color",
+      "id": "bold_color",
+      "label": "Heading Bold Color",
+      "default": "#44681A"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent Color",
+      "default": "#5BA90F"
+    },
+    {
+      "type": "color",
+      "id": "eyebrow_color",
+      "label": "Eyebrow Color",
+      "default": "#44681A"
+    },
+    {
+      "type": "color",
+      "id": "media_bg_color",
+      "label": "Image Panel Background",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "star_color",
+      "label": "Star Color",
+      "default": "#5BA90F"
+    },
+    {
+      "type": "header",
+      "content": "Badge Colors"
+    },
+    {
+      "type": "color",
+      "id": "badge_bg_color",
+      "label": "Savings Badge Background",
+      "default": "#E6F1D5"
+    },
+    {
+      "type": "color",
+      "id": "badge_text_color",
+      "label": "Savings Badge Text",
+      "default": "#44681A"
+    },
+    {
+      "type": "header",
+      "content": "Button Colors"
+    },
+    {
+      "type": "color",
+      "id": "button_bg_color",
+      "label": "Button Background",
+      "default": "#5BA90F"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button Text",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 75
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 75
+    }
+  ],
+  "blocks": [
+    {
+      "type": "offer_item",
+      "name": "Offer Item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "lead_text",
+          "label": "Lead Text",
+          "info": "Rendered bold at the start of the line.",
+          "default": "30% off your first order"
+        },
+        {
+          "type": "text",
+          "id": "rest_text",
+          "label": "Rest Of Line",
+          "default": "— then 10% off every order after"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 6,
+  "presets": [
+    {
+      "name": "Labor Day Hero",
+      "category": "CWC Custom",
+      "blocks": [
+        { "type": "offer_item" },
+        { "type": "offer_item" },
+        { "type": "offer_item" },
+        { "type": "offer_item" }
+      ]
+    }
+  ]
+}
+{% endschema %}
