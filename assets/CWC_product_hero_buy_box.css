@@ -460,7 +460,7 @@
 }
 
 .cwc_product-hero-buy-box__content-subtext {
-  margin-top: 9px;
+  /* margin-top: 9px; */
 }
 
 .cwc_product-hero-buy-box__content-subtext p {
@@ -581,6 +581,11 @@
   .cwc_product-hero-buy-box__price-current {
     font-size: 1.4525rem;
   }
+
+  .cwc_product-hero-buy-box__label {
+    padding: 12px 0px 8px;
+  }
+
 }
 
 /* === Labels === */
@@ -740,7 +745,7 @@
   align-items: baseline;
   flex-wrap: wrap;
   gap: 4px 12px;
-  gap: 1rem;
+  gap: 2rem;
   /*  testing*/
   margin-bottom: 10px;
 }
@@ -809,7 +814,7 @@
 }
 
 .cwc_product-hero-buy-box--accented .cwc_product-hero-buy-box__upsell {
-  --flavor-accent: var(--deep-color);
+  /* --flavor-accent: var(--deep-color); */
   --flavor-accent: color-mix(in srgb, var(--active-accent, var(--deep-color)) 72%, #1a1a1a);
 }
 
@@ -1333,7 +1338,10 @@
    reads as taken even when an AJAX drawer keeps the page in place. */
 .cwc_product-hero-buy-box__onetime-button--selected {
   color: var(--deep-color);
-  font-weight: 700;
+  /* font-weight: 700; */
+  /* testing */
+  border-color: var(--flavor-accent, var(--deep-color));
+  box-shadow: inset 0 0 0 1px var(--flavor-accent, var(--deep-color));
 }
 
 /* Written by the script only when the cart refuses an add. Empty the rest of
@@ -2265,7 +2273,8 @@
   gap: 8px;
   padding: 4px 0;
   font-size: 0.9rem;
-  font-weight: var(--cwc-weight-label);
+  /* font-weight: var(--cwc-weight-label); */
+  font-weight: normal;
   line-height: 1.3;
   color: var(--deep-color);
   color: var(--text-color);
@@ -2853,7 +2862,7 @@
   align-items: flex-start;
   justify-content: space-between;
   gap: 12px;
-  flex-wrap: wrap;
+  /* flex-wrap: wrap; */
 }
 
 .cwc_product-hero-buy-box__member-title {
@@ -2931,6 +2940,7 @@
 
 .cwc_product-hero-buy-box__member-price .cwc_product-hero-buy-box__offer-now {
   font-size: 1.66rem;
+  font-size: 1.25rem;
   /* 26.6px */
   line-height: 1.15;
 }
@@ -2956,12 +2966,12 @@
   font-size: 0.85rem;
   /* 13.6px */
   line-height: 1.4;
-  margin-left: 1rem;
+  margin-left: 2rem;
 }
 
 .cwc_product-hero-buy-box__member-recurring-price {
-  font-weight: 800;
-  color: var(--text-color);
+  /* font-weight: 800; */
+  /* color: var(--text-color); */
 }
 
 /* Quieter and preceded by a dash, so the qualification reads as an aside to the
@@ -2977,7 +2987,7 @@
 .cwc_product-hero-buy-box__member-perks {
   display: block;
   margin-top: 12px;
-  margin-left: 1rem;
+  margin-left: 2rem;
 }
 
 /* === Member gifts panel ===
@@ -2991,6 +3001,8 @@
   /* 13.6px */
   font-weight: 700;
   color: var(--text-color);
+  /* tesging */
+  display: none;
 }
 
 /* The panel is a headed box, not a tinted one: a bar the colour of the card's
@@ -3003,6 +3015,8 @@
   border-radius: 12px;
   background: var(--card-bg);
   overflow: hidden;
+  /* tesgign */
+  margin-top: 2rem;
 }
 
 .cwc_product-hero-buy-box__gifts-head {
@@ -3021,6 +3035,8 @@
   /* 15.2px */
   font-weight: 700;
   color: var(--button-text);
+  /* testing */
+  line-height: 1;
 }
 
 /* Gold rather than green: on the green bar a green pill would disappear, and
@@ -3035,6 +3051,8 @@
   letter-spacing: 0.3px;
   padding: 3px 10px;
   border-radius: 20px;
+  /* testing */
+  line-height: 1;
 }
 
 .cwc_product-hero-buy-box__gifts-body {
@@ -3149,6 +3167,7 @@
    banner and the selected outline are the card's chrome and take the accent
    deepened, which is what keeps white text on the banner legible whatever the
    flavour is. The type inside the card never moves. */
+.cwc_product-hero-buy-box__offer,
 .cwc_product-hero-buy-box--accented .cwc_product-hero-buy-box__member-card {
   --flavor-accent: var(--deep-color);
   --flavor-accent: color-mix(in srgb, var(--active-accent, var(--deep-color)) 72%, #1a1a1a);
@@ -3164,29 +3183,6 @@
   background: var(--active-accent, var(--highlight-color));
 }
 
-@media screen and (max-width: 480px) {
-  .cwc_product-hero-buy-box__member-recurring {
-    margin-left: 0rem;
-  }
-
-  .cwc_product-hero-buy-box__member-perks {
-    margin-left: 0rem;
-  }
-
-  .cwc_product-hero-buy-box__gift-when {
-    font-size: 9px;
-  }
-
-  .cwc_product-hero-buy-box__member-title {
-    font-size: 1.16rem;
-    /* 18.6px */
-  }
-
-  .cwc_product-hero-buy-box__member-price .cwc_product-hero-buy-box__offer-now {
-    font-size: 1.44rem;
-    /* 23px */
-  }
-}
 
 /* ==============================
    Notice Strip
@@ -3215,7 +3211,6 @@
   /* 13.6px */
   font-weight: 700;
   line-height: 1.35;
-  text-align: center;
 }
 
 .cwc_product-hero-buy-box__notice--accent {
@@ -3263,4 +3258,113 @@
    broken across two lines stops reading as one date. */
 .cwc_product-hero-buy-box__notice-date {
   white-space: nowrap;
+}
+
+@media screen and (max-width: 768px) {
+
+  .cwc_product-hero-buy-box__notice {
+    font-size: 12px;
+    text-align: left;
+    font-weight: 600;
+  }
+
+  .cwc_product-hero-buy-box__notice-icon {
+    font-size: 18px;
+  }
+
+  .cwc_product-hero-buy-box__notice {
+    padding: 6px 8px;
+  }
+
+  .cwc_product-hero-buy-box__rating-link p {
+    font-size: 12px;
+  }
+
+  .cwc_product-hero-buy-box__stars {
+    letter-spacing: 0px;
+  }
+
+  .cwc_product-hero-buy-box__eyebrow {
+    margin-bottom: 8px;
+  }
+
+  .cwc_product-hero-buy-box__sizes-head {
+    flex-wrap: nowrap;
+    gap: 0rem;
+  }
+
+  .cwc_product-hero-buy-box__gifts-head {
+    padding: 7px 12px;
+    justify-content: space-between;
+  }
+
+
+  .cwc_product-hero-buy-box__member-inner {
+    padding: 16px 14px 20px 14px;
+  }
+
+  .cwc_product-hero-buy-box__gifts-total {
+    padding: 2px 10px;
+    font-size: .6rem;
+  }
+
+  .cwc_product-hero-buy-box__member-promo {
+    font-size: .7rem;
+  }
+
+
+  /* The membership card's head wraps at this width, so it is made to wrap
+     deliberately: the price takes its own full-width line rather than being
+     left to break wherever the title happens to end. Left-aligned and indented
+     to the title's first letter, it reads as the next line of the same block
+     instead of a right-hand column that has fallen down the card.
+
+     The membership card only. Its price is a stack three lines deep with a
+     struck figure beside the charged one, and there is no room for that beside
+     a 20px title on a phone. The one-time card prices in one figure and a rate
+     and stays a row. */
+  .cwc_product-hero-buy-box__member-card .cwc_product-hero-buy-box__member-price {
+    /* width: 100%; */
+    margin-top: 6px;
+    /* padding-left: 30px; */
+    padding-left: 0px;
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  /* Title and price hold their sides. A long subline wraps inside the heading
+     column rather than pushing the price under it — the heading is already
+     allowed to shrink, and only the head's wrap was letting the price drop. */
+  .cwc_product-hero-buy-box__member-onetime .cwc_product-hero-buy-box__member-head {
+    flex-wrap: nowrap;
+    gap: 10px;
+  }
+
+  .cwc_product-hero-buy-box__member-recurring,
+  .cwc_product-hero-buy-box__member-perks {
+    /* margin-left: 30px; */
+    margin-left: 10px;
+  }
+
+  .cwc_product-hero-buy-box__gift-when {
+    font-size: 9px;
+  }
+
+  .cwc_product-hero-buy-box__member-title {
+    font-size: 1.16rem;
+    /* 18.6px */
+  }
+
+  .cwc_product-hero-buy-box__member-price .cwc_product-hero-buy-box__offer-now {
+    font-size: 1rem;
+    /* 23px */
+  }
+
+  .cwc_product-hero-buy-box__member-heading {
+    gap: 6px;
+  }
+
+  .cwc_product-hero-buy-box__member-price .cwc_product-hero-buy-box__offer-was {
+    font-size: .8rem;
+  }
 }
