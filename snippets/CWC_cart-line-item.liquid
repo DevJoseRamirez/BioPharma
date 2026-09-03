@@ -17,6 +17,13 @@
                           both have to stay INSIDE this element or they fall back to a full page navigation.
     quantity-selector     renders the `data-line-key` input and the two cart/change anchors.
 
+  THREE MUTUALLY EXCLUSIVE SHAPES. Membership and kit are separate product concepts that do not overlap, so each
+  owns the whole card rather than decorating the standard one:
+
+    membership  `CWC_cart_membership_line` — its own card. The line is handed over entirely.
+    kit         inline below — collapses several products into one row and adds a component disclosure.
+    standard    everything else.
+
   ********************************************
   Supported variables
   ********************************************
@@ -41,6 +48,18 @@
   assign is_kit = false
   if kit_component_count > 1
     assign is_kit = true
+  endif
+
+  comment
+    A membership line is a subscription line whose product carries gift entries.
+    The selling plan is what the add-to-cart request supplies; the gifts are read
+    off the product here. Missing either one and the line is not a membership.
+  endcomment
+  assign membership_gifts = line_item.product.metafields.custom.membership_gifts.value
+  assign is_membership = false
+
+  if line_item.selling_plan_allocation and membership_gifts.size > 0
+    assign is_membership = true
   endif
 
   comment
@@ -218,7 +237,9 @@
   their own, so giving them their own controls would promise an edit the cart
   cannot make.
 {%- endcomment -%}
-{%- if is_kit -%}
+{%- if is_membership -%}
+  {%- render 'CWC_cart_membership_line__block', line_item: line_item -%}
+{%- elsif is_kit -%}
   <line-item class="cwc_cart__item cwc_cart__item--kit">
     <cwc-cart-bundle class="cwc_cart__bundle">
       {{ line_item_body }}
@@ -269,11 +290,10 @@
             </div>
 
             {%- comment -%}
-              Component quantity multiplies by the kit line quantity: two kits hold
-              two of everything inside them.
+              One kit line holds one of each component, so the printed count is the
+              kit's own quantity: two kits hold two of everything inside them.
             {%- endcomment -%}
-            {%- assign component_quantity = component.quantity | default: 1 | times: line_item.quantity -%}
-            <span class="cwc_cart__bundle-item-qty">&times;{{ component_quantity }}</span>
+            <span class="cwc_cart__bundle-item-qty">&times;{{ line_item.quantity }}</span>
           </div>
         {%- endfor -%}
       </div>

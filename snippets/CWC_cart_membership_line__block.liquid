@@ -1,0 +1,268 @@
+{%- comment -%}
+  ----------------------------------------------------------------------------------------------------------------------
+  CWC CART MEMBERSHIP LINE
+  ----------------------------------------------------------------------------------------------------------------------
+
+  A cart line that is a membership. This is a WHOLE CARD, not an addition to the standard row — the caller hands the
+  line over entirely and prints nothing else for it.
+
+  Membership and kit are separate product concepts with no overlap, which is why the caller branches between them
+  rather than composing them.
+
+  NOTHING IS PASSED FROM THE PRODUCT PAGE. Gifts are read off `line_item.product` at render time. The add-to-cart
+  request only carries `selling_plan`, which is what makes `selling_plan_allocation` exist and is therefore the flag
+  that routes the line here.
+
+  Gifts split on `in_first_order` — what arrives with this order, and what arrives later. A gift with a product
+  reference prices and illustrates itself from that product, so a reprice propagates on its own; gifts with no SKU
+  (shipping, the guide) carry a typed value instead.
+
+  FUNCTIONAL HOOKS — the caller's contract still applies here and must not be renamed or re-nested:
+
+    <line-item>           outermost element; `changeLineItemQuantity` calls `.closest('line-item')`.
+    <line-item-quantity>  delegate root; BOTH the quantity stepper and the remove link are `/cart/change` hrefs and
+                          have to stay inside it or they fall back to a full page navigation.
+
+  ********************************************
+  Supported variables
+  ********************************************
+
+  * line_item: the cart line to render (required)
+{%- endcomment -%}
+
+{%- liquid
+  assign gifts = line_item.product.metafields.custom.membership_gifts.value
+  assign recurring = line_item.product.metafields.custom.membership_recurring_display
+
+  comment
+    Same rule as the standard row: the struck figure is the highest honest
+    "before" price, so it is never lower than the price printed beside it.
+  endcomment
+  assign compare_at_line_price = 0
+
+  if line_item.variant.compare_at_price > line_item.variant.price
+    assign compare_at_line_price = line_item.variant.compare_at_price | times: line_item.quantity
+  endif
+
+  assign was_line_price = compare_at_line_price
+
+  if line_item.original_line_price > was_line_price
+    assign was_line_price = line_item.original_line_price
+  endif
+-%}
+
+<line-item class="cwc_cart__item cwc_cart__item--membership">
+  <div class="cwc_membership">
+    {%- comment -%} ---------- the product itself ---------- {%- endcomment -%}
+    <div class="cwc_membership__product">
+      <div class="cwc_membership__media">
+        {%- if line_item.image != blank -%}
+          {{-
+            line_item.image
+            | image_url: width: line_item.image.width
+            | image_tag:
+              loading: 'lazy',
+              sizes: '74px',
+              widths: '74,148,222',
+              class: 'cwc_membership__image',
+              alt: line_item.title
+          -}}
+        {%- else -%}
+          {{- 'product-1' | placeholder_svg_tag: 'cwc_membership__image' -}}
+        {%- endif -%}
+      </div>
+
+      <div class="cwc_membership__ident">
+        {%- if line_item.url != blank -%}
+          <a href="{{ line_item.url }}" class="cwc_membership__name">
+            {{- line_item.product.title | default: line_item.title -}}
+          </a>
+        {%- else -%}
+          <span class="cwc_membership__name">{{ line_item.product.title | default: line_item.title }}</span>
+        {%- endif -%}
+
+        {%- capture line_item_variant -%}
+          {%- unless line_item.product.has_only_default_variant or line_item.gift_card -%}
+            {{- line_item.variant.title -}}
+          {%- endunless -%}
+        {%- endcapture -%}
+
+        {%- capture line_item_meta -%}
+          {%- if line_item_variant != blank -%}{{ line_item_variant | strip }}{%- endif -%}
+          {%- if line_item.selling_plan_allocation.selling_plan.name != blank -%}
+            {%- if line_item_variant != blank %} &middot; {% endif -%}
+            {{- line_item.selling_plan_allocation.selling_plan.name -}}
+          {%- endif -%}
+        {%- endcapture -%}
+
+        {%- if line_item_meta != blank -%}
+          <span class="cwc_membership__meta">{{ line_item_meta }}</span>
+        {%- endif -%}
+
+        {%- comment -%}
+          HOOK: both controls live inside line-item-quantity or the Ajax update
+          silently becomes a page load.
+        {%- endcomment -%}
+        <line-item-quantity class="cwc_membership__controls">
+          {%- render 'quantity-selector', line_item: line_item, size: 'sm' -%}
+
+          <a
+            href="{{ line_item.url_to_remove }}"
+            class="cwc_membership__remove"
+            aria-label="{{ 'cart.order.remove' | t | escape }}"
+          >
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.7"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+              focusable="false"
+            >
+              <path d="M4 7h16M9 7V5a1 1 0 011-1h4a1 1 0 011 1v2M6 7l1 13h10l1-13"/>
+            </svg>
+          </a>
+        </line-item-quantity>
+      </div>
+
+      <div class="cwc_membership__prices">
+        {%- if was_line_price > line_item.final_line_price -%}
+          <span class="cwc_membership__was">
+            <span class="sr-only">{{ 'product.price.regular_price' | t }}</span>
+
+            {%- if settings.currency_code_enabled -%}
+              {{- was_line_price | money_with_currency -}}
+            {%- else -%}
+              {{- was_line_price | money -}}
+            {%- endif -%}
+          </span>
+        {%- endif -%}
+
+        <span class="cwc_membership__price">
+          {%- if settings.currency_code_enabled -%}
+            {{- line_item.final_line_price | money_with_currency -}}
+          {%- else -%}
+            {{- line_item.final_line_price | money -}}
+          {%- endif -%}
+        </span>
+      </div>
+    </div>
+
+    {%- comment -%} ---------- the ladder ---------- {%- endcomment -%}
+    <div class="cwc_membership__panel">
+      <div class="cwc_membership__panel-head">
+        <span class="cwc_membership__badge" aria-hidden="true">&#9733;</span>
+        <span class="cwc_membership__panel-title">Membership</span>
+      </div>
+
+      {%- comment -%}
+        INCLUDED NOW. Each figure is struck and replaced with FREE, because it is
+        what the member is not paying rather than what they owe.
+      {%- endcomment -%}
+      {%- capture membership_included -%}
+        {%- for gift in gifts -%}
+          {%- unless gift.in_first_order -%}
+            {%- continue -%}
+          {%- endunless -%}
+
+          {%- assign gift_product = gift.product_ref.value -%}
+
+          <li class="cwc_membership__row">
+            <span class="cwc_membership__check" aria-hidden="true">&#10003;</span>
+
+            <span class="cwc_membership__row-name">
+              {{- gift.name -}}
+
+              {%- if gift.timing_label != blank -%}
+                <span class="cwc_membership__row-note">({{ gift.timing_label }})</span>
+              {%- endif -%}
+            </span>
+
+            {%- if gift_product != blank -%}
+              <span class="cwc_membership__row-value">
+                <s>{{ gift_product.price | money }}</s> <strong>FREE</strong>
+              </span>
+            {%- elsif gift.value_display != blank -%}
+              <span class="cwc_membership__row-value">
+                <s>{{ gift.value_display }}</s> <strong>FREE</strong>
+              </span>
+            {%- endif -%}
+          </li>
+        {%- endfor -%}
+      {%- endcapture -%}
+
+      {%- if membership_included != blank -%}
+        <ul class="cwc_membership__included" role="list">
+          {{ membership_included }}
+        </ul>
+      {%- endif -%}
+
+      {%- comment -%}
+        COMING LATER. The divider prints only when something sits under it, so a
+        ladder with no future gifts ends cleanly rather than with an empty heading.
+      {%- endcomment -%}
+      {%- capture membership_upcoming -%}
+        {%- for gift in gifts -%}
+          {%- if gift.in_first_order -%}
+            {%- continue -%}
+          {%- endif -%}
+
+          {%- assign gift_product = gift.product_ref.value -%}
+
+          <li class="cwc_membership__upcoming-row">
+            <span class="cwc_membership__upcoming-media">
+              {%- if gift_product.featured_image != blank -%}
+                {{-
+                  gift_product.featured_image
+                  | image_url: width: 132
+                  | image_tag:
+                    loading: 'lazy',
+                    sizes: '33px',
+                    widths: '33,66,99',
+                    class: 'cwc_membership__upcoming-image',
+                    alt: gift.name
+                -}}
+              {%- else -%}
+                {{- 'product-1' | placeholder_svg_tag: 'cwc_membership__upcoming-image' -}}
+              {%- endif -%}
+            </span>
+
+            <span class="cwc_membership__upcoming-body">
+              <span class="cwc_membership__upcoming-name">{{ gift.name }}</span>
+
+              {%- if gift_product != blank -%}
+                <span class="cwc_membership__upcoming-value">&mdash; {{ gift_product.price | money }} value</span>
+              {%- elsif gift.value_display != blank -%}
+                <span class="cwc_membership__upcoming-value">&mdash; {{ gift.value_display }} value</span>
+              {%- endif -%}
+            </span>
+
+            {%- if gift.timing_label != blank -%}
+              <span class="cwc_membership__upcoming-badge">{{ gift.timing_label }}</span>
+            {%- endif -%}
+          </li>
+        {%- endfor -%}
+      {%- endcapture -%}
+
+      {%- if membership_upcoming != blank -%}
+        <p class="cwc_membership__divider">Coming free with your next orders</p>
+        <ul class="cwc_membership__upcoming" role="list">
+          {{ membership_upcoming }}
+        </ul>
+      {%- endif -%}
+
+      {%- comment -%}
+        The only authored figure in the card. Liquid can read the current
+        allocation price but not the post-tier renewal, so this one is a stored
+        string and has to be updated by hand if the tier changes.
+      {%- endcomment -%}
+      {%- if recurring != blank -%}
+        <p class="cwc_membership__renewal">Renews at {{ recurring }}. Skip, pause or cancel anytime.</p>
+      {%- endif -%}
+    </div>
+  </div>
+</line-item>
