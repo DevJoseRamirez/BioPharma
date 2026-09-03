@@ -49,10 +49,31 @@
   if line_item.original_line_price > was_line_price
     assign was_line_price = line_item.original_line_price
   endif
+
+  comment
+    THE HEADLINE CLAUSE beside "Membership". A stored string wins when the
+    merchant has authored one; otherwise it is derived from the two figures
+    already printed on this line, so the percentage can never drift away from
+    the prices sitting directly above it.
+  endcomment
+  assign offer_display = line_item.product.metafields.custom.membership_offer_display
+
+  if offer_display == blank and was_line_price > line_item.final_line_price
+    assign offer_amount = was_line_price | minus: line_item.final_line_price
+    assign offer_percent = offer_amount | times: 100.0 | divided_by: was_line_price | round
+    assign offer_display = offer_percent | append: '% off your first order'
+  endif
+
+  comment
+    The standing member saving, which is a different number from the first-order
+    discount above and cannot be derived from this line — it is a stored string
+    or it is omitted.
+  endcomment
+  assign recurring_savings = line_item.product.metafields.custom.membership_savings_display
 -%}
 
 <line-item class="cwc_cart__item cwc_cart__item--membership">
-  <div class="cwc_membership">
+  <cwc-cart-membership class="cwc_membership">
     {%- comment -%} ---------- the product itself ---------- {%- endcomment -%}
     <div class="cwc_membership__product">
       <div class="cwc_membership__media">
@@ -62,8 +83,8 @@
             | image_url: width: line_item.image.width
             | image_tag:
               loading: 'lazy',
-              sizes: '74px',
-              widths: '74,148,222',
+              sizes: '64px',
+              widths: '64,128,192',
               class: 'cwc_membership__image',
               alt: line_item.title
           -}}
@@ -154,115 +175,139 @@
 
     {%- comment -%} ---------- the ladder ---------- {%- endcomment -%}
     <div class="cwc_membership__panel">
-      <div class="cwc_membership__panel-head">
+      {%- comment -%}
+        The head is the disclosure trigger. It opens expanded, so the ladder is
+        read before it is ever collapsed, and with the script absent the button
+        is inert while the panel below stays visible.
+      {%- endcomment -%}
+      <button
+        type="button"
+        class="cwc_membership__panel-head"
+        aria-expanded="true"
+        aria-controls="cwc-membership-{{ line_item.key }}"
+      >
         <span class="cwc_membership__badge" aria-hidden="true">&#9733;</span>
-        <span class="cwc_membership__panel-title">Membership</span>
-      </div>
 
-      {%- comment -%}
-        INCLUDED NOW. Each figure is struck and replaced with FREE, because it is
-        what the member is not paying rather than what they owe.
-      {%- endcomment -%}
-      {%- capture membership_included -%}
-        {%- for gift in gifts -%}
-          {%- unless gift.in_first_order -%}
-            {%- continue -%}
-          {%- endunless -%}
-
-          {%- assign gift_product = gift.product_ref.value -%}
-
-          <li class="cwc_membership__row">
-            <span class="cwc_membership__check" aria-hidden="true">&#10003;</span>
-
-            <span class="cwc_membership__row-name">
-              {{- gift.name -}}
-
-              {%- if gift.timing_label != blank -%}
-                <span class="cwc_membership__row-note">({{ gift.timing_label }})</span>
-              {%- endif -%}
-            </span>
-
-            {%- if gift_product != blank -%}
-              <span class="cwc_membership__row-value">
-                <s>{{ gift_product.price | money }}</s> <strong>FREE</strong>
-              </span>
-            {%- elsif gift.value_display != blank -%}
-              <span class="cwc_membership__row-value">
-                <s>{{ gift.value_display }}</s> <strong>FREE</strong>
-              </span>
-            {%- endif -%}
-          </li>
-        {%- endfor -%}
-      {%- endcapture -%}
-
-      {%- if membership_included != blank -%}
-        <ul class="cwc_membership__included" role="list">
-          {{ membership_included }}
-        </ul>
-      {%- endif -%}
-
-      {%- comment -%}
-        COMING LATER. The divider prints only when something sits under it, so a
-        ladder with no future gifts ends cleanly rather than with an empty heading.
-      {%- endcomment -%}
-      {%- capture membership_upcoming -%}
-        {%- for gift in gifts -%}
-          {%- if gift.in_first_order -%}
-            {%- continue -%}
+        <span class="cwc_membership__panel-title">
+          Autoship — 30% off your first order
+          {%- if offer_display != blank -%}
+            <span class="cwc_membership__panel-offer">&mdash; {{ offer_display }}</span>
           {%- endif -%}
+        </span>
 
-          {%- assign gift_product = gift.product_ref.value -%}
+        {%- render 'icon' with 'chevron-down', width: 10, class: 'cwc_membership__caret' -%}
+      </button>
 
-          <li class="cwc_membership__upcoming-row">
-            <span class="cwc_membership__upcoming-media">
-              {%- if gift_product.featured_image != blank -%}
-                {{-
-                  gift_product.featured_image
-                  | image_url: width: 132
-                  | image_tag:
-                    loading: 'lazy',
-                    sizes: '33px',
-                    widths: '33,66,99',
-                    class: 'cwc_membership__upcoming-image',
-                    alt: gift.name
-                -}}
-              {%- else -%}
-                {{- 'product-1' | placeholder_svg_tag: 'cwc_membership__upcoming-image' -}}
-              {%- endif -%}
-            </span>
+      <div class="cwc_membership__panel-body" id="cwc-membership-{{ line_item.key }}">
+        {%- comment -%}
+          INCLUDED NOW. Each figure is struck and replaced with FREE, because it is
+          what the member is not paying rather than what they owe.
+        {%- endcomment -%}
+        {%- capture membership_included -%}
+          {%- for gift in gifts -%}
+            {%- unless gift.in_first_order -%}
+              {%- continue -%}
+            {%- endunless -%}
 
-            <span class="cwc_membership__upcoming-body">
-              <span class="cwc_membership__upcoming-name">{{ gift.name }}</span>
+            {%- assign gift_product = gift.product_ref.value -%}
+
+            <li class="cwc_membership__row">
+              <span class="cwc_membership__check" aria-hidden="true">&#10003;</span>
+
+              <span class="cwc_membership__row-name">
+                {{- gift.name -}}
+
+                {%- if gift.timing_label != blank -%}
+                  <span class="cwc_membership__row-note">({{ gift.timing_label }})</span>
+                {%- endif -%}
+              </span>
 
               {%- if gift_product != blank -%}
-                <span class="cwc_membership__upcoming-value">&mdash; {{ gift_product.price | money }} value</span>
+                <span class="cwc_membership__row-value">
+                  <s>{{ gift_product.price | money }}</s> <strong>FREE</strong>
+                </span>
               {%- elsif gift.value_display != blank -%}
-                <span class="cwc_membership__upcoming-value">&mdash; {{ gift.value_display }} value</span>
+                <span class="cwc_membership__row-value">
+                  <s>{{ gift.value_display }}</s> <strong>FREE</strong>
+                </span>
               {%- endif -%}
-            </span>
+            </li>
+          {%- endfor -%}
+        {%- endcapture -%}
 
-            {%- if gift.timing_label != blank -%}
-              <span class="cwc_membership__upcoming-badge">{{ gift.timing_label }}</span>
+        {%- if membership_included != blank -%}
+          <ul class="cwc_membership__included" role="list">
+            {{ membership_included }}
+          </ul>
+        {%- endif -%}
+
+        {%- comment -%}
+          COMING LATER. The divider prints only when something sits under it, so a
+          ladder with no future gifts ends cleanly rather than with an empty heading.
+        {%- endcomment -%}
+        {%- capture membership_upcoming -%}
+          {%- for gift in gifts -%}
+            {%- if gift.in_first_order -%}
+              {%- continue -%}
             {%- endif -%}
-          </li>
-        {%- endfor -%}
-      {%- endcapture -%}
 
-      {%- if membership_upcoming != blank -%}
-        <p class="cwc_membership__divider">Coming free with your next orders</p>
-        <ul class="cwc_membership__upcoming" role="list">
-          {{ membership_upcoming }}
-        </ul>
-      {%- endif -%}
+            {%- assign gift_product = gift.product_ref.value -%}
 
-      {%- comment -%}
-        The only authored figure in the card. Liquid can read the current
-        allocation price but not the post-tier renewal, so this one is a stored
-        string and has to be updated by hand if the tier changes.
-      {%- endcomment -%}
-      {%- if recurring != blank -%}
-        <p class="cwc_membership__renewal">Renews at {{ recurring }}. Skip, pause or cancel anytime.</p>
-      {%- endif -%}
+            <li class="cwc_membership__upcoming-row">
+              <span class="cwc_membership__upcoming-media">
+                {%- if gift_product.featured_image != blank -%}
+                  {{-
+                    gift_product.featured_image
+                    | image_url: width: 152
+                    | image_tag:
+                      loading: 'lazy',
+                      sizes: '38px',
+                      widths: '38,76,114',
+                      class: 'cwc_membership__upcoming-image',
+                      alt: gift.name
+                  -}}
+                {%- else -%}
+                  {{- 'product-1' | placeholder_svg_tag: 'cwc_membership__upcoming-image' -}}
+                {%- endif -%}
+              </span>
+
+              <span class="cwc_membership__upcoming-body">
+                <span class="cwc_membership__upcoming-name">{{ gift.name }}</span>
+
+                {%- if gift_product != blank -%}
+                  <span class="cwc_membership__upcoming-value">&mdash; {{ gift_product.price | money }} value</span>
+                {%- elsif gift.value_display != blank -%}
+                  <span class="cwc_membership__upcoming-value">&mdash; {{ gift.value_display }} value</span>
+                {%- endif -%}
+              </span>
+
+              {%- if gift.timing_label != blank -%}
+                <span class="cwc_membership__upcoming-badge">{{ gift.timing_label }}</span>
+              {%- endif -%}
+            </li>
+          {%- endfor -%}
+        {%- endcapture -%}
+
+        {%- if membership_upcoming != blank -%}
+          <p class="cwc_membership__divider">Coming free with your next orders</p>
+          <ul class="cwc_membership__upcoming" role="list">
+            {{ membership_upcoming }}
+          </ul>
+        {%- endif -%}
+
+        {%- comment -%}
+          The one figure in the card Liquid cannot reach. It can read the current
+          allocation price but not the post-tier renewal, so this is a stored
+          string and has to be updated by hand if the tier changes.
+        {%- endcomment -%}
+        {%- if recurring != blank -%}
+          <p class="cwc_membership__renewal">
+            Renews at <span>{{ recurring }}</span>
+            {%- if recurring_savings != blank %} &mdash; {{ recurring_savings }}{% endif -%}
+            . Pause Or Cancel Any Time.
+          </p>
+        {%- endif -%}
+      </div>
     </div>
-  </div>
+  </cwc-cart-membership>
 </line-item>

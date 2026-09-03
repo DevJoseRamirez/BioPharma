@@ -57,6 +57,38 @@
   }
 
   /**
+   * Membership ladder disclosure. The panel holds no controls of its own — the
+   * quantity stepper and remove link sit above it, outside the collapsed
+   * region, so collapsing never hides a control the shopper needs.
+   */
+  class CWCCartMembership extends HTMLElement {
+    connectedCallback() {
+      this.toggleButton = this.querySelector('.cwc_membership__panel-head');
+      this.panelBody = this.querySelector('.cwc_membership__panel-body');
+
+      if (!this.toggleButton || !this.panelBody) {
+        return;
+      }
+
+      this.onToggleClick = this.onToggleClick.bind(this);
+      this.toggleButton.addEventListener('click', this.onToggleClick);
+    }
+
+    disconnectedCallback() {
+      if (this.toggleButton && this.onToggleClick) {
+        this.toggleButton.removeEventListener('click', this.onToggleClick);
+      }
+    }
+
+    onToggleClick() {
+      const nextOpen = this.toggleButton.getAttribute('aria-expanded') !== 'true';
+
+      this.toggleButton.setAttribute('aria-expanded', String(nextOpen));
+      this.panelBody.hidden = !nextOpen;
+    }
+  }
+
+  /**
    * Recommendation slider. Native scroll does the work — the arrows only nudge
    * it, so the strip stays usable by touch and keyboard with the script absent.
    */
@@ -224,6 +256,10 @@
 
   if (!window.customElements.get('cwc-cart-bundle')) {
     window.customElements.define('cwc-cart-bundle', CWCCartBundle);
+  }
+
+  if (!window.customElements.get('cwc-cart-membership')) {
+    window.customElements.define('cwc-cart-membership', CWCCartMembership);
   }
 
   if (!window.customElements.get('cwc-cart-recs')) {

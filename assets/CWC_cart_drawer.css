@@ -346,10 +346,11 @@
   margin-block-start: 10px;
 }
 
-/* The theme's quantity-selector, restyled in place. Its markup is untouched:
-   the two anchors and the [data-line-key] input are what LineItemQuantity
-   listens for. */
-.cwc_cart__line-foot .quantity-selector {
+/* The theme's quantity-selector, restyled in place, for both the standard row
+   and the membership card. Its markup is untouched: the two anchors and the
+   [data-line-key] input are what LineItemQuantity listens for. */
+.cwc_cart__line-foot .quantity-selector,
+.cwc_membership__controls .quantity-selector {
   display: inline-flex;
   align-items: center;
   height: 31px;
@@ -360,7 +361,8 @@
   overflow: hidden;
 }
 
-.cwc_cart__line-foot .quantity-selector__button {
+.cwc_cart__line-foot .quantity-selector__button,
+.cwc_membership__controls .quantity-selector__button {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -370,12 +372,14 @@
   text-decoration: none;
 }
 
-.cwc_cart__line-foot .quantity-selector__button[disabled] {
+.cwc_cart__line-foot .quantity-selector__button[disabled],
+.cwc_membership__controls .quantity-selector__button[disabled] {
   opacity: 0.35;
   pointer-events: none;
 }
 
-.cwc_cart__line-foot .quantity-selector__input {
+.cwc_cart__line-foot .quantity-selector__input,
+.cwc_membership__controls .quantity-selector__input {
   width: 22px;
   min-width: 22px;
   padding: 0;
@@ -391,12 +395,15 @@
 }
 
 .cwc_cart__line-foot .quantity-selector__input::-webkit-outer-spin-button,
-.cwc_cart__line-foot .quantity-selector__input::-webkit-inner-spin-button {
+.cwc_cart__line-foot .quantity-selector__input::-webkit-inner-spin-button,
+.cwc_membership__controls .quantity-selector__input::-webkit-outer-spin-button,
+.cwc_membership__controls .quantity-selector__input::-webkit-inner-spin-button {
   appearance: none;
   margin: 0;
 }
 
-.cwc_cart__line-remove {
+.cwc_cart__line-remove,
+.cwc_membership__remove {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -409,7 +416,8 @@
   transition: color 0.15s ease, background-color 0.15s ease;
 }
 
-.cwc_cart__line-remove:hover {
+.cwc_cart__line-remove:hover,
+.cwc_membership__remove:hover {
   color: var(--cwc-cart-danger);
   background: color-mix(in srgb, var(--cwc-cart-danger) 7%, transparent);
 }
@@ -514,6 +522,318 @@
   font-size: 11.5px;
   color: var(--cwc-cart-muted);
   white-space: nowrap;
+}
+
+/* ==============================
+   Membership line
+   ------------------------------
+   A whole card, not a row. The product sits on top exactly as a standard line
+   does, and under it a panel carries the ladder: what membership includes on
+   this order, what it sends with the next ones, and what it renews at.
+
+   Every green is mixed from --cwc-cart-accent rather than written out, so a
+   colour change in the theme editor carries the whole card instead of leaving
+   a hardcoded tint stranded behind the rest of the drawer.
+   ============================== */
+
+.cwc_cart__item--membership {
+  /* The card draws its own edge. The rule the item list sets between siblings
+     would sit a hairline directly against that border on both sides. */
+  border-block-start: 0;
+}
+
+.cwc_cart__item--membership+.cwc_cart__item {
+  border-block-start: 0;
+}
+
+.cwc_membership {
+  --cwc-membership-radius: 10px;
+  --cwc-membership-edge: color-mix(in srgb, var(--cwc-cart-accent) 24%, transparent);
+  --cwc-membership-rule: color-mix(in srgb, var(--cwc-cart-accent) 22%, transparent);
+
+  display: block;
+  margin: 12px var(--cwc-cart-pad);
+  border: 1px solid var(--cwc-membership-edge);
+  border-radius: var(--cwc-membership-radius);
+  background: color-mix(in srgb, var(--cwc-cart-accent) 5%, var(--cwc-cart-surface));
+}
+
+/* ---------- the product ---------- */
+
+.cwc_membership__product {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 13px;
+}
+
+.cwc_membership__media {
+  flex: 0 0 auto;
+  width: 64px;
+  height: 64px;
+  border: 1px solid var(--cwc-cart-line-soft);
+  border-radius: 6px;
+  background: var(--cwc-cart-surface-soft);
+  overflow: hidden;
+}
+
+.cwc_membership__image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cwc_membership__ident {
+  flex: 1;
+  min-width: 0;
+}
+
+.cwc_membership__name {
+  display: block;
+  font-family: var(--cwc-font-heading);
+  font-weight: var(--cwc-weight-heading);
+  font-size: 16px;
+  line-height: 1.25;
+  color: inherit;
+  text-decoration: none;
+}
+
+.cwc_membership__name:hover {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.cwc_membership__meta {
+  display: block;
+  margin-block-start: 3px;
+  font-size: 12.5px;
+  line-height: 1.3;
+  color: var(--cwc-cart-muted);
+}
+
+.cwc_membership__controls {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-block-start: 9px;
+}
+
+.cwc_membership__prices {
+  flex: 0 0 auto;
+  text-align: end;
+  white-space: nowrap;
+}
+
+/* The struck figure leads here, unlike the standard row, because the price it
+   is struck against is the one the eye should land on last. */
+.cwc_membership__was {
+  display: block;
+  font-size: 12.5px;
+  line-height: 1.2;
+  color: var(--cwc-cart-faint);
+  text-decoration: line-through;
+}
+
+.cwc_membership__price {
+  display: block;
+  margin-block-start: 3px;
+  font-size: 15.5px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+/* ---------- the ladder ---------- */
+
+.cwc_membership__panel {
+  margin: 0 8px 8px;
+  border: 1px solid color-mix(in srgb, var(--cwc-cart-accent) 28%, transparent);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--cwc-cart-accent) 10%, var(--cwc-cart-surface));
+}
+
+.cwc_membership__panel-head {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  padding: 10px 12px;
+  border: 0;
+  background: none;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.35;
+  color: var(--cwc-cart-accent-deep);
+  text-align: start;
+  cursor: pointer;
+}
+
+.cwc_membership__badge {
+  flex: 0 0 auto;
+  font-size: 12px;
+  line-height: 1;
+}
+
+.cwc_membership__panel-title {
+  flex: 1;
+  min-width: 0;
+}
+
+/* The offer clause deliberately carries no rules of its own — it reads as one
+   sentence with the label beside it. The class is here so the clause can be
+   pulled out of that voice later without touching the Liquid. */
+
+.cwc_membership__caret {
+  flex: 0 0 auto;
+  color: var(--cwc-cart-muted);
+  transition: transform 0.18s ease;
+}
+
+.cwc_membership__panel-head[aria-expanded='true'] .cwc_membership__caret {
+  transform: rotate(180deg);
+}
+
+.cwc_membership__panel-body {
+  padding: 0 12px 11px;
+}
+
+/* ---------- included now ---------- */
+
+.cwc_membership__included {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.cwc_membership__row {
+  display: flex;
+  align-items: baseline;
+  gap: 7px;
+  padding-block: 4px;
+  font-size: 13px;
+  line-height: 1.35;
+}
+
+.cwc_membership__check {
+  flex: 0 0 auto;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--cwc-cart-accent-deep);
+}
+
+.cwc_membership__row-name {
+  flex: 1;
+  min-width: 0;
+}
+
+.cwc_membership__row-note {
+  margin-inline-start: 4px;
+  color: var(--cwc-cart-muted);
+}
+
+.cwc_membership__row-value {
+  flex: 0 0 auto;
+  font-size: 12.5px;
+  white-space: nowrap;
+}
+
+.cwc_membership__row-value s {
+  color: var(--cwc-cart-faint);
+}
+
+.cwc_membership__row-value strong {
+  margin-inline-start: 3px;
+  font-weight: 700;
+  color: var(--cwc-cart-accent-deep);
+}
+
+/* ---------- coming later ---------- */
+
+.cwc_membership__divider {
+  margin: 9px 0 6px;
+  padding-block-start: 10px;
+  border-block-start: 1px solid var(--cwc-membership-rule);
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  line-height: 1.3;
+  text-transform: uppercase;
+  color: var(--cwc-cart-muted);
+}
+
+.cwc_membership__upcoming {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.cwc_membership__upcoming-row {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding-block: 5px;
+}
+
+/* Sits on the drawer surface rather than the panel tint, so a gift shot with a
+   white background reads as a product and not as a hole in the panel. */
+.cwc_membership__upcoming-media {
+  display: block;
+  flex: 0 0 auto;
+  width: 38px;
+  height: 38px;
+  border: 1px solid var(--cwc-cart-line-soft);
+  border-radius: 6px;
+  background: var(--cwc-cart-surface);
+  overflow: hidden;
+}
+
+.cwc_membership__upcoming-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cwc_membership__upcoming-body {
+  flex: 1;
+  min-width: 0;
+  font-size: 13px;
+  line-height: 1.3;
+}
+
+.cwc_membership__upcoming-name {
+  font-weight: 700;
+}
+
+.cwc_membership__upcoming-value {
+  color: var(--cwc-cart-muted);
+}
+
+.cwc_membership__upcoming-badge {
+  flex: 0 0 auto;
+  padding: 3px 8px;
+  border-radius: 4px;
+  background: var(--cwc-cart-accent-deep);
+  color: var(--cwc-cart-surface);
+  font-size: 10.5px;
+  font-weight: 700;
+  line-height: 1.3;
+  white-space: nowrap;
+}
+
+/* ---------- renewal ---------- */
+
+.cwc_membership__renewal {
+  margin: 11px 0 0;
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--cwc-cart-muted);
+}
+
+.cwc_membership__renewal strong {
+  font-weight: 600;
+  color: var(--cwc-cart-ink);
 }
 
 /* ==============================
@@ -991,6 +1311,15 @@
 
   .cwc_cart__bundle-items {
     margin-inline: calc(var(--cwc-cart-pad) + 77px) var(--cwc-cart-pad);
+  }
+
+  .cwc_membership__media {
+    width: 56px;
+    height: 56px;
+  }
+
+  .cwc_membership__name {
+    font-size: 15px;
   }
 
   .cwc_cart__empty {

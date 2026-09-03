@@ -344,7 +344,7 @@
             "member_sublabel": "Delivered every 4 weeks",
             "perks": "<p>Free shipping on every order</p><p>30-day money-back guarantee</p><p>Pause Or Cancel Any Time</p><p>Earn points on every purchase</p>",
             "recurring_prefix": "then",
-            "recurring_suffix": "/month",
+            "recurring_suffix": "",
             "recurring_note": "autoship always save 10%",
             "serving_suffix": "/serving",
             "servings_option": "supply",
