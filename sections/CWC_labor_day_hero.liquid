@@ -42,9 +42,9 @@
   }
 
   /* hide */
-  .cwc_header__bar {
+  /* .cwc_header__bar {
     display: none !important;
-  }
+  } */
 {% endstyle %}
 
 {{ 'CWC_fonts.css' | asset_url | stylesheet_tag }}
@@ -53,7 +53,7 @@
 {% liquid
   comment
     THE SAVINGS BADGE, derived. Both prices are free text so the merchant can
-    type "$74.95" the way it reads on the page, which means the currency symbol
+    type "$74.95" the way it reads on the page, which means the currency symbolw
     and any thousands separator have to come off before the arithmetic.
 
     Cents are integers throughout. Working in dollars would hand a float to
@@ -144,9 +144,24 @@
         </ul>
       {% endif %}
 
+      {%- comment -%}
+        The button takes either a real link or an on-page anchor. A picked link
+        wins, so a hero reused on a page with no buy box can point somewhere
+        that exists instead of jumping to a missing anchor.
+      {%- endcomment -%}
+      {%- liquid
+        assign cta_href = section.settings.cta_link
+        if cta_href == blank
+          assign cta_href = section.settings.cta_anchor
+        endif
+        if cta_href == blank
+          assign cta_href = '#buy'
+        endif
+      -%}
+
       {% if section.settings.cta_label != blank %}
         <a
-          href="{{ section.settings.cta_anchor | default: '#buy' }}"
+          href="{{ cta_href }}"
           class="cwc_labor-day-hero__button"
         >
           {{ section.settings.cta_label }}
@@ -292,10 +307,16 @@
       "default": "Get Started — 30% Off →"
     },
     {
+      "type": "url",
+      "id": "cta_link",
+      "label": "Button Link",
+      "info": "Link to a page, product or collection. Takes priority over the anchor below — leave empty to use the anchor."
+    },
+    {
       "type": "text",
       "id": "cta_anchor",
       "label": "Button Anchor",
-      "info": "An on-page anchor to the buy box, e.g. #buy. The target must exist on this page.",
+      "info": "Used only when no link is set above. An on-page anchor to the buy box, e.g. #buy. The target must exist on this page.",
       "default": "#buy"
     },
     {

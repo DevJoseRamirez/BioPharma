@@ -16,7 +16,7 @@
       "name": "Announcement",
       "settings": {
         "text": "<p><strong>LABOR DAY SALE!  🇺🇸  BUY 1, GET THE 2ND 40% OFF · FREE SHIPPING</strong></p>",
-        "link": "shopify://products/nanogreens-10-support",
+        "link": "shopify://pages/labor-day-offer",
         "enable_gradient": true,
         "bg_color": "#44681a",
         "bg_end_color": "#87ce34",

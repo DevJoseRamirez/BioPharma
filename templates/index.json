@@ -9,6 +9,78 @@
  */
 {
   "sections": {
+    "cwc_labor_day_hero_idx01": {
+      "type": "CWC_labor_day_hero",
+      "blocks": {
+        "offer_item_ld01": {
+          "type": "offer_item",
+          "settings": {
+            "text": "<p><strong>Choose any two:</strong> Green Apple, Strawberry, or one of each.</p>"
+          }
+        },
+        "offer_item_ld02": {
+          "type": "offer_item",
+          "settings": {
+            "text": "<p><strong>60 servings of daily greens:</strong> 55  fruits and veggies in every scoop.</p>"
+          }
+        },
+        "offer_item_ld04": {
+          "type": "offer_item",
+          "settings": {
+            "text": "<p><strong>Built for the everyday routine:</strong> one scoop, cold water, ten seconds.</p>"
+          }
+        },
+        "offer_item_FKCYC9": {
+          "type": "offer_item",
+          "settings": {
+            "text": "<p><strong>Free shipping + a 30-day money-back guarantee.</strong></p>"
+          }
+        }
+      },
+      "block_order": [
+        "offer_item_ld01",
+        "offer_item_ld02",
+        "offer_item_ld04",
+        "offer_item_FKCYC9"
+      ],
+      "disabled": true,
+      "name": "Labor Day Hero",
+      "settings": {
+        "eyebrow_text": "LABOR DAY special",
+        "heading": "<p>Buy 1, Get The 2nd <strong>40% Off.</strong></p>",
+        "subheading": "<p>55 organic fruits and veggies. One scoop. ten seconds.</p>",
+        "currency_symbol": "$",
+        "price_now": "$119.92",
+        "price_was": "$149.90",
+        "show_save_badge": true,
+        "save_badge_prefix": "Save",
+        "cta_label": "Save $29.98 + Free Shipping",
+        "cta_link": "shopify://pages/labor-day-offer",
+        "cta_anchor": "#cwc_product-hero-buy-box--anchors",
+        "show_stars": false,
+        "rating_value": "",
+        "rating_count": "",
+        "rating_extra_text": "",
+        "hero_image": "shopify://shop_images/Mask_group_1_1.png",
+        "hero_image_alt": "NanoGreens10 tub",
+        "image_position": "right",
+        "media_min_height": 540,
+        "media_max_height": 85,
+        "bg_color": "#ffffff",
+        "text_color": "#2a2611",
+        "bold_color": "#44681a",
+        "accent_color": "#5ba90f",
+        "eyebrow_color": "#44681a",
+        "media_bg_color": "#ffffff",
+        "star_color": "#5ba90f",
+        "badge_bg_color": "#e6f1d5",
+        "badge_text_color": "#44681a",
+        "button_bg_color": "#5ba90f",
+        "button_text_color": "#ffffff",
+        "padding_top": 75,
+        "padding_bottom": 75
+      }
+    },
     "cwc_scrolling_banner_JhBYmK": {
       "type": "CWC_scrolling_banner",
       "blocks": {
@@ -80,6 +152,7 @@
         "icon_color": "#5ba90f",
         "separator_color": "#a3c781",
         "border_color": "#a3c781",
+        "border_opacity": 35,
         "padding_top": 6,
         "padding_bottom": 6
       }
@@ -100,7 +173,57 @@
         "offer_per_serving": "$1.87 a serving",
         "offer_fine_print": "Free blender bottle with your first 90-day order · Cancel or pause anytime",
         "cta_label": "Start with NanoGreens",
-        "cta_link": "shopify://products/nanogreens-10-support",
+        "cta_link": "shopify://pages/labor-day-offer",
+        "secondary_label": "or find what fits you →",
+        "secondary_link": "#cwc_home-by-problem--anchor",
+        "show_rating": false,
+        "rating_position": "below_cta",
+        "rating_value": 4.8,
+        "rating_count": "",
+        "rating_extra_text": "from Hundreds Of Happy & Healthy Customers",
+        "show_stats": true,
+        "hero_image": "shopify://shop_images/Mask_group_1_1.png",
+        "image_alt": "NanoGreens green apple",
+        "image_fit": "cover",
+        "media_min_height": 540,
+        "media_max_height": 90,
+        "image_position": "left",
+        "bg_color": "#ffffff",
+        "text_color": "#2a2611",
+        "bold_color": "#5ba90f",
+        "muted_color": "#5c5842",
+        "eyebrow_color": "#5ba90f",
+        "accent_color": "#5ba90f",
+        "star_color": "#e8a317",
+        "stat_color": "#44681a",
+        "pill_bg_color": "#ffffff",
+        "card_bg_color": "#ffffff",
+        "border_color": "#e6e5dc",
+        "media_bg_color": "#ecebe5",
+        "button_bg_color": "#5ba90f",
+        "button_text_color": "#ffffff",
+        "padding_top": 90,
+        "padding_bottom": 90
+      }
+    },
+    "cwc_home_hero_fnxEF3": {
+      "type": "CWC_home_hero",
+      "disabled": true,
+      "settings": {
+        "eyebrow_style": "text",
+        "eyebrow": "Recommended in practice for 20+ years",
+        "eyebrow_detail": "Developed for and sold through clinics for 20+ years before it was offered direct.",
+        "heading": "<p>The greens powder <strong>doctors were recommending before anyone called it wellness.</strong></p>",
+        "lede": "<p>55 organic fruits and vegetables, juiced at peak ripeness and freeze-dried cold, with a nine-enzyme blend built into the formula. One scoop, ten seconds.</p>",
+        "show_offer": false,
+        "offer_style": "card",
+        "offer_position": "above_cta",
+        "offer_price_text": "From $56.21/mo",
+        "offer_save_badge": "Save 25%",
+        "offer_per_serving": "$1.87 a serving",
+        "offer_fine_print": "Free blender bottle with your first 90-day order · Cancel or pause anytime",
+        "cta_label": "Start with NanoGreens",
+        "cta_link": "shopify://pages/labor-day-offer",
         "secondary_label": "or find what fits you →",
         "secondary_link": "#cwc_home-by-problem--anchor",
         "show_rating": false,
@@ -762,7 +885,6 @@
         "border_color": "#e6e5dc",
         "tag_color": "#78ad49",
         "accent_color": "#5ba90f",
-        "button_outline_color": "#44681a",
         "button_hover_text_color": "#ffffff",
         "padding_top": 50,
         "padding_bottom": 50
@@ -1133,8 +1255,10 @@
     }
   },
   "order": [
+    "cwc_labor_day_hero_idx01",
     "cwc_scrolling_banner_JhBYmK",
     "home_hero",
+    "cwc_home_hero_fnxEF3",
     "home_trust_strip",
     "home_bundles",
     "home_absorption",

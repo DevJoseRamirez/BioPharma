@@ -33,7 +33,7 @@
         "offer_item_FKCYC9": {
           "type": "offer_item",
           "settings": {
-            "text": "<p><strong>Free shipping + a 30-day money-back guarantee.</strong></p>"
+            "text": "<p><strong>Free shipping </strong>+ 30-day money-back guarantee.</p>"
           }
         }
       },
@@ -54,6 +54,7 @@
         "show_save_badge": true,
         "save_badge_prefix": "Save",
         "cta_label": "Save $29.98 + Free Shipping",
+        "cta_link": "",
         "cta_anchor": "#cwc_product-hero-buy-box--anchors",
         "show_stars": false,
         "rating_value": "",
@@ -63,7 +64,7 @@
         "hero_image_alt": "NanoGreens10 tub",
         "image_position": "right",
         "media_min_height": 540,
-        "media_max_height": 90,
+        "media_max_height": 85,
         "bg_color": "#ffffff",
         "text_color": "#2a2611",
         "bold_color": "#44681a",
@@ -75,8 +76,8 @@
         "badge_text_color": "#44681a",
         "button_bg_color": "#5ba90f",
         "button_text_color": "#ffffff",
-        "padding_top": 75,
-        "padding_bottom": 75
+        "padding_top": 65,
+        "padding_bottom": 65
       }
     },
     "cwc_scrolling_banner_cNJzKw": {
@@ -611,7 +612,7 @@
           "type": "button",
           "settings": {
             "button_text": "Get Yours Today",
-            "button_link": "",
+            "button_link": "#cwc_product-hero-buy-box--anchors",
             "button_bg_color": "#5ba90f",
             "button_text_color": "#ffffff",
             "show_note_icon": true,
@@ -818,6 +819,14 @@
             "id_6": ""
           }
         },
+        "add_to_cart": {
+          "type": "add_to_cart",
+          "settings": {
+            "label": "Add to cart",
+            "sold_out_label": "Sold out",
+            "micro_text": ""
+          }
+        },
         "delivery_estimate_6ikBpV": {
           "type": "delivery_estimate",
           "settings": {
@@ -827,16 +836,9 @@
             "bg_color": "#ffffff"
           }
         },
-        "add_to_cart": {
-          "type": "add_to_cart",
-          "settings": {
-            "label": "Add to cart",
-            "sold_out_label": "Sold out",
-            "micro_text": "Recommended in clinics for 20+ years — before it was ever sold online."
-          }
-        },
         "trust_icons": {
           "type": "trust_icons",
+          "disabled": true,
           "settings": {
             "icon_style_1": "shield",
             "icon_text_1": "↩",
@@ -979,8 +981,8 @@
         "key_benefits",
         "benefits_meta_bRYkmq",
         "flavor_duo",
-        "delivery_estimate_6ikBpV",
         "add_to_cart",
+        "delivery_estimate_6ikBpV",
         "trust_icons",
         "trusted_by_ctTUFC",
         "stats_panel_RNYChN",

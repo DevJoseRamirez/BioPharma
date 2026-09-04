@@ -270,10 +270,46 @@
     {% endif %}
 
     {% comment %} Product grid {% endcomment %}
+    {%- comment -%}
+      Products are skipped by handle or by tag before anything is rendered.
+      Filtering here rather than on `collection.products` keeps pagination
+      working — running an array filter over the drop would cap it at 50 items.
+
+      Only the whitespace around the commas is stripped from the tag list, so a
+      multi-word tag survives; both sides are lowercased because Shopify keeps
+      the case an editor typed.
+    {%- endcomment -%}
+    {%- liquid
+      assign hidden_handles = section.settings.hidden_handles | replace: ' ', '' | split: ','
+      assign hidden_tags = section.settings.hidden_tags | downcase | replace: ', ', ',' | replace: ' ,', ',' | split: ','
+    -%}
+
     {% paginate collection.products by per_page %}
       {% if collection.products.size > 0 %}
         <div class="cwc_collection-grid__grid" data-cwc-grid-items>
           {% for product in collection.products %}
+            {%- liquid
+              assign skip_product = false
+
+              if hidden_handles contains product.handle
+                assign skip_product = true
+              endif
+
+              unless skip_product
+                for product_tag in product.tags
+                  assign product_tag_key = product_tag | downcase
+                  if hidden_tags contains product_tag_key
+                    assign skip_product = true
+                    break
+                  endif
+                endfor
+              endunless
+            -%}
+
+            {% if skip_product %}
+              {% continue %}
+            {% endif %}
+
             {% liquid
               assign card_variant = product.selected_or_first_available_variant
               assign card_price = card_variant.price
@@ -734,6 +770,20 @@
     {
       "type": "header",
       "content": "Layout"
+    },
+    {
+      "type": "text",
+      "id": "hidden_tags",
+      "label": "Hidden Product Tags",
+      "info": "Any product carrying one of these tags is left out of the grid. Comma separated, case insensitive.",
+      "default": "no-feed"
+    },
+    {
+      "type": "text",
+      "id": "hidden_handles",
+      "label": "Hidden Products",
+      "info": "Product handles to skip in this grid, comma separated. They stay in the collection and still count toward the product total \u2014 they are only left out of the rendered grid.",
+      "default": "nanogreens10-support-labor-day-special"
     },
     {
       "type": "range",
