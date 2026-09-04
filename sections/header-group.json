@@ -15,8 +15,8 @@
       "type": "CWC_announcement",
       "name": "Announcement",
       "settings": {
-        "text": "<p><strong>LABOR DAY SALE!  🇺🇸  BUY 1, GET THE 2ND 40% OFF · FREE SHIPPING</strong></p>",
-        "link": "shopify://pages/labor-day-offer",
+        "text": "<p><strong>LABOR DAY SALE!  🇺🇸  25% Off Store Wide Use Code: LABOR25</strong></p>",
+        "link": "shopify://collections/best-sellers",
         "enable_gradient": true,
         "bg_color": "#44681a",
         "bg_end_color": "#87ce34",

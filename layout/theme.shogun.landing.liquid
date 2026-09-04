@@ -93,7 +93,7 @@ This file can be re-written at any time.
     {{ 'daa.css' | asset_url | stylesheet_tag }}
     {{ 'dda.js' | asset_url | script_tag }}
   
-  {% render 'shogun-head' %}
+  {% comment %} {% render 'shogun-head' %} {% endcomment %}
 </head>
   <body>
     {% include 'shogun-content-handler' %}

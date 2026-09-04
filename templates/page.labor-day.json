@@ -45,7 +45,7 @@
       ],
       "name": "Labor Day Hero",
       "settings": {
-        "eyebrow_text": "LABOR DAY special",
+        "eyebrow_text": "LABOR DAY Special",
         "heading": "<p>Buy 1, Get The 2nd <strong>40% Off.</strong></p>",
         "subheading": "<p>55 organic fruits and veggies. One scoop. ten seconds.</p>",
         "currency_symbol": "$",
@@ -57,7 +57,7 @@
         "cta_link": "",
         "cta_anchor": "#cwc_product-hero-buy-box--anchors",
         "show_stars": false,
-        "rating_value": "",
+        "rating_value": "Does Not Combine With Other Store Discounts",
         "rating_count": "",
         "rating_extra_text": "",
         "hero_image": "shopify://shop_images/Mask_group_1_1.png",
@@ -996,7 +996,7 @@
       ],
       "name": "Product Hero Buy Box",
       "settings": {
-        "product": "nanogreens-10-support",
+        "product": "nanogreens10-support-labor-day-special",
         "badge_text": "55 organic ingredients",
         "gallery_ratio": "1 / 1",
         "gallery_fit": "cover",
