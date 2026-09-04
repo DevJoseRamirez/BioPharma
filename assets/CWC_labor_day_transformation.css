@@ -27,7 +27,7 @@
 
 .cwc_labor-day-transformation__wrapper {
   display: grid;
-  grid-template-columns: 0.85fr 1.15fr;
+  grid-template-columns: 1.15fr 0.85fr;
   gap: 3.75rem;
   align-items: start;
 }
@@ -57,6 +57,7 @@
   width: 100%;
   height: auto;
   aspect-ratio: 4 / 3;
+  aspect-ratio: 6 / 3;
   object-fit: cover;
 }
 
@@ -76,6 +77,7 @@
 /* === Section Header === */
 .cwc_labor-day-transformation__content-heading {
   margin-bottom: 0.75rem;
+  text-align: center;
 }
 
 .cwc_labor-day-transformation__content-heading>* {
@@ -96,7 +98,7 @@
 /* The emphasised half of the heading takes its own line — the reference sets
    "with NanoGreens10" under "Your first month", not beside it. */
 .cwc_labor-day-transformation__content-heading>* em {
-  display: block;
+  /* display: block; */
   font-style: italic;
   color: var(--highlight-color);
 }
@@ -112,32 +114,39 @@
   opacity: 0.78;
 }
 
-/* === Button === */
+/* === Button ===
+   Matches the buy box Add To Cart (.cwc_product-hero-buy-box__cta) so every
+   CTA on the page reads as the same action: 40px radius, 18px padding,
+   18px/800 label, and a hover that lifts the fill instead of dimming it.
+   Weight is literal 800, not a token, to stay pinned to that button. */
 .cwc_labor-day-transformation__button {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
   width: 100%;
-  min-height: 48px;
-  padding: 0.9375rem 1.5rem;
-  border-radius: 5px;
-  background: var(--button-bg);
+  border: none;
+  border-radius: 40px;
+  padding: 18px;
+  background-color: var(--button-bg);
   color: var(--button-text);
-  font-size: 1.03125rem;
-  font-weight: 600;
+  font-family: inherit;
+  font-size: 1.125rem;
+  font-weight: 800;
+  line-height: 1.2;
   text-align: center;
   text-decoration: none;
-  transition: background-color 0.15s ease;
+  cursor: pointer;
+  transition: filter 0.18s ease;
 }
 
 .cwc_labor-day-transformation__button--dark {
-  background: var(--highlight-color);
+  background-color: var(--highlight-color);
 }
 
 .cwc_labor-day-transformation__button:hover,
 .cwc_labor-day-transformation__button:focus-visible {
-  background: var(--final-color);
+  filter: brightness(1.25);
   color: var(--button-text);
 }
 
@@ -243,8 +252,8 @@
 
 .cwc_labor-day-transformation__phase--final.cwc_labor-day-transformation__phase--complete .cwc_labor-day-transformation__bar,
 .cwc_labor-day-transformation__phase--final.cwc_labor-day-transformation__phase--active .cwc_labor-day-transformation__bar {
-  border-color: var(--final-color);
-  background: var(--final-color);
+  /* border-color: var(--final-color); */
+  /* background: var(--final-color); */
 }
 
 .cwc_labor-day-transformation__phase--final.cwc_labor-day-transformation__phase--active .cwc_labor-day-transformation__bar {
@@ -364,6 +373,7 @@
   .cwc_labor-day-transformation__button {
     order: 5;
     margin-top: 2rem;
+    padding: 12px 16px;
   }
 
   .cwc_labor-day-transformation__content-heading>* {

@@ -337,6 +337,7 @@
         },
         "member_offer": {
           "type": "member_offer",
+          "disabled": true,
           "settings": {
             "group_label": "Choose how to buy",
             "selling_plan_id": "3996549378",
@@ -385,14 +386,13 @@
         },
         "simple_offer_Mm3TzV": {
           "type": "simple_offer",
-          "disabled": true,
           "settings": {
-            "group_label": "",
+            "group_label": "Choose Your Offer",
             "selling_plan_id": "3996549378",
             "subscribe_label": "Subscribe & Save",
             "subscribe_sublabel": "",
             "savings_style": "percent",
-            "perks": "<p>5% OFF every subscription order</p><p>Free shipping on every delivery</p><p>Modify or cancel anytime</p><p>Exclusive discounts & early access</p>",
+            "perks": "<p>10% OFF every subscription order</p><p>Free shipping on every delivery</p><p>Modify or cancel anytime</p><p>Exclusive discounts & early access</p>",
             "perks_visibility": "always",
             "promo_text": "",
             "promo_style": "soft",
@@ -2293,9 +2293,9 @@
         "name_override": "",
         "url_override": "",
         "bg_color": "#ffffff",
-        "text_color": "#2A2611",
-        "bold_color": "#5BA90F",
-        "muted_color": "#5C5842",
+        "text_color": "#2a2611",
+        "bold_color": "#5ba90f",
+        "muted_color": "#5c5842",
         "content_max_width": 1300,
         "padding_top": 50,
         "padding_bottom": 50

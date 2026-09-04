@@ -15,51 +15,51 @@
         "offer_item_ld01": {
           "type": "offer_item",
           "settings": {
-            "text": "<p><strong>Choose any two:</strong> Green Apple, Strawberry, or one of each.</p>"
+            "text": "<p><strong>30% off your first order</strong> — then 10% off every order after</p>"
           }
         },
         "offer_item_ld02": {
           "type": "offer_item",
           "settings": {
-            "text": "<p><strong>60 servings of daily greens:</strong> 55  fruits and veggies in every scoop.</p>"
+            "text": "<p><strong>Free shipping</strong> on every subscription order</p>"
+          }
+        },
+        "offer_item_ld03": {
+          "type": "offer_item",
+          "settings": {
+            "text": "<p><strong>Three free gifts</strong> — start guide, shaker bottle, gummies</p>"
           }
         },
         "offer_item_ld04": {
           "type": "offer_item",
           "settings": {
-            "text": "<p><strong>Built for the everyday routine:</strong> one scoop, cold water, ten seconds.</p>"
-          }
-        },
-        "offer_item_FKCYC9": {
-          "type": "offer_item",
-          "settings": {
-            "text": "<p><strong>Free shipping + a 30-day money-back guarantee.</strong></p>"
+            "text": "<p><strong>30-day money-back guarantee</strong> — cancel or pause anytime</p>"
           }
         }
       },
       "block_order": [
         "offer_item_ld01",
         "offer_item_ld02",
-        "offer_item_ld04",
-        "offer_item_FKCYC9"
+        "offer_item_ld03",
+        "offer_item_ld04"
       ],
       "name": "Labor Day Hero",
       "settings": {
-        "eyebrow_text": "LABOR DAY special",
-        "heading": "<p>Buy 1, Get The 2nd <strong>40% Off.</strong></p>",
-        "subheading": "<p>55 organic fruits and veggies. One scoop. ten seconds.</p>",
+        "eyebrow_text": "Labor Day Sale",
+        "heading": "<p>Start today, <em>save 30%</em>.</p>",
+        "subheading": "<p>NanoGreens10 — 55 organic fruits and vegetables in one scoop. Your first month is 30% off.</p>",
         "currency_symbol": "$",
-        "price_now": "$119.92",
-        "price_was": "$149.90",
+        "price_now": "$52.47",
+        "price_was": "$74.95",
         "show_save_badge": true,
         "save_badge_prefix": "Save",
-        "cta_label": "Save $29.98 + Free Shipping",
-        "cta_anchor": "#cwc_product-hero-buy-box--anchors",
-        "show_stars": false,
-        "rating_value": "",
-        "rating_count": "",
-        "rating_extra_text": "",
-        "hero_image": "shopify://shop_images/Mask_group_1_1.png",
+        "cta_label": "Get Started — 30% Off →",
+        "cta_anchor": "#buy",
+        "show_stars": true,
+        "rating_value": "4.9",
+        "rating_count": "234 reviews",
+        "rating_extra_text": "Recommended in clinics since 2004",
+        "hero_image": "shopify://shop_images/labor-day-americana-tabletop-reward-visual.png",
         "hero_image_alt": "NanoGreens10 tub",
         "image_position": "right",
         "media_min_height": 540,
@@ -82,66 +82,56 @@
     "cwc_scrolling_banner_cNJzKw": {
       "type": "CWC_scrolling_banner",
       "blocks": {
-        "item_xcgqGc": {
+        "item_AteEnJ": {
           "type": "item",
           "settings": {
-            "text": "DOCTOR FORMULATED",
-            "icon_style": "check"
+            "text": "Doctor Formulated",
+            "icon_style": "flask"
           }
         },
-        "item_8XRE66": {
+        "item_iDndPG": {
           "type": "item",
-          "settings": {
-            "text": "THIRD-PARTY TESTED",
-            "icon_style": "check"
-          }
-        },
-        "item_VYqgKJ": {
-          "type": "item",
-          "settings": {
-            "text": "NO FILLERS OR BINDERS",
-            "icon_style": "check"
-          }
-        },
-        "item_9cW46q": {
-          "type": "item",
-          "settings": {
-            "text": "30-DAY MONEY BACK",
-            "icon_style": "check"
-          }
-        },
-        "item_i8endQ": {
-          "type": "item",
-          "settings": {
-            "text": "FREE SHIPPING",
-            "icon_style": "check"
-          }
-        },
-        "item_Wx7CfU": {
-          "type": "item",
-          "disabled": true,
           "settings": {
             "text": "Third-Party Tested",
-            "icon_style": "check"
+            "icon_style": "shield"
           }
         },
-        "item_aezJG9": {
+        "item_7VkcMr": {
           "type": "item",
-          "disabled": true,
           "settings": {
-            "text": "Third-Party Tested",
-            "icon_style": "check"
+            "text": "No Fillers or Binders",
+            "icon_style": "leaf"
+          }
+        },
+        "item_wXTPzY": {
+          "type": "item",
+          "settings": {
+            "text": "30-Day Money Back",
+            "icon_style": "return"
+          }
+        },
+        "item_MT6bjX": {
+          "type": "item",
+          "settings": {
+            "text": "Free Shipping on Subscriptions",
+            "icon_style": "truck"
+          }
+        },
+        "item_xWERDB": {
+          "type": "item",
+          "settings": {
+            "text": "Cancel or Pause Anytime",
+            "icon_style": "pause"
           }
         }
       },
       "block_order": [
-        "item_xcgqGc",
-        "item_8XRE66",
-        "item_VYqgKJ",
-        "item_9cW46q",
-        "item_i8endQ",
-        "item_Wx7CfU",
-        "item_aezJG9"
+        "item_AteEnJ",
+        "item_iDndPG",
+        "item_7VkcMr",
+        "item_wXTPzY",
+        "item_MT6bjX",
+        "item_xWERDB"
       ],
       "name": "Scrolling Banner",
       "settings": {
@@ -171,54 +161,48 @@
           "type": "feature",
           "settings": {
             "column": "left",
-            "icon": "shopify://shop_images/benefit-icon-produce-gap_2.png",
-            "title": "Fills The Produce Gap",
-            "text": "<p>55 organic fruits and vegetables in one scoop — the antioxidant equivalent of ten servings, without shopping, prepping or eating any of it.</p>"
+            "title": "Fluoride-Free Protection",
+            "text": "<p>Protects and rebuilds enamel naturally with 10% nano-hydroxyapatite, a science-backed alternative to fluoride—safe for kids and adults.</p>"
           }
         },
         "feature_b2": {
           "type": "feature",
           "settings": {
             "column": "left",
-            "icon": "shopify://shop_images/benefit-icon-digestion-settles_2.png",
-            "title": "Digestion That Settles Down",
-            "text": "<p>Nine digestive enzymes and fiber support regularity and post-meal comfort, so it works with your gut instead of sitting in it.</p>"
+            "title": "Advanced Sensitivity Relief",
+            "text": "<p>Unlike Sensodyne, which numbs nerves, Ollie works by sealing microscopic tubules in your teeth, stopping sensitivity at the source.</p>"
           }
         },
         "feature_b3": {
           "type": "feature",
           "settings": {
             "column": "left",
-            "icon": "shopify://shop_images/benefit-icon-steady-energy_2.png",
-            "title": "Energy Without The Crash",
-            "text": "<p>Zero caffeine and no stimulants — steady support through the afternoon with nothing to come down from at 3pm.</p>"
+            "title": "Kid-Safe & Dentist Approved",
+            "text": "<p>Fluoride-free means peace of mind for parents. Backed by decades of use in Japan and scientific studies.</p>"
           }
         },
         "feature_b4": {
           "type": "feature",
           "settings": {
             "column": "right",
-            "icon": "shopify://shop_images/benefit-icon-absorption_2.png",
-            "title": "Absorption, Not Just Ingredients",
-            "text": "<p>Supersorb® emulsification suspends fat-soluble nutrients so they can cross into you, which is the part almost every greens powder skips.</p>"
+            "title": "Clinically Proven Science",
+            "text": "<p>Hydroxyapatite has been used for over 40 years in Japan to fight cavities and strengthen teeth. It's not new—it's just new to the U.S.</p>"
           }
         },
         "feature_b5": {
           "type": "feature",
           "settings": {
             "column": "right",
-            "icon": "shopify://shop_images/benefit-icon-clinician-formulated_2.png",
-            "title": "Clinician-Formulated Since 2004",
-            "text": "<p>Formulated in San Diego and stocked by practitioners for over twenty years — this was in clinics long before greens powders had an aisle.</p>"
+            "title": "Clean, Simple Formula",
+            "text": "<p>Only 11 ingredients—no artificial dyes, no SLS, no gimmicks. Just clean, effective oral care you can trust.</p>"
           }
         },
         "feature_b6": {
           "type": "feature",
           "settings": {
             "column": "right",
-            "icon": "shopify://shop_images/benefit-icon-good-enough-to-drink_2.png",
-            "title": "Good Enough To Keep Drinking",
-            "text": "<p>Green apple or strawberry, no artificial sweeteners — the reason customers are still taking it three years later instead of three weeks.</p>"
+            "title": "Fresh Mint Flavor",
+            "text": "<p>A crisp, refreshing taste that leaves your mouth feeling clean and your breath fresh—all day long.</p>"
           }
         }
       },
@@ -231,9 +215,8 @@
         "feature_b6"
       ],
       "settings": {
-        "heading": "<h2>Why <strong>NanoGreens¹⁰</strong></h2>",
+        "heading": "<p>Why Ollie Is <strong>Better</strong></p>",
         "subtext": "",
-        "product_image": "shopify://shop_images/Mask_group.png",
         "product_image_alt": "",
         "icon_ring_size": 72,
         "icon_ring_color": "#2a2611",
@@ -256,28 +239,21 @@
         "bullet_b1": {
           "type": "bullet",
           "settings": {
-            "text": "<p><strong>They stop at the ingredient list </strong>— a long label means nothing if the nutrients never cross into you.</p>",
+            "text": "<p><strong>Most brands only use 1–5% hydroxyapatite</strong>, below levels commonly used in clinical research</p>",
             "text_color": ""
           }
         },
         "bullet_b2": {
           "type": "bullet",
           "settings": {
-            "text": "<p><strong>No enzymes, so plant cell walls stay closed</strong> — cellulase and hemicellulase are what open them, and most brands leave them out because they cost money.</p>",
+            "text": "<p><strong>Larger, spherical particles</strong> sit on the surface instead of integrating with enamel</p>",
             "text_color": ""
           }
         },
         "bullet_b3": {
           "type": "bullet",
           "settings": {
-            "text": "<p><strong>Nothing to carry the fat-solubles</strong> — those nutrients don't dissolve in water, so without emulsification they pass straight through.</p>",
-            "text_color": ""
-          }
-        },
-        "bullet_b4": {
-          "type": "bullet",
-          "settings": {
-            "text": "<p><strong>And most of them taste bad enough to quit</strong> — the best formula in the world does nothing sitting in your cupboard.</p>",
+            "text": "<p><strong>The result:</strong> a smooth feeling that fades — without lasting mineral support</p>",
             "text_color": ""
           }
         }
@@ -285,13 +261,11 @@
       "block_order": [
         "bullet_b1",
         "bullet_b2",
-        "bullet_b3",
-        "bullet_b4"
+        "bullet_b3"
       ],
       "settings": {
-        "heading": "<p><strong>Why Most </strong>Greens Powders Fail</p>",
-        "subtext": "",
-        "image": "shopify://shop_images/Why-Most-Greens-Powders-Fail.png",
+        "heading": "<p>Why Most Hydroxyapatite <strong>Toothpastes Fail</strong></p>",
+        "subtext": "<p>Hydroxyapatite itself works — it's been trusted in Japan for 30+ years. The problem is how most brands use it.</p>",
         "image_alt": "",
         "image_radius": 8,
         "reverse_layout": false,
@@ -310,44 +284,47 @@
         "card_b1": {
           "type": "card",
           "settings": {
-            "image": "shopify://shop_images/nanogreens_simple_card_01_absorption.png",
             "badge": "Reason 1",
-            "title": "You Absorb It, Not Just Drink It",
-            "text": "<p>Vegetables lock nutrients inside tough cell walls. Nine digestive enzymes break them open so what's inside actually reaches you.†</p>"
+            "title": "Clinically-Dosed, Not Underdosed",
+            "text": "<p>No trendy blends or sprinkled-in ingredients. 6,000mg of oil of oregano and 200mg of black seed oil, paired with the kind of clinical research you can actually point to — 82 studies on black seed oil alone.</p>"
           }
         },
         "card_b2": {
           "type": "card",
           "settings": {
-            "image": "shopify://shop_images/nanogreens_simple_card_02_delivery.png",
             "badge": "Reason 2",
-            "title": "The Nutrients Water Can't Carry",
-            "text": "<p>Some nutrients only dissolve in fat, so in plain water they float past unused. Supersorb® blends them in — like olive oil on a salad.†</p>"
+            "title": "Targets Immunity & Digestion Together",
+            "text": "<p>Why take three different supplements? Resilia® is designed to support your immune system, gut health, and healthy inflammatory response in one daily formula.</p>"
           }
         },
         "card_b3": {
           "type": "card",
-          "disabled": true,
           "settings": {
             "badge": "Reason 3",
-            "title": "Built For Every Day, Not A Cleanse",
-            "text": "<p>No loading phase, no protocol, no 7-day reset — one scoop, every morning, indefinitely.</p>"
+            "title": "No Aftertaste, No Burn",
+            "text": "<p>Unlike drops or harsh capsules, Resilia® softgels are taste-free, gentle, and easy to take without reflux or discomfort.</p>"
           }
         },
         "card_b4": {
           "type": "card",
           "settings": {
-            "image": "shopify://shop_images/nanogreens_simple_card_03_taste.png",
-            "badge": "Reason 3",
-            "title": "No Grit, No Grass Aftertaste",
-            "text": "<p>Green apple or strawberry, clean in ten seconds, no artificial sweeteners. The greens that work are the ones you keep drinking.</p>"
+            "badge": "Reason 4",
+            "title": "Third-Party Tested & Verified",
+            "text": "<p>Every batch is independently tested for purity, potency, and safety. No fillers, no shortcuts.</p>"
           }
         },
-        "button_b5": {
-          "type": "button",
-          "disabled": true,
+        "card_b5": {
+          "type": "card",
           "settings": {
-            "button_text": "Get 2 Tubs — Save $29.98 →",
+            "badge": "Reason 5",
+            "title": "Trusted by Thousands",
+            "text": "<p>Join thousands of customers who have made Resilia® part of their daily health routine.</p>"
+          }
+        },
+        "button_b6": {
+          "type": "button",
+          "settings": {
+            "button_text": "Try Risk-Free Today",
             "button_link": "",
             "button_bg_color": "#44681a",
             "button_text_color": "#ffffff",
@@ -362,18 +339,19 @@
         "card_b2",
         "card_b3",
         "card_b4",
-        "button_b5"
+        "card_b5",
+        "button_b6"
       ],
       "settings": {
-        "badge_text": "3 REASONS WHY",
-        "heading": "<p><strong>NanoGreens¹⁰</strong> Is Different From Everything You’ve Tried</p>",
+        "badge_text": "5 Reasons Why",
+        "heading": "<p>Resilia® is Different From <strong>Everything You've Tried</strong></p>",
         "subtext": "",
-        "bg_color": "#ffffff",
+        "bg_color": "#f4f3ee",
         "text_color": "#2a2611",
         "bold_color": "#5ba90f",
         "badge_bg_color": "#5ba90f",
         "badge_text_color": "#ffffff",
-        "card_bg_color": "#f4f3ee",
+        "card_bg_color": "#ffffff",
         "card_text_color": "#5c5842",
         "cards_per_view": 3,
         "card_gap": 16,
@@ -382,89 +360,6 @@
         "arrow_color": "#5c5842",
         "padding_top": 60,
         "padding_bottom": 60
-      }
-    },
-    "cwc_labor_day_transformation_ld04": {
-      "type": "CWC_labor_day_transformation",
-      "blocks": {
-        "phase_ld01": {
-          "type": "phase",
-          "settings": {
-            "phase_label": "Week 1: Early Shifts",
-            "is_final": false,
-            "claim_1": "You find a way to take it you actually like",
-            "claim_2": "Digestion starts to feel lighter",
-            "claim_3": "Mornings feel a little easier",
-            "claim_4": ""
-          }
-        },
-        "phase_ld02": {
-          "type": "phase",
-          "settings": {
-            "phase_label": "Week 2: Energy Returns",
-            "is_final": false,
-            "claim_1": "Steadier daily energy, no stimulants",
-            "claim_2": "Less of the afternoon drop-off",
-            "claim_3": "The habit stops taking willpower",
-            "claim_4": ""
-          }
-        },
-        "phase_ld03": {
-          "type": "phase",
-          "settings": {
-            "phase_label": "Week 3: Gut + Immune Sync",
-            "is_final": false,
-            "claim_1": "Improved regularity and gut comfort",
-            "claim_2": "Post-meal heaviness eases up",
-            "claim_3": "Your immune defenses feel more resilient",
-            "claim_4": ""
-          }
-        },
-        "phase_ld04": {
-          "type": "phase",
-          "settings": {
-            "phase_label": "Week 4+: Long-Term Balance",
-            "is_final": true,
-            "claim_1": "Steady energy becomes your new normal",
-            "claim_2": "The produce gap is closed, every day",
-            "claim_3": "You stop thinking about it — it's just what you do",
-            "claim_4": ""
-          }
-        }
-      },
-      "block_order": [
-        "phase_ld01",
-        "phase_ld02",
-        "phase_ld03",
-        "phase_ld04"
-      ],
-      "name": "Labor Day Journey",
-      "settings": {
-        "heading": "<p>Your first 60 days <em>with NanoGreens¹⁰</em></p>",
-        "intro_text": "<p>NanoGreens¹⁰ is built for daily use, not quick fixes. Two tubs covers the whole stretch below — here's how things tend to shift.</p>",
-        "auto_asterisk_claims": true,
-        "disclaimer_text": "<p>Customer-reported experiences, not results from a clinical trial. Individual results vary. These statements have not been evaluated by the Food and Drug Administration. This product is not intended to diagnose, treat, cure, or prevent any disease.</p>",
-        "cta_label": "Get 2 Tubs — Save $29.98 →",
-        "cta_anchor": "#cwc_product-hero-buy-box--anchors",
-        "button_style": "default",
-        "lifestyle_image": "shopify://shop_images/By-Form-Greens_Reds.png",
-        "lifestyle_image_alt": "Morning routine with NanoGreens10",
-        "placeholder_label": "Lifestyle image",
-        "image_position": "left",
-        "bg_color": "#f4f3ee",
-        "text_color": "#2a2611",
-        "bold_color": "#44681a",
-        "accent_color": "#5ba90f",
-        "placeholder_bg_color": "#33500f",
-        "rail_color": "#44681a",
-        "node_color": "#44681a",
-        "bar_bg_color": "#44681a",
-        "bar_text_color": "#ecebe5",
-        "final_color": "#1f1f1c",
-        "button_bg_color": "#5ba90f",
-        "button_text_color": "#ffffff",
-        "padding_top": 80,
-        "padding_bottom": 80
       }
     },
     "cwc_practitioner_endorsement_cPjEgp": {
@@ -557,65 +452,147 @@
         "padding_bottom": 50
       }
     },
+    "cwc_labor_day_transformation_ld04": {
+      "type": "CWC_labor_day_transformation",
+      "blocks": {
+        "phase_ld01": {
+          "type": "phase",
+          "settings": {
+            "phase_label": "Week 1: Early Shifts",
+            "is_final": false,
+            "claim_1": "You find a way to take it you actually like",
+            "claim_2": "Digestion starts to feel lighter",
+            "claim_3": "Mornings feel a little easier",
+            "claim_4": ""
+          }
+        },
+        "phase_ld02": {
+          "type": "phase",
+          "settings": {
+            "phase_label": "Week 2: Energy Returns",
+            "is_final": false,
+            "claim_1": "Steadier daily energy, no stimulants",
+            "claim_2": "Less of the afternoon drop-off",
+            "claim_3": "The habit stops taking willpower",
+            "claim_4": ""
+          }
+        },
+        "phase_ld03": {
+          "type": "phase",
+          "settings": {
+            "phase_label": "Week 3: Gut + Immune Sync",
+            "is_final": false,
+            "claim_1": "Improved regularity and gut comfort",
+            "claim_2": "Post-meal heaviness eases up",
+            "claim_3": "Your immune defenses feel more resilient",
+            "claim_4": ""
+          }
+        },
+        "phase_ld04": {
+          "type": "phase",
+          "settings": {
+            "phase_label": "Week 4+: Long-Term Balance",
+            "is_final": true,
+            "claim_1": "Steady energy becomes your new normal",
+            "claim_2": "The produce gap is closed, every day",
+            "claim_3": "You stop thinking about it — it's just what you do",
+            "claim_4": ""
+          }
+        }
+      },
+      "block_order": [
+        "phase_ld01",
+        "phase_ld02",
+        "phase_ld03",
+        "phase_ld04"
+      ],
+      "name": "Labor Day Journey",
+      "settings": {
+        "heading": "<p>Your first month <em>with NanoGreens10</em></p>",
+        "intro_text": "<p>NanoGreens10 is built for daily use, not quick fixes. Here's how things tend to shift once it's part of your morning.</p>",
+        "auto_asterisk_claims": true,
+        "disclaimer_text": "<p>Customer-reported experiences, not results from a clinical trial. Individual results vary. These statements have not been evaluated by the Food and Drug Administration. This product is not intended to diagnose, treat, cure, or prevent any disease.</p>",
+        "cta_label": "Start My Journey →",
+        "cta_anchor": "#buy",
+        "button_style": "dark",
+        "lifestyle_image": "shopify://shop_images/By-Form-Greens_Reds.png",
+        "lifestyle_image_alt": "Morning routine with NanoGreens10",
+        "placeholder_label": "Lifestyle image",
+        "image_position": "left",
+        "bg_color": "#F4F3EE",
+        "text_color": "#2a2611",
+        "bold_color": "#44681a",
+        "accent_color": "#5ba90f",
+        "placeholder_bg_color": "#33500f",
+        "rail_color": "#44681a",
+        "node_color": "#44681a",
+        "bar_bg_color": "#44681a",
+        "bar_text_color": "#ecebe5",
+        "final_color": "#1f1f1c",
+        "button_bg_color": "#5ba90f",
+        "button_text_color": "#ffffff",
+        "padding_top": 80,
+        "padding_bottom": 80
+      }
+    },
     "cwc_comparison_cs01": {
       "type": "CWC_comparison",
       "blocks": {
         "brand_table_b1": {
           "type": "brand_table",
           "settings": {
-            "product_image": "shopify://shop_images/Mask_group.png",
-            "title": "Biopharma",
-            "text1": "9 digestive enzymes",
-            "text2": "Supersorb® absorption system",
-            "text3": "55 organic fruits & vegetables",
-            "text4": "0mg caffeine",
-            "text5": "great Glavors"
+            "title": "RESILIA",
+            "text1": "Clinically-Studied Ingredients",
+            "text2": "3rd-Party Tested",
+            "text3": "Allergen-Free & Clean",
+            "text4": "Global Certified Facilities",
+            "text5": "Vegan & Gluten-Free"
           }
         },
         "competitor_table_b2": {
           "type": "competitor_table",
           "settings": {
             "title": "Other Brands",
-            "text1": "No enzymes",
-            "text2": "Powder, no delivery system",
-            "text3": "Proprietary blend, undisclosed",
-            "text4": "Caffeine or stimulants",
-            "text5": "Taste like grass"
+            "text1": "Trend-Based Blends",
+            "text2": "No Test Proof",
+            "text3": "Fillers & Additives",
+            "text4": "Low-Quality Manufacturing",
+            "text5": "Sugar, Flavors, Binders"
           }
         },
         "bullet_b3": {
           "type": "bullet",
           "settings": {
-            "text": "<p><strong>Built to absorb</strong> — enzymes and lecithin delivery, not just a longer ingredient list</p><p></p>"
+            "text": "<p><strong>Clinically-Studied Ingredients</strong> — Ingredients with real research behind them, including 82 clinical trials on black seed oil</p>"
           }
         },
         "bullet_b4": {
           "type": "bullet",
           "settings": {
-            "text": "<p><strong>Built for daily use</strong> — no cleanse, no protocol, no loading phase</p>"
+            "text": "<p><strong>Steady Daily Support</strong> — Built for long-term use, not 7-day cleanses</p>"
           }
         },
         "bullet_b5": {
           "type": "bullet",
           "settings": {
-            "text": "<p><strong>Built with practitioners</strong> — formulated in San Diego, stocked in clinics for twenty years</p><p></p>"
+            "text": "<p><strong>Clean & Pure</strong> — No fillers, GMOs, sugar, or artificial additives</p>"
           }
         },
         "bullet_b6": {
           "type": "bullet",
           "settings": {
-            "text": "<p><strong>Built to taste good</strong> — the reason it becomes a habit instead of a shelf item</p><p></p>"
+            "text": "<p><strong>Visible, Gradual Results</strong> — A daily ritual that keeps working, week after week</p>"
           }
         },
         "button_b7": {
           "type": "button",
           "settings": {
-            "button_text": "Get Yours Today",
+            "button_text": "Try Risk-Free Today",
             "button_link": "",
             "button_bg_color": "#5ba90f",
             "button_text_color": "#ffffff",
             "show_note_icon": true,
-            "button_note": "30 day money back grantee",
+            "button_note": "",
             "note_color": "#a3c781"
           }
         }
@@ -630,7 +607,7 @@
         "button_b7"
       ],
       "settings": {
-        "heading": "<p>BioPharma® vs. <strong>Other Brands</strong></p>",
+        "heading": "<p>Resilia® vs. <strong>Other Brands</strong></p>",
         "subtext": "",
         "bg_color": "#44681a",
         "bg_end_color": "#31501a",
@@ -648,42 +625,89 @@
         "padding_bottom": 80
       }
     },
-    "rich_text_nLpenb": {
-      "type": "rich-text",
+    "cwc_ingredients_Wq4pjL": {
+      "type": "CWC_ingredients",
       "blocks": {
-        "subheading_Vkaqnc": {
-          "type": "subheading",
+        "ing_milk_thistle": {
+          "type": "ingredient",
           "settings": {
-            "text": "Subheading"
+            "icon": "shopify://shop_images/ingredient_oat_beta_glucan_icon_3d539ef6-4635-4c8e-92dc-fafe84ce019d.png",
+            "name": "Organic Oat Beta Glucan",
+            "dosage": "2,500mg",
+            "text": "<p>Soluble fiber that supports healthy digestion and regularity</p>"
           }
         },
-        "heading_FkNd7J": {
-          "type": "heading",
+        "ing_enzyme": {
+          "type": "ingredient",
           "settings": {
-            "text": "Buy 1, Get The 2nd <strong>40% Off.</strong>",
-            "heading_tag": "h1"
+            "icon": "shopify://shop_images/ingredient_greens_blend_icon_8cea50c2-9cd8-4aa0-a6d0-33071d43778b.png",
+            "name": "Greens Blend",
+            "dosage": "2,400mg",
+            "text": "<p>Organic barley grass juice, spirulina and chlorella powders</p>"
           }
         },
-        "richtext_4bFrU3": {
-          "type": "richtext",
+        "ing_cinnamon": {
+          "type": "ingredient",
           "settings": {
-            "content": "<p>Use this text to share information about your brand with your customers. Describe a product, share announcements, or welcome customers to your store.</p>"
+            "icon": "shopify://shop_images/ingredient_fruit_veg_blend_icon_ea78c004-8620-403c-b203-074203b9fa72.png",
+            "name": "Fruit & Vegetable Blend",
+            "dosage": "930mg",
+            "text": "<p>Organic apple, mango, carrot, kale, spinach, broccoli, beet</p>"
+          }
+        },
+        "ing_phyto": {
+          "type": "ingredient",
+          "settings": {
+            "icon": "shopify://shop_images/ingredient_phytonutrient_blend_icon_40fe8f84-6478-4a71-8903-3eff6073cc61.png",
+            "name": "Phytonutrient Blend",
+            "dosage": "360mg",
+            "text": "<p>Green tea, grape seed, milk thistle, bilberry, elderberry, pomegranate</p>"
+          }
+        },
+        "ing_greens": {
+          "type": "ingredient",
+          "settings": {
+            "icon": "shopify://shop_images/ingredient_milk_thistle_icon_71281600-e938-44cf-b8de-722086b91dfc.png",
+            "name": "Milk Thistle",
+            "dosage": "50mg",
+            "text": "<p>Standardized to 20% silymarin - supports the body's antioxidant defenses</p>"
+          }
+        },
+        "ing_fruit_veg": {
+          "type": "ingredient",
+          "settings": {
+            "icon": "shopify://shop_images/ingredient_enzyme_blend_icon_0d85e919-e5f9-4d9b-b6cd-8b59d25bdfd0.png",
+            "name": "Enzyme Blend 32000B",
+            "dosage": "40mg",
+            "text": "<p>Nine digestive enzymes that aid digestion and nutrient absorption</p>"
           }
         }
       },
       "block_order": [
-        "subheading_Vkaqnc",
-        "heading_FkNd7J",
-        "richtext_4bFrU3"
+        "ing_milk_thistle",
+        "ing_enzyme",
+        "ing_cinnamon",
+        "ing_phyto",
+        "ing_greens",
+        "ing_fruit_veg"
       ],
-      "disabled": true,
-      "name": "t:sections.rich_text.presets.rich_text.name",
+      "name": "Ingredients",
       "settings": {
-        "color_scheme": "scheme-f23b3a5a-1f3c-4d6a-94eb-96f8fab0ad49",
-        "separate_section_with_border": true,
-        "content_width": "sm",
-        "text_position": "center",
-        "remove_vertical_spacing": false
+        "eyebrow": "What's inside",
+        "heading": "<p>The ingredients doing the <strong>work</strong></p>",
+        "footer_text": "<p>Every ingredient is backed by peer-reviewed research. <a href=\"https://pmc.ncbi.nlm.nih.gov/articles/PMC2732245/\" target=\"_blank\" title=\"https://pmc.ncbi.nlm.nih.gov/articles/PMC2732245/\">View the study</a></p>",
+        "bg_color": "#f4f3ee",
+        "text_color": "#2a2611",
+        "bold_color": "#5ba90f",
+        "muted_color": "#5c5842",
+        "eyebrow_color": "#5ba90f",
+        "border_color": "#e6e5dc",
+        "footer_color": "#5c5842",
+        "link_color": "#5ba90f",
+        "icon_bg_color": "#f2f8ea",
+        "icon_border_color": "#a3c781",
+        "padding_top": 50,
+        "padding_bottom": 50
       }
     },
     "cwc_product_hero_buy_box_pdyERV": {
@@ -722,7 +746,7 @@
         "rating": {
           "type": "rating",
           "settings": {
-            "text": "<p><strong>4.8 </strong>· <strong>40,000+ Tubs Sold</strong></p>",
+            "text": "<p><strong>4.8 </strong>· <strong>Recommended in clinics since 2004</strong></p>",
             "link": ""
           }
         },
@@ -785,23 +809,21 @@
             "limit": 6
           }
         },
-        "flavor_duo": {
-          "type": "flavor_duo",
+        "price_display_N8tnGx": {
+          "type": "price_display",
+          "disabled": true,
           "settings": {
-            "label": "Pick 2 flavors — one of each ships",
-            "flavor_option": "flavor",
-            "supply_option": "supply",
-            "supply_value": "30-Day Supply",
-            "row1_label": "Tub 1 — choose your flavor",
-            "row1_badge": "",
-            "row1_default": "",
-            "row2_label": "Tub 2 — choose your flavor",
-            "row2_badge": "40% OFF",
-            "row2_default": "",
-            "show_total": true,
-            "total_label": "Your 2-tub bundle",
-            "second_discount": 40,
-            "discount_note": "Second tub discount is applied automatically at checkout.",
+            "savings_display": "percent",
+            "save_label": "Save",
+            "show_compare": true,
+            "show_dividers": true
+          }
+        },
+        "flavors": {
+          "type": "flavors",
+          "settings": {
+            "label": "Select  flavor",
+            "option_name": "flavor",
             "image_1": "shopify://shop_images/apple-flavor-source.webp",
             "image_2": "shopify://shop_images/strawberry-flavor-source.webp",
             "color_1": "",
@@ -809,13 +831,235 @@
             "color_3": "",
             "color_4": "",
             "color_5": "",
-            "color_6": "",
-            "id_1": "",
-            "id_2": "",
-            "id_3": "",
-            "id_4": "",
-            "id_5": "",
-            "id_6": ""
+            "color_6": ""
+          }
+        },
+        "size_option": {
+          "type": "size_option",
+          "settings": {
+            "label": "How many adults?",
+            "option_name": "supply",
+            "columns": "two",
+            "upsell_icon": "🏷",
+            "upsell_text": "Buy More. Save More.",
+            "opt1_value": "30-Day Supply",
+            "opt1_title": "1",
+            "opt1_subline": "",
+            "opt1_badge": "",
+            "opt2_value": "60-Day Supply",
+            "opt2_title": "2",
+            "opt2_subline": "",
+            "opt2_badge": "",
+            "opt3_value": "",
+            "opt3_title": "",
+            "opt3_subline": "",
+            "opt3_badge": "",
+            "opt4_value": "",
+            "opt4_title": "",
+            "opt4_subline": "",
+            "opt4_badge": ""
+          }
+        },
+        "member_offer": {
+          "type": "member_offer",
+          "settings": {
+            "group_label": "Choose how to buy",
+            "selling_plan_id": "3996549378",
+            "default_choice": "member",
+            "promo_text": "Most popular: 30% off + member gifts",
+            "member_label": "Subscribe & Save",
+            "member_sublabel": "Delivered every 4 weeks",
+            "perks": "<p>Free shipping on every order</p><p>30-day money-back guarantee</p><p>Pause Or Cancel Any Time</p><p>Earn points on every purchase</p>",
+            "recurring_prefix": "then",
+            "recurring_suffix": "",
+            "recurring_note": "autoship always save 10%",
+            "serving_suffix": "/serving",
+            "servings_option": "supply",
+            "servings_per_unit": 1,
+            "servings_per_order": 30,
+            "gifts_intro": "Free gifts included with your first order",
+            "gifts_title": "Your Free Gifts",
+            "gifts_total": "$106+ VALUE",
+            "gifts_note": "Shipping and your Start Guide come with order 1. The shaker and gummies arrive free with orders 2 and 3 — nothing to claim.",
+            "gift1_image": "shopify://shop_images/nano-offer-gift-3.png",
+            "gift1_title": "Shipping",
+            "gift1_value": "$14",
+            "gift1_when": "Every order",
+            "gift2_image": "shopify://shop_images/nano-offer-gift-4.png",
+            "gift2_title": "Start Guide",
+            "gift2_value": "$20",
+            "gift2_when": "Order 1",
+            "gift3_image": "shopify://shop_images/nano-offer-gift-1.png",
+            "gift3_title": "Shaker Bottle",
+            "gift3_value": "$13",
+            "gift3_when": "Order 2",
+            "gift4_image": "shopify://shop_images/nano-offer-gift-2.png",
+            "gift4_title": "Gummies",
+            "gift4_value": "$60",
+            "gift4_when": "Order 3",
+            "gift5_title": "",
+            "gift5_value": "",
+            "gift5_when": "",
+            "gift6_title": "",
+            "gift6_value": "",
+            "gift6_when": "",
+            "show_onetime": true,
+            "onetime_label": "One Time Purchase",
+            "onetime_sublabel": "delivered once · no free gifts"
+          }
+        },
+        "simple_offer_Mm3TzV": {
+          "type": "simple_offer",
+          "disabled": true,
+          "settings": {
+            "group_label": "",
+            "selling_plan_id": "3996549378",
+            "subscribe_label": "Subscribe & Save",
+            "subscribe_sublabel": "",
+            "savings_style": "percent",
+            "perks": "<p>5% OFF every subscription order</p><p>Free shipping on every delivery</p><p>Modify or cancel anytime</p><p>Exclusive discounts & early access</p>",
+            "perks_visibility": "always",
+            "promo_text": "",
+            "promo_style": "soft",
+            "show_onetime": true,
+            "onetime_label": "Buy Once",
+            "onetime_sublabel": "",
+            "onetime_notes": "",
+            "notes_visibility": "selected",
+            "default_choice": "subscribe"
+          }
+        },
+        "supply": {
+          "type": "supply",
+          "disabled": true,
+          "settings": {
+            "group_label": "Subscribe & Save",
+            "option_name": "supply",
+            "opt1_name": "90-Day Supply",
+            "opt1_value": "",
+            "opt1_save_label": "Save 25%",
+            "opt1_badge_text": "Best value",
+            "opt1_description": "",
+            "opt1_sticky_sub": "$1.87 USD / serving",
+            "opt1_perks": "<p>$1.87 per serving — lowest price per scoop</p><p>90 days of supply in one delivery</p><p>Free shipping on every order</p><p>Cancel, pause, or reschedule anytime</p><p>30-day money-back guarantee</p>",
+            "opt1_is_default": true,
+            "opt1_selling_plan_id": "3962667266",
+            "opt1_billing_note": "",
+            "opt1_serving_text": "$1.87 USD / serving",
+            "opt1_billing_interval_count": 12,
+            "opt1_billing_interval_unit": "week",
+            "opt1_quantity": 1,
+            "opt1_gift_label": "FREE GIFT -  arrives with first order",
+            "opt1_gift_image_1": "shopify://shop_images/Mask_group_3.png",
+            "opt1_gift_title_1": "Blender Bottle",
+            "opt1_gift_value_1": "12.98",
+            "opt1_gift_title_2": "",
+            "opt1_gift_value_2": "",
+            "opt1_gift_title_3": "",
+            "opt1_gift_value_3": "",
+            "opt1_gift_title_4": "",
+            "opt1_gift_value_4": "",
+            "opt1_addon_product": "20-oz-blender-bottle",
+            "opt1_addon_quantity": 1,
+            "opt1_price_text": "$56.21",
+            "opt1_compare_text": "$74.95",
+            "opt1_save_text": "$18.74",
+            "opt2_name": "30-Day Supply",
+            "opt2_value": "",
+            "opt2_save_label": "Save 15%",
+            "opt2_badge_text": "",
+            "opt2_description": "",
+            "opt2_sticky_sub": "$1.87 USD / serving",
+            "opt2_perks": "<p>$2.13 per serving</p><p>Free shipping on every order</p><p>Cancel, pause, or reschedule anytime</p>",
+            "opt2_is_default": false,
+            "opt2_selling_plan_id": "3962634498",
+            "opt2_billing_note": "",
+            "opt2_serving_text": "$2.13 USD / serving",
+            "opt2_billing_interval_count": 1,
+            "opt2_billing_interval_unit": "month",
+            "opt2_quantity": 1,
+            "opt2_gift_label": "",
+            "opt2_gift_title_1": "",
+            "opt2_gift_value_1": "",
+            "opt2_gift_title_2": "",
+            "opt2_gift_value_2": "",
+            "opt2_gift_title_3": "",
+            "opt2_gift_value_3": "",
+            "opt2_gift_title_4": "",
+            "opt2_gift_value_4": "",
+            "opt2_addon_product": "",
+            "opt2_addon_quantity": 1,
+            "opt2_price_text": "$63.71",
+            "opt2_compare_text": "$74.95",
+            "opt2_save_text": "$11.24",
+            "opt3_name": "",
+            "opt3_value": "",
+            "opt3_save_label": "",
+            "opt3_badge_text": "",
+            "opt3_description": "",
+            "opt3_sticky_sub": "",
+            "opt3_perks": "",
+            "opt3_is_default": false,
+            "opt3_selling_plan_id": "",
+            "opt3_billing_note": "",
+            "opt3_serving_text": "",
+            "opt3_billing_interval_count": 1,
+            "opt3_billing_interval_unit": "month",
+            "opt3_quantity": 1,
+            "opt3_gift_label": "",
+            "opt3_gift_title_1": "",
+            "opt3_gift_value_1": "",
+            "opt3_gift_title_2": "",
+            "opt3_gift_value_2": "",
+            "opt3_gift_title_3": "",
+            "opt3_gift_value_3": "",
+            "opt3_gift_title_4": "",
+            "opt3_gift_value_4": "",
+            "opt3_addon_product": "",
+            "opt3_addon_quantity": 1,
+            "opt3_price_text": "",
+            "opt3_compare_text": "",
+            "opt3_save_text": "",
+            "opt4_name": "",
+            "opt4_value": "",
+            "opt4_save_label": "",
+            "opt4_badge_text": "",
+            "opt4_description": "",
+            "opt4_sticky_sub": "",
+            "opt4_perks": "",
+            "opt4_is_default": false,
+            "opt4_selling_plan_id": "",
+            "opt4_billing_note": "",
+            "opt4_serving_text": "",
+            "opt4_billing_interval_count": 1,
+            "opt4_billing_interval_unit": "month",
+            "opt4_quantity": 1,
+            "opt4_gift_label": "",
+            "opt4_gift_title_1": "",
+            "opt4_gift_value_1": "",
+            "opt4_gift_title_2": "",
+            "opt4_gift_value_2": "",
+            "opt4_gift_title_3": "",
+            "opt4_gift_value_3": "",
+            "opt4_gift_title_4": "",
+            "opt4_gift_value_4": "",
+            "opt4_addon_product": "",
+            "opt4_addon_quantity": 1,
+            "opt4_price_text": "",
+            "opt4_compare_text": "",
+            "opt4_save_text": ""
+          }
+        },
+        "onetime": {
+          "type": "onetime",
+          "disabled": true,
+          "settings": {
+            "text": "One-time purchase · $74.95 ($2.50/serving)",
+            "style": "link",
+            "behavior": "add_immediately",
+            "sublabel": "",
+            "show_price": false,
+            "supply_value": "30-Day Supply"
           }
         },
         "delivery_estimate_6ikBpV": {
@@ -855,7 +1099,7 @@
             "image_1": "shopify://shop_images/v3-avatar-1.png",
             "image_2": "shopify://shop_images/v3-avatar-2.png",
             "image_3": "shopify://shop_images/v3-avatar-3.png",
-            "title": "<p>Trusted For Over 20 Years</p>",
+            "title": "<p>Trusted by 1k+ Happy Customers</p>",
             "subtext": "<p>who choose us for consistent, long-term wellness support.</p>",
             "bg_color": "#efefef",
             "text_color": "#282828"
@@ -958,10 +1202,10 @@
           "type": "sticky_atc",
           "settings": {
             "reveal_mode": "after_cta",
-            "name_override": "NanoGreens¹⁰ — 2 tubs",
+            "name_override": "NanoGreens10 (Green Apple)",
             "subline": "Free shipping · 30-day guarantee",
-            "plan_label": "2 × 30-Day Supply",
-            "plan_sub": "Second tub 40% off",
+            "plan_label": "90-Day Supply (Save 25%)",
+            "plan_sub": "$1.87 USD / serving",
             "button_text": "Add to cart",
             "button_text_mobile": "Add",
             "show_price_in_button": true,
@@ -978,7 +1222,13 @@
         "benefit_icons",
         "key_benefits",
         "benefits_meta_bRYkmq",
-        "flavor_duo",
+        "price_display_N8tnGx",
+        "flavors",
+        "size_option",
+        "member_offer",
+        "simple_offer_Mm3TzV",
+        "supply",
+        "onetime",
         "delivery_estimate_6ikBpV",
         "add_to_cart",
         "trust_icons",
@@ -1022,7 +1272,7 @@
         "accent_border_color": "#a3b8e2",
         "button_bg_color": "#5ba90f",
         "button_text_color": "#ffffff",
-        "padding_top": 40,
+        "padding_top": 20,
         "padding_bottom": 40
       }
     },
@@ -1077,7 +1327,7 @@
         "eyebrow": "614 verified buyers",
         "heading": "<p>The routines people <strong>have kept.</strong></p>",
         "view_all_label": "Read all reviews →",
-        "view_all_link": "#cwc_yotpo-reviews--anchor",
+        "view_all_link": "",
         "load_more_label": "Load more reviews",
         "rating_value": 4.8,
         "rating_count": "614 verified reviews",
@@ -1323,7 +1573,6 @@
         },
         "faq_MfGMbL": {
           "type": "faq",
-          "disabled": true,
           "settings": {
             "question": "How does the subscription work?",
             "answer": "<p>Choose a 90-day or 30-day supply. It renews automatically at the same price with free shipping. Pause, reschedule or cancel anytime.</p>",
@@ -1345,7 +1594,7 @@
       "name": "FAQ",
       "settings": {
         "heading": "<p>FAQs</p>",
-        "button_label": "",
+        "button_label": "Explore all FAQs",
         "button_link": "",
         "image_position": "right",
         "image": "shopify://shop_images/nano-faq_2_1_4f2c8f7f-a819-4a51-a548-ed004aba6e16.png",
@@ -1391,10 +1640,10 @@
     "cwc_feature_columns_fc01",
     "cwc_content_split_cx01",
     "cwc_reason_cards_rc01",
-    "cwc_labor_day_transformation_ld04",
     "cwc_practitioner_endorsement_cPjEgp",
+    "cwc_labor_day_transformation_ld04",
     "cwc_comparison_cs01",
-    "rich_text_nLpenb",
+    "cwc_ingredients_Wq4pjL",
     "cwc_product_hero_buy_box_pdyERV",
     "cwc_home_reviews_3WaVF4",
     "cwc_how_to_use_jrjqqW",

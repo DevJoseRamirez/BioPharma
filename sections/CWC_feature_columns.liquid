@@ -1,0 +1,288 @@
+{% style %}
+  #cwc_feature-columns-{{ section.id }} {
+    --section-bg: {{ section.settings.bg_color | default: '#FFFFFF' }};
+    --section-bg-end: {{ section.settings.bg_gradient_color | default: '#F2F8EA' }};
+    --text-color: {{ section.settings.text_color | default: '#5C5842' }};
+    --highlight-color: {{ section.settings.bold_color | default: '#5BA90F' }};
+    --heading-color: {{ section.settings.heading_color | default: '#2A2611' }};
+    --title-color: {{ section.settings.title_color | default: '#2A2611' }};
+    --icon-ring-color: {{ section.settings.icon_ring_color | default: '#2A2611' }};
+    --icon-ring-size: {{ section.settings.icon_ring_size | default: 72 }}px;
+    --icon-ring-size-mobile: {{ section.settings.icon_ring_size | default: 72 | times: 0.6 | round }}px;
+    --grid-line-color: {{ section.settings.grid_line_color | default: '#E6E5DC' }};
+    --grid-line-size: {{ section.settings.grid_line_size | default: 160 }}px;
+    --padding-top: {{ section.settings.padding_top | default: 70 }}px;
+    --padding-bottom: {{ section.settings.padding_bottom | default: 70 }}px;
+    --padding-top-mobile: {{ section.settings.padding_top | default: 70 | times: 0.5 }}px;
+    --padding-bottom-mobile: {{ section.settings.padding_bottom | default: 70 | times: 0.5 }}px;
+  }
+{% endstyle %}
+
+{{ 'CWC_fonts.css' | asset_url | stylesheet_tag }}
+{{ 'CWC_feature_columns.css' | asset_url | stylesheet_tag }}
+
+{%- comment -%}
+  One feature template, used by both columns. The right column only differs by a
+  CSS modifier that mirrors it — no duplicated markup, no second block type.
+{%- endcomment -%}
+{%- capture cwc_feature_columns_left -%}
+  {%- for block in section.blocks -%}
+    {%- if block.type == 'feature' and block.settings.column != 'right' -%}
+      <li class="cwc_feature-columns__feature" {{ block.shopify_attributes }}>
+        <span class="cwc_feature-columns__feature-icon">
+          {%- if block.settings.icon != blank -%}
+            <img
+              src="{{ block.settings.icon | image_url: width: 96 }}"
+              alt=""
+              loading="lazy"
+              width="36"
+              height="36"
+            >
+          {%- endif -%}
+        </span>
+        <span class="cwc_feature-columns__feature-body">
+          {%- if block.settings.title != blank -%}
+            <span class="cwc_feature-columns__feature-title">{{ block.settings.title }}</span>
+          {%- endif -%}
+          {%- if block.settings.text != blank -%}
+            <span class="cwc_feature-columns__feature-text cwc-rte">{{ block.settings.text }}</span>
+          {%- endif -%}
+        </span>
+      </li>
+    {%- endif -%}
+  {%- endfor -%}
+{%- endcapture -%}
+
+{%- capture cwc_feature_columns_right -%}
+  {%- for block in section.blocks -%}
+    {%- if block.type == 'feature' and block.settings.column == 'right' -%}
+      <li class="cwc_feature-columns__feature" {{ block.shopify_attributes }}>
+        <span class="cwc_feature-columns__feature-icon">
+          {%- if block.settings.icon != blank -%}
+            <img
+              src="{{ block.settings.icon | image_url: width: 96 }}"
+              alt=""
+              loading="lazy"
+              width="36"
+              height="36"
+            >
+          {%- endif -%}
+        </span>
+        <span class="cwc_feature-columns__feature-body">
+          {%- if block.settings.title != blank -%}
+            <span class="cwc_feature-columns__feature-title">{{ block.settings.title }}</span>
+          {%- endif -%}
+          {%- if block.settings.text != blank -%}
+            <span class="cwc_feature-columns__feature-text cwc-rte">{{ block.settings.text }}</span>
+          {%- endif -%}
+        </span>
+      </li>
+    {%- endif -%}
+  {%- endfor -%}
+{%- endcapture -%}
+
+<section
+  id="cwc_feature-columns-{{ section.id }}"
+  class="cwc_feature-columns{% if section.settings.show_grid_pattern %} cwc_feature-columns--grid{% endif %}"
+>
+  <div class="cwc_feature-columns__container">
+
+    {% comment %} Section Header {% endcomment %}
+    {% if section.settings.heading != blank or section.settings.subtext != blank %}
+      <div class="cwc_feature-columns__content">
+        {% if section.settings.heading != blank %}
+          <div class="cwc_feature-columns__content-heading cwc-rte">
+            {{ section.settings.heading }}
+          </div>
+        {% endif %}
+
+        {% if section.settings.subtext != blank %}
+          <div class="cwc_feature-columns__content-subtext cwc-rte">
+            {{ section.settings.subtext }}
+          </div>
+        {% endif %}
+      </div>
+    {% endif %}
+
+    {% comment %}
+      Source order is left features → image → right features, which is exactly
+      the mobile stack. Desktop re-places the three with grid-column.
+    {% endcomment %}
+    <div class="cwc_feature-columns__wrapper">
+
+      {% if cwc_feature_columns_left != blank %}
+        <ul class="cwc_feature-columns__column cwc_feature-columns__column--left">
+          {{ cwc_feature_columns_left }}
+        </ul>
+      {% endif %}
+
+      <div class="cwc_feature-columns__media">
+        {% if section.settings.product_image != blank %}
+          {% if section.settings.product_image_mobile != blank %}
+            <picture>
+              <source media="(max-width: 767px)" srcset="{{ section.settings.product_image_mobile | image_url: width: 800 }}">
+              <img
+                src="{{ section.settings.product_image | image_url: width: 700 }}"
+                alt="{{ section.settings.product_image_alt | default: 'Product' | escape }}"
+                loading="lazy"
+                width="700"
+                height="{{ 700 | divided_by: section.settings.product_image.aspect_ratio | round }}"
+              >
+            </picture>
+          {% else %}
+            <img
+              src="{{ section.settings.product_image | image_url: width: 700 }}"
+              alt="{{ section.settings.product_image_alt | default: 'Product' | escape }}"
+              loading="lazy"
+              width="700"
+              height="{{ 700 | divided_by: section.settings.product_image.aspect_ratio | round }}"
+            >
+          {% endif %}
+        {% else %}
+          <div class="cwc_feature-columns__placeholder">
+            <span>Add product image</span>
+          </div>
+        {% endif %}
+      </div>
+
+      {% if cwc_feature_columns_right != blank %}
+        <ul class="cwc_feature-columns__column cwc_feature-columns__column--right">
+          {{ cwc_feature_columns_right }}
+        </ul>
+      {% endif %}
+
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "CWC Feature Columns",
+  "settings": [
+    { "type": "header", "content": "Section Header" },
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "<p>Why Ollie Is <strong>Better</strong></p>",
+      "info": "Bold text takes the highlight color."
+    },
+    { "type": "richtext", "id": "subtext", "label": "Section Subtext" },
+
+    { "type": "header", "content": "Product Image" },
+    { "type": "image_picker", "id": "product_image", "label": "Product Image (Desktop)" },
+    {
+      "type": "image_picker",
+      "id": "product_image_mobile",
+      "label": "Product Image (Mobile)",
+      "info": "Usually a different shot, not a re-crop — the mobile layout is wider than it is tall. Falls back to the desktop image."
+    },
+    { "type": "text", "id": "product_image_alt", "label": "Product Image Alt Text" },
+
+    { "type": "header", "content": "Icons" },
+    {
+      "type": "range",
+      "id": "icon_ring_size",
+      "label": "Icon Ring Size",
+      "min": 44,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "default": 72
+    },
+    { "type": "color", "id": "icon_ring_color", "label": "Icon Ring Color", "default": "#2A2611" },
+
+    { "type": "header", "content": "Colors" },
+    { "type": "color", "id": "bg_color", "label": "Background Color (Top)", "default": "#FFFFFF" },
+    {
+      "type": "color",
+      "id": "bg_gradient_color",
+      "label": "Background Color (Bottom)",
+      "default": "#F2F8EA",
+      "info": "The background is a vertical gradient between these two colors. Set both the same for a flat background."
+    },
+    { "type": "color", "id": "text_color", "label": "Body Text Color", "default": "#5C5842" },
+    { "type": "color", "id": "heading_color", "label": "Section Heading Color", "default": "#2A2611" },
+    { "type": "color", "id": "bold_color", "label": "Heading Bold Color", "default": "#5BA90F" },
+    { "type": "color", "id": "title_color", "label": "Feature Title Color", "default": "#2A2611" },
+
+    { "type": "header", "content": "Background Pattern" },
+    { "type": "checkbox", "id": "show_grid_pattern", "label": "Show Grid Lines", "default": true },
+    { "type": "color", "id": "grid_line_color", "label": "Grid Line Color", "default": "#E6E5DC" },
+    {
+      "type": "range",
+      "id": "grid_line_size",
+      "label": "Grid Cell Size",
+      "min": 60,
+      "max": 300,
+      "step": 10,
+      "unit": "px",
+      "default": 160
+    },
+
+    { "type": "header", "content": "Spacing" },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 70
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 70
+    }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Feature",
+      "settings": [
+        {
+          "type": "select",
+          "id": "column",
+          "label": "Column",
+          "options": [
+            { "value": "left", "label": "Left" },
+            { "value": "right", "label": "Right" }
+          ],
+          "default": "left",
+          "info": "Right-column features mirror: icon on the right, text right-aligned. Both columns stack icon-left on mobile."
+        },
+        { "type": "image_picker", "id": "icon", "label": "Icon" },
+        { "type": "text", "id": "title", "label": "Feature Title", "default": "Fluoride-Free Protection" },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Feature Text",
+          "default": "<p>Protects and rebuilds enamel naturally with 10% nano-hydroxyapatite, a science-backed alternative to fluoride.</p>"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 8,
+  "presets": [
+    {
+      "name": "Feature Columns",
+      "category": "CWC Custom",
+      "blocks": [
+        { "type": "feature", "settings": { "column": "left", "title": "Fluoride-Free Protection", "text": "<p>Protects and rebuilds enamel naturally with 10% nano-hydroxyapatite, a science-backed alternative to fluoride—safe for kids and adults.</p>" } },
+        { "type": "feature", "settings": { "column": "left", "title": "Advanced Sensitivity Relief", "text": "<p>Unlike Sensodyne, which numbs nerves, Ollie works by sealing microscopic tubules in your teeth, stopping sensitivity at the source.</p>" } },
+        { "type": "feature", "settings": { "column": "left", "title": "Kid-Safe & Dentist Approved", "text": "<p>Fluoride-free means peace of mind for parents. Backed by decades of use in Japan and scientific studies.</p>" } },
+        { "type": "feature", "settings": { "column": "right", "title": "Clinically Proven Science", "text": "<p>Hydroxyapatite has been used for over 40 years in Japan to fight cavities and strengthen teeth. It's not new—it's just new to the U.S.</p>" } },
+        { "type": "feature", "settings": { "column": "right", "title": "Clean, Simple Formula", "text": "<p>Only 11 ingredients—no artificial dyes, no SLS, no gimmicks. Just clean, effective oral care you can trust.</p>" } },
+        { "type": "feature", "settings": { "column": "right", "title": "Fresh Mint Flavor", "text": "<p>A crisp, refreshing taste that leaves your mouth feeling clean and your breath fresh—all day long.</p>" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

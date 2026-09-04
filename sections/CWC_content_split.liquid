@@ -1,0 +1,227 @@
+{% style %}
+  #cwc_content-split-{{ section.id }} {
+    --section-bg: {{ section.settings.bg_color | default: '#FAF9F4' }};
+    --text-color: {{ section.settings.text_color | default: '#5C5842' }};
+    --highlight-color: {{ section.settings.bold_color | default: '#5BA90F' }};
+    --heading-color: {{ section.settings.heading_color | default: '#2A2611' }};
+    --bullet-marker-color: {{ section.settings.bullet_marker_color | default: '#5C5842' }};
+    --image-radius: {{ section.settings.image_radius | default: 8 }}px;
+    --padding-top: {{ section.settings.padding_top | default: 60 }}px;
+    --padding-bottom: {{ section.settings.padding_bottom | default: 60 }}px;
+    --padding-top-mobile: {{ section.settings.padding_top | default: 60 | times: 0.5 }}px;
+    --padding-bottom-mobile: {{ section.settings.padding_bottom | default: 60 | times: 0.5 }}px;
+  }
+{% endstyle %}
+
+{{ 'CWC_fonts.css' | asset_url | stylesheet_tag }}
+{{ 'CWC_content_split.css' | asset_url | stylesheet_tag }}
+
+<section
+  id="cwc_content-split-{{ section.id }}"
+  class="cwc_content-split{% if section.settings.reverse_layout %} cwc_content-split--reverse{% endif %}"
+>
+  <div class="cwc_content-split__container">
+    <div class="cwc_content-split__wrapper">
+
+      {% comment %} Image Column {% endcomment %}
+      <div class="cwc_content-split__image">
+        {% if section.settings.image != blank %}
+          {% if section.settings.image_mobile != blank %}
+            <picture>
+              <source media="(max-width: 767px)" srcset="{{ section.settings.image_mobile | image_url: width: 800 }}">
+              <img
+                src="{{ section.settings.image | image_url: width: 1000 }}"
+                alt="{{ section.settings.image_alt | default: 'Section image' | escape }}"
+                loading="lazy"
+                width="1000"
+                height="{{ 1000 | divided_by: section.settings.image.aspect_ratio | round }}"
+              >
+            </picture>
+          {% else %}
+            <img
+              src="{{ section.settings.image | image_url: width: 1000 }}"
+              alt="{{ section.settings.image_alt | default: 'Section image' | escape }}"
+              loading="lazy"
+              width="1000"
+              height="{{ 1000 | divided_by: section.settings.image.aspect_ratio | round }}"
+            >
+          {% endif %}
+        {% else %}
+          <div class="cwc_content-split__placeholder">
+            <span>Add featured image</span>
+          </div>
+        {% endif %}
+      </div>
+
+      {% comment %} Text Column — heading + subtext live here, beside the image {% endcomment %}
+      <div class="cwc_content-split__panel">
+
+        {% if section.settings.heading != blank or section.settings.subtext != blank %}
+          <div class="cwc_content-split__content">
+            {% if section.settings.heading != blank %}
+              <div class="cwc_content-split__content-heading cwc-rte">
+                {{ section.settings.heading }}
+              </div>
+            {% endif %}
+
+            {% if section.settings.subtext != blank %}
+              <div class="cwc_content-split__content-subtext cwc-rte">
+                {{ section.settings.subtext }}
+              </div>
+            {% endif %}
+          </div>
+        {% endif %}
+
+        {% assign bullet_blocks = section.blocks | where: 'type', 'bullet' %}
+        {% if bullet_blocks.size > 0 %}
+          <ul class="cwc_content-split__bullets">
+            {% for block in section.blocks %}
+              {% case block.type %}
+                {% when 'bullet' %}
+                  {% if block.settings.text != blank %}
+                    <li
+                      class="cwc_content-split__bullet cwc-rte"
+                      {% if block.settings.text_color != blank %}
+                        style="--block-text-color: {{ block.settings.text_color }};"
+                      {% endif %}
+                      {{ block.shopify_attributes }}
+                    >
+                      {{ block.settings.text }}
+                    </li>
+                  {% endif %}
+              {% endcase %}
+            {% endfor %}
+          </ul>
+        {% endif %}
+
+        {% for block in section.blocks %}
+          {% if block.type == 'button' and block.settings.button_text != blank %}
+            <div class="cwc_content-split__button" {{ block.shopify_attributes }}>
+              <a
+                href="{{ block.settings.button_link | default: '#' }}"
+                class="cwc_content-split__button-link"
+                style="--button-bg: {{ block.settings.button_bg_color }}; --button-text: {{ block.settings.button_text_color }};"
+              >
+                {{ block.settings.button_text }}
+              </a>
+            </div>
+          {% endif %}
+        {% endfor %}
+
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "CWC Content Split",
+  "settings": [
+    { "type": "header", "content": "Section Header" },
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "<p>Why Most Hydroxyapatite <strong>Toothpastes Fail</strong></p>",
+      "info": "Bold text takes the highlight color."
+    },
+    {
+      "type": "richtext",
+      "id": "subtext",
+      "label": "Section Subtext",
+      "default": "<p>Hydroxyapatite itself works — it's been trusted in Japan for 30+ years. The problem is how most brands use it.</p>"
+    },
+
+    { "type": "header", "content": "Image" },
+    { "type": "image_picker", "id": "image", "label": "Featured Image" },
+    { "type": "image_picker", "id": "image_mobile", "label": "Featured Image (Mobile)", "info": "Optional. Falls back to the desktop image." },
+    { "type": "text", "id": "image_alt", "label": "Image Alt Text" },
+    {
+      "type": "range",
+      "id": "image_radius",
+      "label": "Image Corner Radius",
+      "min": 0,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "default": 8
+    },
+
+    { "type": "header", "content": "Layout" },
+    {
+      "type": "checkbox",
+      "id": "reverse_layout",
+      "label": "Image on Right",
+      "default": false
+    },
+
+    { "type": "header", "content": "Colors" },
+    { "type": "color", "id": "bg_color", "label": "Background Color", "default": "#FAF9F4" },
+    { "type": "color", "id": "text_color", "label": "Text Color", "default": "#5C5842" },
+    { "type": "color", "id": "heading_color", "label": "Heading Color", "default": "#2A2611" },
+    { "type": "color", "id": "bold_color", "label": "Heading Bold Color", "default": "#5BA90F" },
+    { "type": "color", "id": "bullet_marker_color", "label": "Bullet Marker Color", "default": "#5C5842" },
+
+    { "type": "header", "content": "Spacing" },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 60
+    }
+  ],
+  "blocks": [
+    {
+      "type": "bullet",
+      "name": "Bullet Point",
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Bullet Text",
+          "default": "<p><strong>Most brands only use 1–5% hydroxyapatite</strong>, below levels commonly used in clinical research</p>",
+          "info": "Bold the lead-in phrase; the rest reads as regular text."
+        },
+        { "type": "color", "id": "text_color", "label": "Text Color (Optional)" }
+      ]
+    },
+    {
+      "type": "button",
+      "name": "Button",
+      "limit": 1,
+      "settings": [
+        { "type": "text", "id": "button_text", "label": "Button Text", "default": "Try Risk-Free Today" },
+        { "type": "url", "id": "button_link", "label": "Button Link" },
+        { "type": "color", "id": "button_bg_color", "label": "Button Background", "default": "#5BA90F" },
+        { "type": "color", "id": "button_text_color", "label": "Button Text Color", "default": "#ffffff" }
+      ]
+    }
+  ],
+  "max_blocks": 8,
+  "presets": [
+    {
+      "name": "Content Split",
+      "category": "CWC Custom",
+      "blocks": [
+        { "type": "bullet", "settings": { "text": "<p><strong>Most brands only use 1–5% hydroxyapatite</strong>, below levels commonly used in clinical research</p>" } },
+        { "type": "bullet", "settings": { "text": "<p><strong>Larger, spherical particles</strong> sit on the surface instead of integrating with enamel</p>" } },
+        { "type": "bullet", "settings": { "text": "<p><strong>The result:</strong> a smooth feeling that fades — without lasting mineral support</p>" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -156,32 +156,45 @@
   transform: rotate(-45deg);
 }
 
-.cwc_labor-day-hero__offer-lead {
+/* The offer line is a single richtext, so the bold lead-in arrives as
+   <strong> inside a <p> rather than as its own element. */
+.cwc_labor-day-hero__offer p {
+  margin: 0;
+}
+
+.cwc_labor-day-hero__offer strong {
   font-weight: 600;
 }
 
-/* === Button === */
+/* === Button ===
+   Matches the buy box Add To Cart (.cwc_product-hero-buy-box__cta) so every
+   CTA on the page reads as the same action: 40px radius, 18px padding,
+   18px/800 label, and a hover that lifts the fill instead of dimming it.
+   Weight is literal 800, not a token, to stay pinned to that button. */
 .cwc_labor-day-hero__button {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
   width: 100%;
-  min-height: 48px;
-  padding: 0.9375rem 1.5rem;
-  border-radius: 5px;
-  background: var(--button-bg);
+  border: none;
+  border-radius: 40px;
+  padding: 18px;
+  background-color: var(--button-bg);
   color: var(--button-text);
-  font-size: 1.03125rem;
-  font-weight: 600;
+  font-family: inherit;
+  font-size: 1.125rem;
+  font-weight: 800;
+  line-height: 1.2;
   text-align: center;
   text-decoration: none;
-  transition: background-color 0.15s ease;
+  cursor: pointer;
+  transition: filter 0.18s ease;
 }
 
 .cwc_labor-day-hero__button:hover,
 .cwc_labor-day-hero__button:focus-visible {
-  background: var(--highlight-color);
+  filter: brightness(1.25);
   color: var(--button-text);
 }
 
@@ -354,10 +367,8 @@
     height: 5px;
   }
 
-  /* Font drops but the 48px tap target does not. */
   .cwc_labor-day-hero__button {
-    padding: 0.8125rem 1.25rem;
-    font-size: 0.9375rem;
+    padding: 12px 16px;
   }
 
   .cwc_labor-day-hero__rating {

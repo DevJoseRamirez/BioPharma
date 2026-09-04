@@ -1,0 +1,293 @@
+{% style %}
+  #cwc_reason-cards-{{ section.id }} {
+    --section-bg: {{ section.settings.bg_color | default: '#F4F3EE' }};
+    --text-color: {{ section.settings.text_color | default: '#2A2611' }};
+    --highlight-color: {{ section.settings.bold_color | default: '#5BA90F' }};
+    --badge-bg: {{ section.settings.badge_bg_color | default: '#5BA90F' }};
+    --badge-text: {{ section.settings.badge_text_color | default: '#ffffff' }};
+    --card-bg: {{ section.settings.card_bg_color | default: '#ffffff' }};
+    --card-text: {{ section.settings.card_text_color | default: '#5C5842' }};
+    --dot-color: {{ section.settings.dot_color | default: '#E6E5DC' }};
+    --dot-active-color: {{ section.settings.dot_active_color | default: '#5BA90F' }};
+    --arrow-color: {{ section.settings.arrow_color | default: '#5C5842' }};
+    --cards-per-view: {{ section.settings.cards_per_view | default: 3 }};
+    --card-gap: {{ section.settings.card_gap | default: 16 }}px;
+    --padding-top: {{ section.settings.padding_top | default: 60 }}px;
+    --padding-bottom: {{ section.settings.padding_bottom | default: 60 }}px;
+    --padding-top-mobile: {{ section.settings.padding_top | default: 60 | times: 0.5 }}px;
+    --padding-bottom-mobile: {{ section.settings.padding_bottom | default: 60 | times: 0.5 }}px;
+  }
+{% endstyle %}
+
+{{ 'CWC_fonts.css' | asset_url | stylesheet_tag }}
+{{ 'CWC_reason_cards.css' | asset_url | stylesheet_tag }}
+
+<section id="cwc_reason-cards-{{ section.id }}" class="cwc_reason-cards">
+  <div class="cwc_reason-cards__container">
+
+    {% comment %} Section Header {% endcomment %}
+    {% if section.settings.badge_text != blank or section.settings.heading != blank or section.settings.subtext != blank %}
+      <div class="cwc_reason-cards__content">
+        {% if section.settings.badge_text != blank %}
+          <div class="cwc_reason-cards__content-badge">{{ section.settings.badge_text }}</div>
+        {% endif %}
+
+        {% if section.settings.heading != blank %}
+          <div class="cwc_reason-cards__content-heading cwc-rte">
+            {{ section.settings.heading }}
+          </div>
+        {% endif %}
+
+        {% if section.settings.subtext != blank %}
+          <div class="cwc_reason-cards__content-subtext cwc-rte">
+            {{ section.settings.subtext }}
+          </div>
+        {% endif %}
+      </div>
+    {% endif %}
+
+    {% comment %} Carousel — native scroll-snap, JS only enhances {% endcomment %}
+    {% assign card_blocks = section.blocks | where: 'type', 'card' %}
+    {% if card_blocks.size > 0 %}
+      <div class="cwc_reason-cards__carousel" data-cwc-reason-carousel>
+
+        <ul class="cwc_reason-cards__track" data-cwc-reason-track>
+          {% for block in section.blocks %}
+            {% case block.type %}
+              {% when 'card' %}
+                <li class="cwc_reason-cards__slide" {{ block.shopify_attributes }}>
+                  <div class="cwc_reason-cards__card">
+                    <div class="cwc_reason-cards__card-image">
+                      {% if block.settings.image != blank %}
+                        <img
+                          src="{{ block.settings.image | image_url: width: 800 }}"
+                          alt="{{ block.settings.title | default: 'Reason' | escape }}"
+                          loading="lazy"
+                          width="800"
+                          height="600"
+                        >
+                      {% else %}
+                        <div class="cwc_reason-cards__placeholder">
+                          <span>Add image</span>
+                        </div>
+                      {% endif %}
+                    </div>
+
+                    <div class="cwc_reason-cards__card-body">
+                      {% if block.settings.badge != blank %}
+                        <span class="cwc_reason-cards__card-badge">{{ block.settings.badge }}</span>
+                      {% endif %}
+
+                      {% if block.settings.title != blank %}
+                        <div class="cwc_reason-cards__card-title">{{ block.settings.title }}</div>
+                      {% endif %}
+
+                      {% if block.settings.text != blank %}
+                        <div class="cwc_reason-cards__card-text cwc-rte">
+                          {{ block.settings.text }}
+                        </div>
+                      {% endif %}
+                    </div>
+                  </div>
+                </li>
+            {% endcase %}
+          {% endfor %}
+        </ul>
+
+        {% comment %} Dots + arrows. Dots are progressively enhanced; arrows are hidden without JS. {% endcomment %}
+        <div class="cwc_reason-cards__carousel-footer">
+          <div class="cwc_reason-cards__dots" data-cwc-reason-dots>
+            {% for block in card_blocks %}
+              <button
+                type="button"
+                class="cwc_reason-cards__dot{% if forloop.first %} cwc_reason-cards__dot--active{% endif %}"
+                data-cwc-reason-dot="{{ forloop.index0 }}"
+                aria-label="Go to slide {{ forloop.index }}"
+              ></button>
+            {% endfor %}
+          </div>
+
+          <div class="cwc_reason-cards__arrows" data-cwc-reason-arrows hidden>
+            <button type="button" class="cwc_reason-cards__arrow" data-cwc-reason-prev aria-label="Previous slide">
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="M15 18 9 12l6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg>
+            </button>
+            <button type="button" class="cwc_reason-cards__arrow" data-cwc-reason-next aria-label="Next slide">
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="m9 18 6-6-6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    {% endif %}
+
+    {% comment %} CTA Button {% endcomment %}
+    {% for block in section.blocks %}
+      {% if block.type == 'button' and block.settings.button_text != blank %}
+        <div class="cwc_reason-cards__button" {{ block.shopify_attributes }}>
+          <a
+            href="{{ block.settings.button_link | default: '#' }}"
+            class="cwc_reason-cards__button-link"
+            style="--button-bg: {{ block.settings.button_bg_color }}; --button-text: {{ block.settings.button_text_color }};"
+          >
+            {{ block.settings.button_text }}
+          </a>
+
+          {% if block.settings.button_note != blank or block.settings.show_note_icon %}
+            <div class="cwc_reason-cards__button-note" style="--note-color: {{ block.settings.note_color }};">
+              {% if block.settings.show_note_icon %}
+                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                  <path d="M12 2.5 20 5.4v5.9c0 4.9-3.3 8.8-8 10.7-4.7-1.9-8-5.8-8-10.7V5.4l8-2.9Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"></path>
+                </svg>
+              {% endif %}
+              {% if block.settings.button_note != blank %}
+                <span>{{ block.settings.button_note }}</span>
+              {% endif %}
+            </div>
+          {% endif %}
+        </div>
+      {% endif %}
+    {% endfor %}
+
+  </div>
+</section>
+
+{{ 'CWC_reason_cards.js' | asset_url | script_tag }}
+
+{% schema %}
+{
+  "name": "CWC Reason Cards",
+  "settings": [
+    { "type": "header", "content": "Section Header" },
+    {
+      "type": "text",
+      "id": "badge_text",
+      "label": "Header Badge Text",
+      "default": "5 Reasons Why",
+      "info": "Colored pill above the heading."
+    },
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "<p>Resilia® is Different From <strong>Everything You've Tried</strong></p>"
+    },
+    {
+      "type": "richtext",
+      "id": "subtext",
+      "label": "Section Subtext"
+    },
+
+    { "type": "header", "content": "Colors" },
+    { "type": "color", "id": "bg_color", "label": "Background Color", "default": "#F4F3EE" },
+    { "type": "color", "id": "text_color", "label": "Text Color", "default": "#2A2611" },
+    { "type": "color", "id": "bold_color", "label": "Heading Bold Color", "default": "#5BA90F" },
+
+    { "type": "header", "content": "Badge & Card Colors" },
+    { "type": "color", "id": "badge_bg_color", "label": "Badge Background", "default": "#5BA90F", "info": "Used by the header pill and the card badges." },
+    { "type": "color", "id": "badge_text_color", "label": "Badge Text Color", "default": "#ffffff" },
+    { "type": "color", "id": "card_bg_color", "label": "Card Background", "default": "#ffffff" },
+    { "type": "color", "id": "card_text_color", "label": "Card Body Text Color", "default": "#5C5842" },
+
+    { "type": "header", "content": "Carousel" },
+    {
+      "type": "range",
+      "id": "cards_per_view",
+      "label": "Cards Per View (Desktop)",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "card_gap",
+      "label": "Gap Between Cards",
+      "min": 8,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 16
+    },
+    { "type": "color", "id": "dot_color", "label": "Dot Color", "default": "#E6E5DC" },
+    { "type": "color", "id": "dot_active_color", "label": "Active Dot Color", "default": "#5BA90F" },
+    { "type": "color", "id": "arrow_color", "label": "Arrow Color", "default": "#5C5842" },
+
+    { "type": "header", "content": "Spacing" },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 60
+    }
+  ],
+  "blocks": [
+    {
+      "type": "card",
+      "name": "Reason Card",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Card Image" },
+        {
+          "type": "text",
+          "id": "badge",
+          "label": "Badge Text",
+          "default": "Reason 1",
+          "info": "Small colored label at the top of the card body."
+        },
+        { "type": "text", "id": "title", "label": "Card Title", "default": "Clinically-Dosed, Not Underdosed" },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Card Text",
+          "default": "<p>No trendy blends or sprinkled-in ingredients. Just clinically meaningful amounts, paired with research you can actually point to.</p>"
+        }
+      ]
+    },
+    {
+      "type": "button",
+      "name": "CTA Button",
+      "limit": 1,
+      "settings": [
+        { "type": "text", "id": "button_text", "label": "Button Text", "default": "Try Risk-Free Today" },
+        { "type": "url", "id": "button_link", "label": "Button Link" },
+        { "type": "color", "id": "button_bg_color", "label": "Button Background", "default": "#5BA90F" },
+        { "type": "color", "id": "button_text_color", "label": "Button Text Color", "default": "#ffffff" },
+        { "type": "checkbox", "id": "show_note_icon", "label": "Show Shield Icon", "default": true },
+        { "type": "text", "id": "button_note", "label": "Note Text" },
+        { "type": "color", "id": "note_color", "label": "Note Color", "default": "#5C5842" }
+      ]
+    }
+  ],
+  "max_blocks": 9,
+  "presets": [
+    {
+      "name": "Reason Cards",
+      "category": "CWC Custom",
+      "blocks": [
+        { "type": "card", "settings": { "badge": "Reason 1", "title": "Clinically-Dosed, Not Underdosed", "text": "<p>No trendy blends or sprinkled-in ingredients. 6,000mg of oil of oregano and 200mg of black seed oil, paired with the kind of clinical research you can actually point to — 82 studies on black seed oil alone.</p>" } },
+        { "type": "card", "settings": { "badge": "Reason 2", "title": "Targets Immunity & Digestion Together", "text": "<p>Why take three different supplements? Resilia® is designed to support your immune system, gut health, and healthy inflammatory response in one daily formula.</p>" } },
+        { "type": "card", "settings": { "badge": "Reason 3", "title": "No Aftertaste, No Burn", "text": "<p>Unlike drops or harsh capsules, Resilia® softgels are taste-free, gentle, and easy to take without reflux or discomfort.</p>" } },
+        { "type": "card", "settings": { "badge": "Reason 4", "title": "Third-Party Tested & Verified", "text": "<p>Every batch is independently tested for purity, potency, and safety. No fillers, no shortcuts.</p>" } },
+        { "type": "card", "settings": { "badge": "Reason 5", "title": "Trusted by Thousands", "text": "<p>Join thousands of customers who have made Resilia® part of their daily health routine.</p>" } },
+        { "type": "button" }
+      ]
+    }
+  ]
+}
+{% endschema %}

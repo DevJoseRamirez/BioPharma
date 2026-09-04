@@ -125,21 +125,22 @@
       {% endif %}
 
       {% comment %} Offer list {% endcomment %}
-      {% if section.blocks.size > 0 %}
-        <ul class="cwc_labor-day-hero__offers" role="list">
-          {% for block in section.blocks %}
-            {% case block.type %}
-              {% when 'offer_item' %}
-                <li class="cwc_labor-day-hero__offer" {{ block.shopify_attributes }}>
-                  {% if block.settings.lead_text != blank %}
-                    <strong class="cwc_labor-day-hero__offer-lead">{{ block.settings.lead_text }}</strong>
-                  {% endif %}
-                  {% if block.settings.rest_text != blank %}
-                    <span class="cwc_labor-day-hero__offer-rest">{{ block.settings.rest_text }}</span>
-                  {% endif %}
+      {%- capture offer_items -%}
+        {%- for block in section.blocks -%}
+          {%- case block.type -%}
+            {%- when 'offer_item' -%}
+              {%- if block.settings.text != blank -%}
+                <li class="cwc_labor-day-hero__offer cwc-rte" {{ block.shopify_attributes }}>
+                  {{ block.settings.text }}
                 </li>
-            {% endcase %}
-          {% endfor %}
+              {%- endif -%}
+          {%- endcase -%}
+        {%- endfor -%}
+      {%- endcapture -%}
+
+      {% if offer_items != blank %}
+        <ul class="cwc_labor-day-hero__offers" role="list">
+          {{ offer_items }}
         </ul>
       {% endif %}
 
@@ -485,17 +486,11 @@
       "name": "Offer Item",
       "settings": [
         {
-          "type": "text",
-          "id": "lead_text",
-          "label": "Lead Text",
-          "info": "Rendered bold at the start of the line.",
-          "default": "30% off your first order"
-        },
-        {
-          "type": "text",
-          "id": "rest_text",
-          "label": "Rest Of Line",
-          "default": "— then 10% off every order after"
+          "type": "richtext",
+          "id": "text",
+          "label": "Offer Line",
+          "info": "Bold the lead-in phrase; the rest of the line reads as regular weight.",
+          "default": "<p><strong>30% off your first order</strong> — then 10% off every order after</p>"
         }
       ]
     }

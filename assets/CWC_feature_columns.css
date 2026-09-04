@@ -1,0 +1,264 @@
+/* ==============================
+   CWC Feature Columns
+   ============================== */
+
+/* === Section Wrapper === */
+.cwc_feature-columns {
+  background-color: var(--section-bg);
+  font-family: var(--cwc-font-body);
+  /* background-image: linear-gradient(to bottom, var(--section-bg), var(--section-bg-end)); */
+  color: var(--text-color);
+  padding-top: var(--padding-top);
+  padding-bottom: var(--padding-bottom);
+}
+
+/* Faint square grid drawn in CSS, layered over the vertical gradient. */
+. cwc_feature-columns--grid {
+  background-image:
+    linear-gradient(to right, var(--grid-line-color) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-line-color) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--section-bg), var(--section-bg-end));
+  background-size:
+    var(--grid-line-size) var(--grid-line-size),
+    var(--grid-line-size) var(--grid-line-size),
+    100% 100%;
+}
+
+.cwc_feature-columns__container {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+/* === Section Header === */
+.cwc_feature-columns__content {
+  max-width: 900px;
+  margin: 0 auto 3rem;
+  width: 100%;
+}
+
+.cwc_feature-columns__content-heading {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.cwc_feature-columns__content-heading h1,
+.cwc_feature-columns__content-heading h2,
+.cwc_feature-columns__content-heading h3,
+.cwc_feature-columns__content-heading p {
+  font-size: clamp(1.5rem, 2.4vw, 3rem);
+  font-family: var(--cwc-font-heading);
+  font-weight: var(--cwc-weight-heading);
+  line-height: 1.2;
+  margin: 0;
+  color: var(--heading-color);
+}
+
+.cwc_feature-columns__content-heading>* strong {
+  color: var(--highlight-color);
+}
+
+.cwc_feature-columns__content-subtext {
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.cwc_feature-columns__content-subtext p {
+  font-size: 1.125rem;
+  line-height: 1.5;
+  margin: 0;
+  color: #343434;
+}
+
+/* === Three-column band === */
+.cwc_feature-columns__wrapper {
+  display: grid;
+  grid-template-columns: 1fr 0.55fr 1fr;
+  gap: 2.5rem;
+  align-items: center;
+}
+
+.cwc_feature-columns__column {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+/* === Feature === */
+.cwc_feature-columns__feature {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.25rem;
+}
+
+/* Right column mirrors: icon on the right, text right-aligned. */
+.cwc_feature-columns__column--right .cwc_feature-columns__feature {
+  flex-direction: row-reverse;
+  text-align: right;
+}
+
+.cwc_feature-columns__feature-icon {
+  flex: 0 0 var(--icon-ring-size);
+  width: var(--icon-ring-size);
+  height: var(--icon-ring-size);
+  border: 1px solid var(--icon-ring-color);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--icon-ring-color);
+  /* tesing */
+  border: 1px solid #44681a63;
+}
+
+.cwc_feature-columns__feature-icon img {
+  width: 45%;
+  height: 45%;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  display: block;
+}
+
+.cwc_feature-columns__feature-body {
+  min-width: 0;
+}
+
+.cwc_feature-columns__feature-title {
+  display: block;
+  font-size: 1.25rem;
+  font-weight: var(--cwc-weight-subheading);
+  line-height: 1.25;
+  margin-bottom: 0.4rem;
+  color: var(--title-color);
+}
+
+.cwc_feature-columns__feature-text {
+  display: block;
+}
+
+.cwc_feature-columns__feature-text p {
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  margin: 0;
+  color: var(--text-color);
+}
+
+/* === Centre Media === */
+.cwc_feature-columns__media {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cwc_feature-columns__media img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  display: block;
+  filter: drop-shadow(0 18px 28px rgba(0, 0, 0, 0.16));
+}
+
+.cwc_feature-columns__placeholder {
+  width: 100%;
+  aspect-ratio: 1 / 3;
+  background: #f5f5f5;
+  border: 2px dashed #ddd;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #999;
+  font-size: 0.9rem;
+}
+
+/* ==============================
+   Tablet Responsive
+   ============================== */
+@media screen and (max-width: 991px) {
+  .cwc_feature-columns__container {
+    padding: 0 1.25rem;
+  }
+
+  .cwc_feature-columns__wrapper {
+    grid-template-columns: 1fr 0.4fr 1fr;
+    gap: 1.5rem;
+  }
+
+  .cwc_feature-columns__column {
+    gap: 2rem;
+  }
+
+  .cwc_feature-columns__feature {
+    gap: 1rem;
+  }
+
+  .cwc_feature-columns__feature-title {
+    font-size: 1.125rem;
+  }
+}
+
+/* ==============================
+   Mobile Responsive
+   ============================== */
+@media screen and (max-width: 768px) {
+  .cwc_feature-columns {
+    padding-top: var(--padding-top-mobile);
+    padding-bottom: var(--padding-bottom-mobile);
+  }
+
+  .cwc_feature-columns__container {
+    padding: 0 1rem;
+  }
+
+  /* Source order is already left features → image → right features. */
+  .cwc_feature-columns__wrapper {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .cwc_feature-columns__column {
+    gap: 1.75rem;
+  }
+
+  /* Right column drops its mirroring and matches the left. */
+  .cwc_feature-columns__column--right .cwc_feature-columns__feature {
+    flex-direction: row;
+    text-align: left;
+  }
+
+  .cwc_feature-columns__feature {
+    gap: 0.85rem;
+  }
+
+  .cwc_feature-columns__feature-icon {
+    flex-basis: var(--icon-ring-size-mobile);
+    width: var(--icon-ring-size-mobile);
+    height: var(--icon-ring-size-mobile);
+  }
+
+  .cwc_feature-columns__feature-title {
+    font-size: 1.0625rem;
+  }
+
+  .cwc_feature-columns__content {
+    margin-bottom: 2rem;
+  }
+
+  .cwc_feature-columns__content-heading {
+    margin-bottom: 0.75rem;
+  }
+
+  .cwc_feature-columns__content-subtext p {
+    font-size: 1rem;
+  }
+
+  .cwc_feature-columns__placeholder {
+    aspect-ratio: 3 / 2;
+  }
+}

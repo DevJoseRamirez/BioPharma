@@ -3385,3 +3385,126 @@
   }
 
 }
+/* === Flavor Duo ===
+
+   Two tubs, stacked. Each row is a label and a swatch row, and the swatches are
+   the same control the single-flavour block uses — the rules above already
+   style them, so nothing here restates a border or a selected state. What is
+   left is the stacking, the row heading and the bundle figure underneath.
+
+   The rows sit inside one bordered panel rather than being separated by rules,
+   because the pair is a single decision: two tubs bought together. Splitting
+   them into two bordered cards reads as two independent products. */
+
+.cwc_product-hero-buy-box__duo {
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 16px;
+  margin: 16px 0;
+  background: var(--card-bg);
+}
+
+.cwc_product-hero-buy-box__duo-heading {
+  font-size: 0.9375rem; /* 15px */
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--text-color);
+  margin-bottom: 12px;
+}
+
+.cwc_product-hero-buy-box__duo-row + .cwc_product-hero-buy-box__duo-row {
+  margin-top: 14px;
+}
+
+.cwc_product-hero-buy-box__duo-row-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  /* The label carries the buy box's own top margin, which is right when it
+     follows body copy and too much inside a panel that has just been opened. */
+  margin-bottom: 8px;
+}
+
+.cwc_product-hero-buy-box__duo-row-head .cwc_product-hero-buy-box__label {
+  margin: 0;
+}
+
+.cwc_product-hero-buy-box__duo-badge {
+  flex: 0 0 auto;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--tint-bg);
+  border: 1px solid var(--tint-border);
+  color: var(--deep-color);
+  font-size: 0.6875rem; /* 11px */
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  line-height: 1.6;
+  white-space: nowrap;
+}
+
+/* No top border here. The wrap class the single-flavour block uses draws one to
+   separate itself from whatever precedes it; inside this panel the rows are
+   already grouped and a rule between them would split the pair. */
+.cwc_product-hero-buy-box__duo-swatches {
+  border-top: 0;
+}
+
+.cwc_product-hero-buy-box__duo-total {
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border-color);
+}
+
+.cwc_product-hero-buy-box__duo-total-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.cwc_product-hero-buy-box__duo-total-label {
+  font-size: 0.875rem; /* 14px */
+  font-weight: 700;
+  color: var(--text-color);
+}
+
+.cwc_product-hero-buy-box__duo-total-figures {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  /* The figures stay on one line and the label wraps instead: a price broken
+     across two lines is the one thing in this row that must not happen. */
+  flex: 0 0 auto;
+}
+
+.cwc_product-hero-buy-box__duo-total-list {
+  font-size: 0.875rem; /* 14px */
+  color: var(--muted-color);
+  text-decoration: line-through;
+}
+
+.cwc_product-hero-buy-box__duo-total-now {
+  font-size: 1.25rem; /* 20px */
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--deep-color);
+}
+
+.cwc_product-hero-buy-box__duo-total-note {
+  margin-top: 6px;
+  font-size: 0.75rem; /* 12px */
+  line-height: 1.4;
+  color: var(--muted-color);
+}
+
+/* Empty until the script finds a row on a sold-out flavour, so it holds no
+   margin of its own — an empty alert that reserves space leaves a gap above the
+   basket button on every page that never sees one. */
+.cwc_product-hero-buy-box__duo-error:not(:empty) {
+  margin-top: 10px;
+  font-size: 0.8125rem; /* 13px */
+  line-height: 1.4;
+  color: var(--warn-color);
+}

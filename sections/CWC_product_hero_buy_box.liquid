@@ -260,6 +260,7 @@
   ]
 {%- endcapture -%}
 
+<div id="cwc_product-hero-buy-box--anchors"></div>
 <section
   id="cwc_product-hero-buy-box-{{ section.id }}"
   class="cwc_product-hero-buy-box"
@@ -498,6 +499,20 @@
 
               {% when 'flavors' %}
                 {% render 'CWC_pdp-flavors__block',
+                  block: block,
+                  product: hero_product,
+                  current_variant: current_variant
+                %}
+
+              {%- comment -%}
+                The two-tub alternative to the pair above: one flavour row per
+                tub at a locked size, adding both in one press. It replaces
+                flavors + size_option rather than joining them — all three at
+                once would give the shopper two different answers about how many
+                tubs are being bought.
+              {%- endcomment -%}
+              {% when 'flavor_duo' %}
+                {% render 'CWC_pdp-flavor-duo__block',
                   block: block,
                   product: hero_product,
                   current_variant: current_variant
@@ -2149,6 +2164,229 @@
           "type": "color",
           "id": "color_6",
           "label": "Swatch 6 Accent"
+        }
+      ]
+    },
+    {
+      "type": "flavor_duo",
+      "name": "Flavor Duo (2 Tubs)",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Two flavour rows, one Add To Cart. Adds one tub of each chosen flavour as two separate cart lines. Size is locked to a single supply value — use the Flavor Swatches and Size blocks instead if the shopper should choose the size."
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Heading",
+          "info": "Optional line above both rows.",
+          "default": "Build your 2-tub bundle"
+        },
+        {
+          "type": "text",
+          "id": "flavor_option",
+          "label": "Flavor Option",
+          "default": "flavor",
+          "info": "Which product option the swatches show. Must match the option name on the product; capitalisation does not matter."
+        },
+        {
+          "type": "text",
+          "id": "supply_option",
+          "label": "Size Option",
+          "default": "supply",
+          "info": "The option this block locks. Leave empty on a product whose only option is the flavour."
+        },
+        {
+          "type": "text",
+          "id": "supply_value",
+          "label": "Locked Size Value",
+          "default": "30-Day Supply",
+          "info": "The one size both tubs are bought at, e.g. 30-Day Supply. Case and the hyphen do not matter. A value matching nothing falls back to the option's first value."
+        },
+        {
+          "type": "header",
+          "content": "Tub 1"
+        },
+        {
+          "type": "text",
+          "id": "row1_label",
+          "label": "Tub 1 Label",
+          "default": "Tub 1 — choose your flavor"
+        },
+        {
+          "type": "text",
+          "id": "row1_badge",
+          "label": "Tub 1 Badge",
+          "info": "Optional pill beside the label."
+        },
+        {
+          "type": "text",
+          "id": "row1_default",
+          "label": "Tub 1 Default Flavor",
+          "info": "Flavour this row opens on. Leave empty for the first flavour in stock."
+        },
+        {
+          "type": "header",
+          "content": "Tub 2"
+        },
+        {
+          "type": "text",
+          "id": "row2_label",
+          "label": "Tub 2 Label",
+          "default": "Tub 2 — choose your flavor"
+        },
+        {
+          "type": "text",
+          "id": "row2_badge",
+          "label": "Tub 2 Badge",
+          "default": "40% OFF",
+          "info": "Optional pill beside the label."
+        },
+        {
+          "type": "text",
+          "id": "row2_default",
+          "label": "Tub 2 Default Flavor",
+          "info": "Flavour this row opens on. Leave empty for the first flavour in stock."
+        },
+        {
+          "type": "header",
+          "content": "Bundle Total",
+          "info": "The second-tub discount is an automatic discount held in Shopify, which this page cannot read. The percentage below is typed, and must be changed here whenever the store discount changes."
+        },
+        {
+          "type": "checkbox",
+          "id": "show_total",
+          "label": "Show bundle total",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "total_label",
+          "label": "Total Label",
+          "default": "Your 2-tub bundle"
+        },
+        {
+          "type": "range",
+          "id": "second_discount",
+          "label": "Second Tub Discount",
+          "min": 0,
+          "max": 90,
+          "step": 5,
+          "unit": "%",
+          "default": 40,
+          "info": "Applied to the cheaper of the two tubs, matching how Shopify picks a target. Set to 0 to show the plain total with no strikeout."
+        },
+        {
+          "type": "text",
+          "id": "discount_note",
+          "label": "Discount Note",
+          "default": "Second tub discount is applied automatically at checkout."
+        },
+        {
+          "type": "header",
+          "content": "Swatch Images",
+          "info": "Optional. Each slot replaces the variant image on the swatch in that position, counting left to right, and applies to both rows. Leave a slot empty to keep that variant's own image."
+        },
+        {
+          "type": "image_picker",
+          "id": "image_1",
+          "label": "Swatch 1 Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_2",
+          "label": "Swatch 2 Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_3",
+          "label": "Swatch 3 Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_4",
+          "label": "Swatch 4 Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_5",
+          "label": "Swatch 5 Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_6",
+          "label": "Swatch 6 Image"
+        },
+        {
+          "type": "header",
+          "content": "Swatch Accent Colours",
+          "info": "Optional. The border and tint a swatch takes while selected, in the same order as the images above. Leave empty to use the section's highlight colour."
+        },
+        {
+          "type": "color",
+          "id": "color_1",
+          "label": "Swatch 1 Accent"
+        },
+        {
+          "type": "color",
+          "id": "color_2",
+          "label": "Swatch 2 Accent"
+        },
+        {
+          "type": "color",
+          "id": "color_3",
+          "label": "Swatch 3 Accent"
+        },
+        {
+          "type": "color",
+          "id": "color_4",
+          "label": "Swatch 4 Accent"
+        },
+        {
+          "type": "color",
+          "id": "color_5",
+          "label": "Swatch 5 Accent"
+        },
+        {
+          "type": "color",
+          "id": "color_6",
+          "label": "Swatch 6 Accent"
+        },
+        {
+          "type": "header",
+          "content": "Variant ID Overrides",
+          "info": "Optional escape hatch. A variant id typed here wins over the flavour + size match for that swatch position. Must be a variant of this product; anything else is ignored."
+        },
+        {
+          "type": "text",
+          "id": "id_1",
+          "label": "Swatch 1 Variant ID"
+        },
+        {
+          "type": "text",
+          "id": "id_2",
+          "label": "Swatch 2 Variant ID"
+        },
+        {
+          "type": "text",
+          "id": "id_3",
+          "label": "Swatch 3 Variant ID"
+        },
+        {
+          "type": "text",
+          "id": "id_4",
+          "label": "Swatch 4 Variant ID"
+        },
+        {
+          "type": "text",
+          "id": "id_5",
+          "label": "Swatch 5 Variant ID"
+        },
+        {
+          "type": "text",
+          "id": "id_6",
+          "label": "Swatch 6 Variant ID"
         }
       ]
     },

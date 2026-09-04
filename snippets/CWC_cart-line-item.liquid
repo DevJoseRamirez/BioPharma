@@ -21,6 +21,7 @@
   owns the whole card rather than decorating the standard one:
 
     membership  `CWC_cart_membership_line` — its own card. The line is handed over entirely.
+                CURRENTLY OFF via `membership_line_enabled` — these lines render as standard for now.
     kit         inline below — collapses several products into one row and adds a component disclosure.
     standard    everything else.
 
@@ -54,11 +55,18 @@
     A membership line is a subscription line whose product carries gift entries.
     The selling plan is what the add-to-cart request supplies; the gifts are read
     off the product here. Missing either one and the line is not a membership.
+
+    TEMPORARILY DISABLED. `membership_line_enabled` is false, so these lines fall
+    through to the standard product card and show as ordinary products for now.
+    The detection below is deliberately left intact — flip the flag back to true
+    to restore the gift display, nothing else needs changing.
   endcomment
+  assign membership_line_enabled = false
+
   assign membership_gifts = line_item.product.metafields.custom.membership_gifts.value
   assign is_membership = false
 
-  if line_item.selling_plan_allocation and membership_gifts.size > 0
+  if membership_line_enabled and line_item.selling_plan_allocation and membership_gifts.size > 0
     assign is_membership = true
   endif
 

@@ -1,0 +1,346 @@
+{% comment %}
+  Two tubs, two flavours, one Add To Cart.
+
+  The flavour swatch block sells one tub: pick a flavour, the variant input
+  follows, one line goes in the cart. This block sells a fixed pair — the
+  shopper chooses a flavour for the first tub and a flavour for the second, and
+  the single basket press puts one of each in the cart as two `items[n]` entries.
+  That is the same mechanism the supply add-on already uses, so the cart request
+  is one this section has been sending for a while.
+
+  Size is not a choice here. The pair is locked to one value of the supply
+  option — the 30-day tub on the Labor Day page — because the offer is about
+  flavour variety, not quantity. Every swatch therefore resolves to the variant
+  at (that flavour, the locked supply), and a product with no supply option at
+  all simply resolves on flavour alone.
+
+  Both rows default to a real selection rather than to nothing, so the block is
+  never in a state where Add To Cart is dead on arrival. Left unset that default
+  is the first flavour with stock; typing a flavour into a row's Default setting
+  overrides it, which is how the two rows can start on different flavours.
+
+  The total is an estimate and says so. The second-tub discount is an automatic
+  discount held in Shopify, which the storefront cannot read at render time — so
+  the percentage here is typed by the merchant and the note under the figure
+  tells the shopper the real discount lands at checkout. Keep the two in step: a
+  change to the store's automatic discount has to be repeated in this block.
+
+  When the two rows land on the same flavour the cart merges them into one line
+  at quantity two. That is deliberate — no line-item property is written that
+  would force them apart, because two identical tubs on two lines reads as a
+  bug to the shopper and to whoever picks the order.
+
+  Accepts:
+  - block {Object} - the flavor_duo block.
+  - product {Object} - product whose variants are paired; blank in preview.
+  - current_variant {Object} - unused for selection, kept for signature parity.
+
+  Usage:
+  {% render 'CWC_pdp-flavor-duo__block', block: block, product: product %}
+{% endcomment %}
+
+{%- liquid
+  assign flavor_name = block.settings.flavor_option | strip | downcase
+  assign supply_name = block.settings.supply_option | strip | downcase
+
+  assign flavor_position = 0
+  assign supply_position = 0
+
+  for product_option in product.options_with_values
+    assign this_name = product_option.name | strip | downcase
+    if flavor_name != blank and this_name == flavor_name
+      assign flavor_position = product_option.position
+      assign flavor_values = product_option.values
+    endif
+    if supply_name != blank and this_name == supply_name
+      assign supply_position = product_option.position
+      assign supply_values = product_option.values
+    endif
+  endfor
+-%}
+
+{%- if product != blank and flavor_position > 0 and flavor_values.size > 0 -%}
+  {%- liquid
+    assign flavor_key = 'option' | append: flavor_position
+
+    comment
+      The supply option's own spelling of the typed size.
+
+      Merchants type "30-day supply"; the option holds "30-Day Supply", and the
+      variant match below is case-sensitive because that is how Shopify stores
+      option values. So the typed string only ever finds the real value, and the
+      real value is what filters the variants — the same rule the size block
+      follows.
+
+      A typo falls back to the option's first value rather than to no lock at
+      all: an unmatched size would otherwise leave every supply in the match set
+      and let a swatch resolve to a 90-day tub, which is the one thing this
+      block exists to prevent.
+    endcomment
+    assign supply_locked = ''
+    if supply_position > 0
+      assign supply_key = 'option' | append: supply_position
+      assign wanted_supply = block.settings.supply_value | strip | downcase | replace: '-', ' '
+
+      for option_value in supply_values
+        assign this_value = option_value | strip | downcase | replace: '-', ' '
+        if this_value == wanted_supply
+          assign supply_locked = option_value
+        endif
+      endfor
+
+      if supply_locked == blank
+        assign supply_locked = supply_values.first
+      endif
+    endif
+
+    comment
+      The flavour both rows fall back to. Stock first, because a row that opens
+      on a sold-out flavour presents the shopper with a dead button and no
+      indication of which swatch would fix it.
+    endcomment
+    assign first_available = ''
+    for flavor_value in flavor_values
+      assign candidates = product.variants | where: flavor_key, flavor_value
+      if supply_position > 0
+        assign candidates = candidates | where: supply_key, supply_locked
+      endif
+      assign candidates_in_stock = candidates | where: 'available', true
+      if candidates_in_stock.size > 0 and first_available == blank
+        assign first_available = flavor_value
+      endif
+    endfor
+    if first_available == blank
+      assign first_available = flavor_values.first
+    endif
+  -%}
+
+  {%- comment -%}
+    Each row's opening flavour, resolved the same loose way the size is: the
+    merchant types a flavour, the option holds the spelling. Written out as text
+    and split back apart because Liquid has no way to collect two resolved
+    strings out of a loop.
+  {%- endcomment -%}
+  {%- assign row_numbers = '1,2' | split: ',' -%}
+
+  {%- capture row_defaults -%}
+    {%- for row_number in row_numbers -%}
+      {%- liquid
+        assign default_key = 'row' | append: row_number | append: '_default'
+        assign typed_default = block.settings[default_key] | strip | downcase
+        assign resolved_default = ''
+
+        if typed_default != blank
+          for flavor_value in flavor_values
+            assign this_value = flavor_value | strip | downcase
+            if this_value == typed_default
+              assign resolved_default = flavor_value
+            endif
+          endfor
+        endif
+
+        if resolved_default == blank
+          assign resolved_default = first_available
+        endif
+      -%}
+      {{- resolved_default -}}~|~
+    {%- endfor -%}
+  {%- endcapture -%}
+
+  {%- liquid
+    assign defaults = row_defaults | split: '~|~'
+    assign default_1 = defaults[0] | strip
+    assign default_2 = defaults[1] | strip
+
+    comment
+      The opening total, rendered here rather than left to the script, so the
+      figure is correct in the first paint and on a page whose JavaScript never
+      arrives. The script recomputes it from the same rule on every change.
+    endcomment
+    assign opening_1 = product.variants | where: flavor_key, default_1
+    assign opening_2 = product.variants | where: flavor_key, default_2
+    if supply_position > 0
+      assign opening_1 = opening_1 | where: supply_key, supply_locked
+      assign opening_2 = opening_2 | where: supply_key, supply_locked
+    endif
+    assign opening_cents_1 = opening_1.first.price | default: 0
+    assign opening_cents_2 = opening_2.first.price | default: 0
+
+    assign discount_pct = block.settings.second_discount | default: 0
+
+    comment
+      Against the cheaper of the two, which is how Shopify's own automatic
+      discounts pick their target when a rule applies to one of a pair. On a
+      product whose flavours are all one price it makes no difference; on one
+      where they are not, it is the estimate that cannot overstate the saving.
+    endcomment
+    assign cheaper_cents = opening_cents_1 | at_most: opening_cents_2
+    assign opening_list = opening_cents_1 | plus: opening_cents_2
+    assign opening_saving = cheaper_cents | times: discount_pct | divided_by: 100.0 | round
+    assign opening_now = opening_list | minus: opening_saving
+  -%}
+
+  <div
+    class="cwc_product-hero-buy-box__duo"
+    data-cwc-duo
+    data-cwc-duo-discount="{{ discount_pct }}"
+    {{ block.shopify_attributes }}
+  >
+    {% if block.settings.label != blank %}
+      <div class="cwc_product-hero-buy-box__duo-heading">{{ block.settings.label }}</div>
+    {% endif %}
+
+    {%- for row_number in row_numbers -%}
+      {%- liquid
+        assign label_key = 'row' | append: row_number | append: '_label'
+        assign badge_key = 'row' | append: row_number | append: '_badge'
+        assign row_label = block.settings[label_key]
+        assign row_badge = block.settings[badge_key]
+
+        if row_number == '1'
+          assign row_default = default_1
+        else
+          assign row_default = default_2
+        endif
+      -%}
+
+      <div class="cwc_product-hero-buy-box__duo-row" data-cwc-duo-row="{{ row_number }}">
+        <div class="cwc_product-hero-buy-box__duo-row-head">
+          <span class="cwc_product-hero-buy-box__label">
+            {{ row_label | default: 'Choose a flavor' }}
+          </span>
+          {% if row_badge != blank %}
+            <span class="cwc_product-hero-buy-box__duo-badge">{{ row_badge }}</span>
+          {% endif %}
+        </div>
+
+        <div class="cwc_product-hero-buy-box__flavors cwc_product-hero-buy-box__duo-swatches">
+          {%- for flavor_value in flavor_values -%}
+            {%- liquid
+              assign matches = product.variants | where: flavor_key, flavor_value
+              if supply_position > 0
+                assign matches = matches | where: supply_key, supply_locked
+              endif
+              assign in_stock = matches | where: 'available', true
+              assign swatch_variant = in_stock.first | default: matches.first
+
+              comment
+                The escape hatch: a variant id typed into the block wins over
+                everything resolved above, for the case where the option values
+                cannot express which variant a swatch should buy. It is looked
+                up on the product rather than trusted as a bare number, so the
+                price and the stock state stay real — an id that belongs to no
+                variant of this product falls back to the resolved one.
+              endcomment
+              assign id_key = 'id_' | append: forloop.index
+              assign typed_id = block.settings[id_key] | strip
+              if typed_id != blank
+                comment
+                  Coerced to a number before the match: the setting is a text
+                  field, variant ids are integers, and Liquid's where compares
+                  the two by type as well as by value.
+                endcomment
+                assign typed_id_number = typed_id | plus: 0
+                assign override_matches = product.variants | where: 'id', typed_id_number
+                if override_matches.size > 0
+                  assign swatch_variant = override_matches.first
+                endif
+              endif
+
+              assign image_key = 'image_' | append: forloop.index
+              assign swatch_image = block.settings[image_key] | default: swatch_variant.image
+
+              assign color_key = 'color_' | append: forloop.index
+              assign swatch_accent = block.settings[color_key]
+              if swatch_accent == 'none'
+                assign swatch_accent = blank
+              endif
+            -%}
+
+            {%- if swatch_variant != blank -%}
+              <button
+                type="button"
+                class="cwc_product-hero-buy-box__flavor{% if flavor_value == row_default %} cwc_product-hero-buy-box__flavor--selected{% endif %}{% unless swatch_variant.available %} cwc_product-hero-buy-box__flavor--unavailable{% endunless %}"
+                data-cwc-duo-option
+                data-cwc-duo-variant="{{ swatch_variant.id }}"
+                data-cwc-duo-value="{{ flavor_value | escape }}"
+                data-cwc-duo-cents="{{ swatch_variant.price }}"
+                data-cwc-duo-available="{{ swatch_variant.available }}"
+                {% unless swatch_variant.available %}
+                  disabled
+                {% endunless %}
+                {% if swatch_accent != blank %}
+                  style="--flavor-accent: {{ swatch_accent }};"
+                {% endif %}
+              >
+                <span class="cwc_product-hero-buy-box__flavor-swatch{% if swatch_image == blank %} cwc_product-hero-buy-box__flavor-swatch--empty{% endif %}">
+                  {% if swatch_image != blank %}
+                    <img
+                      src="{{ swatch_image | image_url: width: 100 }}"
+                      alt="{{ flavor_value | escape }}"
+                      width="100"
+                      height="100"
+                      loading="lazy"
+                    >
+                  {% else %}
+                    <span class="cwc_product-hero-buy-box__flavor-empty-label">Image</span>
+                  {% endif %}
+                </span>
+                <span class="cwc_product-hero-buy-box__flavor-name">{{ flavor_value }}</span>
+              </button>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      </div>
+    {%- endfor -%}
+
+    {%- if block.settings.show_total -%}
+      <div class="cwc_product-hero-buy-box__duo-total" data-cwc-duo-total>
+        <div class="cwc_product-hero-buy-box__duo-total-row">
+          <span class="cwc_product-hero-buy-box__duo-total-label">
+            {{ block.settings.total_label | default: 'Your 2-tub bundle' }}
+          </span>
+          <span class="cwc_product-hero-buy-box__duo-total-figures">
+            {%- comment -%}
+              Struck-out list price and discount chip are hidden together when
+              there is no discount to state, the way the price row does it: a
+              strikeout with nothing beside it reads as a rendering fault rather
+              than as a full-price bundle.
+            {%- endcomment -%}
+            <span
+              class="cwc_product-hero-buy-box__duo-total-list"
+              data-cwc-duo-total-list
+              {% if opening_saving == 0 %}
+                style="display: none;"
+              {% endif %}
+            >
+              {{- opening_list | money -}}
+            </span>
+            <span class="cwc_product-hero-buy-box__duo-total-now" data-cwc-duo-total-now>
+              {{- opening_now | money -}}
+            </span>
+          </span>
+        </div>
+
+        <div
+          class="cwc_product-hero-buy-box__duo-total-note"
+          data-cwc-duo-total-note
+          {% if opening_saving == 0 %}
+            style="display: none;"
+          {% endif %}
+        >
+          {{ block.settings.discount_note
+            | default: 'Second tub discount is applied automatically at checkout.'
+          }}
+        </div>
+      </div>
+    {%- endif -%}
+
+    {%- comment -%}
+      The out-of-stock line. Empty until the script finds a row sitting on a
+      flavour that has sold out since the page was cached, which is the only way
+      a shopper reaches a dead Add To Cart from here.
+    {%- endcomment -%}
+    <div class="cwc_product-hero-buy-box__duo-error" data-cwc-duo-error role="alert"></div>
+  </div>
+{%- endif -%}

@@ -27,6 +27,61 @@
     return null;
   }
 
+  /**
+   * An amount of cents in the shop's own money format.
+   *
+   * The variant payload ships prices already rendered by Liquid, which is right
+   * for everything that only ever displays one of them. The duo block adds two
+   * together and takes a percentage off one, and that arithmetic cannot be done
+   * on a formatted string without parsing back out a currency the merchant is
+   * free to change — so the sum is worked out in cents and formatted once here.
+   *
+   * The theme has its own copy of this, but theme.js is an ES module and this
+   * file is a plain script, so there is no way to reach it. The placeholder
+   * cases below are the same set Shopify's money_format supports; an
+   * unrecognised format falls back to two decimals rather than printing raw
+   * cents at the shopper.
+   */
+  function formatMoney(cents) {
+    var settings = (window.themeVariables && window.themeVariables.settings) || {};
+    var format = settings.moneyFormat || '${{amount}}';
+    var match = format.match(/\{\{\s*(\w+)\s*\}\}/);
+    var placeholder = match ? match[1] : 'amount';
+
+    function withDelimiters(precision, thousands, decimal) {
+      var fixed = (Number(cents) / 100).toFixed(precision);
+      var parts = fixed.split('.');
+      var whole = parts[0].replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1' + thousands);
+      return whole + (parts[1] ? decimal + parts[1] : '');
+    }
+
+    var value;
+    switch (placeholder) {
+      case 'amount_no_decimals':
+        value = withDelimiters(0, ',', '.');
+        break;
+      case 'amount_with_space_separator':
+        value = withDelimiters(2, ' ', '.');
+        break;
+      case 'amount_with_comma_separator':
+        value = withDelimiters(2, '.', ',');
+        break;
+      case 'amount_with_apostrophe_separator':
+        value = withDelimiters(2, "'", '.');
+        break;
+      case 'amount_no_decimals_with_comma_separator':
+        value = withDelimiters(0, '.', ',');
+        break;
+      case 'amount_no_decimals_with_space_separator':
+        value = withDelimiters(0, ' ', '.');
+        break;
+      default:
+        value = withDelimiters(2, ',', '.');
+    }
+
+    return format.replace(/\{\{\s*\w+\s*\}\}/, value);
+  }
+
   // Horizontal thumbnail strip: paged prev/next arrows that hide at the ends.
   function initThumbScroller(sectionEl) {
     var scroller = sectionEl.querySelector('[data-cwc-thumbs-scroller]');
@@ -248,6 +303,14 @@
     var mainImage = sectionEl.querySelector('[data-cwc-gallery-image]');
     var onetime = sectionEl.querySelector('[data-cwc-onetime]');
     var priceDisplay = sectionEl.querySelector('[data-cwc-price-display]');
+
+    /**
+     * The two-tub picker. Present on a page selling a fixed pair and absent
+     * everywhere else, so every duo path below is guarded on it and a section
+     * without one behaves exactly as it did before this existed.
+     */
+    var duo = sectionEl.querySelector('[data-cwc-duo]');
+    var duoRows = duo ? duo.querySelectorAll('[data-cwc-duo-row]') : [];
 
     /**
      * Options and supply can each be a real product option, which makes the
@@ -566,6 +629,194 @@
     });
 
     /**
+     * ===== Two-tub duo =====
+     *
+     * Each row holds one tub's flavour. The rows share the swatch classes with
+     * the single-flavour block, so selection reads the same way and the CSS is
+     * the same CSS — but the swatches carry data-cwc-duo-variant rather than
+     * data-cwc-variant, which is what keeps them out of the single-variant
+     * handlers further down. A duo swatch must never move the form's id input
+     * by itself; only tub 1 does that, and only through syncDuo.
+     */
+
+    function duoChoice(row) {
+      return row ? row.querySelector('.' + SELECTED_FLAVOR + '[data-cwc-duo-option]') : null;
+    }
+
+    function duoChoices() {
+      var picked = [];
+      for (var i = 0; i < duoRows.length; i++) picked.push(duoChoice(duoRows[i]));
+      return picked;
+    }
+
+    /**
+     * Whether the pair can actually be bought: both rows picked, and neither
+     * sitting on a flavour that has sold out.
+     *
+     * Availability is read off the swatch rather than looked up in the variant
+     * payload because the swatch already carries the server's answer for the
+     * one combination it stands for — the size is locked, so there is no other
+     * option whose change could revive it.
+     */
+    function duoReady() {
+      if (!duoRows.length) return false;
+
+      var picked = duoChoices();
+      for (var i = 0; i < picked.length; i++) {
+        if (!picked[i]) return false;
+        if (picked[i].getAttribute('data-cwc-duo-available') !== 'true') return false;
+      }
+      return true;
+    }
+
+    /**
+     * The bundle figure.
+     *
+     * The discount is typed into the block, not read from Shopify — an
+     * automatic discount is applied in the cart and is invisible to the
+     * storefront — so this is an estimate, and the note beside it says so. It
+     * comes off the cheaper of the two tubs, which is how Shopify picks a
+     * target when a rule applies to one item of a pair, and is the reading that
+     * cannot overstate the saving on a product whose flavours differ in price.
+     *
+     * Strikeout and note hide together when there is nothing to discount, the
+     * way the price row hides its own: a struck-out figure with no saving
+     * beside it reads as a fault rather than as a full-price bundle.
+     */
+    function refreshDuoTotal() {
+      if (!duo) return;
+
+      var totalEl = duo.querySelector('[data-cwc-duo-total]');
+      var picked = duoChoices();
+      var listCents = 0;
+      var cheapest = null;
+      var i;
+
+      for (i = 0; i < picked.length; i++) {
+        // An incomplete pair leaves the last good figure standing rather than
+        // blanking the row — the shopper is mid-choice, not looking at an error.
+        if (!picked[i]) return;
+
+        var cents = parseInt(picked[i].getAttribute('data-cwc-duo-cents'), 10) || 0;
+        listCents += cents;
+        if (cheapest === null || cents < cheapest) cheapest = cents;
+      }
+
+      var pct = parseInt(duo.getAttribute('data-cwc-duo-discount'), 10) || 0;
+      var saving = cheapest === null ? 0 : Math.round((cheapest * pct) / 100);
+
+      var nowMoney = formatMoney(listCents - saving);
+
+      if (totalEl) {
+        var listEl = totalEl.querySelector('[data-cwc-duo-total-list]');
+        var nowEl = totalEl.querySelector('[data-cwc-duo-total-now]');
+        var noteEl = totalEl.querySelector('[data-cwc-duo-total-note]');
+
+        if (listEl) {
+          listEl.textContent = formatMoney(listCents);
+          listEl.style.display = saving > 0 ? '' : 'none';
+        }
+        if (nowEl) nowEl.textContent = nowMoney;
+        if (noteEl) noteEl.style.display = saving > 0 ? '' : 'none';
+      }
+
+      /**
+       * The sticky bar quotes the variant it was last handed, which behind a duo
+       * is tub 1 alone — half of what the button charges. It is overwritten here
+       * rather than inside applyVariant so the bundle figure is worked out in
+       * exactly one place, and it runs after that call for the same reason.
+       *
+       * Unconditional, not gated on the total block: a merchant who switches the
+       * bundle total off has hidden a figure, not changed what is being bought.
+       */
+      syncSticky('', nowMoney, '');
+    }
+
+    /**
+     * Gate the basket on a complete pair.
+     *
+     * Both buttons, because the sticky bar submits this same form and a shopper
+     * who scrolled past the picker would otherwise reach a press that adds one
+     * tub. The server already disables the button for a sold-out variant; with
+     * a duo in play the pair is what decides, so this overrides it in both
+     * directions rather than only switching it off.
+     */
+    function syncDuoButtons() {
+      if (!duo) return;
+
+      var ready = duoReady();
+
+      sectionEl
+        .querySelectorAll('.cwc_product-hero-buy-box__cta, .cwc_sticky-add-to-cart__button')
+        .forEach(function (button) {
+          button.disabled = !ready;
+        });
+
+      var errorEl = duo.querySelector('[data-cwc-duo-error]');
+      if (!errorEl) return;
+
+      /**
+       * A disabled button with nothing said about it is the worst state this
+       * block can be in, so every way of failing duoReady names itself. The
+       * empty row is the likelier of the two — a flavour whose variant does not
+       * exist at the locked size renders no swatch, so that row opens on
+       * nothing — and a sold-out pick is reported ahead of it because it is the
+       * one the shopper just made.
+       */
+      var picked = duoChoices();
+      var soldOut = false;
+      var unpicked = false;
+
+      for (var i = 0; i < picked.length; i++) {
+        if (!picked[i]) unpicked = true;
+        else if (picked[i].getAttribute('data-cwc-duo-available') !== 'true') soldOut = true;
+      }
+
+      if (soldOut) {
+        errorEl.textContent = 'That flavor is sold out. Please choose another for that tub.';
+      } else if (unpicked) {
+        errorEl.textContent = 'Choose a flavor for each tub to continue.';
+      } else {
+        errorEl.textContent = '';
+      }
+    }
+
+    /**
+     * Tub 1 is the tub the rest of the page is about.
+     *
+     * The gallery, the nutrition label and the form's own id input all follow
+     * it — the id input because the theme builds its section-refresh URL from
+     * that value, so it has to name a real variant even though the cart request
+     * that goes out is an items[] list which ignores it.
+     */
+    function syncDuo() {
+      if (!duo) return;
+
+      var first = duoChoice(duoRows[0]);
+      if (first) applyVariant(first.getAttribute('data-cwc-duo-variant'));
+
+      refreshDuoTotal();
+      syncDuoButtons();
+      syncAccent();
+    }
+
+    duoRows.forEach(function (row) {
+      var buttons = row.querySelectorAll('[data-cwc-duo-option]');
+
+      buttons.forEach(function (button) {
+        button.addEventListener('click', function () {
+          // Selection is per row, so only this row is cleared — the other tub
+          // keeps whatever it was on.
+          buttons.forEach(function (item) {
+            item.classList.remove(SELECTED_FLAVOR);
+          });
+          button.classList.add(SELECTED_FLAVOR);
+          syncDuo();
+        });
+      });
+    });
+
+    /**
      * The real product form, or null in the no-product preview where the same
      * class sits on a plain div.
      */
@@ -605,7 +856,19 @@
       var selected = sectionEl.querySelector('.' + SELECTED_OFFER);
       var addonId = selected ? selected.getAttribute('data-cwc-offer-addon') : '';
 
-      if (!addonId) {
+      /**
+       * The duo is the other reason to send a list: two tubs are two items, and
+       * the flat id/quantity pair can only ever describe one of them.
+       *
+       * Guarded on duoReady rather than on the block's presence, so a pair that
+       * is not fully picked falls through to the untouched single-item path
+       * below. Nothing should reach that state — the submit handler blocks it
+       * and the button is disabled — but falling back to a working single add
+       * beats emitting a list with a hole in it.
+       */
+      var duoActive = duo !== null && duoReady();
+
+      if (!addonId && !duoActive) {
         if (variantInput) variantInput.disabled = false;
         if (quantityInput) quantityInput.disabled = false;
         // Restore this too. A previous bundled add switched it off, and an
@@ -625,26 +888,76 @@
         host.appendChild(input);
       }
 
-      field('items[0][id]', variantInput ? variantInput.value : '');
-      field('items[0][quantity]', quantityInput ? quantityInput.value : '1');
-      // Read the value, not the disabled flag: a previous bundled add leaves the
-      // flat field switched off, and testing that would silently drop the plan
-      // on every add after the first.
-      if (planInput && planInput.value) {
-        field('items[0][selling_plan]', planInput.value);
+      var slot = 0;
+
+      if (duoActive) {
+        /**
+         * One tub per row, one of each. No selling plan is written: the duo is
+         * a one-time pair, and the page that carries it sells no subscription.
+         *
+         * No distinguishing line-item property either. Two rows on the same
+         * flavour then merge into a single cart line at quantity two, which is
+         * what both the shopper and whoever picks the order expect — forcing
+         * them apart would put two identical tubs on two lines.
+         */
+        duoChoices().forEach(function (choice) {
+          field('items[' + slot + '][id]', choice.getAttribute('data-cwc-duo-variant'));
+          field('items[' + slot + '][quantity]', '1');
+          slot++;
+        });
+      } else {
+        field('items[0][id]', variantInput ? variantInput.value : '');
+        field('items[0][quantity]', quantityInput ? quantityInput.value : '1');
+        // Read the value, not the disabled flag: a previous bundled add leaves
+        // the flat field switched off, and testing that would silently drop the
+        // plan on every add after the first.
+        if (planInput && planInput.value) {
+          field('items[0][selling_plan]', planInput.value);
+        }
+        slot = 1;
       }
 
-      // The add-on is deliberately plan-free: it is a one-off that accompanies
-      // the subscription, not a second thing being subscribed to.
-      field('items[1][id]', addonId);
-      field('items[1][quantity]', selected.getAttribute('data-cwc-offer-addon-quantity') || '1');
+      if (addonId) {
+        // The add-on is deliberately plan-free: it is a one-off that accompanies
+        // the subscription, not a second thing being subscribed to. It appends
+        // after whatever the branch above wrote, so it is items[1] on the single
+        // path and items[2] behind a pair.
+        field('items[' + slot + '][id]', addonId);
+        field('items[' + slot + '][quantity]', selected.getAttribute('data-cwc-offer-addon-quantity') || '1');
+      }
 
       if (variantInput) variantInput.disabled = true;
       if (quantityInput) quantityInput.disabled = true;
       if (planInput) planInput.disabled = true;
     }
 
-    sectionEl.addEventListener('submit', syncBundleInputs, true);
+    /**
+     * Capture phase on the section, which is what guarantees this finishes —
+     * and can stop the event — before the theme's own ProductForm handler reads
+     * the form. Hanging it off the form would put it in a registration-order
+     * race with that handler, and the theme's is registered first.
+     */
+    sectionEl.addEventListener(
+      'submit',
+      function (event) {
+        /**
+         * A half-picked pair must not fall through to the single-item path,
+         * which would quietly add one tub for a two-tub press. The button is
+         * already disabled in this state; this is the guard for the press that
+         * arrives anyway — a keyboard submit, or a sold-out flavour that went
+         * that way after the page rendered.
+         */
+        if (duo && !duoReady()) {
+          event.preventDefault();
+          event.stopPropagation();
+          syncDuoButtons();
+          return;
+        }
+
+        syncBundleInputs();
+      },
+      true
+    );
 
     /**
      * The theme adds to cart over fetch and reports a rejected add by firing
@@ -1066,6 +1379,13 @@
       var accent = '';
 
       sectionEl.querySelectorAll('.' + SELECTED_FLAVOR).forEach(function (item) {
+        /**
+         * Tub 2 is skipped. The gallery and the nutrition label both follow tub
+         * 1, and letting the second row win the section accent would paint the
+         * page strawberry red around a green apple pack shot.
+         */
+        if (item.closest('[data-cwc-duo-row="2"]')) return;
+
         var own = item.style.getPropertyValue('--flavor-accent').trim();
         if (own) accent = own;
       });
@@ -1709,6 +2029,10 @@
 
     refreshOptionAvailability();
     syncAccent();
+
+    // Reconcile with what the server rendered: same rule, same numbers, but it
+    // also primes the button gate and puts the gallery on tub 1.
+    syncDuo();
   }
 
   /**
