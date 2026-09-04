@@ -1,0 +1,275 @@
+/* ==============================
+   CWC Ingredients Grid
+   ------------------------------
+   Photo-led card grid + a trust strip. The card is a single column: an image
+   box that carries the tag, then a centred body. The image sits inset inside
+   the card rather than bleeding to its edge, which is what keeps the white
+   card frame reading as a frame at every column count.
+   ============================== */
+
+/* === Section Wrapper === */
+.cwc_ingredients-grid {
+  background-color: var(--section-bg);
+  color: var(--text-color);
+  font-family: var(--cwc-font-body);
+  padding-top: var(--padding-top);
+  padding-bottom: var(--padding-bottom);
+}
+
+.cwc_ingredients-grid__container {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+/* === Section Header === */
+.cwc_ingredients-grid__content {
+  max-width: 900px;
+  margin: 0 auto 2.5rem;
+  width: 100%;
+  text-align: center;
+}
+
+.cwc_ingredients-grid__eyebrow {
+  margin-bottom: 0.625rem;
+  font-size: 0.6875rem;
+  font-weight: var(--cwc-weight-label);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--eyebrow-color);
+}
+
+.cwc_ingredients-grid__content-heading {
+  margin-bottom: 0.75rem;
+}
+
+.cwc_ingredients-grid__content-heading>* {
+  margin: 0;
+  font-family: var(--cwc-font-heading);
+  font-weight: var(--cwc-weight-heading);
+  font-size: 2.25rem;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: inherit;
+}
+
+.cwc_ingredients-grid__content-heading>* strong {
+  font-weight: inherit;
+  color: var(--highlight-color);
+}
+
+.cwc_ingredients-grid__content-subtext p {
+  margin: 0;
+  font-size: 1.0625rem;
+  line-height: 1.5;
+  color: var(--muted-color);
+}
+
+/* === Grid === */
+.cwc_ingredients-grid__grid {
+  display: grid;
+  grid-template-columns: repeat(var(--columns-desktop), minmax(0, 1fr));
+  gap: 1.5rem;
+}
+
+/* === Card === */
+.cwc_ingredients-grid__card {
+  display: flex;
+  flex-direction: column;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--card-radius);
+  padding: 0.5rem 0.5rem 0;
+  overflow: hidden;
+}
+
+.cwc_ingredients-grid__card-image {
+  position: relative;
+  border-radius: calc(var(--card-radius) - 2px);
+  overflow: hidden;
+}
+
+.cwc_ingredients-grid__card-image img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+
+.cwc_ingredients-grid__placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  aspect-ratio: 4 / 3;
+  padding: 1rem;
+  background: #f5f5f5;
+  border: 2px dashed #ddd;
+  color: #999;
+  font-size: 0.8125rem;
+}
+
+/* === Tag === */
+.cwc_ingredients-grid__badge {
+  position: absolute;
+  top: 0.625rem;
+  left: 0.625rem;
+  max-width: calc(100% - 1.25rem);
+  padding: 0.3125rem 0.625rem;
+  border-radius: 5px;
+  background: var(--badge-bg);
+  color: var(--badge-text);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+/* === Card Body === */
+.cwc_ingredients-grid__card-body {
+  flex: 1;
+  text-align: center;
+  padding: 1rem 0.75rem 1.25rem;
+}
+
+.cwc_ingredients-grid__card-title {
+  font-family: var(--cwc-font-heading);
+  font-weight: 700;
+  font-size: 1.0625rem;
+  line-height: 1.25;
+  margin-bottom: 0.4375rem;
+  color: var(--text-color);
+}
+
+.cwc_ingredients-grid__card-text p {
+  margin: 0;
+  font-size: 0.875rem;
+  line-height: 1.45;
+  color: var(--muted-color);
+}
+
+/* === Trust Strip === */
+.cwc_ingredients-grid__trust {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem 2rem;
+  margin: 2.25rem 0 0;
+  padding: 0;
+}
+
+.cwc_ingredients-grid__trust-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Two borders rotated into a tick — no icon font to load or fail. */
+.cwc_ingredients-grid__trust-check {
+  flex: 0 0 auto;
+  width: 11px;
+  height: 6px;
+  margin-top: -4px;
+  border-left: 2px solid var(--check-color);
+  border-bottom: 2px solid var(--check-color);
+  transform: rotate(-45deg);
+}
+
+.cwc_ingredients-grid__trust-label {
+  font-size: 0.875rem;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--trust-color);
+}
+
+/* === Empty State === */
+.cwc_ingredients-grid__empty {
+  text-align: center;
+  padding: 2rem;
+  color: #999;
+}
+
+/* ==============================
+   Tablet Responsive
+   ============================== */
+@media screen and (max-width: 991px) {
+  .cwc_ingredients-grid__container {
+    padding: 0 1.25rem;
+  }
+
+  .cwc_ingredients-grid__grid {
+    grid-template-columns: repeat(min(var(--columns-desktop), 3), minmax(0, 1fr));
+    gap: 1.25rem;
+  }
+
+  .cwc_ingredients-grid__content-heading>* {
+    font-size: 2rem;
+  }
+}
+
+/* ==============================
+   Mobile Responsive
+   ============================== */
+@media screen and (max-width: 768px) {
+  .cwc_ingredients-grid {
+    padding-top: var(--padding-top-mobile);
+    padding-bottom: var(--padding-bottom-mobile);
+  }
+
+  .cwc_ingredients-grid__container {
+    padding: 0 1rem;
+  }
+
+  .cwc_ingredients-grid__content {
+    margin-bottom: 1.75rem;
+  }
+
+  .cwc_ingredients-grid__content-heading>* {
+    font-size: 1.75rem;
+  }
+
+  .cwc_ingredients-grid__content-subtext p {
+    font-size: 1rem;
+  }
+
+  /* Two per row, never one — the cards are short enough that a single column
+     would turn eight ingredients into a very long scroll. */
+  .cwc_ingredients-grid__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.875rem;
+  }
+
+  .cwc_ingredients-grid__card-body {
+    padding: 0.875rem 0.5rem 1rem;
+  }
+
+  .cwc_ingredients-grid__card-title {
+    font-size: 0.9375rem;
+  }
+
+  .cwc_ingredients-grid__card-text p {
+    font-size: 0.8125rem;
+  }
+
+  .cwc_ingredients-grid__badge {
+    top: 0.5rem;
+    left: 0.5rem;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.625rem;
+  }
+
+  /* The strip becomes two columns of left-aligned claims rather than a centred
+     wrap, which on a phone reads as a list instead of scattered fragments. */
+  .cwc_ingredients-grid__trust {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem 1rem;
+    margin-top: 1.75rem;
+  }
+
+  .cwc_ingredients-grid__trust-label {
+    font-size: 0.8125rem;
+  }
+}

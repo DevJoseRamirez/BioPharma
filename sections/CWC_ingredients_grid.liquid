@@ -1,0 +1,352 @@
+{% comment %}
+  CWC Ingredients Grid
+  ------------------------------------------------------------------
+  Photo-led variant of the ingredients section: a card grid where each
+  ingredient leads with its own image and a small overlaid tag, followed by a
+  row of trust claims.
+
+  Distinct from CWC_ingredients, which is the icon + dosage list. Same content
+  category, different job — this one is for pages where the ingredients are the
+  visual, not a spec table.
+
+  Both block types live in one list so the trust row can be edited in the same
+  place as the cards. Cards render into the grid, trust items into the strip
+  beneath it, regardless of the order they are added in.
+{% endcomment %}
+
+{% style %}
+  #cwc_ingredients-grid-{{ section.id }} {
+    --section-bg: {{ section.settings.bg_color | default: '#F4F3EE' }};
+    --text-color: {{ section.settings.text_color | default: '#2A2611' }};
+    --highlight-color: {{ section.settings.bold_color | default: '#5BA90F' }};
+    --muted-color: {{ section.settings.muted_color | default: '#5C5842' }};
+    --eyebrow-color: {{ section.settings.eyebrow_color | default: '#5BA90F' }};
+    --card-bg: {{ section.settings.card_bg_color | default: '#FFFFFF' }};
+    --border-color: {{ section.settings.border_color | default: '#E6E5DC' }};
+    --badge-bg: {{ section.settings.badge_bg_color | default: '#44681A' }};
+    --badge-text: {{ section.settings.badge_text_color | default: '#FFFFFF' }};
+    --check-color: {{ section.settings.check_color | default: '#5BA90F' }};
+    --trust-color: {{ section.settings.trust_color | default: '#2A2611' }};
+    --columns-desktop: {{ section.settings.columns_desktop | default: 4 }};
+    --card-radius: {{ section.settings.card_radius | default: 10 }}px;
+    --padding-top: {{ section.settings.padding_top | default: 50 }}px;
+    --padding-bottom: {{ section.settings.padding_bottom | default: 50 }}px;
+    --padding-top-mobile: {{ section.settings.padding_top | default: 50 | times: 0.5 }}px;
+    --padding-bottom-mobile: {{ section.settings.padding_bottom | default: 50 | times: 0.5 }}px;
+  }
+{% endstyle %}
+
+{{ 'CWC_fonts.css' | asset_url | stylesheet_tag }}
+{{ 'CWC_ingredients_grid.css' | asset_url | stylesheet_tag }}
+
+<section id="cwc_ingredients-grid-{{ section.id }}" class="cwc_ingredients-grid">
+  <div class="cwc_ingredients-grid__container">
+
+    {% comment %} Section Header {% endcomment %}
+    {% if section.settings.eyebrow != blank or section.settings.heading != blank or section.settings.subtext != blank %}
+      <div class="cwc_ingredients-grid__content">
+        {% if section.settings.eyebrow != blank %}
+          <div class="cwc_ingredients-grid__eyebrow">{{ section.settings.eyebrow }}</div>
+        {% endif %}
+
+        {% if section.settings.heading != blank %}
+          <div class="cwc_ingredients-grid__content-heading cwc-rte">
+            {{ section.settings.heading }}
+          </div>
+        {% endif %}
+
+        {% if section.settings.subtext != blank %}
+          <div class="cwc_ingredients-grid__content-subtext cwc-rte">
+            {{ section.settings.subtext }}
+          </div>
+        {% endif %}
+      </div>
+    {% endif %}
+
+    {% comment %} Ingredient cards {% endcomment %}
+    {%- assign card_blocks = section.blocks | where: 'type', 'ingredient' -%}
+    {% if card_blocks.size > 0 %}
+      <div class="cwc_ingredients-grid__grid">
+        {% for block in card_blocks %}
+          <div class="cwc_ingredients-grid__card" {{ block.shopify_attributes }}>
+            <div class="cwc_ingredients-grid__card-image">
+              {% if block.settings.image != blank %}
+                <img
+                  src="{{ block.settings.image | image_url: width: 600 }}"
+                  alt="{{ block.settings.image_alt | default: block.settings.name | default: 'Ingredient' | escape }}"
+                  loading="lazy"
+                  width="600"
+                  height="450"
+                >
+              {% else %}
+                <div class="cwc_ingredients-grid__placeholder">
+                  <span>{{ block.settings.name | default: 'Ingredient image' }}</span>
+                </div>
+              {% endif %}
+
+              {% if block.settings.badge_text != blank %}
+                <span class="cwc_ingredients-grid__badge">{{ block.settings.badge_text }}</span>
+              {% endif %}
+            </div>
+
+            <div class="cwc_ingredients-grid__card-body">
+              {% if block.settings.name != blank %}
+                <div class="cwc_ingredients-grid__card-title">{{ block.settings.name }}</div>
+              {% endif %}
+
+              {% if block.settings.text != blank %}
+                <div class="cwc_ingredients-grid__card-text cwc-rte">{{ block.settings.text }}</div>
+              {% endif %}
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    {% comment %} Trust strip {% endcomment %}
+    {%- assign trust_blocks = section.blocks | where: 'type', 'trust' -%}
+    {% if trust_blocks.size > 0 %}
+      <ul class="cwc_ingredients-grid__trust" role="list">
+        {% for block in trust_blocks %}
+          {% if block.settings.label != blank %}
+            <li class="cwc_ingredients-grid__trust-item" {{ block.shopify_attributes }}>
+              {%- comment -%}
+                The tick is drawn from two borders rather than set as a glyph, so
+                it takes the accent colour and never depends on an icon font.
+              {%- endcomment -%}
+              <span class="cwc_ingredients-grid__trust-check" aria-hidden="true"></span>
+              <span class="cwc_ingredients-grid__trust-label">{{ block.settings.label }}</span>
+            </li>
+          {% endif %}
+        {% endfor %}
+      </ul>
+    {% endif %}
+
+    {% if section.blocks.size == 0 %}
+      <div class="cwc_ingredients-grid__empty">
+        <p>Add ingredient blocks to display the grid.</p>
+      </div>
+    {% endif %}
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "CWC Ingredients Grid",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Header"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow"
+    },
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "<p>What's <strong>inside</strong></p>"
+    },
+    {
+      "type": "richtext",
+      "id": "subtext",
+      "label": "Section Subtext"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "label": "Columns",
+      "info": "Desktop only. Steps down to 3 on tablet and 2 on mobile.",
+      "min": 2,
+      "max": 5,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "card_radius",
+      "label": "Card Corner Radius",
+      "min": 0,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "default": 10
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#F4F3EE"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#2A2611"
+    },
+    {
+      "type": "color",
+      "id": "bold_color",
+      "label": "Heading Bold Color",
+      "default": "#5BA90F"
+    },
+    {
+      "type": "color",
+      "id": "muted_color",
+      "label": "Muted Text Color",
+      "default": "#5C5842"
+    },
+    {
+      "type": "color",
+      "id": "eyebrow_color",
+      "label": "Eyebrow Color",
+      "default": "#5BA90F"
+    },
+    {
+      "type": "header",
+      "content": "Card Colors"
+    },
+    {
+      "type": "color",
+      "id": "card_bg_color",
+      "label": "Card Background Color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Card Border Color",
+      "default": "#E6E5DC"
+    },
+    {
+      "type": "color",
+      "id": "badge_bg_color",
+      "label": "Tag Background Color",
+      "default": "#44681A"
+    },
+    {
+      "type": "color",
+      "id": "badge_text_color",
+      "label": "Tag Text Color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "header",
+      "content": "Trust Row Colors"
+    },
+    {
+      "type": "color",
+      "id": "check_color",
+      "label": "Check Color",
+      "default": "#5BA90F"
+    },
+    {
+      "type": "color",
+      "id": "trust_color",
+      "label": "Trust Label Color",
+      "default": "#2A2611"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 50
+    }
+  ],
+  "blocks": [
+    {
+      "type": "ingredient",
+      "name": "Ingredient Card",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "image_alt",
+          "label": "Image Alt Text",
+          "info": "Defaults to the ingredient name."
+        },
+        {
+          "type": "text",
+          "id": "badge_text",
+          "label": "Tag",
+          "info": "Small label over the image, e.g. a role or a dose. Leave empty for no tag."
+        },
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Ingredient Name",
+          "default": "Ingredient"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Description",
+          "default": "<p>What this ingredient does.</p>"
+        }
+      ]
+    },
+    {
+      "type": "trust",
+      "name": "Trust Item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Made in the USA"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 24,
+  "presets": [
+    {
+      "name": "Ingredients Grid",
+      "category": "CWC Custom",
+      "blocks": [
+        { "type": "ingredient" },
+        { "type": "ingredient" },
+        { "type": "ingredient" },
+        { "type": "ingredient" },
+        { "type": "trust" },
+        { "type": "trust" },
+        { "type": "trust" }
+      ]
+    }
+  ]
+}
+{% endschema %}

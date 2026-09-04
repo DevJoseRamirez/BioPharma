@@ -180,6 +180,7 @@
         "icon_color": "#5ba90f",
         "separator_color": "#a3c781",
         "border_color": "#a3c781",
+        "border_opacity": 35,
         "padding_top": 6,
         "padding_bottom": 6
       }
@@ -355,15 +356,19 @@
             "gifts_title": "Your Free Gifts",
             "gifts_total": "$106+ VALUE",
             "gifts_note": "Shipping and your Start Guide come with order 1. The shaker and gummies arrive free with orders 2 and 3 — nothing to claim.",
+            "gift1_image": "shopify://shop_images/nano-offer-gift-3.png",
             "gift1_title": "Shipping",
             "gift1_value": "$14",
             "gift1_when": "Every order",
+            "gift2_image": "shopify://shop_images/nano-offer-gift-4.png",
             "gift2_title": "Start Guide",
             "gift2_value": "$20",
             "gift2_when": "Order 1",
+            "gift3_image": "shopify://shop_images/nano-offer-gift-1.png",
             "gift3_title": "Shaker Bottle",
             "gift3_value": "$13",
             "gift3_when": "Order 2",
+            "gift4_image": "shopify://shop_images/nano-offer-gift-2.png",
             "gift4_title": "Gummies",
             "gift4_value": "$60",
             "gift4_when": "Order 3",
@@ -671,6 +676,7 @@
         "sticky_atc": {
           "type": "sticky_atc",
           "settings": {
+            "reveal_mode": "after_cta",
             "name_override": "NanoGreens10 (Green Apple)",
             "subline": "Free shipping · 30-day guarantee",
             "plan_label": "90-Day Supply (Save 25%)",
@@ -2275,24 +2281,24 @@
         "padding_bottom": 55
       }
     },
-    "17853738227e9e0455": {
-      "type": "apps",
-      "blocks": {
-        "yotpo_product_reviews_reviews_BxPWFb": {
-          "type": "shopify://apps/yotpo-product-reviews/blocks/reviews/eb7dfd7d-db44-4334-bc49-c893b51b36cf",
-          "settings": {
-            "product": "nanogreens-green-apple"
-          }
-        }
-      },
-      "block_order": [
-        "yotpo_product_reviews_reviews_BxPWFb"
-      ],
+    "cwc_yotpo_reviews_NFhJDe": {
+      "type": "CWC_yotpo_reviews",
+      "name": "Yotpo Reviews",
       "settings": {
-        "color_scheme": "scheme-f23b3a5a-1f3c-4d6a-94eb-96f8fab0ad49",
-        "separate_section_with_border": true,
-        "remove_vertical_spacing": false,
-        "remove_horizontal_spacing": false
+        "heading": "",
+        "subtext": "",
+        "instance_id": "916928",
+        "product": "nanogreens-green-apple",
+        "product_id_override": "",
+        "name_override": "",
+        "url_override": "",
+        "bg_color": "#ffffff",
+        "text_color": "#2A2611",
+        "bold_color": "#5BA90F",
+        "muted_color": "#5C5842",
+        "content_max_width": 1300,
+        "padding_top": 50,
+        "padding_bottom": 50
       }
     }
   },
@@ -2320,6 +2326,6 @@
     "cwc_bundle_upgrade",
     "cwc_faq",
     "cwc_bottom_cta",
-    "17853738227e9e0455"
+    "cwc_yotpo_reviews_NFhJDe"
   ]
 }

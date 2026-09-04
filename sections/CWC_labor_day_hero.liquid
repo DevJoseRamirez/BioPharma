@@ -32,11 +32,18 @@
     --button-bg: {{ section.settings.button_bg_color | default: '#5BA90F' }};
     --button-text: {{ section.settings.button_text_color | default: '#FFFFFF' }};
     --star-color: {{ section.settings.star_color | default: '#5BA90F' }};
-    --content-max: 1300px;
+    --content-max: 1400px;
+    --media-min-height: {{ section.settings.media_min_height | default: 540 }}px;
+    --media-max-height: {{ section.settings.media_max_height | default: 90 }}vh;
     --padding-top: {{ section.settings.padding_top | default: 75 }}px;
     --padding-bottom: {{ section.settings.padding_bottom | default: 75 }}px;
     --padding-top-mobile: {{ section.settings.padding_top | default: 75 | times: 0.5 }}px;
     --padding-bottom-mobile: {{ section.settings.padding_bottom | default: 75 | times: 0.5 }}px;
+  }
+
+  /* hide */
+  .cwc_header__bar {
+    display: none !important;
   }
 {% endstyle %}
 
@@ -78,10 +85,8 @@
   class="cwc_labor-day-hero cwc_labor-day-hero--media-{{ image_position }}"
 >
   <div class="cwc_labor-day-hero__wrapper">
-
     {% comment %} Offer copy {% endcomment %}
     <div class="cwc_labor-day-hero__content">
-
       {% if section.settings.eyebrow_text != blank %}
         <p class="cwc_labor-day-hero__eyebrow">{{ section.settings.eyebrow_text }}</p>
       {% endif %}
@@ -109,8 +114,11 @@
 
           {% if show_badge %}
             <span class="cwc_labor-day-hero__price-badge">
-              {{- section.settings.save_badge_prefix }} {{ currency_symbol }}{{ save_whole }}.
-              {%- if save_part < 10 %}0{% endif %}{{ save_part -}}
+              {{- section.settings.save_badge_prefix }}
+              {{ currency_symbol -}}
+              {{- save_whole }}.
+              {%- if save_part < 10 %}0{% endif -%}
+              {{- save_part -}}
             </span>
           {% endif %}
         </div>
@@ -170,7 +178,6 @@
           </span>
         </div>
       {% endif %}
-
     </div>
 
     {% comment %}
@@ -207,7 +214,6 @@
         </svg>
       {% endif %}
     </div>
-
   </div>
 </section>
 
@@ -350,6 +356,27 @@
       "default": "right"
     },
     {
+      "type": "range",
+      "id": "media_min_height",
+      "label": "Image Panel Minimum Height",
+      "min": 320,
+      "max": 720,
+      "step": 20,
+      "unit": "px",
+      "default": 540
+    },
+    {
+      "type": "range",
+      "id": "media_max_height",
+      "label": "Image Panel Maximum Height",
+      "info": "Share of the screen height the image panel can take. Wins over the minimum above on a short screen. The copy column is never capped, so nothing is ever cut off.",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "vh",
+      "default": 90
+    },
+    {
       "type": "header",
       "content": "Colors"
     },
@@ -478,12 +505,7 @@
     {
       "name": "Labor Day Hero",
       "category": "CWC Custom",
-      "blocks": [
-        { "type": "offer_item" },
-        { "type": "offer_item" },
-        { "type": "offer_item" },
-        { "type": "offer_item" }
-      ]
+      "blocks": [{ "type": "offer_item" }, { "type": "offer_item" }, { "type": "offer_item" }, { "type": "offer_item" }]
     }
   ]
 }

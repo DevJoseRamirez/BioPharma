@@ -4468,7 +4468,18 @@
       "settings": [
         {
           "type": "paragraph",
-          "content": "Fixed to the bottom of the screen once the main Add To Cart button scrolls out of view. Its position in this list does not affect the layout."
+          "content": "Fixed to the bottom of the screen. Its position in this list does not affect the layout."
+        },
+        {
+          "type": "select",
+          "id": "reveal_mode",
+          "label": "Reveal",
+          "info": "Use 'After passing Add To Cart' when the buy box sits low on the page, so the bar does not appear before the shopper has reached the real button.",
+          "options": [
+            { "value": "after_cta", "label": "After passing Add To Cart" },
+            { "value": "off_screen", "label": "Whenever Add To Cart is off screen" }
+          ],
+          "default": "after_cta"
         },
         {
           "type": "image_picker",

@@ -1,9 +1,14 @@
+{% liquid
+  assign border_alpha = section.settings.border_opacity | default: 25 | divided_by: 100.0
+  assign border_rule = section.settings.border_color | default: '#A3C781' | color_modify: 'alpha', border_alpha
+%}
+
 {% style %}
   #cwc_scrolling-banner-{{ section.id }} {
     --section-bg: {{ section.settings.bg_color | default: '#F2F8EA' }};
     --text-color: {{ section.settings.text_color | default: '#44681A' }};
     --icon-color: {{ section.settings.icon_color | default: '#5BA90F' }};
-    --border-color: {{ section.settings.border_color | default: '#A3C781' }};
+    --border-color: {{ border_rule }};
     --separator-color: {{ section.settings.separator_color | default: '#A3C781' }};
     --item-gap: {{ section.settings.item_gap | default: 48 }}px;
     --icon-size: {{ section.settings.icon_size | default: 18 }}px;
@@ -324,6 +329,17 @@
       "id": "border_color",
       "label": "Rule Color",
       "default": "#A3C781"
+    },
+    {
+      "type": "range",
+      "id": "border_opacity",
+      "label": "Rule Opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 35,
+      "info": "Fades the top and bottom rules so they read as a hairline rather than a solid band."
     },
     {
       "type": "header",

@@ -73,7 +73,6 @@
 >
   <div class="cwc_labor-day-transformation__container">
     <div class="cwc_labor-day-transformation__wrapper">
-
       {% comment %} Image + heading + CTA {% endcomment %}
       <div class="cwc_labor-day-transformation__intro">
         <div class="cwc_labor-day-transformation__image">
@@ -165,10 +164,11 @@
           {{ disclaimer }}
         </div>
       </div>
-
     </div>
   </div>
 </section>
+
+{{ 'CWC_labor_day_transformation.js' | asset_url | script_tag }}
 
 {% schema %}
 {
@@ -435,12 +435,7 @@
     {
       "name": "Labor Day Journey",
       "category": "CWC Custom",
-      "blocks": [
-        { "type": "phase" },
-        { "type": "phase" },
-        { "type": "phase" },
-        { "type": "phase" }
-      ]
+      "blocks": [{ "type": "phase" }, { "type": "phase" }, { "type": "phase" }, { "type": "phase" }]
     }
   ]
 }

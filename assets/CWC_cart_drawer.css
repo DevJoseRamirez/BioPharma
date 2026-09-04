@@ -852,6 +852,8 @@
   padding-block: 18px 20px;
   border-block-start: 1px solid var(--cwc-cart-line);
   background: var(--cwc-cart-surface-recs);
+  /* testing */
+  margin-top: 1rem;
 }
 
 .cwc_cart__recs-head {

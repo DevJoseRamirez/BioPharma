@@ -171,6 +171,7 @@
         "icon_color": "#5ba90f",
         "separator_color": "#a3c781",
         "border_color": "#a3c781",
+        "border_opacity": 35,
         "padding_top": 6,
         "padding_bottom": 6
       }
@@ -191,6 +192,21 @@
             "flavor4_name": "",
             "icon_text": "",
             "style": "tint"
+          }
+        },
+        "notice_strip_eDWEKa": {
+          "type": "notice_strip",
+          "disabled": true,
+          "settings": {
+            "icon": "🎁",
+            "text": "Order by {date} for 30% off + free gifts!",
+            "days": 0,
+            "ordinal": true,
+            "tone": "accent",
+            "border_style": "dashed",
+            "text_color": "",
+            "bg_color": "",
+            "border_color": ""
           }
         },
         "rating": {
@@ -272,12 +288,12 @@
         "flavors": {
           "type": "flavors",
           "settings": {
-            "label": "Choose your flavor",
+            "label": "Select  flavor",
             "option_name": "flavor",
             "image_1": "shopify://shop_images/apple-flavor-source.webp",
             "image_2": "shopify://shop_images/strawberry-flavor-source.webp",
             "color_1": "",
-            "color_2": "#FF3E3E",
+            "color_2": "#ff3e3e",
             "color_3": "",
             "color_4": "",
             "color_5": "",
@@ -287,18 +303,18 @@
         "size_option": {
           "type": "size_option",
           "settings": {
-            "label": "How many people is this for?",
+            "label": "How many adults?",
             "option_name": "supply",
             "columns": "two",
             "upsell_icon": "🏷",
             "upsell_text": "Buy More. Save More.",
             "opt1_value": "30-Day Supply",
-            "opt1_title": "Just me",
-            "opt1_subline": "1 tub · 30 servings/mo",
+            "opt1_title": "1",
+            "opt1_subline": "",
             "opt1_badge": "",
             "opt2_value": "60-Day Supply",
-            "opt2_title": "My household",
-            "opt2_subline": "2 tubs · 60 servings/mo",
+            "opt2_title": "2",
+            "opt2_subline": "",
             "opt2_badge": "",
             "opt3_value": "",
             "opt3_title": "",
@@ -318,40 +334,38 @@
             "default_choice": "member",
             "promo_text": "Most popular: 30% off + member gifts",
             "member_label": "Subscribe & Save",
-            "member_sublabel": "Delivered every month",
-            "perks": "<p>Free shipping on every order</p><p>Earn points on every order — redeem for store credit</p><p>Skip, pause or cancel anytime — no fees</p><p>30-day money-back guarantee</p>",
+            "member_sublabel": "Delivered every 4 weeks",
+            "perks": "<p>Free shipping on every order</p><p>30-day money-back guarantee</p><p>Pause Or Cancel Any Time</p><p>Earn points on every purchase</p>",
             "recurring_prefix": "then",
-            "recurring_suffix": "/month",
+            "recurring_suffix": "",
             "recurring_note": "autoship always save 10%",
             "serving_suffix": "/serving",
             "servings_option": "supply",
             "servings_per_unit": 1,
             "servings_per_order": 30,
             "gifts_intro": "Free gifts included with your first order",
-            "gifts_title": "Member gifts",
+            "gifts_title": "Your Free Gifts",
             "gifts_total": "$106+ VALUE",
             "gifts_note": "Shipping and your Start Guide come with order 1. The shaker and gummies arrive free with orders 2 and 3 — nothing to claim.",
-            "gift1_image": "",
+            "gift1_image": "shopify://shop_images/nano-offer-gift-3.png",
             "gift1_title": "Shipping",
             "gift1_value": "$14",
             "gift1_when": "Every order",
-            "gift2_image": "",
+            "gift2_image": "shopify://shop_images/nano-offer-gift-4.png",
             "gift2_title": "Start Guide",
             "gift2_value": "$20",
             "gift2_when": "Order 1",
-            "gift3_image": "",
+            "gift3_image": "shopify://shop_images/nano-offer-gift-1.png",
             "gift3_title": "Shaker Bottle",
             "gift3_value": "$13",
             "gift3_when": "Order 2",
-            "gift4_image": "",
+            "gift4_image": "shopify://shop_images/nano-offer-gift-2.png",
             "gift4_title": "Gummies",
             "gift4_value": "$60",
             "gift4_when": "Order 3",
-            "gift5_image": "",
             "gift5_title": "",
             "gift5_value": "",
             "gift5_when": "",
-            "gift6_image": "",
             "gift6_title": "",
             "gift6_value": "",
             "gift6_when": "",
@@ -362,8 +376,9 @@
         },
         "simple_offer_Mm3TzV": {
           "type": "simple_offer",
+          "disabled": true,
           "settings": {
-            "group_label": "Pick your offer:",
+            "group_label": "",
             "selling_plan_id": "3996549378",
             "subscribe_label": "Subscribe & Save",
             "subscribe_sublabel": "",
@@ -378,8 +393,7 @@
             "onetime_notes": "",
             "notes_visibility": "selected",
             "default_choice": "subscribe"
-          },
-          "disabled": true
+          }
         },
         "supply": {
           "type": "supply",
@@ -536,13 +550,13 @@
           "settings": {
             "icon_style_1": "shield",
             "icon_text_1": "↩",
-            "label_1": "<p>30-Day Money Back</p>",
+            "label_1": "<p>Third-party tested</p>",
             "icon_style_2": "truck",
             "icon_text_2": "⛟",
-            "label_2": "<p>Free Shipping on Subscriptions</p>",
+            "label_2": "<p>30-Day Guarantee</p>",
             "icon_style_3": "pause",
             "icon_text_3": "⏸",
-            "label_3": "<p>Cancel or Pause Anytime</p>"
+            "label_3": "<p>Pause Or Cancel Any Time</p>"
           }
         },
         "trusted_by_ctTUFC": {
@@ -590,7 +604,7 @@
           "settings": {
             "title": "Benefits",
             "content": "<p><strong>Steady energy</strong> — sustained, no stimulants, no crash<br/><br/><strong>Digestion & regularity</strong> — 9 enzymes plus 2,500mg oat beta glucan<br/><br/><strong>Gut support</strong> — the benefit customers mention second-most<br/><br/><strong>Immune function</strong> — vitamin A, vitamin C, organic acerola cherry<br/><br/><strong>Antioxidant defense</strong> — 360mg green tea, grape seed, resveratrol<br/><br/><strong>Exercise recovery</strong> — full-spectrum plant nutrients after training</p>",
-            "open": true
+            "open": false
           }
         },
         "detail_EnYdYX": {
@@ -598,7 +612,7 @@
           "settings": {
             "title": "Ingredients",
             "content": "<p><strong>55 organic ingredients,</strong> juiced at peak ripeness and freeze-dried cold — concentrating nutrients without the sugar, fiber and water.</p><p>2,500mg organic oat beta glucan<br/><br/>2,400mg Greens Blend — barley grass juice, spirulina, chlorella<br/><br/>930mg Fruit & Vegetable Blend<br/><br/>360mg Phytonutrient Blend<br/><br/>Blend 32000B — nine enzymes for absorption</p>",
-            "open": true
+            "open": false
           }
         },
         "detail_quality": {
@@ -653,6 +667,7 @@
         "sticky_atc": {
           "type": "sticky_atc",
           "settings": {
+            "reveal_mode": "after_cta",
             "name_override": "NanoGreens10 (Green Apple)",
             "subline": "Free shipping · 30-day guarantee",
             "plan_label": "90-Day Supply (Save 25%)",
@@ -667,6 +682,7 @@
       },
       "block_order": [
         "media_popup_bqEGVJ",
+        "notice_strip_eDWEKa",
         "rating",
         "title",
         "benefit_icons",
@@ -1478,6 +1494,7 @@
         "theme_filter_2",
         "theme_filter_3"
       ],
+      "disabled": true,
       "settings": {
         "anchor_id": "reviews",
         "eyebrow_text": "410 verified buyers",
@@ -1716,6 +1733,7 @@
         "stat_3",
         "stat_4"
       ],
+      "disabled": true,
       "settings": {
         "eyebrow_text": "Recommended in practice",
         "heading": "<p>The people who recommend it <strong>see patients all day.</strong></p>",
@@ -2044,7 +2062,7 @@
         "badge_number": "30",
         "badge_label": "DAY",
         "heading": "<p>Love it, or <strong>get your money back</strong></p>",
-        "body": "<p>Most people love the green apple taste. Some don't — and we'd rather you find out risk-free. Try NanoGreens for 30 days. If it isn't for you, contact us for a full refund.</p><p></p>",
+        "body": "<p>Try NanoGreens for 30 days. If it isn't for you, contact us for a full refund.</p><p></p>",
         "bg_color": "#f4f3ee",
         "text_color": "#2a2611",
         "bold_color": "#a3c781",
@@ -2254,24 +2272,24 @@
         "padding_bottom": 55
       }
     },
-    "17853738227e9e0455": {
-      "type": "apps",
-      "blocks": {
-        "yotpo_product_reviews_reviews_BxPWFb": {
-          "type": "shopify://apps/yotpo-product-reviews/blocks/reviews/eb7dfd7d-db44-4334-bc49-c893b51b36cf",
-          "settings": {
-            "product": "nanogreens-green-apple"
-          }
-        }
-      },
-      "block_order": [
-        "yotpo_product_reviews_reviews_BxPWFb"
-      ],
+    "cwc_yotpo_reviews_NFhJDe": {
+      "type": "CWC_yotpo_reviews",
+      "name": "Yotpo Reviews",
       "settings": {
-        "color_scheme": "scheme-f23b3a5a-1f3c-4d6a-94eb-96f8fab0ad49",
-        "separate_section_with_border": true,
-        "remove_vertical_spacing": false,
-        "remove_horizontal_spacing": false
+        "heading": "",
+        "subtext": "",
+        "instance_id": "916928",
+        "product": "nanogreens-green-apple",
+        "product_id_override": "",
+        "name_override": "",
+        "url_override": "",
+        "bg_color": "#ffffff",
+        "text_color": "#2A2611",
+        "bold_color": "#5BA90F",
+        "muted_color": "#5C5842",
+        "content_max_width": 1300,
+        "padding_top": 50,
+        "padding_bottom": 50
       }
     }
   },
@@ -2299,6 +2317,6 @@
     "cwc_bundle_upgrade",
     "cwc_faq",
     "cwc_bottom_cta",
-    "17853738227e9e0455"
+    "cwc_yotpo_reviews_NFhJDe"
   ]
 }

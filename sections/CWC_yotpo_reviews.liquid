@@ -1,0 +1,265 @@
+{% style %}
+  #cwc_yotpo-reviews-{{ section.id }} {
+    --section-bg: {{ section.settings.bg_color | default: '#ffffff' }};
+    --text-color: {{ section.settings.text_color | default: '#2A2611' }};
+    --highlight-color: {{ section.settings.bold_color | default: '#5BA90F' }};
+    --muted-color: {{ section.settings.muted_color | default: '#5C5842' }};
+    --content-max-width: {{ section.settings.content_max_width | default: 1300 }}px;
+    --padding-top: {{ section.settings.padding_top | default: 50 }}px;
+    --padding-bottom: {{ section.settings.padding_bottom | default: 50 }}px;
+    --padding-top-mobile: {{ section.settings.padding_top | default: 50 | times: 0.5 }}px;
+    --padding-bottom-mobile: {{ section.settings.padding_bottom | default: 50 | times: 0.5 }}px;
+  }
+{% endstyle %}
+
+{% comment %} {{ 'CWC_fonts.css' | asset_url | stylesheet_tag }} {% endcomment %}
+{% comment %} {{ 'CWC_yotpo_reviews.css' | asset_url | stylesheet_tag }} {% endcomment %}
+
+{%- liquid
+  comment
+    Data source + override, per guide 7.1: an explicit override wins, otherwise
+    the picked product supplies the value, otherwise the field is omitted.
+    Falling back to `product` lets the same section drop onto a product template
+    without picking anything.
+  endcomment
+  assign yotpo_product = section.settings.product | default: product
+
+  assign yotpo_id = section.settings.product_id_override
+  if yotpo_id == blank and yotpo_product != blank
+    assign yotpo_id = yotpo_product.id
+  endif
+
+  assign yotpo_name = section.settings.name_override
+  if yotpo_name == blank and yotpo_product != blank
+    assign yotpo_name = yotpo_product.title
+  endif
+
+  assign yotpo_url = section.settings.url_override
+  if yotpo_url == blank and yotpo_product != blank
+    assign yotpo_url = yotpo_product.url | prepend: shop.url
+  endif
+
+  assign yotpo_image_source = section.settings.image_override
+  if yotpo_image_source == blank and yotpo_product != blank
+    assign yotpo_image_source = yotpo_product.featured_image
+  endif
+
+  assign yotpo_image = ''
+  if yotpo_image_source != blank
+    assign yotpo_image = yotpo_image_source | image_url: width: 480 | prepend: 'https:' | replace: '?', '%3F' | replace: '&', '%26'
+  endif
+
+  assign yotpo_price = ''
+  if yotpo_product != blank
+    assign yotpo_price = yotpo_product.price | divided_by: 100.00
+  endif
+
+  assign yotpo_description = ''
+  if yotpo_product != blank
+    assign yotpo_description = yotpo_product.description | escape
+  endif
+
+  assign has_widget = false
+  if section.settings.instance_id != blank and yotpo_id != blank
+    assign has_widget = true
+  endif
+-%}
+<div id="cwc_yotpo-reviews--anchor"></div>
+<section id="cwc_yotpo-reviews-{{ section.id }}" class="cwc_yotpo-reviews">
+  <div class="cwc_yotpo-reviews__container">
+    {% comment %} Section Header {% endcomment %}
+    {% if section.settings.heading != blank or section.settings.subtext != blank %}
+      <div class="cwc_yotpo-reviews__content">
+        {% if section.settings.heading != blank %}
+          <div class="cwc_yotpo-reviews__content-heading cwc-rte">
+            {{ section.settings.heading }}
+          </div>
+        {% endif %}
+
+        {% if section.settings.subtext != blank %}
+          <div class="cwc_yotpo-reviews__content-subtext cwc-rte">
+            {{ section.settings.subtext }}
+          </div>
+        {% endif %}
+      </div>
+    {% endif %}
+
+    {% comment %} Yotpo widget instance {% endcomment %}
+    {% if has_widget %}
+      <div class="cwc_yotpo-reviews__widget">
+        {%- comment -%}
+          `yotpo-widget-instance` and the data-yotpo-* attributes are Yotpo's own
+          contract — the loader from the app embed scans for them. They stay
+          unprefixed on purpose; our BEM classes live on the wrapper above.
+        {%- endcomment -%}
+        <div
+          class="yotpo-widget-instance"
+          data-yotpo-instance-id="{{ section.settings.instance_id | escape }}"
+          data-yotpo-product-id="{{ yotpo_id | escape }}"
+          data-yotpo-name="{{ yotpo_name | escape }}"
+          data-yotpo-url="{{ yotpo_url | escape }}"
+          data-yotpo-image-url="{{ yotpo_image }}"
+          data-yotpo-price="{{ yotpo_price }}"
+          data-yotpo-currency="{{ shop.currency }}"
+          data-yotpo-description="{{ yotpo_description }}"
+        ></div>
+      </div>
+    {% else %}
+      <div class="cwc_yotpo-reviews__placeholder">
+        <span>
+          {%- if section.settings.instance_id == blank -%}
+            Add your Yotpo widget instance ID in the section settings.
+          {%- else -%}
+            Select a product in the section settings to load reviews.
+          {%- endif -%}
+        </span>
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+{% comment %} {{ 'CWC_yotpo_reviews.js' | asset_url | script_tag }} {% endcomment %}
+
+{% schema %}
+{
+  "name": "CWC Yotpo Reviews",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Header"
+    },
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "Section Heading"
+    },
+    {
+      "type": "richtext",
+      "id": "subtext",
+      "label": "Section Subtext"
+    },
+    {
+      "type": "header",
+      "content": "Yotpo Widget"
+    },
+    {
+      "type": "paragraph",
+      "content": "The Yotpo app embed must be enabled in Theme settings for the widget to load. This section only outputs the widget placeholder."
+    },
+    {
+      "type": "text",
+      "id": "instance_id",
+      "label": "Widget Instance ID",
+      "default": "916928",
+      "info": "Yotpo admin > the widget > Get the code. Each widget (reviews, star rating, Q&A) has its own ID."
+    },
+    {
+      "type": "product",
+      "id": "product",
+      "label": "Product",
+      "info": "Supplies the product ID, name, URL, image, price and description. Leave empty on a product template to use the current product."
+    },
+    {
+      "type": "header",
+      "content": "Overrides (Optional)"
+    },
+    {
+      "type": "paragraph",
+      "content": "Only fill these in when the Yotpo catalog entry does not match the selected Shopify product."
+    },
+    {
+      "type": "text",
+      "id": "product_id_override",
+      "label": "Product ID Override"
+    },
+    {
+      "type": "text",
+      "id": "name_override",
+      "label": "Product Name Override"
+    },
+    {
+      "type": "url",
+      "id": "url_override",
+      "label": "Product URL Override"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_override",
+      "label": "Product Image Override"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#2A2611"
+    },
+    {
+      "type": "color",
+      "id": "bold_color",
+      "label": "Heading Bold Color",
+      "default": "#5BA90F"
+    },
+    {
+      "type": "color",
+      "id": "muted_color",
+      "label": "Muted Text Color",
+      "default": "#5C5842"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "content_max_width",
+      "label": "Content Max Width",
+      "min": 900,
+      "max": 1500,
+      "step": 50,
+      "unit": "px",
+      "default": 1300
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 50
+    }
+  ],
+  "presets": [
+    {
+      "name": "Yotpo Reviews",
+      "category": "CWC Custom"
+    }
+  ]
+}
+{% endschema %}

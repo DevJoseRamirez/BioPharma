@@ -113,14 +113,46 @@
 
     var cta = sectionEl.querySelector('.cwc_product-hero-buy-box__cta');
 
+    /*
+      Two reveal modes, because "the button is not on screen" is true in two
+      very different situations and only one of them wants a sticky bar.
+
+      after_cta (default) — the bar waits until the shopper has scrolled DOWN
+      past the real Add To Cart. On a landing page whose buy box sits far below
+      the fold, the older rule put the bar up from the first pixel, competing
+      with the hero's own CTA before the shopper had ever seen the real one.
+
+      off_screen — the previous behaviour, kept for any layout that genuinely
+      wants the bar up before the buy box is reached.
+    */
+    var revealMode = sticky.getAttribute('data-cwc-reveal-mode') || 'after_cta';
+
     if (cta && 'IntersectionObserver' in window) {
       var observer = new IntersectionObserver(
         function (entries) {
           entries.forEach(function (entry) {
+            // In view: the real button is right there, so stand down.
             if (entry.isIntersecting) {
               hide();
-            } else {
+              return;
+            }
+
+            if (revealMode === 'off_screen') {
               show();
+              return;
+            }
+
+            /*
+              Out of view — but above or below? A bottom edge at or past zero
+              means the button has left through the top of the viewport, so the
+              shopper is below it and the bar takes over from here down. A
+              positive bottom edge means it is still further down the page and
+              has not been reached yet.
+            */
+            if (entry.boundingClientRect.bottom <= 0) {
+              show();
+            } else {
+              hide();
             }
           });
         },
